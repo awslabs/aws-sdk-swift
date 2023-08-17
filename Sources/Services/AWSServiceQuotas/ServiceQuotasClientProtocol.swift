@@ -5,42 +5,324 @@ import ClientRuntime
 /// With Service Quotas, you can view and manage your quotas easily as your AWS workloads grow. Quotas, also referred to as limits, are the maximum number of resources that you can create in your AWS account. For more information, see the [Service Quotas User Guide](https://docs.aws.amazon.com/servicequotas/latest/userguide/).
 public protocol ServiceQuotasClientProtocol {
     /// Associates your quota request template with your organization. When a new account is created in your organization, the quota increase requests in the template are automatically applied to the account. You can add a quota increase request for any adjustable quota to your template.
+    ///
+    /// - Parameter AssociateServiceQuotaTemplateInput : [no documentation found]
+    ///
+    /// - Returns: `AssociateServiceQuotaTemplateOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permission to perform this action.
+    /// - `AWSServiceAccessNotEnabledException` : The action you attempted is not allowed unless Service Access with Service Quotas is enabled in your organization.
+    /// - `DependencyAccessDeniedException` : You can't perform this action because a dependency does not have access.
+    /// - `NoAvailableOrganizationException` : The account making this call is not a member of an organization.
+    /// - `OrganizationNotInAllFeaturesModeException` : The organization that your account belongs to is not in All Features mode.
+    /// - `ServiceException` : Something went wrong.
+    /// - `TemplatesNotAvailableInRegionException` : The Service Quotas template is not available in this AWS Region.
+    /// - `TooManyRequestsException` : Due to throttling, the request was denied. Slow down the rate of request calls, or request an increase for this quota.
     func associateServiceQuotaTemplate(input: AssociateServiceQuotaTemplateInput) async throws -> AssociateServiceQuotaTemplateOutputResponse
     /// Deletes the quota increase request for the specified quota from your quota request template.
+    ///
+    /// - Parameter DeleteServiceQuotaIncreaseRequestFromTemplateInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteServiceQuotaIncreaseRequestFromTemplateOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permission to perform this action.
+    /// - `AWSServiceAccessNotEnabledException` : The action you attempted is not allowed unless Service Access with Service Quotas is enabled in your organization.
+    /// - `DependencyAccessDeniedException` : You can't perform this action because a dependency does not have access.
+    /// - `IllegalArgumentException` : Invalid input was provided.
+    /// - `NoAvailableOrganizationException` : The account making this call is not a member of an organization.
+    /// - `NoSuchResourceException` : The specified resource does not exist.
+    /// - `ServiceException` : Something went wrong.
+    /// - `TemplatesNotAvailableInRegionException` : The Service Quotas template is not available in this AWS Region.
+    /// - `TooManyRequestsException` : Due to throttling, the request was denied. Slow down the rate of request calls, or request an increase for this quota.
     func deleteServiceQuotaIncreaseRequestFromTemplate(input: DeleteServiceQuotaIncreaseRequestFromTemplateInput) async throws -> DeleteServiceQuotaIncreaseRequestFromTemplateOutputResponse
     /// Disables your quota request template. After a template is disabled, the quota increase requests in the template are not applied to new accounts in your organization. Disabling a quota request template does not apply its quota increase requests.
+    ///
+    /// - Parameter DisassociateServiceQuotaTemplateInput : [no documentation found]
+    ///
+    /// - Returns: `DisassociateServiceQuotaTemplateOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permission to perform this action.
+    /// - `AWSServiceAccessNotEnabledException` : The action you attempted is not allowed unless Service Access with Service Quotas is enabled in your organization.
+    /// - `DependencyAccessDeniedException` : You can't perform this action because a dependency does not have access.
+    /// - `NoAvailableOrganizationException` : The account making this call is not a member of an organization.
+    /// - `ServiceException` : Something went wrong.
+    /// - `ServiceQuotaTemplateNotInUseException` : The quota request template is not associated with your organization.
+    /// - `TemplatesNotAvailableInRegionException` : The Service Quotas template is not available in this AWS Region.
+    /// - `TooManyRequestsException` : Due to throttling, the request was denied. Slow down the rate of request calls, or request an increase for this quota.
     func disassociateServiceQuotaTemplate(input: DisassociateServiceQuotaTemplateInput) async throws -> DisassociateServiceQuotaTemplateOutputResponse
     /// Retrieves the status of the association for the quota request template.
+    ///
+    /// - Parameter GetAssociationForServiceQuotaTemplateInput : [no documentation found]
+    ///
+    /// - Returns: `GetAssociationForServiceQuotaTemplateOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permission to perform this action.
+    /// - `AWSServiceAccessNotEnabledException` : The action you attempted is not allowed unless Service Access with Service Quotas is enabled in your organization.
+    /// - `DependencyAccessDeniedException` : You can't perform this action because a dependency does not have access.
+    /// - `NoAvailableOrganizationException` : The account making this call is not a member of an organization.
+    /// - `ServiceException` : Something went wrong.
+    /// - `ServiceQuotaTemplateNotInUseException` : The quota request template is not associated with your organization.
+    /// - `TemplatesNotAvailableInRegionException` : The Service Quotas template is not available in this AWS Region.
+    /// - `TooManyRequestsException` : Due to throttling, the request was denied. Slow down the rate of request calls, or request an increase for this quota.
     func getAssociationForServiceQuotaTemplate(input: GetAssociationForServiceQuotaTemplateInput) async throws -> GetAssociationForServiceQuotaTemplateOutputResponse
     /// Retrieves the default value for the specified quota. The default value does not reflect any quota increases.
+    ///
+    /// - Parameter GetAWSDefaultServiceQuotaInput : [no documentation found]
+    ///
+    /// - Returns: `GetAWSDefaultServiceQuotaOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permission to perform this action.
+    /// - `IllegalArgumentException` : Invalid input was provided.
+    /// - `NoSuchResourceException` : The specified resource does not exist.
+    /// - `ServiceException` : Something went wrong.
+    /// - `TooManyRequestsException` : Due to throttling, the request was denied. Slow down the rate of request calls, or request an increase for this quota.
     func getAWSDefaultServiceQuota(input: GetAWSDefaultServiceQuotaInput) async throws -> GetAWSDefaultServiceQuotaOutputResponse
     /// Retrieves information about the specified quota increase request.
+    ///
+    /// - Parameter GetRequestedServiceQuotaChangeInput : [no documentation found]
+    ///
+    /// - Returns: `GetRequestedServiceQuotaChangeOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permission to perform this action.
+    /// - `IllegalArgumentException` : Invalid input was provided.
+    /// - `NoSuchResourceException` : The specified resource does not exist.
+    /// - `ServiceException` : Something went wrong.
+    /// - `TooManyRequestsException` : Due to throttling, the request was denied. Slow down the rate of request calls, or request an increase for this quota.
     func getRequestedServiceQuotaChange(input: GetRequestedServiceQuotaChangeInput) async throws -> GetRequestedServiceQuotaChangeOutputResponse
     /// Retrieves the applied quota value for the specified quota. For some quotas, only the default values are available. If the applied quota value is not available for a quota, the quota is not retrieved.
+    ///
+    /// - Parameter GetServiceQuotaInput : [no documentation found]
+    ///
+    /// - Returns: `GetServiceQuotaOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permission to perform this action.
+    /// - `IllegalArgumentException` : Invalid input was provided.
+    /// - `NoSuchResourceException` : The specified resource does not exist.
+    /// - `ServiceException` : Something went wrong.
+    /// - `TooManyRequestsException` : Due to throttling, the request was denied. Slow down the rate of request calls, or request an increase for this quota.
     func getServiceQuota(input: GetServiceQuotaInput) async throws -> GetServiceQuotaOutputResponse
     /// Retrieves information about the specified quota increase request in your quota request template.
+    ///
+    /// - Parameter GetServiceQuotaIncreaseRequestFromTemplateInput : [no documentation found]
+    ///
+    /// - Returns: `GetServiceQuotaIncreaseRequestFromTemplateOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permission to perform this action.
+    /// - `AWSServiceAccessNotEnabledException` : The action you attempted is not allowed unless Service Access with Service Quotas is enabled in your organization.
+    /// - `DependencyAccessDeniedException` : You can't perform this action because a dependency does not have access.
+    /// - `IllegalArgumentException` : Invalid input was provided.
+    /// - `NoAvailableOrganizationException` : The account making this call is not a member of an organization.
+    /// - `NoSuchResourceException` : The specified resource does not exist.
+    /// - `ServiceException` : Something went wrong.
+    /// - `TemplatesNotAvailableInRegionException` : The Service Quotas template is not available in this AWS Region.
+    /// - `TooManyRequestsException` : Due to throttling, the request was denied. Slow down the rate of request calls, or request an increase for this quota.
     func getServiceQuotaIncreaseRequestFromTemplate(input: GetServiceQuotaIncreaseRequestFromTemplateInput) async throws -> GetServiceQuotaIncreaseRequestFromTemplateOutputResponse
     /// Lists the default values for the quotas for the specified AWS service. A default value does not reflect any quota increases.
+    ///
+    /// - Parameter ListAWSDefaultServiceQuotasInput : [no documentation found]
+    ///
+    /// - Returns: `ListAWSDefaultServiceQuotasOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permission to perform this action.
+    /// - `IllegalArgumentException` : Invalid input was provided.
+    /// - `InvalidPaginationTokenException` : Invalid input was provided.
+    /// - `NoSuchResourceException` : The specified resource does not exist.
+    /// - `ServiceException` : Something went wrong.
+    /// - `TooManyRequestsException` : Due to throttling, the request was denied. Slow down the rate of request calls, or request an increase for this quota.
     func listAWSDefaultServiceQuotas(input: ListAWSDefaultServiceQuotasInput) async throws -> ListAWSDefaultServiceQuotasOutputResponse
     /// Retrieves the quota increase requests for the specified service.
+    ///
+    /// - Parameter ListRequestedServiceQuotaChangeHistoryInput : [no documentation found]
+    ///
+    /// - Returns: `ListRequestedServiceQuotaChangeHistoryOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permission to perform this action.
+    /// - `IllegalArgumentException` : Invalid input was provided.
+    /// - `InvalidPaginationTokenException` : Invalid input was provided.
+    /// - `NoSuchResourceException` : The specified resource does not exist.
+    /// - `ServiceException` : Something went wrong.
+    /// - `TooManyRequestsException` : Due to throttling, the request was denied. Slow down the rate of request calls, or request an increase for this quota.
     func listRequestedServiceQuotaChangeHistory(input: ListRequestedServiceQuotaChangeHistoryInput) async throws -> ListRequestedServiceQuotaChangeHistoryOutputResponse
     /// Retrieves the quota increase requests for the specified quota.
+    ///
+    /// - Parameter ListRequestedServiceQuotaChangeHistoryByQuotaInput : [no documentation found]
+    ///
+    /// - Returns: `ListRequestedServiceQuotaChangeHistoryByQuotaOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permission to perform this action.
+    /// - `IllegalArgumentException` : Invalid input was provided.
+    /// - `InvalidPaginationTokenException` : Invalid input was provided.
+    /// - `NoSuchResourceException` : The specified resource does not exist.
+    /// - `ServiceException` : Something went wrong.
+    /// - `TooManyRequestsException` : Due to throttling, the request was denied. Slow down the rate of request calls, or request an increase for this quota.
     func listRequestedServiceQuotaChangeHistoryByQuota(input: ListRequestedServiceQuotaChangeHistoryByQuotaInput) async throws -> ListRequestedServiceQuotaChangeHistoryByQuotaOutputResponse
     /// Lists the quota increase requests in the specified quota request template.
+    ///
+    /// - Parameter ListServiceQuotaIncreaseRequestsInTemplateInput : [no documentation found]
+    ///
+    /// - Returns: `ListServiceQuotaIncreaseRequestsInTemplateOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permission to perform this action.
+    /// - `AWSServiceAccessNotEnabledException` : The action you attempted is not allowed unless Service Access with Service Quotas is enabled in your organization.
+    /// - `DependencyAccessDeniedException` : You can't perform this action because a dependency does not have access.
+    /// - `IllegalArgumentException` : Invalid input was provided.
+    /// - `NoAvailableOrganizationException` : The account making this call is not a member of an organization.
+    /// - `ServiceException` : Something went wrong.
+    /// - `TemplatesNotAvailableInRegionException` : The Service Quotas template is not available in this AWS Region.
+    /// - `TooManyRequestsException` : Due to throttling, the request was denied. Slow down the rate of request calls, or request an increase for this quota.
     func listServiceQuotaIncreaseRequestsInTemplate(input: ListServiceQuotaIncreaseRequestsInTemplateInput) async throws -> ListServiceQuotaIncreaseRequestsInTemplateOutputResponse
     /// Lists the applied quota values for the specified AWS service. For some quotas, only the default values are available. If the applied quota value is not available for a quota, the quota is not retrieved.
+    ///
+    /// - Parameter ListServiceQuotasInput : [no documentation found]
+    ///
+    /// - Returns: `ListServiceQuotasOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permission to perform this action.
+    /// - `IllegalArgumentException` : Invalid input was provided.
+    /// - `InvalidPaginationTokenException` : Invalid input was provided.
+    /// - `NoSuchResourceException` : The specified resource does not exist.
+    /// - `ServiceException` : Something went wrong.
+    /// - `TooManyRequestsException` : Due to throttling, the request was denied. Slow down the rate of request calls, or request an increase for this quota.
     func listServiceQuotas(input: ListServiceQuotasInput) async throws -> ListServiceQuotasOutputResponse
     /// Lists the names and codes for the services integrated with Service Quotas.
+    ///
+    /// - Parameter ListServicesInput : [no documentation found]
+    ///
+    /// - Returns: `ListServicesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permission to perform this action.
+    /// - `IllegalArgumentException` : Invalid input was provided.
+    /// - `InvalidPaginationTokenException` : Invalid input was provided.
+    /// - `ServiceException` : Something went wrong.
+    /// - `TooManyRequestsException` : Due to throttling, the request was denied. Slow down the rate of request calls, or request an increase for this quota.
     func listServices(input: ListServicesInput) async throws -> ListServicesOutputResponse
     /// Returns a list of the tags assigned to the specified applied quota.
+    ///
+    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    ///
+    /// - Returns: `ListTagsForResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permission to perform this action.
+    /// - `IllegalArgumentException` : Invalid input was provided.
+    /// - `NoSuchResourceException` : The specified resource does not exist.
+    /// - `ServiceException` : Something went wrong.
+    /// - `TooManyRequestsException` : Due to throttling, the request was denied. Slow down the rate of request calls, or request an increase for this quota.
     func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
     /// Adds a quota increase request to your quota request template.
+    ///
+    /// - Parameter PutServiceQuotaIncreaseRequestIntoTemplateInput : [no documentation found]
+    ///
+    /// - Returns: `PutServiceQuotaIncreaseRequestIntoTemplateOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permission to perform this action.
+    /// - `AWSServiceAccessNotEnabledException` : The action you attempted is not allowed unless Service Access with Service Quotas is enabled in your organization.
+    /// - `DependencyAccessDeniedException` : You can't perform this action because a dependency does not have access.
+    /// - `IllegalArgumentException` : Invalid input was provided.
+    /// - `NoAvailableOrganizationException` : The account making this call is not a member of an organization.
+    /// - `NoSuchResourceException` : The specified resource does not exist.
+    /// - `QuotaExceededException` : You have exceeded your service quota. To perform the requested action, remove some of the relevant resources, or use Service Quotas to request a service quota increase.
+    /// - `ServiceException` : Something went wrong.
+    /// - `TemplatesNotAvailableInRegionException` : The Service Quotas template is not available in this AWS Region.
+    /// - `TooManyRequestsException` : Due to throttling, the request was denied. Slow down the rate of request calls, or request an increase for this quota.
     func putServiceQuotaIncreaseRequestIntoTemplate(input: PutServiceQuotaIncreaseRequestIntoTemplateInput) async throws -> PutServiceQuotaIncreaseRequestIntoTemplateOutputResponse
     /// Submits a quota increase request for the specified quota.
+    ///
+    /// - Parameter RequestServiceQuotaIncreaseInput : [no documentation found]
+    ///
+    /// - Returns: `RequestServiceQuotaIncreaseOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permission to perform this action.
+    /// - `DependencyAccessDeniedException` : You can't perform this action because a dependency does not have access.
+    /// - `IllegalArgumentException` : Invalid input was provided.
+    /// - `InvalidResourceStateException` : The resource is in an invalid state.
+    /// - `NoSuchResourceException` : The specified resource does not exist.
+    /// - `QuotaExceededException` : You have exceeded your service quota. To perform the requested action, remove some of the relevant resources, or use Service Quotas to request a service quota increase.
+    /// - `ResourceAlreadyExistsException` : The specified resource already exists.
+    /// - `ServiceException` : Something went wrong.
+    /// - `TooManyRequestsException` : Due to throttling, the request was denied. Slow down the rate of request calls, or request an increase for this quota.
     func requestServiceQuotaIncrease(input: RequestServiceQuotaIncreaseInput) async throws -> RequestServiceQuotaIncreaseOutputResponse
     /// Adds tags to the specified applied quota. You can include one or more tags to add to the quota.
+    ///
+    /// - Parameter TagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `TagResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permission to perform this action.
+    /// - `IllegalArgumentException` : Invalid input was provided.
+    /// - `NoSuchResourceException` : The specified resource does not exist.
+    /// - `ServiceException` : Something went wrong.
+    /// - `TagPolicyViolationException` : The specified tag is a reserved word and cannot be used.
+    /// - `TooManyRequestsException` : Due to throttling, the request was denied. Slow down the rate of request calls, or request an increase for this quota.
+    /// - `TooManyTagsException` : You've exceeded the number of tags allowed for a resource. For more information, see [Tag restrictions](https://docs.aws.amazon.com/servicequotas/latest/userguide/sq-tagging.html#sq-tagging-restrictions) in the Service Quotas User Guide.
     func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
     /// Removes tags from the specified applied quota. You can specify one or more tags to remove.
+    ///
+    /// - Parameter UntagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `UntagResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permission to perform this action.
+    /// - `IllegalArgumentException` : Invalid input was provided.
+    /// - `NoSuchResourceException` : The specified resource does not exist.
+    /// - `ServiceException` : Something went wrong.
+    /// - `TooManyRequestsException` : Due to throttling, the request was denied. Slow down the rate of request calls, or request an increase for this quota.
     func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
 }
 

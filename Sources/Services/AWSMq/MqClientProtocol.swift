@@ -32,50 +32,327 @@ public protocol MqClientProtocol {
     ///
     ///
     /// For more information, see [Create an IAM User and Get Your Amazon Web Services Credentials](https://docs.aws.amazon.com//amazon-mq/latest/developer-guide/amazon-mq-setting-up.html#create-iam-user) and [Never Modify or Delete the Amazon MQ Elastic Network Interface](https://docs.aws.amazon.com//amazon-mq/latest/developer-guide/connecting-to-amazon-mq.html#never-modify-delete-elastic-network-interface) in the Amazon MQ Developer Guide.
+    ///
+    /// - Parameter CreateBrokerInput : Creates a broker using the specified properties.
+    ///
+    /// - Returns: `CreateBrokerOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Returns information about an error.
+    /// - `ConflictException` : Returns information about an error.
+    /// - `ForbiddenException` : Returns information about an error.
+    /// - `InternalServerErrorException` : Returns information about an error.
+    /// - `UnauthorizedException` : Returns information about an error.
     func createBroker(input: CreateBrokerInput) async throws -> CreateBrokerOutputResponse
     /// Creates a new configuration for the specified configuration name. Amazon MQ uses the default configuration (the engine type and version).
+    ///
+    /// - Parameter CreateConfigurationInput : Creates a new configuration for the specified configuration name. Amazon MQ uses the default configuration (the engine type and version).
+    ///
+    /// - Returns: `CreateConfigurationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Returns information about an error.
+    /// - `ConflictException` : Returns information about an error.
+    /// - `ForbiddenException` : Returns information about an error.
+    /// - `InternalServerErrorException` : Returns information about an error.
     func createConfiguration(input: CreateConfigurationInput) async throws -> CreateConfigurationOutputResponse
     /// Add a tag to a resource.
+    ///
+    /// - Parameter CreateTagsInput : A map of the key-value pairs for the resource tag.
+    ///
+    /// - Returns: `CreateTagsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Returns information about an error.
+    /// - `ForbiddenException` : Returns information about an error.
+    /// - `InternalServerErrorException` : Returns information about an error.
+    /// - `NotFoundException` : Returns information about an error.
     func createTags(input: CreateTagsInput) async throws -> CreateTagsOutputResponse
     /// Creates an ActiveMQ user. Do not add personally identifiable information (PII) or other confidential or sensitive information in broker usernames. Broker usernames are accessible to other Amazon Web Services services, including CloudWatch Logs. Broker usernames are not intended to be used for private or sensitive data.
+    ///
+    /// - Parameter CreateUserInput : Creates a new ActiveMQ user.
+    ///
+    /// - Returns: `CreateUserOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Returns information about an error.
+    /// - `ConflictException` : Returns information about an error.
+    /// - `ForbiddenException` : Returns information about an error.
+    /// - `InternalServerErrorException` : Returns information about an error.
+    /// - `NotFoundException` : Returns information about an error.
     func createUser(input: CreateUserInput) async throws -> CreateUserOutputResponse
     /// Deletes a broker. Note: This API is asynchronous.
+    ///
+    /// - Parameter DeleteBrokerInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteBrokerOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Returns information about an error.
+    /// - `ForbiddenException` : Returns information about an error.
+    /// - `InternalServerErrorException` : Returns information about an error.
+    /// - `NotFoundException` : Returns information about an error.
     func deleteBroker(input: DeleteBrokerInput) async throws -> DeleteBrokerOutputResponse
     /// Removes a tag from a resource.
+    ///
+    /// - Parameter DeleteTagsInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteTagsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Returns information about an error.
+    /// - `ForbiddenException` : Returns information about an error.
+    /// - `InternalServerErrorException` : Returns information about an error.
+    /// - `NotFoundException` : Returns information about an error.
     func deleteTags(input: DeleteTagsInput) async throws -> DeleteTagsOutputResponse
     /// Deletes an ActiveMQ user.
+    ///
+    /// - Parameter DeleteUserInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteUserOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Returns information about an error.
+    /// - `ForbiddenException` : Returns information about an error.
+    /// - `InternalServerErrorException` : Returns information about an error.
+    /// - `NotFoundException` : Returns information about an error.
     func deleteUser(input: DeleteUserInput) async throws -> DeleteUserOutputResponse
     /// Returns information about the specified broker.
+    ///
+    /// - Parameter DescribeBrokerInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeBrokerOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Returns information about an error.
+    /// - `ForbiddenException` : Returns information about an error.
+    /// - `InternalServerErrorException` : Returns information about an error.
+    /// - `NotFoundException` : Returns information about an error.
     func describeBroker(input: DescribeBrokerInput) async throws -> DescribeBrokerOutputResponse
     /// Describe available engine types and versions.
+    ///
+    /// - Parameter DescribeBrokerEngineTypesInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeBrokerEngineTypesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Returns information about an error.
+    /// - `ForbiddenException` : Returns information about an error.
+    /// - `InternalServerErrorException` : Returns information about an error.
     func describeBrokerEngineTypes(input: DescribeBrokerEngineTypesInput) async throws -> DescribeBrokerEngineTypesOutputResponse
     /// Describe available broker instance options.
+    ///
+    /// - Parameter DescribeBrokerInstanceOptionsInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeBrokerInstanceOptionsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Returns information about an error.
+    /// - `ForbiddenException` : Returns information about an error.
+    /// - `InternalServerErrorException` : Returns information about an error.
     func describeBrokerInstanceOptions(input: DescribeBrokerInstanceOptionsInput) async throws -> DescribeBrokerInstanceOptionsOutputResponse
     /// Returns information about the specified configuration.
+    ///
+    /// - Parameter DescribeConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeConfigurationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Returns information about an error.
+    /// - `ForbiddenException` : Returns information about an error.
+    /// - `InternalServerErrorException` : Returns information about an error.
+    /// - `NotFoundException` : Returns information about an error.
     func describeConfiguration(input: DescribeConfigurationInput) async throws -> DescribeConfigurationOutputResponse
     /// Returns the specified configuration revision for the specified configuration.
+    ///
+    /// - Parameter DescribeConfigurationRevisionInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeConfigurationRevisionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Returns information about an error.
+    /// - `ForbiddenException` : Returns information about an error.
+    /// - `InternalServerErrorException` : Returns information about an error.
+    /// - `NotFoundException` : Returns information about an error.
     func describeConfigurationRevision(input: DescribeConfigurationRevisionInput) async throws -> DescribeConfigurationRevisionOutputResponse
     /// Returns information about an ActiveMQ user.
+    ///
+    /// - Parameter DescribeUserInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeUserOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Returns information about an error.
+    /// - `ForbiddenException` : Returns information about an error.
+    /// - `InternalServerErrorException` : Returns information about an error.
+    /// - `NotFoundException` : Returns information about an error.
     func describeUser(input: DescribeUserInput) async throws -> DescribeUserOutputResponse
     /// Returns a list of all brokers.
+    ///
+    /// - Parameter ListBrokersInput : [no documentation found]
+    ///
+    /// - Returns: `ListBrokersOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Returns information about an error.
+    /// - `ForbiddenException` : Returns information about an error.
+    /// - `InternalServerErrorException` : Returns information about an error.
     func listBrokers(input: ListBrokersInput) async throws -> ListBrokersOutputResponse
     /// Returns a list of all revisions for the specified configuration.
+    ///
+    /// - Parameter ListConfigurationRevisionsInput : [no documentation found]
+    ///
+    /// - Returns: `ListConfigurationRevisionsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Returns information about an error.
+    /// - `ForbiddenException` : Returns information about an error.
+    /// - `InternalServerErrorException` : Returns information about an error.
+    /// - `NotFoundException` : Returns information about an error.
     func listConfigurationRevisions(input: ListConfigurationRevisionsInput) async throws -> ListConfigurationRevisionsOutputResponse
     /// Returns a list of all configurations.
+    ///
+    /// - Parameter ListConfigurationsInput : [no documentation found]
+    ///
+    /// - Returns: `ListConfigurationsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Returns information about an error.
+    /// - `ForbiddenException` : Returns information about an error.
+    /// - `InternalServerErrorException` : Returns information about an error.
     func listConfigurations(input: ListConfigurationsInput) async throws -> ListConfigurationsOutputResponse
     /// Lists tags for a resource.
+    ///
+    /// - Parameter ListTagsInput : [no documentation found]
+    ///
+    /// - Returns: `ListTagsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Returns information about an error.
+    /// - `ForbiddenException` : Returns information about an error.
+    /// - `InternalServerErrorException` : Returns information about an error.
+    /// - `NotFoundException` : Returns information about an error.
     func listTags(input: ListTagsInput) async throws -> ListTagsOutputResponse
     /// Returns a list of all ActiveMQ users.
+    ///
+    /// - Parameter ListUsersInput : [no documentation found]
+    ///
+    /// - Returns: `ListUsersOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Returns information about an error.
+    /// - `ForbiddenException` : Returns information about an error.
+    /// - `InternalServerErrorException` : Returns information about an error.
+    /// - `NotFoundException` : Returns information about an error.
     func listUsers(input: ListUsersInput) async throws -> ListUsersOutputResponse
     /// Promotes a data replication replica broker to the primary broker role.
+    ///
+    /// - Parameter PromoteInput : Promotes a data replication replica broker to the primary broker role.
+    ///
+    /// - Returns: `PromoteOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Returns information about an error.
+    /// - `ForbiddenException` : Returns information about an error.
+    /// - `InternalServerErrorException` : Returns information about an error.
+    /// - `NotFoundException` : Returns information about an error.
     func promote(input: PromoteInput) async throws -> PromoteOutputResponse
     /// Reboots a broker. Note: This API is asynchronous.
+    ///
+    /// - Parameter RebootBrokerInput : [no documentation found]
+    ///
+    /// - Returns: `RebootBrokerOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Returns information about an error.
+    /// - `ForbiddenException` : Returns information about an error.
+    /// - `InternalServerErrorException` : Returns information about an error.
+    /// - `NotFoundException` : Returns information about an error.
     func rebootBroker(input: RebootBrokerInput) async throws -> RebootBrokerOutputResponse
     /// Adds a pending configuration change to a broker.
+    ///
+    /// - Parameter UpdateBrokerInput : Updates the broker using the specified properties.
+    ///
+    /// - Returns: `UpdateBrokerOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Returns information about an error.
+    /// - `ConflictException` : Returns information about an error.
+    /// - `ForbiddenException` : Returns information about an error.
+    /// - `InternalServerErrorException` : Returns information about an error.
+    /// - `NotFoundException` : Returns information about an error.
     func updateBroker(input: UpdateBrokerInput) async throws -> UpdateBrokerOutputResponse
     /// Updates the specified configuration.
+    ///
+    /// - Parameter UpdateConfigurationInput : Updates the specified configuration.
+    ///
+    /// - Returns: `UpdateConfigurationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Returns information about an error.
+    /// - `ConflictException` : Returns information about an error.
+    /// - `ForbiddenException` : Returns information about an error.
+    /// - `InternalServerErrorException` : Returns information about an error.
+    /// - `NotFoundException` : Returns information about an error.
     func updateConfiguration(input: UpdateConfigurationInput) async throws -> UpdateConfigurationOutputResponse
     /// Updates the information for an ActiveMQ user.
+    ///
+    /// - Parameter UpdateUserInput : Updates the information for an ActiveMQ user.
+    ///
+    /// - Returns: `UpdateUserOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Returns information about an error.
+    /// - `ConflictException` : Returns information about an error.
+    /// - `ForbiddenException` : Returns information about an error.
+    /// - `InternalServerErrorException` : Returns information about an error.
+    /// - `NotFoundException` : Returns information about an error.
     func updateUser(input: UpdateUserInput) async throws -> UpdateUserOutputResponse
 }
 

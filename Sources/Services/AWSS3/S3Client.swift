@@ -85,6 +85,15 @@ extension S3Client: S3ClientProtocol {
     /// * [ListParts](https://docs.aws.amazon.com/AmazonS3/latest/API/API_ListParts.html)
     ///
     /// * [ListMultipartUploads](https://docs.aws.amazon.com/AmazonS3/latest/API/API_ListMultipartUploads.html)
+    ///
+    /// - Parameter AbortMultipartUploadInput : [no documentation found]
+    ///
+    /// - Returns: `AbortMultipartUploadOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `NoSuchUpload` : The specified multipart upload does not exist.
     public func abortMultipartUpload(input: AbortMultipartUploadInput) async throws -> AbortMultipartUploadOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -169,6 +178,10 @@ extension S3Client: S3ClientProtocol {
     /// * [ListParts](https://docs.aws.amazon.com/AmazonS3/latest/API/API_ListParts.html)
     ///
     /// * [ListMultipartUploads](https://docs.aws.amazon.com/AmazonS3/latest/API/API_ListMultipartUploads.html)
+    ///
+    /// - Parameter CompleteMultipartUploadInput : [no documentation found]
+    ///
+    /// - Returns: `CompleteMultipartUploadOutputResponse` : [no documentation found]
     public func completeMultipartUpload(input: CompleteMultipartUploadInput) async throws -> CompleteMultipartUploadOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -236,6 +249,15 @@ extension S3Client: S3ClientProtocol {
     /// * [PutObject](https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutObject.html)
     ///
     /// * [GetObject](https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetObject.html)
+    ///
+    /// - Parameter CopyObjectInput : [no documentation found]
+    ///
+    /// - Returns: `CopyObjectOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ObjectNotInActiveTierError` : The source object of the COPY action is not in the active tier and is only stored in Amazon S3 Glacier.
     public func copyObject(input: CopyObjectInput) async throws -> CopyObjectOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -286,6 +308,16 @@ extension S3Client: S3ClientProtocol {
     /// * [PutObject](https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutObject.html)
     ///
     /// * [DeleteBucket](https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteBucket.html)
+    ///
+    /// - Parameter CreateBucketInput : [no documentation found]
+    ///
+    /// - Returns: `CreateBucketOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BucketAlreadyExists` : The requested bucket name is not available. The bucket namespace is shared by all users of the system. Select a different name and try again.
+    /// - `BucketAlreadyOwnedByYou` : The bucket you tried to create already exists, and you own it. Amazon S3 returns this error in all Amazon Web Services Regions except in the North Virginia Region. For legacy compatibility, if you re-create an existing bucket that you already own in the North Virginia Region, Amazon S3 returns 200 OK and resets the bucket access control lists (ACLs).
     public func createBucket(input: CreateBucketInput) async throws -> CreateBucketOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -413,6 +445,10 @@ extension S3Client: S3ClientProtocol {
     /// * [ListParts](https://docs.aws.amazon.com/AmazonS3/latest/API/API_ListParts.html)
     ///
     /// * [ListMultipartUploads](https://docs.aws.amazon.com/AmazonS3/latest/API/API_ListMultipartUploads.html)
+    ///
+    /// - Parameter CreateMultipartUploadInput : [no documentation found]
+    ///
+    /// - Returns: `CreateMultipartUploadOutputResponse` : [no documentation found]
     public func createMultipartUpload(input: CreateMultipartUploadInput) async throws -> CreateMultipartUploadOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -452,6 +488,10 @@ extension S3Client: S3ClientProtocol {
     /// * [CreateBucket](https://docs.aws.amazon.com/AmazonS3/latest/API/API_CreateBucket.html)
     ///
     /// * [DeleteObject](https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteObject.html)
+    ///
+    /// - Parameter DeleteBucketInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteBucketOutputResponse` : [no documentation found]
     public func deleteBucket(input: DeleteBucketInput) async throws -> DeleteBucketOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -492,6 +532,10 @@ extension S3Client: S3ClientProtocol {
     /// * [ListBucketAnalyticsConfigurations](https://docs.aws.amazon.com/AmazonS3/latest/API/API_ListBucketAnalyticsConfigurations.html)
     ///
     /// * [PutBucketAnalyticsConfiguration](https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketAnalyticsConfiguration.html)
+    ///
+    /// - Parameter DeleteBucketAnalyticsConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteBucketAnalyticsConfigurationOutputResponse` : [no documentation found]
     public func deleteBucketAnalyticsConfiguration(input: DeleteBucketAnalyticsConfigurationInput) async throws -> DeleteBucketAnalyticsConfigurationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -531,6 +575,10 @@ extension S3Client: S3ClientProtocol {
     /// * [PutBucketCors](https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketCors.html)
     ///
     /// * [RESTOPTIONSobject](https://docs.aws.amazon.com/AmazonS3/latest/API/RESTOPTIONSobject.html)
+    ///
+    /// - Parameter DeleteBucketCorsInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteBucketCorsOutputResponse` : [no documentation found]
     public func deleteBucketCors(input: DeleteBucketCorsInput) async throws -> DeleteBucketCorsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -570,6 +618,10 @@ extension S3Client: S3ClientProtocol {
     /// * [PutBucketEncryption](https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketEncryption.html)
     ///
     /// * [GetBucketEncryption](https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetBucketEncryption.html)
+    ///
+    /// - Parameter DeleteBucketEncryptionInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteBucketEncryptionOutputResponse` : [no documentation found]
     public func deleteBucketEncryption(input: DeleteBucketEncryptionInput) async throws -> DeleteBucketEncryptionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -611,6 +663,10 @@ extension S3Client: S3ClientProtocol {
     /// * [PutBucketIntelligentTieringConfiguration](https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketIntelligentTieringConfiguration.html)
     ///
     /// * [ListBucketIntelligentTieringConfigurations](https://docs.aws.amazon.com/AmazonS3/latest/API/API_ListBucketIntelligentTieringConfigurations.html)
+    ///
+    /// - Parameter DeleteBucketIntelligentTieringConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteBucketIntelligentTieringConfigurationOutputResponse` : [no documentation found]
     public func deleteBucketIntelligentTieringConfiguration(input: DeleteBucketIntelligentTieringConfigurationInput) async throws -> DeleteBucketIntelligentTieringConfigurationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -651,6 +707,10 @@ extension S3Client: S3ClientProtocol {
     /// * [PutBucketInventoryConfiguration](https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketInventoryConfiguration.html)
     ///
     /// * [ListBucketInventoryConfigurations](https://docs.aws.amazon.com/AmazonS3/latest/API/API_ListBucketInventoryConfigurations.html)
+    ///
+    /// - Parameter DeleteBucketInventoryConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteBucketInventoryConfigurationOutputResponse` : [no documentation found]
     public func deleteBucketInventoryConfiguration(input: DeleteBucketInventoryConfigurationInput) async throws -> DeleteBucketInventoryConfigurationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -690,6 +750,10 @@ extension S3Client: S3ClientProtocol {
     /// * [PutBucketLifecycleConfiguration](https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketLifecycleConfiguration.html)
     ///
     /// * [GetBucketLifecycleConfiguration](https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetBucketLifecycleConfiguration.html)
+    ///
+    /// - Parameter DeleteBucketLifecycleInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteBucketLifecycleOutputResponse` : [no documentation found]
     public func deleteBucketLifecycle(input: DeleteBucketLifecycleInput) async throws -> DeleteBucketLifecycleOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -733,6 +797,10 @@ extension S3Client: S3ClientProtocol {
     /// * [ListBucketMetricsConfigurations](https://docs.aws.amazon.com/AmazonS3/latest/API/API_ListBucketMetricsConfigurations.html)
     ///
     /// * [Monitoring Metrics with Amazon CloudWatch](https://docs.aws.amazon.com/AmazonS3/latest/dev/cloudwatch-monitoring.html)
+    ///
+    /// - Parameter DeleteBucketMetricsConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteBucketMetricsConfigurationOutputResponse` : [no documentation found]
     public func deleteBucketMetricsConfiguration(input: DeleteBucketMetricsConfigurationInput) async throws -> DeleteBucketMetricsConfigurationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -772,6 +840,10 @@ extension S3Client: S3ClientProtocol {
     /// * [GetBucketOwnershipControls]
     ///
     /// * [PutBucketOwnershipControls]
+    ///
+    /// - Parameter DeleteBucketOwnershipControlsInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteBucketOwnershipControlsOutputResponse` : [no documentation found]
     public func deleteBucketOwnershipControls(input: DeleteBucketOwnershipControlsInput) async throws -> DeleteBucketOwnershipControlsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -811,6 +883,10 @@ extension S3Client: S3ClientProtocol {
     /// * [CreateBucket](https://docs.aws.amazon.com/AmazonS3/latest/API/API_CreateBucket.html)
     ///
     /// * [DeleteObject](https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteObject.html)
+    ///
+    /// - Parameter DeleteBucketPolicyInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteBucketPolicyOutputResponse` : [no documentation found]
     public func deleteBucketPolicy(input: DeleteBucketPolicyInput) async throws -> DeleteBucketPolicyOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -850,6 +926,10 @@ extension S3Client: S3ClientProtocol {
     /// * [PutBucketReplication](https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketReplication.html)
     ///
     /// * [GetBucketReplication](https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetBucketReplication.html)
+    ///
+    /// - Parameter DeleteBucketReplicationInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteBucketReplicationOutputResponse` : [no documentation found]
     public func deleteBucketReplication(input: DeleteBucketReplicationInput) async throws -> DeleteBucketReplicationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -889,6 +969,10 @@ extension S3Client: S3ClientProtocol {
     /// * [GetBucketTagging](https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetBucketTagging.html)
     ///
     /// * [PutBucketTagging](https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketTagging.html)
+    ///
+    /// - Parameter DeleteBucketTaggingInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteBucketTaggingOutputResponse` : [no documentation found]
     public func deleteBucketTagging(input: DeleteBucketTaggingInput) async throws -> DeleteBucketTaggingOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -928,6 +1012,10 @@ extension S3Client: S3ClientProtocol {
     /// * [GetBucketWebsite](https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetBucketWebsite.html)
     ///
     /// * [PutBucketWebsite](https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketWebsite.html)
+    ///
+    /// - Parameter DeleteBucketWebsiteInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteBucketWebsiteOutputResponse` : [no documentation found]
     public func deleteBucketWebsite(input: DeleteBucketWebsiteInput) async throws -> DeleteBucketWebsiteOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -965,6 +1053,10 @@ extension S3Client: S3ClientProtocol {
     /// Removes the null version (if there is one) of an object and inserts a delete marker, which becomes the latest version of the object. If there isn't a null version, Amazon S3 does not remove any objects but will still respond that the command was successful. To remove a specific version, you must use the version Id subresource. Using this subresource permanently deletes the version. If the object deleted is a delete marker, Amazon S3 sets the response header, x-amz-delete-marker, to true. If the object you want to delete is in a bucket where the bucket versioning configuration is MFA Delete enabled, you must include the x-amz-mfa request header in the DELETE versionId request. Requests that include x-amz-mfa must use HTTPS. For more information about MFA Delete, see [Using MFA Delete](https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingMFADelete.html). To see sample requests that use versioning, see [Sample Request](https://docs.aws.amazon.com/AmazonS3/latest/API/RESTObjectDELETE.html#ExampleVersionObjectDelete). You can delete objects by explicitly calling DELETE Object or configure its lifecycle ([PutBucketLifecycle](https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketLifecycle.html)) to enable Amazon S3 to remove them for you. If you want to block users or accounts from removing or deleting objects from your bucket, you must deny them the s3:DeleteObject, s3:DeleteObjectVersion, and s3:PutLifeCycleConfiguration actions. The following action is related to DeleteObject:
     ///
     /// * [PutObject](https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutObject.html)
+    ///
+    /// - Parameter DeleteObjectInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteObjectOutputResponse` : [no documentation found]
     public func deleteObject(input: DeleteObjectInput) async throws -> DeleteObjectOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1004,6 +1096,10 @@ extension S3Client: S3ClientProtocol {
     /// * [PutObjectTagging](https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutObjectTagging.html)
     ///
     /// * [GetObjectTagging](https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetObjectTagging.html)
+    ///
+    /// - Parameter DeleteObjectTaggingInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteObjectTaggingOutputResponse` : [no documentation found]
     public func deleteObjectTagging(input: DeleteObjectTaggingInput) async throws -> DeleteObjectTaggingOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1049,6 +1145,10 @@ extension S3Client: S3ClientProtocol {
     /// * [ListParts](https://docs.aws.amazon.com/AmazonS3/latest/API/API_ListParts.html)
     ///
     /// * [AbortMultipartUpload](https://docs.aws.amazon.com/AmazonS3/latest/API/API_AbortMultipartUpload.html)
+    ///
+    /// - Parameter DeleteObjectsInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteObjectsOutputResponse` : [no documentation found]
     public func deleteObjects(input: DeleteObjectsInput) async throws -> DeleteObjectsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1096,6 +1196,10 @@ extension S3Client: S3ClientProtocol {
     /// * [PutPublicAccessBlock](https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutPublicAccessBlock.html)
     ///
     /// * [GetBucketPolicyStatus](https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetBucketPolicyStatus.html)
+    ///
+    /// - Parameter DeletePublicAccessBlockInput : [no documentation found]
+    ///
+    /// - Returns: `DeletePublicAccessBlockOutputResponse` : [no documentation found]
     public func deletePublicAccessBlock(input: DeletePublicAccessBlockInput) async throws -> DeletePublicAccessBlockOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1133,6 +1237,10 @@ extension S3Client: S3ClientProtocol {
     /// This implementation of the GET action uses the accelerate subresource to return the Transfer Acceleration state of a bucket, which is either Enabled or Suspended. Amazon S3 Transfer Acceleration is a bucket-level feature that enables you to perform faster data transfers to and from Amazon S3. To use this operation, you must have permission to perform the s3:GetAccelerateConfiguration action. The bucket owner has this permission by default. The bucket owner can grant this permission to others. For more information about permissions, see [Permissions Related to Bucket Subresource Operations](https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-with-s3-actions.html#using-with-s3-actions-related-to-bucket-subresources) and [Managing Access Permissions to your Amazon S3 Resources](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-access-control.html) in the Amazon S3 User Guide. You set the Transfer Acceleration state of an existing bucket to Enabled or Suspended by using the [PutBucketAccelerateConfiguration](https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketAccelerateConfiguration.html) operation. A GET accelerate request does not return a state value for a bucket that has no transfer acceleration state. A bucket has no Transfer Acceleration state if a state has never been set on the bucket. For more information about transfer acceleration, see [Transfer Acceleration](https://docs.aws.amazon.com/AmazonS3/latest/dev/transfer-acceleration.html) in the Amazon S3 User Guide. The following operations are related to GetBucketAccelerateConfiguration:
     ///
     /// * [PutBucketAccelerateConfiguration](https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketAccelerateConfiguration.html)
+    ///
+    /// - Parameter GetBucketAccelerateConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `GetBucketAccelerateConfigurationOutputResponse` : [no documentation found]
     public func getBucketAccelerateConfiguration(input: GetBucketAccelerateConfigurationInput) async throws -> GetBucketAccelerateConfigurationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1170,6 +1278,10 @@ extension S3Client: S3ClientProtocol {
     /// This implementation of the GET action uses the acl subresource to return the access control list (ACL) of a bucket. To use GET to return the ACL of the bucket, you must have READ_ACP access to the bucket. If READ_ACP permission is granted to the anonymous user, you can return the ACL of the bucket without using an authorization header. To use this API operation against an access point, provide the alias of the access point in place of the bucket name. To use this API operation against an Object Lambda access point, provide the alias of the Object Lambda access point in place of the bucket name. If the Object Lambda access point alias in a request is not valid, the error code InvalidAccessPointAliasError is returned. For more information about InvalidAccessPointAliasError, see [List of Error Codes](https://docs.aws.amazon.com/AmazonS3/latest/API/ErrorResponses.html#ErrorCodeList). If your bucket uses the bucket owner enforced setting for S3 Object Ownership, requests to read ACLs are still supported and return the bucket-owner-full-control ACL with the owner being the account that created the bucket. For more information, see [ Controlling object ownership and disabling ACLs](https://docs.aws.amazon.com/AmazonS3/latest/userguide/about-object-ownership.html) in the Amazon S3 User Guide. The following operations are related to GetBucketAcl:
     ///
     /// * [ListObjects](https://docs.aws.amazon.com/AmazonS3/latest/API/API_ListObjects.html)
+    ///
+    /// - Parameter GetBucketAclInput : [no documentation found]
+    ///
+    /// - Returns: `GetBucketAclOutputResponse` : [no documentation found]
     public func getBucketAcl(input: GetBucketAclInput) async throws -> GetBucketAclOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1211,6 +1323,10 @@ extension S3Client: S3ClientProtocol {
     /// * [ListBucketAnalyticsConfigurations](https://docs.aws.amazon.com/AmazonS3/latest/API/API_ListBucketAnalyticsConfigurations.html)
     ///
     /// * [PutBucketAnalyticsConfiguration](https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketAnalyticsConfiguration.html)
+    ///
+    /// - Parameter GetBucketAnalyticsConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `GetBucketAnalyticsConfigurationOutputResponse` : [no documentation found]
     public func getBucketAnalyticsConfiguration(input: GetBucketAnalyticsConfigurationInput) async throws -> GetBucketAnalyticsConfigurationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1250,6 +1366,10 @@ extension S3Client: S3ClientProtocol {
     /// * [PutBucketCors](https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketCors.html)
     ///
     /// * [DeleteBucketCors](https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteBucketCors.html)
+    ///
+    /// - Parameter GetBucketCorsInput : [no documentation found]
+    ///
+    /// - Returns: `GetBucketCorsOutputResponse` : [no documentation found]
     public func getBucketCors(input: GetBucketCorsInput) async throws -> GetBucketCorsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1289,6 +1409,10 @@ extension S3Client: S3ClientProtocol {
     /// * [PutBucketEncryption](https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketEncryption.html)
     ///
     /// * [DeleteBucketEncryption](https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteBucketEncryption.html)
+    ///
+    /// - Parameter GetBucketEncryptionInput : [no documentation found]
+    ///
+    /// - Returns: `GetBucketEncryptionOutputResponse` : [no documentation found]
     public func getBucketEncryption(input: GetBucketEncryptionInput) async throws -> GetBucketEncryptionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1330,6 +1454,10 @@ extension S3Client: S3ClientProtocol {
     /// * [PutBucketIntelligentTieringConfiguration](https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketIntelligentTieringConfiguration.html)
     ///
     /// * [ListBucketIntelligentTieringConfigurations](https://docs.aws.amazon.com/AmazonS3/latest/API/API_ListBucketIntelligentTieringConfigurations.html)
+    ///
+    /// - Parameter GetBucketIntelligentTieringConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `GetBucketIntelligentTieringConfigurationOutputResponse` : [no documentation found]
     public func getBucketIntelligentTieringConfiguration(input: GetBucketIntelligentTieringConfigurationInput) async throws -> GetBucketIntelligentTieringConfigurationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1370,6 +1498,10 @@ extension S3Client: S3ClientProtocol {
     /// * [ListBucketInventoryConfigurations](https://docs.aws.amazon.com/AmazonS3/latest/API/API_ListBucketInventoryConfigurations.html)
     ///
     /// * [PutBucketInventoryConfiguration](https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketInventoryConfiguration.html)
+    ///
+    /// - Parameter GetBucketInventoryConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `GetBucketInventoryConfigurationOutputResponse` : [no documentation found]
     public func getBucketInventoryConfiguration(input: GetBucketInventoryConfigurationInput) async throws -> GetBucketInventoryConfigurationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1425,6 +1557,10 @@ extension S3Client: S3ClientProtocol {
     /// * [PutBucketLifecycle](https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketLifecycle.html)
     ///
     /// * [DeleteBucketLifecycle](https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteBucketLifecycle.html)
+    ///
+    /// - Parameter GetBucketLifecycleConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `GetBucketLifecycleConfigurationOutputResponse` : [no documentation found]
     public func getBucketLifecycleConfiguration(input: GetBucketLifecycleConfigurationInput) async throws -> GetBucketLifecycleConfigurationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1464,6 +1600,10 @@ extension S3Client: S3ClientProtocol {
     /// * [GetObject](https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetObject.html)
     ///
     /// * [CreateBucket](https://docs.aws.amazon.com/AmazonS3/latest/API/API_CreateBucket.html)
+    ///
+    /// - Parameter GetBucketLocationInput : [no documentation found]
+    ///
+    /// - Returns: `GetBucketLocationOutputResponse` : [no documentation found]
     public func getBucketLocation(input: GetBucketLocationInput) async throws -> GetBucketLocationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1503,6 +1643,10 @@ extension S3Client: S3ClientProtocol {
     /// * [CreateBucket](https://docs.aws.amazon.com/AmazonS3/latest/API/API_CreateBucket.html)
     ///
     /// * [PutBucketLogging](https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketLogging.html)
+    ///
+    /// - Parameter GetBucketLoggingInput : [no documentation found]
+    ///
+    /// - Returns: `GetBucketLoggingOutputResponse` : [no documentation found]
     public func getBucketLogging(input: GetBucketLoggingInput) async throws -> GetBucketLoggingOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1546,6 +1690,10 @@ extension S3Client: S3ClientProtocol {
     /// * [ListBucketMetricsConfigurations](https://docs.aws.amazon.com/AmazonS3/latest/API/API_ListBucketMetricsConfigurations.html)
     ///
     /// * [Monitoring Metrics with Amazon CloudWatch](https://docs.aws.amazon.com/AmazonS3/latest/dev/cloudwatch-monitoring.html)
+    ///
+    /// - Parameter GetBucketMetricsConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `GetBucketMetricsConfigurationOutputResponse` : [no documentation found]
     public func getBucketMetricsConfiguration(input: GetBucketMetricsConfigurationInput) async throws -> GetBucketMetricsConfigurationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1583,6 +1731,10 @@ extension S3Client: S3ClientProtocol {
     /// Returns the notification configuration of a bucket. If notifications are not enabled on the bucket, the action returns an empty NotificationConfiguration element. By default, you must be the bucket owner to read the notification configuration of a bucket. However, the bucket owner can use a bucket policy to grant permission to other users to read this configuration with the s3:GetBucketNotification permission. To use this API operation against an access point, provide the alias of the access point in place of the bucket name. To use this API operation against an Object Lambda access point, provide the alias of the Object Lambda access point in place of the bucket name. If the Object Lambda access point alias in a request is not valid, the error code InvalidAccessPointAliasError is returned. For more information about InvalidAccessPointAliasError, see [List of Error Codes](https://docs.aws.amazon.com/AmazonS3/latest/API/ErrorResponses.html#ErrorCodeList). For more information about setting and reading the notification configuration on a bucket, see [Setting Up Notification of Bucket Events](https://docs.aws.amazon.com/AmazonS3/latest/dev/NotificationHowTo.html). For more information about bucket policies, see [Using Bucket Policies](https://docs.aws.amazon.com/AmazonS3/latest/dev/using-iam-policies.html). The following action is related to GetBucketNotification:
     ///
     /// * [PutBucketNotification](https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketNotification.html)
+    ///
+    /// - Parameter GetBucketNotificationConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `GetBucketNotificationConfigurationOutputResponse` : A container for specifying the notification configuration of the bucket. If this element is empty, notifications are turned off for the bucket.
     public func getBucketNotificationConfiguration(input: GetBucketNotificationConfigurationInput) async throws -> GetBucketNotificationConfigurationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1622,6 +1774,10 @@ extension S3Client: S3ClientProtocol {
     /// * [PutBucketOwnershipControls]
     ///
     /// * [DeleteBucketOwnershipControls]
+    ///
+    /// - Parameter GetBucketOwnershipControlsInput : [no documentation found]
+    ///
+    /// - Returns: `GetBucketOwnershipControlsOutputResponse` : [no documentation found]
     public func getBucketOwnershipControls(input: GetBucketOwnershipControlsInput) async throws -> GetBucketOwnershipControlsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1659,6 +1815,10 @@ extension S3Client: S3ClientProtocol {
     /// Returns the policy of a specified bucket. If you are using an identity other than the root user of the Amazon Web Services account that owns the bucket, the calling identity must have the GetBucketPolicy permissions on the specified bucket and belong to the bucket owner's account in order to use this operation. If you don't have GetBucketPolicy permissions, Amazon S3 returns a 403 Access Denied error. If you have the correct permissions, but you're not using an identity that belongs to the bucket owner's account, Amazon S3 returns a 405 Method Not Allowed error. To ensure that bucket owners don't inadvertently lock themselves out of their own buckets, the root principal in a bucket owner's Amazon Web Services account can perform the GetBucketPolicy, PutBucketPolicy, and DeleteBucketPolicy API actions, even if their bucket policy explicitly denies the root principal's access. Bucket owner root principals can only be blocked from performing these API actions by VPC endpoint policies and Amazon Web Services Organizations policies. To use this API operation against an access point, provide the alias of the access point in place of the bucket name. To use this API operation against an Object Lambda access point, provide the alias of the Object Lambda access point in place of the bucket name. If the Object Lambda access point alias in a request is not valid, the error code InvalidAccessPointAliasError is returned. For more information about InvalidAccessPointAliasError, see [List of Error Codes](https://docs.aws.amazon.com/AmazonS3/latest/API/ErrorResponses.html#ErrorCodeList). For more information about bucket policies, see [Using Bucket Policies and User Policies](https://docs.aws.amazon.com/AmazonS3/latest/dev/using-iam-policies.html). The following action is related to GetBucketPolicy:
     ///
     /// * [GetObject](https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetObject.html)
+    ///
+    /// - Parameter GetBucketPolicyInput : [no documentation found]
+    ///
+    /// - Returns: `GetBucketPolicyOutputResponse` : [no documentation found]
     public func getBucketPolicy(input: GetBucketPolicyInput) async throws -> GetBucketPolicyOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1702,6 +1862,10 @@ extension S3Client: S3ClientProtocol {
     /// * [PutPublicAccessBlock](https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutPublicAccessBlock.html)
     ///
     /// * [DeletePublicAccessBlock](https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeletePublicAccessBlock.html)
+    ///
+    /// - Parameter GetBucketPolicyStatusInput : [no documentation found]
+    ///
+    /// - Returns: `GetBucketPolicyStatusOutputResponse` : [no documentation found]
     public func getBucketPolicyStatus(input: GetBucketPolicyStatusInput) async throws -> GetBucketPolicyStatusOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1741,6 +1905,10 @@ extension S3Client: S3ClientProtocol {
     /// * [PutBucketReplication](https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketReplication.html)
     ///
     /// * [DeleteBucketReplication](https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteBucketReplication.html)
+    ///
+    /// - Parameter GetBucketReplicationInput : [no documentation found]
+    ///
+    /// - Returns: `GetBucketReplicationOutputResponse` : [no documentation found]
     public func getBucketReplication(input: GetBucketReplicationInput) async throws -> GetBucketReplicationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1778,6 +1946,10 @@ extension S3Client: S3ClientProtocol {
     /// Returns the request payment configuration of a bucket. To use this version of the operation, you must be the bucket owner. For more information, see [Requester Pays Buckets](https://docs.aws.amazon.com/AmazonS3/latest/dev/RequesterPaysBuckets.html). The following operations are related to GetBucketRequestPayment:
     ///
     /// * [ListObjects](https://docs.aws.amazon.com/AmazonS3/latest/API/API_ListObjects.html)
+    ///
+    /// - Parameter GetBucketRequestPaymentInput : [no documentation found]
+    ///
+    /// - Returns: `GetBucketRequestPaymentOutputResponse` : [no documentation found]
     public func getBucketRequestPayment(input: GetBucketRequestPaymentInput) async throws -> GetBucketRequestPaymentOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1827,6 +1999,10 @@ extension S3Client: S3ClientProtocol {
     /// * [PutBucketTagging](https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketTagging.html)
     ///
     /// * [DeleteBucketTagging](https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteBucketTagging.html)
+    ///
+    /// - Parameter GetBucketTaggingInput : [no documentation found]
+    ///
+    /// - Returns: `GetBucketTaggingOutputResponse` : [no documentation found]
     public func getBucketTagging(input: GetBucketTaggingInput) async throws -> GetBucketTaggingOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1868,6 +2044,10 @@ extension S3Client: S3ClientProtocol {
     /// * [PutObject](https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutObject.html)
     ///
     /// * [DeleteObject](https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteObject.html)
+    ///
+    /// - Parameter GetBucketVersioningInput : [no documentation found]
+    ///
+    /// - Returns: `GetBucketVersioningOutputResponse` : [no documentation found]
     public func getBucketVersioning(input: GetBucketVersioningInput) async throws -> GetBucketVersioningOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1907,6 +2087,10 @@ extension S3Client: S3ClientProtocol {
     /// * [DeleteBucketWebsite](https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteBucketWebsite.html)
     ///
     /// * [PutBucketWebsite](https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketWebsite.html)
+    ///
+    /// - Parameter GetBucketWebsiteInput : [no documentation found]
+    ///
+    /// - Returns: `GetBucketWebsiteOutputResponse` : [no documentation found]
     public func getBucketWebsite(input: GetBucketWebsiteInput) async throws -> GetBucketWebsiteOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1977,6 +2161,16 @@ extension S3Client: S3ClientProtocol {
     /// * [ListBuckets](https://docs.aws.amazon.com/AmazonS3/latest/API/API_ListBuckets.html)
     ///
     /// * [GetObjectAcl](https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetObjectAcl.html)
+    ///
+    /// - Parameter GetObjectInput : [no documentation found]
+    ///
+    /// - Returns: `GetObjectOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidObjectState` : Object is archived and inaccessible until restored.
+    /// - `NoSuchKey` : The specified key does not exist.
     public func getObject(input: GetObjectInput) async throws -> GetObjectOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2020,6 +2214,15 @@ extension S3Client: S3ClientProtocol {
     /// * [DeleteObject](https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteObject.html)
     ///
     /// * [PutObject](https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutObject.html)
+    ///
+    /// - Parameter GetObjectAclInput : [no documentation found]
+    ///
+    /// - Returns: `GetObjectAclOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `NoSuchKey` : The specified key does not exist.
     public func getObjectAcl(input: GetObjectAclInput) async throws -> GetObjectAclOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2115,6 +2318,15 @@ extension S3Client: S3ClientProtocol {
     /// * [HeadObject](https://docs.aws.amazon.com/AmazonS3/latest/API/API_HeadObject.html)
     ///
     /// * [ListParts](https://docs.aws.amazon.com/AmazonS3/latest/API/API_ListParts.html)
+    ///
+    /// - Parameter GetObjectAttributesInput : [no documentation found]
+    ///
+    /// - Returns: `GetObjectAttributesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `NoSuchKey` : The specified key does not exist.
     public func getObjectAttributes(input: GetObjectAttributesInput) async throws -> GetObjectAttributesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2152,6 +2364,10 @@ extension S3Client: S3ClientProtocol {
     /// Gets an object's current legal hold status. For more information, see [Locking Objects](https://docs.aws.amazon.com/AmazonS3/latest/dev/object-lock.html). This action is not supported by Amazon S3 on Outposts. The following action is related to GetObjectLegalHold:
     ///
     /// * [GetObjectAttributes](https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetObjectAttributes.html)
+    ///
+    /// - Parameter GetObjectLegalHoldInput : [no documentation found]
+    ///
+    /// - Returns: `GetObjectLegalHoldOutputResponse` : [no documentation found]
     public func getObjectLegalHold(input: GetObjectLegalHoldInput) async throws -> GetObjectLegalHoldOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2189,6 +2405,10 @@ extension S3Client: S3ClientProtocol {
     /// Gets the Object Lock configuration for a bucket. The rule specified in the Object Lock configuration will be applied by default to every new object placed in the specified bucket. For more information, see [Locking Objects](https://docs.aws.amazon.com/AmazonS3/latest/dev/object-lock.html). The following action is related to GetObjectLockConfiguration:
     ///
     /// * [GetObjectAttributes](https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetObjectAttributes.html)
+    ///
+    /// - Parameter GetObjectLockConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `GetObjectLockConfigurationOutputResponse` : [no documentation found]
     public func getObjectLockConfiguration(input: GetObjectLockConfigurationInput) async throws -> GetObjectLockConfigurationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2226,6 +2446,10 @@ extension S3Client: S3ClientProtocol {
     /// Retrieves an object's retention settings. For more information, see [Locking Objects](https://docs.aws.amazon.com/AmazonS3/latest/dev/object-lock.html). This action is not supported by Amazon S3 on Outposts. The following action is related to GetObjectRetention:
     ///
     /// * [GetObjectAttributes](https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetObjectAttributes.html)
+    ///
+    /// - Parameter GetObjectRetentionInput : [no documentation found]
+    ///
+    /// - Returns: `GetObjectRetentionOutputResponse` : [no documentation found]
     public func getObjectRetention(input: GetObjectRetentionInput) async throws -> GetObjectRetentionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2267,6 +2491,10 @@ extension S3Client: S3ClientProtocol {
     /// * [GetObjectAttributes](https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetObjectAttributes.html)
     ///
     /// * [PutObjectTagging](https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutObjectTagging.html)
+    ///
+    /// - Parameter GetObjectTaggingInput : [no documentation found]
+    ///
+    /// - Returns: `GetObjectTaggingOutputResponse` : [no documentation found]
     public func getObjectTagging(input: GetObjectTaggingInput) async throws -> GetObjectTaggingOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2304,6 +2532,10 @@ extension S3Client: S3ClientProtocol {
     /// Returns torrent files from a bucket. BitTorrent can save you bandwidth when you're distributing large files. You can get torrent only for objects that are less than 5 GB in size, and that are not encrypted using server-side encryption with a customer-provided encryption key. To use GET, you must have READ access to the object. This action is not supported by Amazon S3 on Outposts. The following action is related to GetObjectTorrent:
     ///
     /// * [GetObject](https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetObject.html)
+    ///
+    /// - Parameter GetObjectTorrentInput : [no documentation found]
+    ///
+    /// - Returns: `GetObjectTorrentOutputResponse` : [no documentation found]
     public func getObjectTorrent(input: GetObjectTorrentInput) async throws -> GetObjectTorrentOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2347,6 +2579,10 @@ extension S3Client: S3ClientProtocol {
     /// * [GetPublicAccessBlock](https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetPublicAccessBlock.html)
     ///
     /// * [DeletePublicAccessBlock](https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeletePublicAccessBlock.html)
+    ///
+    /// - Parameter GetPublicAccessBlockInput : [no documentation found]
+    ///
+    /// - Returns: `GetPublicAccessBlockOutputResponse` : [no documentation found]
     public func getPublicAccessBlock(input: GetPublicAccessBlockInput) async throws -> GetPublicAccessBlockOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2382,6 +2618,15 @@ extension S3Client: S3ClientProtocol {
     }
 
     /// This action is useful to determine if a bucket exists and you have permission to access it. The action returns a 200 OK if the bucket exists and you have permission to access it. If the bucket does not exist or you do not have permission to access it, the HEAD request returns a generic 400 Bad Request, 403 Forbidden or 404 Not Found code. A message body is not included, so you cannot determine the exception beyond these error codes. To use this operation, you must have permissions to perform the s3:ListBucket action. The bucket owner has this permission by default and can grant this permission to others. For more information about permissions, see [Permissions Related to Bucket Subresource Operations](https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-with-s3-actions.html#using-with-s3-actions-related-to-bucket-subresources) and [Managing Access Permissions to Your Amazon S3 Resources](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-access-control.html). To use this API operation against an access point, you must provide the alias of the access point in place of the bucket name or specify the access point ARN. When using the access point ARN, you must direct requests to the access point hostname. The access point hostname takes the form AccessPointName-AccountId.s3-accesspoint.Region.amazonaws.com. When using the Amazon Web Services SDKs, you provide the ARN in place of the bucket name. For more information, see [Using access points](https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-access-points.html). To use this API operation against an Object Lambda access point, provide the alias of the Object Lambda access point in place of the bucket name. If the Object Lambda access point alias in a request is not valid, the error code InvalidAccessPointAliasError is returned. For more information about InvalidAccessPointAliasError, see [List of Error Codes](https://docs.aws.amazon.com/AmazonS3/latest/API/ErrorResponses.html#ErrorCodeList).
+    ///
+    /// - Parameter HeadBucketInput : [no documentation found]
+    ///
+    /// - Returns: `HeadBucketOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `NotFound` : The specified content does not exist.
     public func headBucket(input: HeadBucketInput) async throws -> HeadBucketOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2464,6 +2709,15 @@ extension S3Client: S3ClientProtocol {
     /// * [GetObject](https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetObject.html)
     ///
     /// * [GetObjectAttributes](https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetObjectAttributes.html)
+    ///
+    /// - Parameter HeadObjectInput : [no documentation found]
+    ///
+    /// - Returns: `HeadObjectOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `NotFound` : The specified content does not exist.
     public func headObject(input: HeadObjectInput) async throws -> HeadObjectOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2505,6 +2759,10 @@ extension S3Client: S3ClientProtocol {
     /// * [DeleteBucketAnalyticsConfiguration](https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteBucketAnalyticsConfiguration.html)
     ///
     /// * [PutBucketAnalyticsConfiguration](https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketAnalyticsConfiguration.html)
+    ///
+    /// - Parameter ListBucketAnalyticsConfigurationsInput : [no documentation found]
+    ///
+    /// - Returns: `ListBucketAnalyticsConfigurationsOutputResponse` : [no documentation found]
     public func listBucketAnalyticsConfigurations(input: ListBucketAnalyticsConfigurationsInput) async throws -> ListBucketAnalyticsConfigurationsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2546,6 +2804,10 @@ extension S3Client: S3ClientProtocol {
     /// * [PutBucketIntelligentTieringConfiguration](https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketIntelligentTieringConfiguration.html)
     ///
     /// * [GetBucketIntelligentTieringConfiguration](https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetBucketIntelligentTieringConfiguration.html)
+    ///
+    /// - Parameter ListBucketIntelligentTieringConfigurationsInput : [no documentation found]
+    ///
+    /// - Returns: `ListBucketIntelligentTieringConfigurationsOutputResponse` : [no documentation found]
     public func listBucketIntelligentTieringConfigurations(input: ListBucketIntelligentTieringConfigurationsInput) async throws -> ListBucketIntelligentTieringConfigurationsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2586,6 +2848,10 @@ extension S3Client: S3ClientProtocol {
     /// * [DeleteBucketInventoryConfiguration](https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteBucketInventoryConfiguration.html)
     ///
     /// * [PutBucketInventoryConfiguration](https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketInventoryConfiguration.html)
+    ///
+    /// - Parameter ListBucketInventoryConfigurationsInput : [no documentation found]
+    ///
+    /// - Returns: `ListBucketInventoryConfigurationsOutputResponse` : [no documentation found]
     public func listBucketInventoryConfigurations(input: ListBucketInventoryConfigurationsInput) async throws -> ListBucketInventoryConfigurationsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2627,6 +2893,10 @@ extension S3Client: S3ClientProtocol {
     /// * [GetBucketMetricsConfiguration](https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetBucketMetricsConfiguration.html)
     ///
     /// * [DeleteBucketMetricsConfiguration](https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteBucketMetricsConfiguration.html)
+    ///
+    /// - Parameter ListBucketMetricsConfigurationsInput : [no documentation found]
+    ///
+    /// - Returns: `ListBucketMetricsConfigurationsOutputResponse` : [no documentation found]
     public func listBucketMetricsConfigurations(input: ListBucketMetricsConfigurationsInput) async throws -> ListBucketMetricsConfigurationsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2662,6 +2932,10 @@ extension S3Client: S3ClientProtocol {
     }
 
     /// Returns a list of all buckets owned by the authenticated sender of the request. To use this operation, you must have the s3:ListAllMyBuckets permission. For information about Amazon S3 buckets, see [Creating, configuring, and working with Amazon S3 buckets](https://docs.aws.amazon.com/AmazonS3/latest/userguide/creating-buckets-s3.html).
+    ///
+    /// - Parameter ListBucketsInput : [no documentation found]
+    ///
+    /// - Returns: `ListBucketsOutputResponse` : [no documentation found]
     public func listBuckets(input: ListBucketsInput) async throws -> ListBucketsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2705,6 +2979,10 @@ extension S3Client: S3ClientProtocol {
     /// * [ListParts](https://docs.aws.amazon.com/AmazonS3/latest/API/API_ListParts.html)
     ///
     /// * [AbortMultipartUpload](https://docs.aws.amazon.com/AmazonS3/latest/API/API_AbortMultipartUpload.html)
+    ///
+    /// - Parameter ListMultipartUploadsInput : [no documentation found]
+    ///
+    /// - Returns: `ListMultipartUploadsOutputResponse` : [no documentation found]
     public func listMultipartUploads(input: ListMultipartUploadsInput) async throws -> ListMultipartUploadsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2748,6 +3026,10 @@ extension S3Client: S3ClientProtocol {
     /// * [PutObject](https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutObject.html)
     ///
     /// * [DeleteObject](https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteObject.html)
+    ///
+    /// - Parameter ListObjectVersionsInput : [no documentation found]
+    ///
+    /// - Returns: `ListObjectVersionsOutputResponse` : [no documentation found]
     public func listObjectVersions(input: ListObjectVersionsInput) async throws -> ListObjectVersionsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2793,6 +3075,15 @@ extension S3Client: S3ClientProtocol {
     /// * [CreateBucket](https://docs.aws.amazon.com/AmazonS3/latest/API/API_CreateBucket.html)
     ///
     /// * [ListBuckets](https://docs.aws.amazon.com/AmazonS3/latest/API/API_ListBuckets.html)
+    ///
+    /// - Parameter ListObjectsInput : [no documentation found]
+    ///
+    /// - Returns: `ListObjectsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `NoSuchBucket` : The specified bucket does not exist.
     public func listObjects(input: ListObjectsInput) async throws -> ListObjectsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2834,6 +3125,15 @@ extension S3Client: S3ClientProtocol {
     /// * [PutObject](https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutObject.html)
     ///
     /// * [CreateBucket](https://docs.aws.amazon.com/AmazonS3/latest/API/API_CreateBucket.html)
+    ///
+    /// - Parameter ListObjectsV2Input : [no documentation found]
+    ///
+    /// - Returns: `ListObjectsV2OutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `NoSuchBucket` : The specified bucket does not exist.
     public func listObjectsV2(input: ListObjectsV2Input) async throws -> ListObjectsV2OutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2881,6 +3181,10 @@ extension S3Client: S3ClientProtocol {
     /// * [GetObjectAttributes](https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetObjectAttributes.html)
     ///
     /// * [ListMultipartUploads](https://docs.aws.amazon.com/AmazonS3/latest/API/API_ListMultipartUploads.html)
+    ///
+    /// - Parameter ListPartsInput : [no documentation found]
+    ///
+    /// - Returns: `ListPartsOutputResponse` : [no documentation found]
     public func listParts(input: ListPartsInput) async throws -> ListPartsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2927,6 +3231,10 @@ extension S3Client: S3ClientProtocol {
     /// * [GetBucketAccelerateConfiguration](https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetBucketAccelerateConfiguration.html)
     ///
     /// * [CreateBucket](https://docs.aws.amazon.com/AmazonS3/latest/API/API_CreateBucket.html)
+    ///
+    /// - Parameter PutBucketAccelerateConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `PutBucketAccelerateConfigurationOutputResponse` : [no documentation found]
     public func putBucketAccelerateConfiguration(input: PutBucketAccelerateConfigurationInput) async throws -> PutBucketAccelerateConfigurationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3041,6 +3349,10 @@ extension S3Client: S3ClientProtocol {
     /// * [DeleteBucket](https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteBucket.html)
     ///
     /// * [GetObjectAcl](https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetObjectAcl.html)
+    ///
+    /// - Parameter PutBucketAclInput : [no documentation found]
+    ///
+    /// - Returns: `PutBucketAclOutputResponse` : [no documentation found]
     public func putBucketAcl(input: PutBucketAclInput) async throws -> PutBucketAclOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3119,6 +3431,10 @@ extension S3Client: S3ClientProtocol {
     /// * [DeleteBucketAnalyticsConfiguration](https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteBucketAnalyticsConfiguration.html)
     ///
     /// * [ListBucketAnalyticsConfigurations](https://docs.aws.amazon.com/AmazonS3/latest/API/API_ListBucketAnalyticsConfigurations.html)
+    ///
+    /// - Parameter PutBucketAnalyticsConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `PutBucketAnalyticsConfigurationOutputResponse` : [no documentation found]
     public func putBucketAnalyticsConfiguration(input: PutBucketAnalyticsConfigurationInput) async throws -> PutBucketAnalyticsConfigurationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3172,6 +3488,10 @@ extension S3Client: S3ClientProtocol {
     /// * [DeleteBucketCors](https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteBucketCors.html)
     ///
     /// * [RESTOPTIONSobject](https://docs.aws.amazon.com/AmazonS3/latest/API/RESTOPTIONSobject.html)
+    ///
+    /// - Parameter PutBucketCorsInput : [no documentation found]
+    ///
+    /// - Returns: `PutBucketCorsOutputResponse` : [no documentation found]
     public func putBucketCors(input: PutBucketCorsInput) async throws -> PutBucketCorsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3215,6 +3535,10 @@ extension S3Client: S3ClientProtocol {
     /// * [GetBucketEncryption](https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetBucketEncryption.html)
     ///
     /// * [DeleteBucketEncryption](https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteBucketEncryption.html)
+    ///
+    /// - Parameter PutBucketEncryptionInput : [no documentation found]
+    ///
+    /// - Returns: `PutBucketEncryptionOutputResponse` : [no documentation found]
     public func putBucketEncryption(input: PutBucketEncryptionInput) async throws -> PutBucketEncryptionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3263,6 +3587,10 @@ extension S3Client: S3ClientProtocol {
     ///
     ///
     /// You only need S3 Intelligent-Tiering enabled on a bucket if you want to automatically move objects stored in the S3 Intelligent-Tiering storage class to the Archive Access or Deep Archive Access tier. PutBucketIntelligentTieringConfiguration has the following special errors: HTTP 400 Bad Request Error Code: InvalidArgument Cause: Invalid Argument HTTP 400 Bad Request Error Code: TooManyConfigurations Cause: You are attempting to create a new configuration but have already reached the 1,000-configuration limit. HTTP 403 Forbidden Error Cause: You are not the owner of the specified bucket, or you do not have the s3:PutIntelligentTieringConfiguration bucket permission to set the configuration on the bucket.
+    ///
+    /// - Parameter PutBucketIntelligentTieringConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `PutBucketIntelligentTieringConfigurationOutputResponse` : [no documentation found]
     public func putBucketIntelligentTieringConfiguration(input: PutBucketIntelligentTieringConfigurationInput) async throws -> PutBucketIntelligentTieringConfigurationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3306,6 +3634,10 @@ extension S3Client: S3ClientProtocol {
     /// * [DeleteBucketInventoryConfiguration](https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteBucketInventoryConfiguration.html)
     ///
     /// * [ListBucketInventoryConfigurations](https://docs.aws.amazon.com/AmazonS3/latest/API/API_ListBucketInventoryConfigurations.html)
+    ///
+    /// - Parameter PutBucketInventoryConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `PutBucketInventoryConfigurationOutputResponse` : [no documentation found]
     public func putBucketInventoryConfiguration(input: PutBucketInventoryConfigurationInput) async throws -> PutBucketInventoryConfigurationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3368,6 +3700,10 @@ extension S3Client: S3ClientProtocol {
     /// * [GetBucketLifecycleConfiguration](https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetBucketLifecycleConfiguration.html)
     ///
     /// * [DeleteBucketLifecycle](https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteBucketLifecycle.html)
+    ///
+    /// - Parameter PutBucketLifecycleConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `PutBucketLifecycleConfigurationOutputResponse` : [no documentation found]
     public func putBucketLifecycleConfiguration(input: PutBucketLifecycleConfigurationInput) async throws -> PutBucketLifecycleConfigurationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3424,6 +3760,10 @@ extension S3Client: S3ClientProtocol {
     /// * [CreateBucket](https://docs.aws.amazon.com/AmazonS3/latest/API/API_CreateBucket.html)
     ///
     /// * [GetBucketLogging](https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetBucketLogging.html)
+    ///
+    /// - Parameter PutBucketLoggingInput : [no documentation found]
+    ///
+    /// - Returns: `PutBucketLoggingOutputResponse` : [no documentation found]
     public func putBucketLogging(input: PutBucketLoggingInput) async throws -> PutBucketLoggingOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3478,6 +3818,10 @@ extension S3Client: S3ClientProtocol {
     /// * Description: You are attempting to create a new configuration but have already reached the 1,000-configuration limit.
     ///
     /// * HTTP Status Code: HTTP 400 Bad Request
+    ///
+    /// - Parameter PutBucketMetricsConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `PutBucketMetricsConfigurationOutputResponse` : [no documentation found]
     public func putBucketMetricsConfiguration(input: PutBucketMetricsConfigurationInput) async throws -> PutBucketMetricsConfigurationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3518,6 +3862,10 @@ extension S3Client: S3ClientProtocol {
     /// Enables notifications of specified events for a bucket. For more information about event notifications, see [Configuring Event Notifications](https://docs.aws.amazon.com/AmazonS3/latest/dev/NotificationHowTo.html). Using this API, you can replace an existing notification configuration. The configuration is an XML file that defines the event types that you want Amazon S3 to publish and the destination where you want Amazon S3 to publish an event notification when it detects an event of the specified type. By default, your bucket has no event notifications configured. That is, the notification configuration will be an empty NotificationConfiguration.  This action replaces the existing notification configuration with the configuration you include in the request body. After Amazon S3 receives this request, it first verifies that any Amazon Simple Notification Service (Amazon SNS) or Amazon Simple Queue Service (Amazon SQS) destination exists, and that the bucket owner has permission to publish to it by sending a test notification. In the case of Lambda destinations, Amazon S3 verifies that the Lambda function permissions grant Amazon S3 permission to invoke the function from the Amazon S3 bucket. For more information, see [Configuring Notifications for Amazon S3 Events](https://docs.aws.amazon.com/AmazonS3/latest/dev/NotificationHowTo.html). You can disable notifications by adding the empty NotificationConfiguration element. For more information about the number of event notification configurations that you can create per bucket, see [Amazon S3 service quotas](https://docs.aws.amazon.com/general/latest/gr/s3.html#limits_s3) in Amazon Web Services General Reference. By default, only the bucket owner can configure notifications on a bucket. However, bucket owners can use a bucket policy to grant permission to other users to set this configuration with the required s3:PutBucketNotification permission. The PUT notification is an atomic operation. For example, suppose your notification configuration includes SNS topic, SQS queue, and Lambda function configurations. When you send a PUT request with this configuration, Amazon S3 sends test messages to your SNS topic. If the message fails, the entire PUT action will fail, and Amazon S3 will not add the configuration to your bucket. If the configuration in the request body includes only one TopicConfiguration specifying only the s3:ReducedRedundancyLostObject event type, the response will also include the x-amz-sns-test-message-id header containing the message ID of the test notification sent to the topic. The following action is related to PutBucketNotificationConfiguration:
     ///
     /// * [GetBucketNotificationConfiguration](https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetBucketNotificationConfiguration.html)
+    ///
+    /// - Parameter PutBucketNotificationConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `PutBucketNotificationConfigurationOutputResponse` : [no documentation found]
     public func putBucketNotificationConfiguration(input: PutBucketNotificationConfigurationInput) async throws -> PutBucketNotificationConfigurationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3560,6 +3908,10 @@ extension S3Client: S3ClientProtocol {
     /// * [GetBucketOwnershipControls]
     ///
     /// * [DeleteBucketOwnershipControls]
+    ///
+    /// - Parameter PutBucketOwnershipControlsInput : [no documentation found]
+    ///
+    /// - Returns: `PutBucketOwnershipControlsOutputResponse` : [no documentation found]
     public func putBucketOwnershipControls(input: PutBucketOwnershipControlsInput) async throws -> PutBucketOwnershipControlsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3603,6 +3955,10 @@ extension S3Client: S3ClientProtocol {
     /// * [CreateBucket](https://docs.aws.amazon.com/AmazonS3/latest/API/API_CreateBucket.html)
     ///
     /// * [DeleteBucket](https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteBucket.html)
+    ///
+    /// - Parameter PutBucketPolicyInput : [no documentation found]
+    ///
+    /// - Returns: `PutBucketPolicyOutputResponse` : [no documentation found]
     public func putBucketPolicy(input: PutBucketPolicyInput) async throws -> PutBucketPolicyOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3646,6 +4002,10 @@ extension S3Client: S3ClientProtocol {
     /// * [GetBucketReplication](https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetBucketReplication.html)
     ///
     /// * [DeleteBucketReplication](https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteBucketReplication.html)
+    ///
+    /// - Parameter PutBucketReplicationInput : [no documentation found]
+    ///
+    /// - Returns: `PutBucketReplicationOutputResponse` : [no documentation found]
     public func putBucketReplication(input: PutBucketReplicationInput) async throws -> PutBucketReplicationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3689,6 +4049,10 @@ extension S3Client: S3ClientProtocol {
     /// * [CreateBucket](https://docs.aws.amazon.com/AmazonS3/latest/API/API_CreateBucket.html)
     ///
     /// * [GetBucketRequestPayment](https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetBucketRequestPayment.html)
+    ///
+    /// - Parameter PutBucketRequestPaymentInput : [no documentation found]
+    ///
+    /// - Returns: `PutBucketRequestPaymentOutputResponse` : [no documentation found]
     public func putBucketRequestPayment(input: PutBucketRequestPaymentInput) async throws -> PutBucketRequestPaymentOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3763,6 +4127,10 @@ extension S3Client: S3ClientProtocol {
     /// * [GetBucketTagging](https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetBucketTagging.html)
     ///
     /// * [DeleteBucketTagging](https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteBucketTagging.html)
+    ///
+    /// - Parameter PutBucketTaggingInput : [no documentation found]
+    ///
+    /// - Returns: `PutBucketTaggingOutputResponse` : [no documentation found]
     public func putBucketTagging(input: PutBucketTaggingInput) async throws -> PutBucketTaggingOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3808,6 +4176,10 @@ extension S3Client: S3ClientProtocol {
     /// * [DeleteBucket](https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteBucket.html)
     ///
     /// * [GetBucketVersioning](https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetBucketVersioning.html)
+    ///
+    /// - Parameter PutBucketVersioningInput : [no documentation found]
+    ///
+    /// - Returns: `PutBucketVersioningOutputResponse` : [no documentation found]
     public func putBucketVersioning(input: PutBucketVersioningInput) async throws -> PutBucketVersioningOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3893,6 +4265,10 @@ extension S3Client: S3ClientProtocol {
     ///
     ///
     /// Amazon S3 has a limitation of 50 routing rules per website configuration. If you require more than 50 routing rules, you can use object redirect. For more information, see [Configuring an Object Redirect](https://docs.aws.amazon.com/AmazonS3/latest/dev/how-to-page-redirect.html) in the Amazon S3 User Guide.
+    ///
+    /// - Parameter PutBucketWebsiteInput : [no documentation found]
+    ///
+    /// - Returns: `PutBucketWebsiteOutputResponse` : [no documentation found]
     public func putBucketWebsite(input: PutBucketWebsiteInput) async throws -> PutBucketWebsiteOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3947,6 +4323,10 @@ extension S3Client: S3ClientProtocol {
     /// * [CopyObject](https://docs.aws.amazon.com/AmazonS3/latest/API/API_CopyObject.html)
     ///
     /// * [DeleteObject](https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteObject.html)
+    ///
+    /// - Parameter PutObjectInput : [no documentation found]
+    ///
+    /// - Returns: `PutObjectOutputResponse` : [no documentation found]
     public func putObject(input: PutObjectInput) async throws -> PutObjectOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -4052,6 +4432,15 @@ extension S3Client: S3ClientProtocol {
     /// * [CopyObject](https://docs.aws.amazon.com/AmazonS3/latest/API/API_CopyObject.html)
     ///
     /// * [GetObject](https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetObject.html)
+    ///
+    /// - Parameter PutObjectAclInput : [no documentation found]
+    ///
+    /// - Returns: `PutObjectAclOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `NoSuchKey` : The specified key does not exist.
     public func putObjectAcl(input: PutObjectAclInput) async throws -> PutObjectAclOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -4091,6 +4480,10 @@ extension S3Client: S3ClientProtocol {
     }
 
     /// Applies a legal hold configuration to the specified object. For more information, see [Locking Objects](https://docs.aws.amazon.com/AmazonS3/latest/dev/object-lock.html). This action is not supported by Amazon S3 on Outposts.
+    ///
+    /// - Parameter PutObjectLegalHoldInput : [no documentation found]
+    ///
+    /// - Returns: `PutObjectLegalHoldOutputResponse` : [no documentation found]
     public func putObjectLegalHold(input: PutObjectLegalHoldInput) async throws -> PutObjectLegalHoldOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -4136,6 +4529,10 @@ extension S3Client: S3ClientProtocol {
     /// * The DefaultRetention period can be either Days or Years but you must select one. You cannot specify Days and Years at the same time.
     ///
     /// * You can only enable Object Lock for new buckets. If you want to turn on Object Lock for an existing bucket, contact Amazon Web Services Support.
+    ///
+    /// - Parameter PutObjectLockConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `PutObjectLockConfigurationOutputResponse` : [no documentation found]
     public func putObjectLockConfiguration(input: PutObjectLockConfigurationInput) async throws -> PutObjectLockConfigurationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -4175,6 +4572,10 @@ extension S3Client: S3ClientProtocol {
     }
 
     /// Places an Object Retention configuration on an object. For more information, see [Locking Objects](https://docs.aws.amazon.com/AmazonS3/latest/dev/object-lock.html). Users or accounts require the s3:PutObjectRetention permission in order to place an Object Retention configuration on objects. Bypassing a Governance Retention configuration requires the s3:BypassGovernanceRetention permission. This action is not supported by Amazon S3 on Outposts.
+    ///
+    /// - Parameter PutObjectRetentionInput : [no documentation found]
+    ///
+    /// - Returns: `PutObjectRetentionOutputResponse` : [no documentation found]
     public func putObjectRetention(input: PutObjectRetentionInput) async throws -> PutObjectRetentionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -4253,6 +4654,10 @@ extension S3Client: S3ClientProtocol {
     /// * [GetObjectTagging](https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetObjectTagging.html)
     ///
     /// * [DeleteObjectTagging](https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteObjectTagging.html)
+    ///
+    /// - Parameter PutObjectTaggingInput : [no documentation found]
+    ///
+    /// - Returns: `PutObjectTaggingOutputResponse` : [no documentation found]
     public func putObjectTagging(input: PutObjectTaggingInput) async throws -> PutObjectTaggingOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -4300,6 +4705,10 @@ extension S3Client: S3ClientProtocol {
     /// * [GetBucketPolicyStatus](https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetBucketPolicyStatus.html)
     ///
     /// * [Using Amazon S3 Block Public Access](https://docs.aws.amazon.com/AmazonS3/latest/dev/access-control-block-public-access.html)
+    ///
+    /// - Parameter PutPublicAccessBlockInput : [no documentation found]
+    ///
+    /// - Returns: `PutPublicAccessBlockOutputResponse` : [no documentation found]
     public func putPublicAccessBlock(input: PutPublicAccessBlockInput) async throws -> PutPublicAccessBlockOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -4428,6 +4837,15 @@ extension S3Client: S3ClientProtocol {
     /// * [PutBucketLifecycleConfiguration](https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketLifecycleConfiguration.html)
     ///
     /// * [GetBucketNotificationConfiguration](https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetBucketNotificationConfiguration.html)
+    ///
+    /// - Parameter RestoreObjectInput : [no documentation found]
+    ///
+    /// - Returns: `RestoreObjectOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ObjectAlreadyInActiveTierError` : This action is not allowed against this storage tier.
     public func restoreObject(input: RestoreObjectInput) async throws -> RestoreObjectOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -4490,6 +4908,10 @@ extension S3Client: S3ClientProtocol {
     /// * [GetBucketLifecycleConfiguration](https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetBucketLifecycleConfiguration.html)
     ///
     /// * [PutBucketLifecycleConfiguration](https://docs.aws.amazon.com/AmazonS3/latest/API/API_PutBucketLifecycleConfiguration.html)
+    ///
+    /// - Parameter SelectObjectContentInput : Request to filter the contents of an Amazon S3 object based on a simple Structured Query Language (SQL) statement. In the request, along with the SQL expression, you must specify a data serialization format (JSON or CSV) of the object. Amazon S3 uses this to parse object data into records. It returns only records that match the specified SQL expression. You must also specify the data serialization format for the response. For more information, see [S3Select API Documentation](https://docs.aws.amazon.com/AmazonS3/latest/API/RESTObjectSELECTContent.html).
+    ///
+    /// - Returns: `SelectObjectContentOutputResponse` : [no documentation found]
     public func selectObjectContent(input: SelectObjectContentInput) async throws -> SelectObjectContentOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -4562,6 +4984,10 @@ extension S3Client: S3ClientProtocol {
     /// * [ListParts](https://docs.aws.amazon.com/AmazonS3/latest/API/API_ListParts.html)
     ///
     /// * [ListMultipartUploads](https://docs.aws.amazon.com/AmazonS3/latest/API/API_ListMultipartUploads.html)
+    ///
+    /// - Parameter UploadPartInput : [no documentation found]
+    ///
+    /// - Returns: `UploadPartOutputResponse` : [no documentation found]
     public func uploadPart(input: UploadPartInput) async throws -> UploadPartOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -4653,6 +5079,10 @@ extension S3Client: S3ClientProtocol {
     /// * [ListParts](https://docs.aws.amazon.com/AmazonS3/latest/API/API_ListParts.html)
     ///
     /// * [ListMultipartUploads](https://docs.aws.amazon.com/AmazonS3/latest/API/API_ListMultipartUploads.html)
+    ///
+    /// - Parameter UploadPartCopyInput : [no documentation found]
+    ///
+    /// - Returns: `UploadPartCopyOutputResponse` : [no documentation found]
     public func uploadPartCopy(input: UploadPartCopyInput) async throws -> UploadPartCopyOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -4688,6 +5118,10 @@ extension S3Client: S3ClientProtocol {
     }
 
     /// Passes transformed objects to a GetObject operation when using Object Lambda access points. For information about Object Lambda access points, see [Transforming objects with Object Lambda access points](https://docs.aws.amazon.com/AmazonS3/latest/userguide/transforming-objects.html) in the Amazon S3 User Guide. This operation supports metadata that can be returned by [GetObject](https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetObject.html), in addition to RequestRoute, RequestToken, StatusCode, ErrorCode, and ErrorMessage. The GetObject response metadata is supported so that the WriteGetObjectResponse caller, typically an Lambda function, can provide the same metadata when it internally invokes GetObject. When WriteGetObjectResponse is called by a customer-owned Lambda function, the metadata returned to the end user GetObject call might differ from what Amazon S3 would normally return. You can include any number of metadata headers. When including a metadata header, it should be prefaced with x-amz-meta. For example, x-amz-meta-my-custom-header: MyCustomValue. The primary use case for this is to forward GetObject metadata. Amazon Web Services provides some prebuilt Lambda functions that you can use with S3 Object Lambda to detect and redact personally identifiable information (PII) and decompress S3 objects. These Lambda functions are available in the Amazon Web Services Serverless Application Repository, and can be selected through the Amazon Web Services Management Console when you create your Object Lambda access point. Example 1: PII Access Control - This Lambda function uses Amazon Comprehend, a natural language processing (NLP) service using machine learning to find insights and relationships in text. It automatically detects personally identifiable information (PII) such as names, addresses, dates, credit card numbers, and social security numbers from documents in your Amazon S3 bucket. Example 2: PII Redaction - This Lambda function uses Amazon Comprehend, a natural language processing (NLP) service using machine learning to find insights and relationships in text. It automatically redacts personally identifiable information (PII) such as names, addresses, dates, credit card numbers, and social security numbers from documents in your Amazon S3 bucket. Example 3: Decompression - The Lambda function S3ObjectLambdaDecompression, is equipped to decompress objects stored in S3 in one of six compressed file formats including bzip2, gzip, snappy, zlib, zstandard and ZIP. For information on how to view and use these functions, see [Using Amazon Web Services built Lambda functions](https://docs.aws.amazon.com/AmazonS3/latest/userguide/olap-examples.html) in the Amazon S3 User Guide.
+    ///
+    /// - Parameter WriteGetObjectResponseInput : [no documentation found]
+    ///
+    /// - Returns: `WriteGetObjectResponseOutputResponse` : [no documentation found]
     public func writeGetObjectResponse(input: WriteGetObjectResponseInput) async throws -> WriteGetObjectResponseOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()

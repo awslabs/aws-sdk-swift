@@ -5,46 +5,279 @@ import ClientRuntime
 /// Amazon Web Services Private 5G is a managed service that makes it easy to deploy, operate, and scale your own private mobile network at your on-premises location. Private 5G provides the pre-configured hardware and software for mobile networks, helps automate setup, and scales capacity on demand to support additional devices as needed.
 public protocol PrivateNetworksClientProtocol {
     /// Acknowledges that the specified network order was received.
+    ///
+    /// - Parameter AcknowledgeOrderReceiptInput : [no documentation found]
+    ///
+    /// - Returns: `AcknowledgeOrderReceiptOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : Information about an internal error.
+    /// - `ResourceNotFoundException` : The resource was not found.
+    /// - `ValidationException` : The request failed validation.
     func acknowledgeOrderReceipt(input: AcknowledgeOrderReceiptInput) async throws -> AcknowledgeOrderReceiptOutputResponse
     /// Activates the specified device identifier.
+    ///
+    /// - Parameter ActivateDeviceIdentifierInput : [no documentation found]
+    ///
+    /// - Returns: `ActivateDeviceIdentifierOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : Information about an internal error.
+    /// - `ResourceNotFoundException` : The resource was not found.
+    /// - `ValidationException` : The request failed validation.
     func activateDeviceIdentifier(input: ActivateDeviceIdentifierInput) async throws -> ActivateDeviceIdentifierOutputResponse
     /// Activates the specified network site.
+    ///
+    /// - Parameter ActivateNetworkSiteInput : [no documentation found]
+    ///
+    /// - Returns: `ActivateNetworkSiteOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : Information about an internal error.
+    /// - `ResourceNotFoundException` : The resource was not found.
+    /// - `ValidationException` : The request failed validation.
     func activateNetworkSite(input: ActivateNetworkSiteInput) async throws -> ActivateNetworkSiteOutputResponse
     /// Configures the specified network resource. Use this action to specify the geographic position of the hardware. You must provide Certified Professional Installer (CPI) credentials in the request so that we can obtain spectrum grants. For more information, see [Radio units](https://docs.aws.amazon.com/private-networks/latest/userguide/radio-units.html) in the Amazon Web Services Private 5G User Guide.
+    ///
+    /// - Parameter ConfigureAccessPointInput : [no documentation found]
+    ///
+    /// - Returns: `ConfigureAccessPointOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : Information about an internal error.
+    /// - `ResourceNotFoundException` : The resource was not found.
+    /// - `ValidationException` : The request failed validation.
     func configureAccessPoint(input: ConfigureAccessPointInput) async throws -> ConfigureAccessPointOutputResponse
     /// Creates a network.
+    ///
+    /// - Parameter CreateNetworkInput : [no documentation found]
+    ///
+    /// - Returns: `CreateNetworkOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : Information about an internal error.
+    /// - `LimitExceededException` : The limit was exceeded.
+    /// - `ValidationException` : The request failed validation.
     func createNetwork(input: CreateNetworkInput) async throws -> CreateNetworkOutputResponse
     /// Creates a network site.
+    ///
+    /// - Parameter CreateNetworkSiteInput : [no documentation found]
+    ///
+    /// - Returns: `CreateNetworkSiteOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : Information about an internal error.
+    /// - `ResourceNotFoundException` : The resource was not found.
+    /// - `ValidationException` : The request failed validation.
     func createNetworkSite(input: CreateNetworkSiteInput) async throws -> CreateNetworkSiteOutputResponse
     /// Deactivates the specified device identifier.
+    ///
+    /// - Parameter DeactivateDeviceIdentifierInput : [no documentation found]
+    ///
+    /// - Returns: `DeactivateDeviceIdentifierOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : Information about an internal error.
+    /// - `ResourceNotFoundException` : The resource was not found.
+    /// - `ValidationException` : The request failed validation.
     func deactivateDeviceIdentifier(input: DeactivateDeviceIdentifierInput) async throws -> DeactivateDeviceIdentifierOutputResponse
     /// Deletes the specified network. You must delete network sites before you delete the network. For more information, see [DeleteNetworkSite](https://docs.aws.amazon.com/private-networks/latest/APIReference/API_DeleteNetworkSite.html) in the API Reference for Amazon Web Services Private 5G.
+    ///
+    /// - Parameter DeleteNetworkInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteNetworkOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have permission to perform this operation.
+    /// - `InternalServerException` : Information about an internal error.
+    /// - `ResourceNotFoundException` : The resource was not found.
+    /// - `ValidationException` : The request failed validation.
     func deleteNetwork(input: DeleteNetworkInput) async throws -> DeleteNetworkOutputResponse
     /// Deletes the specified network site. Return the hardware after you delete the network site. You are responsible for minimum charges. For more information, see [Hardware returns](https://docs.aws.amazon.com/private-networks/latest/userguide/hardware-maintenance.html) in the Amazon Web Services Private 5G User Guide.
+    ///
+    /// - Parameter DeleteNetworkSiteInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteNetworkSiteOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have permission to perform this operation.
+    /// - `InternalServerException` : Information about an internal error.
+    /// - `ResourceNotFoundException` : The resource was not found.
+    /// - `ValidationException` : The request failed validation.
     func deleteNetworkSite(input: DeleteNetworkSiteInput) async throws -> DeleteNetworkSiteOutputResponse
     /// Gets the specified device identifier.
+    ///
+    /// - Parameter GetDeviceIdentifierInput : [no documentation found]
+    ///
+    /// - Returns: `GetDeviceIdentifierOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : Information about an internal error.
+    /// - `ResourceNotFoundException` : The resource was not found.
+    /// - `ValidationException` : The request failed validation.
     func getDeviceIdentifier(input: GetDeviceIdentifierInput) async throws -> GetDeviceIdentifierOutputResponse
     /// Gets the specified network.
+    ///
+    /// - Parameter GetNetworkInput : [no documentation found]
+    ///
+    /// - Returns: `GetNetworkOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : Information about an internal error.
+    /// - `ResourceNotFoundException` : The resource was not found.
+    /// - `ValidationException` : The request failed validation.
     func getNetwork(input: GetNetworkInput) async throws -> GetNetworkOutputResponse
     /// Gets the specified network resource.
+    ///
+    /// - Parameter GetNetworkResourceInput : [no documentation found]
+    ///
+    /// - Returns: `GetNetworkResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : Information about an internal error.
+    /// - `ResourceNotFoundException` : The resource was not found.
+    /// - `ValidationException` : The request failed validation.
     func getNetworkResource(input: GetNetworkResourceInput) async throws -> GetNetworkResourceOutputResponse
     /// Gets the specified network site.
+    ///
+    /// - Parameter GetNetworkSiteInput : [no documentation found]
+    ///
+    /// - Returns: `GetNetworkSiteOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : Information about an internal error.
+    /// - `ResourceNotFoundException` : The resource was not found.
+    /// - `ValidationException` : The request failed validation.
     func getNetworkSite(input: GetNetworkSiteInput) async throws -> GetNetworkSiteOutputResponse
     /// Gets the specified order.
+    ///
+    /// - Parameter GetOrderInput : [no documentation found]
+    ///
+    /// - Returns: `GetOrderOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : Information about an internal error.
+    /// - `ResourceNotFoundException` : The resource was not found.
+    /// - `ValidationException` : The request failed validation.
     func getOrder(input: GetOrderInput) async throws -> GetOrderOutputResponse
     /// Lists device identifiers. Add filters to your request to return a more specific list of results. Use filters to match the Amazon Resource Name (ARN) of an order, the status of device identifiers, or the ARN of the traffic group. If you specify multiple filters, filters are joined with an OR, and the request returns results that match all of the specified filters.
+    ///
+    /// - Parameter ListDeviceIdentifiersInput : [no documentation found]
+    ///
+    /// - Returns: `ListDeviceIdentifiersOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : Information about an internal error.
+    /// - `ResourceNotFoundException` : The resource was not found.
+    /// - `ValidationException` : The request failed validation.
     func listDeviceIdentifiers(input: ListDeviceIdentifiersInput) async throws -> ListDeviceIdentifiersOutputResponse
     /// Lists network resources. Add filters to your request to return a more specific list of results. Use filters to match the Amazon Resource Name (ARN) of an order or the status of network resources. If you specify multiple filters, filters are joined with an OR, and the request returns results that match all of the specified filters.
+    ///
+    /// - Parameter ListNetworkResourcesInput : [no documentation found]
+    ///
+    /// - Returns: `ListNetworkResourcesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : Information about an internal error.
+    /// - `ResourceNotFoundException` : The resource was not found.
+    /// - `ValidationException` : The request failed validation.
     func listNetworkResources(input: ListNetworkResourcesInput) async throws -> ListNetworkResourcesOutputResponse
     /// Lists networks. Add filters to your request to return a more specific list of results. Use filters to match the status of the network.
+    ///
+    /// - Parameter ListNetworksInput : [no documentation found]
+    ///
+    /// - Returns: `ListNetworksOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : Information about an internal error.
+    /// - `ResourceNotFoundException` : The resource was not found.
+    /// - `ValidationException` : The request failed validation.
     func listNetworks(input: ListNetworksInput) async throws -> ListNetworksOutputResponse
     /// Lists network sites. Add filters to your request to return a more specific list of results. Use filters to match the status of the network site.
+    ///
+    /// - Parameter ListNetworkSitesInput : [no documentation found]
+    ///
+    /// - Returns: `ListNetworkSitesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : Information about an internal error.
+    /// - `ResourceNotFoundException` : The resource was not found.
+    /// - `ValidationException` : The request failed validation.
     func listNetworkSites(input: ListNetworkSitesInput) async throws -> ListNetworkSitesOutputResponse
     /// Lists orders. Add filters to your request to return a more specific list of results. Use filters to match the Amazon Resource Name (ARN) of the network site or the status of the order. If you specify multiple filters, filters are joined with an OR, and the request returns results that match all of the specified filters.
+    ///
+    /// - Parameter ListOrdersInput : [no documentation found]
+    ///
+    /// - Returns: `ListOrdersOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : Information about an internal error.
+    /// - `ResourceNotFoundException` : The resource was not found.
+    /// - `ValidationException` : The request failed validation.
     func listOrders(input: ListOrdersInput) async throws -> ListOrdersOutputResponse
     /// Lists the tags for the specified resource.
+    ///
+    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    ///
+    /// - Returns: `ListTagsForResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have permission to perform this operation.
+    /// - `InternalServerException` : Information about an internal error.
+    /// - `ResourceNotFoundException` : The resource was not found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The request failed validation.
     func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
     /// Checks the health of the service.
+    ///
+    /// - Parameter PingInput : [no documentation found]
+    ///
+    /// - Returns: `PingOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : Information about an internal error.
     func ping(input: PingInput) async throws -> PingOutputResponse
     /// Use this action to do the following tasks:
     ///
@@ -56,14 +289,73 @@ public protocol PrivateNetworksClientProtocol {
     ///
     ///
     /// After you submit a request to replace or return a network resource, the status of the network resource changes to CREATING_SHIPPING_LABEL. The shipping label is available when the status of the network resource is PENDING_RETURN. After the network resource is successfully returned, its status changes to DELETED. For more information, see [Return a radio unit](https://docs.aws.amazon.com/private-networks/latest/userguide/radio-units.html#return-radio-unit).
+    ///
+    /// - Parameter StartNetworkResourceUpdateInput : [no documentation found]
+    ///
+    /// - Returns: `StartNetworkResourceUpdateOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : Information about an internal error.
+    /// - `ResourceNotFoundException` : The resource was not found.
+    /// - `ValidationException` : The request failed validation.
     func startNetworkResourceUpdate(input: StartNetworkResourceUpdateInput) async throws -> StartNetworkResourceUpdateOutputResponse
     /// Adds tags to the specified resource.
+    ///
+    /// - Parameter TagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `TagResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have permission to perform this operation.
+    /// - `InternalServerException` : Information about an internal error.
+    /// - `ResourceNotFoundException` : The resource was not found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The request failed validation.
     func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
     /// Removes tags from the specified resource.
+    ///
+    /// - Parameter UntagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `UntagResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have permission to perform this operation.
+    /// - `InternalServerException` : Information about an internal error.
+    /// - `ResourceNotFoundException` : The resource was not found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The request failed validation.
     func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
     /// Updates the specified network site.
+    ///
+    /// - Parameter UpdateNetworkSiteInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateNetworkSiteOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : Information about an internal error.
+    /// - `ResourceNotFoundException` : The resource was not found.
+    /// - `ValidationException` : The request failed validation.
     func updateNetworkSite(input: UpdateNetworkSiteInput) async throws -> UpdateNetworkSiteOutputResponse
     /// Updates the specified network site plan.
+    ///
+    /// - Parameter UpdateNetworkSitePlanInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateNetworkSitePlanOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : Information about an internal error.
+    /// - `ResourceNotFoundException` : The resource was not found.
+    /// - `ValidationException` : The request failed validation.
     func updateNetworkSitePlan(input: UpdateNetworkSitePlanInput) async throws -> UpdateNetworkSitePlanOutputResponse
 }
 

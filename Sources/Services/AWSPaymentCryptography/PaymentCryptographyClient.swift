@@ -76,6 +76,22 @@ extension PaymentCryptographyClient: PaymentCryptographyClientProtocol {
     /// * [ListAliases]
     ///
     /// * [UpdateAlias]
+    ///
+    /// - Parameter CreateAliasInput : [no documentation found]
+    ///
+    /// - Returns: `CreateAliasOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : This request can cause an inconsistent state for the resource.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure.
+    /// - `ResourceNotFoundException` : The request was denied due to an invalid resource error.
+    /// - `ServiceQuotaExceededException` : This request would cause a service quota to be exceeded.
+    /// - `ServiceUnavailableException` : The service cannot complete the request.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The request was denied due to an invalid request error.
     public func createAlias(input: CreateAliasInput) async throws -> CreateAliasOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -119,6 +135,22 @@ extension PaymentCryptographyClient: PaymentCryptographyClientProtocol {
     /// * [GetKey]
     ///
     /// * [ListKeys]
+    ///
+    /// - Parameter CreateKeyInput : [no documentation found]
+    ///
+    /// - Returns: `CreateKeyOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : This request can cause an inconsistent state for the resource.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure.
+    /// - `ResourceNotFoundException` : The request was denied due to an invalid resource error.
+    /// - `ServiceQuotaExceededException` : This request would cause a service quota to be exceeded.
+    /// - `ServiceUnavailableException` : The service cannot complete the request.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The request was denied due to an invalid request error.
     public func createKey(input: CreateKeyInput) async throws -> CreateKeyOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -164,6 +196,21 @@ extension PaymentCryptographyClient: PaymentCryptographyClientProtocol {
     /// * [ListAliases]
     ///
     /// * [UpdateAlias]
+    ///
+    /// - Parameter DeleteAliasInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteAliasOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : This request can cause an inconsistent state for the resource.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure.
+    /// - `ResourceNotFoundException` : The request was denied due to an invalid resource error.
+    /// - `ServiceUnavailableException` : The service cannot complete the request.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The request was denied due to an invalid request error.
     public func deleteAlias(input: DeleteAliasInput) async throws -> DeleteAliasOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -207,6 +254,21 @@ extension PaymentCryptographyClient: PaymentCryptographyClientProtocol {
     /// * [StartKeyUsage]
     ///
     /// * [StopKeyUsage]
+    ///
+    /// - Parameter DeleteKeyInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteKeyOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : This request can cause an inconsistent state for the resource.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure.
+    /// - `ResourceNotFoundException` : The request was denied due to an invalid resource error.
+    /// - `ServiceUnavailableException` : The service cannot complete the request.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The request was denied due to an invalid request error.
     public func deleteKey(input: DeleteKeyInput) async throws -> DeleteKeyOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -248,6 +310,21 @@ extension PaymentCryptographyClient: PaymentCryptographyClientProtocol {
     /// * [GetParametersForExport]
     ///
     /// * [ImportKey]
+    ///
+    /// - Parameter ExportKeyInput : [no documentation found]
+    ///
+    /// - Returns: `ExportKeyOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : This request can cause an inconsistent state for the resource.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure.
+    /// - `ResourceNotFoundException` : The request was denied due to an invalid resource error.
+    /// - `ServiceUnavailableException` : The service cannot complete the request.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The request was denied due to an invalid request error.
     public func exportKey(input: ExportKeyInput) async throws -> ExportKeyOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -293,6 +370,20 @@ extension PaymentCryptographyClient: PaymentCryptographyClientProtocol {
     /// * [ListAliases]
     ///
     /// * [UpdateAlias]
+    ///
+    /// - Parameter GetAliasInput : [no documentation found]
+    ///
+    /// - Returns: `GetAliasOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure.
+    /// - `ResourceNotFoundException` : The request was denied due to an invalid resource error.
+    /// - `ServiceUnavailableException` : The service cannot complete the request.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The request was denied due to an invalid request error.
     public func getAlias(input: GetAliasInput) async throws -> GetAliasOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -336,6 +427,20 @@ extension PaymentCryptographyClient: PaymentCryptographyClientProtocol {
     /// * [DeleteKey]
     ///
     /// * [ListKeys]
+    ///
+    /// - Parameter GetKeyInput : [no documentation found]
+    ///
+    /// - Returns: `GetKeyOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure.
+    /// - `ResourceNotFoundException` : The request was denied due to an invalid resource error.
+    /// - `ServiceUnavailableException` : The service cannot complete the request.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The request was denied due to an invalid request error.
     public func getKey(input: GetKeyInput) async throws -> GetKeyOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -377,6 +482,22 @@ extension PaymentCryptographyClient: PaymentCryptographyClientProtocol {
     /// * [ExportKey]
     ///
     /// * [GetParametersForImport]
+    ///
+    /// - Parameter GetParametersForExportInput : [no documentation found]
+    ///
+    /// - Returns: `GetParametersForExportOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : This request can cause an inconsistent state for the resource.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure.
+    /// - `ResourceNotFoundException` : The request was denied due to an invalid resource error.
+    /// - `ServiceQuotaExceededException` : This request would cause a service quota to be exceeded.
+    /// - `ServiceUnavailableException` : The service cannot complete the request.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The request was denied due to an invalid request error.
     public func getParametersForExport(input: GetParametersForExportInput) async throws -> GetParametersForExportOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -418,6 +539,22 @@ extension PaymentCryptographyClient: PaymentCryptographyClientProtocol {
     /// * [GetParametersForExport]
     ///
     /// * [ImportKey]
+    ///
+    /// - Parameter GetParametersForImportInput : [no documentation found]
+    ///
+    /// - Returns: `GetParametersForImportOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : This request can cause an inconsistent state for the resource.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure.
+    /// - `ResourceNotFoundException` : The request was denied due to an invalid resource error.
+    /// - `ServiceQuotaExceededException` : This request would cause a service quota to be exceeded.
+    /// - `ServiceUnavailableException` : The service cannot complete the request.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The request was denied due to an invalid request error.
     public func getParametersForImport(input: GetParametersForImportInput) async throws -> GetParametersForImportOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -455,6 +592,20 @@ extension PaymentCryptographyClient: PaymentCryptographyClientProtocol {
     }
 
     /// Gets the public key certificate of the asymmetric key pair that exists within Amazon Web Services Payment Cryptography. Unlike the private key of an asymmetric key, which never leaves Amazon Web Services Payment Cryptography unencrypted, callers with GetPublicKeyCertificate permission can download the public key certificate of the asymmetric key. You can share the public key certificate to allow others to encrypt messages and verify signatures outside of Amazon Web Services Payment Cryptography Cross-account use: This operation can't be used across different Amazon Web Services accounts.
+    ///
+    /// - Parameter GetPublicKeyCertificateInput : [no documentation found]
+    ///
+    /// - Returns: `GetPublicKeyCertificateOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure.
+    /// - `ResourceNotFoundException` : The request was denied due to an invalid resource error.
+    /// - `ServiceUnavailableException` : The service cannot complete the request.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The request was denied due to an invalid request error.
     public func getPublicKeyCertificate(input: GetPublicKeyCertificateInput) async throws -> GetPublicKeyCertificateOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -538,6 +689,22 @@ extension PaymentCryptographyClient: PaymentCryptographyClientProtocol {
     /// * [ExportKey]
     ///
     /// * [GetParametersForImport]
+    ///
+    /// - Parameter ImportKeyInput : [no documentation found]
+    ///
+    /// - Returns: `ImportKeyOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : This request can cause an inconsistent state for the resource.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure.
+    /// - `ResourceNotFoundException` : The request was denied due to an invalid resource error.
+    /// - `ServiceQuotaExceededException` : This request would cause a service quota to be exceeded.
+    /// - `ServiceUnavailableException` : The service cannot complete the request.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The request was denied due to an invalid request error.
     public func importKey(input: ImportKeyInput) async throws -> ImportKeyOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -583,6 +750,20 @@ extension PaymentCryptographyClient: PaymentCryptographyClientProtocol {
     /// * [GetAlias]
     ///
     /// * [UpdateAlias]
+    ///
+    /// - Parameter ListAliasesInput : [no documentation found]
+    ///
+    /// - Returns: `ListAliasesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure.
+    /// - `ResourceNotFoundException` : The request was denied due to an invalid resource error.
+    /// - `ServiceUnavailableException` : The service cannot complete the request.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The request was denied due to an invalid request error.
     public func listAliases(input: ListAliasesInput) async throws -> ListAliasesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -626,6 +807,20 @@ extension PaymentCryptographyClient: PaymentCryptographyClientProtocol {
     /// * [DeleteKey]
     ///
     /// * [GetKey]
+    ///
+    /// - Parameter ListKeysInput : [no documentation found]
+    ///
+    /// - Returns: `ListKeysOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure.
+    /// - `ResourceNotFoundException` : The request was denied due to an invalid resource error.
+    /// - `ServiceUnavailableException` : The service cannot complete the request.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The request was denied due to an invalid request error.
     public func listKeys(input: ListKeysInput) async throws -> ListKeysOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -667,6 +862,20 @@ extension PaymentCryptographyClient: PaymentCryptographyClientProtocol {
     /// * [TagResource]
     ///
     /// * [UntagResource]
+    ///
+    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    ///
+    /// - Returns: `ListTagsForResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure.
+    /// - `ResourceNotFoundException` : The request was denied due to an invalid resource error.
+    /// - `ServiceUnavailableException` : The service cannot complete the request.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The request was denied due to an invalid request error.
     public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -710,6 +919,22 @@ extension PaymentCryptographyClient: PaymentCryptographyClientProtocol {
     /// * [StartKeyUsage]
     ///
     /// * [StopKeyUsage]
+    ///
+    /// - Parameter RestoreKeyInput : [no documentation found]
+    ///
+    /// - Returns: `RestoreKeyOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : This request can cause an inconsistent state for the resource.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure.
+    /// - `ResourceNotFoundException` : The request was denied due to an invalid resource error.
+    /// - `ServiceQuotaExceededException` : This request would cause a service quota to be exceeded.
+    /// - `ServiceUnavailableException` : The service cannot complete the request.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The request was denied due to an invalid request error.
     public func restoreKey(input: RestoreKeyInput) async throws -> RestoreKeyOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -749,6 +974,22 @@ extension PaymentCryptographyClient: PaymentCryptographyClientProtocol {
     /// Enables an Amazon Web Services Payment Cryptography key, which makes it active for cryptographic operations within Amazon Web Services Payment Cryptography Cross-account use: This operation can't be used across different Amazon Web Services accounts. Related operations:
     ///
     /// * [StopKeyUsage]
+    ///
+    /// - Parameter StartKeyUsageInput : [no documentation found]
+    ///
+    /// - Returns: `StartKeyUsageOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : This request can cause an inconsistent state for the resource.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure.
+    /// - `ResourceNotFoundException` : The request was denied due to an invalid resource error.
+    /// - `ServiceQuotaExceededException` : This request would cause a service quota to be exceeded.
+    /// - `ServiceUnavailableException` : The service cannot complete the request.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The request was denied due to an invalid request error.
     public func startKeyUsage(input: StartKeyUsageInput) async throws -> StartKeyUsageOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -790,6 +1031,22 @@ extension PaymentCryptographyClient: PaymentCryptographyClientProtocol {
     /// * [DeleteKey]
     ///
     /// * [StartKeyUsage]
+    ///
+    /// - Parameter StopKeyUsageInput : [no documentation found]
+    ///
+    /// - Returns: `StopKeyUsageOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : This request can cause an inconsistent state for the resource.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure.
+    /// - `ResourceNotFoundException` : The request was denied due to an invalid resource error.
+    /// - `ServiceQuotaExceededException` : This request would cause a service quota to be exceeded.
+    /// - `ServiceUnavailableException` : The service cannot complete the request.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The request was denied due to an invalid request error.
     public func stopKeyUsage(input: StopKeyUsageInput) async throws -> StopKeyUsageOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -831,6 +1088,22 @@ extension PaymentCryptographyClient: PaymentCryptographyClientProtocol {
     /// * [ListTagsForResource]
     ///
     /// * [UntagResource]
+    ///
+    /// - Parameter TagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `TagResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : This request can cause an inconsistent state for the resource.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure.
+    /// - `ResourceNotFoundException` : The request was denied due to an invalid resource error.
+    /// - `ServiceQuotaExceededException` : This request would cause a service quota to be exceeded.
+    /// - `ServiceUnavailableException` : The service cannot complete the request.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The request was denied due to an invalid request error.
     public func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -872,6 +1145,21 @@ extension PaymentCryptographyClient: PaymentCryptographyClientProtocol {
     /// * [ListTagsForResource]
     ///
     /// * [TagResource]
+    ///
+    /// - Parameter UntagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `UntagResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : This request can cause an inconsistent state for the resource.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure.
+    /// - `ResourceNotFoundException` : The request was denied due to an invalid resource error.
+    /// - `ServiceUnavailableException` : The service cannot complete the request.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The request was denied due to an invalid request error.
     public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -917,6 +1205,21 @@ extension PaymentCryptographyClient: PaymentCryptographyClientProtocol {
     /// * [GetAlias]
     ///
     /// * [ListAliases]
+    ///
+    /// - Parameter UpdateAliasInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateAliasOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : This request can cause an inconsistent state for the resource.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure.
+    /// - `ResourceNotFoundException` : The request was denied due to an invalid resource error.
+    /// - `ServiceUnavailableException` : The service cannot complete the request.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The request was denied due to an invalid request error.
     public func updateAlias(input: UpdateAliasInput) async throws -> UpdateAliasOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()

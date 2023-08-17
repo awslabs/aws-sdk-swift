@@ -673,7 +673,7 @@ extension IVSRealTimeClientTypes.Event: Swift.Codable {
 extension IVSRealTimeClientTypes {
     /// An occurrence during a stage session.
     public struct Event: Swift.Equatable {
-        /// If the event is an error event, the error code is provided to give insight into the specific error that occurred. If the event is not an error event, this field is null. INSUFFICIENT_CAPABILITIES indicates that the participant tried to take an action that the participant’s token is not allowed to do. For more information about participant capabilities, see the capabilities field in [CreateParticipantToken].
+        /// If the event is an error event, the error code is provided to give insight into the specific error that occurred. If the event is not an error event, this field is null. INSUFFICIENT_CAPABILITIES indicates that the participant tried to take an action that the participant’s token is not allowed to do. For more information about participant capabilities, see the capabilities field in [CreateParticipantToken]. QUOTA_EXCEEDED indicates that the number of participants who want to publish/subscribe to a stage exceeds the quota; for more information, see [Service Quotas](https://docs.aws.amazon.com/ivs/latest/RealTimeUserGuide/service-quotas.html). PUBLISHER_NOT_FOUND indicates that the participant tried to subscribe to a publisher that doesn’t exist.
         public var errorCode: IVSRealTimeClientTypes.EventErrorCode?
         /// ISO 8601 timestamp (returned as a string) for when the event occurred.
         public var eventTime: ClientRuntime.Date?
@@ -705,11 +705,15 @@ extension IVSRealTimeClientTypes {
 extension IVSRealTimeClientTypes {
     public enum EventErrorCode: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case insufficientCapabilities
+        case publisherNotFound
+        case quotaExceeded
         case sdkUnknown(Swift.String)
 
         public static var allCases: [EventErrorCode] {
             return [
                 .insufficientCapabilities,
+                .publisherNotFound,
+                .quotaExceeded,
                 .sdkUnknown("")
             ]
         }
@@ -720,6 +724,8 @@ extension IVSRealTimeClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .insufficientCapabilities: return "INSUFFICIENT_CAPABILITIES"
+            case .publisherNotFound: return "PUBLISHER_NOT_FOUND"
+            case .quotaExceeded: return "QUOTA_EXCEEDED"
             case let .sdkUnknown(s): return s
             }
         }

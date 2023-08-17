@@ -225,7 +225,7 @@ extension SQSClientTypes.BatchResultErrorEntry: Swift.Codable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
         id = idDecoded
-        let senderFaultDecoded = try containerValues.decode(Swift.Bool.self, forKey: .senderFault)
+        let senderFaultDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .senderFault) ?? false
         senderFault = senderFaultDecoded
         let codeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .code)
         code = codeDecoded
@@ -358,7 +358,7 @@ extension CancelMessageMoveTaskOutputResponseBody: Swift.Decodable {
     public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("CancelMessageMoveTaskResult"))
-        let approximateNumberOfMessagesMovedDecoded = try containerValues.decode(Swift.Int.self, forKey: .approximateNumberOfMessagesMoved)
+        let approximateNumberOfMessagesMovedDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .approximateNumberOfMessagesMoved) ?? 0
         approximateNumberOfMessagesMoved = approximateNumberOfMessagesMovedDecoded
     }
 }
@@ -572,7 +572,7 @@ extension SQSClientTypes.ChangeMessageVisibilityBatchRequestEntry: Swift.Codable
         id = idDecoded
         let receiptHandleDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .receiptHandle)
         receiptHandle = receiptHandleDecoded
-        let visibilityTimeoutDecoded = try containerValues.decode(Swift.Int.self, forKey: .visibilityTimeout)
+        let visibilityTimeoutDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .visibilityTimeout) ?? 0
         visibilityTimeout = visibilityTimeoutDecoded
     }
 }
@@ -704,7 +704,7 @@ extension ChangeMessageVisibilityInputBody: Swift.Decodable {
         queueUrl = queueUrlDecoded
         let receiptHandleDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .receiptHandle)
         receiptHandle = receiptHandleDecoded
-        let visibilityTimeoutDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .visibilityTimeout)
+        let visibilityTimeoutDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .visibilityTimeout) ?? 0
         visibilityTimeout = visibilityTimeoutDecoded
     }
 }
@@ -2089,7 +2089,7 @@ extension ListMessageMoveTasksInputBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let sourceArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sourceArn)
         sourceArn = sourceArnDecoded
-        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults) ?? 0
         maxResults = maxResultsDecoded
     }
 }
@@ -2216,15 +2216,15 @@ extension SQSClientTypes.ListMessageMoveTasksResultEntry: Swift.Codable {
         sourceArn = sourceArnDecoded
         let destinationArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .destinationArn)
         destinationArn = destinationArnDecoded
-        let maxNumberOfMessagesPerSecondDecoded = try containerValues.decode(Swift.Int.self, forKey: .maxNumberOfMessagesPerSecond)
+        let maxNumberOfMessagesPerSecondDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxNumberOfMessagesPerSecond) ?? 0
         maxNumberOfMessagesPerSecond = maxNumberOfMessagesPerSecondDecoded
-        let approximateNumberOfMessagesMovedDecoded = try containerValues.decode(Swift.Int.self, forKey: .approximateNumberOfMessagesMoved)
+        let approximateNumberOfMessagesMovedDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .approximateNumberOfMessagesMoved) ?? 0
         approximateNumberOfMessagesMoved = approximateNumberOfMessagesMovedDecoded
-        let approximateNumberOfMessagesToMoveDecoded = try containerValues.decode(Swift.Int.self, forKey: .approximateNumberOfMessagesToMove)
+        let approximateNumberOfMessagesToMoveDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .approximateNumberOfMessagesToMove) ?? 0
         approximateNumberOfMessagesToMove = approximateNumberOfMessagesToMoveDecoded
         let failureReasonDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .failureReason)
         failureReason = failureReasonDecoded
-        let startedTimestampDecoded = try containerValues.decode(Swift.Int.self, forKey: .startedTimestamp)
+        let startedTimestampDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .startedTimestamp) ?? 0
         startedTimestamp = startedTimestampDecoded
     }
 }
@@ -3565,11 +3565,11 @@ extension ReceiveMessageInputBody: Swift.Decodable {
         } else {
             messageAttributeNames = nil
         }
-        let maxNumberOfMessagesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxNumberOfMessages)
+        let maxNumberOfMessagesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxNumberOfMessages) ?? 0
         maxNumberOfMessages = maxNumberOfMessagesDecoded
-        let visibilityTimeoutDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .visibilityTimeout)
+        let visibilityTimeoutDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .visibilityTimeout) ?? 0
         visibilityTimeout = visibilityTimeoutDecoded
-        let waitTimeSecondsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .waitTimeSeconds)
+        let waitTimeSecondsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .waitTimeSeconds) ?? 0
         waitTimeSeconds = waitTimeSecondsDecoded
         let receiveRequestAttemptIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .receiveRequestAttemptId)
         receiveRequestAttemptId = receiveRequestAttemptIdDecoded
@@ -3990,7 +3990,7 @@ extension SQSClientTypes.SendMessageBatchRequestEntry: Swift.Codable {
         id = idDecoded
         let messageBodyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .messageBody)
         messageBody = messageBodyDecoded
-        let delaySecondsDecoded = try containerValues.decode(Swift.Int.self, forKey: .delaySeconds)
+        let delaySecondsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .delaySeconds) ?? 0
         delaySeconds = delaySecondsDecoded
         if containerValues.contains(.messageAttributes) {
             struct KeyVal0{struct Name{}; struct Value{}}
@@ -4350,7 +4350,7 @@ extension SendMessageInputBody: Swift.Decodable {
         queueUrl = queueUrlDecoded
         let messageBodyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .messageBody)
         messageBody = messageBodyDecoded
-        let delaySecondsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .delaySeconds)
+        let delaySecondsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .delaySeconds) ?? 0
         delaySeconds = delaySecondsDecoded
         if containerValues.contains(.messageAttributes) {
             struct KeyVal0{struct Name{}; struct Value{}}
@@ -4752,7 +4752,7 @@ extension StartMessageMoveTaskInputBody: Swift.Decodable {
         sourceArn = sourceArnDecoded
         let destinationArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .destinationArn)
         destinationArn = destinationArnDecoded
-        let maxNumberOfMessagesPerSecondDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxNumberOfMessagesPerSecond)
+        let maxNumberOfMessagesPerSecondDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxNumberOfMessagesPerSecond) ?? 0
         maxNumberOfMessagesPerSecond = maxNumberOfMessagesPerSecondDecoded
     }
 }

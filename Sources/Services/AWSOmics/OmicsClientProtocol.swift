@@ -5,148 +5,1369 @@ import ClientRuntime
 /// This is the AWS HealthOmics API Reference. For an introduction to the service, see [What is AWS HealthOmics?](https://docs.aws.amazon.com/omics/latest/dev/) in the AWS HealthOmics User Guide.
 public protocol OmicsClientProtocol {
     /// Stops a multipart upload.
+    ///
+    /// - Parameter AbortMultipartReadSetUploadInput : [no documentation found]
+    ///
+    /// - Returns: `AbortMultipartReadSetUploadOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred. Try the request again.
+    /// - `NotSupportedOperationException` : The operation is not supported by Amazon Omics, or the API does not exist.
+    /// - `RequestTimeoutException` : The request timed out.
+    /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
+    /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func abortMultipartReadSetUpload(input: AbortMultipartReadSetUploadInput) async throws -> AbortMultipartReadSetUploadOutputResponse
+    /// Accepts a share for an analytics store.
+    ///
+    /// - Parameter AcceptShareInput : [no documentation found]
+    ///
+    /// - Returns: `AcceptShareOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : The request cannot be applied to the target resource in its current state.
+    /// - `InternalServerException` : An unexpected error occurred. Try the request again.
+    /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
+    /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
+    func acceptShare(input: AcceptShareInput) async throws -> AcceptShareOutputResponse
     /// Deletes one or more read sets.
+    ///
+    /// - Parameter BatchDeleteReadSetInput : [no documentation found]
+    ///
+    /// - Returns: `BatchDeleteReadSetOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred. Try the request again.
+    /// - `RequestTimeoutException` : The request timed out.
+    /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func batchDeleteReadSet(input: BatchDeleteReadSetInput) async throws -> BatchDeleteReadSetOutputResponse
     /// Cancels an annotation import job.
+    ///
+    /// - Parameter CancelAnnotationImportJobInput : [no documentation found]
+    ///
+    /// - Returns: `CancelAnnotationImportJobOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred. Try the request again.
+    /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func cancelAnnotationImportJob(input: CancelAnnotationImportJobInput) async throws -> CancelAnnotationImportJobOutputResponse
     /// Cancels a run.
+    ///
+    /// - Parameter CancelRunInput : [no documentation found]
+    ///
+    /// - Returns: `CancelRunOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : The request cannot be applied to the target resource in its current state.
+    /// - `InternalServerException` : An unexpected error occurred. Try the request again.
+    /// - `RequestTimeoutException` : The request timed out.
+    /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
+    /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func cancelRun(input: CancelRunInput) async throws -> CancelRunOutputResponse
     /// Cancels a variant import job.
+    ///
+    /// - Parameter CancelVariantImportJobInput : [no documentation found]
+    ///
+    /// - Returns: `CancelVariantImportJobOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred. Try the request again.
+    /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func cancelVariantImportJob(input: CancelVariantImportJobInput) async throws -> CancelVariantImportJobOutputResponse
     /// Concludes a multipart upload once you have uploaded all the components.
+    ///
+    /// - Parameter CompleteMultipartReadSetUploadInput : [no documentation found]
+    ///
+    /// - Returns: `CompleteMultipartReadSetUploadOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred. Try the request again.
+    /// - `NotSupportedOperationException` : The operation is not supported by Amazon Omics, or the API does not exist.
+    /// - `RequestTimeoutException` : The request timed out.
+    /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
+    /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func completeMultipartReadSetUpload(input: CompleteMultipartReadSetUploadInput) async throws -> CompleteMultipartReadSetUploadOutputResponse
     /// Creates an annotation store.
+    ///
+    /// - Parameter CreateAnnotationStoreInput : [no documentation found]
+    ///
+    /// - Returns: `CreateAnnotationStoreOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : The request cannot be applied to the target resource in its current state.
+    /// - `InternalServerException` : An unexpected error occurred. Try the request again.
+    /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
+    /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func createAnnotationStore(input: CreateAnnotationStoreInput) async throws -> CreateAnnotationStoreOutputResponse
+    /// Creates a new version of an annotation store.
+    ///
+    /// - Parameter CreateAnnotationStoreVersionInput : [no documentation found]
+    ///
+    /// - Returns: `CreateAnnotationStoreVersionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : The request cannot be applied to the target resource in its current state.
+    /// - `InternalServerException` : An unexpected error occurred. Try the request again.
+    /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
+    /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
+    func createAnnotationStoreVersion(input: CreateAnnotationStoreVersionInput) async throws -> CreateAnnotationStoreVersionOutputResponse
     /// Begins a multipart read set upload.
+    ///
+    /// - Parameter CreateMultipartReadSetUploadInput : [no documentation found]
+    ///
+    /// - Returns: `CreateMultipartReadSetUploadOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred. Try the request again.
+    /// - `NotSupportedOperationException` : The operation is not supported by Amazon Omics, or the API does not exist.
+    /// - `RequestTimeoutException` : The request timed out.
+    /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
+    /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func createMultipartReadSetUpload(input: CreateMultipartReadSetUploadInput) async throws -> CreateMultipartReadSetUploadOutputResponse
     /// Creates a reference store.
+    ///
+    /// - Parameter CreateReferenceStoreInput : [no documentation found]
+    ///
+    /// - Returns: `CreateReferenceStoreOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred. Try the request again.
+    /// - `RequestTimeoutException` : The request timed out.
+    /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func createReferenceStore(input: CreateReferenceStoreInput) async throws -> CreateReferenceStoreOutputResponse
     /// Creates a run group.
+    ///
+    /// - Parameter CreateRunGroupInput : [no documentation found]
+    ///
+    /// - Returns: `CreateRunGroupOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : The request cannot be applied to the target resource in its current state.
+    /// - `InternalServerException` : An unexpected error occurred. Try the request again.
+    /// - `RequestTimeoutException` : The request timed out.
+    /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
+    /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func createRunGroup(input: CreateRunGroupInput) async throws -> CreateRunGroupOutputResponse
     /// Creates a sequence store.
+    ///
+    /// - Parameter CreateSequenceStoreInput : [no documentation found]
+    ///
+    /// - Returns: `CreateSequenceStoreOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred. Try the request again.
+    /// - `RequestTimeoutException` : The request timed out.
+    /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func createSequenceStore(input: CreateSequenceStoreInput) async throws -> CreateSequenceStoreOutputResponse
+    /// Creates a share offer that can be accepted outside the account by a subscriber. The share is created by the owner and accepted by the principal subscriber.
+    ///
+    /// - Parameter CreateShareInput : [no documentation found]
+    ///
+    /// - Returns: `CreateShareOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : The request cannot be applied to the target resource in its current state.
+    /// - `InternalServerException` : An unexpected error occurred. Try the request again.
+    /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
+    /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
+    func createShare(input: CreateShareInput) async throws -> CreateShareOutputResponse
     /// Creates a variant store.
+    ///
+    /// - Parameter CreateVariantStoreInput : [no documentation found]
+    ///
+    /// - Returns: `CreateVariantStoreOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : The request cannot be applied to the target resource in its current state.
+    /// - `InternalServerException` : An unexpected error occurred. Try the request again.
+    /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
+    /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func createVariantStore(input: CreateVariantStoreInput) async throws -> CreateVariantStoreOutputResponse
     /// Creates a workflow.
+    ///
+    /// - Parameter CreateWorkflowInput : [no documentation found]
+    ///
+    /// - Returns: `CreateWorkflowOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : The request cannot be applied to the target resource in its current state.
+    /// - `InternalServerException` : An unexpected error occurred. Try the request again.
+    /// - `RequestTimeoutException` : The request timed out.
+    /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
+    /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func createWorkflow(input: CreateWorkflowInput) async throws -> CreateWorkflowOutputResponse
     /// Deletes an annotation store.
+    ///
+    /// - Parameter DeleteAnnotationStoreInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteAnnotationStoreOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : The request cannot be applied to the target resource in its current state.
+    /// - `InternalServerException` : An unexpected error occurred. Try the request again.
+    /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func deleteAnnotationStore(input: DeleteAnnotationStoreInput) async throws -> DeleteAnnotationStoreOutputResponse
+    /// Deletes one or multiple versions of an annotation store.
+    ///
+    /// - Parameter DeleteAnnotationStoreVersionsInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteAnnotationStoreVersionsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : The request cannot be applied to the target resource in its current state.
+    /// - `InternalServerException` : An unexpected error occurred. Try the request again.
+    /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
+    func deleteAnnotationStoreVersions(input: DeleteAnnotationStoreVersionsInput) async throws -> DeleteAnnotationStoreVersionsOutputResponse
     /// Deletes a genome reference.
+    ///
+    /// - Parameter DeleteReferenceInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteReferenceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : The request cannot be applied to the target resource in its current state.
+    /// - `InternalServerException` : An unexpected error occurred. Try the request again.
+    /// - `RequestTimeoutException` : The request timed out.
+    /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func deleteReference(input: DeleteReferenceInput) async throws -> DeleteReferenceOutputResponse
     /// Deletes a genome reference store.
+    ///
+    /// - Parameter DeleteReferenceStoreInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteReferenceStoreOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : The request cannot be applied to the target resource in its current state.
+    /// - `InternalServerException` : An unexpected error occurred. Try the request again.
+    /// - `RequestTimeoutException` : The request timed out.
+    /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func deleteReferenceStore(input: DeleteReferenceStoreInput) async throws -> DeleteReferenceStoreOutputResponse
     /// Deletes a workflow run.
+    ///
+    /// - Parameter DeleteRunInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteRunOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : The request cannot be applied to the target resource in its current state.
+    /// - `InternalServerException` : An unexpected error occurred. Try the request again.
+    /// - `RequestTimeoutException` : The request timed out.
+    /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
+    /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func deleteRun(input: DeleteRunInput) async throws -> DeleteRunOutputResponse
     /// Deletes a workflow run group.
+    ///
+    /// - Parameter DeleteRunGroupInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteRunGroupOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : The request cannot be applied to the target resource in its current state.
+    /// - `InternalServerException` : An unexpected error occurred. Try the request again.
+    /// - `RequestTimeoutException` : The request timed out.
+    /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
+    /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func deleteRunGroup(input: DeleteRunGroupInput) async throws -> DeleteRunGroupOutputResponse
     /// Deletes a sequence store.
+    ///
+    /// - Parameter DeleteSequenceStoreInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteSequenceStoreOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : The request cannot be applied to the target resource in its current state.
+    /// - `InternalServerException` : An unexpected error occurred. Try the request again.
+    /// - `RequestTimeoutException` : The request timed out.
+    /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func deleteSequenceStore(input: DeleteSequenceStoreInput) async throws -> DeleteSequenceStoreOutputResponse
+    /// Deletes a share of an analytics store.
+    ///
+    /// - Parameter DeleteShareInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteShareOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : The request cannot be applied to the target resource in its current state.
+    /// - `InternalServerException` : An unexpected error occurred. Try the request again.
+    /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
+    /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
+    func deleteShare(input: DeleteShareInput) async throws -> DeleteShareOutputResponse
     /// Deletes a variant store.
+    ///
+    /// - Parameter DeleteVariantStoreInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteVariantStoreOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : The request cannot be applied to the target resource in its current state.
+    /// - `InternalServerException` : An unexpected error occurred. Try the request again.
+    /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func deleteVariantStore(input: DeleteVariantStoreInput) async throws -> DeleteVariantStoreOutputResponse
     /// Deletes a workflow.
+    ///
+    /// - Parameter DeleteWorkflowInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteWorkflowOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : The request cannot be applied to the target resource in its current state.
+    /// - `InternalServerException` : An unexpected error occurred. Try the request again.
+    /// - `RequestTimeoutException` : The request timed out.
+    /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
+    /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func deleteWorkflow(input: DeleteWorkflowInput) async throws -> DeleteWorkflowOutputResponse
     /// Gets information about an annotation import job.
+    ///
+    /// - Parameter GetAnnotationImportJobInput : [no documentation found]
+    ///
+    /// - Returns: `GetAnnotationImportJobOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred. Try the request again.
+    /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func getAnnotationImportJob(input: GetAnnotationImportJobInput) async throws -> GetAnnotationImportJobOutputResponse
     /// Gets information about an annotation store.
+    ///
+    /// - Parameter GetAnnotationStoreInput : [no documentation found]
+    ///
+    /// - Returns: `GetAnnotationStoreOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred. Try the request again.
+    /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func getAnnotationStore(input: GetAnnotationStoreInput) async throws -> GetAnnotationStoreOutputResponse
+    /// Retrieves the metadata for an annotation store version.
+    ///
+    /// - Parameter GetAnnotationStoreVersionInput : [no documentation found]
+    ///
+    /// - Returns: `GetAnnotationStoreVersionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred. Try the request again.
+    /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
+    func getAnnotationStoreVersion(input: GetAnnotationStoreVersionInput) async throws -> GetAnnotationStoreVersionOutputResponse
     /// Gets a file from a read set.
+    ///
+    /// - Parameter GetReadSetInput : [no documentation found]
+    ///
+    /// - Returns: `GetReadSetOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : The request cannot be applied to the target resource in its current state.
+    /// - `InternalServerException` : An unexpected error occurred. Try the request again.
+    /// - `RangeNotSatisfiableException` : The ranges specified in the request are not valid.
+    /// - `RequestTimeoutException` : The request timed out.
+    /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func getReadSet(input: GetReadSetInput) async throws -> GetReadSetOutputResponse
     /// Gets information about a read set activation job.
+    ///
+    /// - Parameter GetReadSetActivationJobInput : [no documentation found]
+    ///
+    /// - Returns: `GetReadSetActivationJobOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred. Try the request again.
+    /// - `RequestTimeoutException` : The request timed out.
+    /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func getReadSetActivationJob(input: GetReadSetActivationJobInput) async throws -> GetReadSetActivationJobOutputResponse
     /// Gets information about a read set export job.
+    ///
+    /// - Parameter GetReadSetExportJobInput : [no documentation found]
+    ///
+    /// - Returns: `GetReadSetExportJobOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred. Try the request again.
+    /// - `RequestTimeoutException` : The request timed out.
+    /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func getReadSetExportJob(input: GetReadSetExportJobInput) async throws -> GetReadSetExportJobOutputResponse
     /// Gets information about a read set import job.
+    ///
+    /// - Parameter GetReadSetImportJobInput : [no documentation found]
+    ///
+    /// - Returns: `GetReadSetImportJobOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred. Try the request again.
+    /// - `RequestTimeoutException` : The request timed out.
+    /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func getReadSetImportJob(input: GetReadSetImportJobInput) async throws -> GetReadSetImportJobOutputResponse
     /// Gets details about a read set.
+    ///
+    /// - Parameter GetReadSetMetadataInput : [no documentation found]
+    ///
+    /// - Returns: `GetReadSetMetadataOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred. Try the request again.
+    /// - `RequestTimeoutException` : The request timed out.
+    /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func getReadSetMetadata(input: GetReadSetMetadataInput) async throws -> GetReadSetMetadataOutputResponse
     /// Gets a reference file.
+    ///
+    /// - Parameter GetReferenceInput : [no documentation found]
+    ///
+    /// - Returns: `GetReferenceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred. Try the request again.
+    /// - `RangeNotSatisfiableException` : The ranges specified in the request are not valid.
+    /// - `RequestTimeoutException` : The request timed out.
+    /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func getReference(input: GetReferenceInput) async throws -> GetReferenceOutputResponse
     /// Gets information about a reference import job.
+    ///
+    /// - Parameter GetReferenceImportJobInput : [no documentation found]
+    ///
+    /// - Returns: `GetReferenceImportJobOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred. Try the request again.
+    /// - `RequestTimeoutException` : The request timed out.
+    /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func getReferenceImportJob(input: GetReferenceImportJobInput) async throws -> GetReferenceImportJobOutputResponse
     /// Gets information about a genome reference's metadata.
+    ///
+    /// - Parameter GetReferenceMetadataInput : [no documentation found]
+    ///
+    /// - Returns: `GetReferenceMetadataOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred. Try the request again.
+    /// - `RequestTimeoutException` : The request timed out.
+    /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func getReferenceMetadata(input: GetReferenceMetadataInput) async throws -> GetReferenceMetadataOutputResponse
     /// Gets information about a reference store.
+    ///
+    /// - Parameter GetReferenceStoreInput : [no documentation found]
+    ///
+    /// - Returns: `GetReferenceStoreOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred. Try the request again.
+    /// - `RequestTimeoutException` : The request timed out.
+    /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func getReferenceStore(input: GetReferenceStoreInput) async throws -> GetReferenceStoreOutputResponse
     /// Gets information about a workflow run.
+    ///
+    /// - Parameter GetRunInput : [no documentation found]
+    ///
+    /// - Returns: `GetRunOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : The request cannot be applied to the target resource in its current state.
+    /// - `InternalServerException` : An unexpected error occurred. Try the request again.
+    /// - `RequestTimeoutException` : The request timed out.
+    /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
+    /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func getRun(input: GetRunInput) async throws -> GetRunOutputResponse
     /// Gets information about a workflow run group.
+    ///
+    /// - Parameter GetRunGroupInput : [no documentation found]
+    ///
+    /// - Returns: `GetRunGroupOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : The request cannot be applied to the target resource in its current state.
+    /// - `InternalServerException` : An unexpected error occurred. Try the request again.
+    /// - `RequestTimeoutException` : The request timed out.
+    /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
+    /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func getRunGroup(input: GetRunGroupInput) async throws -> GetRunGroupOutputResponse
     /// Gets information about a workflow run task.
+    ///
+    /// - Parameter GetRunTaskInput : [no documentation found]
+    ///
+    /// - Returns: `GetRunTaskOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : The request cannot be applied to the target resource in its current state.
+    /// - `InternalServerException` : An unexpected error occurred. Try the request again.
+    /// - `RequestTimeoutException` : The request timed out.
+    /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
+    /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func getRunTask(input: GetRunTaskInput) async throws -> GetRunTaskOutputResponse
     /// Gets information about a sequence store.
+    ///
+    /// - Parameter GetSequenceStoreInput : [no documentation found]
+    ///
+    /// - Returns: `GetSequenceStoreOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred. Try the request again.
+    /// - `RequestTimeoutException` : The request timed out.
+    /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func getSequenceStore(input: GetSequenceStoreInput) async throws -> GetSequenceStoreOutputResponse
+    /// Retrieves the metadata for a share.
+    ///
+    /// - Parameter GetShareInput : [no documentation found]
+    ///
+    /// - Returns: `GetShareOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : The request cannot be applied to the target resource in its current state.
+    /// - `InternalServerException` : An unexpected error occurred. Try the request again.
+    /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
+    /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
+    func getShare(input: GetShareInput) async throws -> GetShareOutputResponse
     /// Gets information about a variant import job.
+    ///
+    /// - Parameter GetVariantImportJobInput : [no documentation found]
+    ///
+    /// - Returns: `GetVariantImportJobOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred. Try the request again.
+    /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func getVariantImportJob(input: GetVariantImportJobInput) async throws -> GetVariantImportJobOutputResponse
     /// Gets information about a variant store.
+    ///
+    /// - Parameter GetVariantStoreInput : [no documentation found]
+    ///
+    /// - Returns: `GetVariantStoreOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred. Try the request again.
+    /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func getVariantStore(input: GetVariantStoreInput) async throws -> GetVariantStoreOutputResponse
     /// Gets information about a workflow.
+    ///
+    /// - Parameter GetWorkflowInput : [no documentation found]
+    ///
+    /// - Returns: `GetWorkflowOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : The request cannot be applied to the target resource in its current state.
+    /// - `InternalServerException` : An unexpected error occurred. Try the request again.
+    /// - `RequestTimeoutException` : The request timed out.
+    /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
+    /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func getWorkflow(input: GetWorkflowInput) async throws -> GetWorkflowOutputResponse
     /// Retrieves a list of annotation import jobs.
+    ///
+    /// - Parameter ListAnnotationImportJobsInput : [no documentation found]
+    ///
+    /// - Returns: `ListAnnotationImportJobsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred. Try the request again.
+    /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func listAnnotationImportJobs(input: ListAnnotationImportJobsInput) async throws -> ListAnnotationImportJobsOutputResponse
     /// Retrieves a list of annotation stores.
+    ///
+    /// - Parameter ListAnnotationStoresInput : [no documentation found]
+    ///
+    /// - Returns: `ListAnnotationStoresOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred. Try the request again.
+    /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func listAnnotationStores(input: ListAnnotationStoresInput) async throws -> ListAnnotationStoresOutputResponse
+    /// Lists the versions of an annotation store.
+    ///
+    /// - Parameter ListAnnotationStoreVersionsInput : [no documentation found]
+    ///
+    /// - Returns: `ListAnnotationStoreVersionsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred. Try the request again.
+    /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
+    func listAnnotationStoreVersions(input: ListAnnotationStoreVersionsInput) async throws -> ListAnnotationStoreVersionsOutputResponse
     /// Lists all multipart read set uploads and their statuses.
+    ///
+    /// - Parameter ListMultipartReadSetUploadsInput : [no documentation found]
+    ///
+    /// - Returns: `ListMultipartReadSetUploadsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred. Try the request again.
+    /// - `NotSupportedOperationException` : The operation is not supported by Amazon Omics, or the API does not exist.
+    /// - `RequestTimeoutException` : The request timed out.
+    /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
+    /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func listMultipartReadSetUploads(input: ListMultipartReadSetUploadsInput) async throws -> ListMultipartReadSetUploadsOutputResponse
     /// Retrieves a list of read set activation jobs.
+    ///
+    /// - Parameter ListReadSetActivationJobsInput : [no documentation found]
+    ///
+    /// - Returns: `ListReadSetActivationJobsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred. Try the request again.
+    /// - `RequestTimeoutException` : The request timed out.
+    /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func listReadSetActivationJobs(input: ListReadSetActivationJobsInput) async throws -> ListReadSetActivationJobsOutputResponse
     /// Retrieves a list of read set export jobs.
+    ///
+    /// - Parameter ListReadSetExportJobsInput : [no documentation found]
+    ///
+    /// - Returns: `ListReadSetExportJobsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred. Try the request again.
+    /// - `RequestTimeoutException` : The request timed out.
+    /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func listReadSetExportJobs(input: ListReadSetExportJobsInput) async throws -> ListReadSetExportJobsOutputResponse
     /// Retrieves a list of read set import jobs.
+    ///
+    /// - Parameter ListReadSetImportJobsInput : [no documentation found]
+    ///
+    /// - Returns: `ListReadSetImportJobsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred. Try the request again.
+    /// - `RequestTimeoutException` : The request timed out.
+    /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func listReadSetImportJobs(input: ListReadSetImportJobsInput) async throws -> ListReadSetImportJobsOutputResponse
     /// Retrieves a list of read sets.
+    ///
+    /// - Parameter ListReadSetsInput : [no documentation found]
+    ///
+    /// - Returns: `ListReadSetsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred. Try the request again.
+    /// - `RequestTimeoutException` : The request timed out.
+    /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func listReadSets(input: ListReadSetsInput) async throws -> ListReadSetsOutputResponse
     /// This operation will list all parts in a requested multipart upload for a sequence store.
+    ///
+    /// - Parameter ListReadSetUploadPartsInput : [no documentation found]
+    ///
+    /// - Returns: `ListReadSetUploadPartsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred. Try the request again.
+    /// - `NotSupportedOperationException` : The operation is not supported by Amazon Omics, or the API does not exist.
+    /// - `RequestTimeoutException` : The request timed out.
+    /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
+    /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func listReadSetUploadParts(input: ListReadSetUploadPartsInput) async throws -> ListReadSetUploadPartsOutputResponse
     /// Retrieves a list of reference import jobs.
+    ///
+    /// - Parameter ListReferenceImportJobsInput : [no documentation found]
+    ///
+    /// - Returns: `ListReferenceImportJobsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred. Try the request again.
+    /// - `RequestTimeoutException` : The request timed out.
+    /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func listReferenceImportJobs(input: ListReferenceImportJobsInput) async throws -> ListReferenceImportJobsOutputResponse
     /// Retrieves a list of references.
+    ///
+    /// - Parameter ListReferencesInput : [no documentation found]
+    ///
+    /// - Returns: `ListReferencesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred. Try the request again.
+    /// - `RequestTimeoutException` : The request timed out.
+    /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func listReferences(input: ListReferencesInput) async throws -> ListReferencesOutputResponse
     /// Retrieves a list of reference stores.
+    ///
+    /// - Parameter ListReferenceStoresInput : [no documentation found]
+    ///
+    /// - Returns: `ListReferenceStoresOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred. Try the request again.
+    /// - `RequestTimeoutException` : The request timed out.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func listReferenceStores(input: ListReferenceStoresInput) async throws -> ListReferenceStoresOutputResponse
     /// Retrieves a list of run groups.
+    ///
+    /// - Parameter ListRunGroupsInput : [no documentation found]
+    ///
+    /// - Returns: `ListRunGroupsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : The request cannot be applied to the target resource in its current state.
+    /// - `InternalServerException` : An unexpected error occurred. Try the request again.
+    /// - `RequestTimeoutException` : The request timed out.
+    /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
+    /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func listRunGroups(input: ListRunGroupsInput) async throws -> ListRunGroupsOutputResponse
     /// Retrieves a list of runs.
+    ///
+    /// - Parameter ListRunsInput : [no documentation found]
+    ///
+    /// - Returns: `ListRunsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : The request cannot be applied to the target resource in its current state.
+    /// - `InternalServerException` : An unexpected error occurred. Try the request again.
+    /// - `RequestTimeoutException` : The request timed out.
+    /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
+    /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func listRuns(input: ListRunsInput) async throws -> ListRunsOutputResponse
     /// Retrieves a list of tasks for a run.
+    ///
+    /// - Parameter ListRunTasksInput : [no documentation found]
+    ///
+    /// - Returns: `ListRunTasksOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : The request cannot be applied to the target resource in its current state.
+    /// - `InternalServerException` : An unexpected error occurred. Try the request again.
+    /// - `RequestTimeoutException` : The request timed out.
+    /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
+    /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func listRunTasks(input: ListRunTasksInput) async throws -> ListRunTasksOutputResponse
     /// Retrieves a list of sequence stores.
+    ///
+    /// - Parameter ListSequenceStoresInput : [no documentation found]
+    ///
+    /// - Returns: `ListSequenceStoresOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred. Try the request again.
+    /// - `RequestTimeoutException` : The request timed out.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func listSequenceStores(input: ListSequenceStoresInput) async throws -> ListSequenceStoresOutputResponse
+    /// Lists all shares associated with an account.
+    ///
+    /// - Parameter ListSharesInput : [no documentation found]
+    ///
+    /// - Returns: `ListSharesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : The request cannot be applied to the target resource in its current state.
+    /// - `InternalServerException` : An unexpected error occurred. Try the request again.
+    /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
+    /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
+    func listShares(input: ListSharesInput) async throws -> ListSharesOutputResponse
     /// Retrieves a list of tags for a resource.
+    ///
+    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    ///
+    /// - Returns: `ListTagsForResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : The request cannot be applied to the target resource in its current state.
+    /// - `InternalServerException` : An unexpected error occurred. Try the request again.
+    /// - `RequestTimeoutException` : The request timed out.
+    /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
+    /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
     /// Retrieves a list of variant import jobs.
+    ///
+    /// - Parameter ListVariantImportJobsInput : [no documentation found]
+    ///
+    /// - Returns: `ListVariantImportJobsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred. Try the request again.
+    /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func listVariantImportJobs(input: ListVariantImportJobsInput) async throws -> ListVariantImportJobsOutputResponse
     /// Retrieves a list of variant stores.
+    ///
+    /// - Parameter ListVariantStoresInput : [no documentation found]
+    ///
+    /// - Returns: `ListVariantStoresOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred. Try the request again.
+    /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func listVariantStores(input: ListVariantStoresInput) async throws -> ListVariantStoresOutputResponse
     /// Retrieves a list of workflows.
+    ///
+    /// - Parameter ListWorkflowsInput : [no documentation found]
+    ///
+    /// - Returns: `ListWorkflowsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : The request cannot be applied to the target resource in its current state.
+    /// - `InternalServerException` : An unexpected error occurred. Try the request again.
+    /// - `RequestTimeoutException` : The request timed out.
+    /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
+    /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func listWorkflows(input: ListWorkflowsInput) async throws -> ListWorkflowsOutputResponse
     /// Starts an annotation import job.
+    ///
+    /// - Parameter StartAnnotationImportJobInput : [no documentation found]
+    ///
+    /// - Returns: `StartAnnotationImportJobOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred. Try the request again.
+    /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
+    /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func startAnnotationImportJob(input: StartAnnotationImportJobInput) async throws -> StartAnnotationImportJobOutputResponse
     /// Activates an archived read set. To reduce storage charges, Amazon Omics archives unused read sets after 30 days.
+    ///
+    /// - Parameter StartReadSetActivationJobInput : [no documentation found]
+    ///
+    /// - Returns: `StartReadSetActivationJobOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred. Try the request again.
+    /// - `RequestTimeoutException` : The request timed out.
+    /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
+    /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func startReadSetActivationJob(input: StartReadSetActivationJobInput) async throws -> StartReadSetActivationJobOutputResponse
     /// Exports a read set to Amazon S3.
+    ///
+    /// - Parameter StartReadSetExportJobInput : [no documentation found]
+    ///
+    /// - Returns: `StartReadSetExportJobOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred. Try the request again.
+    /// - `RequestTimeoutException` : The request timed out.
+    /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
+    /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func startReadSetExportJob(input: StartReadSetExportJobInput) async throws -> StartReadSetExportJobOutputResponse
     /// Starts a read set import job.
+    ///
+    /// - Parameter StartReadSetImportJobInput : [no documentation found]
+    ///
+    /// - Returns: `StartReadSetImportJobOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred. Try the request again.
+    /// - `RequestTimeoutException` : The request timed out.
+    /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
+    /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func startReadSetImportJob(input: StartReadSetImportJobInput) async throws -> StartReadSetImportJobOutputResponse
     /// Starts a reference import job.
+    ///
+    /// - Parameter StartReferenceImportJobInput : [no documentation found]
+    ///
+    /// - Returns: `StartReferenceImportJobOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred. Try the request again.
+    /// - `RequestTimeoutException` : The request timed out.
+    /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
+    /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func startReferenceImportJob(input: StartReferenceImportJobInput) async throws -> StartReferenceImportJobOutputResponse
     /// Starts a run.
+    ///
+    /// - Parameter StartRunInput : [no documentation found]
+    ///
+    /// - Returns: `StartRunOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : The request cannot be applied to the target resource in its current state.
+    /// - `InternalServerException` : An unexpected error occurred. Try the request again.
+    /// - `RequestTimeoutException` : The request timed out.
+    /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
+    /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func startRun(input: StartRunInput) async throws -> StartRunOutputResponse
     /// Starts a variant import job.
+    ///
+    /// - Parameter StartVariantImportJobInput : [no documentation found]
+    ///
+    /// - Returns: `StartVariantImportJobOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred. Try the request again.
+    /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
+    /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func startVariantImportJob(input: StartVariantImportJobInput) async throws -> StartVariantImportJobOutputResponse
     /// Tags a resource.
+    ///
+    /// - Parameter TagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `TagResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : The request cannot be applied to the target resource in its current state.
+    /// - `InternalServerException` : An unexpected error occurred. Try the request again.
+    /// - `RequestTimeoutException` : The request timed out.
+    /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
+    /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
     /// Removes tags from a resource.
+    ///
+    /// - Parameter UntagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `UntagResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : The request cannot be applied to the target resource in its current state.
+    /// - `InternalServerException` : An unexpected error occurred. Try the request again.
+    /// - `RequestTimeoutException` : The request timed out.
+    /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
+    /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
     /// Updates an annotation store.
+    ///
+    /// - Parameter UpdateAnnotationStoreInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateAnnotationStoreOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred. Try the request again.
+    /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func updateAnnotationStore(input: UpdateAnnotationStoreInput) async throws -> UpdateAnnotationStoreOutputResponse
+    /// Updates the description of an annotation store version.
+    ///
+    /// - Parameter UpdateAnnotationStoreVersionInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateAnnotationStoreVersionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred. Try the request again.
+    /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
+    func updateAnnotationStoreVersion(input: UpdateAnnotationStoreVersionInput) async throws -> UpdateAnnotationStoreVersionOutputResponse
     /// Updates a run group.
+    ///
+    /// - Parameter UpdateRunGroupInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateRunGroupOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : The request cannot be applied to the target resource in its current state.
+    /// - `InternalServerException` : An unexpected error occurred. Try the request again.
+    /// - `RequestTimeoutException` : The request timed out.
+    /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
+    /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func updateRunGroup(input: UpdateRunGroupInput) async throws -> UpdateRunGroupOutputResponse
     /// Updates a variant store.
+    ///
+    /// - Parameter UpdateVariantStoreInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateVariantStoreOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred. Try the request again.
+    /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func updateVariantStore(input: UpdateVariantStoreInput) async throws -> UpdateVariantStoreOutputResponse
     /// Updates a workflow.
+    ///
+    /// - Parameter UpdateWorkflowInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateWorkflowOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : The request cannot be applied to the target resource in its current state.
+    /// - `InternalServerException` : An unexpected error occurred. Try the request again.
+    /// - `RequestTimeoutException` : The request timed out.
+    /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
+    /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func updateWorkflow(input: UpdateWorkflowInput) async throws -> UpdateWorkflowOutputResponse
     /// This operation uploads a specific part of a read set. If you upload a new part using a previously used part number, the previously uploaded part will be overwritten.
+    ///
+    /// - Parameter UploadReadSetPartInput : [no documentation found]
+    ///
+    /// - Returns: `UploadReadSetPartOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred. Try the request again.
+    /// - `NotSupportedOperationException` : The operation is not supported by Amazon Omics, or the API does not exist.
+    /// - `RequestTimeoutException` : The request timed out.
+    /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
+    /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func uploadReadSetPart(input: UploadReadSetPartInput) async throws -> UploadReadSetPartOutputResponse
 }
 

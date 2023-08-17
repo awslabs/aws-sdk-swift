@@ -68,6 +68,18 @@ public struct BackupGatewayClientLogHandlerFactory: ClientRuntime.SDKLogHandlerF
 
 extension BackupGatewayClient: BackupGatewayClientProtocol {
     /// Associates a backup gateway with your server. After you complete the association process, you can back up and restore your VMs through the gateway.
+    ///
+    /// - Parameter AssociateGatewayToServerInput : [no documentation found]
+    ///
+    /// - Returns: `AssociateGatewayToServerOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The operation did not succeed because an internal error occurred. Try again later.
+    /// - `ThrottlingException` : TPS has been limited to protect against intentional or unintentional high request volumes.
+    /// - `ValidationException` : The operation did not succeed because a validation error occurred.
+    /// - `ConflictException` : The operation cannot proceed because it is not supported.
     public func associateGatewayToServer(input: AssociateGatewayToServerInput) async throws -> AssociateGatewayToServerOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -105,6 +117,17 @@ extension BackupGatewayClient: BackupGatewayClientProtocol {
     }
 
     /// Creates a backup gateway. After you create a gateway, you can associate it with a server using the AssociateGatewayToServer operation.
+    ///
+    /// - Parameter CreateGatewayInput : [no documentation found]
+    ///
+    /// - Returns: `CreateGatewayOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The operation did not succeed because an internal error occurred. Try again later.
+    /// - `ThrottlingException` : TPS has been limited to protect against intentional or unintentional high request volumes.
+    /// - `ValidationException` : The operation did not succeed because a validation error occurred.
     public func createGateway(input: CreateGatewayInput) async throws -> CreateGatewayOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -142,6 +165,18 @@ extension BackupGatewayClient: BackupGatewayClientProtocol {
     }
 
     /// Deletes a backup gateway.
+    ///
+    /// - Parameter DeleteGatewayInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteGatewayOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The operation did not succeed because an internal error occurred. Try again later.
+    /// - `ThrottlingException` : TPS has been limited to protect against intentional or unintentional high request volumes.
+    /// - `ValidationException` : The operation did not succeed because a validation error occurred.
+    /// - `ResourceNotFoundException` : A resource that is required for the action wasn't found.
     public func deleteGateway(input: DeleteGatewayInput) async throws -> DeleteGatewayOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -179,6 +214,20 @@ extension BackupGatewayClient: BackupGatewayClientProtocol {
     }
 
     /// Deletes a hypervisor.
+    ///
+    /// - Parameter DeleteHypervisorInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteHypervisorOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The operation did not succeed because an internal error occurred. Try again later.
+    /// - `ThrottlingException` : TPS has been limited to protect against intentional or unintentional high request volumes.
+    /// - `ValidationException` : The operation did not succeed because a validation error occurred.
+    /// - `AccessDeniedException` : The operation cannot proceed because you have insufficient permissions.
+    /// - `ConflictException` : The operation cannot proceed because it is not supported.
+    /// - `ResourceNotFoundException` : A resource that is required for the action wasn't found.
     public func deleteHypervisor(input: DeleteHypervisorInput) async throws -> DeleteHypervisorOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -216,6 +265,19 @@ extension BackupGatewayClient: BackupGatewayClientProtocol {
     }
 
     /// Disassociates a backup gateway from the specified server. After the disassociation process finishes, the gateway can no longer access the virtual machines on the server.
+    ///
+    /// - Parameter DisassociateGatewayFromServerInput : [no documentation found]
+    ///
+    /// - Returns: `DisassociateGatewayFromServerOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The operation did not succeed because an internal error occurred. Try again later.
+    /// - `ThrottlingException` : TPS has been limited to protect against intentional or unintentional high request volumes.
+    /// - `ValidationException` : The operation did not succeed because a validation error occurred.
+    /// - `ConflictException` : The operation cannot proceed because it is not supported.
+    /// - `ResourceNotFoundException` : A resource that is required for the action wasn't found.
     public func disassociateGatewayFromServer(input: DisassociateGatewayFromServerInput) async throws -> DisassociateGatewayFromServerOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -253,6 +315,18 @@ extension BackupGatewayClient: BackupGatewayClientProtocol {
     }
 
     /// Retrieves the bandwidth rate limit schedule for a specified gateway. By default, gateways do not have bandwidth rate limit schedules, which means no bandwidth rate limiting is in effect. Use this to get a gateway's bandwidth rate limit schedule.
+    ///
+    /// - Parameter GetBandwidthRateLimitScheduleInput : [no documentation found]
+    ///
+    /// - Returns: `GetBandwidthRateLimitScheduleOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The operation did not succeed because an internal error occurred. Try again later.
+    /// - `ThrottlingException` : TPS has been limited to protect against intentional or unintentional high request volumes.
+    /// - `ValidationException` : The operation did not succeed because a validation error occurred.
+    /// - `ResourceNotFoundException` : A resource that is required for the action wasn't found.
     public func getBandwidthRateLimitSchedule(input: GetBandwidthRateLimitScheduleInput) async throws -> GetBandwidthRateLimitScheduleOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -290,6 +364,18 @@ extension BackupGatewayClient: BackupGatewayClientProtocol {
     }
 
     /// By providing the ARN (Amazon Resource Name), this API returns the gateway.
+    ///
+    /// - Parameter GetGatewayInput : [no documentation found]
+    ///
+    /// - Returns: `GetGatewayOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The operation did not succeed because an internal error occurred. Try again later.
+    /// - `ThrottlingException` : TPS has been limited to protect against intentional or unintentional high request volumes.
+    /// - `ValidationException` : The operation did not succeed because a validation error occurred.
+    /// - `ResourceNotFoundException` : A resource that is required for the action wasn't found.
     public func getGateway(input: GetGatewayInput) async throws -> GetGatewayOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -327,6 +413,18 @@ extension BackupGatewayClient: BackupGatewayClientProtocol {
     }
 
     /// This action requests information about the specified hypervisor to which the gateway will connect. A hypervisor is hardware, software, or firmware that creates and manages virtual machines, and allocates resources to them.
+    ///
+    /// - Parameter GetHypervisorInput : [no documentation found]
+    ///
+    /// - Returns: `GetHypervisorOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The operation did not succeed because an internal error occurred. Try again later.
+    /// - `ThrottlingException` : TPS has been limited to protect against intentional or unintentional high request volumes.
+    /// - `ValidationException` : The operation did not succeed because a validation error occurred.
+    /// - `ResourceNotFoundException` : A resource that is required for the action wasn't found.
     public func getHypervisor(input: GetHypervisorInput) async throws -> GetHypervisorOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -364,6 +462,18 @@ extension BackupGatewayClient: BackupGatewayClientProtocol {
     }
 
     /// This action retrieves the property mappings for the specified hypervisor. A hypervisor property mapping displays the relationship of entity properties available from the on-premises hypervisor to the properties available in Amazon Web Services.
+    ///
+    /// - Parameter GetHypervisorPropertyMappingsInput : [no documentation found]
+    ///
+    /// - Returns: `GetHypervisorPropertyMappingsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The operation did not succeed because an internal error occurred. Try again later.
+    /// - `ThrottlingException` : TPS has been limited to protect against intentional or unintentional high request volumes.
+    /// - `ValidationException` : The operation did not succeed because a validation error occurred.
+    /// - `ResourceNotFoundException` : A resource that is required for the action wasn't found.
     public func getHypervisorPropertyMappings(input: GetHypervisorPropertyMappingsInput) async throws -> GetHypervisorPropertyMappingsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -401,6 +511,18 @@ extension BackupGatewayClient: BackupGatewayClientProtocol {
     }
 
     /// By providing the ARN (Amazon Resource Name), this API returns the virtual machine.
+    ///
+    /// - Parameter GetVirtualMachineInput : [no documentation found]
+    ///
+    /// - Returns: `GetVirtualMachineOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The operation did not succeed because an internal error occurred. Try again later.
+    /// - `ThrottlingException` : TPS has been limited to protect against intentional or unintentional high request volumes.
+    /// - `ValidationException` : The operation did not succeed because a validation error occurred.
+    /// - `ResourceNotFoundException` : A resource that is required for the action wasn't found.
     public func getVirtualMachine(input: GetVirtualMachineInput) async throws -> GetVirtualMachineOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -438,6 +560,19 @@ extension BackupGatewayClient: BackupGatewayClientProtocol {
     }
 
     /// Connect to a hypervisor by importing its configuration.
+    ///
+    /// - Parameter ImportHypervisorConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `ImportHypervisorConfigurationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The operation did not succeed because an internal error occurred. Try again later.
+    /// - `ThrottlingException` : TPS has been limited to protect against intentional or unintentional high request volumes.
+    /// - `ValidationException` : The operation did not succeed because a validation error occurred.
+    /// - `AccessDeniedException` : The operation cannot proceed because you have insufficient permissions.
+    /// - `ConflictException` : The operation cannot proceed because it is not supported.
     public func importHypervisorConfiguration(input: ImportHypervisorConfigurationInput) async throws -> ImportHypervisorConfigurationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -475,6 +610,17 @@ extension BackupGatewayClient: BackupGatewayClientProtocol {
     }
 
     /// Lists backup gateways owned by an Amazon Web Services account in an Amazon Web Services Region. The returned list is ordered by gateway Amazon Resource Name (ARN).
+    ///
+    /// - Parameter ListGatewaysInput : [no documentation found]
+    ///
+    /// - Returns: `ListGatewaysOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The operation did not succeed because an internal error occurred. Try again later.
+    /// - `ThrottlingException` : TPS has been limited to protect against intentional or unintentional high request volumes.
+    /// - `ValidationException` : The operation did not succeed because a validation error occurred.
     public func listGateways(input: ListGatewaysInput) async throws -> ListGatewaysOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -512,6 +658,17 @@ extension BackupGatewayClient: BackupGatewayClientProtocol {
     }
 
     /// Lists your hypervisors.
+    ///
+    /// - Parameter ListHypervisorsInput : [no documentation found]
+    ///
+    /// - Returns: `ListHypervisorsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The operation did not succeed because an internal error occurred. Try again later.
+    /// - `ThrottlingException` : TPS has been limited to protect against intentional or unintentional high request volumes.
+    /// - `ValidationException` : The operation did not succeed because a validation error occurred.
     public func listHypervisors(input: ListHypervisorsInput) async throws -> ListHypervisorsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -549,6 +706,18 @@ extension BackupGatewayClient: BackupGatewayClientProtocol {
     }
 
     /// Lists the tags applied to the resource identified by its Amazon Resource Name (ARN).
+    ///
+    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    ///
+    /// - Returns: `ListTagsForResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The operation did not succeed because an internal error occurred. Try again later.
+    /// - `ThrottlingException` : TPS has been limited to protect against intentional or unintentional high request volumes.
+    /// - `ValidationException` : The operation did not succeed because a validation error occurred.
+    /// - `ResourceNotFoundException` : A resource that is required for the action wasn't found.
     public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -586,6 +755,17 @@ extension BackupGatewayClient: BackupGatewayClientProtocol {
     }
 
     /// Lists your virtual machines.
+    ///
+    /// - Parameter ListVirtualMachinesInput : [no documentation found]
+    ///
+    /// - Returns: `ListVirtualMachinesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The operation did not succeed because an internal error occurred. Try again later.
+    /// - `ThrottlingException` : TPS has been limited to protect against intentional or unintentional high request volumes.
+    /// - `ValidationException` : The operation did not succeed because a validation error occurred.
     public func listVirtualMachines(input: ListVirtualMachinesInput) async throws -> ListVirtualMachinesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -623,6 +803,18 @@ extension BackupGatewayClient: BackupGatewayClientProtocol {
     }
 
     /// This action sets the bandwidth rate limit schedule for a specified gateway. By default, gateways do not have a bandwidth rate limit schedule, which means no bandwidth rate limiting is in effect. Use this to initiate a gateway's bandwidth rate limit schedule.
+    ///
+    /// - Parameter PutBandwidthRateLimitScheduleInput : [no documentation found]
+    ///
+    /// - Returns: `PutBandwidthRateLimitScheduleOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The operation did not succeed because an internal error occurred. Try again later.
+    /// - `ThrottlingException` : TPS has been limited to protect against intentional or unintentional high request volumes.
+    /// - `ValidationException` : The operation did not succeed because a validation error occurred.
+    /// - `ResourceNotFoundException` : A resource that is required for the action wasn't found.
     public func putBandwidthRateLimitSchedule(input: PutBandwidthRateLimitScheduleInput) async throws -> PutBandwidthRateLimitScheduleOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -660,6 +852,20 @@ extension BackupGatewayClient: BackupGatewayClientProtocol {
     }
 
     /// This action sets the property mappings for the specified hypervisor. A hypervisor property mapping displays the relationship of entity properties available from the on-premises hypervisor to the properties available in Amazon Web Services.
+    ///
+    /// - Parameter PutHypervisorPropertyMappingsInput : [no documentation found]
+    ///
+    /// - Returns: `PutHypervisorPropertyMappingsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The operation did not succeed because an internal error occurred. Try again later.
+    /// - `ThrottlingException` : TPS has been limited to protect against intentional or unintentional high request volumes.
+    /// - `ValidationException` : The operation did not succeed because a validation error occurred.
+    /// - `AccessDeniedException` : The operation cannot proceed because you have insufficient permissions.
+    /// - `ConflictException` : The operation cannot proceed because it is not supported.
+    /// - `ResourceNotFoundException` : A resource that is required for the action wasn't found.
     public func putHypervisorPropertyMappings(input: PutHypervisorPropertyMappingsInput) async throws -> PutHypervisorPropertyMappingsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -697,6 +903,19 @@ extension BackupGatewayClient: BackupGatewayClientProtocol {
     }
 
     /// Set the maintenance start time for a gateway.
+    ///
+    /// - Parameter PutMaintenanceStartTimeInput : [no documentation found]
+    ///
+    /// - Returns: `PutMaintenanceStartTimeOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The operation did not succeed because an internal error occurred. Try again later.
+    /// - `ThrottlingException` : TPS has been limited to protect against intentional or unintentional high request volumes.
+    /// - `ValidationException` : The operation did not succeed because a validation error occurred.
+    /// - `ConflictException` : The operation cannot proceed because it is not supported.
+    /// - `ResourceNotFoundException` : A resource that is required for the action wasn't found.
     public func putMaintenanceStartTime(input: PutMaintenanceStartTimeInput) async throws -> PutMaintenanceStartTimeOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -734,6 +953,19 @@ extension BackupGatewayClient: BackupGatewayClientProtocol {
     }
 
     /// This action sends a request to sync metadata across the specified virtual machines.
+    ///
+    /// - Parameter StartVirtualMachinesMetadataSyncInput : [no documentation found]
+    ///
+    /// - Returns: `StartVirtualMachinesMetadataSyncOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The operation did not succeed because an internal error occurred. Try again later.
+    /// - `ThrottlingException` : TPS has been limited to protect against intentional or unintentional high request volumes.
+    /// - `ValidationException` : The operation did not succeed because a validation error occurred.
+    /// - `AccessDeniedException` : The operation cannot proceed because you have insufficient permissions.
+    /// - `ResourceNotFoundException` : A resource that is required for the action wasn't found.
     public func startVirtualMachinesMetadataSync(input: StartVirtualMachinesMetadataSyncInput) async throws -> StartVirtualMachinesMetadataSyncOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -771,6 +1003,18 @@ extension BackupGatewayClient: BackupGatewayClientProtocol {
     }
 
     /// Tag the resource.
+    ///
+    /// - Parameter TagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `TagResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The operation did not succeed because an internal error occurred. Try again later.
+    /// - `ThrottlingException` : TPS has been limited to protect against intentional or unintentional high request volumes.
+    /// - `ValidationException` : The operation did not succeed because a validation error occurred.
+    /// - `ResourceNotFoundException` : A resource that is required for the action wasn't found.
     public func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -808,6 +1052,19 @@ extension BackupGatewayClient: BackupGatewayClientProtocol {
     }
 
     /// Tests your hypervisor configuration to validate that backup gateway can connect with the hypervisor and its resources.
+    ///
+    /// - Parameter TestHypervisorConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `TestHypervisorConfigurationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The operation did not succeed because an internal error occurred. Try again later.
+    /// - `ThrottlingException` : TPS has been limited to protect against intentional or unintentional high request volumes.
+    /// - `ValidationException` : The operation did not succeed because a validation error occurred.
+    /// - `ConflictException` : The operation cannot proceed because it is not supported.
+    /// - `ResourceNotFoundException` : A resource that is required for the action wasn't found.
     public func testHypervisorConfiguration(input: TestHypervisorConfigurationInput) async throws -> TestHypervisorConfigurationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -845,6 +1102,18 @@ extension BackupGatewayClient: BackupGatewayClientProtocol {
     }
 
     /// Removes tags from the resource.
+    ///
+    /// - Parameter UntagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `UntagResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The operation did not succeed because an internal error occurred. Try again later.
+    /// - `ThrottlingException` : TPS has been limited to protect against intentional or unintentional high request volumes.
+    /// - `ValidationException` : The operation did not succeed because a validation error occurred.
+    /// - `ResourceNotFoundException` : A resource that is required for the action wasn't found.
     public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -882,6 +1151,19 @@ extension BackupGatewayClient: BackupGatewayClientProtocol {
     }
 
     /// Updates a gateway's name. Specify which gateway to update using the Amazon Resource Name (ARN) of the gateway in your request.
+    ///
+    /// - Parameter UpdateGatewayInformationInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateGatewayInformationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The operation did not succeed because an internal error occurred. Try again later.
+    /// - `ThrottlingException` : TPS has been limited to protect against intentional or unintentional high request volumes.
+    /// - `ValidationException` : The operation did not succeed because a validation error occurred.
+    /// - `ConflictException` : The operation cannot proceed because it is not supported.
+    /// - `ResourceNotFoundException` : A resource that is required for the action wasn't found.
     public func updateGatewayInformation(input: UpdateGatewayInformationInput) async throws -> UpdateGatewayInformationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -919,6 +1201,18 @@ extension BackupGatewayClient: BackupGatewayClientProtocol {
     }
 
     /// Updates the gateway virtual machine (VM) software. The request immediately triggers the software update. When you make this request, you get a 200 OK success response immediately. However, it might take some time for the update to complete.
+    ///
+    /// - Parameter UpdateGatewaySoftwareNowInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateGatewaySoftwareNowOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The operation did not succeed because an internal error occurred. Try again later.
+    /// - `ThrottlingException` : TPS has been limited to protect against intentional or unintentional high request volumes.
+    /// - `ValidationException` : The operation did not succeed because a validation error occurred.
+    /// - `ResourceNotFoundException` : A resource that is required for the action wasn't found.
     public func updateGatewaySoftwareNow(input: UpdateGatewaySoftwareNowInput) async throws -> UpdateGatewaySoftwareNowOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -956,6 +1250,20 @@ extension BackupGatewayClient: BackupGatewayClientProtocol {
     }
 
     /// Updates a hypervisor metadata, including its host, username, and password. Specify which hypervisor to update using the Amazon Resource Name (ARN) of the hypervisor in your request.
+    ///
+    /// - Parameter UpdateHypervisorInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateHypervisorOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The operation did not succeed because an internal error occurred. Try again later.
+    /// - `ThrottlingException` : TPS has been limited to protect against intentional or unintentional high request volumes.
+    /// - `ValidationException` : The operation did not succeed because a validation error occurred.
+    /// - `AccessDeniedException` : The operation cannot proceed because you have insufficient permissions.
+    /// - `ConflictException` : The operation cannot proceed because it is not supported.
+    /// - `ResourceNotFoundException` : A resource that is required for the action wasn't found.
     public func updateHypervisor(input: UpdateHypervisorInput) async throws -> UpdateHypervisorOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()

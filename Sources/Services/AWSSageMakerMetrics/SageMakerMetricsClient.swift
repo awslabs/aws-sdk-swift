@@ -68,6 +68,10 @@ public struct SageMakerMetricsClientLogHandlerFactory: ClientRuntime.SDKLogHandl
 
 extension SageMakerMetricsClient: SageMakerMetricsClientProtocol {
     /// Used to ingest training metrics into SageMaker. These metrics can be visualized in SageMaker Studio and retrieved with the GetMetrics API.
+    ///
+    /// - Parameter BatchPutMetricsInput : [no documentation found]
+    ///
+    /// - Returns: `BatchPutMetricsOutputResponse` : [no documentation found]
     public func batchPutMetrics(input: BatchPutMetricsInput) async throws -> BatchPutMetricsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()

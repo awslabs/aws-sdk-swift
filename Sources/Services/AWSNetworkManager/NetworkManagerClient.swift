@@ -68,6 +68,20 @@ public struct NetworkManagerClientLogHandlerFactory: ClientRuntime.SDKLogHandler
 
 extension NetworkManagerClient: NetworkManagerClientProtocol {
     /// Accepts a core network attachment request. Once the attachment request is accepted by a core network owner, the attachment is created and connected to a core network.
+    ///
+    /// - Parameter AcceptAttachmentInput : [no documentation found]
+    ///
+    /// - Returns: `AcceptAttachmentOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : There was a conflict processing the request. Updating or deleting the resource can cause an inconsistent state.
+    /// - `InternalServerException` : The request has failed due to an internal error.
+    /// - `ResourceNotFoundException` : The specified resource could not be found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints.
     public func acceptAttachment(input: AcceptAttachmentInput) async throws -> AcceptAttachmentOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -101,6 +115,21 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
     }
 
     /// Associates a core network Connect peer with a device and optionally, with a link. If you specify a link, it must be associated with the specified device. You can only associate core network Connect peers that have been created on a core network Connect attachment on a core network.
+    ///
+    /// - Parameter AssociateConnectPeerInput : [no documentation found]
+    ///
+    /// - Returns: `AssociateConnectPeerOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : There was a conflict processing the request. Updating or deleting the resource can cause an inconsistent state.
+    /// - `InternalServerException` : The request has failed due to an internal error.
+    /// - `ResourceNotFoundException` : The specified resource could not be found.
+    /// - `ServiceQuotaExceededException` : A service limit was exceeded.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints.
     public func associateConnectPeer(input: AssociateConnectPeerInput) async throws -> AssociateConnectPeerOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -137,6 +166,21 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
     }
 
     /// Associates a customer gateway with a device and optionally, with a link. If you specify a link, it must be associated with the specified device. You can only associate customer gateways that are connected to a VPN attachment on a transit gateway or core network registered in your global network. When you register a transit gateway or core network, customer gateways that are connected to the transit gateway are automatically included in the global network. To list customer gateways that are connected to a transit gateway, use the [DescribeVpnConnections](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_DescribeVpnConnections.html) EC2 API and filter by transit-gateway-id. You cannot associate a customer gateway with more than one device and link.
+    ///
+    /// - Parameter AssociateCustomerGatewayInput : [no documentation found]
+    ///
+    /// - Returns: `AssociateCustomerGatewayOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : There was a conflict processing the request. Updating or deleting the resource can cause an inconsistent state.
+    /// - `InternalServerException` : The request has failed due to an internal error.
+    /// - `ResourceNotFoundException` : The specified resource could not be found.
+    /// - `ServiceQuotaExceededException` : A service limit was exceeded.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints.
     public func associateCustomerGateway(input: AssociateCustomerGatewayInput) async throws -> AssociateCustomerGatewayOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -173,6 +217,21 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
     }
 
     /// Associates a link to a device. A device can be associated to multiple links and a link can be associated to multiple devices. The device and link must be in the same global network and the same site.
+    ///
+    /// - Parameter AssociateLinkInput : [no documentation found]
+    ///
+    /// - Returns: `AssociateLinkOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : There was a conflict processing the request. Updating or deleting the resource can cause an inconsistent state.
+    /// - `InternalServerException` : The request has failed due to an internal error.
+    /// - `ResourceNotFoundException` : The specified resource could not be found.
+    /// - `ServiceQuotaExceededException` : A service limit was exceeded.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints.
     public func associateLink(input: AssociateLinkInput) async throws -> AssociateLinkOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -209,6 +268,21 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
     }
 
     /// Associates a transit gateway Connect peer with a device, and optionally, with a link. If you specify a link, it must be associated with the specified device. You can only associate transit gateway Connect peers that have been created on a transit gateway that's registered in your global network. You cannot associate a transit gateway Connect peer with more than one device and link.
+    ///
+    /// - Parameter AssociateTransitGatewayConnectPeerInput : [no documentation found]
+    ///
+    /// - Returns: `AssociateTransitGatewayConnectPeerOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : There was a conflict processing the request. Updating or deleting the resource can cause an inconsistent state.
+    /// - `InternalServerException` : The request has failed due to an internal error.
+    /// - `ResourceNotFoundException` : The specified resource could not be found.
+    /// - `ServiceQuotaExceededException` : A service limit was exceeded.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints.
     public func associateTransitGatewayConnectPeer(input: AssociateTransitGatewayConnectPeerInput) async throws -> AssociateTransitGatewayConnectPeerOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -245,6 +319,20 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
     }
 
     /// Creates a core network Connect attachment from a specified core network attachment. A core network Connect attachment is a GRE-based tunnel attachment that you can use to establish a connection between a core network and an appliance. A core network Connect attachment uses an existing VPC attachment as the underlying transport mechanism.
+    ///
+    /// - Parameter CreateConnectAttachmentInput : [no documentation found]
+    ///
+    /// - Returns: `CreateConnectAttachmentOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : There was a conflict processing the request. Updating or deleting the resource can cause an inconsistent state.
+    /// - `InternalServerException` : The request has failed due to an internal error.
+    /// - `ResourceNotFoundException` : The specified resource could not be found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints.
     public func createConnectAttachment(input: CreateConnectAttachmentInput) async throws -> CreateConnectAttachmentOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -289,6 +377,20 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
     }
 
     /// Creates a core network Connect peer for a specified core network connect attachment between a core network and an appliance. The peer address and transit gateway address must be the same IP address family (IPv4 or IPv6).
+    ///
+    /// - Parameter CreateConnectPeerInput : [no documentation found]
+    ///
+    /// - Returns: `CreateConnectPeerOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : There was a conflict processing the request. Updating or deleting the resource can cause an inconsistent state.
+    /// - `InternalServerException` : The request has failed due to an internal error.
+    /// - `ResourceNotFoundException` : The specified resource could not be found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints.
     public func createConnectPeer(input: CreateConnectPeerInput) async throws -> CreateConnectPeerOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -333,6 +435,20 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
     }
 
     /// Creates a connection between two devices. The devices can be a physical or virtual appliance that connects to a third-party appliance in a VPC, or a physical appliance that connects to another physical appliance in an on-premises network.
+    ///
+    /// - Parameter CreateConnectionInput : [no documentation found]
+    ///
+    /// - Returns: `CreateConnectionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : There was a conflict processing the request. Updating or deleting the resource can cause an inconsistent state.
+    /// - `InternalServerException` : The request has failed due to an internal error.
+    /// - `ServiceQuotaExceededException` : A service limit was exceeded.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints.
     public func createConnection(input: CreateConnectionInput) async throws -> CreateConnectionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -369,6 +485,21 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
     }
 
     /// Creates a core network as part of your global network, and optionally, with a core network policy.
+    ///
+    /// - Parameter CreateCoreNetworkInput : [no documentation found]
+    ///
+    /// - Returns: `CreateCoreNetworkOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : There was a conflict processing the request. Updating or deleting the resource can cause an inconsistent state.
+    /// - `CoreNetworkPolicyException` : Describes a core network policy exception.
+    /// - `InternalServerException` : The request has failed due to an internal error.
+    /// - `ServiceQuotaExceededException` : A service limit was exceeded.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints.
     public func createCoreNetwork(input: CreateCoreNetworkInput) async throws -> CreateCoreNetworkOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -413,6 +544,21 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
     }
 
     /// Creates a new device in a global network. If you specify both a site ID and a location, the location of the site is used for visualization in the Network Manager console.
+    ///
+    /// - Parameter CreateDeviceInput : [no documentation found]
+    ///
+    /// - Returns: `CreateDeviceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : There was a conflict processing the request. Updating or deleting the resource can cause an inconsistent state.
+    /// - `InternalServerException` : The request has failed due to an internal error.
+    /// - `ResourceNotFoundException` : The specified resource could not be found.
+    /// - `ServiceQuotaExceededException` : A service limit was exceeded.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints.
     public func createDevice(input: CreateDeviceInput) async throws -> CreateDeviceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -449,6 +595,20 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
     }
 
     /// Creates a new, empty global network.
+    ///
+    /// - Parameter CreateGlobalNetworkInput : [no documentation found]
+    ///
+    /// - Returns: `CreateGlobalNetworkOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : There was a conflict processing the request. Updating or deleting the resource can cause an inconsistent state.
+    /// - `InternalServerException` : The request has failed due to an internal error.
+    /// - `ServiceQuotaExceededException` : A service limit was exceeded.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints.
     public func createGlobalNetwork(input: CreateGlobalNetworkInput) async throws -> CreateGlobalNetworkOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -485,6 +645,21 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
     }
 
     /// Creates a new link for a specified site.
+    ///
+    /// - Parameter CreateLinkInput : [no documentation found]
+    ///
+    /// - Returns: `CreateLinkOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : There was a conflict processing the request. Updating or deleting the resource can cause an inconsistent state.
+    /// - `InternalServerException` : The request has failed due to an internal error.
+    /// - `ResourceNotFoundException` : The specified resource could not be found.
+    /// - `ServiceQuotaExceededException` : A service limit was exceeded.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints.
     public func createLink(input: CreateLinkInput) async throws -> CreateLinkOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -521,6 +696,21 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
     }
 
     /// Creates a new site in a global network.
+    ///
+    /// - Parameter CreateSiteInput : [no documentation found]
+    ///
+    /// - Returns: `CreateSiteOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : There was a conflict processing the request. Updating or deleting the resource can cause an inconsistent state.
+    /// - `InternalServerException` : The request has failed due to an internal error.
+    /// - `ResourceNotFoundException` : The specified resource could not be found.
+    /// - `ServiceQuotaExceededException` : A service limit was exceeded.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints.
     public func createSite(input: CreateSiteInput) async throws -> CreateSiteOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -557,6 +747,20 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
     }
 
     /// Creates an Amazon Web Services site-to-site VPN attachment on an edge location of a core network.
+    ///
+    /// - Parameter CreateSiteToSiteVpnAttachmentInput : [no documentation found]
+    ///
+    /// - Returns: `CreateSiteToSiteVpnAttachmentOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : There was a conflict processing the request. Updating or deleting the resource can cause an inconsistent state.
+    /// - `InternalServerException` : The request has failed due to an internal error.
+    /// - `ResourceNotFoundException` : The specified resource could not be found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints.
     public func createSiteToSiteVpnAttachment(input: CreateSiteToSiteVpnAttachmentInput) async throws -> CreateSiteToSiteVpnAttachmentOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -601,6 +805,20 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
     }
 
     /// Creates a transit gateway peering connection.
+    ///
+    /// - Parameter CreateTransitGatewayPeeringInput : [no documentation found]
+    ///
+    /// - Returns: `CreateTransitGatewayPeeringOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : There was a conflict processing the request. Updating or deleting the resource can cause an inconsistent state.
+    /// - `InternalServerException` : The request has failed due to an internal error.
+    /// - `ResourceNotFoundException` : The specified resource could not be found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints.
     public func createTransitGatewayPeering(input: CreateTransitGatewayPeeringInput) async throws -> CreateTransitGatewayPeeringOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -645,6 +863,20 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
     }
 
     /// Creates a transit gateway route table attachment.
+    ///
+    /// - Parameter CreateTransitGatewayRouteTableAttachmentInput : [no documentation found]
+    ///
+    /// - Returns: `CreateTransitGatewayRouteTableAttachmentOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : There was a conflict processing the request. Updating or deleting the resource can cause an inconsistent state.
+    /// - `InternalServerException` : The request has failed due to an internal error.
+    /// - `ResourceNotFoundException` : The specified resource could not be found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints.
     public func createTransitGatewayRouteTableAttachment(input: CreateTransitGatewayRouteTableAttachmentInput) async throws -> CreateTransitGatewayRouteTableAttachmentOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -689,6 +921,20 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
     }
 
     /// Creates a VPC attachment on an edge location of a core network.
+    ///
+    /// - Parameter CreateVpcAttachmentInput : [no documentation found]
+    ///
+    /// - Returns: `CreateVpcAttachmentOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : There was a conflict processing the request. Updating or deleting the resource can cause an inconsistent state.
+    /// - `InternalServerException` : The request has failed due to an internal error.
+    /// - `ResourceNotFoundException` : The specified resource could not be found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints.
     public func createVpcAttachment(input: CreateVpcAttachmentInput) async throws -> CreateVpcAttachmentOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -733,6 +979,20 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
     }
 
     /// Deletes an attachment. Supports all attachment types.
+    ///
+    /// - Parameter DeleteAttachmentInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteAttachmentOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : There was a conflict processing the request. Updating or deleting the resource can cause an inconsistent state.
+    /// - `InternalServerException` : The request has failed due to an internal error.
+    /// - `ResourceNotFoundException` : The specified resource could not be found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints.
     public func deleteAttachment(input: DeleteAttachmentInput) async throws -> DeleteAttachmentOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -766,6 +1026,20 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
     }
 
     /// Deletes a Connect peer.
+    ///
+    /// - Parameter DeleteConnectPeerInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteConnectPeerOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : There was a conflict processing the request. Updating or deleting the resource can cause an inconsistent state.
+    /// - `InternalServerException` : The request has failed due to an internal error.
+    /// - `ResourceNotFoundException` : The specified resource could not be found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints.
     public func deleteConnectPeer(input: DeleteConnectPeerInput) async throws -> DeleteConnectPeerOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -799,6 +1073,20 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
     }
 
     /// Deletes the specified connection in your global network.
+    ///
+    /// - Parameter DeleteConnectionInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteConnectionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : There was a conflict processing the request. Updating or deleting the resource can cause an inconsistent state.
+    /// - `InternalServerException` : The request has failed due to an internal error.
+    /// - `ResourceNotFoundException` : The specified resource could not be found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints.
     public func deleteConnection(input: DeleteConnectionInput) async throws -> DeleteConnectionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -832,6 +1120,20 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
     }
 
     /// Deletes a core network along with all core network policies. This can only be done if there are no attachments on a core network.
+    ///
+    /// - Parameter DeleteCoreNetworkInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteCoreNetworkOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : There was a conflict processing the request. Updating or deleting the resource can cause an inconsistent state.
+    /// - `InternalServerException` : The request has failed due to an internal error.
+    /// - `ResourceNotFoundException` : The specified resource could not be found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints.
     public func deleteCoreNetwork(input: DeleteCoreNetworkInput) async throws -> DeleteCoreNetworkOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -865,6 +1167,20 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
     }
 
     /// Deletes a policy version from a core network. You can't delete the current LIVE policy.
+    ///
+    /// - Parameter DeleteCoreNetworkPolicyVersionInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteCoreNetworkPolicyVersionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : There was a conflict processing the request. Updating or deleting the resource can cause an inconsistent state.
+    /// - `InternalServerException` : The request has failed due to an internal error.
+    /// - `ResourceNotFoundException` : The specified resource could not be found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints.
     public func deleteCoreNetworkPolicyVersion(input: DeleteCoreNetworkPolicyVersionInput) async throws -> DeleteCoreNetworkPolicyVersionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -898,6 +1214,20 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
     }
 
     /// Deletes an existing device. You must first disassociate the device from any links and customer gateways.
+    ///
+    /// - Parameter DeleteDeviceInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteDeviceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : There was a conflict processing the request. Updating or deleting the resource can cause an inconsistent state.
+    /// - `InternalServerException` : The request has failed due to an internal error.
+    /// - `ResourceNotFoundException` : The specified resource could not be found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints.
     public func deleteDevice(input: DeleteDeviceInput) async throws -> DeleteDeviceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -931,6 +1261,20 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
     }
 
     /// Deletes an existing global network. You must first delete all global network objects (devices, links, and sites), deregister all transit gateways, and delete any core networks.
+    ///
+    /// - Parameter DeleteGlobalNetworkInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteGlobalNetworkOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : There was a conflict processing the request. Updating or deleting the resource can cause an inconsistent state.
+    /// - `InternalServerException` : The request has failed due to an internal error.
+    /// - `ResourceNotFoundException` : The specified resource could not be found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints.
     public func deleteGlobalNetwork(input: DeleteGlobalNetworkInput) async throws -> DeleteGlobalNetworkOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -964,6 +1308,20 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
     }
 
     /// Deletes an existing link. You must first disassociate the link from any devices and customer gateways.
+    ///
+    /// - Parameter DeleteLinkInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteLinkOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : There was a conflict processing the request. Updating or deleting the resource can cause an inconsistent state.
+    /// - `InternalServerException` : The request has failed due to an internal error.
+    /// - `ResourceNotFoundException` : The specified resource could not be found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints.
     public func deleteLink(input: DeleteLinkInput) async throws -> DeleteLinkOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -997,6 +1355,20 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
     }
 
     /// Deletes an existing peering connection.
+    ///
+    /// - Parameter DeletePeeringInput : [no documentation found]
+    ///
+    /// - Returns: `DeletePeeringOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : There was a conflict processing the request. Updating or deleting the resource can cause an inconsistent state.
+    /// - `InternalServerException` : The request has failed due to an internal error.
+    /// - `ResourceNotFoundException` : The specified resource could not be found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints.
     public func deletePeering(input: DeletePeeringInput) async throws -> DeletePeeringOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1030,6 +1402,19 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
     }
 
     /// Deletes a resource policy for the specified resource. This revokes the access of the principals specified in the resource policy.
+    ///
+    /// - Parameter DeleteResourcePolicyInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteResourcePolicyOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : There was a conflict processing the request. Updating or deleting the resource can cause an inconsistent state.
+    /// - `InternalServerException` : The request has failed due to an internal error.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints.
     public func deleteResourcePolicy(input: DeleteResourcePolicyInput) async throws -> DeleteResourcePolicyOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1063,6 +1448,20 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
     }
 
     /// Deletes an existing site. The site cannot be associated with any device or link.
+    ///
+    /// - Parameter DeleteSiteInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteSiteOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : There was a conflict processing the request. Updating or deleting the resource can cause an inconsistent state.
+    /// - `InternalServerException` : The request has failed due to an internal error.
+    /// - `ResourceNotFoundException` : The specified resource could not be found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints.
     public func deleteSite(input: DeleteSiteInput) async throws -> DeleteSiteOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1096,6 +1495,20 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
     }
 
     /// Deregisters a transit gateway from your global network. This action does not delete your transit gateway, or modify any of its attachments. This action removes any customer gateway associations.
+    ///
+    /// - Parameter DeregisterTransitGatewayInput : [no documentation found]
+    ///
+    /// - Returns: `DeregisterTransitGatewayOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : There was a conflict processing the request. Updating or deleting the resource can cause an inconsistent state.
+    /// - `InternalServerException` : The request has failed due to an internal error.
+    /// - `ResourceNotFoundException` : The specified resource could not be found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints.
     public func deregisterTransitGateway(input: DeregisterTransitGatewayInput) async throws -> DeregisterTransitGatewayOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1129,6 +1542,19 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
     }
 
     /// Describes one or more global networks. By default, all global networks are described. To describe the objects in your global network, you must use the appropriate Get* action. For example, to list the transit gateways in your global network, use [GetTransitGatewayRegistrations].
+    ///
+    /// - Parameter DescribeGlobalNetworksInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeGlobalNetworksOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : The request has failed due to an internal error.
+    /// - `ResourceNotFoundException` : The specified resource could not be found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints.
     public func describeGlobalNetworks(input: DescribeGlobalNetworksInput) async throws -> DescribeGlobalNetworksOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1163,6 +1589,20 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
     }
 
     /// Disassociates a core network Connect peer from a device and a link.
+    ///
+    /// - Parameter DisassociateConnectPeerInput : [no documentation found]
+    ///
+    /// - Returns: `DisassociateConnectPeerOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : There was a conflict processing the request. Updating or deleting the resource can cause an inconsistent state.
+    /// - `InternalServerException` : The request has failed due to an internal error.
+    /// - `ResourceNotFoundException` : The specified resource could not be found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints.
     public func disassociateConnectPeer(input: DisassociateConnectPeerInput) async throws -> DisassociateConnectPeerOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1196,6 +1636,20 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
     }
 
     /// Disassociates a customer gateway from a device and a link.
+    ///
+    /// - Parameter DisassociateCustomerGatewayInput : [no documentation found]
+    ///
+    /// - Returns: `DisassociateCustomerGatewayOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : There was a conflict processing the request. Updating or deleting the resource can cause an inconsistent state.
+    /// - `InternalServerException` : The request has failed due to an internal error.
+    /// - `ResourceNotFoundException` : The specified resource could not be found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints.
     public func disassociateCustomerGateway(input: DisassociateCustomerGatewayInput) async throws -> DisassociateCustomerGatewayOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1229,6 +1683,20 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
     }
 
     /// Disassociates an existing device from a link. You must first disassociate any customer gateways that are associated with the link.
+    ///
+    /// - Parameter DisassociateLinkInput : [no documentation found]
+    ///
+    /// - Returns: `DisassociateLinkOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : There was a conflict processing the request. Updating or deleting the resource can cause an inconsistent state.
+    /// - `InternalServerException` : The request has failed due to an internal error.
+    /// - `ResourceNotFoundException` : The specified resource could not be found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints.
     public func disassociateLink(input: DisassociateLinkInput) async throws -> DisassociateLinkOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1263,6 +1731,20 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
     }
 
     /// Disassociates a transit gateway Connect peer from a device and link.
+    ///
+    /// - Parameter DisassociateTransitGatewayConnectPeerInput : [no documentation found]
+    ///
+    /// - Returns: `DisassociateTransitGatewayConnectPeerOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : There was a conflict processing the request. Updating or deleting the resource can cause an inconsistent state.
+    /// - `InternalServerException` : The request has failed due to an internal error.
+    /// - `ResourceNotFoundException` : The specified resource could not be found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints.
     public func disassociateTransitGatewayConnectPeer(input: DisassociateTransitGatewayConnectPeerInput) async throws -> DisassociateTransitGatewayConnectPeerOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1296,6 +1778,20 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
     }
 
     /// Executes a change set on your core network. Deploys changes globally based on the policy submitted..
+    ///
+    /// - Parameter ExecuteCoreNetworkChangeSetInput : [no documentation found]
+    ///
+    /// - Returns: `ExecuteCoreNetworkChangeSetOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : There was a conflict processing the request. Updating or deleting the resource can cause an inconsistent state.
+    /// - `InternalServerException` : The request has failed due to an internal error.
+    /// - `ResourceNotFoundException` : The specified resource could not be found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints.
     public func executeCoreNetworkChangeSet(input: ExecuteCoreNetworkChangeSetInput) async throws -> ExecuteCoreNetworkChangeSetOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1329,6 +1825,19 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
     }
 
     /// Returns information about a core network Connect attachment.
+    ///
+    /// - Parameter GetConnectAttachmentInput : [no documentation found]
+    ///
+    /// - Returns: `GetConnectAttachmentOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : The request has failed due to an internal error.
+    /// - `ResourceNotFoundException` : The specified resource could not be found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints.
     public func getConnectAttachment(input: GetConnectAttachmentInput) async throws -> GetConnectAttachmentOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1362,6 +1871,19 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
     }
 
     /// Returns information about a core network Connect peer.
+    ///
+    /// - Parameter GetConnectPeerInput : [no documentation found]
+    ///
+    /// - Returns: `GetConnectPeerOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : The request has failed due to an internal error.
+    /// - `ResourceNotFoundException` : The specified resource could not be found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints.
     public func getConnectPeer(input: GetConnectPeerInput) async throws -> GetConnectPeerOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1395,6 +1917,20 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
     }
 
     /// Returns information about a core network Connect peer associations.
+    ///
+    /// - Parameter GetConnectPeerAssociationsInput : [no documentation found]
+    ///
+    /// - Returns: `GetConnectPeerAssociationsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : There was a conflict processing the request. Updating or deleting the resource can cause an inconsistent state.
+    /// - `InternalServerException` : The request has failed due to an internal error.
+    /// - `ResourceNotFoundException` : The specified resource could not be found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints.
     public func getConnectPeerAssociations(input: GetConnectPeerAssociationsInput) async throws -> GetConnectPeerAssociationsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1429,6 +1965,19 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
     }
 
     /// Gets information about one or more of your connections in a global network.
+    ///
+    /// - Parameter GetConnectionsInput : [no documentation found]
+    ///
+    /// - Returns: `GetConnectionsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : The request has failed due to an internal error.
+    /// - `ResourceNotFoundException` : The specified resource could not be found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints.
     public func getConnections(input: GetConnectionsInput) async throws -> GetConnectionsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1463,6 +2012,19 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
     }
 
     /// Returns information about the LIVE policy for a core network.
+    ///
+    /// - Parameter GetCoreNetworkInput : [no documentation found]
+    ///
+    /// - Returns: `GetCoreNetworkOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : The request has failed due to an internal error.
+    /// - `ResourceNotFoundException` : The specified resource could not be found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints.
     public func getCoreNetwork(input: GetCoreNetworkInput) async throws -> GetCoreNetworkOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1496,6 +2058,19 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
     }
 
     /// Returns information about a core network change event.
+    ///
+    /// - Parameter GetCoreNetworkChangeEventsInput : [no documentation found]
+    ///
+    /// - Returns: `GetCoreNetworkChangeEventsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : The request has failed due to an internal error.
+    /// - `ResourceNotFoundException` : The specified resource could not be found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints.
     public func getCoreNetworkChangeEvents(input: GetCoreNetworkChangeEventsInput) async throws -> GetCoreNetworkChangeEventsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1530,6 +2105,19 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
     }
 
     /// Returns a change set between the LIVE core network policy and a submitted policy.
+    ///
+    /// - Parameter GetCoreNetworkChangeSetInput : [no documentation found]
+    ///
+    /// - Returns: `GetCoreNetworkChangeSetOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : The request has failed due to an internal error.
+    /// - `ResourceNotFoundException` : The specified resource could not be found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints.
     public func getCoreNetworkChangeSet(input: GetCoreNetworkChangeSetInput) async throws -> GetCoreNetworkChangeSetOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1564,6 +2152,19 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
     }
 
     /// Returns details about a core network policy. You can get details about your current live policy or any previous policy version.
+    ///
+    /// - Parameter GetCoreNetworkPolicyInput : [no documentation found]
+    ///
+    /// - Returns: `GetCoreNetworkPolicyOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : The request has failed due to an internal error.
+    /// - `ResourceNotFoundException` : The specified resource could not be found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints.
     public func getCoreNetworkPolicy(input: GetCoreNetworkPolicyInput) async throws -> GetCoreNetworkPolicyOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1598,6 +2199,20 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
     }
 
     /// Gets the association information for customer gateways that are associated with devices and links in your global network.
+    ///
+    /// - Parameter GetCustomerGatewayAssociationsInput : [no documentation found]
+    ///
+    /// - Returns: `GetCustomerGatewayAssociationsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : There was a conflict processing the request. Updating or deleting the resource can cause an inconsistent state.
+    /// - `InternalServerException` : The request has failed due to an internal error.
+    /// - `ResourceNotFoundException` : The specified resource could not be found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints.
     public func getCustomerGatewayAssociations(input: GetCustomerGatewayAssociationsInput) async throws -> GetCustomerGatewayAssociationsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1632,6 +2247,19 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
     }
 
     /// Gets information about one or more of your devices in a global network.
+    ///
+    /// - Parameter GetDevicesInput : [no documentation found]
+    ///
+    /// - Returns: `GetDevicesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : The request has failed due to an internal error.
+    /// - `ResourceNotFoundException` : The specified resource could not be found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints.
     public func getDevices(input: GetDevicesInput) async throws -> GetDevicesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1666,6 +2294,19 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
     }
 
     /// Gets the link associations for a device or a link. Either the device ID or the link ID must be specified.
+    ///
+    /// - Parameter GetLinkAssociationsInput : [no documentation found]
+    ///
+    /// - Returns: `GetLinkAssociationsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : The request has failed due to an internal error.
+    /// - `ResourceNotFoundException` : The specified resource could not be found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints.
     public func getLinkAssociations(input: GetLinkAssociationsInput) async throws -> GetLinkAssociationsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1700,6 +2341,19 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
     }
 
     /// Gets information about one or more links in a specified global network. If you specify the site ID, you cannot specify the type or provider in the same request. You can specify the type and provider in the same request.
+    ///
+    /// - Parameter GetLinksInput : [no documentation found]
+    ///
+    /// - Returns: `GetLinksOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : The request has failed due to an internal error.
+    /// - `ResourceNotFoundException` : The specified resource could not be found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints.
     public func getLinks(input: GetLinksInput) async throws -> GetLinksOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1734,6 +2388,18 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
     }
 
     /// Gets the count of network resources, by resource type, for the specified global network.
+    ///
+    /// - Parameter GetNetworkResourceCountsInput : [no documentation found]
+    ///
+    /// - Returns: `GetNetworkResourceCountsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : The request has failed due to an internal error.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints.
     public func getNetworkResourceCounts(input: GetNetworkResourceCountsInput) async throws -> GetNetworkResourceCountsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1768,6 +2434,19 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
     }
 
     /// Gets the network resource relationships for the specified global network.
+    ///
+    /// - Parameter GetNetworkResourceRelationshipsInput : [no documentation found]
+    ///
+    /// - Returns: `GetNetworkResourceRelationshipsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : The request has failed due to an internal error.
+    /// - `ResourceNotFoundException` : The specified resource could not be found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints.
     public func getNetworkResourceRelationships(input: GetNetworkResourceRelationshipsInput) async throws -> GetNetworkResourceRelationshipsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1802,6 +2481,19 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
     }
 
     /// Describes the network resources for the specified global network. The results include information from the corresponding Describe call for the resource, minus any sensitive information such as pre-shared keys.
+    ///
+    /// - Parameter GetNetworkResourcesInput : [no documentation found]
+    ///
+    /// - Returns: `GetNetworkResourcesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : The request has failed due to an internal error.
+    /// - `ResourceNotFoundException` : The specified resource could not be found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints.
     public func getNetworkResources(input: GetNetworkResourcesInput) async throws -> GetNetworkResourcesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1836,6 +2528,19 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
     }
 
     /// Gets the network routes of the specified global network.
+    ///
+    /// - Parameter GetNetworkRoutesInput : [no documentation found]
+    ///
+    /// - Returns: `GetNetworkRoutesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : The request has failed due to an internal error.
+    /// - `ResourceNotFoundException` : The specified resource could not be found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints.
     public func getNetworkRoutes(input: GetNetworkRoutesInput) async throws -> GetNetworkRoutesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1872,6 +2577,19 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
     }
 
     /// Gets the network telemetry of the specified global network.
+    ///
+    /// - Parameter GetNetworkTelemetryInput : [no documentation found]
+    ///
+    /// - Returns: `GetNetworkTelemetryOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : The request has failed due to an internal error.
+    /// - `ResourceNotFoundException` : The specified resource could not be found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints.
     public func getNetworkTelemetry(input: GetNetworkTelemetryInput) async throws -> GetNetworkTelemetryOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1906,6 +2624,18 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
     }
 
     /// Returns information about a resource policy.
+    ///
+    /// - Parameter GetResourcePolicyInput : [no documentation found]
+    ///
+    /// - Returns: `GetResourcePolicyOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : The request has failed due to an internal error.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints.
     public func getResourcePolicy(input: GetResourcePolicyInput) async throws -> GetResourcePolicyOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1939,6 +2669,19 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
     }
 
     /// Gets information about the specified route analysis.
+    ///
+    /// - Parameter GetRouteAnalysisInput : [no documentation found]
+    ///
+    /// - Returns: `GetRouteAnalysisOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : The request has failed due to an internal error.
+    /// - `ResourceNotFoundException` : The specified resource could not be found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints.
     public func getRouteAnalysis(input: GetRouteAnalysisInput) async throws -> GetRouteAnalysisOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1972,6 +2715,19 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
     }
 
     /// Returns information about a site-to-site VPN attachment.
+    ///
+    /// - Parameter GetSiteToSiteVpnAttachmentInput : [no documentation found]
+    ///
+    /// - Returns: `GetSiteToSiteVpnAttachmentOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : The request has failed due to an internal error.
+    /// - `ResourceNotFoundException` : The specified resource could not be found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints.
     public func getSiteToSiteVpnAttachment(input: GetSiteToSiteVpnAttachmentInput) async throws -> GetSiteToSiteVpnAttachmentOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2005,6 +2761,19 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
     }
 
     /// Gets information about one or more of your sites in a global network.
+    ///
+    /// - Parameter GetSitesInput : [no documentation found]
+    ///
+    /// - Returns: `GetSitesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : The request has failed due to an internal error.
+    /// - `ResourceNotFoundException` : The specified resource could not be found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints.
     public func getSites(input: GetSitesInput) async throws -> GetSitesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2039,6 +2808,20 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
     }
 
     /// Gets information about one or more of your transit gateway Connect peer associations in a global network.
+    ///
+    /// - Parameter GetTransitGatewayConnectPeerAssociationsInput : [no documentation found]
+    ///
+    /// - Returns: `GetTransitGatewayConnectPeerAssociationsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : There was a conflict processing the request. Updating or deleting the resource can cause an inconsistent state.
+    /// - `InternalServerException` : The request has failed due to an internal error.
+    /// - `ResourceNotFoundException` : The specified resource could not be found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints.
     public func getTransitGatewayConnectPeerAssociations(input: GetTransitGatewayConnectPeerAssociationsInput) async throws -> GetTransitGatewayConnectPeerAssociationsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2073,6 +2856,19 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
     }
 
     /// Returns information about a transit gateway peer.
+    ///
+    /// - Parameter GetTransitGatewayPeeringInput : [no documentation found]
+    ///
+    /// - Returns: `GetTransitGatewayPeeringOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : The request has failed due to an internal error.
+    /// - `ResourceNotFoundException` : The specified resource could not be found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints.
     public func getTransitGatewayPeering(input: GetTransitGatewayPeeringInput) async throws -> GetTransitGatewayPeeringOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2106,6 +2902,19 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
     }
 
     /// Gets information about the transit gateway registrations in a specified global network.
+    ///
+    /// - Parameter GetTransitGatewayRegistrationsInput : [no documentation found]
+    ///
+    /// - Returns: `GetTransitGatewayRegistrationsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : The request has failed due to an internal error.
+    /// - `ResourceNotFoundException` : The specified resource could not be found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints.
     public func getTransitGatewayRegistrations(input: GetTransitGatewayRegistrationsInput) async throws -> GetTransitGatewayRegistrationsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2140,6 +2949,19 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
     }
 
     /// Returns information about a transit gateway route table attachment.
+    ///
+    /// - Parameter GetTransitGatewayRouteTableAttachmentInput : [no documentation found]
+    ///
+    /// - Returns: `GetTransitGatewayRouteTableAttachmentOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : The request has failed due to an internal error.
+    /// - `ResourceNotFoundException` : The specified resource could not be found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints.
     public func getTransitGatewayRouteTableAttachment(input: GetTransitGatewayRouteTableAttachmentInput) async throws -> GetTransitGatewayRouteTableAttachmentOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2173,6 +2995,19 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
     }
 
     /// Returns information about a VPC attachment.
+    ///
+    /// - Parameter GetVpcAttachmentInput : [no documentation found]
+    ///
+    /// - Returns: `GetVpcAttachmentOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : The request has failed due to an internal error.
+    /// - `ResourceNotFoundException` : The specified resource could not be found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints.
     public func getVpcAttachment(input: GetVpcAttachmentInput) async throws -> GetVpcAttachmentOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2206,6 +3041,18 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
     }
 
     /// Returns a list of core network attachments.
+    ///
+    /// - Parameter ListAttachmentsInput : [no documentation found]
+    ///
+    /// - Returns: `ListAttachmentsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : The request has failed due to an internal error.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints.
     public func listAttachments(input: ListAttachmentsInput) async throws -> ListAttachmentsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2240,6 +3087,18 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
     }
 
     /// Returns a list of core network Connect peers.
+    ///
+    /// - Parameter ListConnectPeersInput : [no documentation found]
+    ///
+    /// - Returns: `ListConnectPeersOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : The request has failed due to an internal error.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints.
     public func listConnectPeers(input: ListConnectPeersInput) async throws -> ListConnectPeersOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2274,6 +3133,19 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
     }
 
     /// Returns a list of core network policy versions.
+    ///
+    /// - Parameter ListCoreNetworkPolicyVersionsInput : [no documentation found]
+    ///
+    /// - Returns: `ListCoreNetworkPolicyVersionsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : The request has failed due to an internal error.
+    /// - `ResourceNotFoundException` : The specified resource could not be found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints.
     public func listCoreNetworkPolicyVersions(input: ListCoreNetworkPolicyVersionsInput) async throws -> ListCoreNetworkPolicyVersionsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2308,6 +3180,18 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
     }
 
     /// Returns a list of owned and shared core networks.
+    ///
+    /// - Parameter ListCoreNetworksInput : [no documentation found]
+    ///
+    /// - Returns: `ListCoreNetworksOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : The request has failed due to an internal error.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints.
     public func listCoreNetworks(input: ListCoreNetworksInput) async throws -> ListCoreNetworksOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2342,6 +3226,10 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
     }
 
     /// Gets the status of the Service Linked Role (SLR) deployment for the accounts in a given Amazon Web Services Organization.
+    ///
+    /// - Parameter ListOrganizationServiceAccessStatusInput : [no documentation found]
+    ///
+    /// - Returns: `ListOrganizationServiceAccessStatusOutputResponse` : [no documentation found]
     public func listOrganizationServiceAccessStatus(input: ListOrganizationServiceAccessStatusInput) async throws -> ListOrganizationServiceAccessStatusOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2376,6 +3264,18 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
     }
 
     /// Lists the peerings for a core network.
+    ///
+    /// - Parameter ListPeeringsInput : [no documentation found]
+    ///
+    /// - Returns: `ListPeeringsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : The request has failed due to an internal error.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints.
     public func listPeerings(input: ListPeeringsInput) async throws -> ListPeeringsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2410,6 +3310,19 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
     }
 
     /// Lists the tags for a specified resource.
+    ///
+    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    ///
+    /// - Returns: `ListTagsForResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : The request has failed due to an internal error.
+    /// - `ResourceNotFoundException` : The specified resource could not be found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints.
     public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2443,6 +3356,21 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
     }
 
     /// Creates a new, immutable version of a core network policy. A subsequent change set is created showing the differences between the LIVE policy and the submitted policy.
+    ///
+    /// - Parameter PutCoreNetworkPolicyInput : [no documentation found]
+    ///
+    /// - Returns: `PutCoreNetworkPolicyOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : There was a conflict processing the request. Updating or deleting the resource can cause an inconsistent state.
+    /// - `CoreNetworkPolicyException` : Describes a core network policy exception.
+    /// - `InternalServerException` : The request has failed due to an internal error.
+    /// - `ResourceNotFoundException` : The specified resource could not be found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints.
     public func putCoreNetworkPolicy(input: PutCoreNetworkPolicyInput) async throws -> PutCoreNetworkPolicyOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2487,6 +3415,20 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
     }
 
     /// Creates or updates a resource policy.
+    ///
+    /// - Parameter PutResourcePolicyInput : [no documentation found]
+    ///
+    /// - Returns: `PutResourcePolicyOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : There was a conflict processing the request. Updating or deleting the resource can cause an inconsistent state.
+    /// - `InternalServerException` : The request has failed due to an internal error.
+    /// - `ServiceQuotaExceededException` : A service limit was exceeded.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints.
     public func putResourcePolicy(input: PutResourcePolicyInput) async throws -> PutResourcePolicyOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2523,6 +3465,20 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
     }
 
     /// Registers a transit gateway in your global network. Not all Regions support transit gateways for global networks. For a list of the supported Regions, see [Region Availability](https://docs.aws.amazon.com/network-manager/latest/tgwnm/what-are-global-networks.html#nm-available-regions) in the Amazon Web Services Transit Gateways for Global Networks User Guide. The transit gateway can be in any of the supported Amazon Web Services Regions, but it must be owned by the same Amazon Web Services account that owns the global network. You cannot register a transit gateway in more than one global network.
+    ///
+    /// - Parameter RegisterTransitGatewayInput : [no documentation found]
+    ///
+    /// - Returns: `RegisterTransitGatewayOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : There was a conflict processing the request. Updating or deleting the resource can cause an inconsistent state.
+    /// - `InternalServerException` : The request has failed due to an internal error.
+    /// - `ResourceNotFoundException` : The specified resource could not be found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints.
     public func registerTransitGateway(input: RegisterTransitGatewayInput) async throws -> RegisterTransitGatewayOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2559,6 +3515,20 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
     }
 
     /// Rejects a core network attachment request.
+    ///
+    /// - Parameter RejectAttachmentInput : [no documentation found]
+    ///
+    /// - Returns: `RejectAttachmentOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : There was a conflict processing the request. Updating or deleting the resource can cause an inconsistent state.
+    /// - `InternalServerException` : The request has failed due to an internal error.
+    /// - `ResourceNotFoundException` : The specified resource could not be found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints.
     public func rejectAttachment(input: RejectAttachmentInput) async throws -> RejectAttachmentOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2592,6 +3562,20 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
     }
 
     /// Restores a previous policy version as a new, immutable version of a core network policy. A subsequent change set is created showing the differences between the LIVE policy and restored policy.
+    ///
+    /// - Parameter RestoreCoreNetworkPolicyVersionInput : [no documentation found]
+    ///
+    /// - Returns: `RestoreCoreNetworkPolicyVersionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : There was a conflict processing the request. Updating or deleting the resource can cause an inconsistent state.
+    /// - `InternalServerException` : The request has failed due to an internal error.
+    /// - `ResourceNotFoundException` : The specified resource could not be found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints.
     public func restoreCoreNetworkPolicyVersion(input: RestoreCoreNetworkPolicyVersionInput) async throws -> RestoreCoreNetworkPolicyVersionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2625,6 +3609,20 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
     }
 
     /// Enables the Network Manager service for an Amazon Web Services Organization. This can only be called by a management account within the organization.
+    ///
+    /// - Parameter StartOrganizationServiceAccessUpdateInput : [no documentation found]
+    ///
+    /// - Returns: `StartOrganizationServiceAccessUpdateOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : There was a conflict processing the request. Updating or deleting the resource can cause an inconsistent state.
+    /// - `InternalServerException` : The request has failed due to an internal error.
+    /// - `ServiceQuotaExceededException` : A service limit was exceeded.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints.
     public func startOrganizationServiceAccessUpdate(input: StartOrganizationServiceAccessUpdateInput) async throws -> StartOrganizationServiceAccessUpdateOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2661,6 +3659,20 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
     }
 
     /// Starts analyzing the routing path between the specified source and destination. For more information, see [Route Analyzer](https://docs.aws.amazon.com/vpc/latest/tgw/route-analyzer.html).
+    ///
+    /// - Parameter StartRouteAnalysisInput : [no documentation found]
+    ///
+    /// - Returns: `StartRouteAnalysisOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : There was a conflict processing the request. Updating or deleting the resource can cause an inconsistent state.
+    /// - `InternalServerException` : The request has failed due to an internal error.
+    /// - `ResourceNotFoundException` : The specified resource could not be found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints.
     public func startRouteAnalysis(input: StartRouteAnalysisInput) async throws -> StartRouteAnalysisOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2697,6 +3709,21 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
     }
 
     /// Tags a specified resource.
+    ///
+    /// - Parameter TagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `TagResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : There was a conflict processing the request. Updating or deleting the resource can cause an inconsistent state.
+    /// - `InternalServerException` : The request has failed due to an internal error.
+    /// - `ResourceNotFoundException` : The specified resource could not be found.
+    /// - `ServiceQuotaExceededException` : A service limit was exceeded.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints.
     public func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2733,6 +3760,20 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
     }
 
     /// Removes tags from a specified resource.
+    ///
+    /// - Parameter UntagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `UntagResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : There was a conflict processing the request. Updating or deleting the resource can cause an inconsistent state.
+    /// - `InternalServerException` : The request has failed due to an internal error.
+    /// - `ResourceNotFoundException` : The specified resource could not be found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints.
     public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2767,6 +3808,20 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
     }
 
     /// Updates the information for an existing connection. To remove information for any of the parameters, specify an empty string.
+    ///
+    /// - Parameter UpdateConnectionInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateConnectionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : There was a conflict processing the request. Updating or deleting the resource can cause an inconsistent state.
+    /// - `InternalServerException` : The request has failed due to an internal error.
+    /// - `ResourceNotFoundException` : The specified resource could not be found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints.
     public func updateConnection(input: UpdateConnectionInput) async throws -> UpdateConnectionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2803,6 +3858,20 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
     }
 
     /// Updates the description of a core network.
+    ///
+    /// - Parameter UpdateCoreNetworkInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateCoreNetworkOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : There was a conflict processing the request. Updating or deleting the resource can cause an inconsistent state.
+    /// - `InternalServerException` : The request has failed due to an internal error.
+    /// - `ResourceNotFoundException` : The specified resource could not be found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints.
     public func updateCoreNetwork(input: UpdateCoreNetworkInput) async throws -> UpdateCoreNetworkOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2839,6 +3908,20 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
     }
 
     /// Updates the details for an existing device. To remove information for any of the parameters, specify an empty string.
+    ///
+    /// - Parameter UpdateDeviceInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateDeviceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : There was a conflict processing the request. Updating or deleting the resource can cause an inconsistent state.
+    /// - `InternalServerException` : The request has failed due to an internal error.
+    /// - `ResourceNotFoundException` : The specified resource could not be found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints.
     public func updateDevice(input: UpdateDeviceInput) async throws -> UpdateDeviceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2875,6 +3958,20 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
     }
 
     /// Updates an existing global network. To remove information for any of the parameters, specify an empty string.
+    ///
+    /// - Parameter UpdateGlobalNetworkInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateGlobalNetworkOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : There was a conflict processing the request. Updating or deleting the resource can cause an inconsistent state.
+    /// - `InternalServerException` : The request has failed due to an internal error.
+    /// - `ResourceNotFoundException` : The specified resource could not be found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints.
     public func updateGlobalNetwork(input: UpdateGlobalNetworkInput) async throws -> UpdateGlobalNetworkOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2911,6 +4008,21 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
     }
 
     /// Updates the details for an existing link. To remove information for any of the parameters, specify an empty string.
+    ///
+    /// - Parameter UpdateLinkInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateLinkOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : There was a conflict processing the request. Updating or deleting the resource can cause an inconsistent state.
+    /// - `InternalServerException` : The request has failed due to an internal error.
+    /// - `ResourceNotFoundException` : The specified resource could not be found.
+    /// - `ServiceQuotaExceededException` : A service limit was exceeded.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints.
     public func updateLink(input: UpdateLinkInput) async throws -> UpdateLinkOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2947,6 +4059,20 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
     }
 
     /// Updates the resource metadata for the specified global network.
+    ///
+    /// - Parameter UpdateNetworkResourceMetadataInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateNetworkResourceMetadataOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : There was a conflict processing the request. Updating or deleting the resource can cause an inconsistent state.
+    /// - `InternalServerException` : The request has failed due to an internal error.
+    /// - `ResourceNotFoundException` : The specified resource could not be found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints.
     public func updateNetworkResourceMetadata(input: UpdateNetworkResourceMetadataInput) async throws -> UpdateNetworkResourceMetadataOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2983,6 +4109,20 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
     }
 
     /// Updates the information for an existing site. To remove information for any of the parameters, specify an empty string.
+    ///
+    /// - Parameter UpdateSiteInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateSiteOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : There was a conflict processing the request. Updating or deleting the resource can cause an inconsistent state.
+    /// - `InternalServerException` : The request has failed due to an internal error.
+    /// - `ResourceNotFoundException` : The specified resource could not be found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints.
     public func updateSite(input: UpdateSiteInput) async throws -> UpdateSiteOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3019,6 +4159,20 @@ extension NetworkManagerClient: NetworkManagerClientProtocol {
     }
 
     /// Updates a VPC attachment.
+    ///
+    /// - Parameter UpdateVpcAttachmentInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateVpcAttachmentOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : There was a conflict processing the request. Updating or deleting the resource can cause an inconsistent state.
+    /// - `InternalServerException` : The request has failed due to an internal error.
+    /// - `ResourceNotFoundException` : The specified resource could not be found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints.
     public func updateVpcAttachment(input: UpdateVpcAttachmentInput) async throws -> UpdateVpcAttachmentOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()

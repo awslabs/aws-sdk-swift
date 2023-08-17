@@ -68,6 +68,19 @@ public struct ConnectCasesClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFa
 
 extension ConnectCasesClient: ConnectCasesClientProtocol {
     /// Returns the description for the list of fields in the request parameters.
+    ///
+    /// - Parameter BatchGetFieldInput : [no documentation found]
+    ///
+    /// - Returns: `BatchGetFieldOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : We couldn't process your request because of an issue with the server. Try again later.
+    /// - `ResourceNotFoundException` : We couldn't find the requested resource. Check that your resources exists and were created in the same Amazon Web Services Region as your request, and try your request again.
+    /// - `ThrottlingException` : The rate has been exceeded for this API. Please try again after a few minutes.
+    /// - `ValidationException` : The request isn't valid. Check the syntax and try again.
     public func batchGetField(input: BatchGetFieldInput) async throws -> BatchGetFieldOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -104,6 +117,20 @@ extension ConnectCasesClient: ConnectCasesClientProtocol {
     }
 
     /// Creates and updates a set of field options for a single select field in a Cases domain.
+    ///
+    /// - Parameter BatchPutFieldOptionsInput : [no documentation found]
+    ///
+    /// - Returns: `BatchPutFieldOptionsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : We couldn't process your request because of an issue with the server. Try again later.
+    /// - `ResourceNotFoundException` : We couldn't find the requested resource. Check that your resources exists and were created in the same Amazon Web Services Region as your request, and try your request again.
+    /// - `ServiceQuotaExceededException` : The service quota has been exceeded. For a list of service quotas, see [Amazon Connect Service Quotas](https://docs.aws.amazon.com/connect/latest/adminguide/amazon-connect-service-limits.html) in the Amazon Connect Administrator Guide.
+    /// - `ThrottlingException` : The rate has been exceeded for this API. Please try again after a few minutes.
+    /// - `ValidationException` : The request isn't valid. Check the syntax and try again.
     public func batchPutFieldOptions(input: BatchPutFieldOptionsInput) async throws -> BatchPutFieldOptionsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -144,6 +171,20 @@ extension ConnectCasesClient: ConnectCasesClientProtocol {
     /// * customer_id - You must provide the full customer profile ARN in this format: arn:aws:profile:your AWS Region:your AWS account ID:domains/profiles domain name/profiles/profile ID
     ///
     /// * title
+    ///
+    /// - Parameter CreateCaseInput : [no documentation found]
+    ///
+    /// - Returns: `CreateCaseOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : The requested operation would cause a conflict with the current state of a service resource associated with the request. Resolve the conflict before retrying this request. See the accompanying error message for details.
+    /// - `InternalServerException` : We couldn't process your request because of an issue with the server. Try again later.
+    /// - `ResourceNotFoundException` : We couldn't find the requested resource. Check that your resources exists and were created in the same Amazon Web Services Region as your request, and try your request again.
+    /// - `ThrottlingException` : The rate has been exceeded for this API. Please try again after a few minutes.
+    /// - `ValidationException` : The request isn't valid. Check the syntax and try again.
     public func createCase(input: CreateCaseInput) async throws -> CreateCaseOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -188,6 +229,20 @@ extension ConnectCasesClient: ConnectCasesClientProtocol {
     }
 
     /// Creates a domain, which is a container for all case data, such as cases, fields, templates and layouts. Each Amazon Connect instance can be associated with only one Cases domain. This will not associate your connect instance to Cases domain. Instead, use the Amazon Connect [CreateIntegrationAssociation](https://docs.aws.amazon.com/connect/latest/APIReference/API_CreateIntegrationAssociation.html) API. You need specific IAM permissions to successfully associate the Cases domain. For more information, see [Onboard to Cases](https://docs.aws.amazon.com/connect/latest/adminguide/required-permissions-iam-cases.html#onboard-cases-iam).
+    ///
+    /// - Parameter CreateDomainInput : [no documentation found]
+    ///
+    /// - Returns: `CreateDomainOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : The requested operation would cause a conflict with the current state of a service resource associated with the request. Resolve the conflict before retrying this request. See the accompanying error message for details.
+    /// - `InternalServerException` : We couldn't process your request because of an issue with the server. Try again later.
+    /// - `ServiceQuotaExceededException` : The service quota has been exceeded. For a list of service quotas, see [Amazon Connect Service Quotas](https://docs.aws.amazon.com/connect/latest/adminguide/amazon-connect-service-limits.html) in the Amazon Connect Administrator Guide.
+    /// - `ThrottlingException` : The rate has been exceeded for this API. Please try again after a few minutes.
+    /// - `ValidationException` : The request isn't valid. Check the syntax and try again.
     public func createDomain(input: CreateDomainInput) async throws -> CreateDomainOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -224,6 +279,21 @@ extension ConnectCasesClient: ConnectCasesClientProtocol {
     }
 
     /// Creates a field in the Cases domain. This field is used to define the case object model (that is, defines what data can be captured on cases) in a Cases domain.
+    ///
+    /// - Parameter CreateFieldInput : [no documentation found]
+    ///
+    /// - Returns: `CreateFieldOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : The requested operation would cause a conflict with the current state of a service resource associated with the request. Resolve the conflict before retrying this request. See the accompanying error message for details.
+    /// - `InternalServerException` : We couldn't process your request because of an issue with the server. Try again later.
+    /// - `ResourceNotFoundException` : We couldn't find the requested resource. Check that your resources exists and were created in the same Amazon Web Services Region as your request, and try your request again.
+    /// - `ServiceQuotaExceededException` : The service quota has been exceeded. For a list of service quotas, see [Amazon Connect Service Quotas](https://docs.aws.amazon.com/connect/latest/adminguide/amazon-connect-service-limits.html) in the Amazon Connect Administrator Guide.
+    /// - `ThrottlingException` : The rate has been exceeded for this API. Please try again after a few minutes.
+    /// - `ValidationException` : The request isn't valid. Check the syntax and try again.
     public func createField(input: CreateFieldInput) async throws -> CreateFieldOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -267,6 +337,21 @@ extension ConnectCasesClient: ConnectCasesClientProtocol {
     ///
     ///
     /// Title and Status fields cannot be part of layouts since they are not configurable.
+    ///
+    /// - Parameter CreateLayoutInput : [no documentation found]
+    ///
+    /// - Returns: `CreateLayoutOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : The requested operation would cause a conflict with the current state of a service resource associated with the request. Resolve the conflict before retrying this request. See the accompanying error message for details.
+    /// - `InternalServerException` : We couldn't process your request because of an issue with the server. Try again later.
+    /// - `ResourceNotFoundException` : We couldn't find the requested resource. Check that your resources exists and were created in the same Amazon Web Services Region as your request, and try your request again.
+    /// - `ServiceQuotaExceededException` : The service quota has been exceeded. For a list of service quotas, see [Amazon Connect Service Quotas](https://docs.aws.amazon.com/connect/latest/adminguide/amazon-connect-service-limits.html) in the Amazon Connect Administrator Guide.
+    /// - `ThrottlingException` : The rate has been exceeded for this API. Please try again after a few minutes.
+    /// - `ValidationException` : The request isn't valid. Check the syntax and try again.
     public func createLayout(input: CreateLayoutInput) async throws -> CreateLayoutOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -303,6 +388,20 @@ extension ConnectCasesClient: ConnectCasesClientProtocol {
     }
 
     /// Creates a related item (comments, tasks, and contacts) and associates it with a case. A Related Item is a resource that is associated with a case. It may or may not have an external identifier linking it to an external resource (for example, a contactArn). All Related Items have their own internal identifier, the relatedItemArn. Examples of related items include comments and contacts.
+    ///
+    /// - Parameter CreateRelatedItemInput : [no documentation found]
+    ///
+    /// - Returns: `CreateRelatedItemOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : We couldn't process your request because of an issue with the server. Try again later.
+    /// - `ResourceNotFoundException` : We couldn't find the requested resource. Check that your resources exists and were created in the same Amazon Web Services Region as your request, and try your request again.
+    /// - `ServiceQuotaExceededException` : The service quota has been exceeded. For a list of service quotas, see [Amazon Connect Service Quotas](https://docs.aws.amazon.com/connect/latest/adminguide/amazon-connect-service-limits.html) in the Amazon Connect Administrator Guide.
+    /// - `ThrottlingException` : The rate has been exceeded for this API. Please try again after a few minutes.
+    /// - `ValidationException` : The request isn't valid. Check the syntax and try again.
     public func createRelatedItem(input: CreateRelatedItemInput) async throws -> CreateRelatedItemOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -339,6 +438,21 @@ extension ConnectCasesClient: ConnectCasesClientProtocol {
     }
 
     /// Creates a template in the Cases domain. This template is used to define the case object model (that is, to define what data can be captured on cases) in a Cases domain. A template must have a unique name within a domain, and it must reference existing field IDs and layout IDs. Additionally, multiple fields with same IDs are not allowed within the same Template. A template can be either Active or Inactive, as indicated by its status. Inactive templates cannot be used to create cases.
+    ///
+    /// - Parameter CreateTemplateInput : [no documentation found]
+    ///
+    /// - Returns: `CreateTemplateOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : The requested operation would cause a conflict with the current state of a service resource associated with the request. Resolve the conflict before retrying this request. See the accompanying error message for details.
+    /// - `InternalServerException` : We couldn't process your request because of an issue with the server. Try again later.
+    /// - `ResourceNotFoundException` : We couldn't find the requested resource. Check that your resources exists and were created in the same Amazon Web Services Region as your request, and try your request again.
+    /// - `ServiceQuotaExceededException` : The service quota has been exceeded. For a list of service quotas, see [Amazon Connect Service Quotas](https://docs.aws.amazon.com/connect/latest/adminguide/amazon-connect-service-limits.html) in the Amazon Connect Administrator Guide.
+    /// - `ThrottlingException` : The rate has been exceeded for this API. Please try again after a few minutes.
+    /// - `ValidationException` : The request isn't valid. Check the syntax and try again.
     public func createTemplate(input: CreateTemplateInput) async throws -> CreateTemplateOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -375,6 +489,20 @@ extension ConnectCasesClient: ConnectCasesClientProtocol {
     }
 
     /// Deletes a Cases domain. After deleting your domain you must disassociate the deleted domain from your Amazon Connect instance with another API call before being able to use Cases again with this Amazon Connect instance. See [DeleteIntegrationAssociation](https://docs.aws.amazon.com/connect/latest/APIReference/API_DeleteIntegrationAssociation.html).
+    ///
+    /// - Parameter DeleteDomainInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteDomainOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : The requested operation would cause a conflict with the current state of a service resource associated with the request. Resolve the conflict before retrying this request. See the accompanying error message for details.
+    /// - `InternalServerException` : We couldn't process your request because of an issue with the server. Try again later.
+    /// - `ResourceNotFoundException` : We couldn't find the requested resource. Check that your resources exists and were created in the same Amazon Web Services Region as your request, and try your request again.
+    /// - `ThrottlingException` : The rate has been exceeded for this API. Please try again after a few minutes.
+    /// - `ValidationException` : The request isn't valid. Check the syntax and try again.
     public func deleteDomain(input: DeleteDomainInput) async throws -> DeleteDomainOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -408,6 +536,19 @@ extension ConnectCasesClient: ConnectCasesClientProtocol {
     }
 
     /// Returns information about a specific case if it exists.
+    ///
+    /// - Parameter GetCaseInput : [no documentation found]
+    ///
+    /// - Returns: `GetCaseOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : We couldn't process your request because of an issue with the server. Try again later.
+    /// - `ResourceNotFoundException` : We couldn't find the requested resource. Check that your resources exists and were created in the same Amazon Web Services Region as your request, and try your request again.
+    /// - `ThrottlingException` : The rate has been exceeded for this API. Please try again after a few minutes.
+    /// - `ValidationException` : The request isn't valid. Check the syntax and try again.
     public func getCase(input: GetCaseInput) async throws -> GetCaseOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -444,6 +585,19 @@ extension ConnectCasesClient: ConnectCasesClientProtocol {
     }
 
     /// Returns the case event publishing configuration.
+    ///
+    /// - Parameter GetCaseEventConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `GetCaseEventConfigurationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : We couldn't process your request because of an issue with the server. Try again later.
+    /// - `ResourceNotFoundException` : We couldn't find the requested resource. Check that your resources exists and were created in the same Amazon Web Services Region as your request, and try your request again.
+    /// - `ThrottlingException` : The rate has been exceeded for this API. Please try again after a few minutes.
+    /// - `ValidationException` : The request isn't valid. Check the syntax and try again.
     public func getCaseEventConfiguration(input: GetCaseEventConfigurationInput) async throws -> GetCaseEventConfigurationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -477,6 +631,19 @@ extension ConnectCasesClient: ConnectCasesClientProtocol {
     }
 
     /// Returns information about a specific domain if it exists.
+    ///
+    /// - Parameter GetDomainInput : [no documentation found]
+    ///
+    /// - Returns: `GetDomainOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : We couldn't process your request because of an issue with the server. Try again later.
+    /// - `ResourceNotFoundException` : We couldn't find the requested resource. Check that your resources exists and were created in the same Amazon Web Services Region as your request, and try your request again.
+    /// - `ThrottlingException` : The rate has been exceeded for this API. Please try again after a few minutes.
+    /// - `ValidationException` : The request isn't valid. Check the syntax and try again.
     public func getDomain(input: GetDomainInput) async throws -> GetDomainOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -510,6 +677,19 @@ extension ConnectCasesClient: ConnectCasesClientProtocol {
     }
 
     /// Returns the details for the requested layout.
+    ///
+    /// - Parameter GetLayoutInput : [no documentation found]
+    ///
+    /// - Returns: `GetLayoutOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : We couldn't process your request because of an issue with the server. Try again later.
+    /// - `ResourceNotFoundException` : We couldn't find the requested resource. Check that your resources exists and were created in the same Amazon Web Services Region as your request, and try your request again.
+    /// - `ThrottlingException` : The rate has been exceeded for this API. Please try again after a few minutes.
+    /// - `ValidationException` : The request isn't valid. Check the syntax and try again.
     public func getLayout(input: GetLayoutInput) async throws -> GetLayoutOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -543,6 +723,19 @@ extension ConnectCasesClient: ConnectCasesClientProtocol {
     }
 
     /// Returns the details for the requested template.
+    ///
+    /// - Parameter GetTemplateInput : [no documentation found]
+    ///
+    /// - Returns: `GetTemplateOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : We couldn't process your request because of an issue with the server. Try again later.
+    /// - `ResourceNotFoundException` : We couldn't find the requested resource. Check that your resources exists and were created in the same Amazon Web Services Region as your request, and try your request again.
+    /// - `ThrottlingException` : The rate has been exceeded for this API. Please try again after a few minutes.
+    /// - `ValidationException` : The request isn't valid. Check the syntax and try again.
     public func getTemplate(input: GetTemplateInput) async throws -> GetTemplateOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -576,6 +769,19 @@ extension ConnectCasesClient: ConnectCasesClientProtocol {
     }
 
     /// Lists cases for a given contact.
+    ///
+    /// - Parameter ListCasesForContactInput : [no documentation found]
+    ///
+    /// - Returns: `ListCasesForContactOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : We couldn't process your request because of an issue with the server. Try again later.
+    /// - `ResourceNotFoundException` : We couldn't find the requested resource. Check that your resources exists and were created in the same Amazon Web Services Region as your request, and try your request again.
+    /// - `ThrottlingException` : The rate has been exceeded for this API. Please try again after a few minutes.
+    /// - `ValidationException` : The request isn't valid. Check the syntax and try again.
     public func listCasesForContact(input: ListCasesForContactInput) async throws -> ListCasesForContactOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -612,6 +818,18 @@ extension ConnectCasesClient: ConnectCasesClientProtocol {
     }
 
     /// Lists all cases domains in the Amazon Web Services account. Each list item is a condensed summary object of the domain.
+    ///
+    /// - Parameter ListDomainsInput : [no documentation found]
+    ///
+    /// - Returns: `ListDomainsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : We couldn't process your request because of an issue with the server. Try again later.
+    /// - `ThrottlingException` : The rate has been exceeded for this API. Please try again after a few minutes.
+    /// - `ValidationException` : The request isn't valid. Check the syntax and try again.
     public func listDomains(input: ListDomainsInput) async throws -> ListDomainsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -646,6 +864,19 @@ extension ConnectCasesClient: ConnectCasesClientProtocol {
     }
 
     /// Lists all of the field options for a field identifier in the domain.
+    ///
+    /// - Parameter ListFieldOptionsInput : [no documentation found]
+    ///
+    /// - Returns: `ListFieldOptionsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : We couldn't process your request because of an issue with the server. Try again later.
+    /// - `ResourceNotFoundException` : We couldn't find the requested resource. Check that your resources exists and were created in the same Amazon Web Services Region as your request, and try your request again.
+    /// - `ThrottlingException` : The rate has been exceeded for this API. Please try again after a few minutes.
+    /// - `ValidationException` : The request isn't valid. Check the syntax and try again.
     public func listFieldOptions(input: ListFieldOptionsInput) async throws -> ListFieldOptionsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -680,6 +911,19 @@ extension ConnectCasesClient: ConnectCasesClientProtocol {
     }
 
     /// Lists all fields in a Cases domain.
+    ///
+    /// - Parameter ListFieldsInput : [no documentation found]
+    ///
+    /// - Returns: `ListFieldsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : We couldn't process your request because of an issue with the server. Try again later.
+    /// - `ResourceNotFoundException` : We couldn't find the requested resource. Check that your resources exists and were created in the same Amazon Web Services Region as your request, and try your request again.
+    /// - `ThrottlingException` : The rate has been exceeded for this API. Please try again after a few minutes.
+    /// - `ValidationException` : The request isn't valid. Check the syntax and try again.
     public func listFields(input: ListFieldsInput) async throws -> ListFieldsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -714,6 +958,19 @@ extension ConnectCasesClient: ConnectCasesClientProtocol {
     }
 
     /// Lists all layouts in the given cases domain. Each list item is a condensed summary object of the layout.
+    ///
+    /// - Parameter ListLayoutsInput : [no documentation found]
+    ///
+    /// - Returns: `ListLayoutsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : We couldn't process your request because of an issue with the server. Try again later.
+    /// - `ResourceNotFoundException` : We couldn't find the requested resource. Check that your resources exists and were created in the same Amazon Web Services Region as your request, and try your request again.
+    /// - `ThrottlingException` : The rate has been exceeded for this API. Please try again after a few minutes.
+    /// - `ValidationException` : The request isn't valid. Check the syntax and try again.
     public func listLayouts(input: ListLayoutsInput) async throws -> ListLayoutsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -748,6 +1005,19 @@ extension ConnectCasesClient: ConnectCasesClientProtocol {
     }
 
     /// Lists tags for a resource.
+    ///
+    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    ///
+    /// - Returns: `ListTagsForResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : We couldn't process your request because of an issue with the server. Try again later.
+    /// - `ResourceNotFoundException` : We couldn't find the requested resource. Check that your resources exists and were created in the same Amazon Web Services Region as your request, and try your request again.
+    /// - `ThrottlingException` : The rate has been exceeded for this API. Please try again after a few minutes.
+    /// - `ValidationException` : The request isn't valid. Check the syntax and try again.
     public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -781,6 +1051,19 @@ extension ConnectCasesClient: ConnectCasesClientProtocol {
     }
 
     /// Lists all of the templates in a Cases domain. Each list item is a condensed summary object of the template.
+    ///
+    /// - Parameter ListTemplatesInput : [no documentation found]
+    ///
+    /// - Returns: `ListTemplatesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : We couldn't process your request because of an issue with the server. Try again later.
+    /// - `ResourceNotFoundException` : We couldn't find the requested resource. Check that your resources exists and were created in the same Amazon Web Services Region as your request, and try your request again.
+    /// - `ThrottlingException` : The rate has been exceeded for this API. Please try again after a few minutes.
+    /// - `ValidationException` : The request isn't valid. Check the syntax and try again.
     public func listTemplates(input: ListTemplatesInput) async throws -> ListTemplatesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -815,6 +1098,19 @@ extension ConnectCasesClient: ConnectCasesClientProtocol {
     }
 
     /// API for adding case event publishing configuration
+    ///
+    /// - Parameter PutCaseEventConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `PutCaseEventConfigurationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : We couldn't process your request because of an issue with the server. Try again later.
+    /// - `ResourceNotFoundException` : We couldn't find the requested resource. Check that your resources exists and were created in the same Amazon Web Services Region as your request, and try your request again.
+    /// - `ThrottlingException` : The rate has been exceeded for this API. Please try again after a few minutes.
+    /// - `ValidationException` : The request isn't valid. Check the syntax and try again.
     public func putCaseEventConfiguration(input: PutCaseEventConfigurationInput) async throws -> PutCaseEventConfigurationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -851,6 +1147,19 @@ extension ConnectCasesClient: ConnectCasesClientProtocol {
     }
 
     /// Searches for cases within their associated Cases domain. Search results are returned as a paginated list of abridged case documents. For customer_id you must provide the full customer profile ARN in this format:  arn:aws:profile:your AWS Region:your AWS account ID:domains/profiles domain name/profiles/profile ID.
+    ///
+    /// - Parameter SearchCasesInput : [no documentation found]
+    ///
+    /// - Returns: `SearchCasesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : We couldn't process your request because of an issue with the server. Try again later.
+    /// - `ResourceNotFoundException` : We couldn't find the requested resource. Check that your resources exists and were created in the same Amazon Web Services Region as your request, and try your request again.
+    /// - `ThrottlingException` : The rate has been exceeded for this API. Please try again after a few minutes.
+    /// - `ValidationException` : The request isn't valid. Check the syntax and try again.
     public func searchCases(input: SearchCasesInput) async throws -> SearchCasesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -887,6 +1196,19 @@ extension ConnectCasesClient: ConnectCasesClientProtocol {
     }
 
     /// Searches for related items that are associated with a case. If no filters are provided, this returns all related items associated with a case.
+    ///
+    /// - Parameter SearchRelatedItemsInput : [no documentation found]
+    ///
+    /// - Returns: `SearchRelatedItemsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : We couldn't process your request because of an issue with the server. Try again later.
+    /// - `ResourceNotFoundException` : We couldn't find the requested resource. Check that your resources exists and were created in the same Amazon Web Services Region as your request, and try your request again.
+    /// - `ThrottlingException` : The rate has been exceeded for this API. Please try again after a few minutes.
+    /// - `ValidationException` : The request isn't valid. Check the syntax and try again.
     public func searchRelatedItems(input: SearchRelatedItemsInput) async throws -> SearchRelatedItemsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -923,6 +1245,19 @@ extension ConnectCasesClient: ConnectCasesClientProtocol {
     }
 
     /// Adds tags to a resource.
+    ///
+    /// - Parameter TagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `TagResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : We couldn't process your request because of an issue with the server. Try again later.
+    /// - `ResourceNotFoundException` : We couldn't find the requested resource. Check that your resources exists and were created in the same Amazon Web Services Region as your request, and try your request again.
+    /// - `ThrottlingException` : The rate has been exceeded for this API. Please try again after a few minutes.
+    /// - `ValidationException` : The request isn't valid. Check the syntax and try again.
     public func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -959,6 +1294,19 @@ extension ConnectCasesClient: ConnectCasesClientProtocol {
     }
 
     /// Untags a resource.
+    ///
+    /// - Parameter UntagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `UntagResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : We couldn't process your request because of an issue with the server. Try again later.
+    /// - `ResourceNotFoundException` : We couldn't find the requested resource. Check that your resources exists and were created in the same Amazon Web Services Region as your request, and try your request again.
+    /// - `ThrottlingException` : The rate has been exceeded for this API. Please try again after a few minutes.
+    /// - `ValidationException` : The request isn't valid. Check the syntax and try again.
     public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -993,6 +1341,19 @@ extension ConnectCasesClient: ConnectCasesClientProtocol {
     }
 
     /// Updates the values of fields on a case. Fields to be updated are received as an array of id/value pairs identical to the CreateCase input . If the action is successful, the service sends back an HTTP 200 response with an empty HTTP body.
+    ///
+    /// - Parameter UpdateCaseInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateCaseOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : We couldn't process your request because of an issue with the server. Try again later.
+    /// - `ResourceNotFoundException` : We couldn't find the requested resource. Check that your resources exists and were created in the same Amazon Web Services Region as your request, and try your request again.
+    /// - `ThrottlingException` : The rate has been exceeded for this API. Please try again after a few minutes.
+    /// - `ValidationException` : The request isn't valid. Check the syntax and try again.
     public func updateCase(input: UpdateCaseInput) async throws -> UpdateCaseOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1029,6 +1390,20 @@ extension ConnectCasesClient: ConnectCasesClientProtocol {
     }
 
     /// Updates the properties of an existing field.
+    ///
+    /// - Parameter UpdateFieldInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateFieldOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : The requested operation would cause a conflict with the current state of a service resource associated with the request. Resolve the conflict before retrying this request. See the accompanying error message for details.
+    /// - `InternalServerException` : We couldn't process your request because of an issue with the server. Try again later.
+    /// - `ResourceNotFoundException` : We couldn't find the requested resource. Check that your resources exists and were created in the same Amazon Web Services Region as your request, and try your request again.
+    /// - `ThrottlingException` : The rate has been exceeded for this API. Please try again after a few minutes.
+    /// - `ValidationException` : The request isn't valid. Check the syntax and try again.
     public func updateField(input: UpdateFieldInput) async throws -> UpdateFieldOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1065,6 +1440,21 @@ extension ConnectCasesClient: ConnectCasesClientProtocol {
     }
 
     /// Updates the attributes of an existing layout. If the action is successful, the service sends back an HTTP 200 response with an empty HTTP body. A ValidationException is returned when you add non-existent fieldIds to a layout. Title and Status fields cannot be part of layouts because they are not configurable.
+    ///
+    /// - Parameter UpdateLayoutInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateLayoutOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : The requested operation would cause a conflict with the current state of a service resource associated with the request. Resolve the conflict before retrying this request. See the accompanying error message for details.
+    /// - `InternalServerException` : We couldn't process your request because of an issue with the server. Try again later.
+    /// - `ResourceNotFoundException` : We couldn't find the requested resource. Check that your resources exists and were created in the same Amazon Web Services Region as your request, and try your request again.
+    /// - `ServiceQuotaExceededException` : The service quota has been exceeded. For a list of service quotas, see [Amazon Connect Service Quotas](https://docs.aws.amazon.com/connect/latest/adminguide/amazon-connect-service-limits.html) in the Amazon Connect Administrator Guide.
+    /// - `ThrottlingException` : The rate has been exceeded for this API. Please try again after a few minutes.
+    /// - `ValidationException` : The request isn't valid. Check the syntax and try again.
     public func updateLayout(input: UpdateLayoutInput) async throws -> UpdateLayoutOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1101,6 +1491,20 @@ extension ConnectCasesClient: ConnectCasesClientProtocol {
     }
 
     /// Updates the attributes of an existing template. The template attributes that can be modified include name, description, layoutConfiguration, requiredFields, and status. At least one of these attributes must not be null. If a null value is provided for a given attribute, that attribute is ignored and its current value is preserved.
+    ///
+    /// - Parameter UpdateTemplateInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateTemplateOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : The requested operation would cause a conflict with the current state of a service resource associated with the request. Resolve the conflict before retrying this request. See the accompanying error message for details.
+    /// - `InternalServerException` : We couldn't process your request because of an issue with the server. Try again later.
+    /// - `ResourceNotFoundException` : We couldn't find the requested resource. Check that your resources exists and were created in the same Amazon Web Services Region as your request, and try your request again.
+    /// - `ThrottlingException` : The rate has been exceeded for this API. Please try again after a few minutes.
+    /// - `ValidationException` : The request isn't valid. Check the syntax and try again.
     public func updateTemplate(input: UpdateTemplateInput) async throws -> UpdateTemplateOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()

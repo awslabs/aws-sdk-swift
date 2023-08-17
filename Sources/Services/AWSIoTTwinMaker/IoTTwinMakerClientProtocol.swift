@@ -5,72 +5,515 @@ import ClientRuntime
 /// IoT TwinMaker is a service with which you can build operational digital twins of physical systems. IoT TwinMaker overlays measurements and analysis from real-world sensors, cameras, and enterprise applications so you can create data visualizations to monitor your physical factory, building, or industrial plant. You can use this real-world data to monitor operations and diagnose and repair errors.
 public protocol IoTTwinMakerClientProtocol {
     /// Sets values for multiple time series properties.
+    ///
+    /// - Parameter BatchPutPropertyValuesInput : [no documentation found]
+    ///
+    /// - Returns: `BatchPutPropertyValuesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : An unexpected error has occurred.
+    /// - `ResourceNotFoundException` : The resource wasn't found.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `ValidationException` : Failed
     func batchPutPropertyValues(input: BatchPutPropertyValuesInput) async throws -> BatchPutPropertyValuesOutputResponse
     /// Creates a component type.
+    ///
+    /// - Parameter CreateComponentTypeInput : [no documentation found]
+    ///
+    /// - Returns: `CreateComponentTypeOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access is denied.
+    /// - `ConflictException` : A conflict occurred.
+    /// - `InternalServerException` : An unexpected error has occurred.
+    /// - `ServiceQuotaExceededException` : The service quota was exceeded.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `ValidationException` : Failed
     func createComponentType(input: CreateComponentTypeInput) async throws -> CreateComponentTypeOutputResponse
     /// Creates an entity.
+    ///
+    /// - Parameter CreateEntityInput : [no documentation found]
+    ///
+    /// - Returns: `CreateEntityOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access is denied.
+    /// - `ConflictException` : A conflict occurred.
+    /// - `InternalServerException` : An unexpected error has occurred.
+    /// - `ServiceQuotaExceededException` : The service quota was exceeded.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `ValidationException` : Failed
     func createEntity(input: CreateEntityInput) async throws -> CreateEntityOutputResponse
     /// Creates a scene.
+    ///
+    /// - Parameter CreateSceneInput : [no documentation found]
+    ///
+    /// - Returns: `CreateSceneOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access is denied.
+    /// - `ConflictException` : A conflict occurred.
+    /// - `InternalServerException` : An unexpected error has occurred.
+    /// - `ServiceQuotaExceededException` : The service quota was exceeded.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `ValidationException` : Failed
     func createScene(input: CreateSceneInput) async throws -> CreateSceneOutputResponse
     /// This action creates a SyncJob.
+    ///
+    /// - Parameter CreateSyncJobInput : [no documentation found]
+    ///
+    /// - Returns: `CreateSyncJobOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access is denied.
+    /// - `ConflictException` : A conflict occurred.
+    /// - `InternalServerException` : An unexpected error has occurred.
+    /// - `ServiceQuotaExceededException` : The service quota was exceeded.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `ValidationException` : Failed
     func createSyncJob(input: CreateSyncJobInput) async throws -> CreateSyncJobOutputResponse
     /// Creates a workplace.
+    ///
+    /// - Parameter CreateWorkspaceInput : [no documentation found]
+    ///
+    /// - Returns: `CreateWorkspaceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access is denied.
+    /// - `ConflictException` : A conflict occurred.
+    /// - `InternalServerException` : An unexpected error has occurred.
+    /// - `ServiceQuotaExceededException` : The service quota was exceeded.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `ValidationException` : Failed
     func createWorkspace(input: CreateWorkspaceInput) async throws -> CreateWorkspaceOutputResponse
     /// Deletes a component type.
+    ///
+    /// - Parameter DeleteComponentTypeInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteComponentTypeOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access is denied.
+    /// - `InternalServerException` : An unexpected error has occurred.
+    /// - `ResourceNotFoundException` : The resource wasn't found.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `ValidationException` : Failed
     func deleteComponentType(input: DeleteComponentTypeInput) async throws -> DeleteComponentTypeOutputResponse
     /// Deletes an entity.
+    ///
+    /// - Parameter DeleteEntityInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteEntityOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : An unexpected error has occurred.
+    /// - `ResourceNotFoundException` : The resource wasn't found.
+    /// - `ServiceQuotaExceededException` : The service quota was exceeded.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `ValidationException` : Failed
     func deleteEntity(input: DeleteEntityInput) async throws -> DeleteEntityOutputResponse
     /// Deletes a scene.
+    ///
+    /// - Parameter DeleteSceneInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteSceneOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access is denied.
+    /// - `InternalServerException` : An unexpected error has occurred.
+    /// - `ResourceNotFoundException` : The resource wasn't found.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `ValidationException` : Failed
     func deleteScene(input: DeleteSceneInput) async throws -> DeleteSceneOutputResponse
     /// Delete the SyncJob.
+    ///
+    /// - Parameter DeleteSyncJobInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteSyncJobOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access is denied.
+    /// - `InternalServerException` : An unexpected error has occurred.
+    /// - `ResourceNotFoundException` : The resource wasn't found.
+    /// - `ServiceQuotaExceededException` : The service quota was exceeded.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `ValidationException` : Failed
     func deleteSyncJob(input: DeleteSyncJobInput) async throws -> DeleteSyncJobOutputResponse
     /// Deletes a workspace.
+    ///
+    /// - Parameter DeleteWorkspaceInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteWorkspaceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access is denied.
+    /// - `InternalServerException` : An unexpected error has occurred.
+    /// - `ResourceNotFoundException` : The resource wasn't found.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `ValidationException` : Failed
     func deleteWorkspace(input: DeleteWorkspaceInput) async throws -> DeleteWorkspaceOutputResponse
     /// Run queries to access information from your knowledge graph of entities within individual workspaces.
+    ///
+    /// - Parameter ExecuteQueryInput : [no documentation found]
+    ///
+    /// - Returns: `ExecuteQueryOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access is denied.
+    /// - `InternalServerException` : An unexpected error has occurred.
+    /// - `QueryTimeoutException` : The query timeout exception.
+    /// - `ServiceQuotaExceededException` : The service quota was exceeded.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `ValidationException` : Failed
     func executeQuery(input: ExecuteQueryInput) async throws -> ExecuteQueryOutputResponse
     /// Retrieves information about a component type.
+    ///
+    /// - Parameter GetComponentTypeInput : [no documentation found]
+    ///
+    /// - Returns: `GetComponentTypeOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access is denied.
+    /// - `InternalServerException` : An unexpected error has occurred.
+    /// - `ResourceNotFoundException` : The resource wasn't found.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `ValidationException` : Failed
     func getComponentType(input: GetComponentTypeInput) async throws -> GetComponentTypeOutputResponse
     /// Retrieves information about an entity.
+    ///
+    /// - Parameter GetEntityInput : [no documentation found]
+    ///
+    /// - Returns: `GetEntityOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : An unexpected error has occurred.
+    /// - `ResourceNotFoundException` : The resource wasn't found.
+    /// - `ServiceQuotaExceededException` : The service quota was exceeded.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `ValidationException` : Failed
     func getEntity(input: GetEntityInput) async throws -> GetEntityOutputResponse
     /// Gets the pricing plan.
+    ///
+    /// - Parameter GetPricingPlanInput : [no documentation found]
+    ///
+    /// - Returns: `GetPricingPlanOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access is denied.
+    /// - `InternalServerException` : An unexpected error has occurred.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `ValidationException` : Failed
     func getPricingPlan(input: GetPricingPlanInput) async throws -> GetPricingPlanOutputResponse
     /// Gets the property values for a component, component type, entity, or workspace. You must specify a value for either componentName, componentTypeId, entityId, or workspaceId.
+    ///
+    /// - Parameter GetPropertyValueInput : [no documentation found]
+    ///
+    /// - Returns: `GetPropertyValueOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access is denied.
+    /// - `ConnectorFailureException` : The connector failed.
+    /// - `ConnectorTimeoutException` : The connector timed out.
+    /// - `InternalServerException` : An unexpected error has occurred.
+    /// - `ResourceNotFoundException` : The resource wasn't found.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `ValidationException` : Failed
     func getPropertyValue(input: GetPropertyValueInput) async throws -> GetPropertyValueOutputResponse
     /// Retrieves information about the history of a time series property value for a component, component type, entity, or workspace. You must specify a value for workspaceId. For entity-specific queries, specify values for componentName and entityId. For cross-entity quries, specify a value for componentTypeId.
+    ///
+    /// - Parameter GetPropertyValueHistoryInput : [no documentation found]
+    ///
+    /// - Returns: `GetPropertyValueHistoryOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access is denied.
+    /// - `ConnectorFailureException` : The connector failed.
+    /// - `ConnectorTimeoutException` : The connector timed out.
+    /// - `InternalServerException` : An unexpected error has occurred.
+    /// - `ResourceNotFoundException` : The resource wasn't found.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `ValidationException` : Failed
     func getPropertyValueHistory(input: GetPropertyValueHistoryInput) async throws -> GetPropertyValueHistoryOutputResponse
     /// Retrieves information about a scene.
+    ///
+    /// - Parameter GetSceneInput : [no documentation found]
+    ///
+    /// - Returns: `GetSceneOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access is denied.
+    /// - `InternalServerException` : An unexpected error has occurred.
+    /// - `ResourceNotFoundException` : The resource wasn't found.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `ValidationException` : Failed
     func getScene(input: GetSceneInput) async throws -> GetSceneOutputResponse
     /// Gets the SyncJob.
+    ///
+    /// - Parameter GetSyncJobInput : [no documentation found]
+    ///
+    /// - Returns: `GetSyncJobOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access is denied.
+    /// - `InternalServerException` : An unexpected error has occurred.
+    /// - `ResourceNotFoundException` : The resource wasn't found.
+    /// - `ServiceQuotaExceededException` : The service quota was exceeded.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `ValidationException` : Failed
     func getSyncJob(input: GetSyncJobInput) async throws -> GetSyncJobOutputResponse
     /// Retrieves information about a workspace.
+    ///
+    /// - Parameter GetWorkspaceInput : [no documentation found]
+    ///
+    /// - Returns: `GetWorkspaceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : An unexpected error has occurred.
+    /// - `ResourceNotFoundException` : The resource wasn't found.
+    /// - `ServiceQuotaExceededException` : The service quota was exceeded.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `ValidationException` : Failed
     func getWorkspace(input: GetWorkspaceInput) async throws -> GetWorkspaceOutputResponse
     /// Lists all component types in a workspace.
+    ///
+    /// - Parameter ListComponentTypesInput : [no documentation found]
+    ///
+    /// - Returns: `ListComponentTypesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access is denied.
+    /// - `InternalServerException` : An unexpected error has occurred.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `ValidationException` : Failed
     func listComponentTypes(input: ListComponentTypesInput) async throws -> ListComponentTypesOutputResponse
     /// Lists all entities in a workspace.
+    ///
+    /// - Parameter ListEntitiesInput : [no documentation found]
+    ///
+    /// - Returns: `ListEntitiesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : An unexpected error has occurred.
+    /// - `ServiceQuotaExceededException` : The service quota was exceeded.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `ValidationException` : Failed
     func listEntities(input: ListEntitiesInput) async throws -> ListEntitiesOutputResponse
     /// Lists all scenes in a workspace.
+    ///
+    /// - Parameter ListScenesInput : [no documentation found]
+    ///
+    /// - Returns: `ListScenesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access is denied.
+    /// - `InternalServerException` : An unexpected error has occurred.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `ValidationException` : Failed
     func listScenes(input: ListScenesInput) async throws -> ListScenesOutputResponse
     /// List all SyncJobs.
+    ///
+    /// - Parameter ListSyncJobsInput : [no documentation found]
+    ///
+    /// - Returns: `ListSyncJobsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access is denied.
+    /// - `InternalServerException` : An unexpected error has occurred.
+    /// - `ServiceQuotaExceededException` : The service quota was exceeded.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `ValidationException` : Failed
     func listSyncJobs(input: ListSyncJobsInput) async throws -> ListSyncJobsOutputResponse
     /// Lists the sync resources.
+    ///
+    /// - Parameter ListSyncResourcesInput : [no documentation found]
+    ///
+    /// - Returns: `ListSyncResourcesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access is denied.
+    /// - `InternalServerException` : An unexpected error has occurred.
+    /// - `ServiceQuotaExceededException` : The service quota was exceeded.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `ValidationException` : Failed
     func listSyncResources(input: ListSyncResourcesInput) async throws -> ListSyncResourcesOutputResponse
     /// Lists all tags associated with a resource.
+    ///
+    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    ///
+    /// - Returns: `ListTagsForResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access is denied.
+    /// - `ResourceNotFoundException` : The resource wasn't found.
     func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
     /// Retrieves information about workspaces in the current account.
+    ///
+    /// - Parameter ListWorkspacesInput : [no documentation found]
+    ///
+    /// - Returns: `ListWorkspacesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : An unexpected error has occurred.
+    /// - `ServiceQuotaExceededException` : The service quota was exceeded.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `ValidationException` : Failed
     func listWorkspaces(input: ListWorkspacesInput) async throws -> ListWorkspacesOutputResponse
     /// Adds tags to a resource.
+    ///
+    /// - Parameter TagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `TagResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access is denied.
+    /// - `ResourceNotFoundException` : The resource wasn't found.
+    /// - `TooManyTagsException` : The number of tags exceeds the limit.
     func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
     /// Removes tags from a resource.
+    ///
+    /// - Parameter UntagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `UntagResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access is denied.
+    /// - `ResourceNotFoundException` : The resource wasn't found.
     func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
     /// Updates information in a component type.
+    ///
+    /// - Parameter UpdateComponentTypeInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateComponentTypeOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access is denied.
+    /// - `InternalServerException` : An unexpected error has occurred.
+    /// - `ResourceNotFoundException` : The resource wasn't found.
+    /// - `ServiceQuotaExceededException` : The service quota was exceeded.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `ValidationException` : Failed
     func updateComponentType(input: UpdateComponentTypeInput) async throws -> UpdateComponentTypeOutputResponse
     /// Updates an entity.
+    ///
+    /// - Parameter UpdateEntityInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateEntityOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access is denied.
+    /// - `ConflictException` : A conflict occurred.
+    /// - `InternalServerException` : An unexpected error has occurred.
+    /// - `ResourceNotFoundException` : The resource wasn't found.
+    /// - `ServiceQuotaExceededException` : The service quota was exceeded.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `ValidationException` : Failed
     func updateEntity(input: UpdateEntityInput) async throws -> UpdateEntityOutputResponse
     /// Update the pricing plan.
+    ///
+    /// - Parameter UpdatePricingPlanInput : [no documentation found]
+    ///
+    /// - Returns: `UpdatePricingPlanOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access is denied.
+    /// - `InternalServerException` : An unexpected error has occurred.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `ValidationException` : Failed
     func updatePricingPlan(input: UpdatePricingPlanInput) async throws -> UpdatePricingPlanOutputResponse
     /// Updates a scene.
+    ///
+    /// - Parameter UpdateSceneInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateSceneOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access is denied.
+    /// - `InternalServerException` : An unexpected error has occurred.
+    /// - `ResourceNotFoundException` : The resource wasn't found.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `ValidationException` : Failed
     func updateScene(input: UpdateSceneInput) async throws -> UpdateSceneOutputResponse
     /// Updates a workspace.
+    ///
+    /// - Parameter UpdateWorkspaceInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateWorkspaceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access is denied.
+    /// - `InternalServerException` : An unexpected error has occurred.
+    /// - `ResourceNotFoundException` : The resource wasn't found.
+    /// - `ServiceQuotaExceededException` : The service quota was exceeded.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `ValidationException` : Failed
     func updateWorkspace(input: UpdateWorkspaceInput) async throws -> UpdateWorkspaceOutputResponse
 }
 

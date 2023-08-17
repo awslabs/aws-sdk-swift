@@ -1089,6 +1089,37 @@ extension PaginatorSequence where Input == ListTrafficDistributionGroupsInput, O
     }
 }
 extension ConnectClient {
+    /// Paginate over `[ListTrafficDistributionGroupUsersOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListTrafficDistributionGroupUsersInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListTrafficDistributionGroupUsersOutputResponse`
+    public func listTrafficDistributionGroupUsersPaginated(input: ListTrafficDistributionGroupUsersInput) -> ClientRuntime.PaginatorSequence<ListTrafficDistributionGroupUsersInput, ListTrafficDistributionGroupUsersOutputResponse> {
+        return ClientRuntime.PaginatorSequence<ListTrafficDistributionGroupUsersInput, ListTrafficDistributionGroupUsersOutputResponse>(input: input, inputKey: \ListTrafficDistributionGroupUsersInput.nextToken, outputKey: \ListTrafficDistributionGroupUsersOutputResponse.nextToken, paginationFunction: self.listTrafficDistributionGroupUsers(input:))
+    }
+}
+
+extension ListTrafficDistributionGroupUsersInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListTrafficDistributionGroupUsersInput {
+        return ListTrafficDistributionGroupUsersInput(
+            maxResults: self.maxResults,
+            nextToken: token,
+            trafficDistributionGroupId: self.trafficDistributionGroupId
+        )}
+}
+
+extension PaginatorSequence where Input == ListTrafficDistributionGroupUsersInput, Output == ListTrafficDistributionGroupUsersOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listTrafficDistributionGroupUsersPaginated`
+    /// to access the nested member `[ConnectClientTypes.TrafficDistributionGroupUserSummary]`
+    /// - Returns: `[ConnectClientTypes.TrafficDistributionGroupUserSummary]`
+    public func trafficDistributionGroupUserSummaryList() async throws -> [ConnectClientTypes.TrafficDistributionGroupUserSummary] {
+        return try await self.asyncCompactMap { item in item.trafficDistributionGroupUserSummaryList }
+    }
+}
+extension ConnectClient {
     /// Paginate over `[ListUseCasesOutputResponse]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service

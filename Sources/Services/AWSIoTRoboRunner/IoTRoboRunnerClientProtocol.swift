@@ -5,44 +5,314 @@ import ClientRuntime
 /// An example service, deployed with the Octane Service creator, which will echo the string
 public protocol IoTRoboRunnerClientProtocol {
     /// Grants permission to create a destination
+    ///
+    /// - Parameter CreateDestinationInput : [no documentation found]
+    ///
+    /// - Returns: `CreateDestinationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `ConflictException` : Exception thrown if a resource in a create request already exists.
+    /// - `InternalServerException` : Exception thrown if something goes wrong within the service.
+    /// - `ResourceNotFoundException` : Exception thrown if a resource referenced in the request doesn't exist.
+    /// - `ServiceQuotaExceededException` : Exception thrown if the user's AWS account has reached a service limit and the operation cannot proceed.
+    /// - `ThrottlingException` : Exception thrown if the api has been called too quickly be the client.
+    /// - `ValidationException` : Exception thrown if an invalid parameter is provided to an API.
     func createDestination(input: CreateDestinationInput) async throws -> CreateDestinationOutputResponse
     /// Grants permission to create a site
+    ///
+    /// - Parameter CreateSiteInput : [no documentation found]
+    ///
+    /// - Returns: `CreateSiteOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `ConflictException` : Exception thrown if a resource in a create request already exists.
+    /// - `InternalServerException` : Exception thrown if something goes wrong within the service.
+    /// - `ServiceQuotaExceededException` : Exception thrown if the user's AWS account has reached a service limit and the operation cannot proceed.
+    /// - `ThrottlingException` : Exception thrown if the api has been called too quickly be the client.
+    /// - `ValidationException` : Exception thrown if an invalid parameter is provided to an API.
     func createSite(input: CreateSiteInput) async throws -> CreateSiteOutputResponse
     /// Grants permission to create a worker
+    ///
+    /// - Parameter CreateWorkerInput : [no documentation found]
+    ///
+    /// - Returns: `CreateWorkerOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `ConflictException` : Exception thrown if a resource in a create request already exists.
+    /// - `InternalServerException` : Exception thrown if something goes wrong within the service.
+    /// - `ResourceNotFoundException` : Exception thrown if a resource referenced in the request doesn't exist.
+    /// - `ServiceQuotaExceededException` : Exception thrown if the user's AWS account has reached a service limit and the operation cannot proceed.
+    /// - `ThrottlingException` : Exception thrown if the api has been called too quickly be the client.
+    /// - `ValidationException` : Exception thrown if an invalid parameter is provided to an API.
     func createWorker(input: CreateWorkerInput) async throws -> CreateWorkerOutputResponse
     /// Grants permission to create a worker fleet
+    ///
+    /// - Parameter CreateWorkerFleetInput : [no documentation found]
+    ///
+    /// - Returns: `CreateWorkerFleetOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `ConflictException` : Exception thrown if a resource in a create request already exists.
+    /// - `InternalServerException` : Exception thrown if something goes wrong within the service.
+    /// - `ResourceNotFoundException` : Exception thrown if a resource referenced in the request doesn't exist.
+    /// - `ServiceQuotaExceededException` : Exception thrown if the user's AWS account has reached a service limit and the operation cannot proceed.
+    /// - `ThrottlingException` : Exception thrown if the api has been called too quickly be the client.
+    /// - `ValidationException` : Exception thrown if an invalid parameter is provided to an API.
     func createWorkerFleet(input: CreateWorkerFleetInput) async throws -> CreateWorkerFleetOutputResponse
     /// Grants permission to delete a destination
+    ///
+    /// - Parameter DeleteDestinationInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteDestinationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `ConflictException` : Exception thrown if a resource in a create request already exists.
+    /// - `InternalServerException` : Exception thrown if something goes wrong within the service.
+    /// - `ResourceNotFoundException` : Exception thrown if a resource referenced in the request doesn't exist.
+    /// - `ThrottlingException` : Exception thrown if the api has been called too quickly be the client.
+    /// - `ValidationException` : Exception thrown if an invalid parameter is provided to an API.
     func deleteDestination(input: DeleteDestinationInput) async throws -> DeleteDestinationOutputResponse
     /// Grants permission to delete a site
+    ///
+    /// - Parameter DeleteSiteInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteSiteOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `ConflictException` : Exception thrown if a resource in a create request already exists.
+    /// - `InternalServerException` : Exception thrown if something goes wrong within the service.
+    /// - `ResourceNotFoundException` : Exception thrown if a resource referenced in the request doesn't exist.
+    /// - `ThrottlingException` : Exception thrown if the api has been called too quickly be the client.
+    /// - `ValidationException` : Exception thrown if an invalid parameter is provided to an API.
     func deleteSite(input: DeleteSiteInput) async throws -> DeleteSiteOutputResponse
     /// Grants permission to delete a worker
+    ///
+    /// - Parameter DeleteWorkerInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteWorkerOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `ConflictException` : Exception thrown if a resource in a create request already exists.
+    /// - `InternalServerException` : Exception thrown if something goes wrong within the service.
+    /// - `ResourceNotFoundException` : Exception thrown if a resource referenced in the request doesn't exist.
+    /// - `ThrottlingException` : Exception thrown if the api has been called too quickly be the client.
+    /// - `ValidationException` : Exception thrown if an invalid parameter is provided to an API.
     func deleteWorker(input: DeleteWorkerInput) async throws -> DeleteWorkerOutputResponse
     /// Grants permission to delete a worker fleet
+    ///
+    /// - Parameter DeleteWorkerFleetInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteWorkerFleetOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `ConflictException` : Exception thrown if a resource in a create request already exists.
+    /// - `InternalServerException` : Exception thrown if something goes wrong within the service.
+    /// - `ResourceNotFoundException` : Exception thrown if a resource referenced in the request doesn't exist.
+    /// - `ThrottlingException` : Exception thrown if the api has been called too quickly be the client.
+    /// - `ValidationException` : Exception thrown if an invalid parameter is provided to an API.
     func deleteWorkerFleet(input: DeleteWorkerFleetInput) async throws -> DeleteWorkerFleetOutputResponse
     /// Grants permission to get a destination
+    ///
+    /// - Parameter GetDestinationInput : [no documentation found]
+    ///
+    /// - Returns: `GetDestinationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `InternalServerException` : Exception thrown if something goes wrong within the service.
+    /// - `ResourceNotFoundException` : Exception thrown if a resource referenced in the request doesn't exist.
+    /// - `ThrottlingException` : Exception thrown if the api has been called too quickly be the client.
+    /// - `ValidationException` : Exception thrown if an invalid parameter is provided to an API.
     func getDestination(input: GetDestinationInput) async throws -> GetDestinationOutputResponse
     /// Grants permission to get a site
+    ///
+    /// - Parameter GetSiteInput : [no documentation found]
+    ///
+    /// - Returns: `GetSiteOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `InternalServerException` : Exception thrown if something goes wrong within the service.
+    /// - `ResourceNotFoundException` : Exception thrown if a resource referenced in the request doesn't exist.
+    /// - `ThrottlingException` : Exception thrown if the api has been called too quickly be the client.
+    /// - `ValidationException` : Exception thrown if an invalid parameter is provided to an API.
     func getSite(input: GetSiteInput) async throws -> GetSiteOutputResponse
     /// Grants permission to get a worker
+    ///
+    /// - Parameter GetWorkerInput : [no documentation found]
+    ///
+    /// - Returns: `GetWorkerOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `InternalServerException` : Exception thrown if something goes wrong within the service.
+    /// - `ResourceNotFoundException` : Exception thrown if a resource referenced in the request doesn't exist.
+    /// - `ThrottlingException` : Exception thrown if the api has been called too quickly be the client.
+    /// - `ValidationException` : Exception thrown if an invalid parameter is provided to an API.
     func getWorker(input: GetWorkerInput) async throws -> GetWorkerOutputResponse
     /// Grants permission to get a worker fleet
+    ///
+    /// - Parameter GetWorkerFleetInput : [no documentation found]
+    ///
+    /// - Returns: `GetWorkerFleetOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `InternalServerException` : Exception thrown if something goes wrong within the service.
+    /// - `ResourceNotFoundException` : Exception thrown if a resource referenced in the request doesn't exist.
+    /// - `ThrottlingException` : Exception thrown if the api has been called too quickly be the client.
+    /// - `ValidationException` : Exception thrown if an invalid parameter is provided to an API.
     func getWorkerFleet(input: GetWorkerFleetInput) async throws -> GetWorkerFleetOutputResponse
     /// Grants permission to list destinations
+    ///
+    /// - Parameter ListDestinationsInput : [no documentation found]
+    ///
+    /// - Returns: `ListDestinationsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `InternalServerException` : Exception thrown if something goes wrong within the service.
+    /// - `ResourceNotFoundException` : Exception thrown if a resource referenced in the request doesn't exist.
+    /// - `ThrottlingException` : Exception thrown if the api has been called too quickly be the client.
+    /// - `ValidationException` : Exception thrown if an invalid parameter is provided to an API.
     func listDestinations(input: ListDestinationsInput) async throws -> ListDestinationsOutputResponse
     /// Grants permission to list sites
+    ///
+    /// - Parameter ListSitesInput : [no documentation found]
+    ///
+    /// - Returns: `ListSitesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `InternalServerException` : Exception thrown if something goes wrong within the service.
+    /// - `ThrottlingException` : Exception thrown if the api has been called too quickly be the client.
+    /// - `ValidationException` : Exception thrown if an invalid parameter is provided to an API.
     func listSites(input: ListSitesInput) async throws -> ListSitesOutputResponse
     /// Grants permission to list worker fleets
+    ///
+    /// - Parameter ListWorkerFleetsInput : [no documentation found]
+    ///
+    /// - Returns: `ListWorkerFleetsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `InternalServerException` : Exception thrown if something goes wrong within the service.
+    /// - `ResourceNotFoundException` : Exception thrown if a resource referenced in the request doesn't exist.
+    /// - `ThrottlingException` : Exception thrown if the api has been called too quickly be the client.
+    /// - `ValidationException` : Exception thrown if an invalid parameter is provided to an API.
     func listWorkerFleets(input: ListWorkerFleetsInput) async throws -> ListWorkerFleetsOutputResponse
     /// Grants permission to list workers
+    ///
+    /// - Parameter ListWorkersInput : [no documentation found]
+    ///
+    /// - Returns: `ListWorkersOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `InternalServerException` : Exception thrown if something goes wrong within the service.
+    /// - `ResourceNotFoundException` : Exception thrown if a resource referenced in the request doesn't exist.
+    /// - `ThrottlingException` : Exception thrown if the api has been called too quickly be the client.
+    /// - `ValidationException` : Exception thrown if an invalid parameter is provided to an API.
     func listWorkers(input: ListWorkersInput) async throws -> ListWorkersOutputResponse
     /// Grants permission to update a destination
+    ///
+    /// - Parameter UpdateDestinationInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateDestinationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `InternalServerException` : Exception thrown if something goes wrong within the service.
+    /// - `ResourceNotFoundException` : Exception thrown if a resource referenced in the request doesn't exist.
+    /// - `ThrottlingException` : Exception thrown if the api has been called too quickly be the client.
+    /// - `ValidationException` : Exception thrown if an invalid parameter is provided to an API.
     func updateDestination(input: UpdateDestinationInput) async throws -> UpdateDestinationOutputResponse
     /// Grants permission to update a site
+    ///
+    /// - Parameter UpdateSiteInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateSiteOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `InternalServerException` : Exception thrown if something goes wrong within the service.
+    /// - `ResourceNotFoundException` : Exception thrown if a resource referenced in the request doesn't exist.
+    /// - `ThrottlingException` : Exception thrown if the api has been called too quickly be the client.
+    /// - `ValidationException` : Exception thrown if an invalid parameter is provided to an API.
     func updateSite(input: UpdateSiteInput) async throws -> UpdateSiteOutputResponse
     /// Grants permission to update a worker
+    ///
+    /// - Parameter UpdateWorkerInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateWorkerOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `InternalServerException` : Exception thrown if something goes wrong within the service.
+    /// - `ResourceNotFoundException` : Exception thrown if a resource referenced in the request doesn't exist.
+    /// - `ThrottlingException` : Exception thrown if the api has been called too quickly be the client.
+    /// - `ValidationException` : Exception thrown if an invalid parameter is provided to an API.
     func updateWorker(input: UpdateWorkerInput) async throws -> UpdateWorkerOutputResponse
     /// Grants permission to update a worker fleet
+    ///
+    /// - Parameter UpdateWorkerFleetInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateWorkerFleetOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `InternalServerException` : Exception thrown if something goes wrong within the service.
+    /// - `ResourceNotFoundException` : Exception thrown if a resource referenced in the request doesn't exist.
+    /// - `ThrottlingException` : Exception thrown if the api has been called too quickly be the client.
+    /// - `ValidationException` : Exception thrown if an invalid parameter is provided to an API.
     func updateWorkerFleet(input: UpdateWorkerFleetInput) async throws -> UpdateWorkerFleetOutputResponse
 }
 

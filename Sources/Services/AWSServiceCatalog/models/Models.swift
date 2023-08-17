@@ -146,7 +146,7 @@ extension ServiceCatalogClientTypes {
         ///
         /// * User - Filter results based on the specified user.
         public var key: ServiceCatalogClientTypes.AccessLevelFilterKey?
-        /// The user to which the access level applies. The only supported value is Self.
+        /// The user to which the access level applies. The only supported value is self.
         public var value: Swift.String?
 
         public init(
@@ -12618,6 +12618,7 @@ extension ServiceCatalogClientTypes {
     public enum ProductType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case cloudFormationTemplate
         case marketplace
+        case terraformCloud
         case terraformOpenSource
         case sdkUnknown(Swift.String)
 
@@ -12625,6 +12626,7 @@ extension ServiceCatalogClientTypes {
             return [
                 .cloudFormationTemplate,
                 .marketplace,
+                .terraformCloud,
                 .terraformOpenSource,
                 .sdkUnknown("")
             ]
@@ -12637,6 +12639,7 @@ extension ServiceCatalogClientTypes {
             switch self {
             case .cloudFormationTemplate: return "CLOUD_FORMATION_TEMPLATE"
             case .marketplace: return "MARKETPLACE"
+            case .terraformCloud: return "TERRAFORM_CLOUD"
             case .terraformOpenSource: return "TERRAFORM_OPEN_SOURCE"
             case let .sdkUnknown(s): return s
             }
@@ -13453,7 +13456,7 @@ extension ServiceCatalogClientTypes {
         public var idempotencyToken: Swift.String?
         /// The record identifier of the last request performed on this provisioned product of the following types:
         ///
-        /// * ProvisionedProduct
+        /// * ProvisionProduct
         ///
         /// * UpdateProvisionedProduct
         ///
@@ -13465,7 +13468,7 @@ extension ServiceCatalogClientTypes {
         public var lastRecordId: Swift.String?
         /// The record identifier of the last successful request performed on this provisioned product of the following types:
         ///
-        /// * ProvisionedProduct
+        /// * ProvisionProduct
         ///
         /// * UpdateProvisionedProduct
         ///
@@ -13664,7 +13667,7 @@ extension ServiceCatalogClientTypes {
         public var idempotencyToken: Swift.String?
         /// The record identifier of the last request performed on this provisioned product of the following types:
         ///
-        /// * ProvisionedProduct
+        /// * ProvisionProduct
         ///
         /// * UpdateProvisionedProduct
         ///
@@ -13676,7 +13679,7 @@ extension ServiceCatalogClientTypes {
         public var lastRecordId: Swift.String?
         /// The record identifier of the last successful request performed on this provisioned product of the following types:
         ///
-        /// * ProvisionedProduct
+        /// * ProvisionProduct
         ///
         /// * UpdateProvisionedProduct
         ///
@@ -14337,13 +14340,7 @@ extension ServiceCatalogClientTypes {
         public var name: Swift.String?
         /// Specifies the revision of the external artifact that was used to automatically sync the Service Catalog product and create the provisioning artifact. Service Catalog includes this response parameter as a high level field to the existing ProvisioningArtifactDetail type, which is returned as part of the response for CreateProduct, UpdateProduct, DescribeProductAsAdmin, DescribeProvisioningArtifact, ListProvisioningArtifact, and UpdateProvisioningArticat APIs. This field only exists for Repo-Synced products.
         public var sourceRevision: Swift.String?
-        /// The type of provisioning artifact.
-        ///
-        /// * CLOUD_FORMATION_TEMPLATE - CloudFormation template
-        ///
-        /// * MARKETPLACE_AMI - Amazon Web Services Marketplace AMI
-        ///
-        /// * MARKETPLACE_CAR - Amazon Web Services Marketplace Clusters and Amazon Web Services Resources
+        /// The type of provisioning artifact. CLOUD_FORMATION_TEMPLATE - CloudFormation template
         public var type: ServiceCatalogClientTypes.ProvisioningArtifactType?
 
         public init(
@@ -14661,7 +14658,7 @@ extension ServiceCatalogClientTypes {
     public struct ProvisioningArtifactProperties: Swift.Equatable {
         /// The description of the provisioning artifact, including how it differs from the previous provisioning artifact.
         public var description: Swift.String?
-        /// If set to true, Service Catalog stops validating the specified provisioning artifact even if it is invalid.
+        /// If set to true, Service Catalog stops validating the specified provisioning artifact even if it is invalid. Service Catalog does not support template validation for the TERRAFORM_OS product type.
         public var disableTemplateValidation: Swift.Bool
         /// Specify the template source with one of the following options, but not both. Keys accepted: [ LoadTemplateFromURL, ImportFromPhysicalId ] The URL of the CloudFormation template in Amazon S3 or GitHub in JSON format. Specify the URL in JSON format as follows: "LoadTemplateFromURL": "https://s3.amazonaws.com/cf-templates-ozkq9d3hgiq2-us-east-1/..."ImportFromPhysicalId: The physical id of the resource that contains the template. Currently only supports CloudFormation stack arn. Specify the physical id in JSON format as follows: ImportFromPhysicalId: “arn:aws:cloudformation:[us-east-1]:[accountId]:stack/[StackName]/[resourceId]
         public var info: [Swift.String:Swift.String]?
@@ -14670,10 +14667,6 @@ extension ServiceCatalogClientTypes {
         /// The type of provisioning artifact.
         ///
         /// * CLOUD_FORMATION_TEMPLATE - CloudFormation template
-        ///
-        /// * MARKETPLACE_AMI - Amazon Web Services Marketplace AMI
-        ///
-        /// * MARKETPLACE_CAR - Amazon Web Services Marketplace Clusters and Amazon Web Services Resources
         ///
         /// * TERRAFORM_OPEN_SOURCE - Terraform open source configuration file
         public var type: ServiceCatalogClientTypes.ProvisioningArtifactType?
@@ -14817,6 +14810,7 @@ extension ServiceCatalogClientTypes {
         case cloudFormationTemplate
         case marketplaceAmi
         case marketplaceCar
+        case terraformCloud
         case terraformOpenSource
         case sdkUnknown(Swift.String)
 
@@ -14825,6 +14819,7 @@ extension ServiceCatalogClientTypes {
                 .cloudFormationTemplate,
                 .marketplaceAmi,
                 .marketplaceCar,
+                .terraformCloud,
                 .terraformOpenSource,
                 .sdkUnknown("")
             ]
@@ -14838,6 +14833,7 @@ extension ServiceCatalogClientTypes {
             case .cloudFormationTemplate: return "CLOUD_FORMATION_TEMPLATE"
             case .marketplaceAmi: return "MARKETPLACE_AMI"
             case .marketplaceCar: return "MARKETPLACE_CAR"
+            case .terraformCloud: return "TERRAFORM_CLOUD"
             case .terraformOpenSource: return "TERRAFORM_OPEN_SOURCE"
             case let .sdkUnknown(s): return s
             }
@@ -15185,7 +15181,7 @@ extension ServiceCatalogClientTypes {
         public var provisionedProductId: Swift.String?
         /// The user-friendly name of the provisioned product.
         public var provisionedProductName: Swift.String?
-        /// The type of provisioned product. The supported values are CFN_STACK and CFN_STACKSET.
+        /// The type of provisioned product. The supported values are CFN_STACK, CFN_STACKSET, TERRAFORM_OPEN_SOURCE, and TERRAFORM_CLOUD.
         public var provisionedProductType: Swift.String?
         /// The identifier of the provisioning artifact.
         public var provisioningArtifactId: Swift.String?
@@ -16746,7 +16742,7 @@ public struct SearchProvisionedProductsInput: Swift.Equatable {
     public var acceptLanguage: Swift.String?
     /// The access level to use to obtain results. The default is User.
     public var accessLevelFilter: ServiceCatalogClientTypes.AccessLevelFilter?
-    /// The search filters. When the key is SearchQuery, the searchable fields are arn, createdTime, id, lastRecordId, idempotencyToken, name, physicalId, productId, provisioningArtifact, type, status, tags, userArn, userArnSession, lastProvisioningRecordId, lastSuccessfulProvisioningRecordId, productName, and provisioningArtifactName. Example: "SearchQuery":["status:AVAILABLE"]
+    /// The search filters. When the key is SearchQuery, the searchable fields are arn, createdTime, id, lastRecordId, idempotencyToken, name, physicalId, productId, provisioningArtifactId, type, status, tags, userArn, userArnSession, lastProvisioningRecordId, lastSuccessfulProvisioningRecordId, productName, and provisioningArtifactName. Example: "SearchQuery":["status:AVAILABLE"]
     public var filters: [Swift.String:[Swift.String]]?
     /// The maximum number of items to return with this call.
     public var pageSize: Swift.Int?

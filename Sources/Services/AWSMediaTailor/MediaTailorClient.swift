@@ -68,6 +68,10 @@ public struct MediaTailorClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFac
 
 extension MediaTailorClient: MediaTailorClientProtocol {
     /// Configures Amazon CloudWatch log settings for a channel.
+    ///
+    /// - Parameter ConfigureLogsForChannelInput : [no documentation found]
+    ///
+    /// - Returns: `ConfigureLogsForChannelOutputResponse` : [no documentation found]
     public func configureLogsForChannel(input: ConfigureLogsForChannelInput) async throws -> ConfigureLogsForChannelOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -104,6 +108,10 @@ extension MediaTailorClient: MediaTailorClientProtocol {
     }
 
     /// Amazon CloudWatch log settings for a playback configuration.
+    ///
+    /// - Parameter ConfigureLogsForPlaybackConfigurationInput : Configures Amazon CloudWatch log settings for a playback configuration.
+    ///
+    /// - Returns: `ConfigureLogsForPlaybackConfigurationOutputResponse` : [no documentation found]
     public func configureLogsForPlaybackConfiguration(input: ConfigureLogsForPlaybackConfigurationInput) async throws -> ConfigureLogsForPlaybackConfigurationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -140,6 +148,10 @@ extension MediaTailorClient: MediaTailorClientProtocol {
     }
 
     /// Creates a channel. For information about MediaTailor channels, see [Working with channels](https://docs.aws.amazon.com/mediatailor/latest/ug/channel-assembly-channels.html) in the MediaTailor User Guide.
+    ///
+    /// - Parameter CreateChannelInput : [no documentation found]
+    ///
+    /// - Returns: `CreateChannelOutputResponse` : [no documentation found]
     public func createChannel(input: CreateChannelInput) async throws -> CreateChannelOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -176,6 +188,10 @@ extension MediaTailorClient: MediaTailorClientProtocol {
     }
 
     /// The live source configuration.
+    ///
+    /// - Parameter CreateLiveSourceInput : [no documentation found]
+    ///
+    /// - Returns: `CreateLiveSourceOutputResponse` : [no documentation found]
     public func createLiveSource(input: CreateLiveSourceInput) async throws -> CreateLiveSourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -212,6 +228,10 @@ extension MediaTailorClient: MediaTailorClientProtocol {
     }
 
     /// Creates a prefetch schedule for a playback configuration. A prefetch schedule allows you to tell MediaTailor to fetch and prepare certain ads before an ad break happens. For more information about ad prefetching, see [Using ad prefetching](https://docs.aws.amazon.com/mediatailor/latest/ug/prefetching-ads.html) in the MediaTailor User Guide.
+    ///
+    /// - Parameter CreatePrefetchScheduleInput : [no documentation found]
+    ///
+    /// - Returns: `CreatePrefetchScheduleOutputResponse` : [no documentation found]
     public func createPrefetchSchedule(input: CreatePrefetchScheduleInput) async throws -> CreatePrefetchScheduleOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -248,6 +268,10 @@ extension MediaTailorClient: MediaTailorClientProtocol {
     }
 
     /// Creates a program within a channel. For information about programs, see [Working with programs](https://docs.aws.amazon.com/mediatailor/latest/ug/channel-assembly-programs.html) in the MediaTailor User Guide.
+    ///
+    /// - Parameter CreateProgramInput : [no documentation found]
+    ///
+    /// - Returns: `CreateProgramOutputResponse` : [no documentation found]
     public func createProgram(input: CreateProgramInput) async throws -> CreateProgramOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -284,6 +308,10 @@ extension MediaTailorClient: MediaTailorClientProtocol {
     }
 
     /// Creates a source location. A source location is a container for sources. For more information about source locations, see [Working with source locations](https://docs.aws.amazon.com/mediatailor/latest/ug/channel-assembly-source-locations.html) in the MediaTailor User Guide.
+    ///
+    /// - Parameter CreateSourceLocationInput : [no documentation found]
+    ///
+    /// - Returns: `CreateSourceLocationOutputResponse` : [no documentation found]
     public func createSourceLocation(input: CreateSourceLocationInput) async throws -> CreateSourceLocationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -320,6 +348,10 @@ extension MediaTailorClient: MediaTailorClientProtocol {
     }
 
     /// The VOD source configuration parameters.
+    ///
+    /// - Parameter CreateVodSourceInput : [no documentation found]
+    ///
+    /// - Returns: `CreateVodSourceOutputResponse` : [no documentation found]
     public func createVodSource(input: CreateVodSourceInput) async throws -> CreateVodSourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -356,6 +388,10 @@ extension MediaTailorClient: MediaTailorClientProtocol {
     }
 
     /// Deletes a channel. For information about MediaTailor channels, see [Working with channels](https://docs.aws.amazon.com/mediatailor/latest/ug/channel-assembly-channels.html) in the MediaTailor User Guide.
+    ///
+    /// - Parameter DeleteChannelInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteChannelOutputResponse` : [no documentation found]
     public func deleteChannel(input: DeleteChannelInput) async throws -> DeleteChannelOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -389,6 +425,10 @@ extension MediaTailorClient: MediaTailorClientProtocol {
     }
 
     /// The channel policy to delete.
+    ///
+    /// - Parameter DeleteChannelPolicyInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteChannelPolicyOutputResponse` : [no documentation found]
     public func deleteChannelPolicy(input: DeleteChannelPolicyInput) async throws -> DeleteChannelPolicyOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -422,6 +462,10 @@ extension MediaTailorClient: MediaTailorClientProtocol {
     }
 
     /// The live source to delete.
+    ///
+    /// - Parameter DeleteLiveSourceInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteLiveSourceOutputResponse` : [no documentation found]
     public func deleteLiveSource(input: DeleteLiveSourceInput) async throws -> DeleteLiveSourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -455,6 +499,10 @@ extension MediaTailorClient: MediaTailorClientProtocol {
     }
 
     /// Deletes a playback configuration. For information about MediaTailor configurations, see [Working with configurations in AWS Elemental MediaTailor](https://docs.aws.amazon.com/mediatailor/latest/ug/configurations.html).
+    ///
+    /// - Parameter DeletePlaybackConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `DeletePlaybackConfigurationOutputResponse` : [no documentation found]
     public func deletePlaybackConfiguration(input: DeletePlaybackConfigurationInput) async throws -> DeletePlaybackConfigurationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -488,6 +536,10 @@ extension MediaTailorClient: MediaTailorClientProtocol {
     }
 
     /// Deletes a prefetch schedule for a specific playback configuration. If you call DeletePrefetchSchedule on an expired prefetch schedule, MediaTailor returns an HTTP 404 status code. For more information about ad prefetching, see [Using ad prefetching](https://docs.aws.amazon.com/mediatailor/latest/ug/prefetching-ads.html) in the MediaTailor User Guide.
+    ///
+    /// - Parameter DeletePrefetchScheduleInput : [no documentation found]
+    ///
+    /// - Returns: `DeletePrefetchScheduleOutputResponse` : [no documentation found]
     public func deletePrefetchSchedule(input: DeletePrefetchScheduleInput) async throws -> DeletePrefetchScheduleOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -521,6 +573,10 @@ extension MediaTailorClient: MediaTailorClientProtocol {
     }
 
     /// Deletes a program within a channel. For information about programs, see [Working with programs](https://docs.aws.amazon.com/mediatailor/latest/ug/channel-assembly-programs.html) in the MediaTailor User Guide.
+    ///
+    /// - Parameter DeleteProgramInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteProgramOutputResponse` : [no documentation found]
     public func deleteProgram(input: DeleteProgramInput) async throws -> DeleteProgramOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -554,6 +610,10 @@ extension MediaTailorClient: MediaTailorClientProtocol {
     }
 
     /// Deletes a source location. A source location is a container for sources. For more information about source locations, see [Working with source locations](https://docs.aws.amazon.com/mediatailor/latest/ug/channel-assembly-source-locations.html) in the MediaTailor User Guide.
+    ///
+    /// - Parameter DeleteSourceLocationInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteSourceLocationOutputResponse` : [no documentation found]
     public func deleteSourceLocation(input: DeleteSourceLocationInput) async throws -> DeleteSourceLocationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -587,6 +647,10 @@ extension MediaTailorClient: MediaTailorClientProtocol {
     }
 
     /// The video on demand (VOD) source to delete.
+    ///
+    /// - Parameter DeleteVodSourceInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteVodSourceOutputResponse` : [no documentation found]
     public func deleteVodSource(input: DeleteVodSourceInput) async throws -> DeleteVodSourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -620,6 +684,10 @@ extension MediaTailorClient: MediaTailorClientProtocol {
     }
 
     /// Describes a channel. For information about MediaTailor channels, see [Working with channels](https://docs.aws.amazon.com/mediatailor/latest/ug/channel-assembly-channels.html) in the MediaTailor User Guide.
+    ///
+    /// - Parameter DescribeChannelInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeChannelOutputResponse` : [no documentation found]
     public func describeChannel(input: DescribeChannelInput) async throws -> DescribeChannelOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -653,6 +721,10 @@ extension MediaTailorClient: MediaTailorClientProtocol {
     }
 
     /// The live source to describe.
+    ///
+    /// - Parameter DescribeLiveSourceInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeLiveSourceOutputResponse` : [no documentation found]
     public func describeLiveSource(input: DescribeLiveSourceInput) async throws -> DescribeLiveSourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -686,6 +758,10 @@ extension MediaTailorClient: MediaTailorClientProtocol {
     }
 
     /// Describes a program within a channel. For information about programs, see [Working with programs](https://docs.aws.amazon.com/mediatailor/latest/ug/channel-assembly-programs.html) in the MediaTailor User Guide.
+    ///
+    /// - Parameter DescribeProgramInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeProgramOutputResponse` : [no documentation found]
     public func describeProgram(input: DescribeProgramInput) async throws -> DescribeProgramOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -719,6 +795,10 @@ extension MediaTailorClient: MediaTailorClientProtocol {
     }
 
     /// Describes a source location. A source location is a container for sources. For more information about source locations, see [Working with source locations](https://docs.aws.amazon.com/mediatailor/latest/ug/channel-assembly-source-locations.html) in the MediaTailor User Guide.
+    ///
+    /// - Parameter DescribeSourceLocationInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeSourceLocationOutputResponse` : [no documentation found]
     public func describeSourceLocation(input: DescribeSourceLocationInput) async throws -> DescribeSourceLocationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -752,6 +832,10 @@ extension MediaTailorClient: MediaTailorClientProtocol {
     }
 
     /// Provides details about a specific video on demand (VOD) source in a specific source location.
+    ///
+    /// - Parameter DescribeVodSourceInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeVodSourceOutputResponse` : [no documentation found]
     public func describeVodSource(input: DescribeVodSourceInput) async throws -> DescribeVodSourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -785,6 +869,10 @@ extension MediaTailorClient: MediaTailorClientProtocol {
     }
 
     /// Returns the channel's IAM policy. IAM policies are used to control access to your channel.
+    ///
+    /// - Parameter GetChannelPolicyInput : [no documentation found]
+    ///
+    /// - Returns: `GetChannelPolicyOutputResponse` : [no documentation found]
     public func getChannelPolicy(input: GetChannelPolicyInput) async throws -> GetChannelPolicyOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -818,6 +906,10 @@ extension MediaTailorClient: MediaTailorClientProtocol {
     }
 
     /// Retrieves information about your channel's schedule.
+    ///
+    /// - Parameter GetChannelScheduleInput : [no documentation found]
+    ///
+    /// - Returns: `GetChannelScheduleOutputResponse` : [no documentation found]
     public func getChannelSchedule(input: GetChannelScheduleInput) async throws -> GetChannelScheduleOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -852,6 +944,10 @@ extension MediaTailorClient: MediaTailorClientProtocol {
     }
 
     /// Retrieves a playback configuration. For information about MediaTailor configurations, see [Working with configurations in AWS Elemental MediaTailor](https://docs.aws.amazon.com/mediatailor/latest/ug/configurations.html).
+    ///
+    /// - Parameter GetPlaybackConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `GetPlaybackConfigurationOutputResponse` : [no documentation found]
     public func getPlaybackConfiguration(input: GetPlaybackConfigurationInput) async throws -> GetPlaybackConfigurationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -885,6 +981,10 @@ extension MediaTailorClient: MediaTailorClientProtocol {
     }
 
     /// Retrieves a prefetch schedule for a playback configuration. A prefetch schedule allows you to tell MediaTailor to fetch and prepare certain ads before an ad break happens. For more information about ad prefetching, see [Using ad prefetching](https://docs.aws.amazon.com/mediatailor/latest/ug/prefetching-ads.html) in the MediaTailor User Guide.
+    ///
+    /// - Parameter GetPrefetchScheduleInput : [no documentation found]
+    ///
+    /// - Returns: `GetPrefetchScheduleOutputResponse` : [no documentation found]
     public func getPrefetchSchedule(input: GetPrefetchScheduleInput) async throws -> GetPrefetchScheduleOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -918,6 +1018,10 @@ extension MediaTailorClient: MediaTailorClientProtocol {
     }
 
     /// Lists the alerts that are associated with a MediaTailor channel assembly resource.
+    ///
+    /// - Parameter ListAlertsInput : [no documentation found]
+    ///
+    /// - Returns: `ListAlertsOutputResponse` : [no documentation found]
     public func listAlerts(input: ListAlertsInput) async throws -> ListAlertsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -952,6 +1056,10 @@ extension MediaTailorClient: MediaTailorClientProtocol {
     }
 
     /// Retrieves information about the channels that are associated with the current AWS account.
+    ///
+    /// - Parameter ListChannelsInput : [no documentation found]
+    ///
+    /// - Returns: `ListChannelsOutputResponse` : [no documentation found]
     public func listChannels(input: ListChannelsInput) async throws -> ListChannelsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -986,6 +1094,10 @@ extension MediaTailorClient: MediaTailorClientProtocol {
     }
 
     /// Lists the live sources contained in a source location. A source represents a piece of content.
+    ///
+    /// - Parameter ListLiveSourcesInput : [no documentation found]
+    ///
+    /// - Returns: `ListLiveSourcesOutputResponse` : [no documentation found]
     public func listLiveSources(input: ListLiveSourcesInput) async throws -> ListLiveSourcesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1020,6 +1132,10 @@ extension MediaTailorClient: MediaTailorClientProtocol {
     }
 
     /// Retrieves existing playback configurations. For information about MediaTailor configurations, see [Working with Configurations in AWS Elemental MediaTailor](https://docs.aws.amazon.com/mediatailor/latest/ug/configurations.html).
+    ///
+    /// - Parameter ListPlaybackConfigurationsInput : [no documentation found]
+    ///
+    /// - Returns: `ListPlaybackConfigurationsOutputResponse` : [no documentation found]
     public func listPlaybackConfigurations(input: ListPlaybackConfigurationsInput) async throws -> ListPlaybackConfigurationsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1054,6 +1170,10 @@ extension MediaTailorClient: MediaTailorClientProtocol {
     }
 
     /// Lists the prefetch schedules for a playback configuration.
+    ///
+    /// - Parameter ListPrefetchSchedulesInput : [no documentation found]
+    ///
+    /// - Returns: `ListPrefetchSchedulesOutputResponse` : [no documentation found]
     public func listPrefetchSchedules(input: ListPrefetchSchedulesInput) async throws -> ListPrefetchSchedulesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1090,6 +1210,10 @@ extension MediaTailorClient: MediaTailorClientProtocol {
     }
 
     /// Lists the source locations for a channel. A source location defines the host server URL, and contains a list of sources.
+    ///
+    /// - Parameter ListSourceLocationsInput : [no documentation found]
+    ///
+    /// - Returns: `ListSourceLocationsOutputResponse` : [no documentation found]
     public func listSourceLocations(input: ListSourceLocationsInput) async throws -> ListSourceLocationsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1124,6 +1248,15 @@ extension MediaTailorClient: MediaTailorClientProtocol {
     }
 
     /// A list of tags that are associated with this resource. Tags are key-value pairs that you can associate with Amazon resources to help with organization, access control, and cost tracking. For more information, see [Tagging AWS Elemental MediaTailor Resources](https://docs.aws.amazon.com/mediatailor/latest/ug/tagging.html).
+    ///
+    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    ///
+    /// - Returns: `ListTagsForResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : A request contains unexpected data.
     public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1157,6 +1290,10 @@ extension MediaTailorClient: MediaTailorClientProtocol {
     }
 
     /// Lists the VOD sources contained in a source location. A source represents a piece of content.
+    ///
+    /// - Parameter ListVodSourcesInput : [no documentation found]
+    ///
+    /// - Returns: `ListVodSourcesOutputResponse` : [no documentation found]
     public func listVodSources(input: ListVodSourcesInput) async throws -> ListVodSourcesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1191,6 +1328,10 @@ extension MediaTailorClient: MediaTailorClientProtocol {
     }
 
     /// Creates an IAM policy for the channel. IAM policies are used to control access to your channel.
+    ///
+    /// - Parameter PutChannelPolicyInput : [no documentation found]
+    ///
+    /// - Returns: `PutChannelPolicyOutputResponse` : [no documentation found]
     public func putChannelPolicy(input: PutChannelPolicyInput) async throws -> PutChannelPolicyOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1227,6 +1368,10 @@ extension MediaTailorClient: MediaTailorClientProtocol {
     }
 
     /// Creates a playback configuration. For information about MediaTailor configurations, see [Working with configurations in AWS Elemental MediaTailor](https://docs.aws.amazon.com/mediatailor/latest/ug/configurations.html).
+    ///
+    /// - Parameter PutPlaybackConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `PutPlaybackConfigurationOutputResponse` : [no documentation found]
     public func putPlaybackConfiguration(input: PutPlaybackConfigurationInput) async throws -> PutPlaybackConfigurationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1263,6 +1408,10 @@ extension MediaTailorClient: MediaTailorClientProtocol {
     }
 
     /// Starts a channel. For information about MediaTailor channels, see [Working with channels](https://docs.aws.amazon.com/mediatailor/latest/ug/channel-assembly-channels.html) in the MediaTailor User Guide.
+    ///
+    /// - Parameter StartChannelInput : [no documentation found]
+    ///
+    /// - Returns: `StartChannelOutputResponse` : [no documentation found]
     public func startChannel(input: StartChannelInput) async throws -> StartChannelOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1296,6 +1445,10 @@ extension MediaTailorClient: MediaTailorClientProtocol {
     }
 
     /// Stops a channel. For information about MediaTailor channels, see [Working with channels](https://docs.aws.amazon.com/mediatailor/latest/ug/channel-assembly-channels.html) in the MediaTailor User Guide.
+    ///
+    /// - Parameter StopChannelInput : [no documentation found]
+    ///
+    /// - Returns: `StopChannelOutputResponse` : [no documentation found]
     public func stopChannel(input: StopChannelInput) async throws -> StopChannelOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1329,6 +1482,15 @@ extension MediaTailorClient: MediaTailorClientProtocol {
     }
 
     /// The resource to tag. Tags are key-value pairs that you can associate with Amazon resources to help with organization, access control, and cost tracking. For more information, see [Tagging AWS Elemental MediaTailor Resources](https://docs.aws.amazon.com/mediatailor/latest/ug/tagging.html).
+    ///
+    /// - Parameter TagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `TagResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : A request contains unexpected data.
     public func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1365,6 +1527,15 @@ extension MediaTailorClient: MediaTailorClientProtocol {
     }
 
     /// The resource to untag.
+    ///
+    /// - Parameter UntagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `UntagResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : A request contains unexpected data.
     public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1399,6 +1570,10 @@ extension MediaTailorClient: MediaTailorClientProtocol {
     }
 
     /// Updates a channel. For information about MediaTailor channels, see [Working with channels](https://docs.aws.amazon.com/mediatailor/latest/ug/channel-assembly-channels.html) in the MediaTailor User Guide.
+    ///
+    /// - Parameter UpdateChannelInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateChannelOutputResponse` : [no documentation found]
     public func updateChannel(input: UpdateChannelInput) async throws -> UpdateChannelOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1435,6 +1610,10 @@ extension MediaTailorClient: MediaTailorClientProtocol {
     }
 
     /// Updates a live source's configuration.
+    ///
+    /// - Parameter UpdateLiveSourceInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateLiveSourceOutputResponse` : [no documentation found]
     public func updateLiveSource(input: UpdateLiveSourceInput) async throws -> UpdateLiveSourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1471,6 +1650,10 @@ extension MediaTailorClient: MediaTailorClientProtocol {
     }
 
     /// Updates a program within a channel.
+    ///
+    /// - Parameter UpdateProgramInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateProgramOutputResponse` : [no documentation found]
     public func updateProgram(input: UpdateProgramInput) async throws -> UpdateProgramOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1507,6 +1690,10 @@ extension MediaTailorClient: MediaTailorClientProtocol {
     }
 
     /// Updates a source location. A source location is a container for sources. For more information about source locations, see [Working with source locations](https://docs.aws.amazon.com/mediatailor/latest/ug/channel-assembly-source-locations.html) in the MediaTailor User Guide.
+    ///
+    /// - Parameter UpdateSourceLocationInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateSourceLocationOutputResponse` : [no documentation found]
     public func updateSourceLocation(input: UpdateSourceLocationInput) async throws -> UpdateSourceLocationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1543,6 +1730,10 @@ extension MediaTailorClient: MediaTailorClientProtocol {
     }
 
     /// Updates a VOD source's configuration.
+    ///
+    /// - Parameter UpdateVodSourceInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateVodSourceOutputResponse` : [no documentation found]
     public func updateVodSource(input: UpdateVodSourceInput) async throws -> UpdateVodSourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()

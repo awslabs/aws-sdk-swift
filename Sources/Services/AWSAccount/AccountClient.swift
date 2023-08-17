@@ -68,6 +68,19 @@ public struct AccountClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFactory
 
 extension AccountClient: AccountClientProtocol {
     /// Deletes the specified alternate contact from an Amazon Web Services account. For complete details about how to use the alternate contact operations, see [Access or updating the alternate contacts](https://docs.aws.amazon.com/accounts/latest/reference/manage-acct-update-contact.html). Before you can update the alternate contact information for an Amazon Web Services account that is managed by Organizations, you must first enable integration between Amazon Web Services Account Management and Organizations. For more information, see [Enabling trusted access for Amazon Web Services Account Management](https://docs.aws.amazon.com/accounts/latest/reference/using-orgs-trusted-access.html).
+    ///
+    /// - Parameter DeleteAlternateContactInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteAlternateContactOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The operation failed because the calling identity doesn't have the minimum required permissions.
+    /// - `InternalServerException` : The operation failed because of an error internal to Amazon Web Services. Try your operation again later.
+    /// - `ResourceNotFoundException` : The operation failed because it specified a resource that can't be found.
+    /// - `TooManyRequestsException` : The operation failed because it was called too frequently and exceeded a throttle limit.
+    /// - `ValidationException` : The operation failed because one of the input parameters was invalid.
     public func deleteAlternateContact(input: DeleteAlternateContactInput) async throws -> DeleteAlternateContactOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -104,6 +117,19 @@ extension AccountClient: AccountClientProtocol {
     }
 
     /// Disables (opts-out) a particular Region for an account.
+    ///
+    /// - Parameter DisableRegionInput : [no documentation found]
+    ///
+    /// - Returns: `DisableRegionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The operation failed because the calling identity doesn't have the minimum required permissions.
+    /// - `ConflictException` : The request could not be processed because of a conflict in the current status of the resource. For example, this happens if you try to enable a Region that is currently being disabled (in a status of DISABLING).
+    /// - `InternalServerException` : The operation failed because of an error internal to Amazon Web Services. Try your operation again later.
+    /// - `TooManyRequestsException` : The operation failed because it was called too frequently and exceeded a throttle limit.
+    /// - `ValidationException` : The operation failed because one of the input parameters was invalid.
     public func disableRegion(input: DisableRegionInput) async throws -> DisableRegionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -140,6 +166,19 @@ extension AccountClient: AccountClientProtocol {
     }
 
     /// Enables (opts-in) a particular Region for an account.
+    ///
+    /// - Parameter EnableRegionInput : [no documentation found]
+    ///
+    /// - Returns: `EnableRegionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The operation failed because the calling identity doesn't have the minimum required permissions.
+    /// - `ConflictException` : The request could not be processed because of a conflict in the current status of the resource. For example, this happens if you try to enable a Region that is currently being disabled (in a status of DISABLING).
+    /// - `InternalServerException` : The operation failed because of an error internal to Amazon Web Services. Try your operation again later.
+    /// - `TooManyRequestsException` : The operation failed because it was called too frequently and exceeded a throttle limit.
+    /// - `ValidationException` : The operation failed because one of the input parameters was invalid.
     public func enableRegion(input: EnableRegionInput) async throws -> EnableRegionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -176,6 +215,19 @@ extension AccountClient: AccountClientProtocol {
     }
 
     /// Retrieves the specified alternate contact attached to an Amazon Web Services account. For complete details about how to use the alternate contact operations, see [Access or updating the alternate contacts](https://docs.aws.amazon.com/accounts/latest/reference/manage-acct-update-contact.html). Before you can update the alternate contact information for an Amazon Web Services account that is managed by Organizations, you must first enable integration between Amazon Web Services Account Management and Organizations. For more information, see [Enabling trusted access for Amazon Web Services Account Management](https://docs.aws.amazon.com/accounts/latest/reference/using-orgs-trusted-access.html).
+    ///
+    /// - Parameter GetAlternateContactInput : [no documentation found]
+    ///
+    /// - Returns: `GetAlternateContactOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The operation failed because the calling identity doesn't have the minimum required permissions.
+    /// - `InternalServerException` : The operation failed because of an error internal to Amazon Web Services. Try your operation again later.
+    /// - `ResourceNotFoundException` : The operation failed because it specified a resource that can't be found.
+    /// - `TooManyRequestsException` : The operation failed because it was called too frequently and exceeded a throttle limit.
+    /// - `ValidationException` : The operation failed because one of the input parameters was invalid.
     public func getAlternateContact(input: GetAlternateContactInput) async throws -> GetAlternateContactOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -212,6 +264,19 @@ extension AccountClient: AccountClientProtocol {
     }
 
     /// Retrieves the primary contact information of an Amazon Web Services account. For complete details about how to use the primary contact operations, see [Update the primary and alternate contact information](https://docs.aws.amazon.com/accounts/latest/reference/manage-acct-update-contact.html).
+    ///
+    /// - Parameter GetContactInformationInput : [no documentation found]
+    ///
+    /// - Returns: `GetContactInformationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The operation failed because the calling identity doesn't have the minimum required permissions.
+    /// - `InternalServerException` : The operation failed because of an error internal to Amazon Web Services. Try your operation again later.
+    /// - `ResourceNotFoundException` : The operation failed because it specified a resource that can't be found.
+    /// - `TooManyRequestsException` : The operation failed because it was called too frequently and exceeded a throttle limit.
+    /// - `ValidationException` : The operation failed because one of the input parameters was invalid.
     public func getContactInformation(input: GetContactInformationInput) async throws -> GetContactInformationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -248,6 +313,18 @@ extension AccountClient: AccountClientProtocol {
     }
 
     /// Retrieves the opt-in status of a particular Region.
+    ///
+    /// - Parameter GetRegionOptStatusInput : [no documentation found]
+    ///
+    /// - Returns: `GetRegionOptStatusOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The operation failed because the calling identity doesn't have the minimum required permissions.
+    /// - `InternalServerException` : The operation failed because of an error internal to Amazon Web Services. Try your operation again later.
+    /// - `TooManyRequestsException` : The operation failed because it was called too frequently and exceeded a throttle limit.
+    /// - `ValidationException` : The operation failed because one of the input parameters was invalid.
     public func getRegionOptStatus(input: GetRegionOptStatusInput) async throws -> GetRegionOptStatusOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -284,6 +361,18 @@ extension AccountClient: AccountClientProtocol {
     }
 
     /// Lists all the Regions for a given account and their respective opt-in statuses. Optionally, this list can be filtered by the region-opt-status-contains parameter.
+    ///
+    /// - Parameter ListRegionsInput : [no documentation found]
+    ///
+    /// - Returns: `ListRegionsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The operation failed because the calling identity doesn't have the minimum required permissions.
+    /// - `InternalServerException` : The operation failed because of an error internal to Amazon Web Services. Try your operation again later.
+    /// - `TooManyRequestsException` : The operation failed because it was called too frequently and exceeded a throttle limit.
+    /// - `ValidationException` : The operation failed because one of the input parameters was invalid.
     public func listRegions(input: ListRegionsInput) async throws -> ListRegionsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -320,6 +409,18 @@ extension AccountClient: AccountClientProtocol {
     }
 
     /// Modifies the specified alternate contact attached to an Amazon Web Services account. For complete details about how to use the alternate contact operations, see [Access or updating the alternate contacts](https://docs.aws.amazon.com/accounts/latest/reference/manage-acct-update-contact.html). Before you can update the alternate contact information for an Amazon Web Services account that is managed by Organizations, you must first enable integration between Amazon Web Services Account Management and Organizations. For more information, see [Enabling trusted access for Amazon Web Services Account Management](https://docs.aws.amazon.com/accounts/latest/reference/using-orgs-trusted-access.html).
+    ///
+    /// - Parameter PutAlternateContactInput : [no documentation found]
+    ///
+    /// - Returns: `PutAlternateContactOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The operation failed because the calling identity doesn't have the minimum required permissions.
+    /// - `InternalServerException` : The operation failed because of an error internal to Amazon Web Services. Try your operation again later.
+    /// - `TooManyRequestsException` : The operation failed because it was called too frequently and exceeded a throttle limit.
+    /// - `ValidationException` : The operation failed because one of the input parameters was invalid.
     public func putAlternateContact(input: PutAlternateContactInput) async throws -> PutAlternateContactOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -356,6 +457,18 @@ extension AccountClient: AccountClientProtocol {
     }
 
     /// Updates the primary contact information of an Amazon Web Services account. For complete details about how to use the primary contact operations, see [Update the primary and alternate contact information](https://docs.aws.amazon.com/accounts/latest/reference/manage-acct-update-contact.html).
+    ///
+    /// - Parameter PutContactInformationInput : [no documentation found]
+    ///
+    /// - Returns: `PutContactInformationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The operation failed because the calling identity doesn't have the minimum required permissions.
+    /// - `InternalServerException` : The operation failed because of an error internal to Amazon Web Services. Try your operation again later.
+    /// - `TooManyRequestsException` : The operation failed because it was called too frequently and exceeded a throttle limit.
+    /// - `ValidationException` : The operation failed because one of the input parameters was invalid.
     public func putContactInformation(input: PutContactInformationInput) async throws -> PutContactInformationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()

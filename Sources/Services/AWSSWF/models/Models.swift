@@ -2796,6 +2796,8 @@ extension SWFClientTypes.DecisionTaskCompletedEventAttributes: Swift.Codable {
         case executionContext
         case scheduledEventId
         case startedEventId
+        case taskList
+        case taskListScheduleToStartTimeout
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -2809,6 +2811,12 @@ extension SWFClientTypes.DecisionTaskCompletedEventAttributes: Swift.Codable {
         if startedEventId != 0 {
             try encodeContainer.encode(startedEventId, forKey: .startedEventId)
         }
+        if let taskList = self.taskList {
+            try encodeContainer.encode(taskList, forKey: .taskList)
+        }
+        if let taskListScheduleToStartTimeout = self.taskListScheduleToStartTimeout {
+            try encodeContainer.encode(taskListScheduleToStartTimeout, forKey: .taskListScheduleToStartTimeout)
+        }
     }
 
     public init(from decoder: Swift.Decoder) throws {
@@ -2819,6 +2827,10 @@ extension SWFClientTypes.DecisionTaskCompletedEventAttributes: Swift.Codable {
         scheduledEventId = scheduledEventIdDecoded
         let startedEventIdDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .startedEventId) ?? 0
         startedEventId = startedEventIdDecoded
+        let taskListDecoded = try containerValues.decodeIfPresent(SWFClientTypes.TaskList.self, forKey: .taskList)
+        taskList = taskListDecoded
+        let taskListScheduleToStartTimeoutDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .taskListScheduleToStartTimeout)
+        taskListScheduleToStartTimeout = taskListScheduleToStartTimeoutDecoded
     }
 }
 
@@ -2833,16 +2845,24 @@ extension SWFClientTypes {
         /// The ID of the DecisionTaskStarted event recorded when this decision task was started. This information can be useful for diagnosing problems by tracing back the chain of events leading up to this event.
         /// This member is required.
         public var startedEventId: Swift.Int
+        /// Represents a task list.
+        public var taskList: SWFClientTypes.TaskList?
+        /// The maximum amount of time the decision task can wait to be assigned to a worker.
+        public var taskListScheduleToStartTimeout: Swift.String?
 
         public init(
             executionContext: Swift.String? = nil,
             scheduledEventId: Swift.Int = 0,
-            startedEventId: Swift.Int = 0
+            startedEventId: Swift.Int = 0,
+            taskList: SWFClientTypes.TaskList? = nil,
+            taskListScheduleToStartTimeout: Swift.String? = nil
         )
         {
             self.executionContext = executionContext
             self.scheduledEventId = scheduledEventId
             self.startedEventId = startedEventId
+            self.taskList = taskList
+            self.taskListScheduleToStartTimeout = taskListScheduleToStartTimeout
         }
     }
 
@@ -2850,6 +2870,7 @@ extension SWFClientTypes {
 
 extension SWFClientTypes.DecisionTaskScheduledEventAttributes: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case scheduleToStartTimeout
         case startToCloseTimeout
         case taskList
         case taskPriority
@@ -2857,6 +2878,9 @@ extension SWFClientTypes.DecisionTaskScheduledEventAttributes: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let scheduleToStartTimeout = self.scheduleToStartTimeout {
+            try encodeContainer.encode(scheduleToStartTimeout, forKey: .scheduleToStartTimeout)
+        }
         if let startToCloseTimeout = self.startToCloseTimeout {
             try encodeContainer.encode(startToCloseTimeout, forKey: .startToCloseTimeout)
         }
@@ -2876,12 +2900,16 @@ extension SWFClientTypes.DecisionTaskScheduledEventAttributes: Swift.Codable {
         taskPriority = taskPriorityDecoded
         let startToCloseTimeoutDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .startToCloseTimeout)
         startToCloseTimeout = startToCloseTimeoutDecoded
+        let scheduleToStartTimeoutDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .scheduleToStartTimeout)
+        scheduleToStartTimeout = scheduleToStartTimeoutDecoded
     }
 }
 
 extension SWFClientTypes {
     /// Provides details about the DecisionTaskScheduled event.
     public struct DecisionTaskScheduledEventAttributes: Swift.Equatable {
+        /// The maximum amount of time the decision task can wait to be assigned to a worker.
+        public var scheduleToStartTimeout: Swift.String?
         /// The maximum duration for this decision task. The task is considered timed out if it doesn't completed within this duration. The duration is specified in seconds, an integer greater than or equal to 0. You can use NONE to specify unlimited duration.
         public var startToCloseTimeout: Swift.String?
         /// The name of the task list in which the decision task was scheduled.
@@ -2891,11 +2919,13 @@ extension SWFClientTypes {
         public var taskPriority: Swift.String?
 
         public init(
+            scheduleToStartTimeout: Swift.String? = nil,
             startToCloseTimeout: Swift.String? = nil,
             taskList: SWFClientTypes.TaskList? = nil,
             taskPriority: Swift.String? = nil
         )
         {
+            self.scheduleToStartTimeout = scheduleToStartTimeout
             self.startToCloseTimeout = startToCloseTimeout
             self.taskList = taskList
             self.taskPriority = taskPriority
@@ -3010,11 +3040,13 @@ extension SWFClientTypes {
 
 extension SWFClientTypes {
     public enum DecisionTaskTimeoutType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case scheduleToStart
         case startToClose
         case sdkUnknown(Swift.String)
 
         public static var allCases: [DecisionTaskTimeoutType] {
             return [
+                .scheduleToStart,
                 .startToClose,
                 .sdkUnknown("")
             ]
@@ -3025,6 +3057,7 @@ extension SWFClientTypes {
         }
         public var rawValue: Swift.String {
             switch self {
+            case .scheduleToStart: return "SCHEDULE_TO_START"
             case .startToClose: return "START_TO_CLOSE"
             case let .sdkUnknown(s): return s
             }
@@ -9074,6 +9107,8 @@ extension RespondDecisionTaskCompletedInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case decisions
         case executionContext
+        case taskList
+        case taskListScheduleToStartTimeout
         case taskToken
     }
 
@@ -9087,6 +9122,12 @@ extension RespondDecisionTaskCompletedInput: Swift.Encodable {
         }
         if let executionContext = self.executionContext {
             try encodeContainer.encode(executionContext, forKey: .executionContext)
+        }
+        if let taskList = self.taskList {
+            try encodeContainer.encode(taskList, forKey: .taskList)
+        }
+        if let taskListScheduleToStartTimeout = self.taskListScheduleToStartTimeout {
+            try encodeContainer.encode(taskListScheduleToStartTimeout, forKey: .taskListScheduleToStartTimeout)
         }
         if let taskToken = self.taskToken {
             try encodeContainer.encode(taskToken, forKey: .taskToken)
@@ -9106,6 +9147,10 @@ public struct RespondDecisionTaskCompletedInput: Swift.Equatable {
     public var decisions: [SWFClientTypes.Decision]?
     /// User defined context to add to workflow execution.
     public var executionContext: Swift.String?
+    /// The task list to use for the future decision tasks of this workflow execution. This list overrides the original task list you specified while starting the workflow execution.
+    public var taskList: SWFClientTypes.TaskList?
+    /// Specifies a timeout (in seconds) for the task list override. When this parameter is missing, the task list override is permanent. This parameter makes it possible to temporarily override the task list. If a decision task scheduled on the override task list is not started within the timeout, the decision task will time out. Amazon SWF will revert the override and schedule a new decision task to the original task list. If a decision task scheduled on the override task list is started within the timeout, but not completed within the start-to-close timeout, Amazon SWF will also revert the override and schedule a new decision task to the original task list.
+    public var taskListScheduleToStartTimeout: Swift.String?
     /// The taskToken from the [DecisionTask]. taskToken is generated by the service and should be treated as an opaque value. If the task is passed to another process, its taskToken must also be passed. This enables it to provide its progress and respond with results.
     /// This member is required.
     public var taskToken: Swift.String?
@@ -9113,11 +9158,15 @@ public struct RespondDecisionTaskCompletedInput: Swift.Equatable {
     public init(
         decisions: [SWFClientTypes.Decision]? = nil,
         executionContext: Swift.String? = nil,
+        taskList: SWFClientTypes.TaskList? = nil,
+        taskListScheduleToStartTimeout: Swift.String? = nil,
         taskToken: Swift.String? = nil
     )
     {
         self.decisions = decisions
         self.executionContext = executionContext
+        self.taskList = taskList
+        self.taskListScheduleToStartTimeout = taskListScheduleToStartTimeout
         self.taskToken = taskToken
     }
 }
@@ -9126,12 +9175,16 @@ struct RespondDecisionTaskCompletedInputBody: Swift.Equatable {
     let taskToken: Swift.String?
     let decisions: [SWFClientTypes.Decision]?
     let executionContext: Swift.String?
+    let taskList: SWFClientTypes.TaskList?
+    let taskListScheduleToStartTimeout: Swift.String?
 }
 
 extension RespondDecisionTaskCompletedInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case decisions
         case executionContext
+        case taskList
+        case taskListScheduleToStartTimeout
         case taskToken
     }
 
@@ -9152,6 +9205,10 @@ extension RespondDecisionTaskCompletedInputBody: Swift.Decodable {
         decisions = decisionsDecoded0
         let executionContextDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .executionContext)
         executionContext = executionContextDecoded
+        let taskListDecoded = try containerValues.decodeIfPresent(SWFClientTypes.TaskList.self, forKey: .taskList)
+        taskList = taskListDecoded
+        let taskListScheduleToStartTimeoutDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .taskListScheduleToStartTimeout)
+        taskListScheduleToStartTimeout = taskListScheduleToStartTimeoutDecoded
     }
 }
 

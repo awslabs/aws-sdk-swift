@@ -14,36 +14,179 @@ public protocol FisClientProtocol {
     ///
     ///
     /// For more information, see [Experiment templates](https://docs.aws.amazon.com/fis/latest/userguide/experiment-templates.html) in the Fault Injection Simulator User Guide.
+    ///
+    /// - Parameter CreateExperimentTemplateInput : [no documentation found]
+    ///
+    /// - Returns: `CreateExperimentTemplateOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictException` : The request could not be processed because of a conflict.
+    /// - `ResourceNotFoundException` : The specified resource cannot be found.
+    /// - `ServiceQuotaExceededException` : You have exceeded your service quota.
+    /// - `ValidationException` : The specified input is not valid, or fails to satisfy the constraints for the request.
     func createExperimentTemplate(input: CreateExperimentTemplateInput) async throws -> CreateExperimentTemplateOutputResponse
     /// Deletes the specified experiment template.
+    ///
+    /// - Parameter DeleteExperimentTemplateInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteExperimentTemplateOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ResourceNotFoundException` : The specified resource cannot be found.
+    /// - `ValidationException` : The specified input is not valid, or fails to satisfy the constraints for the request.
     func deleteExperimentTemplate(input: DeleteExperimentTemplateInput) async throws -> DeleteExperimentTemplateOutputResponse
     /// Gets information about the specified FIS action.
+    ///
+    /// - Parameter GetActionInput : [no documentation found]
+    ///
+    /// - Returns: `GetActionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ResourceNotFoundException` : The specified resource cannot be found.
+    /// - `ValidationException` : The specified input is not valid, or fails to satisfy the constraints for the request.
     func getAction(input: GetActionInput) async throws -> GetActionOutputResponse
     /// Gets information about the specified experiment.
+    ///
+    /// - Parameter GetExperimentInput : [no documentation found]
+    ///
+    /// - Returns: `GetExperimentOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ResourceNotFoundException` : The specified resource cannot be found.
+    /// - `ValidationException` : The specified input is not valid, or fails to satisfy the constraints for the request.
     func getExperiment(input: GetExperimentInput) async throws -> GetExperimentOutputResponse
     /// Gets information about the specified experiment template.
+    ///
+    /// - Parameter GetExperimentTemplateInput : [no documentation found]
+    ///
+    /// - Returns: `GetExperimentTemplateOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ResourceNotFoundException` : The specified resource cannot be found.
+    /// - `ValidationException` : The specified input is not valid, or fails to satisfy the constraints for the request.
     func getExperimentTemplate(input: GetExperimentTemplateInput) async throws -> GetExperimentTemplateOutputResponse
     /// Gets information about the specified resource type.
+    ///
+    /// - Parameter GetTargetResourceTypeInput : [no documentation found]
+    ///
+    /// - Returns: `GetTargetResourceTypeOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ResourceNotFoundException` : The specified resource cannot be found.
+    /// - `ValidationException` : The specified input is not valid, or fails to satisfy the constraints for the request.
     func getTargetResourceType(input: GetTargetResourceTypeInput) async throws -> GetTargetResourceTypeOutputResponse
     /// Lists the available FIS actions.
+    ///
+    /// - Parameter ListActionsInput : [no documentation found]
+    ///
+    /// - Returns: `ListActionsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ValidationException` : The specified input is not valid, or fails to satisfy the constraints for the request.
     func listActions(input: ListActionsInput) async throws -> ListActionsOutputResponse
     /// Lists your experiments.
+    ///
+    /// - Parameter ListExperimentsInput : [no documentation found]
+    ///
+    /// - Returns: `ListExperimentsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ValidationException` : The specified input is not valid, or fails to satisfy the constraints for the request.
     func listExperiments(input: ListExperimentsInput) async throws -> ListExperimentsOutputResponse
     /// Lists your experiment templates.
+    ///
+    /// - Parameter ListExperimentTemplatesInput : [no documentation found]
+    ///
+    /// - Returns: `ListExperimentTemplatesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ValidationException` : The specified input is not valid, or fails to satisfy the constraints for the request.
     func listExperimentTemplates(input: ListExperimentTemplatesInput) async throws -> ListExperimentTemplatesOutputResponse
     /// Lists the tags for the specified resource.
+    ///
+    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    ///
+    /// - Returns: `ListTagsForResourceOutputResponse` : [no documentation found]
     func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
     /// Lists the target resource types.
+    ///
+    /// - Parameter ListTargetResourceTypesInput : [no documentation found]
+    ///
+    /// - Returns: `ListTargetResourceTypesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ValidationException` : The specified input is not valid, or fails to satisfy the constraints for the request.
     func listTargetResourceTypes(input: ListTargetResourceTypesInput) async throws -> ListTargetResourceTypesOutputResponse
     /// Starts running an experiment from the specified experiment template.
+    ///
+    /// - Parameter StartExperimentInput : [no documentation found]
+    ///
+    /// - Returns: `StartExperimentOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictException` : The request could not be processed because of a conflict.
+    /// - `ResourceNotFoundException` : The specified resource cannot be found.
+    /// - `ServiceQuotaExceededException` : You have exceeded your service quota.
+    /// - `ValidationException` : The specified input is not valid, or fails to satisfy the constraints for the request.
     func startExperiment(input: StartExperimentInput) async throws -> StartExperimentOutputResponse
     /// Stops the specified experiment.
+    ///
+    /// - Parameter StopExperimentInput : [no documentation found]
+    ///
+    /// - Returns: `StopExperimentOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ResourceNotFoundException` : The specified resource cannot be found.
+    /// - `ValidationException` : The specified input is not valid, or fails to satisfy the constraints for the request.
     func stopExperiment(input: StopExperimentInput) async throws -> StopExperimentOutputResponse
     /// Applies the specified tags to the specified resource.
+    ///
+    /// - Parameter TagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `TagResourceOutputResponse` : [no documentation found]
     func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
     /// Removes the specified tags from the specified resource.
+    ///
+    /// - Parameter UntagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `UntagResourceOutputResponse` : [no documentation found]
     func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
     /// Updates the specified experiment template.
+    ///
+    /// - Parameter UpdateExperimentTemplateInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateExperimentTemplateOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ResourceNotFoundException` : The specified resource cannot be found.
+    /// - `ServiceQuotaExceededException` : You have exceeded your service quota.
+    /// - `ValidationException` : The specified input is not valid, or fails to satisfy the constraints for the request.
     func updateExperimentTemplate(input: UpdateExperimentTemplateInput) async throws -> UpdateExperimentTemplateOutputResponse
 }
 

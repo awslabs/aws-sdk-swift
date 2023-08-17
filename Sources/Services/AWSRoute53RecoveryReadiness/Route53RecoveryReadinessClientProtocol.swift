@@ -5,68 +5,471 @@ import ClientRuntime
 /// Recovery readiness
 public protocol Route53RecoveryReadinessClientProtocol {
     /// Creates a cell in an account.
+    ///
+    /// - Parameter CreateCellInput : [no documentation found]
+    ///
+    /// - Returns: `CreateCellOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `ConflictException` : Updating or deleting a resource can cause an inconsistent state.
+    /// - `InternalServerException` : An unexpected error occurred.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func createCell(input: CreateCellInput) async throws -> CreateCellOutputResponse
     /// Creates a cross-account readiness authorization. This lets you authorize another account to work with Route 53 Application Recovery Controller, for example, to check the readiness status of resources in a separate account.
+    ///
+    /// - Parameter CreateCrossAccountAuthorizationInput : [no documentation found]
+    ///
+    /// - Returns: `CreateCrossAccountAuthorizationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `ConflictException` : Updating or deleting a resource can cause an inconsistent state.
+    /// - `InternalServerException` : An unexpected error occurred.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func createCrossAccountAuthorization(input: CreateCrossAccountAuthorizationInput) async throws -> CreateCrossAccountAuthorizationOutputResponse
     /// Creates a readiness check in an account. A readiness check monitors a resource set in your application, such as a set of Amazon Aurora instances, that Application Recovery Controller is auditing recovery readiness for. The audits run once every minute on every resource that's associated with a readiness check.
+    ///
+    /// - Parameter CreateReadinessCheckInput : [no documentation found]
+    ///
+    /// - Returns: `CreateReadinessCheckOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `ConflictException` : Updating or deleting a resource can cause an inconsistent state.
+    /// - `InternalServerException` : An unexpected error occurred.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func createReadinessCheck(input: CreateReadinessCheckInput) async throws -> CreateReadinessCheckOutputResponse
     /// Creates a recovery group in an account. A recovery group corresponds to an application and includes a list of the cells that make up the application.
+    ///
+    /// - Parameter CreateRecoveryGroupInput : [no documentation found]
+    ///
+    /// - Returns: `CreateRecoveryGroupOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `ConflictException` : Updating or deleting a resource can cause an inconsistent state.
+    /// - `InternalServerException` : An unexpected error occurred.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func createRecoveryGroup(input: CreateRecoveryGroupInput) async throws -> CreateRecoveryGroupOutputResponse
     /// Creates a resource set. A resource set is a set of resources of one type that span multiple cells. You can associate a resource set with a readiness check to monitor the resources for failover readiness.
+    ///
+    /// - Parameter CreateResourceSetInput : [no documentation found]
+    ///
+    /// - Returns: `CreateResourceSetOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `ConflictException` : Updating or deleting a resource can cause an inconsistent state.
+    /// - `InternalServerException` : An unexpected error occurred.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func createResourceSet(input: CreateResourceSetInput) async throws -> CreateResourceSetOutputResponse
     /// Delete a cell. When successful, the response code is 204, with no response body.
+    ///
+    /// - Parameter DeleteCellInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteCellOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred.
+    /// - `ResourceNotFoundException` : The requested resource does not exist.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func deleteCell(input: DeleteCellInput) async throws -> DeleteCellOutputResponse
     /// Deletes cross account readiness authorization.
+    ///
+    /// - Parameter DeleteCrossAccountAuthorizationInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteCrossAccountAuthorizationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func deleteCrossAccountAuthorization(input: DeleteCrossAccountAuthorizationInput) async throws -> DeleteCrossAccountAuthorizationOutputResponse
     /// Deletes a readiness check.
+    ///
+    /// - Parameter DeleteReadinessCheckInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteReadinessCheckOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred.
+    /// - `ResourceNotFoundException` : The requested resource does not exist.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func deleteReadinessCheck(input: DeleteReadinessCheckInput) async throws -> DeleteReadinessCheckOutputResponse
     /// Deletes a recovery group.
+    ///
+    /// - Parameter DeleteRecoveryGroupInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteRecoveryGroupOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred.
+    /// - `ResourceNotFoundException` : The requested resource does not exist.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func deleteRecoveryGroup(input: DeleteRecoveryGroupInput) async throws -> DeleteRecoveryGroupOutputResponse
     /// Deletes a resource set.
+    ///
+    /// - Parameter DeleteResourceSetInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteResourceSetOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred.
+    /// - `ResourceNotFoundException` : The requested resource does not exist.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func deleteResourceSet(input: DeleteResourceSetInput) async throws -> DeleteResourceSetOutputResponse
     /// Gets recommendations about architecture designs for improving resiliency for an application, based on a recovery group.
+    ///
+    /// - Parameter GetArchitectureRecommendationsInput : [no documentation found]
+    ///
+    /// - Returns: `GetArchitectureRecommendationsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred.
+    /// - `ResourceNotFoundException` : The requested resource does not exist.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func getArchitectureRecommendations(input: GetArchitectureRecommendationsInput) async throws -> GetArchitectureRecommendationsOutputResponse
     /// Gets information about a cell including cell name, cell Amazon Resource Name (ARN), ARNs of nested cells for this cell, and a list of those cell ARNs with their associated recovery group ARNs.
+    ///
+    /// - Parameter GetCellInput : [no documentation found]
+    ///
+    /// - Returns: `GetCellOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred.
+    /// - `ResourceNotFoundException` : The requested resource does not exist.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func getCell(input: GetCellInput) async throws -> GetCellOutputResponse
     /// Gets readiness for a cell. Aggregates the readiness of all the resources that are associated with the cell into a single value.
+    ///
+    /// - Parameter GetCellReadinessSummaryInput : [no documentation found]
+    ///
+    /// - Returns: `GetCellReadinessSummaryOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred.
+    /// - `ResourceNotFoundException` : The requested resource does not exist.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func getCellReadinessSummary(input: GetCellReadinessSummaryInput) async throws -> GetCellReadinessSummaryOutputResponse
     /// Gets details about a readiness check.
+    ///
+    /// - Parameter GetReadinessCheckInput : [no documentation found]
+    ///
+    /// - Returns: `GetReadinessCheckOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred.
+    /// - `ResourceNotFoundException` : The requested resource does not exist.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func getReadinessCheck(input: GetReadinessCheckInput) async throws -> GetReadinessCheckOutputResponse
     /// Gets individual readiness status for a readiness check. To see the overall readiness status for a recovery group, that considers the readiness status for all the readiness checks in the recovery group, use GetRecoveryGroupReadinessSummary.
+    ///
+    /// - Parameter GetReadinessCheckResourceStatusInput : [no documentation found]
+    ///
+    /// - Returns: `GetReadinessCheckResourceStatusOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred.
+    /// - `ResourceNotFoundException` : The requested resource does not exist.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func getReadinessCheckResourceStatus(input: GetReadinessCheckResourceStatusInput) async throws -> GetReadinessCheckResourceStatusOutputResponse
     /// Gets the readiness status for an individual readiness check. To see the overall readiness status for a recovery group, that considers the readiness status for all the readiness checks in a recovery group, use GetRecoveryGroupReadinessSummary.
+    ///
+    /// - Parameter GetReadinessCheckStatusInput : [no documentation found]
+    ///
+    /// - Returns: `GetReadinessCheckStatusOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred.
+    /// - `ResourceNotFoundException` : The requested resource does not exist.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func getReadinessCheckStatus(input: GetReadinessCheckStatusInput) async throws -> GetReadinessCheckStatusOutputResponse
     /// Gets details about a recovery group, including a list of the cells that are included in it.
+    ///
+    /// - Parameter GetRecoveryGroupInput : [no documentation found]
+    ///
+    /// - Returns: `GetRecoveryGroupOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred.
+    /// - `ResourceNotFoundException` : The requested resource does not exist.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func getRecoveryGroup(input: GetRecoveryGroupInput) async throws -> GetRecoveryGroupOutputResponse
     /// Displays a summary of information about a recovery group's readiness status. Includes the readiness checks for resources in the recovery group and the readiness status of each one.
+    ///
+    /// - Parameter GetRecoveryGroupReadinessSummaryInput : [no documentation found]
+    ///
+    /// - Returns: `GetRecoveryGroupReadinessSummaryOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred.
+    /// - `ResourceNotFoundException` : The requested resource does not exist.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func getRecoveryGroupReadinessSummary(input: GetRecoveryGroupReadinessSummaryInput) async throws -> GetRecoveryGroupReadinessSummaryOutputResponse
     /// Displays the details about a resource set, including a list of the resources in the set.
+    ///
+    /// - Parameter GetResourceSetInput : [no documentation found]
+    ///
+    /// - Returns: `GetResourceSetOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred.
+    /// - `ResourceNotFoundException` : The requested resource does not exist.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func getResourceSet(input: GetResourceSetInput) async throws -> GetResourceSetOutputResponse
     /// Lists the cells for an account.
+    ///
+    /// - Parameter ListCellsInput : [no documentation found]
+    ///
+    /// - Returns: `ListCellsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func listCells(input: ListCellsInput) async throws -> ListCellsOutputResponse
     /// Lists the cross-account readiness authorizations that are in place for an account.
+    ///
+    /// - Parameter ListCrossAccountAuthorizationsInput : [no documentation found]
+    ///
+    /// - Returns: `ListCrossAccountAuthorizationsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func listCrossAccountAuthorizations(input: ListCrossAccountAuthorizationsInput) async throws -> ListCrossAccountAuthorizationsOutputResponse
     /// Lists the readiness checks for an account.
+    ///
+    /// - Parameter ListReadinessChecksInput : [no documentation found]
+    ///
+    /// - Returns: `ListReadinessChecksOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func listReadinessChecks(input: ListReadinessChecksInput) async throws -> ListReadinessChecksOutputResponse
     /// Lists the recovery groups in an account.
+    ///
+    /// - Parameter ListRecoveryGroupsInput : [no documentation found]
+    ///
+    /// - Returns: `ListRecoveryGroupsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func listRecoveryGroups(input: ListRecoveryGroupsInput) async throws -> ListRecoveryGroupsOutputResponse
     /// Lists the resource sets in an account.
+    ///
+    /// - Parameter ListResourceSetsInput : [no documentation found]
+    ///
+    /// - Returns: `ListResourceSetsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func listResourceSets(input: ListResourceSetsInput) async throws -> ListResourceSetsOutputResponse
     /// Lists all readiness rules, or lists the readiness rules for a specific resource type.
+    ///
+    /// - Parameter ListRulesInput : [no documentation found]
+    ///
+    /// - Returns: `ListRulesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func listRules(input: ListRulesInput) async throws -> ListRulesOutputResponse
     /// Lists the tags for a resource.
+    ///
+    /// - Parameter ListTagsForResourcesInput : [no documentation found]
+    ///
+    /// - Returns: `ListTagsForResourcesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : An unexpected error occurred.
+    /// - `ResourceNotFoundException` : The requested resource does not exist.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func listTagsForResources(input: ListTagsForResourcesInput) async throws -> ListTagsForResourcesOutputResponse
     /// Adds a tag to a resource.
+    ///
+    /// - Parameter TagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `TagResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : An unexpected error occurred.
+    /// - `ResourceNotFoundException` : The requested resource does not exist.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
     /// Removes a tag from a resource.
+    ///
+    /// - Parameter UntagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `UntagResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : An unexpected error occurred.
+    /// - `ResourceNotFoundException` : The requested resource does not exist.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
     /// Updates a cell to replace the list of nested cells with a new list of nested cells.
+    ///
+    /// - Parameter UpdateCellInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateCellOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred.
+    /// - `ResourceNotFoundException` : The requested resource does not exist.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func updateCell(input: UpdateCellInput) async throws -> UpdateCellOutputResponse
     /// Updates a readiness check.
+    ///
+    /// - Parameter UpdateReadinessCheckInput : Name of a readiness check to describe.
+    ///
+    /// - Returns: `UpdateReadinessCheckOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred.
+    /// - `ResourceNotFoundException` : The requested resource does not exist.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func updateReadinessCheck(input: UpdateReadinessCheckInput) async throws -> UpdateReadinessCheckOutputResponse
     /// Updates a recovery group.
+    ///
+    /// - Parameter UpdateRecoveryGroupInput : Name of a recovery group.
+    ///
+    /// - Returns: `UpdateRecoveryGroupOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred.
+    /// - `ResourceNotFoundException` : The requested resource does not exist.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func updateRecoveryGroup(input: UpdateRecoveryGroupInput) async throws -> UpdateRecoveryGroupOutputResponse
     /// Updates a resource set.
+    ///
+    /// - Parameter UpdateResourceSetInput : Name of a resource set.
+    ///
+    /// - Returns: `UpdateResourceSetOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred.
+    /// - `ResourceNotFoundException` : The requested resource does not exist.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func updateResourceSet(input: UpdateResourceSetInput) async throws -> UpdateResourceSetOutputResponse
 }
 

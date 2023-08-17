@@ -68,6 +68,19 @@ public struct LexModelsV2ClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFac
 
 extension LexModelsV2Client: LexModelsV2ClientProtocol {
     /// Create a batch of custom vocabulary items for a given bot locale's custom vocabulary.
+    ///
+    /// - Parameter BatchCreateCustomVocabularyItemInput : [no documentation found]
+    ///
+    /// - Returns: `BatchCreateCustomVocabularyItemOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The service encountered an unexpected condition. Try your request again.
+    /// - `ResourceNotFoundException` : You asked to describe a resource that doesn't exist. Check the resource that you are requesting and try again.
+    /// - `ServiceQuotaExceededException` : You have reached a quota for your bot.
+    /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
+    /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
     public func batchCreateCustomVocabularyItem(input: BatchCreateCustomVocabularyItemInput) async throws -> BatchCreateCustomVocabularyItemOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -104,6 +117,19 @@ extension LexModelsV2Client: LexModelsV2ClientProtocol {
     }
 
     /// Delete a batch of custom vocabulary items for a given bot locale's custom vocabulary.
+    ///
+    /// - Parameter BatchDeleteCustomVocabularyItemInput : [no documentation found]
+    ///
+    /// - Returns: `BatchDeleteCustomVocabularyItemOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The service encountered an unexpected condition. Try your request again.
+    /// - `ResourceNotFoundException` : You asked to describe a resource that doesn't exist. Check the resource that you are requesting and try again.
+    /// - `ServiceQuotaExceededException` : You have reached a quota for your bot.
+    /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
+    /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
     public func batchDeleteCustomVocabularyItem(input: BatchDeleteCustomVocabularyItemInput) async throws -> BatchDeleteCustomVocabularyItemOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -140,6 +166,19 @@ extension LexModelsV2Client: LexModelsV2ClientProtocol {
     }
 
     /// Update a batch of custom vocabulary items for a given bot locale's custom vocabulary.
+    ///
+    /// - Parameter BatchUpdateCustomVocabularyItemInput : [no documentation found]
+    ///
+    /// - Returns: `BatchUpdateCustomVocabularyItemOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The service encountered an unexpected condition. Try your request again.
+    /// - `ResourceNotFoundException` : You asked to describe a resource that doesn't exist. Check the resource that you are requesting and try again.
+    /// - `ServiceQuotaExceededException` : You have reached a quota for your bot.
+    /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
+    /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
     public func batchUpdateCustomVocabularyItem(input: BatchUpdateCustomVocabularyItemInput) async throws -> BatchUpdateCustomVocabularyItemOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -176,6 +215,20 @@ extension LexModelsV2Client: LexModelsV2ClientProtocol {
     }
 
     /// Builds a bot, its intents, and its slot types into a specific locale. A bot can be built into multiple locales. At runtime the locale is used to choose a specific build of the bot.
+    ///
+    /// - Parameter BuildBotLocaleInput : [no documentation found]
+    ///
+    /// - Returns: `BuildBotLocaleOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictException` : The action that you tried to perform couldn't be completed because the resource is in a conflicting state. For example, deleting a bot that is in the CREATING state. Try your request again.
+    /// - `InternalServerException` : The service encountered an unexpected condition. Try your request again.
+    /// - `PreconditionFailedException` : Your request couldn't be completed because one or more request fields aren't valid. Check the fields in your request and try again.
+    /// - `ServiceQuotaExceededException` : You have reached a quota for your bot.
+    /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
+    /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
     public func buildBotLocale(input: BuildBotLocaleInput) async throws -> BuildBotLocaleOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -209,6 +262,20 @@ extension LexModelsV2Client: LexModelsV2ClientProtocol {
     }
 
     /// Creates an Amazon Lex conversational bot.
+    ///
+    /// - Parameter CreateBotInput : [no documentation found]
+    ///
+    /// - Returns: `CreateBotOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictException` : The action that you tried to perform couldn't be completed because the resource is in a conflicting state. For example, deleting a bot that is in the CREATING state. Try your request again.
+    /// - `InternalServerException` : The service encountered an unexpected condition. Try your request again.
+    /// - `PreconditionFailedException` : Your request couldn't be completed because one or more request fields aren't valid. Check the fields in your request and try again.
+    /// - `ServiceQuotaExceededException` : You have reached a quota for your bot.
+    /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
+    /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
     public func createBot(input: CreateBotInput) async throws -> CreateBotOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -245,6 +312,20 @@ extension LexModelsV2Client: LexModelsV2ClientProtocol {
     }
 
     /// Creates an alias for the specified version of a bot. Use an alias to enable you to change the version of a bot without updating applications that use the bot. For example, you can create an alias called "PROD" that your applications use to call the Amazon Lex bot.
+    ///
+    /// - Parameter CreateBotAliasInput : [no documentation found]
+    ///
+    /// - Returns: `CreateBotAliasOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictException` : The action that you tried to perform couldn't be completed because the resource is in a conflicting state. For example, deleting a bot that is in the CREATING state. Try your request again.
+    /// - `InternalServerException` : The service encountered an unexpected condition. Try your request again.
+    /// - `PreconditionFailedException` : Your request couldn't be completed because one or more request fields aren't valid. Check the fields in your request and try again.
+    /// - `ServiceQuotaExceededException` : You have reached a quota for your bot.
+    /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
+    /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
     public func createBotAlias(input: CreateBotAliasInput) async throws -> CreateBotAliasOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -281,6 +362,20 @@ extension LexModelsV2Client: LexModelsV2ClientProtocol {
     }
 
     /// Creates a locale in the bot. The locale contains the intents and slot types that the bot uses in conversations with users in the specified language and locale. You must add a locale to a bot before you can add intents and slot types to the bot.
+    ///
+    /// - Parameter CreateBotLocaleInput : [no documentation found]
+    ///
+    /// - Returns: `CreateBotLocaleOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictException` : The action that you tried to perform couldn't be completed because the resource is in a conflicting state. For example, deleting a bot that is in the CREATING state. Try your request again.
+    /// - `InternalServerException` : The service encountered an unexpected condition. Try your request again.
+    /// - `PreconditionFailedException` : Your request couldn't be completed because one or more request fields aren't valid. Check the fields in your request and try again.
+    /// - `ServiceQuotaExceededException` : You have reached a quota for your bot.
+    /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
+    /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
     public func createBotLocale(input: CreateBotLocaleInput) async throws -> CreateBotLocaleOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -317,6 +412,20 @@ extension LexModelsV2Client: LexModelsV2ClientProtocol {
     }
 
     /// Creates a new version of the bot based on the DRAFT version. If the DRAFT version of this resource hasn't changed since you created the last version, Amazon Lex doesn't create a new version, it returns the last created version. When you create the first version of a bot, Amazon Lex sets the version to 1. Subsequent versions increment by 1.
+    ///
+    /// - Parameter CreateBotVersionInput : [no documentation found]
+    ///
+    /// - Returns: `CreateBotVersionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictException` : The action that you tried to perform couldn't be completed because the resource is in a conflicting state. For example, deleting a bot that is in the CREATING state. Try your request again.
+    /// - `InternalServerException` : The service encountered an unexpected condition. Try your request again.
+    /// - `PreconditionFailedException` : Your request couldn't be completed because one or more request fields aren't valid. Check the fields in your request and try again.
+    /// - `ServiceQuotaExceededException` : You have reached a quota for your bot.
+    /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
+    /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
     public func createBotVersion(input: CreateBotVersionInput) async throws -> CreateBotVersionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -353,6 +462,20 @@ extension LexModelsV2Client: LexModelsV2ClientProtocol {
     }
 
     /// Creates a zip archive containing the contents of a bot or a bot locale. The archive contains a directory structure that contains JSON files that define the bot. You can create an archive that contains the complete definition of a bot, or you can specify that the archive contain only the definition of a single bot locale. For more information about exporting bots, and about the structure of the export archive, see [ Importing and exporting bots ](https://docs.aws.amazon.com/lexv2/latest/dg/importing-exporting.html)
+    ///
+    /// - Parameter CreateExportInput : [no documentation found]
+    ///
+    /// - Returns: `CreateExportOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictException` : The action that you tried to perform couldn't be completed because the resource is in a conflicting state. For example, deleting a bot that is in the CREATING state. Try your request again.
+    /// - `InternalServerException` : The service encountered an unexpected condition. Try your request again.
+    /// - `ResourceNotFoundException` : You asked to describe a resource that doesn't exist. Check the resource that you are requesting and try again.
+    /// - `ServiceQuotaExceededException` : You have reached a quota for your bot.
+    /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
+    /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
     public func createExport(input: CreateExportInput) async throws -> CreateExportOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -401,6 +524,20 @@ extension LexModelsV2Client: LexModelsV2ClientProtocol {
     /// * A conclusion statement to send to the user after the intent is fulfilled. For example, "I ordered your pizza."
     ///
     /// * A follow-up prompt that asks the user for additional activity. For example, "Do you want a drink with your pizza?"
+    ///
+    /// - Parameter CreateIntentInput : [no documentation found]
+    ///
+    /// - Returns: `CreateIntentOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictException` : The action that you tried to perform couldn't be completed because the resource is in a conflicting state. For example, deleting a bot that is in the CREATING state. Try your request again.
+    /// - `InternalServerException` : The service encountered an unexpected condition. Try your request again.
+    /// - `PreconditionFailedException` : Your request couldn't be completed because one or more request fields aren't valid. Check the fields in your request and try again.
+    /// - `ServiceQuotaExceededException` : You have reached a quota for your bot.
+    /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
+    /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
     public func createIntent(input: CreateIntentInput) async throws -> CreateIntentOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -437,6 +574,20 @@ extension LexModelsV2Client: LexModelsV2ClientProtocol {
     }
 
     /// Creates a new resource policy with the specified policy statements.
+    ///
+    /// - Parameter CreateResourcePolicyInput : [no documentation found]
+    ///
+    /// - Returns: `CreateResourcePolicyOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The service encountered an unexpected condition. Try your request again.
+    /// - `PreconditionFailedException` : Your request couldn't be completed because one or more request fields aren't valid. Check the fields in your request and try again.
+    /// - `ResourceNotFoundException` : You asked to describe a resource that doesn't exist. Check the resource that you are requesting and try again.
+    /// - `ServiceQuotaExceededException` : You have reached a quota for your bot.
+    /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
+    /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
     public func createResourcePolicy(input: CreateResourcePolicyInput) async throws -> CreateResourcePolicyOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -473,6 +624,21 @@ extension LexModelsV2Client: LexModelsV2ClientProtocol {
     }
 
     /// Adds a new resource policy statement to a bot or bot alias. If a resource policy exists, the statement is added to the current resource policy. If a policy doesn't exist, a new policy is created. You can't create a resource policy statement that allows cross-account access.
+    ///
+    /// - Parameter CreateResourcePolicyStatementInput : [no documentation found]
+    ///
+    /// - Returns: `CreateResourcePolicyStatementOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictException` : The action that you tried to perform couldn't be completed because the resource is in a conflicting state. For example, deleting a bot that is in the CREATING state. Try your request again.
+    /// - `InternalServerException` : The service encountered an unexpected condition. Try your request again.
+    /// - `PreconditionFailedException` : Your request couldn't be completed because one or more request fields aren't valid. Check the fields in your request and try again.
+    /// - `ResourceNotFoundException` : You asked to describe a resource that doesn't exist. Check the resource that you are requesting and try again.
+    /// - `ServiceQuotaExceededException` : You have reached a quota for your bot.
+    /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
+    /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
     public func createResourcePolicyStatement(input: CreateResourcePolicyStatementInput) async throws -> CreateResourcePolicyStatementOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -510,6 +676,20 @@ extension LexModelsV2Client: LexModelsV2ClientProtocol {
     }
 
     /// Creates a slot in an intent. A slot is a variable needed to fulfill an intent. For example, an OrderPizza intent might need slots for size, crust, and number of pizzas. For each slot, you define one or more utterances that Amazon Lex uses to elicit a response from the user.
+    ///
+    /// - Parameter CreateSlotInput : [no documentation found]
+    ///
+    /// - Returns: `CreateSlotOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictException` : The action that you tried to perform couldn't be completed because the resource is in a conflicting state. For example, deleting a bot that is in the CREATING state. Try your request again.
+    /// - `InternalServerException` : The service encountered an unexpected condition. Try your request again.
+    /// - `PreconditionFailedException` : Your request couldn't be completed because one or more request fields aren't valid. Check the fields in your request and try again.
+    /// - `ServiceQuotaExceededException` : You have reached a quota for your bot.
+    /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
+    /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
     public func createSlot(input: CreateSlotInput) async throws -> CreateSlotOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -546,6 +726,20 @@ extension LexModelsV2Client: LexModelsV2ClientProtocol {
     }
 
     /// Creates a custom slot type To create a custom slot type, specify a name for the slot type and a set of enumeration values, the values that a slot of this type can assume.
+    ///
+    /// - Parameter CreateSlotTypeInput : [no documentation found]
+    ///
+    /// - Returns: `CreateSlotTypeOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictException` : The action that you tried to perform couldn't be completed because the resource is in a conflicting state. For example, deleting a bot that is in the CREATING state. Try your request again.
+    /// - `InternalServerException` : The service encountered an unexpected condition. Try your request again.
+    /// - `PreconditionFailedException` : Your request couldn't be completed because one or more request fields aren't valid. Check the fields in your request and try again.
+    /// - `ServiceQuotaExceededException` : You have reached a quota for your bot.
+    /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
+    /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
     public func createSlotType(input: CreateSlotTypeInput) async throws -> CreateSlotTypeOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -582,6 +776,20 @@ extension LexModelsV2Client: LexModelsV2ClientProtocol {
     }
 
     /// Create a report that describes the differences between the bot and the test set.
+    ///
+    /// - Parameter CreateTestSetDiscrepancyReportInput : [no documentation found]
+    ///
+    /// - Returns: `CreateTestSetDiscrepancyReportOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictException` : The action that you tried to perform couldn't be completed because the resource is in a conflicting state. For example, deleting a bot that is in the CREATING state. Try your request again.
+    /// - `InternalServerException` : The service encountered an unexpected condition. Try your request again.
+    /// - `ResourceNotFoundException` : You asked to describe a resource that doesn't exist. Check the resource that you are requesting and try again.
+    /// - `ServiceQuotaExceededException` : You have reached a quota for your bot.
+    /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
+    /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
     public func createTestSetDiscrepancyReport(input: CreateTestSetDiscrepancyReportInput) async throws -> CreateTestSetDiscrepancyReportOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -618,6 +826,19 @@ extension LexModelsV2Client: LexModelsV2ClientProtocol {
     }
 
     /// Gets a pre-signed S3 write URL that you use to upload the zip archive when importing a bot or a bot locale.
+    ///
+    /// - Parameter CreateUploadUrlInput : [no documentation found]
+    ///
+    /// - Returns: `CreateUploadUrlOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictException` : The action that you tried to perform couldn't be completed because the resource is in a conflicting state. For example, deleting a bot that is in the CREATING state. Try your request again.
+    /// - `InternalServerException` : The service encountered an unexpected condition. Try your request again.
+    /// - `ResourceNotFoundException` : You asked to describe a resource that doesn't exist. Check the resource that you are requesting and try again.
+    /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
+    /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
     public func createUploadUrl(input: CreateUploadUrlInput) async throws -> CreateUploadUrlOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -651,6 +872,20 @@ extension LexModelsV2Client: LexModelsV2ClientProtocol {
     }
 
     /// Deletes all versions of a bot, including the Draft version. To delete a specific version, use the DeleteBotVersion operation. When you delete a bot, all of the resources contained in the bot are also deleted. Deleting a bot removes all locales, intents, slot, and slot types defined for the bot. If a bot has an alias, the DeleteBot operation returns a ResourceInUseException exception. If you want to delete the bot and the alias, set the skipResourceInUseCheck parameter to true.
+    ///
+    /// - Parameter DeleteBotInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteBotOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictException` : The action that you tried to perform couldn't be completed because the resource is in a conflicting state. For example, deleting a bot that is in the CREATING state. Try your request again.
+    /// - `InternalServerException` : The service encountered an unexpected condition. Try your request again.
+    /// - `PreconditionFailedException` : Your request couldn't be completed because one or more request fields aren't valid. Check the fields in your request and try again.
+    /// - `ServiceQuotaExceededException` : You have reached a quota for your bot.
+    /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
+    /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
     public func deleteBot(input: DeleteBotInput) async throws -> DeleteBotOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -685,6 +920,20 @@ extension LexModelsV2Client: LexModelsV2ClientProtocol {
     }
 
     /// Deletes the specified bot alias.
+    ///
+    /// - Parameter DeleteBotAliasInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteBotAliasOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictException` : The action that you tried to perform couldn't be completed because the resource is in a conflicting state. For example, deleting a bot that is in the CREATING state. Try your request again.
+    /// - `InternalServerException` : The service encountered an unexpected condition. Try your request again.
+    /// - `PreconditionFailedException` : Your request couldn't be completed because one or more request fields aren't valid. Check the fields in your request and try again.
+    /// - `ServiceQuotaExceededException` : You have reached a quota for your bot.
+    /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
+    /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
     public func deleteBotAlias(input: DeleteBotAliasInput) async throws -> DeleteBotAliasOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -719,6 +968,20 @@ extension LexModelsV2Client: LexModelsV2ClientProtocol {
     }
 
     /// Removes a locale from a bot. When you delete a locale, all intents, slots, and slot types defined for the locale are also deleted.
+    ///
+    /// - Parameter DeleteBotLocaleInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteBotLocaleOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictException` : The action that you tried to perform couldn't be completed because the resource is in a conflicting state. For example, deleting a bot that is in the CREATING state. Try your request again.
+    /// - `InternalServerException` : The service encountered an unexpected condition. Try your request again.
+    /// - `PreconditionFailedException` : Your request couldn't be completed because one or more request fields aren't valid. Check the fields in your request and try again.
+    /// - `ServiceQuotaExceededException` : You have reached a quota for your bot.
+    /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
+    /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
     public func deleteBotLocale(input: DeleteBotLocaleInput) async throws -> DeleteBotLocaleOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -752,6 +1015,20 @@ extension LexModelsV2Client: LexModelsV2ClientProtocol {
     }
 
     /// Deletes a specific version of a bot. To delete all versions of a bot, use the [DeleteBot](https://docs.aws.amazon.com/lexv2/latest/APIReference/API_DeleteBot.html) operation.
+    ///
+    /// - Parameter DeleteBotVersionInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteBotVersionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictException` : The action that you tried to perform couldn't be completed because the resource is in a conflicting state. For example, deleting a bot that is in the CREATING state. Try your request again.
+    /// - `InternalServerException` : The service encountered an unexpected condition. Try your request again.
+    /// - `PreconditionFailedException` : Your request couldn't be completed because one or more request fields aren't valid. Check the fields in your request and try again.
+    /// - `ServiceQuotaExceededException` : You have reached a quota for your bot.
+    /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
+    /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
     public func deleteBotVersion(input: DeleteBotVersionInput) async throws -> DeleteBotVersionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -786,6 +1063,20 @@ extension LexModelsV2Client: LexModelsV2ClientProtocol {
     }
 
     /// Removes a custom vocabulary from the specified locale in the specified bot.
+    ///
+    /// - Parameter DeleteCustomVocabularyInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteCustomVocabularyOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictException` : The action that you tried to perform couldn't be completed because the resource is in a conflicting state. For example, deleting a bot that is in the CREATING state. Try your request again.
+    /// - `InternalServerException` : The service encountered an unexpected condition. Try your request again.
+    /// - `PreconditionFailedException` : Your request couldn't be completed because one or more request fields aren't valid. Check the fields in your request and try again.
+    /// - `ServiceQuotaExceededException` : You have reached a quota for your bot.
+    /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
+    /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
     public func deleteCustomVocabulary(input: DeleteCustomVocabularyInput) async throws -> DeleteCustomVocabularyOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -819,6 +1110,19 @@ extension LexModelsV2Client: LexModelsV2ClientProtocol {
     }
 
     /// Removes a previous export and the associated files stored in an S3 bucket.
+    ///
+    /// - Parameter DeleteExportInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteExportOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The service encountered an unexpected condition. Try your request again.
+    /// - `PreconditionFailedException` : Your request couldn't be completed because one or more request fields aren't valid. Check the fields in your request and try again.
+    /// - `ServiceQuotaExceededException` : You have reached a quota for your bot.
+    /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
+    /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
     public func deleteExport(input: DeleteExportInput) async throws -> DeleteExportOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -852,6 +1156,19 @@ extension LexModelsV2Client: LexModelsV2ClientProtocol {
     }
 
     /// Removes a previous import and the associated file stored in an S3 bucket.
+    ///
+    /// - Parameter DeleteImportInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteImportOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The service encountered an unexpected condition. Try your request again.
+    /// - `PreconditionFailedException` : Your request couldn't be completed because one or more request fields aren't valid. Check the fields in your request and try again.
+    /// - `ServiceQuotaExceededException` : You have reached a quota for your bot.
+    /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
+    /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
     public func deleteImport(input: DeleteImportInput) async throws -> DeleteImportOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -885,6 +1202,20 @@ extension LexModelsV2Client: LexModelsV2ClientProtocol {
     }
 
     /// Removes the specified intent. Deleting an intent also deletes the slots associated with the intent.
+    ///
+    /// - Parameter DeleteIntentInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteIntentOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictException` : The action that you tried to perform couldn't be completed because the resource is in a conflicting state. For example, deleting a bot that is in the CREATING state. Try your request again.
+    /// - `InternalServerException` : The service encountered an unexpected condition. Try your request again.
+    /// - `PreconditionFailedException` : Your request couldn't be completed because one or more request fields aren't valid. Check the fields in your request and try again.
+    /// - `ServiceQuotaExceededException` : You have reached a quota for your bot.
+    /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
+    /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
     public func deleteIntent(input: DeleteIntentInput) async throws -> DeleteIntentOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -918,6 +1249,18 @@ extension LexModelsV2Client: LexModelsV2ClientProtocol {
     }
 
     /// Removes an existing policy from a bot or bot alias. If the resource doesn't have a policy attached, Amazon Lex returns an exception.
+    ///
+    /// - Parameter DeleteResourcePolicyInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteResourcePolicyOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The service encountered an unexpected condition. Try your request again.
+    /// - `PreconditionFailedException` : Your request couldn't be completed because one or more request fields aren't valid. Check the fields in your request and try again.
+    /// - `ResourceNotFoundException` : You asked to describe a resource that doesn't exist. Check the resource that you are requesting and try again.
+    /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
     public func deleteResourcePolicy(input: DeleteResourcePolicyInput) async throws -> DeleteResourcePolicyOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -952,6 +1295,18 @@ extension LexModelsV2Client: LexModelsV2ClientProtocol {
     }
 
     /// Deletes a policy statement from a resource policy. If you delete the last statement from a policy, the policy is deleted. If you specify a statement ID that doesn't exist in the policy, or if the bot or bot alias doesn't have a policy attached, Amazon Lex returns an exception.
+    ///
+    /// - Parameter DeleteResourcePolicyStatementInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteResourcePolicyStatementOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The service encountered an unexpected condition. Try your request again.
+    /// - `PreconditionFailedException` : Your request couldn't be completed because one or more request fields aren't valid. Check the fields in your request and try again.
+    /// - `ResourceNotFoundException` : You asked to describe a resource that doesn't exist. Check the resource that you are requesting and try again.
+    /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
     public func deleteResourcePolicyStatement(input: DeleteResourcePolicyStatementInput) async throws -> DeleteResourcePolicyStatementOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -986,6 +1341,20 @@ extension LexModelsV2Client: LexModelsV2ClientProtocol {
     }
 
     /// Deletes the specified slot from an intent.
+    ///
+    /// - Parameter DeleteSlotInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteSlotOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictException` : The action that you tried to perform couldn't be completed because the resource is in a conflicting state. For example, deleting a bot that is in the CREATING state. Try your request again.
+    /// - `InternalServerException` : The service encountered an unexpected condition. Try your request again.
+    /// - `PreconditionFailedException` : Your request couldn't be completed because one or more request fields aren't valid. Check the fields in your request and try again.
+    /// - `ServiceQuotaExceededException` : You have reached a quota for your bot.
+    /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
+    /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
     public func deleteSlot(input: DeleteSlotInput) async throws -> DeleteSlotOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1019,6 +1388,20 @@ extension LexModelsV2Client: LexModelsV2ClientProtocol {
     }
 
     /// Deletes a slot type from a bot locale. If a slot is using the slot type, Amazon Lex throws a ResourceInUseException exception. To avoid the exception, set the skipResourceInUseCheck parameter to true.
+    ///
+    /// - Parameter DeleteSlotTypeInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteSlotTypeOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictException` : The action that you tried to perform couldn't be completed because the resource is in a conflicting state. For example, deleting a bot that is in the CREATING state. Try your request again.
+    /// - `InternalServerException` : The service encountered an unexpected condition. Try your request again.
+    /// - `PreconditionFailedException` : Your request couldn't be completed because one or more request fields aren't valid. Check the fields in your request and try again.
+    /// - `ServiceQuotaExceededException` : You have reached a quota for your bot.
+    /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
+    /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
     public func deleteSlotType(input: DeleteSlotTypeInput) async throws -> DeleteSlotTypeOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1053,6 +1436,20 @@ extension LexModelsV2Client: LexModelsV2ClientProtocol {
     }
 
     /// The action to delete the selected test set.
+    ///
+    /// - Parameter DeleteTestSetInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteTestSetOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictException` : The action that you tried to perform couldn't be completed because the resource is in a conflicting state. For example, deleting a bot that is in the CREATING state. Try your request again.
+    /// - `InternalServerException` : The service encountered an unexpected condition. Try your request again.
+    /// - `PreconditionFailedException` : Your request couldn't be completed because one or more request fields aren't valid. Check the fields in your request and try again.
+    /// - `ServiceQuotaExceededException` : You have reached a quota for your bot.
+    /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
+    /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
     public func deleteTestSet(input: DeleteTestSetInput) async throws -> DeleteTestSetOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1086,6 +1483,17 @@ extension LexModelsV2Client: LexModelsV2ClientProtocol {
     }
 
     /// Deletes stored utterances. Amazon Lex stores the utterances that users send to your bot. Utterances are stored for 15 days for use with the [ListAggregatedUtterances](https://docs.aws.amazon.com/lexv2/latest/APIReference/API_ListAggregatedUtterances.html) operation, and then stored indefinitely for use in improving the ability of your bot to respond to user input.. Use the DeleteUtterances operation to manually delete utterances for a specific session. When you use the DeleteUtterances operation, utterances stored for improving your bot's ability to respond to user input are deleted immediately. Utterances stored for use with the ListAggregatedUtterances operation are deleted after 15 days.
+    ///
+    /// - Parameter DeleteUtterancesInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteUtterancesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The service encountered an unexpected condition. Try your request again.
+    /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
+    /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
     public func deleteUtterances(input: DeleteUtterancesInput) async throws -> DeleteUtterancesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1120,6 +1528,19 @@ extension LexModelsV2Client: LexModelsV2ClientProtocol {
     }
 
     /// Provides metadata information about a bot.
+    ///
+    /// - Parameter DescribeBotInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeBotOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The service encountered an unexpected condition. Try your request again.
+    /// - `ResourceNotFoundException` : You asked to describe a resource that doesn't exist. Check the resource that you are requesting and try again.
+    /// - `ServiceQuotaExceededException` : You have reached a quota for your bot.
+    /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
+    /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
     public func describeBot(input: DescribeBotInput) async throws -> DescribeBotOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1153,6 +1574,19 @@ extension LexModelsV2Client: LexModelsV2ClientProtocol {
     }
 
     /// Get information about a specific bot alias.
+    ///
+    /// - Parameter DescribeBotAliasInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeBotAliasOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The service encountered an unexpected condition. Try your request again.
+    /// - `ResourceNotFoundException` : You asked to describe a resource that doesn't exist. Check the resource that you are requesting and try again.
+    /// - `ServiceQuotaExceededException` : You have reached a quota for your bot.
+    /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
+    /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
     public func describeBotAlias(input: DescribeBotAliasInput) async throws -> DescribeBotAliasOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1186,6 +1620,19 @@ extension LexModelsV2Client: LexModelsV2ClientProtocol {
     }
 
     /// Describes the settings that a bot has for a specific locale.
+    ///
+    /// - Parameter DescribeBotLocaleInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeBotLocaleOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The service encountered an unexpected condition. Try your request again.
+    /// - `ResourceNotFoundException` : You asked to describe a resource that doesn't exist. Check the resource that you are requesting and try again.
+    /// - `ServiceQuotaExceededException` : You have reached a quota for your bot.
+    /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
+    /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
     public func describeBotLocale(input: DescribeBotLocaleInput) async throws -> DescribeBotLocaleOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1219,6 +1666,18 @@ extension LexModelsV2Client: LexModelsV2ClientProtocol {
     }
 
     /// Provides metadata information about a bot recommendation. This information will enable you to get a description on the request inputs, to download associated transcripts after processing is complete, and to download intents and slot-types generated by the bot recommendation.
+    ///
+    /// - Parameter DescribeBotRecommendationInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeBotRecommendationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The service encountered an unexpected condition. Try your request again.
+    /// - `ResourceNotFoundException` : You asked to describe a resource that doesn't exist. Check the resource that you are requesting and try again.
+    /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
+    /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
     public func describeBotRecommendation(input: DescribeBotRecommendationInput) async throws -> DescribeBotRecommendationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1252,6 +1711,19 @@ extension LexModelsV2Client: LexModelsV2ClientProtocol {
     }
 
     /// Provides metadata about a version of a bot.
+    ///
+    /// - Parameter DescribeBotVersionInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeBotVersionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The service encountered an unexpected condition. Try your request again.
+    /// - `ResourceNotFoundException` : You asked to describe a resource that doesn't exist. Check the resource that you are requesting and try again.
+    /// - `ServiceQuotaExceededException` : You have reached a quota for your bot.
+    /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
+    /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
     public func describeBotVersion(input: DescribeBotVersionInput) async throws -> DescribeBotVersionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1285,6 +1757,19 @@ extension LexModelsV2Client: LexModelsV2ClientProtocol {
     }
 
     /// Provides metadata information about a custom vocabulary.
+    ///
+    /// - Parameter DescribeCustomVocabularyMetadataInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeCustomVocabularyMetadataOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The service encountered an unexpected condition. Try your request again.
+    /// - `ResourceNotFoundException` : You asked to describe a resource that doesn't exist. Check the resource that you are requesting and try again.
+    /// - `ServiceQuotaExceededException` : You have reached a quota for your bot.
+    /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
+    /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
     public func describeCustomVocabularyMetadata(input: DescribeCustomVocabularyMetadataInput) async throws -> DescribeCustomVocabularyMetadataOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1318,6 +1803,18 @@ extension LexModelsV2Client: LexModelsV2ClientProtocol {
     }
 
     /// Gets information about a specific export.
+    ///
+    /// - Parameter DescribeExportInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeExportOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The service encountered an unexpected condition. Try your request again.
+    /// - `ResourceNotFoundException` : You asked to describe a resource that doesn't exist. Check the resource that you are requesting and try again.
+    /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
+    /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
     public func describeExport(input: DescribeExportInput) async throws -> DescribeExportOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1351,6 +1848,18 @@ extension LexModelsV2Client: LexModelsV2ClientProtocol {
     }
 
     /// Gets information about a specific import.
+    ///
+    /// - Parameter DescribeImportInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeImportOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The service encountered an unexpected condition. Try your request again.
+    /// - `ResourceNotFoundException` : You asked to describe a resource that doesn't exist. Check the resource that you are requesting and try again.
+    /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
+    /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
     public func describeImport(input: DescribeImportInput) async throws -> DescribeImportOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1384,6 +1893,19 @@ extension LexModelsV2Client: LexModelsV2ClientProtocol {
     }
 
     /// Returns metadata about an intent.
+    ///
+    /// - Parameter DescribeIntentInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeIntentOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The service encountered an unexpected condition. Try your request again.
+    /// - `ResourceNotFoundException` : You asked to describe a resource that doesn't exist. Check the resource that you are requesting and try again.
+    /// - `ServiceQuotaExceededException` : You have reached a quota for your bot.
+    /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
+    /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
     public func describeIntent(input: DescribeIntentInput) async throws -> DescribeIntentOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1417,6 +1939,17 @@ extension LexModelsV2Client: LexModelsV2ClientProtocol {
     }
 
     /// Gets the resource policy and policy revision for a bot or bot alias.
+    ///
+    /// - Parameter DescribeResourcePolicyInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeResourcePolicyOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The service encountered an unexpected condition. Try your request again.
+    /// - `ResourceNotFoundException` : You asked to describe a resource that doesn't exist. Check the resource that you are requesting and try again.
+    /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
     public func describeResourcePolicy(input: DescribeResourcePolicyInput) async throws -> DescribeResourcePolicyOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1450,6 +1983,19 @@ extension LexModelsV2Client: LexModelsV2ClientProtocol {
     }
 
     /// Gets metadata information about a slot.
+    ///
+    /// - Parameter DescribeSlotInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeSlotOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The service encountered an unexpected condition. Try your request again.
+    /// - `ResourceNotFoundException` : You asked to describe a resource that doesn't exist. Check the resource that you are requesting and try again.
+    /// - `ServiceQuotaExceededException` : You have reached a quota for your bot.
+    /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
+    /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
     public func describeSlot(input: DescribeSlotInput) async throws -> DescribeSlotOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1483,6 +2029,19 @@ extension LexModelsV2Client: LexModelsV2ClientProtocol {
     }
 
     /// Gets metadata information about a slot type.
+    ///
+    /// - Parameter DescribeSlotTypeInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeSlotTypeOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The service encountered an unexpected condition. Try your request again.
+    /// - `ResourceNotFoundException` : You asked to describe a resource that doesn't exist. Check the resource that you are requesting and try again.
+    /// - `ServiceQuotaExceededException` : You have reached a quota for your bot.
+    /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
+    /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
     public func describeSlotType(input: DescribeSlotTypeInput) async throws -> DescribeSlotTypeOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1516,6 +2075,19 @@ extension LexModelsV2Client: LexModelsV2ClientProtocol {
     }
 
     /// Gets metadata information about the test execution.
+    ///
+    /// - Parameter DescribeTestExecutionInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeTestExecutionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The service encountered an unexpected condition. Try your request again.
+    /// - `ResourceNotFoundException` : You asked to describe a resource that doesn't exist. Check the resource that you are requesting and try again.
+    /// - `ServiceQuotaExceededException` : You have reached a quota for your bot.
+    /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
+    /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
     public func describeTestExecution(input: DescribeTestExecutionInput) async throws -> DescribeTestExecutionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1549,6 +2121,19 @@ extension LexModelsV2Client: LexModelsV2ClientProtocol {
     }
 
     /// Gets metadata information about the test set.
+    ///
+    /// - Parameter DescribeTestSetInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeTestSetOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The service encountered an unexpected condition. Try your request again.
+    /// - `ResourceNotFoundException` : You asked to describe a resource that doesn't exist. Check the resource that you are requesting and try again.
+    /// - `ServiceQuotaExceededException` : You have reached a quota for your bot.
+    /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
+    /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
     public func describeTestSet(input: DescribeTestSetInput) async throws -> DescribeTestSetOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1582,6 +2167,19 @@ extension LexModelsV2Client: LexModelsV2ClientProtocol {
     }
 
     /// Gets metadata information about the test set discrepancy report.
+    ///
+    /// - Parameter DescribeTestSetDiscrepancyReportInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeTestSetDiscrepancyReportOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The service encountered an unexpected condition. Try your request again.
+    /// - `ResourceNotFoundException` : You asked to describe a resource that doesn't exist. Check the resource that you are requesting and try again.
+    /// - `ServiceQuotaExceededException` : You have reached a quota for your bot.
+    /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
+    /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
     public func describeTestSetDiscrepancyReport(input: DescribeTestSetDiscrepancyReportInput) async throws -> DescribeTestSetDiscrepancyReportOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1615,6 +2213,19 @@ extension LexModelsV2Client: LexModelsV2ClientProtocol {
     }
 
     /// Gets metadata information about the test set generation.
+    ///
+    /// - Parameter DescribeTestSetGenerationInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeTestSetGenerationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The service encountered an unexpected condition. Try your request again.
+    /// - `ResourceNotFoundException` : You asked to describe a resource that doesn't exist. Check the resource that you are requesting and try again.
+    /// - `ServiceQuotaExceededException` : You have reached a quota for your bot.
+    /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
+    /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
     public func describeTestSetGeneration(input: DescribeTestSetGenerationInput) async throws -> DescribeTestSetGenerationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1648,6 +2259,19 @@ extension LexModelsV2Client: LexModelsV2ClientProtocol {
     }
 
     /// The pre-signed Amazon S3 URL to download the test execution result artifacts.
+    ///
+    /// - Parameter GetTestExecutionArtifactsUrlInput : [no documentation found]
+    ///
+    /// - Returns: `GetTestExecutionArtifactsUrlOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The service encountered an unexpected condition. Try your request again.
+    /// - `ResourceNotFoundException` : You asked to describe a resource that doesn't exist. Check the resource that you are requesting and try again.
+    /// - `ServiceQuotaExceededException` : You have reached a quota for your bot.
+    /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
+    /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
     public func getTestExecutionArtifactsUrl(input: GetTestExecutionArtifactsUrlInput) async throws -> GetTestExecutionArtifactsUrlOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1687,6 +2311,18 @@ extension LexModelsV2Client: LexModelsV2ClientProtocol {
     /// * You are using slot obfuscation with one or more slots.
     ///
     /// * You opted out of participating in improving Amazon Lex.
+    ///
+    /// - Parameter ListAggregatedUtterancesInput : [no documentation found]
+    ///
+    /// - Returns: `ListAggregatedUtterancesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The service encountered an unexpected condition. Try your request again.
+    /// - `PreconditionFailedException` : Your request couldn't be completed because one or more request fields aren't valid. Check the fields in your request and try again.
+    /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
+    /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
     public func listAggregatedUtterances(input: ListAggregatedUtterancesInput) async throws -> ListAggregatedUtterancesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1723,6 +2359,18 @@ extension LexModelsV2Client: LexModelsV2ClientProtocol {
     }
 
     /// Gets a list of aliases for the specified bot.
+    ///
+    /// - Parameter ListBotAliasesInput : [no documentation found]
+    ///
+    /// - Returns: `ListBotAliasesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The service encountered an unexpected condition. Try your request again.
+    /// - `ServiceQuotaExceededException` : You have reached a quota for your bot.
+    /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
+    /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
     public func listBotAliases(input: ListBotAliasesInput) async throws -> ListBotAliasesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1759,6 +2407,18 @@ extension LexModelsV2Client: LexModelsV2ClientProtocol {
     }
 
     /// Gets a list of locales for the specified bot.
+    ///
+    /// - Parameter ListBotLocalesInput : [no documentation found]
+    ///
+    /// - Returns: `ListBotLocalesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The service encountered an unexpected condition. Try your request again.
+    /// - `ServiceQuotaExceededException` : You have reached a quota for your bot.
+    /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
+    /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
     public func listBotLocales(input: ListBotLocalesInput) async throws -> ListBotLocalesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1795,6 +2455,18 @@ extension LexModelsV2Client: LexModelsV2ClientProtocol {
     }
 
     /// Get a list of bot recommendations that meet the specified criteria.
+    ///
+    /// - Parameter ListBotRecommendationsInput : [no documentation found]
+    ///
+    /// - Returns: `ListBotRecommendationsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The service encountered an unexpected condition. Try your request again.
+    /// - `ResourceNotFoundException` : You asked to describe a resource that doesn't exist. Check the resource that you are requesting and try again.
+    /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
+    /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
     public func listBotRecommendations(input: ListBotRecommendationsInput) async throws -> ListBotRecommendationsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1831,6 +2503,18 @@ extension LexModelsV2Client: LexModelsV2ClientProtocol {
     }
 
     /// Gets information about all of the versions of a bot. The ListBotVersions operation returns a summary of each version of a bot. For example, if a bot has three numbered versions, the ListBotVersions operation returns for summaries, one for each numbered version and one for the DRAFT version. The ListBotVersions operation always returns at least one version, the DRAFT version.
+    ///
+    /// - Parameter ListBotVersionsInput : [no documentation found]
+    ///
+    /// - Returns: `ListBotVersionsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The service encountered an unexpected condition. Try your request again.
+    /// - `ServiceQuotaExceededException` : You have reached a quota for your bot.
+    /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
+    /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
     public func listBotVersions(input: ListBotVersionsInput) async throws -> ListBotVersionsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1867,6 +2551,18 @@ extension LexModelsV2Client: LexModelsV2ClientProtocol {
     }
 
     /// Gets a list of available bots.
+    ///
+    /// - Parameter ListBotsInput : [no documentation found]
+    ///
+    /// - Returns: `ListBotsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The service encountered an unexpected condition. Try your request again.
+    /// - `ServiceQuotaExceededException` : You have reached a quota for your bot.
+    /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
+    /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
     public func listBots(input: ListBotsInput) async throws -> ListBotsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1903,6 +2599,18 @@ extension LexModelsV2Client: LexModelsV2ClientProtocol {
     }
 
     /// Gets a list of built-in intents provided by Amazon Lex that you can use in your bot. To use a built-in intent as a the base for your own intent, include the built-in intent signature in the parentIntentSignature parameter when you call the CreateIntent operation. For more information, see [CreateIntent](https://docs.aws.amazon.com/lexv2/latest/APIReference/API_CreateIntent.html).
+    ///
+    /// - Parameter ListBuiltInIntentsInput : [no documentation found]
+    ///
+    /// - Returns: `ListBuiltInIntentsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The service encountered an unexpected condition. Try your request again.
+    /// - `ServiceQuotaExceededException` : You have reached a quota for your bot.
+    /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
+    /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
     public func listBuiltInIntents(input: ListBuiltInIntentsInput) async throws -> ListBuiltInIntentsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1939,6 +2647,18 @@ extension LexModelsV2Client: LexModelsV2ClientProtocol {
     }
 
     /// Gets a list of built-in slot types that meet the specified criteria.
+    ///
+    /// - Parameter ListBuiltInSlotTypesInput : [no documentation found]
+    ///
+    /// - Returns: `ListBuiltInSlotTypesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The service encountered an unexpected condition. Try your request again.
+    /// - `ServiceQuotaExceededException` : You have reached a quota for your bot.
+    /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
+    /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
     public func listBuiltInSlotTypes(input: ListBuiltInSlotTypesInput) async throws -> ListBuiltInSlotTypesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1975,6 +2695,19 @@ extension LexModelsV2Client: LexModelsV2ClientProtocol {
     }
 
     /// Paginated list of custom vocabulary items for a given bot locale's custom vocabulary.
+    ///
+    /// - Parameter ListCustomVocabularyItemsInput : [no documentation found]
+    ///
+    /// - Returns: `ListCustomVocabularyItemsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The service encountered an unexpected condition. Try your request again.
+    /// - `ResourceNotFoundException` : You asked to describe a resource that doesn't exist. Check the resource that you are requesting and try again.
+    /// - `ServiceQuotaExceededException` : You have reached a quota for your bot.
+    /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
+    /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
     public func listCustomVocabularyItems(input: ListCustomVocabularyItemsInput) async throws -> ListCustomVocabularyItemsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2011,6 +2744,17 @@ extension LexModelsV2Client: LexModelsV2ClientProtocol {
     }
 
     /// Lists the exports for a bot, bot locale, or custom vocabulary. Exports are kept in the list for 7 days.
+    ///
+    /// - Parameter ListExportsInput : [no documentation found]
+    ///
+    /// - Returns: `ListExportsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The service encountered an unexpected condition. Try your request again.
+    /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
+    /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
     public func listExports(input: ListExportsInput) async throws -> ListExportsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2047,6 +2791,17 @@ extension LexModelsV2Client: LexModelsV2ClientProtocol {
     }
 
     /// Lists the imports for a bot, bot locale, or custom vocabulary. Imports are kept in the list for 7 days.
+    ///
+    /// - Parameter ListImportsInput : [no documentation found]
+    ///
+    /// - Returns: `ListImportsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The service encountered an unexpected condition. Try your request again.
+    /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
+    /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
     public func listImports(input: ListImportsInput) async throws -> ListImportsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2097,6 +2852,19 @@ extension LexModelsV2Client: LexModelsV2ClientProtocol {
     ///
     ///
     /// Note that an order field exists in both binBy and metrics. You can specify only one order in a given request.
+    ///
+    /// - Parameter ListIntentMetricsInput : [no documentation found]
+    ///
+    /// - Returns: `ListIntentMetricsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The service encountered an unexpected condition. Try your request again.
+    /// - `PreconditionFailedException` : Your request couldn't be completed because one or more request fields aren't valid. Check the fields in your request and try again.
+    /// - `ServiceQuotaExceededException` : You have reached a quota for your bot.
+    /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
+    /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
     public func listIntentMetrics(input: ListIntentMetricsInput) async throws -> ListIntentMetricsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2140,6 +2908,19 @@ extension LexModelsV2Client: LexModelsV2ClientProtocol {
     ///
     ///
     /// Use the optional filters field to filter the results.
+    ///
+    /// - Parameter ListIntentPathsInput : [no documentation found]
+    ///
+    /// - Returns: `ListIntentPathsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The service encountered an unexpected condition. Try your request again.
+    /// - `PreconditionFailedException` : Your request couldn't be completed because one or more request fields aren't valid. Check the fields in your request and try again.
+    /// - `ServiceQuotaExceededException` : You have reached a quota for your bot.
+    /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
+    /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
     public func listIntentPaths(input: ListIntentPathsInput) async throws -> ListIntentPathsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2190,6 +2971,19 @@ extension LexModelsV2Client: LexModelsV2ClientProtocol {
     ///
     ///
     /// Note that an order field exists in both binBy and metrics. You can only specify one order in a given request.
+    ///
+    /// - Parameter ListIntentStageMetricsInput : [no documentation found]
+    ///
+    /// - Returns: `ListIntentStageMetricsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The service encountered an unexpected condition. Try your request again.
+    /// - `PreconditionFailedException` : Your request couldn't be completed because one or more request fields aren't valid. Check the fields in your request and try again.
+    /// - `ServiceQuotaExceededException` : You have reached a quota for your bot.
+    /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
+    /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
     public func listIntentStageMetrics(input: ListIntentStageMetricsInput) async throws -> ListIntentStageMetricsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2226,6 +3020,18 @@ extension LexModelsV2Client: LexModelsV2ClientProtocol {
     }
 
     /// Get a list of intents that meet the specified criteria.
+    ///
+    /// - Parameter ListIntentsInput : [no documentation found]
+    ///
+    /// - Returns: `ListIntentsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The service encountered an unexpected condition. Try your request again.
+    /// - `ServiceQuotaExceededException` : You have reached a quota for your bot.
+    /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
+    /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
     public func listIntents(input: ListIntentsInput) async throws -> ListIntentsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2262,6 +3068,19 @@ extension LexModelsV2Client: LexModelsV2ClientProtocol {
     }
 
     /// Gets a list of recommended intents provided by the bot recommendation that you can use in your bot. Intents in the response are ordered by relevance.
+    ///
+    /// - Parameter ListRecommendedIntentsInput : [no documentation found]
+    ///
+    /// - Returns: `ListRecommendedIntentsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The service encountered an unexpected condition. Try your request again.
+    /// - `ResourceNotFoundException` : You asked to describe a resource that doesn't exist. Check the resource that you are requesting and try again.
+    /// - `ServiceQuotaExceededException` : You have reached a quota for your bot.
+    /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
+    /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
     public func listRecommendedIntents(input: ListRecommendedIntentsInput) async throws -> ListRecommendedIntentsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2302,6 +3121,19 @@ extension LexModelsV2Client: LexModelsV2ClientProtocol {
     /// * Use the filters field to filter the results and the sortBy field to specify the values by which to sort the results.
     ///
     /// * Use the maxResults field to limit the number of results to return in a single response and the nextToken field to return the next batch of results if the response does not return the full set of results.
+    ///
+    /// - Parameter ListSessionAnalyticsDataInput : [no documentation found]
+    ///
+    /// - Returns: `ListSessionAnalyticsDataOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The service encountered an unexpected condition. Try your request again.
+    /// - `PreconditionFailedException` : Your request couldn't be completed because one or more request fields aren't valid. Check the fields in your request and try again.
+    /// - `ServiceQuotaExceededException` : You have reached a quota for your bot.
+    /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
+    /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
     public func listSessionAnalyticsData(input: ListSessionAnalyticsDataInput) async throws -> ListSessionAnalyticsDataOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2352,6 +3184,19 @@ extension LexModelsV2Client: LexModelsV2ClientProtocol {
     ///
     ///
     /// Note that an order field exists in both binBy and metrics. Currently, you can specify it in either field, but not in both.
+    ///
+    /// - Parameter ListSessionMetricsInput : [no documentation found]
+    ///
+    /// - Returns: `ListSessionMetricsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The service encountered an unexpected condition. Try your request again.
+    /// - `PreconditionFailedException` : Your request couldn't be completed because one or more request fields aren't valid. Check the fields in your request and try again.
+    /// - `ServiceQuotaExceededException` : You have reached a quota for your bot.
+    /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
+    /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
     public func listSessionMetrics(input: ListSessionMetricsInput) async throws -> ListSessionMetricsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2388,6 +3233,18 @@ extension LexModelsV2Client: LexModelsV2ClientProtocol {
     }
 
     /// Gets a list of slot types that match the specified criteria.
+    ///
+    /// - Parameter ListSlotTypesInput : [no documentation found]
+    ///
+    /// - Returns: `ListSlotTypesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The service encountered an unexpected condition. Try your request again.
+    /// - `ServiceQuotaExceededException` : You have reached a quota for your bot.
+    /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
+    /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
     public func listSlotTypes(input: ListSlotTypesInput) async throws -> ListSlotTypesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2424,6 +3281,18 @@ extension LexModelsV2Client: LexModelsV2ClientProtocol {
     }
 
     /// Gets a list of slots that match the specified criteria.
+    ///
+    /// - Parameter ListSlotsInput : [no documentation found]
+    ///
+    /// - Returns: `ListSlotsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The service encountered an unexpected condition. Try your request again.
+    /// - `ServiceQuotaExceededException` : You have reached a quota for your bot.
+    /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
+    /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
     public func listSlots(input: ListSlotsInput) async throws -> ListSlotsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2460,6 +3329,18 @@ extension LexModelsV2Client: LexModelsV2ClientProtocol {
     }
 
     /// Gets a list of tags associated with a resource. Only bots, bot aliases, and bot channels can have tags associated with them.
+    ///
+    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    ///
+    /// - Returns: `ListTagsForResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The service encountered an unexpected condition. Try your request again.
+    /// - `ResourceNotFoundException` : You asked to describe a resource that doesn't exist. Check the resource that you are requesting and try again.
+    /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
+    /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
     public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2493,6 +3374,19 @@ extension LexModelsV2Client: LexModelsV2ClientProtocol {
     }
 
     /// Gets a list of test execution result items.
+    ///
+    /// - Parameter ListTestExecutionResultItemsInput : [no documentation found]
+    ///
+    /// - Returns: `ListTestExecutionResultItemsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The service encountered an unexpected condition. Try your request again.
+    /// - `ResourceNotFoundException` : You asked to describe a resource that doesn't exist. Check the resource that you are requesting and try again.
+    /// - `ServiceQuotaExceededException` : You have reached a quota for your bot.
+    /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
+    /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
     public func listTestExecutionResultItems(input: ListTestExecutionResultItemsInput) async throws -> ListTestExecutionResultItemsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2529,6 +3423,18 @@ extension LexModelsV2Client: LexModelsV2ClientProtocol {
     }
 
     /// The list of test set executions.
+    ///
+    /// - Parameter ListTestExecutionsInput : [no documentation found]
+    ///
+    /// - Returns: `ListTestExecutionsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The service encountered an unexpected condition. Try your request again.
+    /// - `ServiceQuotaExceededException` : You have reached a quota for your bot.
+    /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
+    /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
     public func listTestExecutions(input: ListTestExecutionsInput) async throws -> ListTestExecutionsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2565,6 +3471,19 @@ extension LexModelsV2Client: LexModelsV2ClientProtocol {
     }
 
     /// The list of test set records.
+    ///
+    /// - Parameter ListTestSetRecordsInput : [no documentation found]
+    ///
+    /// - Returns: `ListTestSetRecordsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The service encountered an unexpected condition. Try your request again.
+    /// - `ResourceNotFoundException` : You asked to describe a resource that doesn't exist. Check the resource that you are requesting and try again.
+    /// - `ServiceQuotaExceededException` : You have reached a quota for your bot.
+    /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
+    /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
     public func listTestSetRecords(input: ListTestSetRecordsInput) async throws -> ListTestSetRecordsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2601,6 +3520,18 @@ extension LexModelsV2Client: LexModelsV2ClientProtocol {
     }
 
     /// The list of the test sets
+    ///
+    /// - Parameter ListTestSetsInput : [no documentation found]
+    ///
+    /// - Returns: `ListTestSetsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The service encountered an unexpected condition. Try your request again.
+    /// - `ServiceQuotaExceededException` : You have reached a quota for your bot.
+    /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
+    /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
     public func listTestSets(input: ListTestSetsInput) async throws -> ListTestSetsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2646,6 +3577,19 @@ extension LexModelsV2Client: LexModelsV2ClientProtocol {
     /// * Use the filters field to filter the results and the sortBy field to specify the values by which to sort the results.
     ///
     /// * Use the maxResults field to limit the number of results to return in a single response and the nextToken field to return the next batch of results if the response does not return the full set of results.
+    ///
+    /// - Parameter ListUtteranceAnalyticsDataInput : [no documentation found]
+    ///
+    /// - Returns: `ListUtteranceAnalyticsDataOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The service encountered an unexpected condition. Try your request again.
+    /// - `PreconditionFailedException` : Your request couldn't be completed because one or more request fields aren't valid. Check the fields in your request and try again.
+    /// - `ServiceQuotaExceededException` : You have reached a quota for your bot.
+    /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
+    /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
     public func listUtteranceAnalyticsData(input: ListUtteranceAnalyticsDataInput) async throws -> ListUtteranceAnalyticsDataOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2696,6 +3640,19 @@ extension LexModelsV2Client: LexModelsV2ClientProtocol {
     ///
     ///
     /// Note that an order field exists in both binBy and metrics. Currently, you can specify it in either field, but not in both.
+    ///
+    /// - Parameter ListUtteranceMetricsInput : [no documentation found]
+    ///
+    /// - Returns: `ListUtteranceMetricsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The service encountered an unexpected condition. Try your request again.
+    /// - `PreconditionFailedException` : Your request couldn't be completed because one or more request fields aren't valid. Check the fields in your request and try again.
+    /// - `ServiceQuotaExceededException` : You have reached a quota for your bot.
+    /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
+    /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
     public func listUtteranceMetrics(input: ListUtteranceMetricsInput) async throws -> ListUtteranceMetricsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2732,6 +3689,19 @@ extension LexModelsV2Client: LexModelsV2ClientProtocol {
     }
 
     /// Search for associated transcripts that meet the specified criteria.
+    ///
+    /// - Parameter SearchAssociatedTranscriptsInput : [no documentation found]
+    ///
+    /// - Returns: `SearchAssociatedTranscriptsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The service encountered an unexpected condition. Try your request again.
+    /// - `ResourceNotFoundException` : You asked to describe a resource that doesn't exist. Check the resource that you are requesting and try again.
+    /// - `ServiceQuotaExceededException` : You have reached a quota for your bot.
+    /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
+    /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
     public func searchAssociatedTranscripts(input: SearchAssociatedTranscriptsInput) async throws -> SearchAssociatedTranscriptsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2768,6 +3738,21 @@ extension LexModelsV2Client: LexModelsV2ClientProtocol {
     }
 
     /// Use this to provide your transcript data, and to start the bot recommendation process.
+    ///
+    /// - Parameter StartBotRecommendationInput : [no documentation found]
+    ///
+    /// - Returns: `StartBotRecommendationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictException` : The action that you tried to perform couldn't be completed because the resource is in a conflicting state. For example, deleting a bot that is in the CREATING state. Try your request again.
+    /// - `InternalServerException` : The service encountered an unexpected condition. Try your request again.
+    /// - `PreconditionFailedException` : Your request couldn't be completed because one or more request fields aren't valid. Check the fields in your request and try again.
+    /// - `ResourceNotFoundException` : You asked to describe a resource that doesn't exist. Check the resource that you are requesting and try again.
+    /// - `ServiceQuotaExceededException` : You have reached a quota for your bot.
+    /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
+    /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
     public func startBotRecommendation(input: StartBotRecommendationInput) async throws -> StartBotRecommendationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2804,6 +3789,20 @@ extension LexModelsV2Client: LexModelsV2ClientProtocol {
     }
 
     /// Starts importing a bot, bot locale, or custom vocabulary from a zip archive that you uploaded to an S3 bucket.
+    ///
+    /// - Parameter StartImportInput : [no documentation found]
+    ///
+    /// - Returns: `StartImportOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictException` : The action that you tried to perform couldn't be completed because the resource is in a conflicting state. For example, deleting a bot that is in the CREATING state. Try your request again.
+    /// - `InternalServerException` : The service encountered an unexpected condition. Try your request again.
+    /// - `ResourceNotFoundException` : You asked to describe a resource that doesn't exist. Check the resource that you are requesting and try again.
+    /// - `ServiceQuotaExceededException` : You have reached a quota for your bot.
+    /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
+    /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
     public func startImport(input: StartImportInput) async throws -> StartImportOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2840,6 +3839,20 @@ extension LexModelsV2Client: LexModelsV2ClientProtocol {
     }
 
     /// The action to start test set execution.
+    ///
+    /// - Parameter StartTestExecutionInput : [no documentation found]
+    ///
+    /// - Returns: `StartTestExecutionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictException` : The action that you tried to perform couldn't be completed because the resource is in a conflicting state. For example, deleting a bot that is in the CREATING state. Try your request again.
+    /// - `InternalServerException` : The service encountered an unexpected condition. Try your request again.
+    /// - `ResourceNotFoundException` : You asked to describe a resource that doesn't exist. Check the resource that you are requesting and try again.
+    /// - `ServiceQuotaExceededException` : You have reached a quota for your bot.
+    /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
+    /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
     public func startTestExecution(input: StartTestExecutionInput) async throws -> StartTestExecutionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2876,6 +3889,20 @@ extension LexModelsV2Client: LexModelsV2ClientProtocol {
     }
 
     /// The action to start the generation of test set.
+    ///
+    /// - Parameter StartTestSetGenerationInput : [no documentation found]
+    ///
+    /// - Returns: `StartTestSetGenerationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictException` : The action that you tried to perform couldn't be completed because the resource is in a conflicting state. For example, deleting a bot that is in the CREATING state. Try your request again.
+    /// - `InternalServerException` : The service encountered an unexpected condition. Try your request again.
+    /// - `ResourceNotFoundException` : You asked to describe a resource that doesn't exist. Check the resource that you are requesting and try again.
+    /// - `ServiceQuotaExceededException` : You have reached a quota for your bot.
+    /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
+    /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
     public func startTestSetGeneration(input: StartTestSetGenerationInput) async throws -> StartTestSetGenerationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2912,6 +3939,21 @@ extension LexModelsV2Client: LexModelsV2ClientProtocol {
     }
 
     /// Stop an already running Bot Recommendation request.
+    ///
+    /// - Parameter StopBotRecommendationInput : [no documentation found]
+    ///
+    /// - Returns: `StopBotRecommendationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictException` : The action that you tried to perform couldn't be completed because the resource is in a conflicting state. For example, deleting a bot that is in the CREATING state. Try your request again.
+    /// - `InternalServerException` : The service encountered an unexpected condition. Try your request again.
+    /// - `PreconditionFailedException` : Your request couldn't be completed because one or more request fields aren't valid. Check the fields in your request and try again.
+    /// - `ResourceNotFoundException` : You asked to describe a resource that doesn't exist. Check the resource that you are requesting and try again.
+    /// - `ServiceQuotaExceededException` : You have reached a quota for your bot.
+    /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
+    /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
     public func stopBotRecommendation(input: StopBotRecommendationInput) async throws -> StopBotRecommendationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2945,6 +3987,18 @@ extension LexModelsV2Client: LexModelsV2ClientProtocol {
     }
 
     /// Adds the specified tags to the specified resource. If a tag key already exists, the existing value is replaced with the new value.
+    ///
+    /// - Parameter TagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `TagResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The service encountered an unexpected condition. Try your request again.
+    /// - `ResourceNotFoundException` : You asked to describe a resource that doesn't exist. Check the resource that you are requesting and try again.
+    /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
+    /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
     public func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2981,6 +4035,18 @@ extension LexModelsV2Client: LexModelsV2ClientProtocol {
     }
 
     /// Removes tags from a bot, bot alias, or bot channel.
+    ///
+    /// - Parameter UntagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `UntagResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The service encountered an unexpected condition. Try your request again.
+    /// - `ResourceNotFoundException` : You asked to describe a resource that doesn't exist. Check the resource that you are requesting and try again.
+    /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
+    /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
     public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3015,6 +4081,20 @@ extension LexModelsV2Client: LexModelsV2ClientProtocol {
     }
 
     /// Updates the configuration of an existing bot.
+    ///
+    /// - Parameter UpdateBotInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateBotOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictException` : The action that you tried to perform couldn't be completed because the resource is in a conflicting state. For example, deleting a bot that is in the CREATING state. Try your request again.
+    /// - `InternalServerException` : The service encountered an unexpected condition. Try your request again.
+    /// - `PreconditionFailedException` : Your request couldn't be completed because one or more request fields aren't valid. Check the fields in your request and try again.
+    /// - `ServiceQuotaExceededException` : You have reached a quota for your bot.
+    /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
+    /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
     public func updateBot(input: UpdateBotInput) async throws -> UpdateBotOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3051,6 +4131,20 @@ extension LexModelsV2Client: LexModelsV2ClientProtocol {
     }
 
     /// Updates the configuration of an existing bot alias.
+    ///
+    /// - Parameter UpdateBotAliasInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateBotAliasOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictException` : The action that you tried to perform couldn't be completed because the resource is in a conflicting state. For example, deleting a bot that is in the CREATING state. Try your request again.
+    /// - `InternalServerException` : The service encountered an unexpected condition. Try your request again.
+    /// - `PreconditionFailedException` : Your request couldn't be completed because one or more request fields aren't valid. Check the fields in your request and try again.
+    /// - `ServiceQuotaExceededException` : You have reached a quota for your bot.
+    /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
+    /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
     public func updateBotAlias(input: UpdateBotAliasInput) async throws -> UpdateBotAliasOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3087,6 +4181,20 @@ extension LexModelsV2Client: LexModelsV2ClientProtocol {
     }
 
     /// Updates the settings that a bot has for a specific locale.
+    ///
+    /// - Parameter UpdateBotLocaleInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateBotLocaleOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictException` : The action that you tried to perform couldn't be completed because the resource is in a conflicting state. For example, deleting a bot that is in the CREATING state. Try your request again.
+    /// - `InternalServerException` : The service encountered an unexpected condition. Try your request again.
+    /// - `PreconditionFailedException` : Your request couldn't be completed because one or more request fields aren't valid. Check the fields in your request and try again.
+    /// - `ServiceQuotaExceededException` : You have reached a quota for your bot.
+    /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
+    /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
     public func updateBotLocale(input: UpdateBotLocaleInput) async throws -> UpdateBotLocaleOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3123,6 +4231,21 @@ extension LexModelsV2Client: LexModelsV2ClientProtocol {
     }
 
     /// Updates an existing bot recommendation request.
+    ///
+    /// - Parameter UpdateBotRecommendationInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateBotRecommendationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictException` : The action that you tried to perform couldn't be completed because the resource is in a conflicting state. For example, deleting a bot that is in the CREATING state. Try your request again.
+    /// - `InternalServerException` : The service encountered an unexpected condition. Try your request again.
+    /// - `PreconditionFailedException` : Your request couldn't be completed because one or more request fields aren't valid. Check the fields in your request and try again.
+    /// - `ResourceNotFoundException` : You asked to describe a resource that doesn't exist. Check the resource that you are requesting and try again.
+    /// - `ServiceQuotaExceededException` : You have reached a quota for your bot.
+    /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
+    /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
     public func updateBotRecommendation(input: UpdateBotRecommendationInput) async throws -> UpdateBotRecommendationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3159,6 +4282,20 @@ extension LexModelsV2Client: LexModelsV2ClientProtocol {
     }
 
     /// Updates the password used to protect an export zip archive. The password is not required. If you don't supply a password, Amazon Lex generates a zip file that is not protected by a password. This is the archive that is available at the pre-signed S3 URL provided by the [DescribeExport](https://docs.aws.amazon.com/lexv2/latest/APIReference/API_DescribeExport.html) operation.
+    ///
+    /// - Parameter UpdateExportInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateExportOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictException` : The action that you tried to perform couldn't be completed because the resource is in a conflicting state. For example, deleting a bot that is in the CREATING state. Try your request again.
+    /// - `InternalServerException` : The service encountered an unexpected condition. Try your request again.
+    /// - `ResourceNotFoundException` : You asked to describe a resource that doesn't exist. Check the resource that you are requesting and try again.
+    /// - `ServiceQuotaExceededException` : You have reached a quota for your bot.
+    /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
+    /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
     public func updateExport(input: UpdateExportInput) async throws -> UpdateExportOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3195,6 +4332,20 @@ extension LexModelsV2Client: LexModelsV2ClientProtocol {
     }
 
     /// Updates the settings for an intent.
+    ///
+    /// - Parameter UpdateIntentInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateIntentOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictException` : The action that you tried to perform couldn't be completed because the resource is in a conflicting state. For example, deleting a bot that is in the CREATING state. Try your request again.
+    /// - `InternalServerException` : The service encountered an unexpected condition. Try your request again.
+    /// - `PreconditionFailedException` : Your request couldn't be completed because one or more request fields aren't valid. Check the fields in your request and try again.
+    /// - `ServiceQuotaExceededException` : You have reached a quota for your bot.
+    /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
+    /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
     public func updateIntent(input: UpdateIntentInput) async throws -> UpdateIntentOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3231,6 +4382,20 @@ extension LexModelsV2Client: LexModelsV2ClientProtocol {
     }
 
     /// Replaces the existing resource policy for a bot or bot alias with a new one. If the policy doesn't exist, Amazon Lex returns an exception.
+    ///
+    /// - Parameter UpdateResourcePolicyInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateResourcePolicyOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The service encountered an unexpected condition. Try your request again.
+    /// - `PreconditionFailedException` : Your request couldn't be completed because one or more request fields aren't valid. Check the fields in your request and try again.
+    /// - `ResourceNotFoundException` : You asked to describe a resource that doesn't exist. Check the resource that you are requesting and try again.
+    /// - `ServiceQuotaExceededException` : You have reached a quota for your bot.
+    /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
+    /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
     public func updateResourcePolicy(input: UpdateResourcePolicyInput) async throws -> UpdateResourcePolicyOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3268,6 +4433,20 @@ extension LexModelsV2Client: LexModelsV2ClientProtocol {
     }
 
     /// Updates the settings for a slot.
+    ///
+    /// - Parameter UpdateSlotInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateSlotOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictException` : The action that you tried to perform couldn't be completed because the resource is in a conflicting state. For example, deleting a bot that is in the CREATING state. Try your request again.
+    /// - `InternalServerException` : The service encountered an unexpected condition. Try your request again.
+    /// - `PreconditionFailedException` : Your request couldn't be completed because one or more request fields aren't valid. Check the fields in your request and try again.
+    /// - `ServiceQuotaExceededException` : You have reached a quota for your bot.
+    /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
+    /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
     public func updateSlot(input: UpdateSlotInput) async throws -> UpdateSlotOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3304,6 +4483,20 @@ extension LexModelsV2Client: LexModelsV2ClientProtocol {
     }
 
     /// Updates the configuration of an existing slot type.
+    ///
+    /// - Parameter UpdateSlotTypeInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateSlotTypeOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictException` : The action that you tried to perform couldn't be completed because the resource is in a conflicting state. For example, deleting a bot that is in the CREATING state. Try your request again.
+    /// - `InternalServerException` : The service encountered an unexpected condition. Try your request again.
+    /// - `PreconditionFailedException` : Your request couldn't be completed because one or more request fields aren't valid. Check the fields in your request and try again.
+    /// - `ServiceQuotaExceededException` : You have reached a quota for your bot.
+    /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
+    /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
     public func updateSlotType(input: UpdateSlotTypeInput) async throws -> UpdateSlotTypeOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3340,6 +4533,20 @@ extension LexModelsV2Client: LexModelsV2ClientProtocol {
     }
 
     /// The action to update the test set.
+    ///
+    /// - Parameter UpdateTestSetInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateTestSetOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictException` : The action that you tried to perform couldn't be completed because the resource is in a conflicting state. For example, deleting a bot that is in the CREATING state. Try your request again.
+    /// - `InternalServerException` : The service encountered an unexpected condition. Try your request again.
+    /// - `PreconditionFailedException` : Your request couldn't be completed because one or more request fields aren't valid. Check the fields in your request and try again.
+    /// - `ServiceQuotaExceededException` : You have reached a quota for your bot.
+    /// - `ThrottlingException` : Your request rate is too high. Reduce the frequency of requests.
+    /// - `ValidationException` : One of the input parameters in your request isn't valid. Check the parameters and try your request again.
     public func updateTestSet(input: UpdateTestSetInput) async throws -> UpdateTestSetOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()

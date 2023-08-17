@@ -68,6 +68,20 @@ public struct M2ClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFactory {
 
 extension M2Client: M2ClientProtocol {
     /// Cancels the running of a specific batch job execution.
+    ///
+    /// - Parameter CancelBatchJobExecutionInput : [no documentation found]
+    ///
+    /// - Returns: `CancelBatchJobExecutionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The account or role doesn't have the right permissions to make the request.
+    /// - `ConflictException` : The parameters provided in the request conflict with existing resources.
+    /// - `InternalServerException` : An unexpected error occurred during the processing of the request.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The number of requests made exceeds the limit.
+    /// - `ValidationException` : One or more parameters provided in the request is not valid.
     public func cancelBatchJobExecution(input: CancelBatchJobExecutionInput) async throws -> CancelBatchJobExecutionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -101,6 +115,20 @@ extension M2Client: M2ClientProtocol {
     }
 
     /// Creates a new application with given parameters. Requires an existing runtime environment and application definition file.
+    ///
+    /// - Parameter CreateApplicationInput : [no documentation found]
+    ///
+    /// - Returns: `CreateApplicationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The account or role doesn't have the right permissions to make the request.
+    /// - `ConflictException` : The parameters provided in the request conflict with existing resources.
+    /// - `InternalServerException` : An unexpected error occurred during the processing of the request.
+    /// - `ServiceQuotaExceededException` : One or more quotas for Amazon Web Services Mainframe Modernization exceeds the limit.
+    /// - `ThrottlingException` : The number of requests made exceeds the limit.
+    /// - `ValidationException` : One or more parameters provided in the request is not valid.
     public func createApplication(input: CreateApplicationInput) async throws -> CreateApplicationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -145,6 +173,21 @@ extension M2Client: M2ClientProtocol {
     }
 
     /// Starts a data set import task for a specific application.
+    ///
+    /// - Parameter CreateDataSetImportTaskInput : [no documentation found]
+    ///
+    /// - Returns: `CreateDataSetImportTaskOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The account or role doesn't have the right permissions to make the request.
+    /// - `ConflictException` : The parameters provided in the request conflict with existing resources.
+    /// - `InternalServerException` : An unexpected error occurred during the processing of the request.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ServiceQuotaExceededException` : One or more quotas for Amazon Web Services Mainframe Modernization exceeds the limit.
+    /// - `ThrottlingException` : The number of requests made exceeds the limit.
+    /// - `ValidationException` : One or more parameters provided in the request is not valid.
     public func createDataSetImportTask(input: CreateDataSetImportTaskInput) async throws -> CreateDataSetImportTaskOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -189,6 +232,21 @@ extension M2Client: M2ClientProtocol {
     }
 
     /// Creates and starts a deployment to deploy an application into a runtime environment.
+    ///
+    /// - Parameter CreateDeploymentInput : [no documentation found]
+    ///
+    /// - Returns: `CreateDeploymentOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The account or role doesn't have the right permissions to make the request.
+    /// - `ConflictException` : The parameters provided in the request conflict with existing resources.
+    /// - `InternalServerException` : An unexpected error occurred during the processing of the request.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ServiceQuotaExceededException` : One or more quotas for Amazon Web Services Mainframe Modernization exceeds the limit.
+    /// - `ThrottlingException` : The number of requests made exceeds the limit.
+    /// - `ValidationException` : One or more parameters provided in the request is not valid.
     public func createDeployment(input: CreateDeploymentInput) async throws -> CreateDeploymentOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -233,6 +291,20 @@ extension M2Client: M2ClientProtocol {
     }
 
     /// Creates a runtime environment for a given runtime engine.
+    ///
+    /// - Parameter CreateEnvironmentInput : [no documentation found]
+    ///
+    /// - Returns: `CreateEnvironmentOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The account or role doesn't have the right permissions to make the request.
+    /// - `ConflictException` : The parameters provided in the request conflict with existing resources.
+    /// - `InternalServerException` : An unexpected error occurred during the processing of the request.
+    /// - `ServiceQuotaExceededException` : One or more quotas for Amazon Web Services Mainframe Modernization exceeds the limit.
+    /// - `ThrottlingException` : The number of requests made exceeds the limit.
+    /// - `ValidationException` : One or more parameters provided in the request is not valid.
     public func createEnvironment(input: CreateEnvironmentInput) async throws -> CreateEnvironmentOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -277,6 +349,19 @@ extension M2Client: M2ClientProtocol {
     }
 
     /// Deletes a specific application. You cannot delete a running application.
+    ///
+    /// - Parameter DeleteApplicationInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteApplicationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The account or role doesn't have the right permissions to make the request.
+    /// - `ConflictException` : The parameters provided in the request conflict with existing resources.
+    /// - `InternalServerException` : An unexpected error occurred during the processing of the request.
+    /// - `ThrottlingException` : The number of requests made exceeds the limit.
+    /// - `ValidationException` : One or more parameters provided in the request is not valid.
     public func deleteApplication(input: DeleteApplicationInput) async throws -> DeleteApplicationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -310,6 +395,20 @@ extension M2Client: M2ClientProtocol {
     }
 
     /// Deletes a specific application from the specific runtime environment where it was previously deployed. You cannot delete a runtime environment using DeleteEnvironment if any application has ever been deployed to it. This API removes the association of the application with the runtime environment so you can delete the environment smoothly.
+    ///
+    /// - Parameter DeleteApplicationFromEnvironmentInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteApplicationFromEnvironmentOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The account or role doesn't have the right permissions to make the request.
+    /// - `ConflictException` : The parameters provided in the request conflict with existing resources.
+    /// - `InternalServerException` : An unexpected error occurred during the processing of the request.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The number of requests made exceeds the limit.
+    /// - `ValidationException` : One or more parameters provided in the request is not valid.
     public func deleteApplicationFromEnvironment(input: DeleteApplicationFromEnvironmentInput) async throws -> DeleteApplicationFromEnvironmentOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -343,6 +442,19 @@ extension M2Client: M2ClientProtocol {
     }
 
     /// Deletes a specific runtime environment. The environment cannot contain deployed applications. If it does, you must delete those applications before you delete the environment.
+    ///
+    /// - Parameter DeleteEnvironmentInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteEnvironmentOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The account or role doesn't have the right permissions to make the request.
+    /// - `ConflictException` : The parameters provided in the request conflict with existing resources.
+    /// - `InternalServerException` : An unexpected error occurred during the processing of the request.
+    /// - `ThrottlingException` : The number of requests made exceeds the limit.
+    /// - `ValidationException` : One or more parameters provided in the request is not valid.
     public func deleteEnvironment(input: DeleteEnvironmentInput) async throws -> DeleteEnvironmentOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -376,6 +488,19 @@ extension M2Client: M2ClientProtocol {
     }
 
     /// Describes the details of a specific application.
+    ///
+    /// - Parameter GetApplicationInput : [no documentation found]
+    ///
+    /// - Returns: `GetApplicationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The account or role doesn't have the right permissions to make the request.
+    /// - `InternalServerException` : An unexpected error occurred during the processing of the request.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The number of requests made exceeds the limit.
+    /// - `ValidationException` : One or more parameters provided in the request is not valid.
     public func getApplication(input: GetApplicationInput) async throws -> GetApplicationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -409,6 +534,19 @@ extension M2Client: M2ClientProtocol {
     }
 
     /// Returns details about a specific version of a specific application.
+    ///
+    /// - Parameter GetApplicationVersionInput : [no documentation found]
+    ///
+    /// - Returns: `GetApplicationVersionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The account or role doesn't have the right permissions to make the request.
+    /// - `InternalServerException` : An unexpected error occurred during the processing of the request.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The number of requests made exceeds the limit.
+    /// - `ValidationException` : One or more parameters provided in the request is not valid.
     public func getApplicationVersion(input: GetApplicationVersionInput) async throws -> GetApplicationVersionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -442,6 +580,19 @@ extension M2Client: M2ClientProtocol {
     }
 
     /// Gets the details of a specific batch job execution for a specific application.
+    ///
+    /// - Parameter GetBatchJobExecutionInput : [no documentation found]
+    ///
+    /// - Returns: `GetBatchJobExecutionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The account or role doesn't have the right permissions to make the request.
+    /// - `InternalServerException` : An unexpected error occurred during the processing of the request.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The number of requests made exceeds the limit.
+    /// - `ValidationException` : One or more parameters provided in the request is not valid.
     public func getBatchJobExecution(input: GetBatchJobExecutionInput) async throws -> GetBatchJobExecutionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -475,6 +626,19 @@ extension M2Client: M2ClientProtocol {
     }
 
     /// Gets the details of a specific data set.
+    ///
+    /// - Parameter GetDataSetDetailsInput : [no documentation found]
+    ///
+    /// - Returns: `GetDataSetDetailsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The account or role doesn't have the right permissions to make the request.
+    /// - `InternalServerException` : An unexpected error occurred during the processing of the request.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The number of requests made exceeds the limit.
+    /// - `ValidationException` : One or more parameters provided in the request is not valid.
     public func getDataSetDetails(input: GetDataSetDetailsInput) async throws -> GetDataSetDetailsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -508,6 +672,19 @@ extension M2Client: M2ClientProtocol {
     }
 
     /// Gets the status of a data set import task initiated with the [CreateDataSetImportTask] operation.
+    ///
+    /// - Parameter GetDataSetImportTaskInput : [no documentation found]
+    ///
+    /// - Returns: `GetDataSetImportTaskOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The account or role doesn't have the right permissions to make the request.
+    /// - `InternalServerException` : An unexpected error occurred during the processing of the request.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The number of requests made exceeds the limit.
+    /// - `ValidationException` : One or more parameters provided in the request is not valid.
     public func getDataSetImportTask(input: GetDataSetImportTaskInput) async throws -> GetDataSetImportTaskOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -541,6 +718,19 @@ extension M2Client: M2ClientProtocol {
     }
 
     /// Gets details of a specific deployment with a given deployment identifier.
+    ///
+    /// - Parameter GetDeploymentInput : [no documentation found]
+    ///
+    /// - Returns: `GetDeploymentOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The account or role doesn't have the right permissions to make the request.
+    /// - `InternalServerException` : An unexpected error occurred during the processing of the request.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The number of requests made exceeds the limit.
+    /// - `ValidationException` : One or more parameters provided in the request is not valid.
     public func getDeployment(input: GetDeploymentInput) async throws -> GetDeploymentOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -574,6 +764,19 @@ extension M2Client: M2ClientProtocol {
     }
 
     /// Describes a specific runtime environment.
+    ///
+    /// - Parameter GetEnvironmentInput : [no documentation found]
+    ///
+    /// - Returns: `GetEnvironmentOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The account or role doesn't have the right permissions to make the request.
+    /// - `InternalServerException` : An unexpected error occurred during the processing of the request.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The number of requests made exceeds the limit.
+    /// - `ValidationException` : One or more parameters provided in the request is not valid.
     public func getEnvironment(input: GetEnvironmentInput) async throws -> GetEnvironmentOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -607,6 +810,17 @@ extension M2Client: M2ClientProtocol {
     }
 
     /// Gets a single sign-on URL that can be used to connect to AWS Blu Insights.
+    ///
+    /// - Parameter GetSignedBluinsightsUrlInput : [no documentation found]
+    ///
+    /// - Returns: `GetSignedBluinsightsUrlOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The account or role doesn't have the right permissions to make the request.
+    /// - `InternalServerException` : An unexpected error occurred during the processing of the request.
+    /// - `ThrottlingException` : The number of requests made exceeds the limit.
     public func getSignedBluinsightsUrl(input: GetSignedBluinsightsUrlInput) async throws -> GetSignedBluinsightsUrlOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -640,6 +854,19 @@ extension M2Client: M2ClientProtocol {
     }
 
     /// Returns a list of the application versions for a specific application.
+    ///
+    /// - Parameter ListApplicationVersionsInput : [no documentation found]
+    ///
+    /// - Returns: `ListApplicationVersionsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The account or role doesn't have the right permissions to make the request.
+    /// - `InternalServerException` : An unexpected error occurred during the processing of the request.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The number of requests made exceeds the limit.
+    /// - `ValidationException` : One or more parameters provided in the request is not valid.
     public func listApplicationVersions(input: ListApplicationVersionsInput) async throws -> ListApplicationVersionsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -674,6 +901,18 @@ extension M2Client: M2ClientProtocol {
     }
 
     /// Lists the applications associated with a specific Amazon Web Services account. You can provide the unique identifier of a specific runtime environment in a query parameter to see all applications associated with that environment.
+    ///
+    /// - Parameter ListApplicationsInput : [no documentation found]
+    ///
+    /// - Returns: `ListApplicationsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The account or role doesn't have the right permissions to make the request.
+    /// - `InternalServerException` : An unexpected error occurred during the processing of the request.
+    /// - `ThrottlingException` : The number of requests made exceeds the limit.
+    /// - `ValidationException` : One or more parameters provided in the request is not valid.
     public func listApplications(input: ListApplicationsInput) async throws -> ListApplicationsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -708,6 +947,19 @@ extension M2Client: M2ClientProtocol {
     }
 
     /// Lists all the available batch job definitions based on the batch job resources uploaded during the application creation. You can use the batch job definitions in the list to start a batch job.
+    ///
+    /// - Parameter ListBatchJobDefinitionsInput : [no documentation found]
+    ///
+    /// - Returns: `ListBatchJobDefinitionsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The account or role doesn't have the right permissions to make the request.
+    /// - `InternalServerException` : An unexpected error occurred during the processing of the request.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The number of requests made exceeds the limit.
+    /// - `ValidationException` : One or more parameters provided in the request is not valid.
     public func listBatchJobDefinitions(input: ListBatchJobDefinitionsInput) async throws -> ListBatchJobDefinitionsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -742,6 +994,19 @@ extension M2Client: M2ClientProtocol {
     }
 
     /// Lists historical, current, and scheduled batch job executions for a specific application.
+    ///
+    /// - Parameter ListBatchJobExecutionsInput : [no documentation found]
+    ///
+    /// - Returns: `ListBatchJobExecutionsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The account or role doesn't have the right permissions to make the request.
+    /// - `InternalServerException` : An unexpected error occurred during the processing of the request.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The number of requests made exceeds the limit.
+    /// - `ValidationException` : One or more parameters provided in the request is not valid.
     public func listBatchJobExecutions(input: ListBatchJobExecutionsInput) async throws -> ListBatchJobExecutionsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -776,6 +1041,19 @@ extension M2Client: M2ClientProtocol {
     }
 
     /// Lists the data set imports for the specified application.
+    ///
+    /// - Parameter ListDataSetImportHistoryInput : [no documentation found]
+    ///
+    /// - Returns: `ListDataSetImportHistoryOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The account or role doesn't have the right permissions to make the request.
+    /// - `InternalServerException` : An unexpected error occurred during the processing of the request.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The number of requests made exceeds the limit.
+    /// - `ValidationException` : One or more parameters provided in the request is not valid.
     public func listDataSetImportHistory(input: ListDataSetImportHistoryInput) async throws -> ListDataSetImportHistoryOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -810,6 +1088,19 @@ extension M2Client: M2ClientProtocol {
     }
 
     /// Lists the data sets imported for a specific application. In Amazon Web Services Mainframe Modernization, data sets are associated with applications deployed on runtime environments. This is known as importing data sets. Currently, Amazon Web Services Mainframe Modernization can import data sets into catalogs using [CreateDataSetImportTask](https://docs.aws.amazon.com/m2/latest/APIReference/API_CreateDataSetImportTask.html).
+    ///
+    /// - Parameter ListDataSetsInput : [no documentation found]
+    ///
+    /// - Returns: `ListDataSetsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The account or role doesn't have the right permissions to make the request.
+    /// - `InternalServerException` : An unexpected error occurred during the processing of the request.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The number of requests made exceeds the limit.
+    /// - `ValidationException` : One or more parameters provided in the request is not valid.
     public func listDataSets(input: ListDataSetsInput) async throws -> ListDataSetsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -844,6 +1135,19 @@ extension M2Client: M2ClientProtocol {
     }
 
     /// Returns a list of all deployments of a specific application. A deployment is a combination of a specific application and a specific version of that application. Each deployment is mapped to a particular application version.
+    ///
+    /// - Parameter ListDeploymentsInput : [no documentation found]
+    ///
+    /// - Returns: `ListDeploymentsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The account or role doesn't have the right permissions to make the request.
+    /// - `InternalServerException` : An unexpected error occurred during the processing of the request.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The number of requests made exceeds the limit.
+    /// - `ValidationException` : One or more parameters provided in the request is not valid.
     public func listDeployments(input: ListDeploymentsInput) async throws -> ListDeploymentsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -878,6 +1182,18 @@ extension M2Client: M2ClientProtocol {
     }
 
     /// Lists the available engine versions.
+    ///
+    /// - Parameter ListEngineVersionsInput : [no documentation found]
+    ///
+    /// - Returns: `ListEngineVersionsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The account or role doesn't have the right permissions to make the request.
+    /// - `InternalServerException` : An unexpected error occurred during the processing of the request.
+    /// - `ThrottlingException` : The number of requests made exceeds the limit.
+    /// - `ValidationException` : One or more parameters provided in the request is not valid.
     public func listEngineVersions(input: ListEngineVersionsInput) async throws -> ListEngineVersionsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -912,6 +1228,18 @@ extension M2Client: M2ClientProtocol {
     }
 
     /// Lists the runtime environments.
+    ///
+    /// - Parameter ListEnvironmentsInput : [no documentation found]
+    ///
+    /// - Returns: `ListEnvironmentsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The account or role doesn't have the right permissions to make the request.
+    /// - `InternalServerException` : An unexpected error occurred during the processing of the request.
+    /// - `ThrottlingException` : The number of requests made exceeds the limit.
+    /// - `ValidationException` : One or more parameters provided in the request is not valid.
     public func listEnvironments(input: ListEnvironmentsInput) async throws -> ListEnvironmentsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -946,6 +1274,19 @@ extension M2Client: M2ClientProtocol {
     }
 
     /// Lists the tags for the specified resource.
+    ///
+    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    ///
+    /// - Returns: `ListTagsForResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The account or role doesn't have the right permissions to make the request.
+    /// - `InternalServerException` : An unexpected error occurred during the processing of the request.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The number of requests made exceeds the limit.
+    /// - `ValidationException` : One or more parameters provided in the request is not valid.
     public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -979,6 +1320,20 @@ extension M2Client: M2ClientProtocol {
     }
 
     /// Starts an application that is currently stopped.
+    ///
+    /// - Parameter StartApplicationInput : [no documentation found]
+    ///
+    /// - Returns: `StartApplicationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The account or role doesn't have the right permissions to make the request.
+    /// - `ConflictException` : The parameters provided in the request conflict with existing resources.
+    /// - `InternalServerException` : An unexpected error occurred during the processing of the request.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The number of requests made exceeds the limit.
+    /// - `ValidationException` : One or more parameters provided in the request is not valid.
     public func startApplication(input: StartApplicationInput) async throws -> StartApplicationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1012,6 +1367,20 @@ extension M2Client: M2ClientProtocol {
     }
 
     /// Starts a batch job and returns the unique identifier of this execution of the batch job. The associated application must be running in order to start the batch job.
+    ///
+    /// - Parameter StartBatchJobInput : [no documentation found]
+    ///
+    /// - Returns: `StartBatchJobOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The account or role doesn't have the right permissions to make the request.
+    /// - `ConflictException` : The parameters provided in the request conflict with existing resources.
+    /// - `InternalServerException` : An unexpected error occurred during the processing of the request.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The number of requests made exceeds the limit.
+    /// - `ValidationException` : One or more parameters provided in the request is not valid.
     public func startBatchJob(input: StartBatchJobInput) async throws -> StartBatchJobOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1048,6 +1417,20 @@ extension M2Client: M2ClientProtocol {
     }
 
     /// Stops a running application.
+    ///
+    /// - Parameter StopApplicationInput : [no documentation found]
+    ///
+    /// - Returns: `StopApplicationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The account or role doesn't have the right permissions to make the request.
+    /// - `ConflictException` : The parameters provided in the request conflict with existing resources.
+    /// - `InternalServerException` : An unexpected error occurred during the processing of the request.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The number of requests made exceeds the limit.
+    /// - `ValidationException` : One or more parameters provided in the request is not valid.
     public func stopApplication(input: StopApplicationInput) async throws -> StopApplicationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1084,6 +1467,20 @@ extension M2Client: M2ClientProtocol {
     }
 
     /// Adds one or more tags to the specified resource.
+    ///
+    /// - Parameter TagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `TagResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The account or role doesn't have the right permissions to make the request.
+    /// - `InternalServerException` : An unexpected error occurred during the processing of the request.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ServiceQuotaExceededException` : One or more quotas for Amazon Web Services Mainframe Modernization exceeds the limit.
+    /// - `ThrottlingException` : The number of requests made exceeds the limit.
+    /// - `ValidationException` : One or more parameters provided in the request is not valid.
     public func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1120,6 +1517,19 @@ extension M2Client: M2ClientProtocol {
     }
 
     /// Removes one or more tags from the specified resource.
+    ///
+    /// - Parameter UntagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `UntagResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The account or role doesn't have the right permissions to make the request.
+    /// - `InternalServerException` : An unexpected error occurred during the processing of the request.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The number of requests made exceeds the limit.
+    /// - `ValidationException` : One or more parameters provided in the request is not valid.
     public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1154,6 +1564,20 @@ extension M2Client: M2ClientProtocol {
     }
 
     /// Updates an application and creates a new version.
+    ///
+    /// - Parameter UpdateApplicationInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateApplicationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The account or role doesn't have the right permissions to make the request.
+    /// - `ConflictException` : The parameters provided in the request conflict with existing resources.
+    /// - `InternalServerException` : An unexpected error occurred during the processing of the request.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The number of requests made exceeds the limit.
+    /// - `ValidationException` : One or more parameters provided in the request is not valid.
     public func updateApplication(input: UpdateApplicationInput) async throws -> UpdateApplicationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1190,6 +1614,21 @@ extension M2Client: M2ClientProtocol {
     }
 
     /// Updates the configuration details for a specific runtime environment.
+    ///
+    /// - Parameter UpdateEnvironmentInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateEnvironmentOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The account or role doesn't have the right permissions to make the request.
+    /// - `ConflictException` : The parameters provided in the request conflict with existing resources.
+    /// - `InternalServerException` : An unexpected error occurred during the processing of the request.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ServiceQuotaExceededException` : One or more quotas for Amazon Web Services Mainframe Modernization exceeds the limit.
+    /// - `ThrottlingException` : The number of requests made exceeds the limit.
+    /// - `ValidationException` : One or more parameters provided in the request is not valid.
     public func updateEnvironment(input: UpdateEnvironmentInput) async throws -> UpdateEnvironmentOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()

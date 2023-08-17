@@ -5,34 +5,265 @@ import ClientRuntime
 /// Amazon Honeycode is a fully managed service that allows you to quickly build mobile and web apps for teams—without programming. Build Honeycode apps for managing almost anything, like projects, customers, operations, approvals, resources, and even your team.
 public protocol HoneycodeClientProtocol {
     /// The BatchCreateTableRows API allows you to create one or more rows at the end of a table in a workbook. The API allows you to specify the values to set in some or all of the columns in the new rows. If a column is not explicitly set in a specific row, then the column level formula specified in the table will be applied to the new row. If there is no column level formula but the last row of the table has a formula, then that formula will be copied down to the new row. If there is no column level formula and no formula in the last row of the table, then that column will be left blank for the new rows.
+    ///
+    /// - Parameter BatchCreateTableRowsInput : [no documentation found]
+    ///
+    /// - Returns: `BatchCreateTableRowsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action. Check that the workbook is owned by you and your IAM policy allows access to the resource in the request.
+    /// - `InternalServerException` : There were unexpected errors from the server.
+    /// - `RequestTimeoutException` : The request timed out.
+    /// - `ResourceNotFoundException` : A Workbook, Table, App, Screen or Screen Automation was not found with the given ID.
+    /// - `ServiceQuotaExceededException` : The request caused service quota to be breached.
+    /// - `ServiceUnavailableException` : Remote service is unreachable.
+    /// - `ThrottlingException` : Tps(transactions per second) rate reached.
+    /// - `ValidationException` : Request is invalid. The message in the response contains details on why the request is invalid.
     func batchCreateTableRows(input: BatchCreateTableRowsInput) async throws -> BatchCreateTableRowsOutputResponse
     /// The BatchDeleteTableRows API allows you to delete one or more rows from a table in a workbook. You need to specify the ids of the rows that you want to delete from the table.
+    ///
+    /// - Parameter BatchDeleteTableRowsInput : [no documentation found]
+    ///
+    /// - Returns: `BatchDeleteTableRowsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action. Check that the workbook is owned by you and your IAM policy allows access to the resource in the request.
+    /// - `InternalServerException` : There were unexpected errors from the server.
+    /// - `RequestTimeoutException` : The request timed out.
+    /// - `ResourceNotFoundException` : A Workbook, Table, App, Screen or Screen Automation was not found with the given ID.
+    /// - `ServiceUnavailableException` : Remote service is unreachable.
+    /// - `ThrottlingException` : Tps(transactions per second) rate reached.
+    /// - `ValidationException` : Request is invalid. The message in the response contains details on why the request is invalid.
     func batchDeleteTableRows(input: BatchDeleteTableRowsInput) async throws -> BatchDeleteTableRowsOutputResponse
     /// The BatchUpdateTableRows API allows you to update one or more rows in a table in a workbook. You can specify the values to set in some or all of the columns in the table for the specified rows. If a column is not explicitly specified in a particular row, then that column will not be updated for that row. To clear out the data in a specific cell, you need to set the value as an empty string ("").
+    ///
+    /// - Parameter BatchUpdateTableRowsInput : [no documentation found]
+    ///
+    /// - Returns: `BatchUpdateTableRowsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action. Check that the workbook is owned by you and your IAM policy allows access to the resource in the request.
+    /// - `InternalServerException` : There were unexpected errors from the server.
+    /// - `RequestTimeoutException` : The request timed out.
+    /// - `ResourceNotFoundException` : A Workbook, Table, App, Screen or Screen Automation was not found with the given ID.
+    /// - `ServiceUnavailableException` : Remote service is unreachable.
+    /// - `ThrottlingException` : Tps(transactions per second) rate reached.
+    /// - `ValidationException` : Request is invalid. The message in the response contains details on why the request is invalid.
     func batchUpdateTableRows(input: BatchUpdateTableRowsInput) async throws -> BatchUpdateTableRowsOutputResponse
     /// The BatchUpsertTableRows API allows you to upsert one or more rows in a table. The upsert operation takes a filter expression as input and evaluates it to find matching rows on the destination table. If matching rows are found, it will update the cells in the matching rows to new values specified in the request. If no matching rows are found, a new row is added at the end of the table and the cells in that row are set to the new values specified in the request. You can specify the values to set in some or all of the columns in the table for the matching or newly appended rows. If a column is not explicitly specified for a particular row, then that column will not be updated for that row. To clear out the data in a specific cell, you need to set the value as an empty string ("").
+    ///
+    /// - Parameter BatchUpsertTableRowsInput : [no documentation found]
+    ///
+    /// - Returns: `BatchUpsertTableRowsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action. Check that the workbook is owned by you and your IAM policy allows access to the resource in the request.
+    /// - `InternalServerException` : There were unexpected errors from the server.
+    /// - `RequestTimeoutException` : The request timed out.
+    /// - `ResourceNotFoundException` : A Workbook, Table, App, Screen or Screen Automation was not found with the given ID.
+    /// - `ServiceQuotaExceededException` : The request caused service quota to be breached.
+    /// - `ServiceUnavailableException` : Remote service is unreachable.
+    /// - `ThrottlingException` : Tps(transactions per second) rate reached.
+    /// - `ValidationException` : Request is invalid. The message in the response contains details on why the request is invalid.
     func batchUpsertTableRows(input: BatchUpsertTableRowsInput) async throws -> BatchUpsertTableRowsOutputResponse
     /// The DescribeTableDataImportJob API allows you to retrieve the status and details of a table data import job.
+    ///
+    /// - Parameter DescribeTableDataImportJobInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeTableDataImportJobOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action. Check that the workbook is owned by you and your IAM policy allows access to the resource in the request.
+    /// - `InternalServerException` : There were unexpected errors from the server.
+    /// - `RequestTimeoutException` : The request timed out.
+    /// - `ResourceNotFoundException` : A Workbook, Table, App, Screen or Screen Automation was not found with the given ID.
+    /// - `ServiceUnavailableException` : Remote service is unreachable.
+    /// - `ThrottlingException` : Tps(transactions per second) rate reached.
+    /// - `ValidationException` : Request is invalid. The message in the response contains details on why the request is invalid.
     func describeTableDataImportJob(input: DescribeTableDataImportJobInput) async throws -> DescribeTableDataImportJobOutputResponse
     /// The GetScreenData API allows retrieval of data from a screen in a Honeycode app. The API allows setting local variables in the screen to filter, sort or otherwise affect what will be displayed on the screen.
+    ///
+    /// - Parameter GetScreenDataInput : [no documentation found]
+    ///
+    /// - Returns: `GetScreenDataOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action. Check that the workbook is owned by you and your IAM policy allows access to the resource in the request.
+    /// - `InternalServerException` : There were unexpected errors from the server.
+    /// - `RequestTimeoutException` : The request timed out.
+    /// - `ResourceNotFoundException` : A Workbook, Table, App, Screen or Screen Automation was not found with the given ID.
+    /// - `ServiceUnavailableException` : Remote service is unreachable.
+    /// - `ThrottlingException` : Tps(transactions per second) rate reached.
+    /// - `ValidationException` : Request is invalid. The message in the response contains details on why the request is invalid.
     func getScreenData(input: GetScreenDataInput) async throws -> GetScreenDataOutputResponse
     /// The InvokeScreenAutomation API allows invoking an action defined in a screen in a Honeycode app. The API allows setting local variables, which can then be used in the automation being invoked. This allows automating the Honeycode app interactions to write, update or delete data in the workbook.
+    ///
+    /// - Parameter InvokeScreenAutomationInput : [no documentation found]
+    ///
+    /// - Returns: `InvokeScreenAutomationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action. Check that the workbook is owned by you and your IAM policy allows access to the resource in the request.
+    /// - `AutomationExecutionException` : The automation execution did not end successfully.
+    /// - `AutomationExecutionTimeoutException` : The automation execution timed out.
+    /// - `InternalServerException` : There were unexpected errors from the server.
+    /// - `RequestTimeoutException` : The request timed out.
+    /// - `ResourceNotFoundException` : A Workbook, Table, App, Screen or Screen Automation was not found with the given ID.
+    /// - `ServiceQuotaExceededException` : The request caused service quota to be breached.
+    /// - `ServiceUnavailableException` : Remote service is unreachable.
+    /// - `ThrottlingException` : Tps(transactions per second) rate reached.
+    /// - `ValidationException` : Request is invalid. The message in the response contains details on why the request is invalid.
     func invokeScreenAutomation(input: InvokeScreenAutomationInput) async throws -> InvokeScreenAutomationOutputResponse
     /// The ListTableColumns API allows you to retrieve a list of all the columns in a table in a workbook.
+    ///
+    /// - Parameter ListTableColumnsInput : [no documentation found]
+    ///
+    /// - Returns: `ListTableColumnsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action. Check that the workbook is owned by you and your IAM policy allows access to the resource in the request.
+    /// - `InternalServerException` : There were unexpected errors from the server.
+    /// - `RequestTimeoutException` : The request timed out.
+    /// - `ResourceNotFoundException` : A Workbook, Table, App, Screen or Screen Automation was not found with the given ID.
+    /// - `ServiceUnavailableException` : Remote service is unreachable.
+    /// - `ThrottlingException` : Tps(transactions per second) rate reached.
+    /// - `ValidationException` : Request is invalid. The message in the response contains details on why the request is invalid.
     func listTableColumns(input: ListTableColumnsInput) async throws -> ListTableColumnsOutputResponse
     /// The ListTableRows API allows you to retrieve a list of all the rows in a table in a workbook.
+    ///
+    /// - Parameter ListTableRowsInput : [no documentation found]
+    ///
+    /// - Returns: `ListTableRowsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action. Check that the workbook is owned by you and your IAM policy allows access to the resource in the request.
+    /// - `InternalServerException` : There were unexpected errors from the server.
+    /// - `RequestTimeoutException` : The request timed out.
+    /// - `ResourceNotFoundException` : A Workbook, Table, App, Screen or Screen Automation was not found with the given ID.
+    /// - `ServiceUnavailableException` : Remote service is unreachable.
+    /// - `ThrottlingException` : Tps(transactions per second) rate reached.
+    /// - `ValidationException` : Request is invalid. The message in the response contains details on why the request is invalid.
     func listTableRows(input: ListTableRowsInput) async throws -> ListTableRowsOutputResponse
     /// The ListTables API allows you to retrieve a list of all the tables in a workbook.
+    ///
+    /// - Parameter ListTablesInput : [no documentation found]
+    ///
+    /// - Returns: `ListTablesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action. Check that the workbook is owned by you and your IAM policy allows access to the resource in the request.
+    /// - `InternalServerException` : There were unexpected errors from the server.
+    /// - `RequestTimeoutException` : The request timed out.
+    /// - `ResourceNotFoundException` : A Workbook, Table, App, Screen or Screen Automation was not found with the given ID.
+    /// - `ServiceUnavailableException` : Remote service is unreachable.
+    /// - `ThrottlingException` : Tps(transactions per second) rate reached.
+    /// - `ValidationException` : Request is invalid. The message in the response contains details on why the request is invalid.
     func listTables(input: ListTablesInput) async throws -> ListTablesOutputResponse
     /// The ListTagsForResource API allows you to return a resource's tags.
+    ///
+    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    ///
+    /// - Returns: `ListTagsForResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action. Check that the workbook is owned by you and your IAM policy allows access to the resource in the request.
+    /// - `InternalServerException` : There were unexpected errors from the server.
+    /// - `RequestTimeoutException` : The request timed out.
+    /// - `ResourceNotFoundException` : A Workbook, Table, App, Screen or Screen Automation was not found with the given ID.
+    /// - `ServiceUnavailableException` : Remote service is unreachable.
+    /// - `ThrottlingException` : Tps(transactions per second) rate reached.
+    /// - `ValidationException` : Request is invalid. The message in the response contains details on why the request is invalid.
     func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
     /// The QueryTableRows API allows you to use a filter formula to query for specific rows in a table.
+    ///
+    /// - Parameter QueryTableRowsInput : [no documentation found]
+    ///
+    /// - Returns: `QueryTableRowsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action. Check that the workbook is owned by you and your IAM policy allows access to the resource in the request.
+    /// - `InternalServerException` : There were unexpected errors from the server.
+    /// - `RequestTimeoutException` : The request timed out.
+    /// - `ResourceNotFoundException` : A Workbook, Table, App, Screen or Screen Automation was not found with the given ID.
+    /// - `ServiceUnavailableException` : Remote service is unreachable.
+    /// - `ThrottlingException` : Tps(transactions per second) rate reached.
+    /// - `ValidationException` : Request is invalid. The message in the response contains details on why the request is invalid.
     func queryTableRows(input: QueryTableRowsInput) async throws -> QueryTableRowsOutputResponse
     /// The StartTableDataImportJob API allows you to start an import job on a table. This API will only return the id of the job that was started. To find out the status of the import request, you need to call the DescribeTableDataImportJob API.
+    ///
+    /// - Parameter StartTableDataImportJobInput : [no documentation found]
+    ///
+    /// - Returns: `StartTableDataImportJobOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action. Check that the workbook is owned by you and your IAM policy allows access to the resource in the request.
+    /// - `InternalServerException` : There were unexpected errors from the server.
+    /// - `RequestTimeoutException` : The request timed out.
+    /// - `ResourceNotFoundException` : A Workbook, Table, App, Screen or Screen Automation was not found with the given ID.
+    /// - `ServiceQuotaExceededException` : The request caused service quota to be breached.
+    /// - `ServiceUnavailableException` : Remote service is unreachable.
+    /// - `ThrottlingException` : Tps(transactions per second) rate reached.
+    /// - `ValidationException` : Request is invalid. The message in the response contains details on why the request is invalid.
     func startTableDataImportJob(input: StartTableDataImportJobInput) async throws -> StartTableDataImportJobOutputResponse
     /// The TagResource API allows you to add tags to an ARN-able resource. Resource includes workbook, table, screen and screen-automation.
+    ///
+    /// - Parameter TagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `TagResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action. Check that the workbook is owned by you and your IAM policy allows access to the resource in the request.
+    /// - `InternalServerException` : There were unexpected errors from the server.
+    /// - `RequestTimeoutException` : The request timed out.
+    /// - `ResourceNotFoundException` : A Workbook, Table, App, Screen or Screen Automation was not found with the given ID.
+    /// - `ServiceUnavailableException` : Remote service is unreachable.
+    /// - `ThrottlingException` : Tps(transactions per second) rate reached.
+    /// - `ValidationException` : Request is invalid. The message in the response contains details on why the request is invalid.
     func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
     /// The UntagResource API allows you to removes tags from an ARN-able resource. Resource includes workbook, table, screen and screen-automation.
+    ///
+    /// - Parameter UntagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `UntagResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action. Check that the workbook is owned by you and your IAM policy allows access to the resource in the request.
+    /// - `InternalServerException` : There were unexpected errors from the server.
+    /// - `RequestTimeoutException` : The request timed out.
+    /// - `ResourceNotFoundException` : A Workbook, Table, App, Screen or Screen Automation was not found with the given ID.
+    /// - `ServiceUnavailableException` : Remote service is unreachable.
+    /// - `ThrottlingException` : Tps(transactions per second) rate reached.
+    /// - `ValidationException` : Request is invalid. The message in the response contains details on why the request is invalid.
     func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
 }
 

@@ -68,6 +68,21 @@ public struct KafkaClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFactory {
 
 extension KafkaClient: KafkaClientProtocol {
     /// Associates one or more Scram Secrets with an Amazon MSK cluster.
+    ///
+    /// - Parameter BatchAssociateScramSecretInput : Associates sasl scram secrets to cluster.
+    ///
+    /// - Returns: `BatchAssociateScramSecretOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Returns information about an error.
+    /// - `ForbiddenException` : Returns information about an error.
+    /// - `InternalServerErrorException` : Returns information about an error.
+    /// - `NotFoundException` : Returns information about an error.
+    /// - `ServiceUnavailableException` : Returns information about an error.
+    /// - `TooManyRequestsException` : Returns information about an error.
+    /// - `UnauthorizedException` : Returns information about an error.
     public func batchAssociateScramSecret(input: BatchAssociateScramSecretInput) async throws -> BatchAssociateScramSecretOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -104,6 +119,21 @@ extension KafkaClient: KafkaClientProtocol {
     }
 
     /// Disassociates one or more Scram Secrets from an Amazon MSK cluster.
+    ///
+    /// - Parameter BatchDisassociateScramSecretInput : Disassociates sasl scram secrets to cluster.
+    ///
+    /// - Returns: `BatchDisassociateScramSecretOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Returns information about an error.
+    /// - `ForbiddenException` : Returns information about an error.
+    /// - `InternalServerErrorException` : Returns information about an error.
+    /// - `NotFoundException` : Returns information about an error.
+    /// - `ServiceUnavailableException` : Returns information about an error.
+    /// - `TooManyRequestsException` : Returns information about an error.
+    /// - `UnauthorizedException` : Returns information about an error.
     public func batchDisassociateScramSecret(input: BatchDisassociateScramSecretInput) async throws -> BatchDisassociateScramSecretOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -140,6 +170,21 @@ extension KafkaClient: KafkaClientProtocol {
     }
 
     /// Creates a new MSK cluster.
+    ///
+    /// - Parameter CreateClusterInput : [no documentation found]
+    ///
+    /// - Returns: `CreateClusterOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Returns information about an error.
+    /// - `ConflictException` : Returns information about an error.
+    /// - `ForbiddenException` : Returns information about an error.
+    /// - `InternalServerErrorException` : Returns information about an error.
+    /// - `ServiceUnavailableException` : Returns information about an error.
+    /// - `TooManyRequestsException` : Returns information about an error.
+    /// - `UnauthorizedException` : Returns information about an error.
     public func createCluster(input: CreateClusterInput) async throws -> CreateClusterOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -176,6 +221,21 @@ extension KafkaClient: KafkaClientProtocol {
     }
 
     /// Creates a new MSK cluster.
+    ///
+    /// - Parameter CreateClusterV2Input : [no documentation found]
+    ///
+    /// - Returns: `CreateClusterV2OutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Returns information about an error.
+    /// - `ConflictException` : Returns information about an error.
+    /// - `ForbiddenException` : Returns information about an error.
+    /// - `InternalServerErrorException` : Returns information about an error.
+    /// - `ServiceUnavailableException` : Returns information about an error.
+    /// - `TooManyRequestsException` : Returns information about an error.
+    /// - `UnauthorizedException` : Returns information about an error.
     public func createClusterV2(input: CreateClusterV2Input) async throws -> CreateClusterV2OutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -212,6 +272,21 @@ extension KafkaClient: KafkaClientProtocol {
     }
 
     /// Creates a new MSK configuration.
+    ///
+    /// - Parameter CreateConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `CreateConfigurationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Returns information about an error.
+    /// - `ConflictException` : Returns information about an error.
+    /// - `ForbiddenException` : Returns information about an error.
+    /// - `InternalServerErrorException` : Returns information about an error.
+    /// - `ServiceUnavailableException` : Returns information about an error.
+    /// - `TooManyRequestsException` : Returns information about an error.
+    /// - `UnauthorizedException` : Returns information about an error.
     public func createConfiguration(input: CreateConfigurationInput) async throws -> CreateConfigurationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -248,6 +323,20 @@ extension KafkaClient: KafkaClientProtocol {
     }
 
     /// Creates a new MSK VPC connection.
+    ///
+    /// - Parameter CreateVpcConnectionInput : [no documentation found]
+    ///
+    /// - Returns: `CreateVpcConnectionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Returns information about an error.
+    /// - `ForbiddenException` : Returns information about an error.
+    /// - `InternalServerErrorException` : Returns information about an error.
+    /// - `ServiceUnavailableException` : Returns information about an error.
+    /// - `TooManyRequestsException` : Returns information about an error.
+    /// - `UnauthorizedException` : Returns information about an error.
     public func createVpcConnection(input: CreateVpcConnectionInput) async throws -> CreateVpcConnectionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -284,6 +373,18 @@ extension KafkaClient: KafkaClientProtocol {
     }
 
     /// Deletes the MSK cluster specified by the Amazon Resource Name (ARN) in the request.
+    ///
+    /// - Parameter DeleteClusterInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteClusterOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Returns information about an error.
+    /// - `ForbiddenException` : Returns information about an error.
+    /// - `InternalServerErrorException` : Returns information about an error.
+    /// - `NotFoundException` : Returns information about an error.
     public func deleteCluster(input: DeleteClusterInput) async throws -> DeleteClusterOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -318,6 +419,18 @@ extension KafkaClient: KafkaClientProtocol {
     }
 
     /// Deletes the MSK cluster policy specified by the Amazon Resource Name (ARN) in the request.
+    ///
+    /// - Parameter DeleteClusterPolicyInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteClusterPolicyOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Returns information about an error.
+    /// - `ForbiddenException` : Returns information about an error.
+    /// - `InternalServerErrorException` : Returns information about an error.
+    /// - `NotFoundException` : Returns information about an error.
     public func deleteClusterPolicy(input: DeleteClusterPolicyInput) async throws -> DeleteClusterPolicyOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -351,6 +464,18 @@ extension KafkaClient: KafkaClientProtocol {
     }
 
     /// Deletes an MSK Configuration.
+    ///
+    /// - Parameter DeleteConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteConfigurationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Returns information about an error.
+    /// - `ForbiddenException` : Returns information about an error.
+    /// - `InternalServerErrorException` : Returns information about an error.
+    /// - `NotFoundException` : Returns information about an error.
     public func deleteConfiguration(input: DeleteConfigurationInput) async throws -> DeleteConfigurationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -384,6 +509,18 @@ extension KafkaClient: KafkaClientProtocol {
     }
 
     /// Deletes a MSK VPC connection.
+    ///
+    /// - Parameter DeleteVpcConnectionInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteVpcConnectionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Returns information about an error.
+    /// - `ForbiddenException` : Returns information about an error.
+    /// - `InternalServerErrorException` : Returns information about an error.
+    /// - `NotFoundException` : Returns information about an error.
     public func deleteVpcConnection(input: DeleteVpcConnectionInput) async throws -> DeleteVpcConnectionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -417,6 +554,19 @@ extension KafkaClient: KafkaClientProtocol {
     }
 
     /// Returns a description of the MSK cluster whose Amazon Resource Name (ARN) is specified in the request.
+    ///
+    /// - Parameter DescribeClusterInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeClusterOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Returns information about an error.
+    /// - `ForbiddenException` : Returns information about an error.
+    /// - `InternalServerErrorException` : Returns information about an error.
+    /// - `NotFoundException` : Returns information about an error.
+    /// - `UnauthorizedException` : Returns information about an error.
     public func describeCluster(input: DescribeClusterInput) async throws -> DescribeClusterOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -450,6 +600,19 @@ extension KafkaClient: KafkaClientProtocol {
     }
 
     /// Returns a description of the cluster operation specified by the ARN.
+    ///
+    /// - Parameter DescribeClusterOperationInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeClusterOperationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Returns information about an error.
+    /// - `ForbiddenException` : Returns information about an error.
+    /// - `InternalServerErrorException` : Returns information about an error.
+    /// - `NotFoundException` : Returns information about an error.
+    /// - `UnauthorizedException` : Returns information about an error.
     public func describeClusterOperation(input: DescribeClusterOperationInput) async throws -> DescribeClusterOperationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -483,6 +646,21 @@ extension KafkaClient: KafkaClientProtocol {
     }
 
     /// Returns a description of the cluster operation specified by the ARN.
+    ///
+    /// - Parameter DescribeClusterOperationV2Input : [no documentation found]
+    ///
+    /// - Returns: `DescribeClusterOperationV2OutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Returns information about an error.
+    /// - `ForbiddenException` : Returns information about an error.
+    /// - `InternalServerErrorException` : Returns information about an error.
+    /// - `NotFoundException` : Returns information about an error.
+    /// - `ServiceUnavailableException` : Returns information about an error.
+    /// - `TooManyRequestsException` : Returns information about an error.
+    /// - `UnauthorizedException` : Returns information about an error.
     public func describeClusterOperationV2(input: DescribeClusterOperationV2Input) async throws -> DescribeClusterOperationV2OutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -516,6 +694,19 @@ extension KafkaClient: KafkaClientProtocol {
     }
 
     /// Returns a description of the MSK cluster whose Amazon Resource Name (ARN) is specified in the request.
+    ///
+    /// - Parameter DescribeClusterV2Input : [no documentation found]
+    ///
+    /// - Returns: `DescribeClusterV2OutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Returns information about an error.
+    /// - `ForbiddenException` : Returns information about an error.
+    /// - `InternalServerErrorException` : Returns information about an error.
+    /// - `NotFoundException` : Returns information about an error.
+    /// - `UnauthorizedException` : Returns information about an error.
     public func describeClusterV2(input: DescribeClusterV2Input) async throws -> DescribeClusterV2OutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -549,6 +740,20 @@ extension KafkaClient: KafkaClientProtocol {
     }
 
     /// Returns a description of this MSK configuration.
+    ///
+    /// - Parameter DescribeConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeConfigurationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Returns information about an error.
+    /// - `ForbiddenException` : Returns information about an error.
+    /// - `InternalServerErrorException` : Returns information about an error.
+    /// - `NotFoundException` : Returns information about an error.
+    /// - `ServiceUnavailableException` : Returns information about an error.
+    /// - `UnauthorizedException` : Returns information about an error.
     public func describeConfiguration(input: DescribeConfigurationInput) async throws -> DescribeConfigurationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -582,6 +787,20 @@ extension KafkaClient: KafkaClientProtocol {
     }
 
     /// Returns a description of this revision of the configuration.
+    ///
+    /// - Parameter DescribeConfigurationRevisionInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeConfigurationRevisionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Returns information about an error.
+    /// - `ForbiddenException` : Returns information about an error.
+    /// - `InternalServerErrorException` : Returns information about an error.
+    /// - `NotFoundException` : Returns information about an error.
+    /// - `ServiceUnavailableException` : Returns information about an error.
+    /// - `UnauthorizedException` : Returns information about an error.
     public func describeConfigurationRevision(input: DescribeConfigurationRevisionInput) async throws -> DescribeConfigurationRevisionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -615,6 +834,20 @@ extension KafkaClient: KafkaClientProtocol {
     }
 
     /// Returns a description of this MSK VPC connection.
+    ///
+    /// - Parameter DescribeVpcConnectionInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeVpcConnectionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Returns information about an error.
+    /// - `ForbiddenException` : Returns information about an error.
+    /// - `InternalServerErrorException` : Returns information about an error.
+    /// - `NotFoundException` : Returns information about an error.
+    /// - `ServiceUnavailableException` : Returns information about an error.
+    /// - `UnauthorizedException` : Returns information about an error.
     public func describeVpcConnection(input: DescribeVpcConnectionInput) async throws -> DescribeVpcConnectionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -648,6 +881,19 @@ extension KafkaClient: KafkaClientProtocol {
     }
 
     /// A list of brokers that a client application can use to bootstrap.
+    ///
+    /// - Parameter GetBootstrapBrokersInput : [no documentation found]
+    ///
+    /// - Returns: `GetBootstrapBrokersOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Returns information about an error.
+    /// - `ConflictException` : Returns information about an error.
+    /// - `ForbiddenException` : Returns information about an error.
+    /// - `InternalServerErrorException` : Returns information about an error.
+    /// - `UnauthorizedException` : Returns information about an error.
     public func getBootstrapBrokers(input: GetBootstrapBrokersInput) async throws -> GetBootstrapBrokersOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -681,6 +927,18 @@ extension KafkaClient: KafkaClientProtocol {
     }
 
     /// Get the MSK cluster policy specified by the Amazon Resource Name (ARN) in the request.
+    ///
+    /// - Parameter GetClusterPolicyInput : [no documentation found]
+    ///
+    /// - Returns: `GetClusterPolicyOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Returns information about an error.
+    /// - `ForbiddenException` : Returns information about an error.
+    /// - `InternalServerErrorException` : Returns information about an error.
+    /// - `NotFoundException` : Returns information about an error.
     public func getClusterPolicy(input: GetClusterPolicyInput) async throws -> GetClusterPolicyOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -714,6 +972,21 @@ extension KafkaClient: KafkaClientProtocol {
     }
 
     /// Gets the Apache Kafka versions to which you can update the MSK cluster.
+    ///
+    /// - Parameter GetCompatibleKafkaVersionsInput : [no documentation found]
+    ///
+    /// - Returns: `GetCompatibleKafkaVersionsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Returns information about an error.
+    /// - `ForbiddenException` : Returns information about an error.
+    /// - `InternalServerErrorException` : Returns information about an error.
+    /// - `NotFoundException` : Returns information about an error.
+    /// - `ServiceUnavailableException` : Returns information about an error.
+    /// - `TooManyRequestsException` : Returns information about an error.
+    /// - `UnauthorizedException` : Returns information about an error.
     public func getCompatibleKafkaVersions(input: GetCompatibleKafkaVersionsInput) async throws -> GetCompatibleKafkaVersionsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -748,6 +1021,19 @@ extension KafkaClient: KafkaClientProtocol {
     }
 
     /// Returns a list of all the VPC connections in this Region.
+    ///
+    /// - Parameter ListClientVpcConnectionsInput : [no documentation found]
+    ///
+    /// - Returns: `ListClientVpcConnectionsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Returns information about an error.
+    /// - `ForbiddenException` : Returns information about an error.
+    /// - `InternalServerErrorException` : Returns information about an error.
+    /// - `ServiceUnavailableException` : Returns information about an error.
+    /// - `UnauthorizedException` : Returns information about an error.
     public func listClientVpcConnections(input: ListClientVpcConnectionsInput) async throws -> ListClientVpcConnectionsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -782,6 +1068,18 @@ extension KafkaClient: KafkaClientProtocol {
     }
 
     /// Returns a list of all the operations that have been performed on the specified MSK cluster.
+    ///
+    /// - Parameter ListClusterOperationsInput : [no documentation found]
+    ///
+    /// - Returns: `ListClusterOperationsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Returns information about an error.
+    /// - `ForbiddenException` : Returns information about an error.
+    /// - `InternalServerErrorException` : Returns information about an error.
+    /// - `UnauthorizedException` : Returns information about an error.
     public func listClusterOperations(input: ListClusterOperationsInput) async throws -> ListClusterOperationsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -816,6 +1114,21 @@ extension KafkaClient: KafkaClientProtocol {
     }
 
     /// Returns a list of all the operations that have been performed on the specified MSK cluster.
+    ///
+    /// - Parameter ListClusterOperationsV2Input : [no documentation found]
+    ///
+    /// - Returns: `ListClusterOperationsV2OutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Returns information about an error.
+    /// - `ForbiddenException` : Returns information about an error.
+    /// - `InternalServerErrorException` : Returns information about an error.
+    /// - `NotFoundException` : Returns information about an error.
+    /// - `ServiceUnavailableException` : Returns information about an error.
+    /// - `TooManyRequestsException` : Returns information about an error.
+    /// - `UnauthorizedException` : Returns information about an error.
     public func listClusterOperationsV2(input: ListClusterOperationsV2Input) async throws -> ListClusterOperationsV2OutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -850,6 +1163,18 @@ extension KafkaClient: KafkaClientProtocol {
     }
 
     /// Returns a list of all the MSK clusters in the current Region.
+    ///
+    /// - Parameter ListClustersInput : [no documentation found]
+    ///
+    /// - Returns: `ListClustersOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Returns information about an error.
+    /// - `ForbiddenException` : Returns information about an error.
+    /// - `InternalServerErrorException` : Returns information about an error.
+    /// - `UnauthorizedException` : Returns information about an error.
     public func listClusters(input: ListClustersInput) async throws -> ListClustersOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -884,6 +1209,18 @@ extension KafkaClient: KafkaClientProtocol {
     }
 
     /// Returns a list of all the MSK clusters in the current Region.
+    ///
+    /// - Parameter ListClustersV2Input : [no documentation found]
+    ///
+    /// - Returns: `ListClustersV2OutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Returns information about an error.
+    /// - `ForbiddenException` : Returns information about an error.
+    /// - `InternalServerErrorException` : Returns information about an error.
+    /// - `UnauthorizedException` : Returns information about an error.
     public func listClustersV2(input: ListClustersV2Input) async throws -> ListClustersV2OutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -918,6 +1255,20 @@ extension KafkaClient: KafkaClientProtocol {
     }
 
     /// Returns a list of all the MSK configurations in this Region.
+    ///
+    /// - Parameter ListConfigurationRevisionsInput : [no documentation found]
+    ///
+    /// - Returns: `ListConfigurationRevisionsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Returns information about an error.
+    /// - `ForbiddenException` : Returns information about an error.
+    /// - `InternalServerErrorException` : Returns information about an error.
+    /// - `NotFoundException` : Returns information about an error.
+    /// - `ServiceUnavailableException` : Returns information about an error.
+    /// - `UnauthorizedException` : Returns information about an error.
     public func listConfigurationRevisions(input: ListConfigurationRevisionsInput) async throws -> ListConfigurationRevisionsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -952,6 +1303,19 @@ extension KafkaClient: KafkaClientProtocol {
     }
 
     /// Returns a list of all the MSK configurations in this Region.
+    ///
+    /// - Parameter ListConfigurationsInput : [no documentation found]
+    ///
+    /// - Returns: `ListConfigurationsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Returns information about an error.
+    /// - `ForbiddenException` : Returns information about an error.
+    /// - `InternalServerErrorException` : Returns information about an error.
+    /// - `ServiceUnavailableException` : Returns information about an error.
+    /// - `UnauthorizedException` : Returns information about an error.
     public func listConfigurations(input: ListConfigurationsInput) async throws -> ListConfigurationsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -986,6 +1350,18 @@ extension KafkaClient: KafkaClientProtocol {
     }
 
     /// Returns a list of Apache Kafka versions.
+    ///
+    /// - Parameter ListKafkaVersionsInput : [no documentation found]
+    ///
+    /// - Returns: `ListKafkaVersionsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Returns information about an error.
+    /// - `ForbiddenException` : Returns information about an error.
+    /// - `InternalServerErrorException` : Returns information about an error.
+    /// - `UnauthorizedException` : Returns information about an error.
     public func listKafkaVersions(input: ListKafkaVersionsInput) async throws -> ListKafkaVersionsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1020,6 +1396,18 @@ extension KafkaClient: KafkaClientProtocol {
     }
 
     /// Returns a list of the broker nodes in the cluster.
+    ///
+    /// - Parameter ListNodesInput : [no documentation found]
+    ///
+    /// - Returns: `ListNodesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Returns information about an error.
+    /// - `ForbiddenException` : Returns information about an error.
+    /// - `InternalServerErrorException` : Returns information about an error.
+    /// - `NotFoundException` : Returns information about an error.
     public func listNodes(input: ListNodesInput) async throws -> ListNodesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1054,6 +1442,21 @@ extension KafkaClient: KafkaClientProtocol {
     }
 
     /// Returns a list of the Scram Secrets associated with an Amazon MSK cluster.
+    ///
+    /// - Parameter ListScramSecretsInput : [no documentation found]
+    ///
+    /// - Returns: `ListScramSecretsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Returns information about an error.
+    /// - `ForbiddenException` : Returns information about an error.
+    /// - `InternalServerErrorException` : Returns information about an error.
+    /// - `NotFoundException` : Returns information about an error.
+    /// - `ServiceUnavailableException` : Returns information about an error.
+    /// - `TooManyRequestsException` : Returns information about an error.
+    /// - `UnauthorizedException` : Returns information about an error.
     public func listScramSecrets(input: ListScramSecretsInput) async throws -> ListScramSecretsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1088,6 +1491,17 @@ extension KafkaClient: KafkaClientProtocol {
     }
 
     /// Returns a list of the tags associated with the specified resource.
+    ///
+    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    ///
+    /// - Returns: `ListTagsForResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Returns information about an error.
+    /// - `InternalServerErrorException` : Returns information about an error.
+    /// - `NotFoundException` : Returns information about an error.
     public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1121,6 +1535,19 @@ extension KafkaClient: KafkaClientProtocol {
     }
 
     /// Returns a list of all the VPC connections in this Region.
+    ///
+    /// - Parameter ListVpcConnectionsInput : [no documentation found]
+    ///
+    /// - Returns: `ListVpcConnectionsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Returns information about an error.
+    /// - `ForbiddenException` : Returns information about an error.
+    /// - `InternalServerErrorException` : Returns information about an error.
+    /// - `ServiceUnavailableException` : Returns information about an error.
+    /// - `UnauthorizedException` : Returns information about an error.
     public func listVpcConnections(input: ListVpcConnectionsInput) async throws -> ListVpcConnectionsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1155,6 +1582,17 @@ extension KafkaClient: KafkaClientProtocol {
     }
 
     /// Creates or updates the MSK cluster policy specified by the cluster Amazon Resource Name (ARN) in the request.
+    ///
+    /// - Parameter PutClusterPolicyInput : [no documentation found]
+    ///
+    /// - Returns: `PutClusterPolicyOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Returns information about an error.
+    /// - `ForbiddenException` : Returns information about an error.
+    /// - `InternalServerErrorException` : Returns information about an error.
     public func putClusterPolicy(input: PutClusterPolicyInput) async throws -> PutClusterPolicyOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1191,6 +1629,21 @@ extension KafkaClient: KafkaClientProtocol {
     }
 
     /// Reboots brokers.
+    ///
+    /// - Parameter RebootBrokerInput : Reboots a node.
+    ///
+    /// - Returns: `RebootBrokerOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Returns information about an error.
+    /// - `ForbiddenException` : Returns information about an error.
+    /// - `InternalServerErrorException` : Returns information about an error.
+    /// - `NotFoundException` : Returns information about an error.
+    /// - `ServiceUnavailableException` : Returns information about an error.
+    /// - `TooManyRequestsException` : Returns information about an error.
+    /// - `UnauthorizedException` : Returns information about an error.
     public func rebootBroker(input: RebootBrokerInput) async throws -> RebootBrokerOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1227,6 +1680,19 @@ extension KafkaClient: KafkaClientProtocol {
     }
 
     /// Returns empty response.
+    ///
+    /// - Parameter RejectClientVpcConnectionInput : [no documentation found]
+    ///
+    /// - Returns: `RejectClientVpcConnectionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Returns information about an error.
+    /// - `ForbiddenException` : Returns information about an error.
+    /// - `InternalServerErrorException` : Returns information about an error.
+    /// - `ServiceUnavailableException` : Returns information about an error.
+    /// - `UnauthorizedException` : Returns information about an error.
     public func rejectClientVpcConnection(input: RejectClientVpcConnectionInput) async throws -> RejectClientVpcConnectionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1263,6 +1729,17 @@ extension KafkaClient: KafkaClientProtocol {
     }
 
     /// Adds tags to the specified MSK resource.
+    ///
+    /// - Parameter TagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `TagResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Returns information about an error.
+    /// - `InternalServerErrorException` : Returns information about an error.
+    /// - `NotFoundException` : Returns information about an error.
     public func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1299,6 +1776,17 @@ extension KafkaClient: KafkaClientProtocol {
     }
 
     /// Removes the tags associated with the keys that are provided in the query.
+    ///
+    /// - Parameter UntagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `UntagResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Returns information about an error.
+    /// - `InternalServerErrorException` : Returns information about an error.
+    /// - `NotFoundException` : Returns information about an error.
     public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1333,6 +1821,19 @@ extension KafkaClient: KafkaClientProtocol {
     }
 
     /// Updates the number of broker nodes in the cluster.
+    ///
+    /// - Parameter UpdateBrokerCountInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateBrokerCountOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Returns information about an error.
+    /// - `ForbiddenException` : Returns information about an error.
+    /// - `InternalServerErrorException` : Returns information about an error.
+    /// - `ServiceUnavailableException` : Returns information about an error.
+    /// - `UnauthorizedException` : Returns information about an error.
     public func updateBrokerCount(input: UpdateBrokerCountInput) async throws -> UpdateBrokerCountOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1369,6 +1870,19 @@ extension KafkaClient: KafkaClientProtocol {
     }
 
     /// Updates the EBS storage associated with MSK brokers.
+    ///
+    /// - Parameter UpdateBrokerStorageInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateBrokerStorageOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Returns information about an error.
+    /// - `ForbiddenException` : Returns information about an error.
+    /// - `InternalServerErrorException` : Returns information about an error.
+    /// - `ServiceUnavailableException` : Returns information about an error.
+    /// - `UnauthorizedException` : Returns information about an error.
     public func updateBrokerStorage(input: UpdateBrokerStorageInput) async throws -> UpdateBrokerStorageOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1405,6 +1919,21 @@ extension KafkaClient: KafkaClientProtocol {
     }
 
     /// Updates EC2 instance type.
+    ///
+    /// - Parameter UpdateBrokerTypeInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateBrokerTypeOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Returns information about an error.
+    /// - `ForbiddenException` : Returns information about an error.
+    /// - `InternalServerErrorException` : Returns information about an error.
+    /// - `NotFoundException` : Returns information about an error.
+    /// - `ServiceUnavailableException` : Returns information about an error.
+    /// - `TooManyRequestsException` : Returns information about an error.
+    /// - `UnauthorizedException` : Returns information about an error.
     public func updateBrokerType(input: UpdateBrokerTypeInput) async throws -> UpdateBrokerTypeOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1441,6 +1970,20 @@ extension KafkaClient: KafkaClientProtocol {
     }
 
     /// Updates the cluster with the configuration that is specified in the request body.
+    ///
+    /// - Parameter UpdateClusterConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateClusterConfigurationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Returns information about an error.
+    /// - `ForbiddenException` : Returns information about an error.
+    /// - `InternalServerErrorException` : Returns information about an error.
+    /// - `NotFoundException` : Returns information about an error.
+    /// - `ServiceUnavailableException` : Returns information about an error.
+    /// - `UnauthorizedException` : Returns information about an error.
     public func updateClusterConfiguration(input: UpdateClusterConfigurationInput) async throws -> UpdateClusterConfigurationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1477,6 +2020,21 @@ extension KafkaClient: KafkaClientProtocol {
     }
 
     /// Updates the Apache Kafka version for the cluster.
+    ///
+    /// - Parameter UpdateClusterKafkaVersionInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateClusterKafkaVersionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Returns information about an error.
+    /// - `ForbiddenException` : Returns information about an error.
+    /// - `InternalServerErrorException` : Returns information about an error.
+    /// - `NotFoundException` : Returns information about an error.
+    /// - `ServiceUnavailableException` : Returns information about an error.
+    /// - `TooManyRequestsException` : Returns information about an error.
+    /// - `UnauthorizedException` : Returns information about an error.
     public func updateClusterKafkaVersion(input: UpdateClusterKafkaVersionInput) async throws -> UpdateClusterKafkaVersionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1513,6 +2071,20 @@ extension KafkaClient: KafkaClientProtocol {
     }
 
     /// Updates an MSK configuration.
+    ///
+    /// - Parameter UpdateConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateConfigurationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Returns information about an error.
+    /// - `ForbiddenException` : Returns information about an error.
+    /// - `InternalServerErrorException` : Returns information about an error.
+    /// - `NotFoundException` : Returns information about an error.
+    /// - `ServiceUnavailableException` : Returns information about an error.
+    /// - `UnauthorizedException` : Returns information about an error.
     public func updateConfiguration(input: UpdateConfigurationInput) async throws -> UpdateConfigurationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1549,6 +2121,20 @@ extension KafkaClient: KafkaClientProtocol {
     }
 
     /// Updates the cluster's connectivity configuration.
+    ///
+    /// - Parameter UpdateConnectivityInput : Request body for UpdateConnectivity.
+    ///
+    /// - Returns: `UpdateConnectivityOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Returns information about an error.
+    /// - `ForbiddenException` : Returns information about an error.
+    /// - `InternalServerErrorException` : Returns information about an error.
+    /// - `NotFoundException` : Returns information about an error.
+    /// - `ServiceUnavailableException` : Returns information about an error.
+    /// - `UnauthorizedException` : Returns information about an error.
     public func updateConnectivity(input: UpdateConnectivityInput) async throws -> UpdateConnectivityOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1585,6 +2171,19 @@ extension KafkaClient: KafkaClientProtocol {
     }
 
     /// Updates the monitoring settings for the cluster. You can use this operation to specify which Apache Kafka metrics you want Amazon MSK to send to Amazon CloudWatch. You can also specify settings for open monitoring with Prometheus.
+    ///
+    /// - Parameter UpdateMonitoringInput : Request body for UpdateMonitoring.
+    ///
+    /// - Returns: `UpdateMonitoringOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Returns information about an error.
+    /// - `ForbiddenException` : Returns information about an error.
+    /// - `InternalServerErrorException` : Returns information about an error.
+    /// - `ServiceUnavailableException` : Returns information about an error.
+    /// - `UnauthorizedException` : Returns information about an error.
     public func updateMonitoring(input: UpdateMonitoringInput) async throws -> UpdateMonitoringOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1621,6 +2220,21 @@ extension KafkaClient: KafkaClientProtocol {
     }
 
     /// Updates the security settings for the cluster. You can use this operation to specify encryption and authentication on existing clusters.
+    ///
+    /// - Parameter UpdateSecurityInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateSecurityOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Returns information about an error.
+    /// - `ForbiddenException` : Returns information about an error.
+    /// - `InternalServerErrorException` : Returns information about an error.
+    /// - `NotFoundException` : Returns information about an error.
+    /// - `ServiceUnavailableException` : Returns information about an error.
+    /// - `TooManyRequestsException` : Returns information about an error.
+    /// - `UnauthorizedException` : Returns information about an error.
     public func updateSecurity(input: UpdateSecurityInput) async throws -> UpdateSecurityOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1657,6 +2271,21 @@ extension KafkaClient: KafkaClientProtocol {
     }
 
     /// Updates cluster broker volume size (or) sets cluster storage mode to TIERED.
+    ///
+    /// - Parameter UpdateStorageInput : Request object for UpdateStorage api. Its used to update the storage attributes for the cluster.
+    ///
+    /// - Returns: `UpdateStorageOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Returns information about an error.
+    /// - `ForbiddenException` : Returns information about an error.
+    /// - `InternalServerErrorException` : Returns information about an error.
+    /// - `NotFoundException` : Returns information about an error.
+    /// - `ServiceUnavailableException` : Returns information about an error.
+    /// - `TooManyRequestsException` : Returns information about an error.
+    /// - `UnauthorizedException` : Returns information about an error.
     public func updateStorage(input: UpdateStorageInput) async throws -> UpdateStorageOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()

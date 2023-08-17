@@ -5,62 +5,443 @@ import ClientRuntime
 /// Systems Manager Incident Manager is an incident management console designed to help users mitigate and recover from incidents affecting their Amazon Web Services-hosted applications. An incident is any unplanned interruption or reduction in quality of services. Incident Manager increases incident resolution by notifying responders of impact, highlighting relevant troubleshooting data, and providing collaboration tools to get services back up and running. To achieve the primary goal of reducing the time-to-resolution of critical incidents, Incident Manager automates response plans and enables responder team escalation.
 public protocol SSMIncidentsClientProtocol {
     /// A replication set replicates and encrypts your data to the provided Regions with the provided KMS key.
+    ///
+    /// - Parameter CreateReplicationSetInput : [no documentation found]
+    ///
+    /// - Returns: `CreateReplicationSetOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have sufficient access to perform this operation.
+    /// - `ConflictException` : Updating or deleting a resource causes an inconsistent state.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
+    /// - `ServiceQuotaExceededException` : Request would cause a service quota to be exceeded.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     func createReplicationSet(input: CreateReplicationSetInput) async throws -> CreateReplicationSetOutputResponse
     /// Creates a response plan that automates the initial response to incidents. A response plan engages contacts, starts chat channel collaboration, and initiates runbooks at the beginning of an incident.
+    ///
+    /// - Parameter CreateResponsePlanInput : [no documentation found]
+    ///
+    /// - Returns: `CreateResponsePlanOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have sufficient access to perform this operation.
+    /// - `ConflictException` : Updating or deleting a resource causes an inconsistent state.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
+    /// - `ResourceNotFoundException` : Request references a resource which doesn't exist.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     func createResponsePlan(input: CreateResponsePlanInput) async throws -> CreateResponsePlanOutputResponse
     /// Creates a custom timeline event on the incident details page of an incident record. Incident Manager automatically creates timeline events that mark key moments during an incident. You can create custom timeline events to mark important events that Incident Manager can detect automatically.
+    ///
+    /// - Parameter CreateTimelineEventInput : [no documentation found]
+    ///
+    /// - Returns: `CreateTimelineEventOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have sufficient access to perform this operation.
+    /// - `ConflictException` : Updating or deleting a resource causes an inconsistent state.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
+    /// - `ResourceNotFoundException` : Request references a resource which doesn't exist.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     func createTimelineEvent(input: CreateTimelineEventInput) async throws -> CreateTimelineEventOutputResponse
     /// Delete an incident record from Incident Manager.
+    ///
+    /// - Parameter DeleteIncidentRecordInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteIncidentRecordOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have sufficient access to perform this operation.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     func deleteIncidentRecord(input: DeleteIncidentRecordInput) async throws -> DeleteIncidentRecordOutputResponse
     /// Deletes all Regions in your replication set. Deleting the replication set deletes all Incident Manager data.
+    ///
+    /// - Parameter DeleteReplicationSetInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteReplicationSetOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have sufficient access to perform this operation.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
+    /// - `ResourceNotFoundException` : Request references a resource which doesn't exist.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     func deleteReplicationSet(input: DeleteReplicationSetInput) async throws -> DeleteReplicationSetOutputResponse
     /// Deletes the resource policy that Resource Access Manager uses to share your Incident Manager resource.
+    ///
+    /// - Parameter DeleteResourcePolicyInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteResourcePolicyOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have sufficient access to perform this operation.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
+    /// - `ResourceNotFoundException` : Request references a resource which doesn't exist.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     func deleteResourcePolicy(input: DeleteResourcePolicyInput) async throws -> DeleteResourcePolicyOutputResponse
     /// Deletes the specified response plan. Deleting a response plan stops all linked CloudWatch alarms and EventBridge events from creating an incident with this response plan.
+    ///
+    /// - Parameter DeleteResponsePlanInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteResponsePlanOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have sufficient access to perform this operation.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     func deleteResponsePlan(input: DeleteResponsePlanInput) async throws -> DeleteResponsePlanOutputResponse
     /// Deletes a timeline event from an incident.
+    ///
+    /// - Parameter DeleteTimelineEventInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteTimelineEventOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have sufficient access to perform this operation.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     func deleteTimelineEvent(input: DeleteTimelineEventInput) async throws -> DeleteTimelineEventOutputResponse
     /// Returns the details for the specified incident record.
+    ///
+    /// - Parameter GetIncidentRecordInput : [no documentation found]
+    ///
+    /// - Returns: `GetIncidentRecordOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have sufficient access to perform this operation.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
+    /// - `ResourceNotFoundException` : Request references a resource which doesn't exist.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     func getIncidentRecord(input: GetIncidentRecordInput) async throws -> GetIncidentRecordOutputResponse
     /// Retrieve your Incident Manager replication set.
+    ///
+    /// - Parameter GetReplicationSetInput : [no documentation found]
+    ///
+    /// - Returns: `GetReplicationSetOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have sufficient access to perform this operation.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
+    /// - `ResourceNotFoundException` : Request references a resource which doesn't exist.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     func getReplicationSet(input: GetReplicationSetInput) async throws -> GetReplicationSetOutputResponse
     /// Retrieves the resource policies attached to the specified response plan.
+    ///
+    /// - Parameter GetResourcePoliciesInput : [no documentation found]
+    ///
+    /// - Returns: `GetResourcePoliciesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have sufficient access to perform this operation.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
+    /// - `ResourceNotFoundException` : Request references a resource which doesn't exist.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     func getResourcePolicies(input: GetResourcePoliciesInput) async throws -> GetResourcePoliciesOutputResponse
     /// Retrieves the details of the specified response plan.
+    ///
+    /// - Parameter GetResponsePlanInput : [no documentation found]
+    ///
+    /// - Returns: `GetResponsePlanOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have sufficient access to perform this operation.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
+    /// - `ResourceNotFoundException` : Request references a resource which doesn't exist.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     func getResponsePlan(input: GetResponsePlanInput) async throws -> GetResponsePlanOutputResponse
     /// Retrieves a timeline event based on its ID and incident record.
+    ///
+    /// - Parameter GetTimelineEventInput : [no documentation found]
+    ///
+    /// - Returns: `GetTimelineEventOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have sufficient access to perform this operation.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
+    /// - `ResourceNotFoundException` : Request references a resource which doesn't exist.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     func getTimelineEvent(input: GetTimelineEventInput) async throws -> GetTimelineEventOutputResponse
     /// Lists all incident records in your account. Use this command to retrieve the Amazon Resource Name (ARN) of the incident record you want to update.
+    ///
+    /// - Parameter ListIncidentRecordsInput : [no documentation found]
+    ///
+    /// - Returns: `ListIncidentRecordsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have sufficient access to perform this operation.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     func listIncidentRecords(input: ListIncidentRecordsInput) async throws -> ListIncidentRecordsOutputResponse
     /// List all related items for an incident record.
+    ///
+    /// - Parameter ListRelatedItemsInput : [no documentation found]
+    ///
+    /// - Returns: `ListRelatedItemsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have sufficient access to perform this operation.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     func listRelatedItems(input: ListRelatedItemsInput) async throws -> ListRelatedItemsOutputResponse
     /// Lists details about the replication set configured in your account.
+    ///
+    /// - Parameter ListReplicationSetsInput : [no documentation found]
+    ///
+    /// - Returns: `ListReplicationSetsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have sufficient access to perform this operation.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     func listReplicationSets(input: ListReplicationSetsInput) async throws -> ListReplicationSetsOutputResponse
     /// Lists all response plans in your account.
+    ///
+    /// - Parameter ListResponsePlansInput : [no documentation found]
+    ///
+    /// - Returns: `ListResponsePlansOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have sufficient access to perform this operation.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     func listResponsePlans(input: ListResponsePlansInput) async throws -> ListResponsePlansOutputResponse
     /// Lists the tags that are attached to the specified response plan.
+    ///
+    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    ///
+    /// - Returns: `ListTagsForResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have sufficient access to perform this operation.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
+    /// - `ResourceNotFoundException` : Request references a resource which doesn't exist.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
     /// Lists timeline events for the specified incident record.
+    ///
+    /// - Parameter ListTimelineEventsInput : [no documentation found]
+    ///
+    /// - Returns: `ListTimelineEventsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have sufficient access to perform this operation.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     func listTimelineEvents(input: ListTimelineEventsInput) async throws -> ListTimelineEventsOutputResponse
     /// Adds a resource policy to the specified response plan. The resource policy is used to share the response plan using Resource Access Manager (RAM). For more information about cross-account sharing, see [Cross-Region and cross-account incident management](https://docs.aws.amazon.com/incident-manager/latest/userguide/incident-manager-cross-account-cross-region.html).
+    ///
+    /// - Parameter PutResourcePolicyInput : [no documentation found]
+    ///
+    /// - Returns: `PutResourcePolicyOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have sufficient access to perform this operation.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
+    /// - `ResourceNotFoundException` : Request references a resource which doesn't exist.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     func putResourcePolicy(input: PutResourcePolicyInput) async throws -> PutResourcePolicyOutputResponse
     /// Used to start an incident from CloudWatch alarms, EventBridge events, or manually.
+    ///
+    /// - Parameter StartIncidentInput : [no documentation found]
+    ///
+    /// - Returns: `StartIncidentOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have sufficient access to perform this operation.
+    /// - `ConflictException` : Updating or deleting a resource causes an inconsistent state.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
+    /// - `ResourceNotFoundException` : Request references a resource which doesn't exist.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     func startIncident(input: StartIncidentInput) async throws -> StartIncidentOutputResponse
     /// Adds a tag to a response plan.
+    ///
+    /// - Parameter TagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `TagResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have sufficient access to perform this operation.
+    /// - `ConflictException` : Updating or deleting a resource causes an inconsistent state.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
+    /// - `ResourceNotFoundException` : Request references a resource which doesn't exist.
+    /// - `ServiceQuotaExceededException` : Request would cause a service quota to be exceeded.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
     /// Removes a tag from a resource.
+    ///
+    /// - Parameter UntagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `UntagResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have sufficient access to perform this operation.
+    /// - `ConflictException` : Updating or deleting a resource causes an inconsistent state.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
+    /// - `ResourceNotFoundException` : Request references a resource which doesn't exist.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
     /// Update deletion protection to either allow or deny deletion of the final Region in a replication set.
+    ///
+    /// - Parameter UpdateDeletionProtectionInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateDeletionProtectionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have sufficient access to perform this operation.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
+    /// - `ResourceNotFoundException` : Request references a resource which doesn't exist.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     func updateDeletionProtection(input: UpdateDeletionProtectionInput) async throws -> UpdateDeletionProtectionOutputResponse
     /// Update the details of an incident record. You can use this operation to update an incident record from the defined chat channel. For more information about using actions in chat channels, see [Interacting through chat](https://docs.aws.amazon.com/incident-manager/latest/userguide/chat.html#chat-interact).
+    ///
+    /// - Parameter UpdateIncidentRecordInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateIncidentRecordOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have sufficient access to perform this operation.
+    /// - `ConflictException` : Updating or deleting a resource causes an inconsistent state.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
+    /// - `ResourceNotFoundException` : Request references a resource which doesn't exist.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     func updateIncidentRecord(input: UpdateIncidentRecordInput) async throws -> UpdateIncidentRecordOutputResponse
     /// Add or remove related items from the related items tab of an incident record.
+    ///
+    /// - Parameter UpdateRelatedItemsInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateRelatedItemsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have sufficient access to perform this operation.
+    /// - `ConflictException` : Updating or deleting a resource causes an inconsistent state.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
+    /// - `ResourceNotFoundException` : Request references a resource which doesn't exist.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     func updateRelatedItems(input: UpdateRelatedItemsInput) async throws -> UpdateRelatedItemsOutputResponse
     /// Add or delete Regions from your replication set.
+    ///
+    /// - Parameter UpdateReplicationSetInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateReplicationSetOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have sufficient access to perform this operation.
+    /// - `ConflictException` : Updating or deleting a resource causes an inconsistent state.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
+    /// - `ResourceNotFoundException` : Request references a resource which doesn't exist.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     func updateReplicationSet(input: UpdateReplicationSetInput) async throws -> UpdateReplicationSetOutputResponse
     /// Updates the specified response plan.
+    ///
+    /// - Parameter UpdateResponsePlanInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateResponsePlanOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have sufficient access to perform this operation.
+    /// - `ConflictException` : Updating or deleting a resource causes an inconsistent state.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
+    /// - `ResourceNotFoundException` : Request references a resource which doesn't exist.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     func updateResponsePlan(input: UpdateResponsePlanInput) async throws -> UpdateResponsePlanOutputResponse
     /// Updates a timeline event. You can update events of type Custom Event.
+    ///
+    /// - Parameter UpdateTimelineEventInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateTimelineEventOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have sufficient access to perform this operation.
+    /// - `ConflictException` : Updating or deleting a resource causes an inconsistent state.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
+    /// - `ResourceNotFoundException` : Request references a resource which doesn't exist.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     func updateTimelineEvent(input: UpdateTimelineEventInput) async throws -> UpdateTimelineEventOutputResponse
 }
 

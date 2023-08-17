@@ -68,6 +68,18 @@ public struct ApplicationCostProfilerClientLogHandlerFactory: ClientRuntime.SDKL
 
 extension ApplicationCostProfilerClient: ApplicationCostProfilerClientProtocol {
     /// Deletes the specified report definition in AWS Application Cost Profiler. This stops the report from being generated.
+    ///
+    /// - Parameter DeleteReportDefinitionInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteReportDefinitionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have permission to perform this action.
+    /// - `InternalServerException` : An internal server error occurred. Retry your request.
+    /// - `ThrottlingException` : The calls to AWS Application Cost Profiler API are throttled. The request was denied.
+    /// - `ValidationException` : The input fails to satisfy the constraints for the API.
     public func deleteReportDefinition(input: DeleteReportDefinitionInput) async throws -> DeleteReportDefinitionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -101,6 +113,18 @@ extension ApplicationCostProfilerClient: ApplicationCostProfilerClientProtocol {
     }
 
     /// Retrieves the definition of a report already configured in AWS Application Cost Profiler.
+    ///
+    /// - Parameter GetReportDefinitionInput : [no documentation found]
+    ///
+    /// - Returns: `GetReportDefinitionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have permission to perform this action.
+    /// - `InternalServerException` : An internal server error occurred. Retry your request.
+    /// - `ThrottlingException` : The calls to AWS Application Cost Profiler API are throttled. The request was denied.
+    /// - `ValidationException` : The input fails to satisfy the constraints for the API.
     public func getReportDefinition(input: GetReportDefinitionInput) async throws -> GetReportDefinitionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -134,6 +158,18 @@ extension ApplicationCostProfilerClient: ApplicationCostProfilerClientProtocol {
     }
 
     /// Ingests application usage data from Amazon Simple Storage Service (Amazon S3). The data must already exist in the S3 location. As part of the action, AWS Application Cost Profiler copies the object from your S3 bucket to an S3 bucket owned by Amazon for processing asynchronously.
+    ///
+    /// - Parameter ImportApplicationUsageInput : [no documentation found]
+    ///
+    /// - Returns: `ImportApplicationUsageOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have permission to perform this action.
+    /// - `InternalServerException` : An internal server error occurred. Retry your request.
+    /// - `ThrottlingException` : The calls to AWS Application Cost Profiler API are throttled. The request was denied.
+    /// - `ValidationException` : The input fails to satisfy the constraints for the API.
     public func importApplicationUsage(input: ImportApplicationUsageInput) async throws -> ImportApplicationUsageOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -170,6 +206,18 @@ extension ApplicationCostProfilerClient: ApplicationCostProfilerClientProtocol {
     }
 
     /// Retrieves a list of all reports and their configurations for your AWS account. The maximum number of reports is one.
+    ///
+    /// - Parameter ListReportDefinitionsInput : [no documentation found]
+    ///
+    /// - Returns: `ListReportDefinitionsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have permission to perform this action.
+    /// - `InternalServerException` : An internal server error occurred. Retry your request.
+    /// - `ThrottlingException` : The calls to AWS Application Cost Profiler API are throttled. The request was denied.
+    /// - `ValidationException` : The input fails to satisfy the constraints for the API.
     public func listReportDefinitions(input: ListReportDefinitionsInput) async throws -> ListReportDefinitionsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -204,6 +252,19 @@ extension ApplicationCostProfilerClient: ApplicationCostProfilerClientProtocol {
     }
 
     /// Creates the report definition for a report in Application Cost Profiler.
+    ///
+    /// - Parameter PutReportDefinitionInput : [no documentation found]
+    ///
+    /// - Returns: `PutReportDefinitionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have permission to perform this action.
+    /// - `InternalServerException` : An internal server error occurred. Retry your request.
+    /// - `ServiceQuotaExceededException` : Your request exceeds one or more of the service quotas.
+    /// - `ThrottlingException` : The calls to AWS Application Cost Profiler API are throttled. The request was denied.
+    /// - `ValidationException` : The input fails to satisfy the constraints for the API.
     public func putReportDefinition(input: PutReportDefinitionInput) async throws -> PutReportDefinitionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -240,6 +301,18 @@ extension ApplicationCostProfilerClient: ApplicationCostProfilerClientProtocol {
     }
 
     /// Updates existing report in AWS Application Cost Profiler.
+    ///
+    /// - Parameter UpdateReportDefinitionInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateReportDefinitionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have permission to perform this action.
+    /// - `InternalServerException` : An internal server error occurred. Retry your request.
+    /// - `ThrottlingException` : The calls to AWS Application Cost Profiler API are throttled. The request was denied.
+    /// - `ValidationException` : The input fails to satisfy the constraints for the API.
     public func updateReportDefinition(input: UpdateReportDefinitionInput) async throws -> UpdateReportDefinitionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()

@@ -68,6 +68,21 @@ public struct SSOAdminClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFactor
 
 extension SSOAdminClient: SSOAdminClientProtocol {
     /// Attaches the specified customer managed policy to the specified [PermissionSet].
+    ///
+    /// - Parameter AttachCustomerManagedPolicyReferenceToPermissionSetInput : [no documentation found]
+    ///
+    /// - Returns: `AttachCustomerManagedPolicyReferenceToPermissionSetOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : Occurs when a conflict with a previous successful write is detected. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure with an internal server.
+    /// - `ResourceNotFoundException` : Indicates that a requested resource is not found.
+    /// - `ServiceQuotaExceededException` : Indicates that the principal has crossed the permitted number of resources that can be created.
+    /// - `ThrottlingException` : Indicates that the principal has crossed the throttling limits of the API operations.
+    /// - `ValidationException` : The request failed because it contains a syntax error.
     public func attachCustomerManagedPolicyReferenceToPermissionSet(input: AttachCustomerManagedPolicyReferenceToPermissionSetInput) async throws -> AttachCustomerManagedPolicyReferenceToPermissionSetOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -105,6 +120,21 @@ extension SSOAdminClient: SSOAdminClientProtocol {
     }
 
     /// Attaches an AWS managed policy ARN to a permission set. If the permission set is already referenced by one or more account assignments, you will need to call [ProvisionPermissionSet] after this operation. Calling ProvisionPermissionSet applies the corresponding IAM policy updates to all assigned accounts.
+    ///
+    /// - Parameter AttachManagedPolicyToPermissionSetInput : [no documentation found]
+    ///
+    /// - Returns: `AttachManagedPolicyToPermissionSetOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : Occurs when a conflict with a previous successful write is detected. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure with an internal server.
+    /// - `ResourceNotFoundException` : Indicates that a requested resource is not found.
+    /// - `ServiceQuotaExceededException` : Indicates that the principal has crossed the permitted number of resources that can be created.
+    /// - `ThrottlingException` : Indicates that the principal has crossed the throttling limits of the API operations.
+    /// - `ValidationException` : The request failed because it contains a syntax error.
     public func attachManagedPolicyToPermissionSet(input: AttachManagedPolicyToPermissionSetInput) async throws -> AttachManagedPolicyToPermissionSetOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -142,6 +172,21 @@ extension SSOAdminClient: SSOAdminClientProtocol {
     }
 
     /// Assigns access to a principal for a specified AWS account using a specified permission set. The term principal here refers to a user or group that is defined in IAM Identity Center. As part of a successful CreateAccountAssignment call, the specified permission set will automatically be provisioned to the account in the form of an IAM policy. That policy is attached to the IAM role created in IAM Identity Center. If the permission set is subsequently updated, the corresponding IAM policies attached to roles in your accounts will not be updated automatically. In this case, you must call [ProvisionPermissionSet] to make these updates. After a successful response, call DescribeAccountAssignmentCreationStatus to describe the status of an assignment creation request.
+    ///
+    /// - Parameter CreateAccountAssignmentInput : [no documentation found]
+    ///
+    /// - Returns: `CreateAccountAssignmentOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : Occurs when a conflict with a previous successful write is detected. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure with an internal server.
+    /// - `ResourceNotFoundException` : Indicates that a requested resource is not found.
+    /// - `ServiceQuotaExceededException` : Indicates that the principal has crossed the permitted number of resources that can be created.
+    /// - `ThrottlingException` : Indicates that the principal has crossed the throttling limits of the API operations.
+    /// - `ValidationException` : The request failed because it contains a syntax error.
     public func createAccountAssignment(input: CreateAccountAssignmentInput) async throws -> CreateAccountAssignmentOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -179,6 +224,20 @@ extension SSOAdminClient: SSOAdminClientProtocol {
     }
 
     /// Enables the attributes-based access control (ABAC) feature for the specified IAM Identity Center instance. You can also specify new attributes to add to your ABAC configuration during the enabling process. For more information about ABAC, see [Attribute-Based Access Control] in the IAM Identity Center User Guide. After a successful response, call DescribeInstanceAccessControlAttributeConfiguration to validate that InstanceAccessControlAttributeConfiguration was created.
+    ///
+    /// - Parameter CreateInstanceAccessControlAttributeConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `CreateInstanceAccessControlAttributeConfigurationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : Occurs when a conflict with a previous successful write is detected. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure with an internal server.
+    /// - `ResourceNotFoundException` : Indicates that a requested resource is not found.
+    /// - `ThrottlingException` : Indicates that the principal has crossed the throttling limits of the API operations.
+    /// - `ValidationException` : The request failed because it contains a syntax error.
     public func createInstanceAccessControlAttributeConfiguration(input: CreateInstanceAccessControlAttributeConfigurationInput) async throws -> CreateInstanceAccessControlAttributeConfigurationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -216,6 +275,21 @@ extension SSOAdminClient: SSOAdminClientProtocol {
     }
 
     /// Creates a permission set within a specified IAM Identity Center instance. To grant users and groups access to AWS account resources, use [CreateAccountAssignment].
+    ///
+    /// - Parameter CreatePermissionSetInput : [no documentation found]
+    ///
+    /// - Returns: `CreatePermissionSetOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : Occurs when a conflict with a previous successful write is detected. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure with an internal server.
+    /// - `ResourceNotFoundException` : Indicates that a requested resource is not found.
+    /// - `ServiceQuotaExceededException` : Indicates that the principal has crossed the permitted number of resources that can be created.
+    /// - `ThrottlingException` : Indicates that the principal has crossed the throttling limits of the API operations.
+    /// - `ValidationException` : The request failed because it contains a syntax error.
     public func createPermissionSet(input: CreatePermissionSetInput) async throws -> CreatePermissionSetOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -253,6 +327,20 @@ extension SSOAdminClient: SSOAdminClientProtocol {
     }
 
     /// Deletes a principal's access from a specified AWS account using a specified permission set. After a successful response, call DescribeAccountAssignmentCreationStatus to describe the status of an assignment deletion request.
+    ///
+    /// - Parameter DeleteAccountAssignmentInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteAccountAssignmentOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : Occurs when a conflict with a previous successful write is detected. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure with an internal server.
+    /// - `ResourceNotFoundException` : Indicates that a requested resource is not found.
+    /// - `ThrottlingException` : Indicates that the principal has crossed the throttling limits of the API operations.
+    /// - `ValidationException` : The request failed because it contains a syntax error.
     public func deleteAccountAssignment(input: DeleteAccountAssignmentInput) async throws -> DeleteAccountAssignmentOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -290,6 +378,20 @@ extension SSOAdminClient: SSOAdminClientProtocol {
     }
 
     /// Deletes the inline policy from a specified permission set.
+    ///
+    /// - Parameter DeleteInlinePolicyFromPermissionSetInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteInlinePolicyFromPermissionSetOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : Occurs when a conflict with a previous successful write is detected. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure with an internal server.
+    /// - `ResourceNotFoundException` : Indicates that a requested resource is not found.
+    /// - `ThrottlingException` : Indicates that the principal has crossed the throttling limits of the API operations.
+    /// - `ValidationException` : The request failed because it contains a syntax error.
     public func deleteInlinePolicyFromPermissionSet(input: DeleteInlinePolicyFromPermissionSetInput) async throws -> DeleteInlinePolicyFromPermissionSetOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -327,6 +429,20 @@ extension SSOAdminClient: SSOAdminClientProtocol {
     }
 
     /// Disables the attributes-based access control (ABAC) feature for the specified IAM Identity Center instance and deletes all of the attribute mappings that have been configured. Once deleted, any attributes that are received from an identity source and any custom attributes you have previously configured will not be passed. For more information about ABAC, see [Attribute-Based Access Control] in the IAM Identity Center User Guide.
+    ///
+    /// - Parameter DeleteInstanceAccessControlAttributeConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteInstanceAccessControlAttributeConfigurationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : Occurs when a conflict with a previous successful write is detected. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure with an internal server.
+    /// - `ResourceNotFoundException` : Indicates that a requested resource is not found.
+    /// - `ThrottlingException` : Indicates that the principal has crossed the throttling limits of the API operations.
+    /// - `ValidationException` : The request failed because it contains a syntax error.
     public func deleteInstanceAccessControlAttributeConfiguration(input: DeleteInstanceAccessControlAttributeConfigurationInput) async throws -> DeleteInstanceAccessControlAttributeConfigurationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -364,6 +480,20 @@ extension SSOAdminClient: SSOAdminClientProtocol {
     }
 
     /// Deletes the specified permission set.
+    ///
+    /// - Parameter DeletePermissionSetInput : [no documentation found]
+    ///
+    /// - Returns: `DeletePermissionSetOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : Occurs when a conflict with a previous successful write is detected. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure with an internal server.
+    /// - `ResourceNotFoundException` : Indicates that a requested resource is not found.
+    /// - `ThrottlingException` : Indicates that the principal has crossed the throttling limits of the API operations.
+    /// - `ValidationException` : The request failed because it contains a syntax error.
     public func deletePermissionSet(input: DeletePermissionSetInput) async throws -> DeletePermissionSetOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -401,6 +531,19 @@ extension SSOAdminClient: SSOAdminClientProtocol {
     }
 
     /// Deletes the permissions boundary from a specified [PermissionSet].
+    ///
+    /// - Parameter DeletePermissionsBoundaryFromPermissionSetInput : [no documentation found]
+    ///
+    /// - Returns: `DeletePermissionsBoundaryFromPermissionSetOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure with an internal server.
+    /// - `ResourceNotFoundException` : Indicates that a requested resource is not found.
+    /// - `ThrottlingException` : Indicates that the principal has crossed the throttling limits of the API operations.
+    /// - `ValidationException` : The request failed because it contains a syntax error.
     public func deletePermissionsBoundaryFromPermissionSet(input: DeletePermissionsBoundaryFromPermissionSetInput) async throws -> DeletePermissionsBoundaryFromPermissionSetOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -438,6 +581,19 @@ extension SSOAdminClient: SSOAdminClientProtocol {
     }
 
     /// Describes the status of the assignment creation request.
+    ///
+    /// - Parameter DescribeAccountAssignmentCreationStatusInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeAccountAssignmentCreationStatusOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure with an internal server.
+    /// - `ResourceNotFoundException` : Indicates that a requested resource is not found.
+    /// - `ThrottlingException` : Indicates that the principal has crossed the throttling limits of the API operations.
+    /// - `ValidationException` : The request failed because it contains a syntax error.
     public func describeAccountAssignmentCreationStatus(input: DescribeAccountAssignmentCreationStatusInput) async throws -> DescribeAccountAssignmentCreationStatusOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -475,6 +631,19 @@ extension SSOAdminClient: SSOAdminClientProtocol {
     }
 
     /// Describes the status of the assignment deletion request.
+    ///
+    /// - Parameter DescribeAccountAssignmentDeletionStatusInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeAccountAssignmentDeletionStatusOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure with an internal server.
+    /// - `ResourceNotFoundException` : Indicates that a requested resource is not found.
+    /// - `ThrottlingException` : Indicates that the principal has crossed the throttling limits of the API operations.
+    /// - `ValidationException` : The request failed because it contains a syntax error.
     public func describeAccountAssignmentDeletionStatus(input: DescribeAccountAssignmentDeletionStatusInput) async throws -> DescribeAccountAssignmentDeletionStatusOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -512,6 +681,19 @@ extension SSOAdminClient: SSOAdminClientProtocol {
     }
 
     /// Returns the list of IAM Identity Center identity store attributes that have been configured to work with attributes-based access control (ABAC) for the specified IAM Identity Center instance. This will not return attributes configured and sent by an external identity provider. For more information about ABAC, see [Attribute-Based Access Control] in the IAM Identity Center User Guide.
+    ///
+    /// - Parameter DescribeInstanceAccessControlAttributeConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeInstanceAccessControlAttributeConfigurationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure with an internal server.
+    /// - `ResourceNotFoundException` : Indicates that a requested resource is not found.
+    /// - `ThrottlingException` : Indicates that the principal has crossed the throttling limits of the API operations.
+    /// - `ValidationException` : The request failed because it contains a syntax error.
     public func describeInstanceAccessControlAttributeConfiguration(input: DescribeInstanceAccessControlAttributeConfigurationInput) async throws -> DescribeInstanceAccessControlAttributeConfigurationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -549,6 +731,19 @@ extension SSOAdminClient: SSOAdminClientProtocol {
     }
 
     /// Gets the details of the permission set.
+    ///
+    /// - Parameter DescribePermissionSetInput : [no documentation found]
+    ///
+    /// - Returns: `DescribePermissionSetOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure with an internal server.
+    /// - `ResourceNotFoundException` : Indicates that a requested resource is not found.
+    /// - `ThrottlingException` : Indicates that the principal has crossed the throttling limits of the API operations.
+    /// - `ValidationException` : The request failed because it contains a syntax error.
     public func describePermissionSet(input: DescribePermissionSetInput) async throws -> DescribePermissionSetOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -586,6 +781,19 @@ extension SSOAdminClient: SSOAdminClientProtocol {
     }
 
     /// Describes the status for the given permission set provisioning request.
+    ///
+    /// - Parameter DescribePermissionSetProvisioningStatusInput : [no documentation found]
+    ///
+    /// - Returns: `DescribePermissionSetProvisioningStatusOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure with an internal server.
+    /// - `ResourceNotFoundException` : Indicates that a requested resource is not found.
+    /// - `ThrottlingException` : Indicates that the principal has crossed the throttling limits of the API operations.
+    /// - `ValidationException` : The request failed because it contains a syntax error.
     public func describePermissionSetProvisioningStatus(input: DescribePermissionSetProvisioningStatusInput) async throws -> DescribePermissionSetProvisioningStatusOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -623,6 +831,20 @@ extension SSOAdminClient: SSOAdminClientProtocol {
     }
 
     /// Detaches the specified customer managed policy from the specified [PermissionSet].
+    ///
+    /// - Parameter DetachCustomerManagedPolicyReferenceFromPermissionSetInput : [no documentation found]
+    ///
+    /// - Returns: `DetachCustomerManagedPolicyReferenceFromPermissionSetOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : Occurs when a conflict with a previous successful write is detected. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure with an internal server.
+    /// - `ResourceNotFoundException` : Indicates that a requested resource is not found.
+    /// - `ThrottlingException` : Indicates that the principal has crossed the throttling limits of the API operations.
+    /// - `ValidationException` : The request failed because it contains a syntax error.
     public func detachCustomerManagedPolicyReferenceFromPermissionSet(input: DetachCustomerManagedPolicyReferenceFromPermissionSetInput) async throws -> DetachCustomerManagedPolicyReferenceFromPermissionSetOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -660,6 +882,20 @@ extension SSOAdminClient: SSOAdminClientProtocol {
     }
 
     /// Detaches the attached AWS managed policy ARN from the specified permission set.
+    ///
+    /// - Parameter DetachManagedPolicyFromPermissionSetInput : [no documentation found]
+    ///
+    /// - Returns: `DetachManagedPolicyFromPermissionSetOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : Occurs when a conflict with a previous successful write is detected. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure with an internal server.
+    /// - `ResourceNotFoundException` : Indicates that a requested resource is not found.
+    /// - `ThrottlingException` : Indicates that the principal has crossed the throttling limits of the API operations.
+    /// - `ValidationException` : The request failed because it contains a syntax error.
     public func detachManagedPolicyFromPermissionSet(input: DetachManagedPolicyFromPermissionSetInput) async throws -> DetachManagedPolicyFromPermissionSetOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -697,6 +933,19 @@ extension SSOAdminClient: SSOAdminClientProtocol {
     }
 
     /// Obtains the inline policy assigned to the permission set.
+    ///
+    /// - Parameter GetInlinePolicyForPermissionSetInput : [no documentation found]
+    ///
+    /// - Returns: `GetInlinePolicyForPermissionSetOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure with an internal server.
+    /// - `ResourceNotFoundException` : Indicates that a requested resource is not found.
+    /// - `ThrottlingException` : Indicates that the principal has crossed the throttling limits of the API operations.
+    /// - `ValidationException` : The request failed because it contains a syntax error.
     public func getInlinePolicyForPermissionSet(input: GetInlinePolicyForPermissionSetInput) async throws -> GetInlinePolicyForPermissionSetOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -734,6 +983,19 @@ extension SSOAdminClient: SSOAdminClientProtocol {
     }
 
     /// Obtains the permissions boundary for a specified [PermissionSet].
+    ///
+    /// - Parameter GetPermissionsBoundaryForPermissionSetInput : [no documentation found]
+    ///
+    /// - Returns: `GetPermissionsBoundaryForPermissionSetOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure with an internal server.
+    /// - `ResourceNotFoundException` : Indicates that a requested resource is not found.
+    /// - `ThrottlingException` : Indicates that the principal has crossed the throttling limits of the API operations.
+    /// - `ValidationException` : The request failed because it contains a syntax error.
     public func getPermissionsBoundaryForPermissionSet(input: GetPermissionsBoundaryForPermissionSetInput) async throws -> GetPermissionsBoundaryForPermissionSetOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -771,6 +1033,19 @@ extension SSOAdminClient: SSOAdminClientProtocol {
     }
 
     /// Lists the status of the AWS account assignment creation requests for a specified IAM Identity Center instance.
+    ///
+    /// - Parameter ListAccountAssignmentCreationStatusInput : [no documentation found]
+    ///
+    /// - Returns: `ListAccountAssignmentCreationStatusOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure with an internal server.
+    /// - `ResourceNotFoundException` : Indicates that a requested resource is not found.
+    /// - `ThrottlingException` : Indicates that the principal has crossed the throttling limits of the API operations.
+    /// - `ValidationException` : The request failed because it contains a syntax error.
     public func listAccountAssignmentCreationStatus(input: ListAccountAssignmentCreationStatusInput) async throws -> ListAccountAssignmentCreationStatusOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -808,6 +1083,19 @@ extension SSOAdminClient: SSOAdminClientProtocol {
     }
 
     /// Lists the status of the AWS account assignment deletion requests for a specified IAM Identity Center instance.
+    ///
+    /// - Parameter ListAccountAssignmentDeletionStatusInput : [no documentation found]
+    ///
+    /// - Returns: `ListAccountAssignmentDeletionStatusOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure with an internal server.
+    /// - `ResourceNotFoundException` : Indicates that a requested resource is not found.
+    /// - `ThrottlingException` : Indicates that the principal has crossed the throttling limits of the API operations.
+    /// - `ValidationException` : The request failed because it contains a syntax error.
     public func listAccountAssignmentDeletionStatus(input: ListAccountAssignmentDeletionStatusInput) async throws -> ListAccountAssignmentDeletionStatusOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -845,6 +1133,19 @@ extension SSOAdminClient: SSOAdminClientProtocol {
     }
 
     /// Lists the assignee of the specified AWS account with the specified permission set.
+    ///
+    /// - Parameter ListAccountAssignmentsInput : [no documentation found]
+    ///
+    /// - Returns: `ListAccountAssignmentsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure with an internal server.
+    /// - `ResourceNotFoundException` : Indicates that a requested resource is not found.
+    /// - `ThrottlingException` : Indicates that the principal has crossed the throttling limits of the API operations.
+    /// - `ValidationException` : The request failed because it contains a syntax error.
     public func listAccountAssignments(input: ListAccountAssignmentsInput) async throws -> ListAccountAssignmentsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -882,6 +1183,19 @@ extension SSOAdminClient: SSOAdminClientProtocol {
     }
 
     /// Lists all the AWS accounts where the specified permission set is provisioned.
+    ///
+    /// - Parameter ListAccountsForProvisionedPermissionSetInput : [no documentation found]
+    ///
+    /// - Returns: `ListAccountsForProvisionedPermissionSetOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure with an internal server.
+    /// - `ResourceNotFoundException` : Indicates that a requested resource is not found.
+    /// - `ThrottlingException` : Indicates that the principal has crossed the throttling limits of the API operations.
+    /// - `ValidationException` : The request failed because it contains a syntax error.
     public func listAccountsForProvisionedPermissionSet(input: ListAccountsForProvisionedPermissionSetInput) async throws -> ListAccountsForProvisionedPermissionSetOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -919,6 +1233,19 @@ extension SSOAdminClient: SSOAdminClientProtocol {
     }
 
     /// Lists all customer managed policies attached to a specified [PermissionSet].
+    ///
+    /// - Parameter ListCustomerManagedPolicyReferencesInPermissionSetInput : [no documentation found]
+    ///
+    /// - Returns: `ListCustomerManagedPolicyReferencesInPermissionSetOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure with an internal server.
+    /// - `ResourceNotFoundException` : Indicates that a requested resource is not found.
+    /// - `ThrottlingException` : Indicates that the principal has crossed the throttling limits of the API operations.
+    /// - `ValidationException` : The request failed because it contains a syntax error.
     public func listCustomerManagedPolicyReferencesInPermissionSet(input: ListCustomerManagedPolicyReferencesInPermissionSetInput) async throws -> ListCustomerManagedPolicyReferencesInPermissionSetOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -956,6 +1283,18 @@ extension SSOAdminClient: SSOAdminClientProtocol {
     }
 
     /// Lists the IAM Identity Center instances that the caller has access to.
+    ///
+    /// - Parameter ListInstancesInput : [no documentation found]
+    ///
+    /// - Returns: `ListInstancesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure with an internal server.
+    /// - `ThrottlingException` : Indicates that the principal has crossed the throttling limits of the API operations.
+    /// - `ValidationException` : The request failed because it contains a syntax error.
     public func listInstances(input: ListInstancesInput) async throws -> ListInstancesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -993,6 +1332,19 @@ extension SSOAdminClient: SSOAdminClientProtocol {
     }
 
     /// Lists the AWS managed policy that is attached to a specified permission set.
+    ///
+    /// - Parameter ListManagedPoliciesInPermissionSetInput : [no documentation found]
+    ///
+    /// - Returns: `ListManagedPoliciesInPermissionSetOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure with an internal server.
+    /// - `ResourceNotFoundException` : Indicates that a requested resource is not found.
+    /// - `ThrottlingException` : Indicates that the principal has crossed the throttling limits of the API operations.
+    /// - `ValidationException` : The request failed because it contains a syntax error.
     public func listManagedPoliciesInPermissionSet(input: ListManagedPoliciesInPermissionSetInput) async throws -> ListManagedPoliciesInPermissionSetOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1030,6 +1382,19 @@ extension SSOAdminClient: SSOAdminClientProtocol {
     }
 
     /// Lists the status of the permission set provisioning requests for a specified IAM Identity Center instance.
+    ///
+    /// - Parameter ListPermissionSetProvisioningStatusInput : [no documentation found]
+    ///
+    /// - Returns: `ListPermissionSetProvisioningStatusOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure with an internal server.
+    /// - `ResourceNotFoundException` : Indicates that a requested resource is not found.
+    /// - `ThrottlingException` : Indicates that the principal has crossed the throttling limits of the API operations.
+    /// - `ValidationException` : The request failed because it contains a syntax error.
     public func listPermissionSetProvisioningStatus(input: ListPermissionSetProvisioningStatusInput) async throws -> ListPermissionSetProvisioningStatusOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1067,6 +1432,19 @@ extension SSOAdminClient: SSOAdminClientProtocol {
     }
 
     /// Lists the [PermissionSet]s in an IAM Identity Center instance.
+    ///
+    /// - Parameter ListPermissionSetsInput : [no documentation found]
+    ///
+    /// - Returns: `ListPermissionSetsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure with an internal server.
+    /// - `ResourceNotFoundException` : Indicates that a requested resource is not found.
+    /// - `ThrottlingException` : Indicates that the principal has crossed the throttling limits of the API operations.
+    /// - `ValidationException` : The request failed because it contains a syntax error.
     public func listPermissionSets(input: ListPermissionSetsInput) async throws -> ListPermissionSetsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1104,6 +1482,19 @@ extension SSOAdminClient: SSOAdminClientProtocol {
     }
 
     /// Lists all the permission sets that are provisioned to a specified AWS account.
+    ///
+    /// - Parameter ListPermissionSetsProvisionedToAccountInput : [no documentation found]
+    ///
+    /// - Returns: `ListPermissionSetsProvisionedToAccountOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure with an internal server.
+    /// - `ResourceNotFoundException` : Indicates that a requested resource is not found.
+    /// - `ThrottlingException` : Indicates that the principal has crossed the throttling limits of the API operations.
+    /// - `ValidationException` : The request failed because it contains a syntax error.
     public func listPermissionSetsProvisionedToAccount(input: ListPermissionSetsProvisionedToAccountInput) async throws -> ListPermissionSetsProvisionedToAccountOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1141,6 +1532,19 @@ extension SSOAdminClient: SSOAdminClientProtocol {
     }
 
     /// Lists the tags that are attached to a specified resource.
+    ///
+    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    ///
+    /// - Returns: `ListTagsForResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure with an internal server.
+    /// - `ResourceNotFoundException` : Indicates that a requested resource is not found.
+    /// - `ThrottlingException` : Indicates that the principal has crossed the throttling limits of the API operations.
+    /// - `ValidationException` : The request failed because it contains a syntax error.
     public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1178,6 +1582,20 @@ extension SSOAdminClient: SSOAdminClientProtocol {
     }
 
     /// The process by which a specified permission set is provisioned to the specified target.
+    ///
+    /// - Parameter ProvisionPermissionSetInput : [no documentation found]
+    ///
+    /// - Returns: `ProvisionPermissionSetOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : Occurs when a conflict with a previous successful write is detected. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure with an internal server.
+    /// - `ResourceNotFoundException` : Indicates that a requested resource is not found.
+    /// - `ThrottlingException` : Indicates that the principal has crossed the throttling limits of the API operations.
+    /// - `ValidationException` : The request failed because it contains a syntax error.
     public func provisionPermissionSet(input: ProvisionPermissionSetInput) async throws -> ProvisionPermissionSetOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1215,6 +1633,21 @@ extension SSOAdminClient: SSOAdminClientProtocol {
     }
 
     /// Attaches an inline policy to a permission set. If the permission set is already referenced by one or more account assignments, you will need to call [ProvisionPermissionSet] after this action to apply the corresponding IAM policy updates to all assigned accounts.
+    ///
+    /// - Parameter PutInlinePolicyToPermissionSetInput : [no documentation found]
+    ///
+    /// - Returns: `PutInlinePolicyToPermissionSetOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : Occurs when a conflict with a previous successful write is detected. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure with an internal server.
+    /// - `ResourceNotFoundException` : Indicates that a requested resource is not found.
+    /// - `ServiceQuotaExceededException` : Indicates that the principal has crossed the permitted number of resources that can be created.
+    /// - `ThrottlingException` : Indicates that the principal has crossed the throttling limits of the API operations.
+    /// - `ValidationException` : The request failed because it contains a syntax error.
     public func putInlinePolicyToPermissionSet(input: PutInlinePolicyToPermissionSetInput) async throws -> PutInlinePolicyToPermissionSetOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1252,6 +1685,20 @@ extension SSOAdminClient: SSOAdminClientProtocol {
     }
 
     /// Attaches an AWS managed or customer managed policy to the specified [PermissionSet] as a permissions boundary.
+    ///
+    /// - Parameter PutPermissionsBoundaryToPermissionSetInput : [no documentation found]
+    ///
+    /// - Returns: `PutPermissionsBoundaryToPermissionSetOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : Occurs when a conflict with a previous successful write is detected. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure with an internal server.
+    /// - `ResourceNotFoundException` : Indicates that a requested resource is not found.
+    /// - `ThrottlingException` : Indicates that the principal has crossed the throttling limits of the API operations.
+    /// - `ValidationException` : The request failed because it contains a syntax error.
     public func putPermissionsBoundaryToPermissionSet(input: PutPermissionsBoundaryToPermissionSetInput) async throws -> PutPermissionsBoundaryToPermissionSetOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1289,6 +1736,21 @@ extension SSOAdminClient: SSOAdminClientProtocol {
     }
 
     /// Associates a set of tags with a specified resource.
+    ///
+    /// - Parameter TagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `TagResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : Occurs when a conflict with a previous successful write is detected. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure with an internal server.
+    /// - `ResourceNotFoundException` : Indicates that a requested resource is not found.
+    /// - `ServiceQuotaExceededException` : Indicates that the principal has crossed the permitted number of resources that can be created.
+    /// - `ThrottlingException` : Indicates that the principal has crossed the throttling limits of the API operations.
+    /// - `ValidationException` : The request failed because it contains a syntax error.
     public func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1326,6 +1788,20 @@ extension SSOAdminClient: SSOAdminClientProtocol {
     }
 
     /// Disassociates a set of tags from a specified resource.
+    ///
+    /// - Parameter UntagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `UntagResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : Occurs when a conflict with a previous successful write is detected. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure with an internal server.
+    /// - `ResourceNotFoundException` : Indicates that a requested resource is not found.
+    /// - `ThrottlingException` : Indicates that the principal has crossed the throttling limits of the API operations.
+    /// - `ValidationException` : The request failed because it contains a syntax error.
     public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1363,6 +1839,20 @@ extension SSOAdminClient: SSOAdminClientProtocol {
     }
 
     /// Updates the IAM Identity Center identity store attributes that you can use with the IAM Identity Center instance for attributes-based access control (ABAC). When using an external identity provider as an identity source, you can pass attributes through the SAML assertion as an alternative to configuring attributes from the IAM Identity Center identity store. If a SAML assertion passes any of these attributes, IAM Identity Center replaces the attribute value with the value from the IAM Identity Center identity store. For more information about ABAC, see [Attribute-Based Access Control] in the IAM Identity Center User Guide.
+    ///
+    /// - Parameter UpdateInstanceAccessControlAttributeConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateInstanceAccessControlAttributeConfigurationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : Occurs when a conflict with a previous successful write is detected. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure with an internal server.
+    /// - `ResourceNotFoundException` : Indicates that a requested resource is not found.
+    /// - `ThrottlingException` : Indicates that the principal has crossed the throttling limits of the API operations.
+    /// - `ValidationException` : The request failed because it contains a syntax error.
     public func updateInstanceAccessControlAttributeConfiguration(input: UpdateInstanceAccessControlAttributeConfigurationInput) async throws -> UpdateInstanceAccessControlAttributeConfigurationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1400,6 +1890,20 @@ extension SSOAdminClient: SSOAdminClientProtocol {
     }
 
     /// Updates an existing permission set.
+    ///
+    /// - Parameter UpdatePermissionSetInput : [no documentation found]
+    ///
+    /// - Returns: `UpdatePermissionSetOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : Occurs when a conflict with a previous successful write is detected. This generally occurs when the previous write did not have time to propagate to the host serving the current request. A retry (with appropriate backoff logic) is the recommended response to this exception.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure with an internal server.
+    /// - `ResourceNotFoundException` : Indicates that a requested resource is not found.
+    /// - `ThrottlingException` : Indicates that the principal has crossed the throttling limits of the API operations.
+    /// - `ValidationException` : The request failed because it contains a syntax error.
     public func updatePermissionSet(input: UpdatePermissionSetInput) async throws -> UpdatePermissionSetOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()

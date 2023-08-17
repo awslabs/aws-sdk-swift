@@ -25,7 +25,7 @@ extension Route53ClientTypes.AccountLimit: Swift.Codable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let typeDecoded = try containerValues.decodeIfPresent(Route53ClientTypes.AccountLimitType.self, forKey: .type)
         type = typeDecoded
-        let valueDecoded = try containerValues.decode(Swift.Int.self, forKey: .value)
+        let valueDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .value) ?? 0
         value = valueDecoded
     }
 }
@@ -334,7 +334,7 @@ extension Route53ClientTypes.AliasTarget: Swift.Codable {
         hostedZoneId = hostedZoneIdDecoded
         let dnsNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dnsName)
         dnsName = dnsNameDecoded
-        let evaluateTargetHealthDecoded = try containerValues.decode(Swift.Bool.self, forKey: .evaluateTargetHealth)
+        let evaluateTargetHealthDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .evaluateTargetHealth) ?? false
         evaluateTargetHealth = evaluateTargetHealthDecoded
     }
 }
@@ -6300,7 +6300,7 @@ extension GetAccountLimitOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let limitDecoded = try containerValues.decodeIfPresent(Route53ClientTypes.AccountLimit.self, forKey: .limit)
         limit = limitDecoded
-        let countDecoded = try containerValues.decode(Swift.Int.self, forKey: .count)
+        let countDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .count) ?? 0
         count = countDecoded
     }
 }
@@ -7336,7 +7336,7 @@ extension GetHostedZoneLimitOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let limitDecoded = try containerValues.decodeIfPresent(Route53ClientTypes.HostedZoneLimit.self, forKey: .limit)
         limit = limitDecoded
-        let countDecoded = try containerValues.decode(Swift.Int.self, forKey: .count)
+        let countDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .count) ?? 0
         count = countDecoded
     }
 }
@@ -7645,7 +7645,7 @@ extension GetReusableDelegationSetLimitOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let limitDecoded = try containerValues.decodeIfPresent(Route53ClientTypes.ReusableDelegationSetLimit.self, forKey: .limit)
         limit = limitDecoded
-        let countDecoded = try containerValues.decode(Swift.Int.self, forKey: .count)
+        let countDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .count) ?? 0
         count = countDecoded
     }
 }
@@ -8910,7 +8910,7 @@ extension Route53ClientTypes.HostedZoneConfig: Swift.Codable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let commentDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .comment)
         comment = commentDecoded
-        let privateZoneDecoded = try containerValues.decode(Swift.Bool.self, forKey: .privateZone)
+        let privateZoneDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .privateZone) ?? false
         privateZone = privateZoneDecoded
     }
 }
@@ -8972,7 +8972,7 @@ extension Route53ClientTypes.HostedZoneLimit: Swift.Codable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let typeDecoded = try containerValues.decodeIfPresent(Route53ClientTypes.HostedZoneLimitType.self, forKey: .type)
         type = typeDecoded
-        let valueDecoded = try containerValues.decode(Swift.Int.self, forKey: .value)
+        let valueDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .value) ?? 0
         value = valueDecoded
     }
 }
@@ -10265,17 +10265,17 @@ extension Route53ClientTypes.KeySigningKey: Swift.Codable {
         name = nameDecoded
         let kmsArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .kmsArn)
         kmsArn = kmsArnDecoded
-        let flagDecoded = try containerValues.decode(Swift.Int.self, forKey: .flag)
+        let flagDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .flag) ?? 0
         flag = flagDecoded
         let signingAlgorithmMnemonicDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .signingAlgorithmMnemonic)
         signingAlgorithmMnemonic = signingAlgorithmMnemonicDecoded
-        let signingAlgorithmTypeDecoded = try containerValues.decode(Swift.Int.self, forKey: .signingAlgorithmType)
+        let signingAlgorithmTypeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .signingAlgorithmType) ?? 0
         signingAlgorithmType = signingAlgorithmTypeDecoded
         let digestAlgorithmMnemonicDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .digestAlgorithmMnemonic)
         digestAlgorithmMnemonic = digestAlgorithmMnemonicDecoded
-        let digestAlgorithmTypeDecoded = try containerValues.decode(Swift.Int.self, forKey: .digestAlgorithmType)
+        let digestAlgorithmTypeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .digestAlgorithmType) ?? 0
         digestAlgorithmType = digestAlgorithmTypeDecoded
-        let keyTagDecoded = try containerValues.decode(Swift.Int.self, forKey: .keyTag)
+        let keyTagDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .keyTag) ?? 0
         keyTag = keyTagDecoded
         let digestValueDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .digestValue)
         digestValue = digestValueDecoded
@@ -11363,7 +11363,7 @@ extension ListGeoLocationsOutputResponseBody: Swift.Decodable {
         } else {
             geoLocationDetailsList = nil
         }
-        let isTruncatedDecoded = try containerValues.decode(Swift.Bool.self, forKey: .isTruncated)
+        let isTruncatedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isTruncated) ?? false
         isTruncated = isTruncatedDecoded
         let nextContinentCodeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextContinentCode)
         nextContinentCode = nextContinentCodeDecoded
@@ -11529,7 +11529,7 @@ extension ListHealthChecksOutputResponseBody: Swift.Decodable {
         }
         let markerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .marker)
         marker = markerDecoded
-        let isTruncatedDecoded = try containerValues.decode(Swift.Bool.self, forKey: .isTruncated)
+        let isTruncatedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isTruncated) ?? false
         isTruncated = isTruncatedDecoded
         let nextMarkerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextMarker)
         nextMarker = nextMarkerDecoded
@@ -11716,7 +11716,7 @@ extension ListHostedZonesByNameOutputResponseBody: Swift.Decodable {
         dnsName = dnsNameDecoded
         let hostedZoneIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .hostedZoneId)
         hostedZoneId = hostedZoneIdDecoded
-        let isTruncatedDecoded = try containerValues.decode(Swift.Bool.self, forKey: .isTruncated)
+        let isTruncatedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isTruncated) ?? false
         isTruncated = isTruncatedDecoded
         let nextDNSNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextDNSName)
         nextDNSName = nextDNSNameDecoded
@@ -12049,7 +12049,7 @@ extension ListHostedZonesOutputResponseBody: Swift.Decodable {
         }
         let markerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .marker)
         marker = markerDecoded
-        let isTruncatedDecoded = try containerValues.decode(Swift.Bool.self, forKey: .isTruncated)
+        let isTruncatedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isTruncated) ?? false
         isTruncated = isTruncatedDecoded
         let nextMarkerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextMarker)
         nextMarker = nextMarkerDecoded
@@ -12418,7 +12418,7 @@ extension ListResourceRecordSetsOutputResponseBody: Swift.Decodable {
         } else {
             resourceRecordSets = nil
         }
-        let isTruncatedDecoded = try containerValues.decode(Swift.Bool.self, forKey: .isTruncated)
+        let isTruncatedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isTruncated) ?? false
         isTruncated = isTruncatedDecoded
         let nextRecordNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextRecordName)
         nextRecordName = nextRecordNameDecoded
@@ -12583,7 +12583,7 @@ extension ListReusableDelegationSetsOutputResponseBody: Swift.Decodable {
         }
         let markerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .marker)
         marker = markerDecoded
-        let isTruncatedDecoded = try containerValues.decode(Swift.Bool.self, forKey: .isTruncated)
+        let isTruncatedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isTruncated) ?? false
         isTruncated = isTruncatedDecoded
         let nextMarkerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextMarker)
         nextMarker = nextMarkerDecoded
@@ -13005,7 +13005,7 @@ extension ListTrafficPoliciesOutputResponseBody: Swift.Decodable {
         } else {
             trafficPolicySummaries = nil
         }
-        let isTruncatedDecoded = try containerValues.decode(Swift.Bool.self, forKey: .isTruncated)
+        let isTruncatedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isTruncated) ?? false
         isTruncated = isTruncatedDecoded
         let trafficPolicyIdMarkerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .trafficPolicyIdMarker)
         trafficPolicyIdMarker = trafficPolicyIdMarkerDecoded
@@ -13188,7 +13188,7 @@ extension ListTrafficPolicyInstancesByHostedZoneOutputResponseBody: Swift.Decoda
         trafficPolicyInstanceNameMarker = trafficPolicyInstanceNameMarkerDecoded
         let trafficPolicyInstanceTypeMarkerDecoded = try containerValues.decodeIfPresent(Route53ClientTypes.RRType.self, forKey: .trafficPolicyInstanceTypeMarker)
         trafficPolicyInstanceTypeMarker = trafficPolicyInstanceTypeMarkerDecoded
-        let isTruncatedDecoded = try containerValues.decode(Swift.Bool.self, forKey: .isTruncated)
+        let isTruncatedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isTruncated) ?? false
         isTruncated = isTruncatedDecoded
         let maxItemsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxItems)
         maxItems = maxItemsDecoded
@@ -13398,7 +13398,7 @@ extension ListTrafficPolicyInstancesByPolicyOutputResponseBody: Swift.Decodable 
         trafficPolicyInstanceNameMarker = trafficPolicyInstanceNameMarkerDecoded
         let trafficPolicyInstanceTypeMarkerDecoded = try containerValues.decodeIfPresent(Route53ClientTypes.RRType.self, forKey: .trafficPolicyInstanceTypeMarker)
         trafficPolicyInstanceTypeMarker = trafficPolicyInstanceTypeMarkerDecoded
-        let isTruncatedDecoded = try containerValues.decode(Swift.Bool.self, forKey: .isTruncated)
+        let isTruncatedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isTruncated) ?? false
         isTruncated = isTruncatedDecoded
         let maxItemsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxItems)
         maxItems = maxItemsDecoded
@@ -13585,7 +13585,7 @@ extension ListTrafficPolicyInstancesOutputResponseBody: Swift.Decodable {
         trafficPolicyInstanceNameMarker = trafficPolicyInstanceNameMarkerDecoded
         let trafficPolicyInstanceTypeMarkerDecoded = try containerValues.decodeIfPresent(Route53ClientTypes.RRType.self, forKey: .trafficPolicyInstanceTypeMarker)
         trafficPolicyInstanceTypeMarker = trafficPolicyInstanceTypeMarkerDecoded
-        let isTruncatedDecoded = try containerValues.decode(Swift.Bool.self, forKey: .isTruncated)
+        let isTruncatedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isTruncated) ?? false
         isTruncated = isTruncatedDecoded
         let maxItemsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxItems)
         maxItems = maxItemsDecoded
@@ -13743,7 +13743,7 @@ extension ListTrafficPolicyVersionsOutputResponseBody: Swift.Decodable {
         } else {
             trafficPolicies = nil
         }
-        let isTruncatedDecoded = try containerValues.decode(Swift.Bool.self, forKey: .isTruncated)
+        let isTruncatedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isTruncated) ?? false
         isTruncated = isTruncatedDecoded
         let trafficPolicyVersionMarkerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .trafficPolicyVersionMarker)
         trafficPolicyVersionMarker = trafficPolicyVersionMarkerDecoded
@@ -15682,7 +15682,7 @@ extension Route53ClientTypes.ReusableDelegationSetLimit: Swift.Codable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let typeDecoded = try containerValues.decodeIfPresent(Route53ClientTypes.ReusableDelegationSetLimitType.self, forKey: .type)
         type = typeDecoded
-        let valueDecoded = try containerValues.decode(Swift.Int.self, forKey: .value)
+        let valueDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .value) ?? 0
         value = valueDecoded
     }
 }

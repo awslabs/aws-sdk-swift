@@ -68,6 +68,21 @@ public struct GlueClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFactory {
 
 extension GlueClient: GlueClientProtocol {
     /// Creates one or more partitions in a batch operation.
+    ///
+    /// - Parameter BatchCreatePartitionInput : [no documentation found]
+    ///
+    /// - Returns: `BatchCreatePartitionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AlreadyExistsException` : A resource to be created or added already exists.
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `GlueEncryptionException` : An encryption operation failed.
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
+    /// - `ResourceNumberLimitExceededException` : A resource numerical limit was exceeded.
     public func batchCreatePartition(input: BatchCreatePartitionInput) async throws -> BatchCreatePartitionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -105,6 +120,16 @@ extension GlueClient: GlueClientProtocol {
     }
 
     /// Deletes a list of connection definitions from the Data Catalog.
+    ///
+    /// - Parameter BatchDeleteConnectionInput : [no documentation found]
+    ///
+    /// - Returns: `BatchDeleteConnectionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `OperationTimeoutException` : The operation timed out.
     public func batchDeleteConnection(input: BatchDeleteConnectionInput) async throws -> BatchDeleteConnectionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -142,6 +167,18 @@ extension GlueClient: GlueClientProtocol {
     }
 
     /// Deletes one or more partitions in a batch operation.
+    ///
+    /// - Parameter BatchDeletePartitionInput : [no documentation found]
+    ///
+    /// - Returns: `BatchDeletePartitionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
     public func batchDeletePartition(input: BatchDeletePartitionInput) async throws -> BatchDeletePartitionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -179,6 +216,20 @@ extension GlueClient: GlueClientProtocol {
     }
 
     /// Deletes multiple tables at once. After completing this operation, you no longer have access to the table versions and partitions that belong to the deleted table. Glue deletes these "orphaned" resources asynchronously in a timely manner, at the discretion of the service. To ensure the immediate deletion of all related resources, before calling BatchDeleteTable, use DeleteTableVersion or BatchDeleteTableVersion, and DeletePartition or BatchDeletePartition, to delete any resources that belong to the table.
+    ///
+    /// - Parameter BatchDeleteTableInput : [no documentation found]
+    ///
+    /// - Returns: `BatchDeleteTableOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `GlueEncryptionException` : An encryption operation failed.
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
+    /// - `ResourceNotReadyException` : A resource was not ready for a transaction.
     public func batchDeleteTable(input: BatchDeleteTableInput) async throws -> BatchDeleteTableOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -216,6 +267,18 @@ extension GlueClient: GlueClientProtocol {
     }
 
     /// Deletes a specified batch of versions of a table.
+    ///
+    /// - Parameter BatchDeleteTableVersionInput : [no documentation found]
+    ///
+    /// - Returns: `BatchDeleteTableVersionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
     public func batchDeleteTableVersion(input: BatchDeleteTableVersionInput) async throws -> BatchDeleteTableVersionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -253,6 +316,17 @@ extension GlueClient: GlueClientProtocol {
     }
 
     /// Retrieves information about a list of blueprints.
+    ///
+    /// - Parameter BatchGetBlueprintsInput : [no documentation found]
+    ///
+    /// - Returns: `BatchGetBlueprintsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
     public func batchGetBlueprints(input: BatchGetBlueprintsInput) async throws -> BatchGetBlueprintsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -290,6 +364,16 @@ extension GlueClient: GlueClientProtocol {
     }
 
     /// Returns a list of resource metadata for a given list of crawler names. After calling the ListCrawlers operation, you can call this operation to access the data to which you have been granted permissions. This operation supports all IAM permissions, including permission conditions that uses tags.
+    ///
+    /// - Parameter BatchGetCrawlersInput : [no documentation found]
+    ///
+    /// - Returns: `BatchGetCrawlersOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
     public func batchGetCrawlers(input: BatchGetCrawlersInput) async throws -> BatchGetCrawlersOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -327,6 +411,17 @@ extension GlueClient: GlueClientProtocol {
     }
 
     /// Retrieves the details for the custom patterns specified by a list of names.
+    ///
+    /// - Parameter BatchGetCustomEntityTypesInput : [no documentation found]
+    ///
+    /// - Returns: `BatchGetCustomEntityTypesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
     public func batchGetCustomEntityTypes(input: BatchGetCustomEntityTypesInput) async throws -> BatchGetCustomEntityTypesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -364,6 +459,17 @@ extension GlueClient: GlueClientProtocol {
     }
 
     /// Retrieves a list of data quality results for the specified result IDs.
+    ///
+    /// - Parameter BatchGetDataQualityResultInput : [no documentation found]
+    ///
+    /// - Returns: `BatchGetDataQualityResultOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
     public func batchGetDataQualityResult(input: BatchGetDataQualityResultInput) async throws -> BatchGetDataQualityResultOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -401,6 +507,18 @@ extension GlueClient: GlueClientProtocol {
     }
 
     /// Returns a list of resource metadata for a given list of development endpoint names. After calling the ListDevEndpoints operation, you can call this operation to access the data to which you have been granted permissions. This operation supports all IAM permissions, including permission conditions that uses tags.
+    ///
+    /// - Parameter BatchGetDevEndpointsInput : [no documentation found]
+    ///
+    /// - Returns: `BatchGetDevEndpointsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to a resource was denied.
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
     public func batchGetDevEndpoints(input: BatchGetDevEndpointsInput) async throws -> BatchGetDevEndpointsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -438,6 +556,17 @@ extension GlueClient: GlueClientProtocol {
     }
 
     /// Returns a list of resource metadata for a given list of job names. After calling the ListJobs operation, you can call this operation to access the data to which you have been granted permissions. This operation supports all IAM permissions, including permission conditions that uses tags.
+    ///
+    /// - Parameter BatchGetJobsInput : [no documentation found]
+    ///
+    /// - Returns: `BatchGetJobsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
     public func batchGetJobs(input: BatchGetJobsInput) async throws -> BatchGetJobsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -475,6 +604,22 @@ extension GlueClient: GlueClientProtocol {
     }
 
     /// Retrieves partitions in a batch request.
+    ///
+    /// - Parameter BatchGetPartitionInput : [no documentation found]
+    ///
+    /// - Returns: `BatchGetPartitionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `FederationSourceException` : A federation source failed.
+    /// - `FederationSourceRetryableException` : [no documentation found]
+    /// - `GlueEncryptionException` : An encryption operation failed.
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `InvalidStateException` : An error that indicates your data is in an invalid state.
+    /// - `OperationTimeoutException` : The operation timed out.
     public func batchGetPartition(input: BatchGetPartitionInput) async throws -> BatchGetPartitionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -512,6 +657,17 @@ extension GlueClient: GlueClientProtocol {
     }
 
     /// Returns a list of resource metadata for a given list of trigger names. After calling the ListTriggers operation, you can call this operation to access the data to which you have been granted permissions. This operation supports all IAM permissions, including permission conditions that uses tags.
+    ///
+    /// - Parameter BatchGetTriggersInput : [no documentation found]
+    ///
+    /// - Returns: `BatchGetTriggersOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
     public func batchGetTriggers(input: BatchGetTriggersInput) async throws -> BatchGetTriggersOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -549,6 +705,17 @@ extension GlueClient: GlueClientProtocol {
     }
 
     /// Returns a list of resource metadata for a given list of workflow names. After calling the ListWorkflows operation, you can call this operation to access the data to which you have been granted permissions. This operation supports all IAM permissions, including permission conditions that uses tags.
+    ///
+    /// - Parameter BatchGetWorkflowsInput : [no documentation found]
+    ///
+    /// - Returns: `BatchGetWorkflowsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
     public func batchGetWorkflows(input: BatchGetWorkflowsInput) async throws -> BatchGetWorkflowsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -586,6 +753,17 @@ extension GlueClient: GlueClientProtocol {
     }
 
     /// Stops one or more job runs for a specified job definition.
+    ///
+    /// - Parameter BatchStopJobRunInput : [no documentation found]
+    ///
+    /// - Returns: `BatchStopJobRunOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
     public func batchStopJobRun(input: BatchStopJobRunInput) async throws -> BatchStopJobRunOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -623,6 +801,19 @@ extension GlueClient: GlueClientProtocol {
     }
 
     /// Updates one or more partitions in a batch operation.
+    ///
+    /// - Parameter BatchUpdatePartitionInput : [no documentation found]
+    ///
+    /// - Returns: `BatchUpdatePartitionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `GlueEncryptionException` : An encryption operation failed.
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
     public func batchUpdatePartition(input: BatchUpdatePartitionInput) async throws -> BatchUpdatePartitionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -660,6 +851,18 @@ extension GlueClient: GlueClientProtocol {
     }
 
     /// Cancels the specified recommendation run that was being used to generate rules.
+    ///
+    /// - Parameter CancelDataQualityRuleRecommendationRunInput : [no documentation found]
+    ///
+    /// - Returns: `CancelDataQualityRuleRecommendationRunOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
     public func cancelDataQualityRuleRecommendationRun(input: CancelDataQualityRuleRecommendationRunInput) async throws -> CancelDataQualityRuleRecommendationRunOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -697,6 +900,18 @@ extension GlueClient: GlueClientProtocol {
     }
 
     /// Cancels a run where a ruleset is being evaluated against a data source.
+    ///
+    /// - Parameter CancelDataQualityRulesetEvaluationRunInput : [no documentation found]
+    ///
+    /// - Returns: `CancelDataQualityRulesetEvaluationRunOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
     public func cancelDataQualityRulesetEvaluationRun(input: CancelDataQualityRulesetEvaluationRunInput) async throws -> CancelDataQualityRulesetEvaluationRunOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -734,6 +949,18 @@ extension GlueClient: GlueClientProtocol {
     }
 
     /// Cancels (stops) a task run. Machine learning task runs are asynchronous tasks that Glue runs on your behalf as part of various machine learning workflows. You can cancel a machine learning task run at any time by calling CancelMLTaskRun with a task run's parent transform's TransformID and the task run's TaskRunId.
+    ///
+    /// - Parameter CancelMLTaskRunInput : [no documentation found]
+    ///
+    /// - Returns: `CancelMLTaskRunOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
     public func cancelMLTaskRun(input: CancelMLTaskRunInput) async throws -> CancelMLTaskRunOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -771,6 +998,20 @@ extension GlueClient: GlueClientProtocol {
     }
 
     /// Cancels the statement.
+    ///
+    /// - Parameter CancelStatementInput : [no documentation found]
+    ///
+    /// - Returns: `CancelStatementOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to a resource was denied.
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `IllegalSessionStateException` : The session is in an invalid state to perform a requested operation.
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
     public func cancelStatement(input: CancelStatementInput) async throws -> CancelStatementOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -808,6 +1049,17 @@ extension GlueClient: GlueClientProtocol {
     }
 
     /// Validates the supplied schema. This call has no side effects, it simply validates using the supplied schema using DataFormat as the format. Since it does not take a schema set name, no compatibility checks are performed.
+    ///
+    /// - Parameter CheckSchemaVersionValidityInput : [no documentation found]
+    ///
+    /// - Returns: `CheckSchemaVersionValidityOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to a resource was denied.
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
     public func checkSchemaVersionValidity(input: CheckSchemaVersionValidityInput) async throws -> CheckSchemaVersionValidityOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -845,6 +1097,19 @@ extension GlueClient: GlueClientProtocol {
     }
 
     /// Registers a blueprint with Glue.
+    ///
+    /// - Parameter CreateBlueprintInput : [no documentation found]
+    ///
+    /// - Returns: `CreateBlueprintOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AlreadyExistsException` : A resource to be created or added already exists.
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
+    /// - `ResourceNumberLimitExceededException` : A resource numerical limit was exceeded.
     public func createBlueprint(input: CreateBlueprintInput) async throws -> CreateBlueprintOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -882,6 +1147,17 @@ extension GlueClient: GlueClientProtocol {
     }
 
     /// Creates a classifier in the user's account. This can be a GrokClassifier, an XMLClassifier, a JsonClassifier, or a CsvClassifier, depending on which field of the request is present.
+    ///
+    /// - Parameter CreateClassifierInput : [no documentation found]
+    ///
+    /// - Returns: `CreateClassifierOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AlreadyExistsException` : A resource to be created or added already exists.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
     public func createClassifier(input: CreateClassifierInput) async throws -> CreateClassifierOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -919,6 +1195,19 @@ extension GlueClient: GlueClientProtocol {
     }
 
     /// Creates a connection definition in the Data Catalog.
+    ///
+    /// - Parameter CreateConnectionInput : [no documentation found]
+    ///
+    /// - Returns: `CreateConnectionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AlreadyExistsException` : A resource to be created or added already exists.
+    /// - `GlueEncryptionException` : An encryption operation failed.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
+    /// - `ResourceNumberLimitExceededException` : A resource numerical limit was exceeded.
     public func createConnection(input: CreateConnectionInput) async throws -> CreateConnectionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -956,6 +1245,18 @@ extension GlueClient: GlueClientProtocol {
     }
 
     /// Creates a new crawler with specified targets, role, configuration, and optional schedule. At least one crawl target must be specified, in the s3Targets field, the jdbcTargets field, or the DynamoDBTargets field.
+    ///
+    /// - Parameter CreateCrawlerInput : [no documentation found]
+    ///
+    /// - Returns: `CreateCrawlerOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AlreadyExistsException` : A resource to be created or added already exists.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
+    /// - `ResourceNumberLimitExceededException` : A resource numerical limit was exceeded.
     public func createCrawler(input: CreateCrawlerInput) async throws -> CreateCrawlerOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -993,6 +1294,21 @@ extension GlueClient: GlueClientProtocol {
     }
 
     /// Creates a custom pattern that is used to detect sensitive data across the columns and rows of your structured data. Each custom pattern you create specifies a regular expression and an optional list of context words. If no context words are passed only a regular expression is checked.
+    ///
+    /// - Parameter CreateCustomEntityTypeInput : [no documentation found]
+    ///
+    /// - Returns: `CreateCustomEntityTypeOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to a resource was denied.
+    /// - `AlreadyExistsException` : A resource to be created or added already exists.
+    /// - `IdempotentParameterMismatchException` : The same unique identifier was associated with two different records.
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
+    /// - `ResourceNumberLimitExceededException` : A resource numerical limit was exceeded.
     public func createCustomEntityType(input: CreateCustomEntityTypeInput) async throws -> CreateCustomEntityTypeOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1030,6 +1346,19 @@ extension GlueClient: GlueClientProtocol {
     }
 
     /// Creates a data quality ruleset with DQDL rules applied to a specified Glue table. You create the ruleset using the Data Quality Definition Language (DQDL). For more information, see the Glue developer guide.
+    ///
+    /// - Parameter CreateDataQualityRulesetInput : [no documentation found]
+    ///
+    /// - Returns: `CreateDataQualityRulesetOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AlreadyExistsException` : A resource to be created or added already exists.
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
+    /// - `ResourceNumberLimitExceededException` : A resource numerical limit was exceeded.
     public func createDataQualityRuleset(input: CreateDataQualityRulesetInput) async throws -> CreateDataQualityRulesetOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1067,6 +1396,22 @@ extension GlueClient: GlueClientProtocol {
     }
 
     /// Creates a new database in a Data Catalog.
+    ///
+    /// - Parameter CreateDatabaseInput : [no documentation found]
+    ///
+    /// - Returns: `CreateDatabaseOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AlreadyExistsException` : A resource to be created or added already exists.
+    /// - `ConcurrentModificationException` : Two processes are trying to modify a resource simultaneously.
+    /// - `FederatedResourceAlreadyExistsException` : A federated resource already exists.
+    /// - `GlueEncryptionException` : An encryption operation failed.
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
+    /// - `ResourceNumberLimitExceededException` : A resource numerical limit was exceeded.
     public func createDatabase(input: CreateDatabaseInput) async throws -> CreateDatabaseOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1104,6 +1449,22 @@ extension GlueClient: GlueClientProtocol {
     }
 
     /// Creates a new development endpoint.
+    ///
+    /// - Parameter CreateDevEndpointInput : [no documentation found]
+    ///
+    /// - Returns: `CreateDevEndpointOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to a resource was denied.
+    /// - `AlreadyExistsException` : A resource to be created or added already exists.
+    /// - `IdempotentParameterMismatchException` : The same unique identifier was associated with two different records.
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
+    /// - `ResourceNumberLimitExceededException` : A resource numerical limit was exceeded.
+    /// - `ValidationException` : A value could not be validated.
     public func createDevEndpoint(input: CreateDevEndpointInput) async throws -> CreateDevEndpointOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1141,6 +1502,21 @@ extension GlueClient: GlueClientProtocol {
     }
 
     /// Creates a new job definition.
+    ///
+    /// - Parameter CreateJobInput : [no documentation found]
+    ///
+    /// - Returns: `CreateJobOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AlreadyExistsException` : A resource to be created or added already exists.
+    /// - `ConcurrentModificationException` : Two processes are trying to modify a resource simultaneously.
+    /// - `IdempotentParameterMismatchException` : The same unique identifier was associated with two different records.
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
+    /// - `ResourceNumberLimitExceededException` : A resource numerical limit was exceeded.
     public func createJob(input: CreateJobInput) async throws -> CreateJobOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1178,6 +1554,21 @@ extension GlueClient: GlueClientProtocol {
     }
 
     /// Creates an Glue machine learning transform. This operation creates the transform and all the necessary parameters to train it. Call this operation as the first step in the process of using a machine learning transform (such as the FindMatches transform) for deduplicating data. You can provide an optional Description, in addition to the parameters that you want to use for your algorithm. You must also specify certain parameters for the tasks that Glue runs on your behalf as part of learning from your data and creating a high-quality machine learning transform. These parameters include Role, and optionally, AllocatedCapacity, Timeout, and MaxRetries. For more information, see [Jobs](https://docs.aws.amazon.com/glue/latest/dg/aws-glue-api-jobs-job.html).
+    ///
+    /// - Parameter CreateMLTransformInput : [no documentation found]
+    ///
+    /// - Returns: `CreateMLTransformOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to a resource was denied.
+    /// - `AlreadyExistsException` : A resource to be created or added already exists.
+    /// - `IdempotentParameterMismatchException` : The same unique identifier was associated with two different records.
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
+    /// - `ResourceNumberLimitExceededException` : A resource numerical limit was exceeded.
     public func createMLTransform(input: CreateMLTransformInput) async throws -> CreateMLTransformOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1215,6 +1606,21 @@ extension GlueClient: GlueClientProtocol {
     }
 
     /// Creates a new partition.
+    ///
+    /// - Parameter CreatePartitionInput : [no documentation found]
+    ///
+    /// - Returns: `CreatePartitionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AlreadyExistsException` : A resource to be created or added already exists.
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `GlueEncryptionException` : An encryption operation failed.
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
+    /// - `ResourceNumberLimitExceededException` : A resource numerical limit was exceeded.
     public func createPartition(input: CreatePartitionInput) async throws -> CreatePartitionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1252,6 +1658,21 @@ extension GlueClient: GlueClientProtocol {
     }
 
     /// Creates a specified partition index in an existing table.
+    ///
+    /// - Parameter CreatePartitionIndexInput : [no documentation found]
+    ///
+    /// - Returns: `CreatePartitionIndexOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AlreadyExistsException` : A resource to be created or added already exists.
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `GlueEncryptionException` : An encryption operation failed.
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
+    /// - `ResourceNumberLimitExceededException` : A resource numerical limit was exceeded.
     public func createPartitionIndex(input: CreatePartitionIndexInput) async throws -> CreatePartitionIndexOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1289,6 +1710,20 @@ extension GlueClient: GlueClientProtocol {
     }
 
     /// Creates a new registry which may be used to hold a collection of schemas.
+    ///
+    /// - Parameter CreateRegistryInput : [no documentation found]
+    ///
+    /// - Returns: `CreateRegistryOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to a resource was denied.
+    /// - `AlreadyExistsException` : A resource to be created or added already exists.
+    /// - `ConcurrentModificationException` : Two processes are trying to modify a resource simultaneously.
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `ResourceNumberLimitExceededException` : A resource numerical limit was exceeded.
     public func createRegistry(input: CreateRegistryInput) async throws -> CreateRegistryOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1326,6 +1761,21 @@ extension GlueClient: GlueClientProtocol {
     }
 
     /// Creates a new schema set and registers the schema definition. Returns an error if the schema set already exists without actually registering the version. When the schema set is created, a version checkpoint will be set to the first version. Compatibility mode "DISABLED" restricts any additional schema versions from being added after the first schema version. For all other compatibility modes, validation of compatibility settings will be applied only from the second version onwards when the RegisterSchemaVersion API is used. When this API is called without a RegistryId, this will create an entry for a "default-registry" in the registry database tables, if it is not already present.
+    ///
+    /// - Parameter CreateSchemaInput : [no documentation found]
+    ///
+    /// - Returns: `CreateSchemaOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to a resource was denied.
+    /// - `AlreadyExistsException` : A resource to be created or added already exists.
+    /// - `ConcurrentModificationException` : Two processes are trying to modify a resource simultaneously.
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `ResourceNumberLimitExceededException` : A resource numerical limit was exceeded.
     public func createSchema(input: CreateSchemaInput) async throws -> CreateSchemaOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1363,6 +1813,17 @@ extension GlueClient: GlueClientProtocol {
     }
 
     /// Transforms a directed acyclic graph (DAG) into code.
+    ///
+    /// - Parameter CreateScriptInput : [no documentation found]
+    ///
+    /// - Returns: `CreateScriptOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
     public func createScript(input: CreateScriptInput) async throws -> CreateScriptOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1400,6 +1861,19 @@ extension GlueClient: GlueClientProtocol {
     }
 
     /// Creates a new security configuration. A security configuration is a set of security properties that can be used by Glue. You can use a security configuration to encrypt data at rest. For information about using security configurations in Glue, see [Encrypting Data Written by Crawlers, Jobs, and Development Endpoints](https://docs.aws.amazon.com/glue/latest/dg/encryption-security-configuration.html).
+    ///
+    /// - Parameter CreateSecurityConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `CreateSecurityConfigurationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AlreadyExistsException` : A resource to be created or added already exists.
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
+    /// - `ResourceNumberLimitExceededException` : A resource numerical limit was exceeded.
     public func createSecurityConfiguration(input: CreateSecurityConfigurationInput) async throws -> CreateSecurityConfigurationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1437,6 +1911,22 @@ extension GlueClient: GlueClientProtocol {
     }
 
     /// Creates a new session.
+    ///
+    /// - Parameter CreateSessionInput : Request to create a new session.
+    ///
+    /// - Returns: `CreateSessionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to a resource was denied.
+    /// - `AlreadyExistsException` : A resource to be created or added already exists.
+    /// - `IdempotentParameterMismatchException` : The same unique identifier was associated with two different records.
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
+    /// - `ResourceNumberLimitExceededException` : A resource numerical limit was exceeded.
+    /// - `ValidationException` : A value could not be validated.
     public func createSession(input: CreateSessionInput) async throws -> CreateSessionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1474,6 +1964,23 @@ extension GlueClient: GlueClientProtocol {
     }
 
     /// Creates a new table definition in the Data Catalog.
+    ///
+    /// - Parameter CreateTableInput : [no documentation found]
+    ///
+    /// - Returns: `CreateTableOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AlreadyExistsException` : A resource to be created or added already exists.
+    /// - `ConcurrentModificationException` : Two processes are trying to modify a resource simultaneously.
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `GlueEncryptionException` : An encryption operation failed.
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
+    /// - `ResourceNotReadyException` : A resource was not ready for a transaction.
+    /// - `ResourceNumberLimitExceededException` : A resource numerical limit was exceeded.
     public func createTable(input: CreateTableInput) async throws -> CreateTableOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1511,6 +2018,22 @@ extension GlueClient: GlueClientProtocol {
     }
 
     /// Creates a new trigger.
+    ///
+    /// - Parameter CreateTriggerInput : [no documentation found]
+    ///
+    /// - Returns: `CreateTriggerOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AlreadyExistsException` : A resource to be created or added already exists.
+    /// - `ConcurrentModificationException` : Two processes are trying to modify a resource simultaneously.
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `IdempotentParameterMismatchException` : The same unique identifier was associated with two different records.
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
+    /// - `ResourceNumberLimitExceededException` : A resource numerical limit was exceeded.
     public func createTrigger(input: CreateTriggerInput) async throws -> CreateTriggerOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1548,6 +2071,21 @@ extension GlueClient: GlueClientProtocol {
     }
 
     /// Creates a new function definition in the Data Catalog.
+    ///
+    /// - Parameter CreateUserDefinedFunctionInput : [no documentation found]
+    ///
+    /// - Returns: `CreateUserDefinedFunctionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AlreadyExistsException` : A resource to be created or added already exists.
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `GlueEncryptionException` : An encryption operation failed.
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
+    /// - `ResourceNumberLimitExceededException` : A resource numerical limit was exceeded.
     public func createUserDefinedFunction(input: CreateUserDefinedFunctionInput) async throws -> CreateUserDefinedFunctionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1585,6 +2123,20 @@ extension GlueClient: GlueClientProtocol {
     }
 
     /// Creates a new workflow.
+    ///
+    /// - Parameter CreateWorkflowInput : [no documentation found]
+    ///
+    /// - Returns: `CreateWorkflowOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AlreadyExistsException` : A resource to be created or added already exists.
+    /// - `ConcurrentModificationException` : Two processes are trying to modify a resource simultaneously.
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
+    /// - `ResourceNumberLimitExceededException` : A resource numerical limit was exceeded.
     public func createWorkflow(input: CreateWorkflowInput) async throws -> CreateWorkflowOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1622,6 +2174,17 @@ extension GlueClient: GlueClientProtocol {
     }
 
     /// Deletes an existing blueprint.
+    ///
+    /// - Parameter DeleteBlueprintInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteBlueprintOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
     public func deleteBlueprint(input: DeleteBlueprintInput) async throws -> DeleteBlueprintOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1659,6 +2222,16 @@ extension GlueClient: GlueClientProtocol {
     }
 
     /// Removes a classifier from the Data Catalog.
+    ///
+    /// - Parameter DeleteClassifierInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteClassifierOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `OperationTimeoutException` : The operation timed out.
     public func deleteClassifier(input: DeleteClassifierInput) async throws -> DeleteClassifierOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1696,6 +2269,19 @@ extension GlueClient: GlueClientProtocol {
     }
 
     /// Delete the partition column statistics of a column. The Identity and Access Management (IAM) permission required for this operation is DeletePartition.
+    ///
+    /// - Parameter DeleteColumnStatisticsForPartitionInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteColumnStatisticsForPartitionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `GlueEncryptionException` : An encryption operation failed.
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
     public func deleteColumnStatisticsForPartition(input: DeleteColumnStatisticsForPartitionInput) async throws -> DeleteColumnStatisticsForPartitionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1733,6 +2319,19 @@ extension GlueClient: GlueClientProtocol {
     }
 
     /// Retrieves table statistics of columns. The Identity and Access Management (IAM) permission required for this operation is DeleteTable.
+    ///
+    /// - Parameter DeleteColumnStatisticsForTableInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteColumnStatisticsForTableOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `GlueEncryptionException` : An encryption operation failed.
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
     public func deleteColumnStatisticsForTable(input: DeleteColumnStatisticsForTableInput) async throws -> DeleteColumnStatisticsForTableOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1770,6 +2369,16 @@ extension GlueClient: GlueClientProtocol {
     }
 
     /// Deletes a connection from the Data Catalog.
+    ///
+    /// - Parameter DeleteConnectionInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteConnectionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `OperationTimeoutException` : The operation timed out.
     public func deleteConnection(input: DeleteConnectionInput) async throws -> DeleteConnectionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1807,6 +2416,18 @@ extension GlueClient: GlueClientProtocol {
     }
 
     /// Removes a specified crawler from the Glue Data Catalog, unless the crawler state is RUNNING.
+    ///
+    /// - Parameter DeleteCrawlerInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteCrawlerOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `CrawlerRunningException` : The operation cannot be performed because the crawler is already running.
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `OperationTimeoutException` : The operation timed out.
+    /// - `SchedulerTransitioningException` : The specified scheduler is transitioning.
     public func deleteCrawler(input: DeleteCrawlerInput) async throws -> DeleteCrawlerOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1844,6 +2465,19 @@ extension GlueClient: GlueClientProtocol {
     }
 
     /// Deletes a custom pattern by specifying its name.
+    ///
+    /// - Parameter DeleteCustomEntityTypeInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteCustomEntityTypeOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to a resource was denied.
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
     public func deleteCustomEntityType(input: DeleteCustomEntityTypeInput) async throws -> DeleteCustomEntityTypeOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1881,6 +2515,18 @@ extension GlueClient: GlueClientProtocol {
     }
 
     /// Deletes a data quality ruleset.
+    ///
+    /// - Parameter DeleteDataQualityRulesetInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteDataQualityRulesetOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
     public func deleteDataQualityRuleset(input: DeleteDataQualityRulesetInput) async throws -> DeleteDataQualityRulesetOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1918,6 +2564,19 @@ extension GlueClient: GlueClientProtocol {
     }
 
     /// Removes a specified database from a Data Catalog. After completing this operation, you no longer have access to the tables (and all table versions and partitions that might belong to the tables) and the user-defined functions in the deleted database. Glue deletes these "orphaned" resources asynchronously in a timely manner, at the discretion of the service. To ensure the immediate deletion of all related resources, before calling DeleteDatabase, use DeleteTableVersion or BatchDeleteTableVersion, DeletePartition or BatchDeletePartition, DeleteUserDefinedFunction, and DeleteTable or BatchDeleteTable, to delete any resources that belong to the database.
+    ///
+    /// - Parameter DeleteDatabaseInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteDatabaseOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConcurrentModificationException` : Two processes are trying to modify a resource simultaneously.
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
     public func deleteDatabase(input: DeleteDatabaseInput) async throws -> DeleteDatabaseOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1955,6 +2614,18 @@ extension GlueClient: GlueClientProtocol {
     }
 
     /// Deletes a specified development endpoint.
+    ///
+    /// - Parameter DeleteDevEndpointInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteDevEndpointOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
     public func deleteDevEndpoint(input: DeleteDevEndpointInput) async throws -> DeleteDevEndpointOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1992,6 +2663,17 @@ extension GlueClient: GlueClientProtocol {
     }
 
     /// Deletes a specified job definition. If the job definition is not found, no exception is thrown.
+    ///
+    /// - Parameter DeleteJobInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteJobOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
     public func deleteJob(input: DeleteJobInput) async throws -> DeleteJobOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2029,6 +2711,18 @@ extension GlueClient: GlueClientProtocol {
     }
 
     /// Deletes an Glue machine learning transform. Machine learning transforms are a special type of transform that use machine learning to learn the details of the transformation to be performed by learning from examples provided by humans. These transformations are then saved by Glue. If you no longer need a transform, you can delete it by calling DeleteMLTransforms. However, any Glue jobs that still reference the deleted transform will no longer succeed.
+    ///
+    /// - Parameter DeleteMLTransformInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteMLTransformOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
     public func deleteMLTransform(input: DeleteMLTransformInput) async throws -> DeleteMLTransformOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2066,6 +2760,18 @@ extension GlueClient: GlueClientProtocol {
     }
 
     /// Deletes a specified partition.
+    ///
+    /// - Parameter DeletePartitionInput : [no documentation found]
+    ///
+    /// - Returns: `DeletePartitionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
     public func deletePartition(input: DeletePartitionInput) async throws -> DeletePartitionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2103,6 +2809,20 @@ extension GlueClient: GlueClientProtocol {
     }
 
     /// Deletes a specified partition index from an existing table.
+    ///
+    /// - Parameter DeletePartitionIndexInput : [no documentation found]
+    ///
+    /// - Returns: `DeletePartitionIndexOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictException` : The CreatePartitions API was called on a table that has indexes enabled.
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `GlueEncryptionException` : An encryption operation failed.
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
     public func deletePartitionIndex(input: DeletePartitionIndexInput) async throws -> DeletePartitionIndexOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2140,6 +2860,18 @@ extension GlueClient: GlueClientProtocol {
     }
 
     /// Delete the entire registry including schema and all of its versions. To get the status of the delete operation, you can call the GetRegistry API after the asynchronous call. Deleting a registry will deactivate all online operations for the registry such as the UpdateRegistry, CreateSchema, UpdateSchema, and RegisterSchemaVersion APIs.
+    ///
+    /// - Parameter DeleteRegistryInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteRegistryOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to a resource was denied.
+    /// - `ConcurrentModificationException` : Two processes are trying to modify a resource simultaneously.
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `InvalidInputException` : The input provided was not valid.
     public func deleteRegistry(input: DeleteRegistryInput) async throws -> DeleteRegistryOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2177,6 +2909,19 @@ extension GlueClient: GlueClientProtocol {
     }
 
     /// Deletes a specified policy.
+    ///
+    /// - Parameter DeleteResourcePolicyInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteResourcePolicyOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConditionCheckFailureException` : A specified condition was not satisfied.
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
     public func deleteResourcePolicy(input: DeleteResourcePolicyInput) async throws -> DeleteResourcePolicyOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2214,6 +2959,18 @@ extension GlueClient: GlueClientProtocol {
     }
 
     /// Deletes the entire schema set, including the schema set and all of its versions. To get the status of the delete operation, you can call GetSchema API after the asynchronous call. Deleting a registry will deactivate all online operations for the schema, such as the GetSchemaByDefinition, and RegisterSchemaVersion APIs.
+    ///
+    /// - Parameter DeleteSchemaInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteSchemaOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to a resource was denied.
+    /// - `ConcurrentModificationException` : Two processes are trying to modify a resource simultaneously.
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `InvalidInputException` : The input provided was not valid.
     public func deleteSchema(input: DeleteSchemaInput) async throws -> DeleteSchemaOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2251,6 +3008,18 @@ extension GlueClient: GlueClientProtocol {
     }
 
     /// Remove versions from the specified schema. A version number or range may be supplied. If the compatibility mode forbids deleting of a version that is necessary, such as BACKWARDS_FULL, an error is returned. Calling the GetSchemaVersions API after this call will list the status of the deleted versions. When the range of version numbers contain check pointed version, the API will return a 409 conflict and will not proceed with the deletion. You have to remove the checkpoint first using the DeleteSchemaCheckpoint API before using this API. You cannot use the DeleteSchemaVersions API to delete the first schema version in the schema set. The first schema version can only be deleted by the DeleteSchema API. This operation will also delete the attached SchemaVersionMetadata under the schema versions. Hard deletes will be enforced on the database. If the compatibility mode forbids deleting of a version that is necessary, such as BACKWARDS_FULL, an error is returned.
+    ///
+    /// - Parameter DeleteSchemaVersionsInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteSchemaVersionsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to a resource was denied.
+    /// - `ConcurrentModificationException` : Two processes are trying to modify a resource simultaneously.
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `InvalidInputException` : The input provided was not valid.
     public func deleteSchemaVersions(input: DeleteSchemaVersionsInput) async throws -> DeleteSchemaVersionsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2288,6 +3057,18 @@ extension GlueClient: GlueClientProtocol {
     }
 
     /// Deletes a specified security configuration.
+    ///
+    /// - Parameter DeleteSecurityConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteSecurityConfigurationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
     public func deleteSecurityConfiguration(input: DeleteSecurityConfigurationInput) async throws -> DeleteSecurityConfigurationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2325,6 +3106,20 @@ extension GlueClient: GlueClientProtocol {
     }
 
     /// Deletes the session.
+    ///
+    /// - Parameter DeleteSessionInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteSessionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to a resource was denied.
+    /// - `ConcurrentModificationException` : Two processes are trying to modify a resource simultaneously.
+    /// - `IllegalSessionStateException` : The session is in an invalid state to perform a requested operation.
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
     public func deleteSession(input: DeleteSessionInput) async throws -> DeleteSessionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2362,6 +3157,20 @@ extension GlueClient: GlueClientProtocol {
     }
 
     /// Removes a table definition from the Data Catalog. After completing this operation, you no longer have access to the table versions and partitions that belong to the deleted table. Glue deletes these "orphaned" resources asynchronously in a timely manner, at the discretion of the service. To ensure the immediate deletion of all related resources, before calling DeleteTable, use DeleteTableVersion or BatchDeleteTableVersion, and DeletePartition or BatchDeletePartition, to delete any resources that belong to the table.
+    ///
+    /// - Parameter DeleteTableInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteTableOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConcurrentModificationException` : Two processes are trying to modify a resource simultaneously.
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
+    /// - `ResourceNotReadyException` : A resource was not ready for a transaction.
     public func deleteTable(input: DeleteTableInput) async throws -> DeleteTableOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2399,6 +3208,18 @@ extension GlueClient: GlueClientProtocol {
     }
 
     /// Deletes a specified version of a table.
+    ///
+    /// - Parameter DeleteTableVersionInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteTableVersionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
     public func deleteTableVersion(input: DeleteTableVersionInput) async throws -> DeleteTableVersionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2436,6 +3257,18 @@ extension GlueClient: GlueClientProtocol {
     }
 
     /// Deletes a specified trigger. If the trigger is not found, no exception is thrown.
+    ///
+    /// - Parameter DeleteTriggerInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteTriggerOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConcurrentModificationException` : Two processes are trying to modify a resource simultaneously.
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
     public func deleteTrigger(input: DeleteTriggerInput) async throws -> DeleteTriggerOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2473,6 +3306,18 @@ extension GlueClient: GlueClientProtocol {
     }
 
     /// Deletes an existing function definition from the Data Catalog.
+    ///
+    /// - Parameter DeleteUserDefinedFunctionInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteUserDefinedFunctionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
     public func deleteUserDefinedFunction(input: DeleteUserDefinedFunctionInput) async throws -> DeleteUserDefinedFunctionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2510,6 +3355,18 @@ extension GlueClient: GlueClientProtocol {
     }
 
     /// Deletes a workflow.
+    ///
+    /// - Parameter DeleteWorkflowInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteWorkflowOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConcurrentModificationException` : Two processes are trying to modify a resource simultaneously.
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
     public func deleteWorkflow(input: DeleteWorkflowInput) async throws -> DeleteWorkflowOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2547,6 +3404,18 @@ extension GlueClient: GlueClientProtocol {
     }
 
     /// Retrieves the details of a blueprint.
+    ///
+    /// - Parameter GetBlueprintInput : [no documentation found]
+    ///
+    /// - Returns: `GetBlueprintOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
     public func getBlueprint(input: GetBlueprintInput) async throws -> GetBlueprintOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2584,6 +3453,17 @@ extension GlueClient: GlueClientProtocol {
     }
 
     /// Retrieves the details of a blueprint run.
+    ///
+    /// - Parameter GetBlueprintRunInput : [no documentation found]
+    ///
+    /// - Returns: `GetBlueprintRunOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `OperationTimeoutException` : The operation timed out.
     public func getBlueprintRun(input: GetBlueprintRunInput) async throws -> GetBlueprintRunOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2621,6 +3501,18 @@ extension GlueClient: GlueClientProtocol {
     }
 
     /// Retrieves the details of blueprint runs for a specified blueprint.
+    ///
+    /// - Parameter GetBlueprintRunsInput : [no documentation found]
+    ///
+    /// - Returns: `GetBlueprintRunsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
     public func getBlueprintRuns(input: GetBlueprintRunsInput) async throws -> GetBlueprintRunsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2658,6 +3550,16 @@ extension GlueClient: GlueClientProtocol {
     }
 
     /// Retrieves the status of a migration operation.
+    ///
+    /// - Parameter GetCatalogImportStatusInput : [no documentation found]
+    ///
+    /// - Returns: `GetCatalogImportStatusOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `OperationTimeoutException` : The operation timed out.
     public func getCatalogImportStatus(input: GetCatalogImportStatusInput) async throws -> GetCatalogImportStatusOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2695,6 +3597,16 @@ extension GlueClient: GlueClientProtocol {
     }
 
     /// Retrieve a classifier by name.
+    ///
+    /// - Parameter GetClassifierInput : [no documentation found]
+    ///
+    /// - Returns: `GetClassifierOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `OperationTimeoutException` : The operation timed out.
     public func getClassifier(input: GetClassifierInput) async throws -> GetClassifierOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2732,6 +3644,15 @@ extension GlueClient: GlueClientProtocol {
     }
 
     /// Lists all classifier objects in the Data Catalog.
+    ///
+    /// - Parameter GetClassifiersInput : [no documentation found]
+    ///
+    /// - Returns: `GetClassifiersOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `OperationTimeoutException` : The operation timed out.
     public func getClassifiers(input: GetClassifiersInput) async throws -> GetClassifiersOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2769,6 +3690,19 @@ extension GlueClient: GlueClientProtocol {
     }
 
     /// Retrieves partition statistics of columns. The Identity and Access Management (IAM) permission required for this operation is GetPartition.
+    ///
+    /// - Parameter GetColumnStatisticsForPartitionInput : [no documentation found]
+    ///
+    /// - Returns: `GetColumnStatisticsForPartitionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `GlueEncryptionException` : An encryption operation failed.
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
     public func getColumnStatisticsForPartition(input: GetColumnStatisticsForPartitionInput) async throws -> GetColumnStatisticsForPartitionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2806,6 +3740,19 @@ extension GlueClient: GlueClientProtocol {
     }
 
     /// Retrieves table statistics of columns. The Identity and Access Management (IAM) permission required for this operation is GetTable.
+    ///
+    /// - Parameter GetColumnStatisticsForTableInput : [no documentation found]
+    ///
+    /// - Returns: `GetColumnStatisticsForTableOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `GlueEncryptionException` : An encryption operation failed.
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
     public func getColumnStatisticsForTable(input: GetColumnStatisticsForTableInput) async throws -> GetColumnStatisticsForTableOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2843,6 +3790,18 @@ extension GlueClient: GlueClientProtocol {
     }
 
     /// Retrieves a connection definition from the Data Catalog.
+    ///
+    /// - Parameter GetConnectionInput : [no documentation found]
+    ///
+    /// - Returns: `GetConnectionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `GlueEncryptionException` : An encryption operation failed.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
     public func getConnection(input: GetConnectionInput) async throws -> GetConnectionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2880,6 +3839,18 @@ extension GlueClient: GlueClientProtocol {
     }
 
     /// Retrieves a list of connection definitions from the Data Catalog.
+    ///
+    /// - Parameter GetConnectionsInput : [no documentation found]
+    ///
+    /// - Returns: `GetConnectionsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `GlueEncryptionException` : An encryption operation failed.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
     public func getConnections(input: GetConnectionsInput) async throws -> GetConnectionsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2917,6 +3888,16 @@ extension GlueClient: GlueClientProtocol {
     }
 
     /// Retrieves metadata for a specified crawler.
+    ///
+    /// - Parameter GetCrawlerInput : [no documentation found]
+    ///
+    /// - Returns: `GetCrawlerOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `OperationTimeoutException` : The operation timed out.
     public func getCrawler(input: GetCrawlerInput) async throws -> GetCrawlerOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2954,6 +3935,15 @@ extension GlueClient: GlueClientProtocol {
     }
 
     /// Retrieves metrics about specified crawlers.
+    ///
+    /// - Parameter GetCrawlerMetricsInput : [no documentation found]
+    ///
+    /// - Returns: `GetCrawlerMetricsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `OperationTimeoutException` : The operation timed out.
     public func getCrawlerMetrics(input: GetCrawlerMetricsInput) async throws -> GetCrawlerMetricsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2991,6 +3981,15 @@ extension GlueClient: GlueClientProtocol {
     }
 
     /// Retrieves metadata for all crawlers defined in the customer account.
+    ///
+    /// - Parameter GetCrawlersInput : [no documentation found]
+    ///
+    /// - Returns: `GetCrawlersOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `OperationTimeoutException` : The operation timed out.
     public func getCrawlers(input: GetCrawlersInput) async throws -> GetCrawlersOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3028,6 +4027,19 @@ extension GlueClient: GlueClientProtocol {
     }
 
     /// Retrieves the details of a custom pattern by specifying its name.
+    ///
+    /// - Parameter GetCustomEntityTypeInput : [no documentation found]
+    ///
+    /// - Returns: `GetCustomEntityTypeOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to a resource was denied.
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
     public func getCustomEntityType(input: GetCustomEntityTypeInput) async throws -> GetCustomEntityTypeOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3065,6 +4077,17 @@ extension GlueClient: GlueClientProtocol {
     }
 
     /// Retrieves the security configuration for a specified catalog.
+    ///
+    /// - Parameter GetDataCatalogEncryptionSettingsInput : [no documentation found]
+    ///
+    /// - Returns: `GetDataCatalogEncryptionSettingsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
     public func getDataCatalogEncryptionSettings(input: GetDataCatalogEncryptionSettingsInput) async throws -> GetDataCatalogEncryptionSettingsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3102,6 +4125,18 @@ extension GlueClient: GlueClientProtocol {
     }
 
     /// Retrieves the result of a data quality rule evaluation.
+    ///
+    /// - Parameter GetDataQualityResultInput : [no documentation found]
+    ///
+    /// - Returns: `GetDataQualityResultOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
     public func getDataQualityResult(input: GetDataQualityResultInput) async throws -> GetDataQualityResultOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3139,6 +4174,18 @@ extension GlueClient: GlueClientProtocol {
     }
 
     /// Gets the specified recommendation run that was used to generate rules.
+    ///
+    /// - Parameter GetDataQualityRuleRecommendationRunInput : [no documentation found]
+    ///
+    /// - Returns: `GetDataQualityRuleRecommendationRunOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
     public func getDataQualityRuleRecommendationRun(input: GetDataQualityRuleRecommendationRunInput) async throws -> GetDataQualityRuleRecommendationRunOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3176,6 +4223,18 @@ extension GlueClient: GlueClientProtocol {
     }
 
     /// Returns an existing ruleset by identifier or name.
+    ///
+    /// - Parameter GetDataQualityRulesetInput : [no documentation found]
+    ///
+    /// - Returns: `GetDataQualityRulesetOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
     public func getDataQualityRuleset(input: GetDataQualityRulesetInput) async throws -> GetDataQualityRulesetOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3213,6 +4272,18 @@ extension GlueClient: GlueClientProtocol {
     }
 
     /// Retrieves a specific run where a ruleset is evaluated against a data source.
+    ///
+    /// - Parameter GetDataQualityRulesetEvaluationRunInput : [no documentation found]
+    ///
+    /// - Returns: `GetDataQualityRulesetEvaluationRunOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
     public func getDataQualityRulesetEvaluationRun(input: GetDataQualityRulesetEvaluationRunInput) async throws -> GetDataQualityRulesetEvaluationRunOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3250,6 +4321,20 @@ extension GlueClient: GlueClientProtocol {
     }
 
     /// Retrieves the definition of a specified database.
+    ///
+    /// - Parameter GetDatabaseInput : [no documentation found]
+    ///
+    /// - Returns: `GetDatabaseOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `FederationSourceException` : A federation source failed.
+    /// - `GlueEncryptionException` : An encryption operation failed.
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
     public func getDatabase(input: GetDatabaseInput) async throws -> GetDatabaseOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3287,6 +4372,18 @@ extension GlueClient: GlueClientProtocol {
     }
 
     /// Retrieves all databases defined in a given Data Catalog.
+    ///
+    /// - Parameter GetDatabasesInput : [no documentation found]
+    ///
+    /// - Returns: `GetDatabasesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `GlueEncryptionException` : An encryption operation failed.
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
     public func getDatabases(input: GetDatabasesInput) async throws -> GetDatabasesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3324,6 +4421,17 @@ extension GlueClient: GlueClientProtocol {
     }
 
     /// Transforms a Python script into a directed acyclic graph (DAG).
+    ///
+    /// - Parameter GetDataflowGraphInput : [no documentation found]
+    ///
+    /// - Returns: `GetDataflowGraphOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
     public func getDataflowGraph(input: GetDataflowGraphInput) async throws -> GetDataflowGraphOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3361,6 +4469,18 @@ extension GlueClient: GlueClientProtocol {
     }
 
     /// Retrieves information about a specified development endpoint. When you create a development endpoint in a virtual private cloud (VPC), Glue returns only a private IP address, and the public IP address field is not populated. When you create a non-VPC development endpoint, Glue returns only a public IP address.
+    ///
+    /// - Parameter GetDevEndpointInput : [no documentation found]
+    ///
+    /// - Returns: `GetDevEndpointOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
     public func getDevEndpoint(input: GetDevEndpointInput) async throws -> GetDevEndpointOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3398,6 +4518,18 @@ extension GlueClient: GlueClientProtocol {
     }
 
     /// Retrieves all the development endpoints in this Amazon Web Services account. When you create a development endpoint in a virtual private cloud (VPC), Glue returns only a private IP address and the public IP address field is not populated. When you create a non-VPC development endpoint, Glue returns only a public IP address.
+    ///
+    /// - Parameter GetDevEndpointsInput : [no documentation found]
+    ///
+    /// - Returns: `GetDevEndpointsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
     public func getDevEndpoints(input: GetDevEndpointsInput) async throws -> GetDevEndpointsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3435,6 +4567,18 @@ extension GlueClient: GlueClientProtocol {
     }
 
     /// Retrieves an existing job definition.
+    ///
+    /// - Parameter GetJobInput : [no documentation found]
+    ///
+    /// - Returns: `GetJobOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
     public func getJob(input: GetJobInput) async throws -> GetJobOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3478,6 +4622,19 @@ extension GlueClient: GlueClientProtocol {
     /// * [Job parameters used by Glue](https://docs.aws.amazon.com/glue/latest/dg/aws-glue-programming-etl-glue-arguments.html)
     ///
     /// * [Job structure](https://docs.aws.amazon.com/glue/latest/dg/aws-glue-api-jobs-job.html#aws-glue-api-jobs-job-Job)
+    ///
+    /// - Parameter GetJobBookmarkInput : [no documentation found]
+    ///
+    /// - Returns: `GetJobBookmarkOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
+    /// - `ValidationException` : A value could not be validated.
     public func getJobBookmark(input: GetJobBookmarkInput) async throws -> GetJobBookmarkOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3515,6 +4672,18 @@ extension GlueClient: GlueClientProtocol {
     }
 
     /// Retrieves the metadata for a given job run.
+    ///
+    /// - Parameter GetJobRunInput : [no documentation found]
+    ///
+    /// - Returns: `GetJobRunOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
     public func getJobRun(input: GetJobRunInput) async throws -> GetJobRunOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3552,6 +4721,18 @@ extension GlueClient: GlueClientProtocol {
     }
 
     /// Retrieves metadata for all runs of a given job definition.
+    ///
+    /// - Parameter GetJobRunsInput : [no documentation found]
+    ///
+    /// - Returns: `GetJobRunsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
     public func getJobRuns(input: GetJobRunsInput) async throws -> GetJobRunsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3589,6 +4770,18 @@ extension GlueClient: GlueClientProtocol {
     }
 
     /// Retrieves all current job definitions.
+    ///
+    /// - Parameter GetJobsInput : [no documentation found]
+    ///
+    /// - Returns: `GetJobsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
     public func getJobs(input: GetJobsInput) async throws -> GetJobsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3626,6 +4819,18 @@ extension GlueClient: GlueClientProtocol {
     }
 
     /// Gets details for a specific task run on a machine learning transform. Machine learning task runs are asynchronous tasks that Glue runs on your behalf as part of various machine learning workflows. You can check the stats of any task run by calling GetMLTaskRun with the TaskRunID and its parent transform's TransformID.
+    ///
+    /// - Parameter GetMLTaskRunInput : [no documentation found]
+    ///
+    /// - Returns: `GetMLTaskRunOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
     public func getMLTaskRun(input: GetMLTaskRunInput) async throws -> GetMLTaskRunOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3663,6 +4868,18 @@ extension GlueClient: GlueClientProtocol {
     }
 
     /// Gets a list of runs for a machine learning transform. Machine learning task runs are asynchronous tasks that Glue runs on your behalf as part of various machine learning workflows. You can get a sortable, filterable list of machine learning task runs by calling GetMLTaskRuns with their parent transform's TransformID and other optional parameters as documented in this section. This operation returns a list of historic runs and must be paginated.
+    ///
+    /// - Parameter GetMLTaskRunsInput : [no documentation found]
+    ///
+    /// - Returns: `GetMLTaskRunsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
     public func getMLTaskRuns(input: GetMLTaskRunsInput) async throws -> GetMLTaskRunsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3700,6 +4917,18 @@ extension GlueClient: GlueClientProtocol {
     }
 
     /// Gets an Glue machine learning transform artifact and all its corresponding metadata. Machine learning transforms are a special type of transform that use machine learning to learn the details of the transformation to be performed by learning from examples provided by humans. These transformations are then saved by Glue. You can retrieve their metadata by calling GetMLTransform.
+    ///
+    /// - Parameter GetMLTransformInput : [no documentation found]
+    ///
+    /// - Returns: `GetMLTransformOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
     public func getMLTransform(input: GetMLTransformInput) async throws -> GetMLTransformOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3737,6 +4966,18 @@ extension GlueClient: GlueClientProtocol {
     }
 
     /// Gets a sortable, filterable list of existing Glue machine learning transforms. Machine learning transforms are a special type of transform that use machine learning to learn the details of the transformation to be performed by learning from examples provided by humans. These transformations are then saved by Glue, and you can retrieve their metadata by calling GetMLTransforms.
+    ///
+    /// - Parameter GetMLTransformsInput : [no documentation found]
+    ///
+    /// - Returns: `GetMLTransformsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
     public func getMLTransforms(input: GetMLTransformsInput) async throws -> GetMLTransformsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3774,6 +5015,18 @@ extension GlueClient: GlueClientProtocol {
     }
 
     /// Creates mappings.
+    ///
+    /// - Parameter GetMappingInput : [no documentation found]
+    ///
+    /// - Returns: `GetMappingOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
     public func getMapping(input: GetMappingInput) async throws -> GetMappingOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3811,6 +5064,21 @@ extension GlueClient: GlueClientProtocol {
     }
 
     /// Retrieves information about a specified partition.
+    ///
+    /// - Parameter GetPartitionInput : [no documentation found]
+    ///
+    /// - Returns: `GetPartitionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `FederationSourceException` : A federation source failed.
+    /// - `FederationSourceRetryableException` : [no documentation found]
+    /// - `GlueEncryptionException` : An encryption operation failed.
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
     public func getPartition(input: GetPartitionInput) async throws -> GetPartitionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3848,6 +5116,19 @@ extension GlueClient: GlueClientProtocol {
     }
 
     /// Retrieves the partition indexes associated with a table.
+    ///
+    /// - Parameter GetPartitionIndexesInput : [no documentation found]
+    ///
+    /// - Returns: `GetPartitionIndexesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictException` : The CreatePartitions API was called on a table that has indexes enabled.
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
     public func getPartitionIndexes(input: GetPartitionIndexesInput) async throws -> GetPartitionIndexesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3885,6 +5166,23 @@ extension GlueClient: GlueClientProtocol {
     }
 
     /// Retrieves information about the partitions in a table.
+    ///
+    /// - Parameter GetPartitionsInput : [no documentation found]
+    ///
+    /// - Returns: `GetPartitionsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `FederationSourceException` : A federation source failed.
+    /// - `FederationSourceRetryableException` : [no documentation found]
+    /// - `GlueEncryptionException` : An encryption operation failed.
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `InvalidStateException` : An error that indicates your data is in an invalid state.
+    /// - `OperationTimeoutException` : The operation timed out.
+    /// - `ResourceNotReadyException` : A resource was not ready for a transaction.
     public func getPartitions(input: GetPartitionsInput) async throws -> GetPartitionsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3922,6 +5220,17 @@ extension GlueClient: GlueClientProtocol {
     }
 
     /// Gets code to perform a specified mapping.
+    ///
+    /// - Parameter GetPlanInput : [no documentation found]
+    ///
+    /// - Returns: `GetPlanOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
     public func getPlan(input: GetPlanInput) async throws -> GetPlanOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3959,6 +5268,18 @@ extension GlueClient: GlueClientProtocol {
     }
 
     /// Describes the specified registry in detail.
+    ///
+    /// - Parameter GetRegistryInput : [no documentation found]
+    ///
+    /// - Returns: `GetRegistryOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to a resource was denied.
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
     public func getRegistry(input: GetRegistryInput) async throws -> GetRegistryOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3996,6 +5317,18 @@ extension GlueClient: GlueClientProtocol {
     }
 
     /// Retrieves the resource policies set on individual resources by Resource Access Manager during cross-account permission grants. Also retrieves the Data Catalog resource policy. If you enabled metadata encryption in Data Catalog settings, and you do not have permission on the KMS key, the operation can't return the Data Catalog resource policy.
+    ///
+    /// - Parameter GetResourcePoliciesInput : [no documentation found]
+    ///
+    /// - Returns: `GetResourcePoliciesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `GlueEncryptionException` : An encryption operation failed.
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
     public func getResourcePolicies(input: GetResourcePoliciesInput) async throws -> GetResourcePoliciesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -4033,6 +5366,18 @@ extension GlueClient: GlueClientProtocol {
     }
 
     /// Retrieves a specified resource policy.
+    ///
+    /// - Parameter GetResourcePolicyInput : [no documentation found]
+    ///
+    /// - Returns: `GetResourcePolicyOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
     public func getResourcePolicy(input: GetResourcePolicyInput) async throws -> GetResourcePolicyOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -4070,6 +5415,18 @@ extension GlueClient: GlueClientProtocol {
     }
 
     /// Describes the specified schema in detail.
+    ///
+    /// - Parameter GetSchemaInput : [no documentation found]
+    ///
+    /// - Returns: `GetSchemaOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to a resource was denied.
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
     public func getSchema(input: GetSchemaInput) async throws -> GetSchemaOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -4107,6 +5464,18 @@ extension GlueClient: GlueClientProtocol {
     }
 
     /// Retrieves a schema by the SchemaDefinition. The schema definition is sent to the Schema Registry, canonicalized, and hashed. If the hash is matched within the scope of the SchemaName or ARN (or the default registry, if none is supplied), that schema’s metadata is returned. Otherwise, a 404 or NotFound error is returned. Schema versions in Deleted statuses will not be included in the results.
+    ///
+    /// - Parameter GetSchemaByDefinitionInput : [no documentation found]
+    ///
+    /// - Returns: `GetSchemaByDefinitionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to a resource was denied.
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
     public func getSchemaByDefinition(input: GetSchemaByDefinitionInput) async throws -> GetSchemaByDefinitionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -4144,6 +5513,18 @@ extension GlueClient: GlueClientProtocol {
     }
 
     /// Get the specified schema by its unique ID assigned when a version of the schema is created or registered. Schema versions in Deleted status will not be included in the results.
+    ///
+    /// - Parameter GetSchemaVersionInput : [no documentation found]
+    ///
+    /// - Returns: `GetSchemaVersionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to a resource was denied.
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
     public func getSchemaVersion(input: GetSchemaVersionInput) async throws -> GetSchemaVersionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -4181,6 +5562,18 @@ extension GlueClient: GlueClientProtocol {
     }
 
     /// Fetches the schema version difference in the specified difference type between two stored schema versions in the Schema Registry. This API allows you to compare two schema versions between two schema definitions under the same schema.
+    ///
+    /// - Parameter GetSchemaVersionsDiffInput : [no documentation found]
+    ///
+    /// - Returns: `GetSchemaVersionsDiffOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to a resource was denied.
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
     public func getSchemaVersionsDiff(input: GetSchemaVersionsDiffInput) async throws -> GetSchemaVersionsDiffOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -4218,6 +5611,18 @@ extension GlueClient: GlueClientProtocol {
     }
 
     /// Retrieves a specified security configuration.
+    ///
+    /// - Parameter GetSecurityConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `GetSecurityConfigurationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
     public func getSecurityConfiguration(input: GetSecurityConfigurationInput) async throws -> GetSecurityConfigurationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -4255,6 +5660,18 @@ extension GlueClient: GlueClientProtocol {
     }
 
     /// Retrieves a list of all security configurations.
+    ///
+    /// - Parameter GetSecurityConfigurationsInput : [no documentation found]
+    ///
+    /// - Returns: `GetSecurityConfigurationsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
     public func getSecurityConfigurations(input: GetSecurityConfigurationsInput) async throws -> GetSecurityConfigurationsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -4292,6 +5709,19 @@ extension GlueClient: GlueClientProtocol {
     }
 
     /// Retrieves the session.
+    ///
+    /// - Parameter GetSessionInput : [no documentation found]
+    ///
+    /// - Returns: `GetSessionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to a resource was denied.
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
     public func getSession(input: GetSessionInput) async throws -> GetSessionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -4329,6 +5759,20 @@ extension GlueClient: GlueClientProtocol {
     }
 
     /// Retrieves the statement.
+    ///
+    /// - Parameter GetStatementInput : [no documentation found]
+    ///
+    /// - Returns: `GetStatementOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to a resource was denied.
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `IllegalSessionStateException` : The session is in an invalid state to perform a requested operation.
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
     public func getStatement(input: GetStatementInput) async throws -> GetStatementOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -4366,6 +5810,22 @@ extension GlueClient: GlueClientProtocol {
     }
 
     /// Retrieves the Table definition in a Data Catalog for a specified table.
+    ///
+    /// - Parameter GetTableInput : [no documentation found]
+    ///
+    /// - Returns: `GetTableOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `FederationSourceException` : A federation source failed.
+    /// - `FederationSourceRetryableException` : [no documentation found]
+    /// - `GlueEncryptionException` : An encryption operation failed.
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
+    /// - `ResourceNotReadyException` : A resource was not ready for a transaction.
     public func getTable(input: GetTableInput) async throws -> GetTableOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -4403,6 +5863,19 @@ extension GlueClient: GlueClientProtocol {
     }
 
     /// Retrieves a specified version of a table.
+    ///
+    /// - Parameter GetTableVersionInput : [no documentation found]
+    ///
+    /// - Returns: `GetTableVersionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `GlueEncryptionException` : An encryption operation failed.
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
     public func getTableVersion(input: GetTableVersionInput) async throws -> GetTableVersionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -4440,6 +5913,19 @@ extension GlueClient: GlueClientProtocol {
     }
 
     /// Retrieves a list of strings that identify available versions of a specified table.
+    ///
+    /// - Parameter GetTableVersionsInput : [no documentation found]
+    ///
+    /// - Returns: `GetTableVersionsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `GlueEncryptionException` : An encryption operation failed.
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
     public func getTableVersions(input: GetTableVersionsInput) async throws -> GetTableVersionsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -4477,6 +5963,21 @@ extension GlueClient: GlueClientProtocol {
     }
 
     /// Retrieves the definitions of some or all of the tables in a given Database.
+    ///
+    /// - Parameter GetTablesInput : [no documentation found]
+    ///
+    /// - Returns: `GetTablesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `FederationSourceException` : A federation source failed.
+    /// - `FederationSourceRetryableException` : [no documentation found]
+    /// - `GlueEncryptionException` : An encryption operation failed.
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
     public func getTables(input: GetTablesInput) async throws -> GetTablesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -4514,6 +6015,18 @@ extension GlueClient: GlueClientProtocol {
     }
 
     /// Retrieves a list of tags associated with a resource.
+    ///
+    /// - Parameter GetTagsInput : [no documentation found]
+    ///
+    /// - Returns: `GetTagsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
     public func getTags(input: GetTagsInput) async throws -> GetTagsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -4551,6 +6064,18 @@ extension GlueClient: GlueClientProtocol {
     }
 
     /// Retrieves the definition of a trigger.
+    ///
+    /// - Parameter GetTriggerInput : [no documentation found]
+    ///
+    /// - Returns: `GetTriggerOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
     public func getTrigger(input: GetTriggerInput) async throws -> GetTriggerOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -4588,6 +6113,18 @@ extension GlueClient: GlueClientProtocol {
     }
 
     /// Gets all the triggers associated with a job.
+    ///
+    /// - Parameter GetTriggersInput : [no documentation found]
+    ///
+    /// - Returns: `GetTriggersOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
     public func getTriggers(input: GetTriggersInput) async throws -> GetTriggersOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -4625,6 +6162,22 @@ extension GlueClient: GlueClientProtocol {
     }
 
     /// Retrieves partition metadata from the Data Catalog that contains unfiltered metadata. For IAM authorization, the public IAM action associated with this API is glue:GetPartition.
+    ///
+    /// - Parameter GetUnfilteredPartitionMetadataInput : [no documentation found]
+    ///
+    /// - Returns: `GetUnfilteredPartitionMetadataOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `FederationSourceException` : A federation source failed.
+    /// - `FederationSourceRetryableException` : [no documentation found]
+    /// - `GlueEncryptionException` : An encryption operation failed.
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
+    /// - `PermissionTypeMismatchException` : The operation timed out.
     public func getUnfilteredPartitionMetadata(input: GetUnfilteredPartitionMetadataInput) async throws -> GetUnfilteredPartitionMetadataOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -4662,6 +6215,22 @@ extension GlueClient: GlueClientProtocol {
     }
 
     /// Retrieves partition metadata from the Data Catalog that contains unfiltered metadata. For IAM authorization, the public IAM action associated with this API is glue:GetPartitions.
+    ///
+    /// - Parameter GetUnfilteredPartitionsMetadataInput : [no documentation found]
+    ///
+    /// - Returns: `GetUnfilteredPartitionsMetadataOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `FederationSourceException` : A federation source failed.
+    /// - `FederationSourceRetryableException` : [no documentation found]
+    /// - `GlueEncryptionException` : An encryption operation failed.
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
+    /// - `PermissionTypeMismatchException` : The operation timed out.
     public func getUnfilteredPartitionsMetadata(input: GetUnfilteredPartitionsMetadataInput) async throws -> GetUnfilteredPartitionsMetadataOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -4699,6 +6268,22 @@ extension GlueClient: GlueClientProtocol {
     }
 
     /// Retrieves table metadata from the Data Catalog that contains unfiltered metadata. For IAM authorization, the public IAM action associated with this API is glue:GetTable.
+    ///
+    /// - Parameter GetUnfilteredTableMetadataInput : [no documentation found]
+    ///
+    /// - Returns: `GetUnfilteredTableMetadataOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `FederationSourceException` : A federation source failed.
+    /// - `FederationSourceRetryableException` : [no documentation found]
+    /// - `GlueEncryptionException` : An encryption operation failed.
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
+    /// - `PermissionTypeMismatchException` : The operation timed out.
     public func getUnfilteredTableMetadata(input: GetUnfilteredTableMetadataInput) async throws -> GetUnfilteredTableMetadataOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -4736,6 +6321,19 @@ extension GlueClient: GlueClientProtocol {
     }
 
     /// Retrieves a specified function definition from the Data Catalog.
+    ///
+    /// - Parameter GetUserDefinedFunctionInput : [no documentation found]
+    ///
+    /// - Returns: `GetUserDefinedFunctionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `GlueEncryptionException` : An encryption operation failed.
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
     public func getUserDefinedFunction(input: GetUserDefinedFunctionInput) async throws -> GetUserDefinedFunctionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -4773,6 +6371,19 @@ extension GlueClient: GlueClientProtocol {
     }
 
     /// Retrieves multiple function definitions from the Data Catalog.
+    ///
+    /// - Parameter GetUserDefinedFunctionsInput : [no documentation found]
+    ///
+    /// - Returns: `GetUserDefinedFunctionsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `GlueEncryptionException` : An encryption operation failed.
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
     public func getUserDefinedFunctions(input: GetUserDefinedFunctionsInput) async throws -> GetUserDefinedFunctionsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -4810,6 +6421,18 @@ extension GlueClient: GlueClientProtocol {
     }
 
     /// Retrieves resource metadata for a workflow.
+    ///
+    /// - Parameter GetWorkflowInput : [no documentation found]
+    ///
+    /// - Returns: `GetWorkflowOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
     public func getWorkflow(input: GetWorkflowInput) async throws -> GetWorkflowOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -4847,6 +6470,18 @@ extension GlueClient: GlueClientProtocol {
     }
 
     /// Retrieves the metadata for a given workflow run.
+    ///
+    /// - Parameter GetWorkflowRunInput : [no documentation found]
+    ///
+    /// - Returns: `GetWorkflowRunOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
     public func getWorkflowRun(input: GetWorkflowRunInput) async throws -> GetWorkflowRunOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -4884,6 +6519,18 @@ extension GlueClient: GlueClientProtocol {
     }
 
     /// Retrieves the workflow run properties which were set during the run.
+    ///
+    /// - Parameter GetWorkflowRunPropertiesInput : [no documentation found]
+    ///
+    /// - Returns: `GetWorkflowRunPropertiesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
     public func getWorkflowRunProperties(input: GetWorkflowRunPropertiesInput) async throws -> GetWorkflowRunPropertiesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -4921,6 +6568,18 @@ extension GlueClient: GlueClientProtocol {
     }
 
     /// Retrieves metadata for all runs of a given workflow.
+    ///
+    /// - Parameter GetWorkflowRunsInput : [no documentation found]
+    ///
+    /// - Returns: `GetWorkflowRunsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
     public func getWorkflowRuns(input: GetWorkflowRunsInput) async throws -> GetWorkflowRunsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -4958,6 +6617,16 @@ extension GlueClient: GlueClientProtocol {
     }
 
     /// Imports an existing Amazon Athena Data Catalog to Glue.
+    ///
+    /// - Parameter ImportCatalogToGlueInput : [no documentation found]
+    ///
+    /// - Returns: `ImportCatalogToGlueOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `OperationTimeoutException` : The operation timed out.
     public func importCatalogToGlue(input: ImportCatalogToGlueInput) async throws -> ImportCatalogToGlueOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -4995,6 +6664,17 @@ extension GlueClient: GlueClientProtocol {
     }
 
     /// Lists all the blueprint names in an account.
+    ///
+    /// - Parameter ListBlueprintsInput : [no documentation found]
+    ///
+    /// - Returns: `ListBlueprintsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
     public func listBlueprints(input: ListBlueprintsInput) async throws -> ListBlueprintsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -5032,6 +6712,15 @@ extension GlueClient: GlueClientProtocol {
     }
 
     /// Retrieves the names of all crawler resources in this Amazon Web Services account, or the resources with the specified tag. This operation allows you to see which resources are available in your account, and their names. This operation takes the optional Tags field, which you can use as a filter on the response so that tagged resources can be retrieved as a group. If you choose to use tags filtering, only resources with the tag are retrieved.
+    ///
+    /// - Parameter ListCrawlersInput : [no documentation found]
+    ///
+    /// - Returns: `ListCrawlersOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `OperationTimeoutException` : The operation timed out.
     public func listCrawlers(input: ListCrawlersInput) async throws -> ListCrawlersOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -5077,6 +6766,17 @@ extension GlueClient: GlueClientProtocol {
     /// * Retrieve all the crawls of a specified crawler in a specific time range.
     ///
     /// * Retrieve all the crawls of a specified crawler with a particular state, crawl ID, or DPU hour value.
+    ///
+    /// - Parameter ListCrawlsInput : [no documentation found]
+    ///
+    /// - Returns: `ListCrawlsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
     public func listCrawls(input: ListCrawlsInput) async throws -> ListCrawlsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -5114,6 +6814,17 @@ extension GlueClient: GlueClientProtocol {
     }
 
     /// Lists all the custom patterns that have been created.
+    ///
+    /// - Parameter ListCustomEntityTypesInput : [no documentation found]
+    ///
+    /// - Returns: `ListCustomEntityTypesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
     public func listCustomEntityTypes(input: ListCustomEntityTypesInput) async throws -> ListCustomEntityTypesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -5151,6 +6862,17 @@ extension GlueClient: GlueClientProtocol {
     }
 
     /// Returns all data quality execution results for your account.
+    ///
+    /// - Parameter ListDataQualityResultsInput : [no documentation found]
+    ///
+    /// - Returns: `ListDataQualityResultsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
     public func listDataQualityResults(input: ListDataQualityResultsInput) async throws -> ListDataQualityResultsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -5188,6 +6910,17 @@ extension GlueClient: GlueClientProtocol {
     }
 
     /// Lists the recommendation runs meeting the filter criteria.
+    ///
+    /// - Parameter ListDataQualityRuleRecommendationRunsInput : [no documentation found]
+    ///
+    /// - Returns: `ListDataQualityRuleRecommendationRunsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
     public func listDataQualityRuleRecommendationRuns(input: ListDataQualityRuleRecommendationRunsInput) async throws -> ListDataQualityRuleRecommendationRunsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -5225,6 +6958,17 @@ extension GlueClient: GlueClientProtocol {
     }
 
     /// Lists all the runs meeting the filter criteria, where a ruleset is evaluated against a data source.
+    ///
+    /// - Parameter ListDataQualityRulesetEvaluationRunsInput : [no documentation found]
+    ///
+    /// - Returns: `ListDataQualityRulesetEvaluationRunsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
     public func listDataQualityRulesetEvaluationRuns(input: ListDataQualityRulesetEvaluationRunsInput) async throws -> ListDataQualityRulesetEvaluationRunsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -5262,6 +7006,18 @@ extension GlueClient: GlueClientProtocol {
     }
 
     /// Returns a paginated list of rulesets for the specified list of Glue tables.
+    ///
+    /// - Parameter ListDataQualityRulesetsInput : [no documentation found]
+    ///
+    /// - Returns: `ListDataQualityRulesetsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
     public func listDataQualityRulesets(input: ListDataQualityRulesetsInput) async throws -> ListDataQualityRulesetsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -5299,6 +7055,18 @@ extension GlueClient: GlueClientProtocol {
     }
 
     /// Retrieves the names of all DevEndpoint resources in this Amazon Web Services account, or the resources with the specified tag. This operation allows you to see which resources are available in your account, and their names. This operation takes the optional Tags field, which you can use as a filter on the response so that tagged resources can be retrieved as a group. If you choose to use tags filtering, only resources with the tag are retrieved.
+    ///
+    /// - Parameter ListDevEndpointsInput : [no documentation found]
+    ///
+    /// - Returns: `ListDevEndpointsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
     public func listDevEndpoints(input: ListDevEndpointsInput) async throws -> ListDevEndpointsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -5336,6 +7104,18 @@ extension GlueClient: GlueClientProtocol {
     }
 
     /// Retrieves the names of all job resources in this Amazon Web Services account, or the resources with the specified tag. This operation allows you to see which resources are available in your account, and their names. This operation takes the optional Tags field, which you can use as a filter on the response so that tagged resources can be retrieved as a group. If you choose to use tags filtering, only resources with the tag are retrieved.
+    ///
+    /// - Parameter ListJobsInput : [no documentation found]
+    ///
+    /// - Returns: `ListJobsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
     public func listJobs(input: ListJobsInput) async throws -> ListJobsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -5373,6 +7153,18 @@ extension GlueClient: GlueClientProtocol {
     }
 
     /// Retrieves a sortable, filterable list of existing Glue machine learning transforms in this Amazon Web Services account, or the resources with the specified tag. This operation takes the optional Tags field, which you can use as a filter of the responses so that tagged resources can be retrieved as a group. If you choose to use tag filtering, only resources with the tags are retrieved.
+    ///
+    /// - Parameter ListMLTransformsInput : [no documentation found]
+    ///
+    /// - Returns: `ListMLTransformsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
     public func listMLTransforms(input: ListMLTransformsInput) async throws -> ListMLTransformsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -5410,6 +7202,17 @@ extension GlueClient: GlueClientProtocol {
     }
 
     /// Returns a list of registries that you have created, with minimal registry information. Registries in the Deleting status will not be included in the results. Empty results will be returned if there are no registries available.
+    ///
+    /// - Parameter ListRegistriesInput : [no documentation found]
+    ///
+    /// - Returns: `ListRegistriesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to a resource was denied.
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
     public func listRegistries(input: ListRegistriesInput) async throws -> ListRegistriesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -5447,6 +7250,18 @@ extension GlueClient: GlueClientProtocol {
     }
 
     /// Returns a list of schema versions that you have created, with minimal information. Schema versions in Deleted status will not be included in the results. Empty results will be returned if there are no schema versions available.
+    ///
+    /// - Parameter ListSchemaVersionsInput : [no documentation found]
+    ///
+    /// - Returns: `ListSchemaVersionsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to a resource was denied.
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
     public func listSchemaVersions(input: ListSchemaVersionsInput) async throws -> ListSchemaVersionsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -5484,6 +7299,18 @@ extension GlueClient: GlueClientProtocol {
     }
 
     /// Returns a list of schemas with minimal details. Schemas in Deleting status will not be included in the results. Empty results will be returned if there are no schemas available. When the RegistryId is not provided, all the schemas across registries will be part of the API response.
+    ///
+    /// - Parameter ListSchemasInput : [no documentation found]
+    ///
+    /// - Returns: `ListSchemasOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to a resource was denied.
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
     public func listSchemas(input: ListSchemasInput) async throws -> ListSchemasOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -5521,6 +7348,18 @@ extension GlueClient: GlueClientProtocol {
     }
 
     /// Retrieve a list of sessions.
+    ///
+    /// - Parameter ListSessionsInput : [no documentation found]
+    ///
+    /// - Returns: `ListSessionsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to a resource was denied.
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
     public func listSessions(input: ListSessionsInput) async throws -> ListSessionsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -5558,6 +7397,20 @@ extension GlueClient: GlueClientProtocol {
     }
 
     /// Lists statements for the session.
+    ///
+    /// - Parameter ListStatementsInput : [no documentation found]
+    ///
+    /// - Returns: `ListStatementsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to a resource was denied.
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `IllegalSessionStateException` : The session is in an invalid state to perform a requested operation.
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
     public func listStatements(input: ListStatementsInput) async throws -> ListStatementsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -5595,6 +7448,18 @@ extension GlueClient: GlueClientProtocol {
     }
 
     /// Retrieves the names of all trigger resources in this Amazon Web Services account, or the resources with the specified tag. This operation allows you to see which resources are available in your account, and their names. This operation takes the optional Tags field, which you can use as a filter on the response so that tagged resources can be retrieved as a group. If you choose to use tags filtering, only resources with the tag are retrieved.
+    ///
+    /// - Parameter ListTriggersInput : [no documentation found]
+    ///
+    /// - Returns: `ListTriggersOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
     public func listTriggers(input: ListTriggersInput) async throws -> ListTriggersOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -5632,6 +7497,17 @@ extension GlueClient: GlueClientProtocol {
     }
 
     /// Lists names of workflows created in the account.
+    ///
+    /// - Parameter ListWorkflowsInput : [no documentation found]
+    ///
+    /// - Returns: `ListWorkflowsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
     public func listWorkflows(input: ListWorkflowsInput) async throws -> ListWorkflowsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -5669,6 +7545,17 @@ extension GlueClient: GlueClientProtocol {
     }
 
     /// Sets the security configuration for a specified catalog. After the configuration has been set, the specified encryption is applied to every catalog write thereafter.
+    ///
+    /// - Parameter PutDataCatalogEncryptionSettingsInput : [no documentation found]
+    ///
+    /// - Returns: `PutDataCatalogEncryptionSettingsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
     public func putDataCatalogEncryptionSettings(input: PutDataCatalogEncryptionSettingsInput) async throws -> PutDataCatalogEncryptionSettingsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -5706,6 +7593,19 @@ extension GlueClient: GlueClientProtocol {
     }
 
     /// Sets the Data Catalog resource policy for access control.
+    ///
+    /// - Parameter PutResourcePolicyInput : [no documentation found]
+    ///
+    /// - Returns: `PutResourcePolicyOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConditionCheckFailureException` : A specified condition was not satisfied.
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
     public func putResourcePolicy(input: PutResourcePolicyInput) async throws -> PutResourcePolicyOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -5743,6 +7643,19 @@ extension GlueClient: GlueClientProtocol {
     }
 
     /// Puts the metadata key value pair for a specified schema version ID. A maximum of 10 key value pairs will be allowed per schema version. They can be added over one or more calls.
+    ///
+    /// - Parameter PutSchemaVersionMetadataInput : [no documentation found]
+    ///
+    /// - Returns: `PutSchemaVersionMetadataOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to a resource was denied.
+    /// - `AlreadyExistsException` : A resource to be created or added already exists.
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `ResourceNumberLimitExceededException` : A resource numerical limit was exceeded.
     public func putSchemaVersionMetadata(input: PutSchemaVersionMetadataInput) async throws -> PutSchemaVersionMetadataOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -5780,6 +7693,21 @@ extension GlueClient: GlueClientProtocol {
     }
 
     /// Puts the specified workflow run properties for the given workflow run. If a property already exists for the specified run, then it overrides the value otherwise adds the property to existing properties.
+    ///
+    /// - Parameter PutWorkflowRunPropertiesInput : [no documentation found]
+    ///
+    /// - Returns: `PutWorkflowRunPropertiesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AlreadyExistsException` : A resource to be created or added already exists.
+    /// - `ConcurrentModificationException` : Two processes are trying to modify a resource simultaneously.
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
+    /// - `ResourceNumberLimitExceededException` : A resource numerical limit was exceeded.
     public func putWorkflowRunProperties(input: PutWorkflowRunPropertiesInput) async throws -> PutWorkflowRunPropertiesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -5817,6 +7745,17 @@ extension GlueClient: GlueClientProtocol {
     }
 
     /// Queries for the schema version metadata information.
+    ///
+    /// - Parameter QuerySchemaVersionMetadataInput : [no documentation found]
+    ///
+    /// - Returns: `QuerySchemaVersionMetadataOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to a resource was denied.
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `InvalidInputException` : The input provided was not valid.
     public func querySchemaVersionMetadata(input: QuerySchemaVersionMetadataInput) async throws -> QuerySchemaVersionMetadataOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -5854,6 +7793,20 @@ extension GlueClient: GlueClientProtocol {
     }
 
     /// Adds a new version to the existing schema. Returns an error if new version of schema does not meet the compatibility requirements of the schema set. This API will not create a new schema set and will return a 404 error if the schema set is not already present in the Schema Registry. If this is the first schema definition to be registered in the Schema Registry, this API will store the schema version and return immediately. Otherwise, this call has the potential to run longer than other operations due to compatibility modes. You can call the GetSchemaVersion API with the SchemaVersionId to check compatibility modes. If the same schema definition is already stored in Schema Registry as a version, the schema ID of the existing schema is returned to the caller.
+    ///
+    /// - Parameter RegisterSchemaVersionInput : [no documentation found]
+    ///
+    /// - Returns: `RegisterSchemaVersionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to a resource was denied.
+    /// - `ConcurrentModificationException` : Two processes are trying to modify a resource simultaneously.
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `ResourceNumberLimitExceededException` : A resource numerical limit was exceeded.
     public func registerSchemaVersion(input: RegisterSchemaVersionInput) async throws -> RegisterSchemaVersionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -5891,6 +7844,17 @@ extension GlueClient: GlueClientProtocol {
     }
 
     /// Removes a key value pair from the schema version metadata for the specified schema version ID.
+    ///
+    /// - Parameter RemoveSchemaVersionMetadataInput : [no documentation found]
+    ///
+    /// - Returns: `RemoveSchemaVersionMetadataOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to a resource was denied.
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `InvalidInputException` : The input provided was not valid.
     public func removeSchemaVersionMetadata(input: RemoveSchemaVersionMetadataInput) async throws -> RemoveSchemaVersionMetadataOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -5934,6 +7898,18 @@ extension GlueClient: GlueClientProtocol {
     /// * [Job parameters used by Glue](https://docs.aws.amazon.com/glue/latest/dg/aws-glue-programming-etl-glue-arguments.html)
     ///
     /// * [Job structure](https://docs.aws.amazon.com/glue/latest/dg/aws-glue-api-jobs-job.html#aws-glue-api-jobs-job-Job)
+    ///
+    /// - Parameter ResetJobBookmarkInput : [no documentation found]
+    ///
+    /// - Returns: `ResetJobBookmarkOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
     public func resetJobBookmark(input: ResetJobBookmarkInput) async throws -> ResetJobBookmarkOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -5971,6 +7947,20 @@ extension GlueClient: GlueClientProtocol {
     }
 
     /// Restarts selected nodes of a previous partially completed workflow run and resumes the workflow run. The selected nodes and all nodes that are downstream from the selected nodes are run.
+    ///
+    /// - Parameter ResumeWorkflowRunInput : [no documentation found]
+    ///
+    /// - Returns: `ResumeWorkflowRunOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConcurrentRunsExceededException` : Too many jobs are being run concurrently.
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `IllegalWorkflowStateException` : The workflow is in an invalid state to perform a requested operation.
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
     public func resumeWorkflowRun(input: ResumeWorkflowRunInput) async throws -> ResumeWorkflowRunOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -6008,6 +7998,22 @@ extension GlueClient: GlueClientProtocol {
     }
 
     /// Executes the statement.
+    ///
+    /// - Parameter RunStatementInput : [no documentation found]
+    ///
+    /// - Returns: `RunStatementOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to a resource was denied.
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `IllegalSessionStateException` : The session is in an invalid state to perform a requested operation.
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
+    /// - `ResourceNumberLimitExceededException` : A resource numerical limit was exceeded.
+    /// - `ValidationException` : A value could not be validated.
     public func runStatement(input: RunStatementInput) async throws -> RunStatementOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -6045,6 +8051,17 @@ extension GlueClient: GlueClientProtocol {
     }
 
     /// Searches a set of tables based on properties in the table metadata as well as on the parent database. You can search against text or filter conditions. You can only get tables that you have access to based on the security policies defined in Lake Formation. You need at least a read-only access to the table for it to be returned. If you do not have access to all the columns in the table, these columns will not be searched against when returning the list of tables back to you. If you have access to the columns but not the data in the columns, those columns and the associated metadata for those columns will be included in the search.
+    ///
+    /// - Parameter SearchTablesInput : [no documentation found]
+    ///
+    /// - Returns: `SearchTablesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
     public func searchTables(input: SearchTablesInput) async throws -> SearchTablesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -6082,6 +8099,20 @@ extension GlueClient: GlueClientProtocol {
     }
 
     /// Starts a new run of the specified blueprint.
+    ///
+    /// - Parameter StartBlueprintRunInput : [no documentation found]
+    ///
+    /// - Returns: `StartBlueprintRunOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `IllegalBlueprintStateException` : The blueprint is in an invalid state to perform a requested operation.
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
+    /// - `ResourceNumberLimitExceededException` : A resource numerical limit was exceeded.
     public func startBlueprintRun(input: StartBlueprintRunInput) async throws -> StartBlueprintRunOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -6119,6 +8150,17 @@ extension GlueClient: GlueClientProtocol {
     }
 
     /// Starts a crawl using the specified crawler, regardless of what is scheduled. If the crawler is already running, returns a [CrawlerRunningException](https://docs.aws.amazon.com/glue/latest/dg/aws-glue-api-exceptions.html#aws-glue-api-exceptions-CrawlerRunningException).
+    ///
+    /// - Parameter StartCrawlerInput : [no documentation found]
+    ///
+    /// - Returns: `StartCrawlerOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `CrawlerRunningException` : The operation cannot be performed because the crawler is already running.
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `OperationTimeoutException` : The operation timed out.
     public func startCrawler(input: StartCrawlerInput) async throws -> StartCrawlerOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -6156,6 +8198,19 @@ extension GlueClient: GlueClientProtocol {
     }
 
     /// Changes the schedule state of the specified crawler to SCHEDULED, unless the crawler is already running or the schedule state is already SCHEDULED.
+    ///
+    /// - Parameter StartCrawlerScheduleInput : [no documentation found]
+    ///
+    /// - Returns: `StartCrawlerScheduleOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `NoScheduleException` : There is no applicable schedule.
+    /// - `OperationTimeoutException` : The operation timed out.
+    /// - `SchedulerRunningException` : The specified scheduler is already running.
+    /// - `SchedulerTransitioningException` : The specified scheduler is transitioning.
     public func startCrawlerSchedule(input: StartCrawlerScheduleInput) async throws -> StartCrawlerScheduleOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -6193,6 +8248,18 @@ extension GlueClient: GlueClientProtocol {
     }
 
     /// Starts a recommendation run that is used to generate rules when you don't know what rules to write. Glue Data Quality analyzes the data and comes up with recommendations for a potential ruleset. You can then triage the ruleset and modify the generated ruleset to your liking.
+    ///
+    /// - Parameter StartDataQualityRuleRecommendationRunInput : [no documentation found]
+    ///
+    /// - Returns: `StartDataQualityRuleRecommendationRunOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictException` : The CreatePartitions API was called on a table that has indexes enabled.
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
     public func startDataQualityRuleRecommendationRun(input: StartDataQualityRuleRecommendationRunInput) async throws -> StartDataQualityRuleRecommendationRunOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -6230,6 +8297,19 @@ extension GlueClient: GlueClientProtocol {
     }
 
     /// Once you have a ruleset definition (either recommended or your own), you call this operation to evaluate the ruleset against a data source (Glue table). The evaluation computes results which you can retrieve with the GetDataQualityResult API.
+    ///
+    /// - Parameter StartDataQualityRulesetEvaluationRunInput : [no documentation found]
+    ///
+    /// - Returns: `StartDataQualityRulesetEvaluationRunOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictException` : The CreatePartitions API was called on a table that has indexes enabled.
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
     public func startDataQualityRulesetEvaluationRun(input: StartDataQualityRulesetEvaluationRunInput) async throws -> StartDataQualityRulesetEvaluationRunOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -6267,6 +8347,18 @@ extension GlueClient: GlueClientProtocol {
     }
 
     /// Begins an asynchronous task to export all labeled data for a particular transform. This task is the only label-related API call that is not part of the typical active learning workflow. You typically use StartExportLabelsTaskRun when you want to work with all of your existing labels at the same time, such as when you want to remove or change labels that were previously submitted as truth. This API operation accepts the TransformId whose labels you want to export and an Amazon Simple Storage Service (Amazon S3) path to export the labels to. The operation returns a TaskRunId. You can check on the status of your task run by calling the GetMLTaskRun API.
+    ///
+    /// - Parameter StartExportLabelsTaskRunInput : [no documentation found]
+    ///
+    /// - Returns: `StartExportLabelsTaskRunOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
     public func startExportLabelsTaskRun(input: StartExportLabelsTaskRunInput) async throws -> StartExportLabelsTaskRunOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -6304,6 +8396,19 @@ extension GlueClient: GlueClientProtocol {
     }
 
     /// Enables you to provide additional labels (examples of truth) to be used to teach the machine learning transform and improve its quality. This API operation is generally used as part of the active learning workflow that starts with the StartMLLabelingSetGenerationTaskRun call and that ultimately results in improving the quality of your machine learning transform. After the StartMLLabelingSetGenerationTaskRun finishes, Glue machine learning will have generated a series of questions for humans to answer. (Answering these questions is often called 'labeling' in the machine learning workflows). In the case of the FindMatches transform, these questions are of the form, “What is the correct way to group these rows together into groups composed entirely of matching records?” After the labeling process is finished, users upload their answers/labels with a call to StartImportLabelsTaskRun. After StartImportLabelsTaskRun finishes, all future runs of the machine learning transform use the new and improved labels and perform a higher-quality transformation. By default, StartMLLabelingSetGenerationTaskRun continually learns from and combines all labels that you upload unless you set Replace to true. If you set Replace to true, StartImportLabelsTaskRun deletes and forgets all previously uploaded labels and learns only from the exact set that you upload. Replacing labels can be helpful if you realize that you previously uploaded incorrect labels, and you believe that they are having a negative effect on your transform quality. You can check on the status of your task run by calling the GetMLTaskRun operation.
+    ///
+    /// - Parameter StartImportLabelsTaskRunInput : [no documentation found]
+    ///
+    /// - Returns: `StartImportLabelsTaskRunOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
+    /// - `ResourceNumberLimitExceededException` : A resource numerical limit was exceeded.
     public func startImportLabelsTaskRun(input: StartImportLabelsTaskRunInput) async throws -> StartImportLabelsTaskRunOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -6341,6 +8446,20 @@ extension GlueClient: GlueClientProtocol {
     }
 
     /// Starts a job run using a job definition.
+    ///
+    /// - Parameter StartJobRunInput : [no documentation found]
+    ///
+    /// - Returns: `StartJobRunOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConcurrentRunsExceededException` : Too many jobs are being run concurrently.
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
+    /// - `ResourceNumberLimitExceededException` : A resource numerical limit was exceeded.
     public func startJobRun(input: StartJobRunInput) async throws -> StartJobRunOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -6378,6 +8497,20 @@ extension GlueClient: GlueClientProtocol {
     }
 
     /// Starts a task to estimate the quality of the transform. When you provide label sets as examples of truth, Glue machine learning uses some of those examples to learn from them. The rest of the labels are used as a test to estimate quality. Returns a unique identifier for the run. You can call GetMLTaskRun to get more information about the stats of the EvaluationTaskRun.
+    ///
+    /// - Parameter StartMLEvaluationTaskRunInput : [no documentation found]
+    ///
+    /// - Returns: `StartMLEvaluationTaskRunOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConcurrentRunsExceededException` : Too many jobs are being run concurrently.
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `MLTransformNotReadyException` : The machine learning transform is not ready to run.
+    /// - `OperationTimeoutException` : The operation timed out.
     public func startMLEvaluationTaskRun(input: StartMLEvaluationTaskRunInput) async throws -> StartMLEvaluationTaskRunOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -6415,6 +8548,19 @@ extension GlueClient: GlueClientProtocol {
     }
 
     /// Starts the active learning workflow for your machine learning transform to improve the transform's quality by generating label sets and adding labels. When the StartMLLabelingSetGenerationTaskRun finishes, Glue will have generated a "labeling set" or a set of questions for humans to answer. In the case of the FindMatches transform, these questions are of the form, “What is the correct way to group these rows together into groups composed entirely of matching records?” After the labeling process is finished, you can upload your labels with a call to StartImportLabelsTaskRun. After StartImportLabelsTaskRun finishes, all future runs of the machine learning transform will use the new and improved labels and perform a higher-quality transformation.
+    ///
+    /// - Parameter StartMLLabelingSetGenerationTaskRunInput : [no documentation found]
+    ///
+    /// - Returns: `StartMLLabelingSetGenerationTaskRunOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConcurrentRunsExceededException` : Too many jobs are being run concurrently.
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
     public func startMLLabelingSetGenerationTaskRun(input: StartMLLabelingSetGenerationTaskRunInput) async throws -> StartMLLabelingSetGenerationTaskRunOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -6452,6 +8598,20 @@ extension GlueClient: GlueClientProtocol {
     }
 
     /// Starts an existing trigger. See [Triggering Jobs](https://docs.aws.amazon.com/glue/latest/dg/trigger-job.html) for information about how different types of trigger are started.
+    ///
+    /// - Parameter StartTriggerInput : [no documentation found]
+    ///
+    /// - Returns: `StartTriggerOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConcurrentRunsExceededException` : Too many jobs are being run concurrently.
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
+    /// - `ResourceNumberLimitExceededException` : A resource numerical limit was exceeded.
     public func startTrigger(input: StartTriggerInput) async throws -> StartTriggerOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -6489,6 +8649,20 @@ extension GlueClient: GlueClientProtocol {
     }
 
     /// Starts a new run of the specified workflow.
+    ///
+    /// - Parameter StartWorkflowRunInput : [no documentation found]
+    ///
+    /// - Returns: `StartWorkflowRunOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConcurrentRunsExceededException` : Too many jobs are being run concurrently.
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
+    /// - `ResourceNumberLimitExceededException` : A resource numerical limit was exceeded.
     public func startWorkflowRun(input: StartWorkflowRunInput) async throws -> StartWorkflowRunOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -6526,6 +8700,18 @@ extension GlueClient: GlueClientProtocol {
     }
 
     /// If the specified crawler is running, stops the crawl.
+    ///
+    /// - Parameter StopCrawlerInput : [no documentation found]
+    ///
+    /// - Returns: `StopCrawlerOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `CrawlerNotRunningException` : The specified crawler is not running.
+    /// - `CrawlerStoppingException` : The specified crawler is stopping.
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `OperationTimeoutException` : The operation timed out.
     public func stopCrawler(input: StopCrawlerInput) async throws -> StopCrawlerOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -6563,6 +8749,18 @@ extension GlueClient: GlueClientProtocol {
     }
 
     /// Sets the schedule state of the specified crawler to NOT_SCHEDULED, but does not stop the crawler if it is already running.
+    ///
+    /// - Parameter StopCrawlerScheduleInput : [no documentation found]
+    ///
+    /// - Returns: `StopCrawlerScheduleOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `OperationTimeoutException` : The operation timed out.
+    /// - `SchedulerNotRunningException` : The specified scheduler is not running.
+    /// - `SchedulerTransitioningException` : The specified scheduler is transitioning.
     public func stopCrawlerSchedule(input: StopCrawlerScheduleInput) async throws -> StopCrawlerScheduleOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -6600,6 +8798,20 @@ extension GlueClient: GlueClientProtocol {
     }
 
     /// Stops the session.
+    ///
+    /// - Parameter StopSessionInput : [no documentation found]
+    ///
+    /// - Returns: `StopSessionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to a resource was denied.
+    /// - `ConcurrentModificationException` : Two processes are trying to modify a resource simultaneously.
+    /// - `IllegalSessionStateException` : The session is in an invalid state to perform a requested operation.
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
     public func stopSession(input: StopSessionInput) async throws -> StopSessionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -6637,6 +8849,19 @@ extension GlueClient: GlueClientProtocol {
     }
 
     /// Stops a specified trigger.
+    ///
+    /// - Parameter StopTriggerInput : [no documentation found]
+    ///
+    /// - Returns: `StopTriggerOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConcurrentModificationException` : Two processes are trying to modify a resource simultaneously.
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
     public func stopTrigger(input: StopTriggerInput) async throws -> StopTriggerOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -6674,6 +8899,19 @@ extension GlueClient: GlueClientProtocol {
     }
 
     /// Stops the execution of the specified workflow run.
+    ///
+    /// - Parameter StopWorkflowRunInput : [no documentation found]
+    ///
+    /// - Returns: `StopWorkflowRunOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `IllegalWorkflowStateException` : The workflow is in an invalid state to perform a requested operation.
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
     public func stopWorkflowRun(input: StopWorkflowRunInput) async throws -> StopWorkflowRunOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -6711,6 +8949,18 @@ extension GlueClient: GlueClientProtocol {
     }
 
     /// Adds tags to a resource. A tag is a label you can assign to an Amazon Web Services resource. In Glue, you can tag only certain resources. For information about what resources you can tag, see [Amazon Web Services Tags in Glue](https://docs.aws.amazon.com/glue/latest/dg/monitor-tags.html).
+    ///
+    /// - Parameter TagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `TagResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
     public func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -6748,6 +8998,18 @@ extension GlueClient: GlueClientProtocol {
     }
 
     /// Removes tags from a resource.
+    ///
+    /// - Parameter UntagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `UntagResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
     public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -6785,6 +9047,20 @@ extension GlueClient: GlueClientProtocol {
     }
 
     /// Updates a registered blueprint.
+    ///
+    /// - Parameter UpdateBlueprintInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateBlueprintOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConcurrentModificationException` : Two processes are trying to modify a resource simultaneously.
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `IllegalBlueprintStateException` : The blueprint is in an invalid state to perform a requested operation.
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
     public func updateBlueprint(input: UpdateBlueprintInput) async throws -> UpdateBlueprintOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -6822,6 +9098,18 @@ extension GlueClient: GlueClientProtocol {
     }
 
     /// Modifies an existing classifier (a GrokClassifier, an XMLClassifier, a JsonClassifier, or a CsvClassifier, depending on which field is present).
+    ///
+    /// - Parameter UpdateClassifierInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateClassifierOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
+    /// - `VersionMismatchException` : There was a version conflict.
     public func updateClassifier(input: UpdateClassifierInput) async throws -> UpdateClassifierOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -6859,6 +9147,19 @@ extension GlueClient: GlueClientProtocol {
     }
 
     /// Creates or updates partition statistics of columns. The Identity and Access Management (IAM) permission required for this operation is UpdatePartition.
+    ///
+    /// - Parameter UpdateColumnStatisticsForPartitionInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateColumnStatisticsForPartitionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `GlueEncryptionException` : An encryption operation failed.
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
     public func updateColumnStatisticsForPartition(input: UpdateColumnStatisticsForPartitionInput) async throws -> UpdateColumnStatisticsForPartitionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -6896,6 +9197,19 @@ extension GlueClient: GlueClientProtocol {
     }
 
     /// Creates or updates table statistics of columns. The Identity and Access Management (IAM) permission required for this operation is UpdateTable.
+    ///
+    /// - Parameter UpdateColumnStatisticsForTableInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateColumnStatisticsForTableOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `GlueEncryptionException` : An encryption operation failed.
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
     public func updateColumnStatisticsForTable(input: UpdateColumnStatisticsForTableInput) async throws -> UpdateColumnStatisticsForTableOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -6933,6 +9247,18 @@ extension GlueClient: GlueClientProtocol {
     }
 
     /// Updates a connection definition in the Data Catalog.
+    ///
+    /// - Parameter UpdateConnectionInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateConnectionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `GlueEncryptionException` : An encryption operation failed.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
     public func updateConnection(input: UpdateConnectionInput) async throws -> UpdateConnectionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -6970,6 +9296,19 @@ extension GlueClient: GlueClientProtocol {
     }
 
     /// Updates a crawler. If a crawler is running, you must stop it using StopCrawler before updating it.
+    ///
+    /// - Parameter UpdateCrawlerInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateCrawlerOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `CrawlerRunningException` : The operation cannot be performed because the crawler is already running.
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
+    /// - `VersionMismatchException` : There was a version conflict.
     public func updateCrawler(input: UpdateCrawlerInput) async throws -> UpdateCrawlerOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -7007,6 +9346,19 @@ extension GlueClient: GlueClientProtocol {
     }
 
     /// Updates the schedule of a crawler using a cron expression.
+    ///
+    /// - Parameter UpdateCrawlerScheduleInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateCrawlerScheduleOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
+    /// - `SchedulerTransitioningException` : The specified scheduler is transitioning.
+    /// - `VersionMismatchException` : There was a version conflict.
     public func updateCrawlerSchedule(input: UpdateCrawlerScheduleInput) async throws -> UpdateCrawlerScheduleOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -7044,6 +9396,21 @@ extension GlueClient: GlueClientProtocol {
     }
 
     /// Updates the specified data quality ruleset.
+    ///
+    /// - Parameter UpdateDataQualityRulesetInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateDataQualityRulesetOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AlreadyExistsException` : A resource to be created or added already exists.
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `IdempotentParameterMismatchException` : The same unique identifier was associated with two different records.
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
+    /// - `ResourceNumberLimitExceededException` : A resource numerical limit was exceeded.
     public func updateDataQualityRuleset(input: UpdateDataQualityRulesetInput) async throws -> UpdateDataQualityRulesetOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -7081,6 +9448,20 @@ extension GlueClient: GlueClientProtocol {
     }
 
     /// Updates an existing database definition in a Data Catalog.
+    ///
+    /// - Parameter UpdateDatabaseInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateDatabaseOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConcurrentModificationException` : Two processes are trying to modify a resource simultaneously.
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `GlueEncryptionException` : An encryption operation failed.
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
     public func updateDatabase(input: UpdateDatabaseInput) async throws -> UpdateDatabaseOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -7118,6 +9499,19 @@ extension GlueClient: GlueClientProtocol {
     }
 
     /// Updates a specified development endpoint.
+    ///
+    /// - Parameter UpdateDevEndpointInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateDevEndpointOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
+    /// - `ValidationException` : A value could not be validated.
     public func updateDevEndpoint(input: UpdateDevEndpointInput) async throws -> UpdateDevEndpointOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -7155,6 +9549,19 @@ extension GlueClient: GlueClientProtocol {
     }
 
     /// Updates an existing job definition. The previous job definition is completely overwritten by this information.
+    ///
+    /// - Parameter UpdateJobInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateJobOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConcurrentModificationException` : Two processes are trying to modify a resource simultaneously.
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
     public func updateJob(input: UpdateJobInput) async throws -> UpdateJobOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -7192,6 +9599,21 @@ extension GlueClient: GlueClientProtocol {
     }
 
     /// Synchronizes a job from the source control repository. This operation takes the job artifacts that are located in the remote repository and updates the Glue internal stores with these artifacts. This API supports optional parameters which take in the repository information.
+    ///
+    /// - Parameter UpdateJobFromSourceControlInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateJobFromSourceControlOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to a resource was denied.
+    /// - `AlreadyExistsException` : A resource to be created or added already exists.
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
+    /// - `ValidationException` : A value could not be validated.
     public func updateJobFromSourceControl(input: UpdateJobFromSourceControlInput) async throws -> UpdateJobFromSourceControlOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -7229,6 +9651,19 @@ extension GlueClient: GlueClientProtocol {
     }
 
     /// Updates an existing machine learning transform. Call this operation to tune the algorithm parameters to achieve better results. After calling this operation, you can call the StartMLEvaluationTaskRun operation to assess how well your new parameters achieved your goals (such as improving the quality of your machine learning transform, or making it more cost-effective).
+    ///
+    /// - Parameter UpdateMLTransformInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateMLTransformOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to a resource was denied.
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
     public func updateMLTransform(input: UpdateMLTransformInput) async throws -> UpdateMLTransformOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -7266,6 +9701,19 @@ extension GlueClient: GlueClientProtocol {
     }
 
     /// Updates a partition.
+    ///
+    /// - Parameter UpdatePartitionInput : [no documentation found]
+    ///
+    /// - Returns: `UpdatePartitionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `GlueEncryptionException` : An encryption operation failed.
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
     public func updatePartition(input: UpdatePartitionInput) async throws -> UpdatePartitionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -7303,6 +9751,19 @@ extension GlueClient: GlueClientProtocol {
     }
 
     /// Updates an existing registry which is used to hold a collection of schemas. The updated properties relate to the registry, and do not modify any of the schemas within the registry.
+    ///
+    /// - Parameter UpdateRegistryInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateRegistryOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to a resource was denied.
+    /// - `ConcurrentModificationException` : Two processes are trying to modify a resource simultaneously.
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
     public func updateRegistry(input: UpdateRegistryInput) async throws -> UpdateRegistryOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -7340,6 +9801,19 @@ extension GlueClient: GlueClientProtocol {
     }
 
     /// Updates the description, compatibility setting, or version checkpoint for a schema set. For updating the compatibility setting, the call will not validate compatibility for the entire set of schema versions with the new compatibility setting. If the value for Compatibility is provided, the VersionNumber (a checkpoint) is also required. The API will validate the checkpoint version number for consistency. If the value for the VersionNumber (checkpoint) is provided, Compatibility is optional and this can be used to set/reset a checkpoint for the schema. This update will happen only if the schema is in the AVAILABLE state.
+    ///
+    /// - Parameter UpdateSchemaInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateSchemaOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to a resource was denied.
+    /// - `ConcurrentModificationException` : Two processes are trying to modify a resource simultaneously.
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
     public func updateSchema(input: UpdateSchemaInput) async throws -> UpdateSchemaOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -7377,6 +9851,21 @@ extension GlueClient: GlueClientProtocol {
     }
 
     /// Synchronizes a job to the source control repository. This operation takes the job artifacts from the Glue internal stores and makes a commit to the remote repository that is configured on the job. This API supports optional parameters which take in the repository information.
+    ///
+    /// - Parameter UpdateSourceControlFromJobInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateSourceControlFromJobOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to a resource was denied.
+    /// - `AlreadyExistsException` : A resource to be created or added already exists.
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
+    /// - `ValidationException` : A value could not be validated.
     public func updateSourceControlFromJob(input: UpdateSourceControlFromJobInput) async throws -> UpdateSourceControlFromJobOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -7414,6 +9903,22 @@ extension GlueClient: GlueClientProtocol {
     }
 
     /// Updates a metadata table in the Data Catalog.
+    ///
+    /// - Parameter UpdateTableInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateTableOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConcurrentModificationException` : Two processes are trying to modify a resource simultaneously.
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `GlueEncryptionException` : An encryption operation failed.
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
+    /// - `ResourceNotReadyException` : A resource was not ready for a transaction.
+    /// - `ResourceNumberLimitExceededException` : A resource numerical limit was exceeded.
     public func updateTable(input: UpdateTableInput) async throws -> UpdateTableOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -7451,6 +9956,19 @@ extension GlueClient: GlueClientProtocol {
     }
 
     /// Updates a trigger definition.
+    ///
+    /// - Parameter UpdateTriggerInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateTriggerOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConcurrentModificationException` : Two processes are trying to modify a resource simultaneously.
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
     public func updateTrigger(input: UpdateTriggerInput) async throws -> UpdateTriggerOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -7488,6 +10006,19 @@ extension GlueClient: GlueClientProtocol {
     }
 
     /// Updates an existing function definition in the Data Catalog.
+    ///
+    /// - Parameter UpdateUserDefinedFunctionInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateUserDefinedFunctionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `GlueEncryptionException` : An encryption operation failed.
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
     public func updateUserDefinedFunction(input: UpdateUserDefinedFunctionInput) async throws -> UpdateUserDefinedFunctionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -7525,6 +10056,19 @@ extension GlueClient: GlueClientProtocol {
     }
 
     /// Updates an existing workflow.
+    ///
+    /// - Parameter UpdateWorkflowInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateWorkflowOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConcurrentModificationException` : Two processes are trying to modify a resource simultaneously.
+    /// - `EntityNotFoundException` : A specified entity does not exist
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
     public func updateWorkflow(input: UpdateWorkflowInput) async throws -> UpdateWorkflowOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()

@@ -68,6 +68,21 @@ public struct SignerClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFactory 
 
 extension SignerClient: SignerClientProtocol {
     /// Adds cross-account permissions to a signing profile.
+    ///
+    /// - Parameter AddProfilePermissionInput : [no documentation found]
+    ///
+    /// - Returns: `AddProfilePermissionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : The resource encountered a conflicting state.
+    /// - `InternalServiceErrorException` : An internal error occurred.
+    /// - `ResourceNotFoundException` : A specified resource could not be found.
+    /// - `ServiceLimitExceededException` : The client is making a request that exceeds service limits.
+    /// - `TooManyRequestsException` : The allowed number of job-signing requests has been exceeded. This error supersedes the error ThrottlingException.
+    /// - `ValidationException` : You signing certificate could not be validated.
     public func addProfilePermission(input: AddProfilePermissionInput) async throws -> AddProfilePermissionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -104,6 +119,18 @@ extension SignerClient: SignerClientProtocol {
     }
 
     /// Changes the state of an ACTIVE signing profile to CANCELED. A canceled profile is still viewable with the ListSigningProfiles operation, but it cannot perform new signing jobs, and is deleted two years after cancelation.
+    ///
+    /// - Parameter CancelSigningProfileInput : [no documentation found]
+    ///
+    /// - Returns: `CancelSigningProfileOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServiceErrorException` : An internal error occurred.
+    /// - `ResourceNotFoundException` : A specified resource could not be found.
+    /// - `TooManyRequestsException` : The allowed number of job-signing requests has been exceeded. This error supersedes the error ThrottlingException.
     public func cancelSigningProfile(input: CancelSigningProfileInput) async throws -> CancelSigningProfileOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -137,6 +164,18 @@ extension SignerClient: SignerClientProtocol {
     }
 
     /// Returns information about a specific code signing job. You specify the job by using the jobId value that is returned by the [StartSigningJob] operation.
+    ///
+    /// - Parameter DescribeSigningJobInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeSigningJobOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServiceErrorException` : An internal error occurred.
+    /// - `ResourceNotFoundException` : A specified resource could not be found.
+    /// - `TooManyRequestsException` : The allowed number of job-signing requests has been exceeded. This error supersedes the error ThrottlingException.
     public func describeSigningJob(input: DescribeSigningJobInput) async throws -> DescribeSigningJobOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -170,6 +209,18 @@ extension SignerClient: SignerClientProtocol {
     }
 
     /// Retrieves the revocation status of one or more of the signing profile, signing job, and signing certificate.
+    ///
+    /// - Parameter GetRevocationStatusInput : [no documentation found]
+    ///
+    /// - Returns: `GetRevocationStatusOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServiceErrorException` : An internal error occurred.
+    /// - `TooManyRequestsException` : The allowed number of job-signing requests has been exceeded. This error supersedes the error ThrottlingException.
+    /// - `ValidationException` : You signing certificate could not be validated.
     public func getRevocationStatus(input: GetRevocationStatusInput) async throws -> GetRevocationStatusOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -204,6 +255,18 @@ extension SignerClient: SignerClientProtocol {
     }
 
     /// Returns information on a specific signing platform.
+    ///
+    /// - Parameter GetSigningPlatformInput : [no documentation found]
+    ///
+    /// - Returns: `GetSigningPlatformOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServiceErrorException` : An internal error occurred.
+    /// - `ResourceNotFoundException` : A specified resource could not be found.
+    /// - `TooManyRequestsException` : The allowed number of job-signing requests has been exceeded. This error supersedes the error ThrottlingException.
     public func getSigningPlatform(input: GetSigningPlatformInput) async throws -> GetSigningPlatformOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -237,6 +300,18 @@ extension SignerClient: SignerClientProtocol {
     }
 
     /// Returns information on a specific signing profile.
+    ///
+    /// - Parameter GetSigningProfileInput : [no documentation found]
+    ///
+    /// - Returns: `GetSigningProfileOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServiceErrorException` : An internal error occurred.
+    /// - `ResourceNotFoundException` : A specified resource could not be found.
+    /// - `TooManyRequestsException` : The allowed number of job-signing requests has been exceeded. This error supersedes the error ThrottlingException.
     public func getSigningProfile(input: GetSigningProfileInput) async throws -> GetSigningProfileOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -271,6 +346,19 @@ extension SignerClient: SignerClientProtocol {
     }
 
     /// Lists the cross-account permissions associated with a signing profile.
+    ///
+    /// - Parameter ListProfilePermissionsInput : [no documentation found]
+    ///
+    /// - Returns: `ListProfilePermissionsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServiceErrorException` : An internal error occurred.
+    /// - `ResourceNotFoundException` : A specified resource could not be found.
+    /// - `TooManyRequestsException` : The allowed number of job-signing requests has been exceeded. This error supersedes the error ThrottlingException.
+    /// - `ValidationException` : You signing certificate could not be validated.
     public func listProfilePermissions(input: ListProfilePermissionsInput) async throws -> ListProfilePermissionsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -305,6 +393,18 @@ extension SignerClient: SignerClientProtocol {
     }
 
     /// Lists all your signing jobs. You can use the maxResults parameter to limit the number of signing jobs that are returned in the response. If additional jobs remain to be listed, code signing returns a nextToken value. Use this value in subsequent calls to ListSigningJobs to fetch the remaining values. You can continue calling ListSigningJobs with your maxResults parameter and with new values that code signing returns in the nextToken parameter until all of your signing jobs have been returned.
+    ///
+    /// - Parameter ListSigningJobsInput : [no documentation found]
+    ///
+    /// - Returns: `ListSigningJobsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServiceErrorException` : An internal error occurred.
+    /// - `TooManyRequestsException` : The allowed number of job-signing requests has been exceeded. This error supersedes the error ThrottlingException.
+    /// - `ValidationException` : You signing certificate could not be validated.
     public func listSigningJobs(input: ListSigningJobsInput) async throws -> ListSigningJobsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -339,6 +439,18 @@ extension SignerClient: SignerClientProtocol {
     }
 
     /// Lists all signing platforms available in code signing that match the request parameters. If additional jobs remain to be listed, code signing returns a nextToken value. Use this value in subsequent calls to ListSigningJobs to fetch the remaining values. You can continue calling ListSigningJobs with your maxResults parameter and with new values that code signing returns in the nextToken parameter until all of your signing jobs have been returned.
+    ///
+    /// - Parameter ListSigningPlatformsInput : [no documentation found]
+    ///
+    /// - Returns: `ListSigningPlatformsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServiceErrorException` : An internal error occurred.
+    /// - `TooManyRequestsException` : The allowed number of job-signing requests has been exceeded. This error supersedes the error ThrottlingException.
+    /// - `ValidationException` : You signing certificate could not be validated.
     public func listSigningPlatforms(input: ListSigningPlatformsInput) async throws -> ListSigningPlatformsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -373,6 +485,17 @@ extension SignerClient: SignerClientProtocol {
     }
 
     /// Lists all available signing profiles in your AWS account. Returns only profiles with an ACTIVE status unless the includeCanceled request field is set to true. If additional jobs remain to be listed, code signing returns a nextToken value. Use this value in subsequent calls to ListSigningJobs to fetch the remaining values. You can continue calling ListSigningJobs with your maxResults parameter and with new values that code signing returns in the nextToken parameter until all of your signing jobs have been returned.
+    ///
+    /// - Parameter ListSigningProfilesInput : [no documentation found]
+    ///
+    /// - Returns: `ListSigningProfilesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServiceErrorException` : An internal error occurred.
+    /// - `TooManyRequestsException` : The allowed number of job-signing requests has been exceeded. This error supersedes the error ThrottlingException.
     public func listSigningProfiles(input: ListSigningProfilesInput) async throws -> ListSigningProfilesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -407,6 +530,18 @@ extension SignerClient: SignerClientProtocol {
     }
 
     /// Returns a list of the tags associated with a signing profile resource.
+    ///
+    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    ///
+    /// - Returns: `ListTagsForResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The request contains invalid parameters for the ARN or tags. This exception also occurs when you call a tagging API on a cancelled signing profile.
+    /// - `InternalServiceErrorException` : An internal error occurred.
+    /// - `NotFoundException` : The signing profile was not found.
+    /// - `TooManyRequestsException` : The allowed number of job-signing requests has been exceeded. This error supersedes the error ThrottlingException.
     public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -440,6 +575,19 @@ extension SignerClient: SignerClientProtocol {
     }
 
     /// Creates a signing profile. A signing profile is a code signing template that can be used to carry out a pre-defined signing job.
+    ///
+    /// - Parameter PutSigningProfileInput : [no documentation found]
+    ///
+    /// - Returns: `PutSigningProfileOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServiceErrorException` : An internal error occurred.
+    /// - `ResourceNotFoundException` : A specified resource could not be found.
+    /// - `TooManyRequestsException` : The allowed number of job-signing requests has been exceeded. This error supersedes the error ThrottlingException.
+    /// - `ValidationException` : You signing certificate could not be validated.
     public func putSigningProfile(input: PutSigningProfileInput) async throws -> PutSigningProfileOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -476,6 +624,20 @@ extension SignerClient: SignerClientProtocol {
     }
 
     /// Removes cross-account permissions from a signing profile.
+    ///
+    /// - Parameter RemoveProfilePermissionInput : [no documentation found]
+    ///
+    /// - Returns: `RemoveProfilePermissionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : The resource encountered a conflicting state.
+    /// - `InternalServiceErrorException` : An internal error occurred.
+    /// - `ResourceNotFoundException` : A specified resource could not be found.
+    /// - `TooManyRequestsException` : The allowed number of job-signing requests has been exceeded. This error supersedes the error ThrottlingException.
+    /// - `ValidationException` : You signing certificate could not be validated.
     public func removeProfilePermission(input: RemoveProfilePermissionInput) async throws -> RemoveProfilePermissionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -510,6 +672,19 @@ extension SignerClient: SignerClientProtocol {
     }
 
     /// Changes the state of a signing job to REVOKED. This indicates that the signature is no longer valid.
+    ///
+    /// - Parameter RevokeSignatureInput : [no documentation found]
+    ///
+    /// - Returns: `RevokeSignatureOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServiceErrorException` : An internal error occurred.
+    /// - `ResourceNotFoundException` : A specified resource could not be found.
+    /// - `TooManyRequestsException` : The allowed number of job-signing requests has been exceeded. This error supersedes the error ThrottlingException.
+    /// - `ValidationException` : You signing certificate could not be validated.
     public func revokeSignature(input: RevokeSignatureInput) async throws -> RevokeSignatureOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -546,6 +721,19 @@ extension SignerClient: SignerClientProtocol {
     }
 
     /// Changes the state of a signing profile to REVOKED. This indicates that signatures generated using the signing profile after an effective start date are no longer valid.
+    ///
+    /// - Parameter RevokeSigningProfileInput : [no documentation found]
+    ///
+    /// - Returns: `RevokeSigningProfileOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServiceErrorException` : An internal error occurred.
+    /// - `ResourceNotFoundException` : A specified resource could not be found.
+    /// - `TooManyRequestsException` : The allowed number of job-signing requests has been exceeded. This error supersedes the error ThrottlingException.
+    /// - `ValidationException` : You signing certificate could not be validated.
     public func revokeSigningProfile(input: RevokeSigningProfileInput) async throws -> RevokeSigningProfileOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -582,6 +770,19 @@ extension SignerClient: SignerClientProtocol {
     }
 
     /// Signs a binary payload and returns a signature envelope.
+    ///
+    /// - Parameter SignPayloadInput : [no documentation found]
+    ///
+    /// - Returns: `SignPayloadOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServiceErrorException` : An internal error occurred.
+    /// - `ResourceNotFoundException` : A specified resource could not be found.
+    /// - `TooManyRequestsException` : The allowed number of job-signing requests has been exceeded. This error supersedes the error ThrottlingException.
+    /// - `ValidationException` : You signing certificate could not be validated.
     public func signPayload(input: SignPayloadInput) async throws -> SignPayloadOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -631,6 +832,20 @@ extension SignerClient: SignerClientProtocol {
     ///
     ///
     /// You can call the [DescribeSigningJob] and the [ListSigningJobs] actions after you call StartSigningJob. For a Java example that shows how to use this action, see [StartSigningJob](https://docs.aws.amazon.com/signer/latest/developerguide/api-startsigningjob.html).
+    ///
+    /// - Parameter StartSigningJobInput : [no documentation found]
+    ///
+    /// - Returns: `StartSigningJobOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServiceErrorException` : An internal error occurred.
+    /// - `ResourceNotFoundException` : A specified resource could not be found.
+    /// - `ThrottlingException` : The request was denied due to request throttling. Instead of this error, TooManyRequestsException should be used.
+    /// - `TooManyRequestsException` : The allowed number of job-signing requests has been exceeded. This error supersedes the error ThrottlingException.
+    /// - `ValidationException` : You signing certificate could not be validated.
     public func startSigningJob(input: StartSigningJobInput) async throws -> StartSigningJobOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -675,6 +890,18 @@ extension SignerClient: SignerClientProtocol {
     }
 
     /// Adds one or more tags to a signing profile. Tags are labels that you can use to identify and organize your AWS resources. Each tag consists of a key and an optional value. To specify the signing profile, use its Amazon Resource Name (ARN). To specify the tag, use a key-value pair.
+    ///
+    /// - Parameter TagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `TagResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The request contains invalid parameters for the ARN or tags. This exception also occurs when you call a tagging API on a cancelled signing profile.
+    /// - `InternalServiceErrorException` : An internal error occurred.
+    /// - `NotFoundException` : The signing profile was not found.
+    /// - `TooManyRequestsException` : The allowed number of job-signing requests has been exceeded. This error supersedes the error ThrottlingException.
     public func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -711,6 +938,18 @@ extension SignerClient: SignerClientProtocol {
     }
 
     /// Removes one or more tags from a signing profile. To remove the tags, specify a list of tag keys.
+    ///
+    /// - Parameter UntagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `UntagResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The request contains invalid parameters for the ARN or tags. This exception also occurs when you call a tagging API on a cancelled signing profile.
+    /// - `InternalServiceErrorException` : An internal error occurred.
+    /// - `NotFoundException` : The signing profile was not found.
+    /// - `TooManyRequestsException` : The allowed number of job-signing requests has been exceeded. This error supersedes the error ThrottlingException.
     public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()

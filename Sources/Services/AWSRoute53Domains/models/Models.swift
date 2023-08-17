@@ -2,6 +2,11 @@
 import AWSClientRuntime
 import ClientRuntime
 
+extension AcceptDomainTransferFromAnotherAwsAccountInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "AcceptDomainTransferFromAnotherAwsAccountInput(domainName: \(Swift.String(describing: domainName)), password: \"CONTENT_REDACTED\")"}
+}
+
 extension AcceptDomainTransferFromAnotherAwsAccountInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case domainName = "DomainName"
@@ -630,8 +635,10 @@ extension CheckDomainTransferabilityOutputResponse: ClientRuntime.HttpResponseBi
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: CheckDomainTransferabilityOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.message = output.message
             self.transferability = output.transferability
         } else {
+            self.message = nil
             self.transferability = nil
         }
     }
@@ -639,23 +646,29 @@ extension CheckDomainTransferabilityOutputResponse: ClientRuntime.HttpResponseBi
 
 /// The CheckDomainTransferability response includes the following elements.
 public struct CheckDomainTransferabilityOutputResponse: Swift.Equatable {
+    /// Provides an explanation for when a domain can't be transferred.
+    public var message: Swift.String?
     /// A complex type that contains information about whether the specified domain can be transferred to Route 53.
     public var transferability: Route53DomainsClientTypes.DomainTransferability?
 
     public init(
+        message: Swift.String? = nil,
         transferability: Route53DomainsClientTypes.DomainTransferability? = nil
     )
     {
+        self.message = message
         self.transferability = transferability
     }
 }
 
 struct CheckDomainTransferabilityOutputResponseBody: Swift.Equatable {
     let transferability: Route53DomainsClientTypes.DomainTransferability?
+    let message: Swift.String?
 }
 
 extension CheckDomainTransferabilityOutputResponseBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message = "Message"
         case transferability = "Transferability"
     }
 
@@ -663,6 +676,8 @@ extension CheckDomainTransferabilityOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let transferabilityDecoded = try containerValues.decodeIfPresent(Route53DomainsClientTypes.DomainTransferability.self, forKey: .transferability)
         transferability = transferabilityDecoded
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
     }
 }
 
@@ -2740,7 +2755,7 @@ extension Route53DomainsClientTypes.DomainTransferability: Swift.Codable {
 extension Route53DomainsClientTypes {
     /// A complex type that contains information about whether the specified domain can be transferred to Route 53.
     public struct DomainTransferability: Swift.Equatable {
-        /// Whether the domain name can be transferred to Route 53. You can transfer only domains that have a value of TRANSFERABLE or Transferable. Valid values: TRANSFERABLE The domain name can be transferred to Route 53. UNTRANSFERRABLE The domain name can't be transferred to Route 53. DONT_KNOW Reserved for future use. DOMAIN_IN_OWN_ACCOUNT The domain already exists in the current Amazon Web Services account. DOMAIN_IN_ANOTHER_ACCOUNT the domain exists in another Amazon Web Services account. PREMIUM_DOMAIN Premium domain transfer is not supported.
+        /// Whether the domain name can be transferred to Route 53. You can transfer only domains that have a value of TRANSFERABLE or Transferable. Valid values: TRANSFERABLE The domain name can be transferred to Route 53. UNTRANSFERRABLE The domain name can't be transferred to Route 53. DONT_KNOW Reserved for future use. DOMAIN_IN_OWN_ACCOUNT The domain already exists in the current Amazon Web Services account. DOMAIN_IN_ANOTHER_ACCOUNT The domain exists in another Amazon Web Services account. PREMIUM_DOMAIN Premium domain transfer is not supported.
         public var transferable: Route53DomainsClientTypes.Transferable?
 
         public init(
@@ -2759,8 +2774,10 @@ extension DuplicateRequest {
             let responseDecoder = decoder {
             let output: DuplicateRequestBody = try responseDecoder.decode(responseBody: data)
             self.properties.message = output.message
+            self.properties.requestId = output.requestId
         } else {
             self.properties.message = nil
+            self.properties.requestId = nil
         }
         self.httpResponse = httpResponse
         self.requestID = requestID
@@ -2774,6 +2791,8 @@ public struct DuplicateRequest: ClientRuntime.ModeledError, AWSClientRuntime.AWS
     public struct Properties {
         /// The request is already in progress for the domain.
         public internal(set) var message: Swift.String? = nil
+        /// ID of the request operation.
+        public internal(set) var requestId: Swift.String? = nil
     }
 
     public internal(set) var properties = Properties()
@@ -2786,24 +2805,30 @@ public struct DuplicateRequest: ClientRuntime.ModeledError, AWSClientRuntime.AWS
     public internal(set) var requestID: Swift.String?
 
     public init(
-        message: Swift.String? = nil
+        message: Swift.String? = nil,
+        requestId: Swift.String? = nil
     )
     {
         self.properties.message = message
+        self.properties.requestId = requestId
     }
 }
 
 struct DuplicateRequestBody: Swift.Equatable {
+    let requestId: Swift.String?
     let message: Swift.String?
 }
 
 extension DuplicateRequestBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case message
+        case requestId
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let requestIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .requestId)
+        requestId = requestIdDecoded
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
     }
@@ -3789,7 +3814,7 @@ public enum GetDomainDetailOutputError: ClientRuntime.HttpResponseErrorBinding {
 
 extension GetDomainDetailOutputResponse: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GetDomainDetailOutputResponse(abuseContactEmail: \(Swift.String(describing: abuseContactEmail)), abuseContactPhone: \(Swift.String(describing: abuseContactPhone)), adminPrivacy: \(Swift.String(describing: adminPrivacy)), autoRenew: \(Swift.String(describing: autoRenew)), creationDate: \(Swift.String(describing: creationDate)), dnsSec: \(Swift.String(describing: dnsSec)), dnssecKeys: \(Swift.String(describing: dnssecKeys)), domainName: \(Swift.String(describing: domainName)), expirationDate: \(Swift.String(describing: expirationDate)), nameservers: \(Swift.String(describing: nameservers)), registrantPrivacy: \(Swift.String(describing: registrantPrivacy)), registrarName: \(Swift.String(describing: registrarName)), registrarUrl: \(Swift.String(describing: registrarUrl)), registryDomainId: \(Swift.String(describing: registryDomainId)), reseller: \(Swift.String(describing: reseller)), statusList: \(Swift.String(describing: statusList)), techPrivacy: \(Swift.String(describing: techPrivacy)), updatedDate: \(Swift.String(describing: updatedDate)), whoIsServer: \(Swift.String(describing: whoIsServer)), adminContact: \"CONTENT_REDACTED\", registrantContact: \"CONTENT_REDACTED\", techContact: \"CONTENT_REDACTED\")"}
+        "GetDomainDetailOutputResponse(adminPrivacy: \(Swift.String(describing: adminPrivacy)), autoRenew: \(Swift.String(describing: autoRenew)), creationDate: \(Swift.String(describing: creationDate)), dnsSec: \(Swift.String(describing: dnsSec)), dnssecKeys: \(Swift.String(describing: dnssecKeys)), domainName: \(Swift.String(describing: domainName)), expirationDate: \(Swift.String(describing: expirationDate)), nameservers: \(Swift.String(describing: nameservers)), registrantPrivacy: \(Swift.String(describing: registrantPrivacy)), registrarName: \(Swift.String(describing: registrarName)), registrarUrl: \(Swift.String(describing: registrarUrl)), registryDomainId: \(Swift.String(describing: registryDomainId)), reseller: \(Swift.String(describing: reseller)), statusList: \(Swift.String(describing: statusList)), techPrivacy: \(Swift.String(describing: techPrivacy)), updatedDate: \(Swift.String(describing: updatedDate)), whoIsServer: \(Swift.String(describing: whoIsServer)), abuseContactEmail: \"CONTENT_REDACTED\", abuseContactPhone: \"CONTENT_REDACTED\", adminContact: \"CONTENT_REDACTED\", registrantContact: \"CONTENT_REDACTED\", techContact: \"CONTENT_REDACTED\")"}
 }
 
 extension GetDomainDetailOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -6227,6 +6252,11 @@ public enum ResendContactReachabilityEmailOutputError: ClientRuntime.HttpRespons
     }
 }
 
+extension ResendContactReachabilityEmailOutputResponse: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "ResendContactReachabilityEmailOutputResponse(domainName: \(Swift.String(describing: domainName)), isAlreadyVerified: \(Swift.String(describing: isAlreadyVerified)), emailAddress: \"CONTENT_REDACTED\")"}
+}
+
 extension ResendContactReachabilityEmailOutputResponse: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -7027,6 +7057,11 @@ public enum TransferDomainToAnotherAwsAccountOutputError: ClientRuntime.HttpResp
     }
 }
 
+extension TransferDomainToAnotherAwsAccountOutputResponse: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "TransferDomainToAnotherAwsAccountOutputResponse(operationId: \(Swift.String(describing: operationId)), password: \"CONTENT_REDACTED\")"}
+}
+
 extension TransferDomainToAnotherAwsAccountOutputResponse: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -7079,7 +7114,7 @@ extension TransferDomainToAnotherAwsAccountOutputResponseBody: Swift.Decodable {
 }
 
 extension Route53DomainsClientTypes {
-    /// Whether the domain name can be transferred to Route 53. You can transfer only domains that have a value of TRANSFERABLE or Transferable. Valid values: TRANSFERABLE The domain name can be transferred to Route 53. UNTRANSFERRABLE The domain name can't be transferred to Route 53. DONT_KNOW Reserved for future use. DOMAIN_IN_OWN_ACCOUNT The domain already exists in the current Amazon Web Services account. DOMAIN_IN_ANOTHER_ACCOUNT the domain exists in another Amazon Web Services account. PREMIUM_DOMAIN Premium domain transfer is not supported.
+    /// Whether the domain name can be transferred to Route 53. You can transfer only domains that have a value of TRANSFERABLE or Transferable. Valid values: TRANSFERABLE The domain name can be transferred to Route 53. UNTRANSFERRABLE The domain name can't be transferred to Route 53. DONT_KNOW Reserved for future use. DOMAIN_IN_OWN_ACCOUNT The domain already exists in the current Amazon Web Services account. DOMAIN_IN_ANOTHER_ACCOUNT The domain exists in another Amazon Web Services account. PREMIUM_DOMAIN Premium domain transfer is not supported.
     public enum Transferable: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case domainInAnotherAccount
         case domainInOwnAccount

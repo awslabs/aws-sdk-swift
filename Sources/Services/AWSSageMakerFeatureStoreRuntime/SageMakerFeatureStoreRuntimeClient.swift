@@ -68,6 +68,18 @@ public struct SageMakerFeatureStoreRuntimeClientLogHandlerFactory: ClientRuntime
 
 extension SageMakerFeatureStoreRuntimeClient: SageMakerFeatureStoreRuntimeClientProtocol {
     /// Retrieves a batch of Records from a FeatureGroup.
+    ///
+    /// - Parameter BatchGetRecordInput : [no documentation found]
+    ///
+    /// - Returns: `BatchGetRecordOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessForbidden` : You do not have permission to perform an action.
+    /// - `InternalFailure` : An internal failure occurred. Try your request again. If the problem persists, contact Amazon Web Services customer support.
+    /// - `ServiceUnavailable` : The service is currently unavailable.
+    /// - `ValidationError` : There was an error validating your request.
     public func batchGetRecord(input: BatchGetRecordInput) async throws -> BatchGetRecordOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -108,6 +120,18 @@ extension SageMakerFeatureStoreRuntimeClient: SageMakerFeatureStoreRuntimeClient
     /// * For SoftDelete, the existing (undeleted) record remains in the OnlineStore, though the delete record marker is still written to the OfflineStore.
     ///
     /// * HardDelete returns EventTime: 400 ValidationException to indicate that the delete operation failed. No delete record marker is written to the OfflineStore.
+    ///
+    /// - Parameter DeleteRecordInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteRecordOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessForbidden` : You do not have permission to perform an action.
+    /// - `InternalFailure` : An internal failure occurred. Try your request again. If the problem persists, contact Amazon Web Services customer support.
+    /// - `ServiceUnavailable` : The service is currently unavailable.
+    /// - `ValidationError` : There was an error validating your request.
     public func deleteRecord(input: DeleteRecordInput) async throws -> DeleteRecordOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -142,6 +166,19 @@ extension SageMakerFeatureStoreRuntimeClient: SageMakerFeatureStoreRuntimeClient
     }
 
     /// Use for OnlineStore serving from a FeatureStore. Only the latest records stored in the OnlineStore can be retrieved. If no Record with RecordIdentifierValue is found, then an empty result is returned.
+    ///
+    /// - Parameter GetRecordInput : [no documentation found]
+    ///
+    /// - Returns: `GetRecordOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessForbidden` : You do not have permission to perform an action.
+    /// - `InternalFailure` : An internal failure occurred. Try your request again. If the problem persists, contact Amazon Web Services customer support.
+    /// - `ResourceNotFound` : A resource that is required to perform an action was not found.
+    /// - `ServiceUnavailable` : The service is currently unavailable.
+    /// - `ValidationError` : There was an error validating your request.
     public func getRecord(input: GetRecordInput) async throws -> GetRecordOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -176,6 +213,18 @@ extension SageMakerFeatureStoreRuntimeClient: SageMakerFeatureStoreRuntimeClient
     }
 
     /// The PutRecord API is used to ingest a list of Records into your feature group. If a new record’s EventTime is greater, the new record is written to both the OnlineStore and OfflineStore. Otherwise, the record is a historic record and it is written only to the OfflineStore. You can specify the ingestion to be applied to the OnlineStore, OfflineStore, or both by using the TargetStores request parameter. You can set the ingested record to expire at a given time to live (TTL) duration after the record’s event time, ExpiresAt = EventTime + TtlDuration, by specifying the TtlDuration parameter. A record level TtlDuration is set when specifying the TtlDuration parameter using the PutRecord API call. If the input TtlDuration is null or unspecified, TtlDuration is set to the default feature group level TtlDuration. A record level TtlDuration supersedes the group level TtlDuration.
+    ///
+    /// - Parameter PutRecordInput : [no documentation found]
+    ///
+    /// - Returns: `PutRecordOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessForbidden` : You do not have permission to perform an action.
+    /// - `InternalFailure` : An internal failure occurred. Try your request again. If the problem persists, contact Amazon Web Services customer support.
+    /// - `ServiceUnavailable` : The service is currently unavailable.
+    /// - `ValidationError` : There was an error validating your request.
     public func putRecord(input: PutRecordInput) async throws -> PutRecordOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()

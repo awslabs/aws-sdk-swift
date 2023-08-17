@@ -31,30 +31,215 @@ import ClientRuntime
 /// * UpdateEnvironmentMembership: Changes the settings of an existing environment member for an environment.
 public protocol Cloud9ClientProtocol {
     /// Creates an Cloud9 development environment, launches an Amazon Elastic Compute Cloud (Amazon EC2) instance, and then connects from the instance to the environment.
+    ///
+    /// - Parameter CreateEnvironmentEC2Input : [no documentation found]
+    ///
+    /// - Returns: `CreateEnvironmentEC2OutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The target request is invalid.
+    /// - `ConflictException` : A conflict occurred.
+    /// - `ForbiddenException` : An access permissions issue occurred.
+    /// - `InternalServerErrorException` : An internal server error occurred.
+    /// - `LimitExceededException` : A service limit was exceeded.
+    /// - `NotFoundException` : The target resource cannot be found.
+    /// - `TooManyRequestsException` : Too many service requests were made over the given time period.
     func createEnvironmentEC2(input: CreateEnvironmentEC2Input) async throws -> CreateEnvironmentEC2OutputResponse
     /// Adds an environment member to an Cloud9 development environment.
+    ///
+    /// - Parameter CreateEnvironmentMembershipInput : [no documentation found]
+    ///
+    /// - Returns: `CreateEnvironmentMembershipOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The target request is invalid.
+    /// - `ConflictException` : A conflict occurred.
+    /// - `ForbiddenException` : An access permissions issue occurred.
+    /// - `InternalServerErrorException` : An internal server error occurred.
+    /// - `LimitExceededException` : A service limit was exceeded.
+    /// - `NotFoundException` : The target resource cannot be found.
+    /// - `TooManyRequestsException` : Too many service requests were made over the given time period.
     func createEnvironmentMembership(input: CreateEnvironmentMembershipInput) async throws -> CreateEnvironmentMembershipOutputResponse
     /// Deletes an Cloud9 development environment. If an Amazon EC2 instance is connected to the environment, also terminates the instance.
+    ///
+    /// - Parameter DeleteEnvironmentInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteEnvironmentOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The target request is invalid.
+    /// - `ConflictException` : A conflict occurred.
+    /// - `ForbiddenException` : An access permissions issue occurred.
+    /// - `InternalServerErrorException` : An internal server error occurred.
+    /// - `LimitExceededException` : A service limit was exceeded.
+    /// - `NotFoundException` : The target resource cannot be found.
+    /// - `TooManyRequestsException` : Too many service requests were made over the given time period.
     func deleteEnvironment(input: DeleteEnvironmentInput) async throws -> DeleteEnvironmentOutputResponse
     /// Deletes an environment member from a development environment.
+    ///
+    /// - Parameter DeleteEnvironmentMembershipInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteEnvironmentMembershipOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The target request is invalid.
+    /// - `ConflictException` : A conflict occurred.
+    /// - `ForbiddenException` : An access permissions issue occurred.
+    /// - `InternalServerErrorException` : An internal server error occurred.
+    /// - `LimitExceededException` : A service limit was exceeded.
+    /// - `NotFoundException` : The target resource cannot be found.
+    /// - `TooManyRequestsException` : Too many service requests were made over the given time period.
     func deleteEnvironmentMembership(input: DeleteEnvironmentMembershipInput) async throws -> DeleteEnvironmentMembershipOutputResponse
     /// Gets information about environment members for an Cloud9 development environment.
+    ///
+    /// - Parameter DescribeEnvironmentMembershipsInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeEnvironmentMembershipsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The target request is invalid.
+    /// - `ConflictException` : A conflict occurred.
+    /// - `ForbiddenException` : An access permissions issue occurred.
+    /// - `InternalServerErrorException` : An internal server error occurred.
+    /// - `LimitExceededException` : A service limit was exceeded.
+    /// - `NotFoundException` : The target resource cannot be found.
+    /// - `TooManyRequestsException` : Too many service requests were made over the given time period.
     func describeEnvironmentMemberships(input: DescribeEnvironmentMembershipsInput) async throws -> DescribeEnvironmentMembershipsOutputResponse
     /// Gets information about Cloud9 development environments.
+    ///
+    /// - Parameter DescribeEnvironmentsInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeEnvironmentsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The target request is invalid.
+    /// - `ConflictException` : A conflict occurred.
+    /// - `ForbiddenException` : An access permissions issue occurred.
+    /// - `InternalServerErrorException` : An internal server error occurred.
+    /// - `LimitExceededException` : A service limit was exceeded.
+    /// - `NotFoundException` : The target resource cannot be found.
+    /// - `TooManyRequestsException` : Too many service requests were made over the given time period.
     func describeEnvironments(input: DescribeEnvironmentsInput) async throws -> DescribeEnvironmentsOutputResponse
     /// Gets status information for an Cloud9 development environment.
+    ///
+    /// - Parameter DescribeEnvironmentStatusInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeEnvironmentStatusOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The target request is invalid.
+    /// - `ConflictException` : A conflict occurred.
+    /// - `ForbiddenException` : An access permissions issue occurred.
+    /// - `InternalServerErrorException` : An internal server error occurred.
+    /// - `LimitExceededException` : A service limit was exceeded.
+    /// - `NotFoundException` : The target resource cannot be found.
+    /// - `TooManyRequestsException` : Too many service requests were made over the given time period.
     func describeEnvironmentStatus(input: DescribeEnvironmentStatusInput) async throws -> DescribeEnvironmentStatusOutputResponse
     /// Gets a list of Cloud9 development environment identifiers.
+    ///
+    /// - Parameter ListEnvironmentsInput : [no documentation found]
+    ///
+    /// - Returns: `ListEnvironmentsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The target request is invalid.
+    /// - `ConflictException` : A conflict occurred.
+    /// - `ForbiddenException` : An access permissions issue occurred.
+    /// - `InternalServerErrorException` : An internal server error occurred.
+    /// - `LimitExceededException` : A service limit was exceeded.
+    /// - `NotFoundException` : The target resource cannot be found.
+    /// - `TooManyRequestsException` : Too many service requests were made over the given time period.
     func listEnvironments(input: ListEnvironmentsInput) async throws -> ListEnvironmentsOutputResponse
     /// Gets a list of the tags associated with an Cloud9 development environment.
+    ///
+    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    ///
+    /// - Returns: `ListTagsForResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The target request is invalid.
+    /// - `InternalServerErrorException` : An internal server error occurred.
+    /// - `NotFoundException` : The target resource cannot be found.
     func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
     /// Adds tags to an Cloud9 development environment. Tags that you add to an Cloud9 environment by using this method will NOT be automatically propagated to underlying resources.
+    ///
+    /// - Parameter TagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `TagResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The target request is invalid.
+    /// - `ConcurrentAccessException` : A concurrent access issue occurred.
+    /// - `InternalServerErrorException` : An internal server error occurred.
+    /// - `NotFoundException` : The target resource cannot be found.
     func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
     /// Removes tags from an Cloud9 development environment.
+    ///
+    /// - Parameter UntagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `UntagResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The target request is invalid.
+    /// - `ConcurrentAccessException` : A concurrent access issue occurred.
+    /// - `InternalServerErrorException` : An internal server error occurred.
+    /// - `NotFoundException` : The target resource cannot be found.
     func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
     /// Changes the settings of an existing Cloud9 development environment.
+    ///
+    /// - Parameter UpdateEnvironmentInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateEnvironmentOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The target request is invalid.
+    /// - `ConflictException` : A conflict occurred.
+    /// - `ForbiddenException` : An access permissions issue occurred.
+    /// - `InternalServerErrorException` : An internal server error occurred.
+    /// - `LimitExceededException` : A service limit was exceeded.
+    /// - `NotFoundException` : The target resource cannot be found.
+    /// - `TooManyRequestsException` : Too many service requests were made over the given time period.
     func updateEnvironment(input: UpdateEnvironmentInput) async throws -> UpdateEnvironmentOutputResponse
     /// Changes the settings of an existing environment member for an Cloud9 development environment.
+    ///
+    /// - Parameter UpdateEnvironmentMembershipInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateEnvironmentMembershipOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The target request is invalid.
+    /// - `ConflictException` : A conflict occurred.
+    /// - `ForbiddenException` : An access permissions issue occurred.
+    /// - `InternalServerErrorException` : An internal server error occurred.
+    /// - `LimitExceededException` : A service limit was exceeded.
+    /// - `NotFoundException` : The target resource cannot be found.
+    /// - `TooManyRequestsException` : Too many service requests were made over the given time period.
     func updateEnvironmentMembership(input: UpdateEnvironmentMembershipInput) async throws -> UpdateEnvironmentMembershipOutputResponse
 }
 

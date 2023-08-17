@@ -68,6 +68,19 @@ public struct DataExchangeClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFa
 
 extension DataExchangeClient: DataExchangeClientProtocol {
     /// This operation cancels a job. Jobs can be cancelled only when they are in the WAITING state.
+    ///
+    /// - Parameter CancelJobInput : [no documentation found]
+    ///
+    /// - Returns: `CancelJobOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictException` : The request couldn't be completed because it conflicted with the current state of the resource.
+    /// - `InternalServerException` : An exception occurred with the service.
+    /// - `ResourceNotFoundException` : The resource couldn't be found.
+    /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
+    /// - `ValidationException` : The request was invalid.
     public func cancelJob(input: CancelJobInput) async throws -> CancelJobOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -101,6 +114,19 @@ extension DataExchangeClient: DataExchangeClientProtocol {
     }
 
     /// This operation creates a data set.
+    ///
+    /// - Parameter CreateDataSetInput : [no documentation found]
+    ///
+    /// - Returns: `CreateDataSetOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to the resource is denied.
+    /// - `InternalServerException` : An exception occurred with the service.
+    /// - `ServiceLimitExceededException` : The request has exceeded the quotas imposed by the service.
+    /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
+    /// - `ValidationException` : The request was invalid.
     public func createDataSet(input: CreateDataSetInput) async throws -> CreateDataSetOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -137,6 +163,19 @@ extension DataExchangeClient: DataExchangeClientProtocol {
     }
 
     /// This operation creates an event action.
+    ///
+    /// - Parameter CreateEventActionInput : [no documentation found]
+    ///
+    /// - Returns: `CreateEventActionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to the resource is denied.
+    /// - `InternalServerException` : An exception occurred with the service.
+    /// - `ServiceLimitExceededException` : The request has exceeded the quotas imposed by the service.
+    /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
+    /// - `ValidationException` : The request was invalid.
     public func createEventAction(input: CreateEventActionInput) async throws -> CreateEventActionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -173,6 +212,20 @@ extension DataExchangeClient: DataExchangeClientProtocol {
     }
 
     /// This operation creates a job.
+    ///
+    /// - Parameter CreateJobInput : [no documentation found]
+    ///
+    /// - Returns: `CreateJobOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to the resource is denied.
+    /// - `ConflictException` : The request couldn't be completed because it conflicted with the current state of the resource.
+    /// - `InternalServerException` : An exception occurred with the service.
+    /// - `ResourceNotFoundException` : The resource couldn't be found.
+    /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
+    /// - `ValidationException` : The request was invalid.
     public func createJob(input: CreateJobInput) async throws -> CreateJobOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -209,6 +262,19 @@ extension DataExchangeClient: DataExchangeClientProtocol {
     }
 
     /// This operation creates a revision for a data set.
+    ///
+    /// - Parameter CreateRevisionInput : [no documentation found]
+    ///
+    /// - Returns: `CreateRevisionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to the resource is denied.
+    /// - `InternalServerException` : An exception occurred with the service.
+    /// - `ResourceNotFoundException` : The resource couldn't be found.
+    /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
+    /// - `ValidationException` : The request was invalid.
     public func createRevision(input: CreateRevisionInput) async throws -> CreateRevisionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -245,6 +311,20 @@ extension DataExchangeClient: DataExchangeClientProtocol {
     }
 
     /// This operation deletes an asset.
+    ///
+    /// - Parameter DeleteAssetInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteAssetOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to the resource is denied.
+    /// - `ConflictException` : The request couldn't be completed because it conflicted with the current state of the resource.
+    /// - `InternalServerException` : An exception occurred with the service.
+    /// - `ResourceNotFoundException` : The resource couldn't be found.
+    /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
+    /// - `ValidationException` : The request was invalid.
     public func deleteAsset(input: DeleteAssetInput) async throws -> DeleteAssetOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -278,6 +358,20 @@ extension DataExchangeClient: DataExchangeClientProtocol {
     }
 
     /// This operation deletes a data set.
+    ///
+    /// - Parameter DeleteDataSetInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteDataSetOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to the resource is denied.
+    /// - `ConflictException` : The request couldn't be completed because it conflicted with the current state of the resource.
+    /// - `InternalServerException` : An exception occurred with the service.
+    /// - `ResourceNotFoundException` : The resource couldn't be found.
+    /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
+    /// - `ValidationException` : The request was invalid.
     public func deleteDataSet(input: DeleteDataSetInput) async throws -> DeleteDataSetOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -311,6 +405,18 @@ extension DataExchangeClient: DataExchangeClientProtocol {
     }
 
     /// This operation deletes the event action.
+    ///
+    /// - Parameter DeleteEventActionInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteEventActionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : An exception occurred with the service.
+    /// - `ResourceNotFoundException` : The resource couldn't be found.
+    /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
+    /// - `ValidationException` : The request was invalid.
     public func deleteEventAction(input: DeleteEventActionInput) async throws -> DeleteEventActionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -344,6 +450,20 @@ extension DataExchangeClient: DataExchangeClientProtocol {
     }
 
     /// This operation deletes a revision.
+    ///
+    /// - Parameter DeleteRevisionInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteRevisionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to the resource is denied.
+    /// - `ConflictException` : The request couldn't be completed because it conflicted with the current state of the resource.
+    /// - `InternalServerException` : An exception occurred with the service.
+    /// - `ResourceNotFoundException` : The resource couldn't be found.
+    /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
+    /// - `ValidationException` : The request was invalid.
     public func deleteRevision(input: DeleteRevisionInput) async throws -> DeleteRevisionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -377,6 +497,18 @@ extension DataExchangeClient: DataExchangeClientProtocol {
     }
 
     /// This operation returns information about an asset.
+    ///
+    /// - Parameter GetAssetInput : [no documentation found]
+    ///
+    /// - Returns: `GetAssetOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : An exception occurred with the service.
+    /// - `ResourceNotFoundException` : The resource couldn't be found.
+    /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
+    /// - `ValidationException` : The request was invalid.
     public func getAsset(input: GetAssetInput) async throws -> GetAssetOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -410,6 +542,18 @@ extension DataExchangeClient: DataExchangeClientProtocol {
     }
 
     /// This operation returns information about a data set.
+    ///
+    /// - Parameter GetDataSetInput : [no documentation found]
+    ///
+    /// - Returns: `GetDataSetOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : An exception occurred with the service.
+    /// - `ResourceNotFoundException` : The resource couldn't be found.
+    /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
+    /// - `ValidationException` : The request was invalid.
     public func getDataSet(input: GetDataSetInput) async throws -> GetDataSetOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -443,6 +587,18 @@ extension DataExchangeClient: DataExchangeClientProtocol {
     }
 
     /// This operation retrieves information about an event action.
+    ///
+    /// - Parameter GetEventActionInput : [no documentation found]
+    ///
+    /// - Returns: `GetEventActionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : An exception occurred with the service.
+    /// - `ResourceNotFoundException` : The resource couldn't be found.
+    /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
+    /// - `ValidationException` : The request was invalid.
     public func getEventAction(input: GetEventActionInput) async throws -> GetEventActionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -476,6 +632,18 @@ extension DataExchangeClient: DataExchangeClientProtocol {
     }
 
     /// This operation returns information about a job.
+    ///
+    /// - Parameter GetJobInput : [no documentation found]
+    ///
+    /// - Returns: `GetJobOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : An exception occurred with the service.
+    /// - `ResourceNotFoundException` : The resource couldn't be found.
+    /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
+    /// - `ValidationException` : The request was invalid.
     public func getJob(input: GetJobInput) async throws -> GetJobOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -509,6 +677,18 @@ extension DataExchangeClient: DataExchangeClientProtocol {
     }
 
     /// This operation returns information about a revision.
+    ///
+    /// - Parameter GetRevisionInput : [no documentation found]
+    ///
+    /// - Returns: `GetRevisionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : An exception occurred with the service.
+    /// - `ResourceNotFoundException` : The resource couldn't be found.
+    /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
+    /// - `ValidationException` : The request was invalid.
     public func getRevision(input: GetRevisionInput) async throws -> GetRevisionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -542,6 +722,18 @@ extension DataExchangeClient: DataExchangeClientProtocol {
     }
 
     /// This operation lists a data set's revisions sorted by CreatedAt in descending order.
+    ///
+    /// - Parameter ListDataSetRevisionsInput : [no documentation found]
+    ///
+    /// - Returns: `ListDataSetRevisionsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : An exception occurred with the service.
+    /// - `ResourceNotFoundException` : The resource couldn't be found.
+    /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
+    /// - `ValidationException` : The request was invalid.
     public func listDataSetRevisions(input: ListDataSetRevisionsInput) async throws -> ListDataSetRevisionsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -576,6 +768,18 @@ extension DataExchangeClient: DataExchangeClientProtocol {
     }
 
     /// This operation lists your data sets. When listing by origin OWNED, results are sorted by CreatedAt in descending order. When listing by origin ENTITLED, there is no order and the maxResults parameter is ignored.
+    ///
+    /// - Parameter ListDataSetsInput : [no documentation found]
+    ///
+    /// - Returns: `ListDataSetsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : An exception occurred with the service.
+    /// - `ResourceNotFoundException` : The resource couldn't be found.
+    /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
+    /// - `ValidationException` : The request was invalid.
     public func listDataSets(input: ListDataSetsInput) async throws -> ListDataSetsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -610,6 +814,18 @@ extension DataExchangeClient: DataExchangeClientProtocol {
     }
 
     /// This operation lists your event actions.
+    ///
+    /// - Parameter ListEventActionsInput : [no documentation found]
+    ///
+    /// - Returns: `ListEventActionsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : An exception occurred with the service.
+    /// - `ResourceNotFoundException` : The resource couldn't be found.
+    /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
+    /// - `ValidationException` : The request was invalid.
     public func listEventActions(input: ListEventActionsInput) async throws -> ListEventActionsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -644,6 +860,18 @@ extension DataExchangeClient: DataExchangeClientProtocol {
     }
 
     /// This operation lists your jobs sorted by CreatedAt in descending order.
+    ///
+    /// - Parameter ListJobsInput : [no documentation found]
+    ///
+    /// - Returns: `ListJobsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : An exception occurred with the service.
+    /// - `ResourceNotFoundException` : The resource couldn't be found.
+    /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
+    /// - `ValidationException` : The request was invalid.
     public func listJobs(input: ListJobsInput) async throws -> ListJobsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -678,6 +906,18 @@ extension DataExchangeClient: DataExchangeClientProtocol {
     }
 
     /// This operation lists a revision's assets sorted alphabetically in descending order.
+    ///
+    /// - Parameter ListRevisionAssetsInput : [no documentation found]
+    ///
+    /// - Returns: `ListRevisionAssetsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : An exception occurred with the service.
+    /// - `ResourceNotFoundException` : The resource couldn't be found.
+    /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
+    /// - `ValidationException` : The request was invalid.
     public func listRevisionAssets(input: ListRevisionAssetsInput) async throws -> ListRevisionAssetsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -712,6 +952,10 @@ extension DataExchangeClient: DataExchangeClientProtocol {
     }
 
     /// This operation lists the tags on the resource.
+    ///
+    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    ///
+    /// - Returns: `ListTagsForResourceOutputResponse` : [no documentation found]
     public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -745,6 +989,20 @@ extension DataExchangeClient: DataExchangeClientProtocol {
     }
 
     /// This operation revokes subscribers' access to a revision.
+    ///
+    /// - Parameter RevokeRevisionInput : [no documentation found]
+    ///
+    /// - Returns: `RevokeRevisionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to the resource is denied.
+    /// - `ConflictException` : The request couldn't be completed because it conflicted with the current state of the resource.
+    /// - `InternalServerException` : An exception occurred with the service.
+    /// - `ResourceNotFoundException` : The resource couldn't be found.
+    /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
+    /// - `ValidationException` : The request was invalid.
     public func revokeRevision(input: RevokeRevisionInput) async throws -> RevokeRevisionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -781,6 +1039,19 @@ extension DataExchangeClient: DataExchangeClientProtocol {
     }
 
     /// This operation invokes an API Gateway API asset. The request is proxied to the provider’s API Gateway API.
+    ///
+    /// - Parameter SendApiAssetInput : [no documentation found]
+    ///
+    /// - Returns: `SendApiAssetOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to the resource is denied.
+    /// - `InternalServerException` : An exception occurred with the service.
+    /// - `ResourceNotFoundException` : The resource couldn't be found.
+    /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
+    /// - `ValidationException` : The request was invalid.
     public func sendApiAsset(input: SendApiAssetInput) async throws -> SendApiAssetOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -819,6 +1090,20 @@ extension DataExchangeClient: DataExchangeClientProtocol {
     }
 
     /// This operation starts a job.
+    ///
+    /// - Parameter StartJobInput : [no documentation found]
+    ///
+    /// - Returns: `StartJobOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to the resource is denied.
+    /// - `ConflictException` : The request couldn't be completed because it conflicted with the current state of the resource.
+    /// - `InternalServerException` : An exception occurred with the service.
+    /// - `ResourceNotFoundException` : The resource couldn't be found.
+    /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
+    /// - `ValidationException` : The request was invalid.
     public func startJob(input: StartJobInput) async throws -> StartJobOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -852,6 +1137,10 @@ extension DataExchangeClient: DataExchangeClientProtocol {
     }
 
     /// This operation tags a resource.
+    ///
+    /// - Parameter TagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `TagResourceOutputResponse` : [no documentation found]
     public func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -888,6 +1177,10 @@ extension DataExchangeClient: DataExchangeClientProtocol {
     }
 
     /// This operation removes one or more tags from a resource.
+    ///
+    /// - Parameter UntagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `UntagResourceOutputResponse` : [no documentation found]
     public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -922,6 +1215,20 @@ extension DataExchangeClient: DataExchangeClientProtocol {
     }
 
     /// This operation updates an asset.
+    ///
+    /// - Parameter UpdateAssetInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateAssetOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to the resource is denied.
+    /// - `ConflictException` : The request couldn't be completed because it conflicted with the current state of the resource.
+    /// - `InternalServerException` : An exception occurred with the service.
+    /// - `ResourceNotFoundException` : The resource couldn't be found.
+    /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
+    /// - `ValidationException` : The request was invalid.
     public func updateAsset(input: UpdateAssetInput) async throws -> UpdateAssetOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -958,6 +1265,19 @@ extension DataExchangeClient: DataExchangeClientProtocol {
     }
 
     /// This operation updates a data set.
+    ///
+    /// - Parameter UpdateDataSetInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateDataSetOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to the resource is denied.
+    /// - `InternalServerException` : An exception occurred with the service.
+    /// - `ResourceNotFoundException` : The resource couldn't be found.
+    /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
+    /// - `ValidationException` : The request was invalid.
     public func updateDataSet(input: UpdateDataSetInput) async throws -> UpdateDataSetOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -994,6 +1314,19 @@ extension DataExchangeClient: DataExchangeClientProtocol {
     }
 
     /// This operation updates the event action.
+    ///
+    /// - Parameter UpdateEventActionInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateEventActionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to the resource is denied.
+    /// - `InternalServerException` : An exception occurred with the service.
+    /// - `ResourceNotFoundException` : The resource couldn't be found.
+    /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
+    /// - `ValidationException` : The request was invalid.
     public func updateEventAction(input: UpdateEventActionInput) async throws -> UpdateEventActionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1030,6 +1363,20 @@ extension DataExchangeClient: DataExchangeClientProtocol {
     }
 
     /// This operation updates a revision.
+    ///
+    /// - Parameter UpdateRevisionInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateRevisionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to the resource is denied.
+    /// - `ConflictException` : The request couldn't be completed because it conflicted with the current state of the resource.
+    /// - `InternalServerException` : An exception occurred with the service.
+    /// - `ResourceNotFoundException` : The resource couldn't be found.
+    /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
+    /// - `ValidationException` : The request was invalid.
     public func updateRevision(input: UpdateRevisionInput) async throws -> UpdateRevisionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()

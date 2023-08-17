@@ -68,6 +68,20 @@ public struct IoTJobsDataPlaneClientLogHandlerFactory: ClientRuntime.SDKLogHandl
 
 extension IoTJobsDataPlaneClient: IoTJobsDataPlaneClientProtocol {
     /// Gets details of a job execution.
+    ///
+    /// - Parameter DescribeJobExecutionInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeJobExecutionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `CertificateValidationException` : The certificate is invalid.
+    /// - `InvalidRequestException` : The contents of the request were invalid. For example, this code is returned when an UpdateJobExecution request contains invalid status details. The message contains details about the error.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ServiceUnavailableException` : The service is temporarily unavailable.
+    /// - `TerminalStateException` : The job is in a terminal state.
+    /// - `ThrottlingException` : The rate exceeds the limit.
     public func describeJobExecution(input: DescribeJobExecutionInput) async throws -> DescribeJobExecutionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -102,6 +116,19 @@ extension IoTJobsDataPlaneClient: IoTJobsDataPlaneClientProtocol {
     }
 
     /// Gets the list of all jobs for a thing that are not in a terminal status.
+    ///
+    /// - Parameter GetPendingJobExecutionsInput : [no documentation found]
+    ///
+    /// - Returns: `GetPendingJobExecutionsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `CertificateValidationException` : The certificate is invalid.
+    /// - `InvalidRequestException` : The contents of the request were invalid. For example, this code is returned when an UpdateJobExecution request contains invalid status details. The message contains details about the error.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ServiceUnavailableException` : The service is temporarily unavailable.
+    /// - `ThrottlingException` : The rate exceeds the limit.
     public func getPendingJobExecutions(input: GetPendingJobExecutionsInput) async throws -> GetPendingJobExecutionsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -135,6 +162,19 @@ extension IoTJobsDataPlaneClient: IoTJobsDataPlaneClientProtocol {
     }
 
     /// Gets and starts the next pending (status IN_PROGRESS or QUEUED) job execution for a thing.
+    ///
+    /// - Parameter StartNextPendingJobExecutionInput : [no documentation found]
+    ///
+    /// - Returns: `StartNextPendingJobExecutionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `CertificateValidationException` : The certificate is invalid.
+    /// - `InvalidRequestException` : The contents of the request were invalid. For example, this code is returned when an UpdateJobExecution request contains invalid status details. The message contains details about the error.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ServiceUnavailableException` : The service is temporarily unavailable.
+    /// - `ThrottlingException` : The rate exceeds the limit.
     public func startNextPendingJobExecution(input: StartNextPendingJobExecutionInput) async throws -> StartNextPendingJobExecutionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -171,6 +211,20 @@ extension IoTJobsDataPlaneClient: IoTJobsDataPlaneClientProtocol {
     }
 
     /// Updates the status of a job execution.
+    ///
+    /// - Parameter UpdateJobExecutionInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateJobExecutionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `CertificateValidationException` : The certificate is invalid.
+    /// - `InvalidRequestException` : The contents of the request were invalid. For example, this code is returned when an UpdateJobExecution request contains invalid status details. The message contains details about the error.
+    /// - `InvalidStateTransitionException` : An update attempted to change the job execution to a state that is invalid because of the job execution's current state (for example, an attempt to change a request in state SUCCESS to state IN_PROGRESS). In this case, the body of the error message also contains the executionState field.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ServiceUnavailableException` : The service is temporarily unavailable.
+    /// - `ThrottlingException` : The rate exceeds the limit.
     public func updateJobExecution(input: UpdateJobExecutionInput) async throws -> UpdateJobExecutionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()

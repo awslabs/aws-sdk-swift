@@ -12,14 +12,75 @@ import ClientRuntime
 /// Amazon A2I integrates APIs from various AWS services to create and start human review workflows for those services. To learn how Amazon A2I uses these APIs, see [Use APIs in Amazon A2I](https://docs.aws.amazon.com/sagemaker/latest/dg/a2i-api-references.html) in the Amazon SageMaker Developer Guide.
 public protocol SageMakerA2IRuntimeClientProtocol {
     /// Deletes the specified human loop for a flow definition. If the human loop was deleted, this operation will return a ResourceNotFoundException.
+    ///
+    /// - Parameter DeleteHumanLoopInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteHumanLoopOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : We couldn't process your request because of an issue with the server. Try again later.
+    /// - `ResourceNotFoundException` : We couldn't find the requested resource. Check that your resources exists and were created in the same AWS Region as your request, and try your request again.
+    /// - `ThrottlingException` : You exceeded the maximum number of requests.
+    /// - `ValidationException` : The request isn't valid. Check the syntax and try again.
     func deleteHumanLoop(input: DeleteHumanLoopInput) async throws -> DeleteHumanLoopOutputResponse
     /// Returns information about the specified human loop. If the human loop was deleted, this operation will return a ResourceNotFoundException error.
+    ///
+    /// - Parameter DescribeHumanLoopInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeHumanLoopOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : We couldn't process your request because of an issue with the server. Try again later.
+    /// - `ResourceNotFoundException` : We couldn't find the requested resource. Check that your resources exists and were created in the same AWS Region as your request, and try your request again.
+    /// - `ThrottlingException` : You exceeded the maximum number of requests.
+    /// - `ValidationException` : The request isn't valid. Check the syntax and try again.
     func describeHumanLoop(input: DescribeHumanLoopInput) async throws -> DescribeHumanLoopOutputResponse
     /// Returns information about human loops, given the specified parameters. If a human loop was deleted, it will not be included.
+    ///
+    /// - Parameter ListHumanLoopsInput : [no documentation found]
+    ///
+    /// - Returns: `ListHumanLoopsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : We couldn't process your request because of an issue with the server. Try again later.
+    /// - `ResourceNotFoundException` : We couldn't find the requested resource. Check that your resources exists and were created in the same AWS Region as your request, and try your request again.
+    /// - `ThrottlingException` : You exceeded the maximum number of requests.
+    /// - `ValidationException` : The request isn't valid. Check the syntax and try again.
     func listHumanLoops(input: ListHumanLoopsInput) async throws -> ListHumanLoopsOutputResponse
     /// Starts a human loop, provided that at least one activation condition is met.
+    ///
+    /// - Parameter StartHumanLoopInput : [no documentation found]
+    ///
+    /// - Returns: `StartHumanLoopOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictException` : Your request has the same name as another active human loop but has different input data. You cannot start two human loops with the same name and different input data.
+    /// - `InternalServerException` : We couldn't process your request because of an issue with the server. Try again later.
+    /// - `ServiceQuotaExceededException` : You exceeded your service quota. Service quotas, also referred to as limits, are the maximum number of service resources or operations for your AWS account. For a list of Amazon A2I service quotes, see [Amazon Augmented AI Service Quotes](https://docs.aws.amazon.com/general/latest/gr/a2i.html). Delete some resources or request an increase in your service quota. You can request a quota increase using Service Quotas or the AWS Support Center. To request an increase, see [AWS Service Quotas](https://docs.aws.amazon.com/general/latest/gr/aws_service_limits.html) in the AWS General Reference.
+    /// - `ThrottlingException` : You exceeded the maximum number of requests.
+    /// - `ValidationException` : The request isn't valid. Check the syntax and try again.
     func startHumanLoop(input: StartHumanLoopInput) async throws -> StartHumanLoopOutputResponse
     /// Stops the specified human loop.
+    ///
+    /// - Parameter StopHumanLoopInput : [no documentation found]
+    ///
+    /// - Returns: `StopHumanLoopOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : We couldn't process your request because of an issue with the server. Try again later.
+    /// - `ResourceNotFoundException` : We couldn't find the requested resource. Check that your resources exists and were created in the same AWS Region as your request, and try your request again.
+    /// - `ThrottlingException` : You exceeded the maximum number of requests.
+    /// - `ValidationException` : The request isn't valid. Check the syntax and try again.
     func stopHumanLoop(input: StopHumanLoopInput) async throws -> StopHumanLoopOutputResponse
 }
 

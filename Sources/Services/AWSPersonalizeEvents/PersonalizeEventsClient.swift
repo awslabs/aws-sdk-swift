@@ -68,6 +68,15 @@ public struct PersonalizeEventsClientLogHandlerFactory: ClientRuntime.SDKLogHand
 
 extension PersonalizeEventsClient: PersonalizeEventsClientProtocol {
     /// Records user interaction event data. For more information see [Recording Events](https://docs.aws.amazon.com/personalize/latest/dg/recording-events.html).
+    ///
+    /// - Parameter PutEventsInput : [no documentation found]
+    ///
+    /// - Returns: `PutEventsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidInputException` : Provide a valid value for the field or parameter.
     public func putEvents(input: PutEventsInput) async throws -> PutEventsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -104,6 +113,17 @@ extension PersonalizeEventsClient: PersonalizeEventsClientProtocol {
     }
 
     /// Adds one or more items to an Items dataset. For more information see [Importing Items Incrementally](https://docs.aws.amazon.com/personalize/latest/dg/importing-items.html).
+    ///
+    /// - Parameter PutItemsInput : [no documentation found]
+    ///
+    /// - Returns: `PutItemsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidInputException` : Provide a valid value for the field or parameter.
+    /// - `ResourceInUseException` : The specified resource is in use.
+    /// - `ResourceNotFoundException` : Could not find the specified resource.
     public func putItems(input: PutItemsInput) async throws -> PutItemsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -140,6 +160,17 @@ extension PersonalizeEventsClient: PersonalizeEventsClientProtocol {
     }
 
     /// Adds one or more users to a Users dataset. For more information see [Importing Users Incrementally](https://docs.aws.amazon.com/personalize/latest/dg/importing-users.html).
+    ///
+    /// - Parameter PutUsersInput : [no documentation found]
+    ///
+    /// - Returns: `PutUsersOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidInputException` : Provide a valid value for the field or parameter.
+    /// - `ResourceInUseException` : The specified resource is in use.
+    /// - `ResourceNotFoundException` : Could not find the specified resource.
     public func putUsers(input: PutUsersInput) async throws -> PutUsersOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()

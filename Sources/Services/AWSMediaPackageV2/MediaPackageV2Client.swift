@@ -68,6 +68,21 @@ public struct MediaPackageV2ClientLogHandlerFactory: ClientRuntime.SDKLogHandler
 
 extension MediaPackageV2Client: MediaPackageV2ClientProtocol {
     /// Create a channel to start receiving content streams. The channel represents the input to MediaPackage for incoming live content from an encoder such as AWS Elemental MediaLive. The channel receives content, and after packaging it, outputs it through an origin endpoint to downstream devices (such as video players or CDNs) that request the content. You can create only one channel with each request. We recommend that you spread out channels between channel groups, such as putting redundant channels in the same AWS Region in different channel groups.
+    ///
+    /// - Parameter CreateChannelInput : [no documentation found]
+    ///
+    /// - Returns: `CreateChannelOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have permissions to perform the requested operation. The user or role that is making the request must have at least one IAM permissions policy attached that grants the required permissions. For more information, see Access Management in the IAM User Guide.
+    /// - `ConflictException` : Updating or deleting this resource can cause an inconsistent state.
+    /// - `InternalServerException` : Indicates that an error from the service occurred while trying to process a request.
+    /// - `ResourceNotFoundException` : The specified resource doesn't exist.
+    /// - `ServiceQuotaExceededException` : The request would cause a service quota to be exceeded.
+    /// - `ThrottlingException` : The request throughput limit was exceeded.
+    /// - `ValidationException` : The input failed to meet the constraints specified by the AWS service.
     public func createChannel(input: CreateChannelInput) async throws -> CreateChannelOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -113,6 +128,21 @@ extension MediaPackageV2Client: MediaPackageV2ClientProtocol {
     }
 
     /// Create a channel group to group your channels and origin endpoints. A channel group is the top-level resource that consists of channels and origin endpoints that are associated with it and that provides predictable URLs for stream delivery. All channels and origin endpoints within the channel group are guaranteed to share the DNS. You can create only one channel group with each request.
+    ///
+    /// - Parameter CreateChannelGroupInput : [no documentation found]
+    ///
+    /// - Returns: `CreateChannelGroupOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have permissions to perform the requested operation. The user or role that is making the request must have at least one IAM permissions policy attached that grants the required permissions. For more information, see Access Management in the IAM User Guide.
+    /// - `ConflictException` : Updating or deleting this resource can cause an inconsistent state.
+    /// - `InternalServerException` : Indicates that an error from the service occurred while trying to process a request.
+    /// - `ResourceNotFoundException` : The specified resource doesn't exist.
+    /// - `ServiceQuotaExceededException` : The request would cause a service quota to be exceeded.
+    /// - `ThrottlingException` : The request throughput limit was exceeded.
+    /// - `ValidationException` : The input failed to meet the constraints specified by the AWS service.
     public func createChannelGroup(input: CreateChannelGroupInput) async throws -> CreateChannelGroupOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -158,6 +188,21 @@ extension MediaPackageV2Client: MediaPackageV2ClientProtocol {
     }
 
     /// The endpoint is attached to a channel, and represents the output of the live content. You can associate multiple endpoints to a single channel. Each endpoint gives players and downstream CDNs (such as Amazon CloudFront) access to the content for playback. Content can't be served from a channel until it has an endpoint. You can create only one endpoint with each request.
+    ///
+    /// - Parameter CreateOriginEndpointInput : [no documentation found]
+    ///
+    /// - Returns: `CreateOriginEndpointOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have permissions to perform the requested operation. The user or role that is making the request must have at least one IAM permissions policy attached that grants the required permissions. For more information, see Access Management in the IAM User Guide.
+    /// - `ConflictException` : Updating or deleting this resource can cause an inconsistent state.
+    /// - `InternalServerException` : Indicates that an error from the service occurred while trying to process a request.
+    /// - `ResourceNotFoundException` : The specified resource doesn't exist.
+    /// - `ServiceQuotaExceededException` : The request would cause a service quota to be exceeded.
+    /// - `ThrottlingException` : The request throughput limit was exceeded.
+    /// - `ValidationException` : The input failed to meet the constraints specified by the AWS service.
     public func createOriginEndpoint(input: CreateOriginEndpointInput) async throws -> CreateOriginEndpointOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -203,6 +248,19 @@ extension MediaPackageV2Client: MediaPackageV2ClientProtocol {
     }
 
     /// Delete a channel to stop AWS Elemental MediaPackage from receiving further content. You must delete the channel's origin endpoints before you can delete the channel.
+    ///
+    /// - Parameter DeleteChannelInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteChannelOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have permissions to perform the requested operation. The user or role that is making the request must have at least one IAM permissions policy attached that grants the required permissions. For more information, see Access Management in the IAM User Guide.
+    /// - `ConflictException` : Updating or deleting this resource can cause an inconsistent state.
+    /// - `InternalServerException` : Indicates that an error from the service occurred while trying to process a request.
+    /// - `ThrottlingException` : The request throughput limit was exceeded.
+    /// - `ValidationException` : The input failed to meet the constraints specified by the AWS service.
     public func deleteChannel(input: DeleteChannelInput) async throws -> DeleteChannelOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -236,6 +294,19 @@ extension MediaPackageV2Client: MediaPackageV2ClientProtocol {
     }
 
     /// Delete a channel group. You must delete the channel group's channels and origin endpoints before you can delete the channel group. If you delete a channel group, you'll lose access to the egress domain and will have to create a new channel group to replace it.
+    ///
+    /// - Parameter DeleteChannelGroupInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteChannelGroupOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have permissions to perform the requested operation. The user or role that is making the request must have at least one IAM permissions policy attached that grants the required permissions. For more information, see Access Management in the IAM User Guide.
+    /// - `ConflictException` : Updating or deleting this resource can cause an inconsistent state.
+    /// - `InternalServerException` : Indicates that an error from the service occurred while trying to process a request.
+    /// - `ThrottlingException` : The request throughput limit was exceeded.
+    /// - `ValidationException` : The input failed to meet the constraints specified by the AWS service.
     public func deleteChannelGroup(input: DeleteChannelGroupInput) async throws -> DeleteChannelGroupOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -269,6 +340,19 @@ extension MediaPackageV2Client: MediaPackageV2ClientProtocol {
     }
 
     /// Delete a channel policy.
+    ///
+    /// - Parameter DeleteChannelPolicyInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteChannelPolicyOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have permissions to perform the requested operation. The user or role that is making the request must have at least one IAM permissions policy attached that grants the required permissions. For more information, see Access Management in the IAM User Guide.
+    /// - `ConflictException` : Updating or deleting this resource can cause an inconsistent state.
+    /// - `InternalServerException` : Indicates that an error from the service occurred while trying to process a request.
+    /// - `ThrottlingException` : The request throughput limit was exceeded.
+    /// - `ValidationException` : The input failed to meet the constraints specified by the AWS service.
     public func deleteChannelPolicy(input: DeleteChannelPolicyInput) async throws -> DeleteChannelPolicyOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -302,6 +386,18 @@ extension MediaPackageV2Client: MediaPackageV2ClientProtocol {
     }
 
     /// Origin endpoints can serve content until they're deleted. Delete the endpoint if it should no longer respond to playback requests. You must delete all endpoints from a channel before you can delete the channel.
+    ///
+    /// - Parameter DeleteOriginEndpointInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteOriginEndpointOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have permissions to perform the requested operation. The user or role that is making the request must have at least one IAM permissions policy attached that grants the required permissions. For more information, see Access Management in the IAM User Guide.
+    /// - `InternalServerException` : Indicates that an error from the service occurred while trying to process a request.
+    /// - `ThrottlingException` : The request throughput limit was exceeded.
+    /// - `ValidationException` : The input failed to meet the constraints specified by the AWS service.
     public func deleteOriginEndpoint(input: DeleteOriginEndpointInput) async throws -> DeleteOriginEndpointOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -335,6 +431,19 @@ extension MediaPackageV2Client: MediaPackageV2ClientProtocol {
     }
 
     /// Delete an origin endpoint policy.
+    ///
+    /// - Parameter DeleteOriginEndpointPolicyInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteOriginEndpointPolicyOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have permissions to perform the requested operation. The user or role that is making the request must have at least one IAM permissions policy attached that grants the required permissions. For more information, see Access Management in the IAM User Guide.
+    /// - `ConflictException` : Updating or deleting this resource can cause an inconsistent state.
+    /// - `InternalServerException` : Indicates that an error from the service occurred while trying to process a request.
+    /// - `ThrottlingException` : The request throughput limit was exceeded.
+    /// - `ValidationException` : The input failed to meet the constraints specified by the AWS service.
     public func deleteOriginEndpointPolicy(input: DeleteOriginEndpointPolicyInput) async throws -> DeleteOriginEndpointPolicyOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -368,6 +477,19 @@ extension MediaPackageV2Client: MediaPackageV2ClientProtocol {
     }
 
     /// Retrieves the specified channel that's configured in AWS Elemental MediaPackage, including the origin endpoints that are associated with it.
+    ///
+    /// - Parameter GetChannelInput : [no documentation found]
+    ///
+    /// - Returns: `GetChannelOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have permissions to perform the requested operation. The user or role that is making the request must have at least one IAM permissions policy attached that grants the required permissions. For more information, see Access Management in the IAM User Guide.
+    /// - `InternalServerException` : Indicates that an error from the service occurred while trying to process a request.
+    /// - `ResourceNotFoundException` : The specified resource doesn't exist.
+    /// - `ThrottlingException` : The request throughput limit was exceeded.
+    /// - `ValidationException` : The input failed to meet the constraints specified by the AWS service.
     public func getChannel(input: GetChannelInput) async throws -> GetChannelOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -401,6 +523,19 @@ extension MediaPackageV2Client: MediaPackageV2ClientProtocol {
     }
 
     /// Retrieves the specified channel group that's configured in AWS Elemental MediaPackage, including the channels and origin endpoints that are associated with it.
+    ///
+    /// - Parameter GetChannelGroupInput : [no documentation found]
+    ///
+    /// - Returns: `GetChannelGroupOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have permissions to perform the requested operation. The user or role that is making the request must have at least one IAM permissions policy attached that grants the required permissions. For more information, see Access Management in the IAM User Guide.
+    /// - `InternalServerException` : Indicates that an error from the service occurred while trying to process a request.
+    /// - `ResourceNotFoundException` : The specified resource doesn't exist.
+    /// - `ThrottlingException` : The request throughput limit was exceeded.
+    /// - `ValidationException` : The input failed to meet the constraints specified by the AWS service.
     public func getChannelGroup(input: GetChannelGroupInput) async throws -> GetChannelGroupOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -434,6 +569,19 @@ extension MediaPackageV2Client: MediaPackageV2ClientProtocol {
     }
 
     /// Retrieves the specified channel policy that's configured in AWS Elemental MediaPackage. With policies, you can specify who has access to AWS resources and what actions they can perform on those resources.
+    ///
+    /// - Parameter GetChannelPolicyInput : [no documentation found]
+    ///
+    /// - Returns: `GetChannelPolicyOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have permissions to perform the requested operation. The user or role that is making the request must have at least one IAM permissions policy attached that grants the required permissions. For more information, see Access Management in the IAM User Guide.
+    /// - `InternalServerException` : Indicates that an error from the service occurred while trying to process a request.
+    /// - `ResourceNotFoundException` : The specified resource doesn't exist.
+    /// - `ThrottlingException` : The request throughput limit was exceeded.
+    /// - `ValidationException` : The input failed to meet the constraints specified by the AWS service.
     public func getChannelPolicy(input: GetChannelPolicyInput) async throws -> GetChannelPolicyOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -467,6 +615,19 @@ extension MediaPackageV2Client: MediaPackageV2ClientProtocol {
     }
 
     /// Retrieves the specified origin endpoint that's configured in AWS Elemental MediaPackage to obtain its playback URL and to view the packaging settings that it's currently using.
+    ///
+    /// - Parameter GetOriginEndpointInput : [no documentation found]
+    ///
+    /// - Returns: `GetOriginEndpointOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have permissions to perform the requested operation. The user or role that is making the request must have at least one IAM permissions policy attached that grants the required permissions. For more information, see Access Management in the IAM User Guide.
+    /// - `InternalServerException` : Indicates that an error from the service occurred while trying to process a request.
+    /// - `ResourceNotFoundException` : The specified resource doesn't exist.
+    /// - `ThrottlingException` : The request throughput limit was exceeded.
+    /// - `ValidationException` : The input failed to meet the constraints specified by the AWS service.
     public func getOriginEndpoint(input: GetOriginEndpointInput) async throws -> GetOriginEndpointOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -500,6 +661,19 @@ extension MediaPackageV2Client: MediaPackageV2ClientProtocol {
     }
 
     /// Retrieves the specified origin endpoint policy that's configured in AWS Elemental MediaPackage.
+    ///
+    /// - Parameter GetOriginEndpointPolicyInput : [no documentation found]
+    ///
+    /// - Returns: `GetOriginEndpointPolicyOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have permissions to perform the requested operation. The user or role that is making the request must have at least one IAM permissions policy attached that grants the required permissions. For more information, see Access Management in the IAM User Guide.
+    /// - `InternalServerException` : Indicates that an error from the service occurred while trying to process a request.
+    /// - `ResourceNotFoundException` : The specified resource doesn't exist.
+    /// - `ThrottlingException` : The request throughput limit was exceeded.
+    /// - `ValidationException` : The input failed to meet the constraints specified by the AWS service.
     public func getOriginEndpointPolicy(input: GetOriginEndpointPolicyInput) async throws -> GetOriginEndpointPolicyOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -533,6 +707,18 @@ extension MediaPackageV2Client: MediaPackageV2ClientProtocol {
     }
 
     /// Retrieves all channel groups that are configured in AWS Elemental MediaPackage, including the channels and origin endpoints that are associated with it.
+    ///
+    /// - Parameter ListChannelGroupsInput : [no documentation found]
+    ///
+    /// - Returns: `ListChannelGroupsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have permissions to perform the requested operation. The user or role that is making the request must have at least one IAM permissions policy attached that grants the required permissions. For more information, see Access Management in the IAM User Guide.
+    /// - `InternalServerException` : Indicates that an error from the service occurred while trying to process a request.
+    /// - `ThrottlingException` : The request throughput limit was exceeded.
+    /// - `ValidationException` : The input failed to meet the constraints specified by the AWS service.
     public func listChannelGroups(input: ListChannelGroupsInput) async throws -> ListChannelGroupsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -567,6 +753,18 @@ extension MediaPackageV2Client: MediaPackageV2ClientProtocol {
     }
 
     /// Retrieves all channels in a specific channel group that are configured in AWS Elemental MediaPackage, including the origin endpoints that are associated with it.
+    ///
+    /// - Parameter ListChannelsInput : [no documentation found]
+    ///
+    /// - Returns: `ListChannelsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have permissions to perform the requested operation. The user or role that is making the request must have at least one IAM permissions policy attached that grants the required permissions. For more information, see Access Management in the IAM User Guide.
+    /// - `InternalServerException` : Indicates that an error from the service occurred while trying to process a request.
+    /// - `ThrottlingException` : The request throughput limit was exceeded.
+    /// - `ValidationException` : The input failed to meet the constraints specified by the AWS service.
     public func listChannels(input: ListChannelsInput) async throws -> ListChannelsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -601,6 +799,19 @@ extension MediaPackageV2Client: MediaPackageV2ClientProtocol {
     }
 
     /// Retrieves all origin endpoints in a specific channel that are configured in AWS Elemental MediaPackage.
+    ///
+    /// - Parameter ListOriginEndpointsInput : [no documentation found]
+    ///
+    /// - Returns: `ListOriginEndpointsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have permissions to perform the requested operation. The user or role that is making the request must have at least one IAM permissions policy attached that grants the required permissions. For more information, see Access Management in the IAM User Guide.
+    /// - `InternalServerException` : Indicates that an error from the service occurred while trying to process a request.
+    /// - `ResourceNotFoundException` : The specified resource doesn't exist.
+    /// - `ThrottlingException` : The request throughput limit was exceeded.
+    /// - `ValidationException` : The input failed to meet the constraints specified by the AWS service.
     public func listOriginEndpoints(input: ListOriginEndpointsInput) async throws -> ListOriginEndpointsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -635,6 +846,15 @@ extension MediaPackageV2Client: MediaPackageV2ClientProtocol {
     }
 
     /// Lists the tags assigned to a resource.
+    ///
+    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    ///
+    /// - Returns: `ListTagsForResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ValidationException` : The input failed to meet the constraints specified by the AWS service.
     public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -668,6 +888,20 @@ extension MediaPackageV2Client: MediaPackageV2ClientProtocol {
     }
 
     /// Attaches an IAM policy to the specified channel. With policies, you can specify who has access to AWS resources and what actions they can perform on those resources. You can attach only one policy with each request.
+    ///
+    /// - Parameter PutChannelPolicyInput : [no documentation found]
+    ///
+    /// - Returns: `PutChannelPolicyOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have permissions to perform the requested operation. The user or role that is making the request must have at least one IAM permissions policy attached that grants the required permissions. For more information, see Access Management in the IAM User Guide.
+    /// - `ConflictException` : Updating or deleting this resource can cause an inconsistent state.
+    /// - `InternalServerException` : Indicates that an error from the service occurred while trying to process a request.
+    /// - `ResourceNotFoundException` : The specified resource doesn't exist.
+    /// - `ThrottlingException` : The request throughput limit was exceeded.
+    /// - `ValidationException` : The input failed to meet the constraints specified by the AWS service.
     public func putChannelPolicy(input: PutChannelPolicyInput) async throws -> PutChannelPolicyOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -704,6 +938,20 @@ extension MediaPackageV2Client: MediaPackageV2ClientProtocol {
     }
 
     /// Attaches an IAM policy to the specified origin endpoint. You can attach only one policy with each request.
+    ///
+    /// - Parameter PutOriginEndpointPolicyInput : [no documentation found]
+    ///
+    /// - Returns: `PutOriginEndpointPolicyOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have permissions to perform the requested operation. The user or role that is making the request must have at least one IAM permissions policy attached that grants the required permissions. For more information, see Access Management in the IAM User Guide.
+    /// - `ConflictException` : Updating or deleting this resource can cause an inconsistent state.
+    /// - `InternalServerException` : Indicates that an error from the service occurred while trying to process a request.
+    /// - `ResourceNotFoundException` : The specified resource doesn't exist.
+    /// - `ThrottlingException` : The request throughput limit was exceeded.
+    /// - `ValidationException` : The input failed to meet the constraints specified by the AWS service.
     public func putOriginEndpointPolicy(input: PutOriginEndpointPolicyInput) async throws -> PutOriginEndpointPolicyOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -740,6 +988,15 @@ extension MediaPackageV2Client: MediaPackageV2ClientProtocol {
     }
 
     /// Assigns one of more tags (key-value pairs) to the specified MediaPackage resource. Tags can help you organize and categorize your resources. You can also use them to scope user permissions, by granting a user permission to access or change only resources with certain tag values. You can use the TagResource operation with a resource that already has tags. If you specify a new tag key for the resource, this tag is appended to the list of tags associated with the resource. If you specify a tag key that is already associated with the resource, the new tag value that you specify replaces the previous value for that tag.
+    ///
+    /// - Parameter TagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `TagResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ValidationException` : The input failed to meet the constraints specified by the AWS service.
     public func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -776,6 +1033,15 @@ extension MediaPackageV2Client: MediaPackageV2ClientProtocol {
     }
 
     /// Removes one or more tags from the specified resource.
+    ///
+    /// - Parameter UntagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `UntagResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ValidationException` : The input failed to meet the constraints specified by the AWS service.
     public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -810,6 +1076,20 @@ extension MediaPackageV2Client: MediaPackageV2ClientProtocol {
     }
 
     /// Update the specified channel. You can edit if MediaPackage sends ingest or egress access logs to the CloudWatch log group, if content will be encrypted, the description on a channel, and your channel's policy settings. You can't edit the name of the channel or CloudFront distribution details. Any edits you make that impact the video output may not be reflected for a few minutes.
+    ///
+    /// - Parameter UpdateChannelInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateChannelOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have permissions to perform the requested operation. The user or role that is making the request must have at least one IAM permissions policy attached that grants the required permissions. For more information, see Access Management in the IAM User Guide.
+    /// - `ConflictException` : Updating or deleting this resource can cause an inconsistent state.
+    /// - `InternalServerException` : Indicates that an error from the service occurred while trying to process a request.
+    /// - `ResourceNotFoundException` : The specified resource doesn't exist.
+    /// - `ThrottlingException` : The request throughput limit was exceeded.
+    /// - `ValidationException` : The input failed to meet the constraints specified by the AWS service.
     public func updateChannel(input: UpdateChannelInput) async throws -> UpdateChannelOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -846,6 +1126,20 @@ extension MediaPackageV2Client: MediaPackageV2ClientProtocol {
     }
 
     /// Update the specified channel group. You can edit the description on a channel group for easier identification later from the AWS Elemental MediaPackage console. You can't edit the name of the channel group. Any edits you make that impact the video output may not be reflected for a few minutes.
+    ///
+    /// - Parameter UpdateChannelGroupInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateChannelGroupOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have permissions to perform the requested operation. The user or role that is making the request must have at least one IAM permissions policy attached that grants the required permissions. For more information, see Access Management in the IAM User Guide.
+    /// - `ConflictException` : Updating or deleting this resource can cause an inconsistent state.
+    /// - `InternalServerException` : Indicates that an error from the service occurred while trying to process a request.
+    /// - `ResourceNotFoundException` : The specified resource doesn't exist.
+    /// - `ThrottlingException` : The request throughput limit was exceeded.
+    /// - `ValidationException` : The input failed to meet the constraints specified by the AWS service.
     public func updateChannelGroup(input: UpdateChannelGroupInput) async throws -> UpdateChannelGroupOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -882,6 +1176,21 @@ extension MediaPackageV2Client: MediaPackageV2ClientProtocol {
     }
 
     /// Update the specified origin endpoint. Edit the packaging preferences on an endpoint to optimize the viewing experience. You can't edit the name of the endpoint. Any edits you make that impact the video output may not be reflected for a few minutes.
+    ///
+    /// - Parameter UpdateOriginEndpointInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateOriginEndpointOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have permissions to perform the requested operation. The user or role that is making the request must have at least one IAM permissions policy attached that grants the required permissions. For more information, see Access Management in the IAM User Guide.
+    /// - `ConflictException` : Updating or deleting this resource can cause an inconsistent state.
+    /// - `InternalServerException` : Indicates that an error from the service occurred while trying to process a request.
+    /// - `ResourceNotFoundException` : The specified resource doesn't exist.
+    /// - `ServiceQuotaExceededException` : The request would cause a service quota to be exceeded.
+    /// - `ThrottlingException` : The request throughput limit was exceeded.
+    /// - `ValidationException` : The input failed to meet the constraints specified by the AWS service.
     public func updateOriginEndpoint(input: UpdateOriginEndpointInput) async throws -> UpdateOriginEndpointOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()

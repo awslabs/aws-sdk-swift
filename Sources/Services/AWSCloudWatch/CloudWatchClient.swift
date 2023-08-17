@@ -64,6 +64,15 @@ public struct CloudWatchClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFact
 
 extension CloudWatchClient: CloudWatchClientProtocol {
     /// Deletes the specified alarms. You can delete up to 100 alarms in one operation. However, this total can include no more than one composite alarm. For example, you could delete 99 metric alarms and one composite alarms with one operation, but you can't delete two composite alarms with one operation. If you specify an incorrect alarm name or make any other error in the operation, no alarms are deleted. To confirm that alarms were deleted successfully, you can use the [DescribeAlarms](https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_DescribeAlarms.html) operation after using DeleteAlarms. It is possible to create a loop or cycle of composite alarms, where composite alarm A depends on composite alarm B, and composite alarm B also depends on composite alarm A. In this scenario, you can't delete any composite alarm that is part of the cycle because there is always still a composite alarm that depends on that alarm that you want to delete. To get out of such a situation, you must break the cycle by changing the rule of one of the composite alarms in the cycle to remove a dependency that creates the cycle. The simplest change to make to break a cycle is to change the AlarmRule of one of the alarms to false. Additionally, the evaluation of composite alarms stops if CloudWatch detects a cycle in the evaluation path.
+    ///
+    /// - Parameter DeleteAlarmsInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteAlarmsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ResourceNotFound` : The named resource does not exist.
     public func deleteAlarms(input: DeleteAlarmsInput) async throws -> DeleteAlarmsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -100,6 +109,19 @@ extension CloudWatchClient: CloudWatchClientProtocol {
     }
 
     /// Deletes the specified anomaly detection model from your account. For more information about how to delete an anomaly detection model, see [Deleting an anomaly detection model](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/Create_Anomaly_Detection_Alarm.html#Delete_Anomaly_Detection_Model) in the CloudWatch User Guide.
+    ///
+    /// - Parameter DeleteAnomalyDetectorInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteAnomalyDetectorOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceFault` : Request processing has failed due to some unknown error, exception, or failure.
+    /// - `InvalidParameterCombinationException` : Parameters were used together that cannot be used together.
+    /// - `InvalidParameterValueException` : The value of an input parameter is bad or out-of-range.
+    /// - `MissingRequiredParameterException` : An input parameter that is required is missing.
+    /// - `ResourceNotFoundException` : The named resource does not exist.
     public func deleteAnomalyDetector(input: DeleteAnomalyDetectorInput) async throws -> DeleteAnomalyDetectorOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -136,6 +158,17 @@ extension CloudWatchClient: CloudWatchClientProtocol {
     }
 
     /// Deletes all dashboards that you specify. You can specify up to 100 dashboards to delete. If there is an error during this call, no dashboards are deleted.
+    ///
+    /// - Parameter DeleteDashboardsInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteDashboardsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DashboardNotFoundError` : The specified dashboard does not exist.
+    /// - `InternalServiceFault` : Request processing has failed due to some unknown error, exception, or failure.
+    /// - `InvalidParameterValueException` : The value of an input parameter is bad or out-of-range.
     public func deleteDashboards(input: DeleteDashboardsInput) async throws -> DeleteDashboardsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -172,6 +205,16 @@ extension CloudWatchClient: CloudWatchClientProtocol {
     }
 
     /// Permanently deletes the specified Contributor Insights rules. If you create a rule, delete it, and then re-create it with the same name, historical data from the first time the rule was created might not be available.
+    ///
+    /// - Parameter DeleteInsightRulesInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteInsightRulesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParameterValueException` : The value of an input parameter is bad or out-of-range.
+    /// - `MissingRequiredParameterException` : An input parameter that is required is missing.
     public func deleteInsightRules(input: DeleteInsightRulesInput) async throws -> DeleteInsightRulesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -208,6 +251,17 @@ extension CloudWatchClient: CloudWatchClientProtocol {
     }
 
     /// Permanently deletes the metric stream that you specify.
+    ///
+    /// - Parameter DeleteMetricStreamInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteMetricStreamOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceFault` : Request processing has failed due to some unknown error, exception, or failure.
+    /// - `InvalidParameterValueException` : The value of an input parameter is bad or out-of-range.
+    /// - `MissingRequiredParameterException` : An input parameter that is required is missing.
     public func deleteMetricStream(input: DeleteMetricStreamInput) async throws -> DeleteMetricStreamOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -244,6 +298,15 @@ extension CloudWatchClient: CloudWatchClientProtocol {
     }
 
     /// Retrieves the history for the specified alarm. You can filter the results by date range or item type. If an alarm name is not specified, the histories for either all metric alarms or all composite alarms are returned. CloudWatch retains the history of an alarm even if you delete the alarm. To use this operation and return information about a composite alarm, you must be signed on with the cloudwatch:DescribeAlarmHistory permission that is scoped to *. You can't return information about composite alarms if your cloudwatch:DescribeAlarmHistory permission has a narrower scope.
+    ///
+    /// - Parameter DescribeAlarmHistoryInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeAlarmHistoryOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidNextToken` : The next token specified is invalid.
     public func describeAlarmHistory(input: DescribeAlarmHistoryInput) async throws -> DescribeAlarmHistoryOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -280,6 +343,15 @@ extension CloudWatchClient: CloudWatchClientProtocol {
     }
 
     /// Retrieves the specified alarms. You can filter the results by specifying a prefix for the alarm name, the alarm state, or a prefix for any action. To use this operation and return information about composite alarms, you must be signed on with the cloudwatch:DescribeAlarms permission that is scoped to *. You can't return information about composite alarms if your cloudwatch:DescribeAlarms permission has a narrower scope.
+    ///
+    /// - Parameter DescribeAlarmsInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeAlarmsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidNextToken` : The next token specified is invalid.
     public func describeAlarms(input: DescribeAlarmsInput) async throws -> DescribeAlarmsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -316,6 +388,10 @@ extension CloudWatchClient: CloudWatchClientProtocol {
     }
 
     /// Retrieves the alarms for the specified metric. To filter the results, specify a statistic, period, or unit. This operation retrieves only standard alarms that are based on the specified metric. It does not return alarms based on math expressions that use the specified metric, or composite alarms that use the specified metric.
+    ///
+    /// - Parameter DescribeAlarmsForMetricInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeAlarmsForMetricOutputResponse` : [no documentation found]
     public func describeAlarmsForMetric(input: DescribeAlarmsForMetricInput) async throws -> DescribeAlarmsForMetricOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -352,6 +428,18 @@ extension CloudWatchClient: CloudWatchClientProtocol {
     }
 
     /// Lists the anomaly detection models that you have created in your account. For single metric anomaly detectors, you can list all of the models in your account or filter the results to only the models that are related to a certain namespace, metric name, or metric dimension. For metric math anomaly detectors, you can list them by adding METRIC_MATH to the AnomalyDetectorTypes array. This will return all metric math anomaly detectors in your account.
+    ///
+    /// - Parameter DescribeAnomalyDetectorsInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeAnomalyDetectorsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceFault` : Request processing has failed due to some unknown error, exception, or failure.
+    /// - `InvalidNextToken` : The next token specified is invalid.
+    /// - `InvalidParameterCombinationException` : Parameters were used together that cannot be used together.
+    /// - `InvalidParameterValueException` : The value of an input parameter is bad or out-of-range.
     public func describeAnomalyDetectors(input: DescribeAnomalyDetectorsInput) async throws -> DescribeAnomalyDetectorsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -388,6 +476,15 @@ extension CloudWatchClient: CloudWatchClientProtocol {
     }
 
     /// Returns a list of all the Contributor Insights rules in your account. For more information about Contributor Insights, see [Using Contributor Insights to Analyze High-Cardinality Data](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/ContributorInsights.html).
+    ///
+    /// - Parameter DescribeInsightRulesInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeInsightRulesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidNextToken` : The next token specified is invalid.
     public func describeInsightRules(input: DescribeInsightRulesInput) async throws -> DescribeInsightRulesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -424,6 +521,10 @@ extension CloudWatchClient: CloudWatchClientProtocol {
     }
 
     /// Disables the actions for the specified alarms. When an alarm's actions are disabled, the alarm actions do not execute when the alarm state changes.
+    ///
+    /// - Parameter DisableAlarmActionsInput : [no documentation found]
+    ///
+    /// - Returns: `DisableAlarmActionsOutputResponse` : [no documentation found]
     public func disableAlarmActions(input: DisableAlarmActionsInput) async throws -> DisableAlarmActionsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -460,6 +561,16 @@ extension CloudWatchClient: CloudWatchClientProtocol {
     }
 
     /// Disables the specified Contributor Insights rules. When rules are disabled, they do not analyze log groups and do not incur costs.
+    ///
+    /// - Parameter DisableInsightRulesInput : [no documentation found]
+    ///
+    /// - Returns: `DisableInsightRulesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParameterValueException` : The value of an input parameter is bad or out-of-range.
+    /// - `MissingRequiredParameterException` : An input parameter that is required is missing.
     public func disableInsightRules(input: DisableInsightRulesInput) async throws -> DisableInsightRulesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -496,6 +607,10 @@ extension CloudWatchClient: CloudWatchClientProtocol {
     }
 
     /// Enables the actions for the specified alarms.
+    ///
+    /// - Parameter EnableAlarmActionsInput : [no documentation found]
+    ///
+    /// - Returns: `EnableAlarmActionsOutputResponse` : [no documentation found]
     public func enableAlarmActions(input: EnableAlarmActionsInput) async throws -> EnableAlarmActionsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -532,6 +647,17 @@ extension CloudWatchClient: CloudWatchClientProtocol {
     }
 
     /// Enables the specified Contributor Insights rules. When rules are enabled, they immediately begin analyzing log data.
+    ///
+    /// - Parameter EnableInsightRulesInput : [no documentation found]
+    ///
+    /// - Returns: `EnableInsightRulesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParameterValueException` : The value of an input parameter is bad or out-of-range.
+    /// - `LimitExceededException` : The operation exceeded one or more limits.
+    /// - `MissingRequiredParameterException` : An input parameter that is required is missing.
     public func enableInsightRules(input: EnableInsightRulesInput) async throws -> EnableInsightRulesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -568,6 +694,17 @@ extension CloudWatchClient: CloudWatchClientProtocol {
     }
 
     /// Displays the details of the dashboard that you specify. To copy an existing dashboard, use GetDashboard, and then use the data returned within DashboardBody as the template for the new dashboard when you call PutDashboard to create the copy.
+    ///
+    /// - Parameter GetDashboardInput : [no documentation found]
+    ///
+    /// - Returns: `GetDashboardOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DashboardNotFoundError` : The specified dashboard does not exist.
+    /// - `InternalServiceFault` : Request processing has failed due to some unknown error, exception, or failure.
+    /// - `InvalidParameterValueException` : The value of an input parameter is bad or out-of-range.
     public func getDashboard(input: GetDashboardInput) async throws -> GetDashboardOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -618,6 +755,17 @@ extension CloudWatchClient: CloudWatchClientProtocol {
     /// * Maximum -- the maximum value from a single observation during the time period represented by that data point.
     ///
     /// * Average -- the average value from all contributors during the time period represented by that data point.
+    ///
+    /// - Parameter GetInsightRuleReportInput : [no documentation found]
+    ///
+    /// - Returns: `GetInsightRuleReportOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParameterValueException` : The value of an input parameter is bad or out-of-range.
+    /// - `MissingRequiredParameterException` : An input parameter that is required is missing.
+    /// - `ResourceNotFoundException` : The named resource does not exist.
     public func getInsightRuleReport(input: GetInsightRuleReportInput) async throws -> GetInsightRuleReportOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -665,6 +813,15 @@ extension CloudWatchClient: CloudWatchClientProtocol {
     ///
     ///
     /// Data points that are initially published with a shorter period are aggregated together for long-term storage. For example, if you collect data using a period of 1 minute, the data remains available for 15 days with 1-minute resolution. After 15 days, this data is still available, but is aggregated and retrievable only with a resolution of 5 minutes. After 63 days, the data is further aggregated and is available with a resolution of 1 hour. If you omit Unit in your request, all data that was collected with any unit is returned, along with the corresponding units that were specified when the data was reported to CloudWatch. If you specify a unit, the operation returns only data that was collected with that unit specified. If you specify a unit that does not match the data collected, the results of the operation are null. CloudWatch does not perform unit conversions. Using Metrics Insights queries with metric math You can't mix a Metric Insights query and metric math syntax in the same expression, but you can reference results from a Metrics Insights query within other Metric math expressions. A Metrics Insights query without a GROUP BY clause returns a single time-series (TS), and can be used as input for a metric math expression that expects a single time series. A Metrics Insights query with a GROUP BY clause returns an array of time-series (TS[]), and can be used as input for a metric math expression that expects an array of time series.
+    ///
+    /// - Parameter GetMetricDataInput : [no documentation found]
+    ///
+    /// - Returns: `GetMetricDataOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidNextToken` : The next token specified is invalid.
     public func getMetricData(input: GetMetricDataInput) async throws -> GetMetricDataOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -719,6 +876,18 @@ extension CloudWatchClient: CloudWatchClientProtocol {
     ///
     ///
     /// Data points that are initially published with a shorter period are aggregated together for long-term storage. For example, if you collect data using a period of 1 minute, the data remains available for 15 days with 1-minute resolution. After 15 days, this data is still available, but is aggregated and retrievable only with a resolution of 5 minutes. After 63 days, the data is further aggregated and is available with a resolution of 1 hour. CloudWatch started retaining 5-minute and 1-hour metric data as of July 9, 2016. For information about metrics and dimensions supported by Amazon Web Services services, see the [Amazon CloudWatch Metrics and Dimensions Reference](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CW_Support_For_AWS.html) in the Amazon CloudWatch User Guide.
+    ///
+    /// - Parameter GetMetricStatisticsInput : [no documentation found]
+    ///
+    /// - Returns: `GetMetricStatisticsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceFault` : Request processing has failed due to some unknown error, exception, or failure.
+    /// - `InvalidParameterCombinationException` : Parameters were used together that cannot be used together.
+    /// - `InvalidParameterValueException` : The value of an input parameter is bad or out-of-range.
+    /// - `MissingRequiredParameterException` : An input parameter that is required is missing.
     public func getMetricStatistics(input: GetMetricStatisticsInput) async throws -> GetMetricStatisticsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -755,6 +924,19 @@ extension CloudWatchClient: CloudWatchClientProtocol {
     }
 
     /// Returns information about the metric stream that you specify.
+    ///
+    /// - Parameter GetMetricStreamInput : [no documentation found]
+    ///
+    /// - Returns: `GetMetricStreamOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceFault` : Request processing has failed due to some unknown error, exception, or failure.
+    /// - `InvalidParameterCombinationException` : Parameters were used together that cannot be used together.
+    /// - `InvalidParameterValueException` : The value of an input parameter is bad or out-of-range.
+    /// - `MissingRequiredParameterException` : An input parameter that is required is missing.
+    /// - `ResourceNotFoundException` : The named resource does not exist.
     public func getMetricStream(input: GetMetricStreamInput) async throws -> GetMetricStreamOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -795,6 +977,10 @@ extension CloudWatchClient: CloudWatchClientProtocol {
     /// * As many as 100 metrics in the graph.
     ///
     /// * Up to 100 KB uncompressed payload.
+    ///
+    /// - Parameter GetMetricWidgetImageInput : [no documentation found]
+    ///
+    /// - Returns: `GetMetricWidgetImageOutputResponse` : [no documentation found]
     public func getMetricWidgetImage(input: GetMetricWidgetImageInput) async throws -> GetMetricWidgetImageOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -831,6 +1017,16 @@ extension CloudWatchClient: CloudWatchClientProtocol {
     }
 
     /// Returns a list of the dashboards for your account. If you include DashboardNamePrefix, only those dashboards with names starting with the prefix are listed. Otherwise, all dashboards in your account are listed. ListDashboards returns up to 1000 results on one page. If there are more than 1000 dashboards, you can call ListDashboards again and include the value you received for NextToken in the first call, to receive the next 1000 results.
+    ///
+    /// - Parameter ListDashboardsInput : [no documentation found]
+    ///
+    /// - Returns: `ListDashboardsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceFault` : Request processing has failed due to some unknown error, exception, or failure.
+    /// - `InvalidParameterValueException` : The value of an input parameter is bad or out-of-range.
     public func listDashboards(input: ListDashboardsInput) async throws -> ListDashboardsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -867,6 +1063,17 @@ extension CloudWatchClient: CloudWatchClientProtocol {
     }
 
     /// Returns a list that contains the number of managed Contributor Insights rules in your account.
+    ///
+    /// - Parameter ListManagedInsightRulesInput : [no documentation found]
+    ///
+    /// - Returns: `ListManagedInsightRulesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidNextToken` : The next token specified is invalid.
+    /// - `InvalidParameterValueException` : The value of an input parameter is bad or out-of-range.
+    /// - `MissingRequiredParameterException` : An input parameter that is required is missing.
     public func listManagedInsightRules(input: ListManagedInsightRulesInput) async throws -> ListManagedInsightRulesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -903,6 +1110,18 @@ extension CloudWatchClient: CloudWatchClientProtocol {
     }
 
     /// Returns a list of metric streams in this account.
+    ///
+    /// - Parameter ListMetricStreamsInput : [no documentation found]
+    ///
+    /// - Returns: `ListMetricStreamsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceFault` : Request processing has failed due to some unknown error, exception, or failure.
+    /// - `InvalidNextToken` : The next token specified is invalid.
+    /// - `InvalidParameterValueException` : The value of an input parameter is bad or out-of-range.
+    /// - `MissingRequiredParameterException` : An input parameter that is required is missing.
     public func listMetricStreams(input: ListMetricStreamsInput) async throws -> ListMetricStreamsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -939,6 +1158,16 @@ extension CloudWatchClient: CloudWatchClientProtocol {
     }
 
     /// List the specified metrics. You can use the returned metrics with [GetMetricData](https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_GetMetricData.html) or [GetMetricStatistics](https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_GetMetricStatistics.html) to get statistical data. Up to 500 results are returned for any one call. To retrieve additional results, use the returned token with subsequent calls. After you create a metric, allow up to 15 minutes for the metric to appear. To see metric statistics sooner, use [GetMetricData](https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_GetMetricData.html) or [GetMetricStatistics](https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_GetMetricStatistics.html). If you are using CloudWatch cross-account observability, you can use this operation in a monitoring account and view metrics from the linked source accounts. For more information, see [CloudWatch cross-account observability](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-Unified-Cross-Account.html). ListMetrics doesn't return information about metrics if those metrics haven't reported data in the past two weeks. To retrieve those metrics, use [GetMetricData](https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_GetMetricData.html) or [GetMetricStatistics](https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_GetMetricStatistics.html).
+    ///
+    /// - Parameter ListMetricsInput : [no documentation found]
+    ///
+    /// - Returns: `ListMetricsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceFault` : Request processing has failed due to some unknown error, exception, or failure.
+    /// - `InvalidParameterValueException` : The value of an input parameter is bad or out-of-range.
     public func listMetrics(input: ListMetricsInput) async throws -> ListMetricsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -975,6 +1204,17 @@ extension CloudWatchClient: CloudWatchClientProtocol {
     }
 
     /// Displays the tags associated with a CloudWatch resource. Currently, alarms and Contributor Insights rules support tagging.
+    ///
+    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    ///
+    /// - Returns: `ListTagsForResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceFault` : Request processing has failed due to some unknown error, exception, or failure.
+    /// - `InvalidParameterValueException` : The value of an input parameter is bad or out-of-range.
+    /// - `ResourceNotFoundException` : The named resource does not exist.
     public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1011,6 +1251,19 @@ extension CloudWatchClient: CloudWatchClientProtocol {
     }
 
     /// Creates an anomaly detection model for a CloudWatch metric. You can use the model to display a band of expected normal values when the metric is graphed. For more information, see [CloudWatch Anomaly Detection](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch_Anomaly_Detection.html).
+    ///
+    /// - Parameter PutAnomalyDetectorInput : [no documentation found]
+    ///
+    /// - Returns: `PutAnomalyDetectorOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceFault` : Request processing has failed due to some unknown error, exception, or failure.
+    /// - `InvalidParameterCombinationException` : Parameters were used together that cannot be used together.
+    /// - `InvalidParameterValueException` : The value of an input parameter is bad or out-of-range.
+    /// - `LimitExceededException` : The operation exceeded one or more limits.
+    /// - `MissingRequiredParameterException` : An input parameter that is required is missing.
     public func putAnomalyDetector(input: PutAnomalyDetectorInput) async throws -> PutAnomalyDetectorOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1047,6 +1300,15 @@ extension CloudWatchClient: CloudWatchClientProtocol {
     }
 
     /// Creates or updates a composite alarm. When you create a composite alarm, you specify a rule expression for the alarm that takes into account the alarm states of other alarms that you have created. The composite alarm goes into ALARM state only if all conditions of the rule are met. The alarms specified in a composite alarm's rule expression can include metric alarms and other composite alarms. The rule expression of a composite alarm can include as many as 100 underlying alarms. Any single alarm can be included in the rule expressions of as many as 150 composite alarms. Using composite alarms can reduce alarm noise. You can create multiple metric alarms, and also create a composite alarm and set up alerts only for the composite alarm. For example, you could create a composite alarm that goes into ALARM state only when more than one of the underlying metric alarms are in ALARM state. Currently, the only alarm actions that can be taken by composite alarms are notifying SNS topics. It is possible to create a loop or cycle of composite alarms, where composite alarm A depends on composite alarm B, and composite alarm B also depends on composite alarm A. In this scenario, you can't delete any composite alarm that is part of the cycle because there is always still a composite alarm that depends on that alarm that you want to delete. To get out of such a situation, you must break the cycle by changing the rule of one of the composite alarms in the cycle to remove a dependency that creates the cycle. The simplest change to make to break a cycle is to change the AlarmRule of one of the alarms to false. Additionally, the evaluation of composite alarms stops if CloudWatch detects a cycle in the evaluation path. When this operation creates an alarm, the alarm state is immediately set to INSUFFICIENT_DATA. The alarm is then evaluated and its state is set appropriately. Any actions associated with the new state are then executed. For a composite alarm, this initial time after creation is the only time that the alarm can be in INSUFFICIENT_DATA state. When you update an existing alarm, its state is left unchanged, but the update completely overwrites the previous configuration of the alarm. To use this operation, you must be signed on with the cloudwatch:PutCompositeAlarm permission that is scoped to *. You can't create a composite alarms if your cloudwatch:PutCompositeAlarm permission has a narrower scope. If you are an IAM user, you must have iam:CreateServiceLinkedRole to create a composite alarm that has Systems Manager OpsItem actions.
+    ///
+    /// - Parameter PutCompositeAlarmInput : [no documentation found]
+    ///
+    /// - Returns: `PutCompositeAlarmOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `LimitExceededFault` : The quota for alarms for this customer has already been reached.
     public func putCompositeAlarm(input: PutCompositeAlarmInput) async throws -> PutCompositeAlarmOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1083,6 +1345,16 @@ extension CloudWatchClient: CloudWatchClientProtocol {
     }
 
     /// Creates a dashboard if it does not already exist, or updates an existing dashboard. If you update a dashboard, the entire contents are replaced with what you specify here. All dashboards in your account are global, not region-specific. A simple way to create a dashboard using PutDashboard is to copy an existing dashboard. To copy an existing dashboard using the console, you can load the dashboard and then use the View/edit source command in the Actions menu to display the JSON block for that dashboard. Another way to copy a dashboard is to use GetDashboard, and then use the data returned within DashboardBody as the template for the new dashboard when you call PutDashboard. When you create a dashboard with PutDashboard, a good practice is to add a text widget at the top of the dashboard with a message that the dashboard was created by script and should not be changed in the console. This message could also point console users to the location of the DashboardBody script or the CloudFormation template used to create the dashboard.
+    ///
+    /// - Parameter PutDashboardInput : [no documentation found]
+    ///
+    /// - Returns: `PutDashboardOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DashboardInvalidInputError` : Some part of the dashboard data is invalid.
+    /// - `InternalServiceFault` : Request processing has failed due to some unknown error, exception, or failure.
     public func putDashboard(input: PutDashboardInput) async throws -> PutDashboardOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1119,6 +1391,17 @@ extension CloudWatchClient: CloudWatchClientProtocol {
     }
 
     /// Creates a Contributor Insights rule. Rules evaluate log events in a CloudWatch Logs log group, enabling you to find contributor data for the log events in that log group. For more information, see [Using Contributor Insights to Analyze High-Cardinality Data](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/ContributorInsights.html). If you create a rule, delete it, and then re-create it with the same name, historical data from the first time the rule was created might not be available.
+    ///
+    /// - Parameter PutInsightRuleInput : [no documentation found]
+    ///
+    /// - Returns: `PutInsightRuleOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParameterValueException` : The value of an input parameter is bad or out-of-range.
+    /// - `LimitExceededException` : The operation exceeded one or more limits.
+    /// - `MissingRequiredParameterException` : An input parameter that is required is missing.
     public func putInsightRule(input: PutInsightRuleInput) async throws -> PutInsightRuleOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1155,6 +1438,16 @@ extension CloudWatchClient: CloudWatchClientProtocol {
     }
 
     /// Creates a managed Contributor Insights rule for a specified Amazon Web Services resource. When you enable a managed rule, you create a Contributor Insights rule that collects data from Amazon Web Services services. You cannot edit these rules with PutInsightRule. The rules can be enabled, disabled, and deleted using EnableInsightRules, DisableInsightRules, and DeleteInsightRules. If a previously created managed rule is currently disabled, a subsequent call to this API will re-enable it. Use ListManagedInsightRules to describe all available rules.
+    ///
+    /// - Parameter PutManagedInsightRulesInput : [no documentation found]
+    ///
+    /// - Returns: `PutManagedInsightRulesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParameterValueException` : The value of an input parameter is bad or out-of-range.
+    /// - `MissingRequiredParameterException` : An input parameter that is required is missing.
     public func putManagedInsightRules(input: PutManagedInsightRulesInput) async throws -> PutManagedInsightRulesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1202,6 +1495,15 @@ extension CloudWatchClient: CloudWatchClientProtocol {
     /// * The account where the metrics are located (the sharing account) must already have a sharing role named CloudWatch-CrossAccountSharingRole. If it does not already have this role, you must create it using the instructions in Set up a sharing account in [ Cross-account cross-Region CloudWatch console](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/Cross-Account-Cross-Region.html#enable-cross-account-cross-Region). The policy for that role must grant access to the ID of the account where you are creating the alarm.
     ///
     /// * The account where you are creating the alarm (the monitoring account) must already have a service-linked role named AWSServiceRoleForCloudWatchCrossAccount to allow CloudWatch to assume the sharing role in the sharing account. If it does not, you must create it following the directions in Set up a monitoring account in [ Cross-account cross-Region CloudWatch console](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/Cross-Account-Cross-Region.html#enable-cross-account-cross-Region).
+    ///
+    /// - Parameter PutMetricAlarmInput : [no documentation found]
+    ///
+    /// - Returns: `PutMetricAlarmOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `LimitExceededFault` : The quota for alarms for this customer has already been reached.
     public func putMetricAlarm(input: PutMetricAlarmInput) async throws -> PutMetricAlarmOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1242,6 +1544,18 @@ extension CloudWatchClient: CloudWatchClientProtocol {
     /// * The SampleCount value of the statistic set is 1 and Min, Max, and Sum are all equal.
     ///
     /// * The Min and Max are equal, and Sum is equal to Min multiplied by SampleCount.
+    ///
+    /// - Parameter PutMetricDataInput : [no documentation found]
+    ///
+    /// - Returns: `PutMetricDataOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceFault` : Request processing has failed due to some unknown error, exception, or failure.
+    /// - `InvalidParameterCombinationException` : Parameters were used together that cannot be used together.
+    /// - `InvalidParameterValueException` : The value of an input parameter is bad or out-of-range.
+    /// - `MissingRequiredParameterException` : An input parameter that is required is missing.
     public func putMetricData(input: PutMetricDataInput) async throws -> PutMetricDataOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1287,6 +1601,19 @@ extension CloudWatchClient: CloudWatchClientProtocol {
     ///
     ///
     /// By default, a metric stream always sends the MAX, MIN, SUM, and SAMPLECOUNT statistics for each metric that is streamed. You can use the StatisticsConfigurations parameter to have the metric stream send additional statistics in the stream. Streaming additional statistics incurs additional costs. For more information, see [Amazon CloudWatch Pricing](https://aws.amazon.com/cloudwatch/pricing/). When you use PutMetricStream to create a new metric stream, the stream is created in the running state. If you use it to update an existing stream, the state of the stream is not changed. If you are using CloudWatch cross-account observability and you create a metric stream in a monitoring account, you can choose whether to include metrics from source accounts in the stream. For more information, see [CloudWatch cross-account observability](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-Unified-Cross-Account.html).
+    ///
+    /// - Parameter PutMetricStreamInput : [no documentation found]
+    ///
+    /// - Returns: `PutMetricStreamOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConcurrentModificationException` : More than one process tried to modify a resource at the same time.
+    /// - `InternalServiceFault` : Request processing has failed due to some unknown error, exception, or failure.
+    /// - `InvalidParameterCombinationException` : Parameters were used together that cannot be used together.
+    /// - `InvalidParameterValueException` : The value of an input parameter is bad or out-of-range.
+    /// - `MissingRequiredParameterException` : An input parameter that is required is missing.
     public func putMetricStream(input: PutMetricStreamInput) async throws -> PutMetricStreamOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1323,6 +1650,16 @@ extension CloudWatchClient: CloudWatchClientProtocol {
     }
 
     /// Temporarily sets the state of an alarm for testing purposes. When the updated state differs from the previous value, the action configured for the appropriate state is invoked. For example, if your alarm is configured to send an Amazon SNS message when an alarm is triggered, temporarily changing the alarm state to ALARM sends an SNS message. Metric alarms returns to their actual state quickly, often within seconds. Because the metric alarm state change happens quickly, it is typically only visible in the alarm's History tab in the Amazon CloudWatch console or through [DescribeAlarmHistory](https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_DescribeAlarmHistory.html). If you use SetAlarmState on a composite alarm, the composite alarm is not guaranteed to return to its actual state. It returns to its actual state only once any of its children alarms change state. It is also reevaluated if you update its configuration. If an alarm triggers EC2 Auto Scaling policies or application Auto Scaling policies, you must include information in the StateReasonData parameter to enable the policy to take the correct action.
+    ///
+    /// - Parameter SetAlarmStateInput : [no documentation found]
+    ///
+    /// - Returns: `SetAlarmStateOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidFormatFault` : Data was not syntactically valid JSON.
+    /// - `ResourceNotFound` : The named resource does not exist.
     public func setAlarmState(input: SetAlarmStateInput) async throws -> SetAlarmStateOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1359,6 +1696,17 @@ extension CloudWatchClient: CloudWatchClientProtocol {
     }
 
     /// Starts the streaming of metrics for one or more of your metric streams.
+    ///
+    /// - Parameter StartMetricStreamsInput : [no documentation found]
+    ///
+    /// - Returns: `StartMetricStreamsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceFault` : Request processing has failed due to some unknown error, exception, or failure.
+    /// - `InvalidParameterValueException` : The value of an input parameter is bad or out-of-range.
+    /// - `MissingRequiredParameterException` : An input parameter that is required is missing.
     public func startMetricStreams(input: StartMetricStreamsInput) async throws -> StartMetricStreamsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1395,6 +1743,17 @@ extension CloudWatchClient: CloudWatchClientProtocol {
     }
 
     /// Stops the streaming of metrics for one or more of your metric streams.
+    ///
+    /// - Parameter StopMetricStreamsInput : [no documentation found]
+    ///
+    /// - Returns: `StopMetricStreamsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceFault` : Request processing has failed due to some unknown error, exception, or failure.
+    /// - `InvalidParameterValueException` : The value of an input parameter is bad or out-of-range.
+    /// - `MissingRequiredParameterException` : An input parameter that is required is missing.
     public func stopMetricStreams(input: StopMetricStreamsInput) async throws -> StopMetricStreamsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1431,6 +1790,18 @@ extension CloudWatchClient: CloudWatchClientProtocol {
     }
 
     /// Assigns one or more tags (key-value pairs) to the specified CloudWatch resource. Currently, the only CloudWatch resources that can be tagged are alarms and Contributor Insights rules. Tags can help you organize and categorize your resources. You can also use them to scope user permissions by granting a user permission to access or change only resources with certain tag values. Tags don't have any semantic meaning to Amazon Web Services and are interpreted strictly as strings of characters. You can use the TagResource action with an alarm that already has tags. If you specify a new tag key for the alarm, this tag is appended to the list of tags associated with the alarm. If you specify a tag key that is already associated with the alarm, the new tag value that you specify replaces the previous value for that tag. You can associate as many as 50 tags with a CloudWatch resource.
+    ///
+    /// - Parameter TagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `TagResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConcurrentModificationException` : More than one process tried to modify a resource at the same time.
+    /// - `InternalServiceFault` : Request processing has failed due to some unknown error, exception, or failure.
+    /// - `InvalidParameterValueException` : The value of an input parameter is bad or out-of-range.
+    /// - `ResourceNotFoundException` : The named resource does not exist.
     public func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1467,6 +1838,18 @@ extension CloudWatchClient: CloudWatchClientProtocol {
     }
 
     /// Removes one or more tags from the specified resource.
+    ///
+    /// - Parameter UntagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `UntagResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConcurrentModificationException` : More than one process tried to modify a resource at the same time.
+    /// - `InternalServiceFault` : Request processing has failed due to some unknown error, exception, or failure.
+    /// - `InvalidParameterValueException` : The value of an input parameter is bad or out-of-range.
+    /// - `ResourceNotFoundException` : The named resource does not exist.
     public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()

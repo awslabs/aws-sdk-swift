@@ -68,6 +68,24 @@ public struct RAMClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFactory {
 
 extension RAMClient: RAMClientProtocol {
     /// Accepts an invitation to a resource share from another Amazon Web Services account. After you accept the invitation, the resources included in the resource share are available to interact with in the relevant Amazon Web Services Management Consoles and tools.
+    ///
+    /// - Parameter AcceptResourceShareInvitationInput : [no documentation found]
+    ///
+    /// - Returns: `AcceptResourceShareInvitationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `IdempotentParameterMismatchException` : The operation failed because the client token input parameter matched one that was used with a previous call to the operation, but at least one of the other input parameters is different from the previous call.
+    /// - `InvalidClientTokenException` : The operation failed because the specified client token isn't valid.
+    /// - `MalformedArnException` : The operation failed because the specified [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) has a format that isn't valid.
+    /// - `OperationNotPermittedException` : The operation failed because the requested operation isn't permitted.
+    /// - `ResourceShareInvitationAlreadyAcceptedException` : The operation failed because the specified invitation was already accepted.
+    /// - `ResourceShareInvitationAlreadyRejectedException` : The operation failed because the specified invitation was already rejected.
+    /// - `ResourceShareInvitationArnNotFoundException` : The operation failed because the specified [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) for an invitation was not found.
+    /// - `ResourceShareInvitationExpiredException` : The operation failed because the specified invitation is past its expiration date and time.
+    /// - `ServerInternalException` : The operation failed because the service could not respond to the request due to an internal problem. Try again later.
+    /// - `ServiceUnavailableException` : The operation failed because the service isn't available. Try again later.
     public func acceptResourceShareInvitation(input: AcceptResourceShareInvitationInput) async throws -> AcceptResourceShareInvitationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -104,6 +122,25 @@ extension RAMClient: RAMClientProtocol {
     }
 
     /// Adds the specified list of principals and list of resources to a resource share. Principals that already have access to this resource share immediately receive access to the added resources. Newly added principals immediately receive access to the resources shared in this resource share.
+    ///
+    /// - Parameter AssociateResourceShareInput : [no documentation found]
+    ///
+    /// - Returns: `AssociateResourceShareOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `IdempotentParameterMismatchException` : The operation failed because the client token input parameter matched one that was used with a previous call to the operation, but at least one of the other input parameters is different from the previous call.
+    /// - `InvalidClientTokenException` : The operation failed because the specified client token isn't valid.
+    /// - `InvalidParameterException` : The operation failed because a parameter you specified isn't valid.
+    /// - `InvalidStateTransitionException` : The operation failed because the requested operation isn't valid for the resource share in its current state.
+    /// - `MalformedArnException` : The operation failed because the specified [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) has a format that isn't valid.
+    /// - `OperationNotPermittedException` : The operation failed because the requested operation isn't permitted.
+    /// - `ResourceShareLimitExceededException` : The operation failed because it would exceed the limit for resource shares for your account. To view the limits for your Amazon Web Services account, see the [RAM page in the Service Quotas console](https://console.aws.amazon.com/servicequotas/home/services/ram/quotas).
+    /// - `ServerInternalException` : The operation failed because the service could not respond to the request due to an internal problem. Try again later.
+    /// - `ServiceUnavailableException` : The operation failed because the service isn't available. Try again later.
+    /// - `ThrottlingException` : The operation failed because it exceeded the rate at which you are allowed to perform this operation. Please try again later.
+    /// - `UnknownResourceException` : The operation failed because a specified resource couldn't be found.
     public func associateResourceShare(input: AssociateResourceShareInput) async throws -> AssociateResourceShareOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -140,6 +177,21 @@ extension RAMClient: RAMClientProtocol {
     }
 
     /// Adds or replaces the RAM permission for a resource type included in a resource share. You can have exactly one permission associated with each resource type in the resource share. You can add a new RAM permission only if there are currently no resources of that resource type currently in the resource share.
+    ///
+    /// - Parameter AssociateResourceSharePermissionInput : [no documentation found]
+    ///
+    /// - Returns: `AssociateResourceSharePermissionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidClientTokenException` : The operation failed because the specified client token isn't valid.
+    /// - `InvalidParameterException` : The operation failed because a parameter you specified isn't valid.
+    /// - `MalformedArnException` : The operation failed because the specified [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) has a format that isn't valid.
+    /// - `OperationNotPermittedException` : The operation failed because the requested operation isn't permitted.
+    /// - `ServerInternalException` : The operation failed because the service could not respond to the request due to an internal problem. Try again later.
+    /// - `ServiceUnavailableException` : The operation failed because the service isn't available. Try again later.
+    /// - `UnknownResourceException` : The operation failed because a specified resource couldn't be found.
     public func associateResourceSharePermission(input: AssociateResourceSharePermissionInput) async throws -> AssociateResourceSharePermissionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -176,6 +228,24 @@ extension RAMClient: RAMClientProtocol {
     }
 
     /// Creates a customer managed permission for a specified resource type that you can attach to resource shares. It is created in the Amazon Web Services Region in which you call the operation.
+    ///
+    /// - Parameter CreatePermissionInput : [no documentation found]
+    ///
+    /// - Returns: `CreatePermissionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `IdempotentParameterMismatchException` : The operation failed because the client token input parameter matched one that was used with a previous call to the operation, but at least one of the other input parameters is different from the previous call.
+    /// - `InvalidClientTokenException` : The operation failed because the specified client token isn't valid.
+    /// - `InvalidParameterException` : The operation failed because a parameter you specified isn't valid.
+    /// - `InvalidPolicyException` : The operation failed because a policy you specified isn't valid.
+    /// - `MalformedPolicyTemplateException` : The operation failed because the policy template that you provided isn't valid.
+    /// - `OperationNotPermittedException` : The operation failed because the requested operation isn't permitted.
+    /// - `PermissionAlreadyExistsException` : The operation failed because a permission with the specified name already exists in the requested Amazon Web Services Region. Choose a different name.
+    /// - `PermissionLimitExceededException` : The operation failed because it would exceed the maximum number of permissions you can create in each Amazon Web Services Region. To view the limits for your Amazon Web Services account, see the [RAM page in the Service Quotas console](https://console.aws.amazon.com/servicequotas/home/services/ram/quotas).
+    /// - `ServerInternalException` : The operation failed because the service could not respond to the request due to an internal problem. Try again later.
+    /// - `ServiceUnavailableException` : The operation failed because the service isn't available. Try again later.
     public func createPermission(input: CreatePermissionInput) async throws -> CreatePermissionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -212,6 +282,24 @@ extension RAMClient: RAMClientProtocol {
     }
 
     /// Creates a new version of the specified customer managed permission. The new version is automatically set as the default version of the customer managed permission. New resource shares automatically use the default permission. Existing resource shares continue to use their original permission versions, but you can use [ReplacePermissionAssociations] to update them. If the specified customer managed permission already has the maximum of 5 versions, then you must delete one of the existing versions before you can create a new one.
+    ///
+    /// - Parameter CreatePermissionVersionInput : [no documentation found]
+    ///
+    /// - Returns: `CreatePermissionVersionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `IdempotentParameterMismatchException` : The operation failed because the client token input parameter matched one that was used with a previous call to the operation, but at least one of the other input parameters is different from the previous call.
+    /// - `InvalidClientTokenException` : The operation failed because the specified client token isn't valid.
+    /// - `InvalidParameterException` : The operation failed because a parameter you specified isn't valid.
+    /// - `InvalidPolicyException` : The operation failed because a policy you specified isn't valid.
+    /// - `MalformedArnException` : The operation failed because the specified [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) has a format that isn't valid.
+    /// - `MalformedPolicyTemplateException` : The operation failed because the policy template that you provided isn't valid.
+    /// - `PermissionVersionsLimitExceededException` : The operation failed because it would exceed the limit for the number of versions you can have for a permission. To view the limits for your Amazon Web Services account, see the [RAM page in the Service Quotas console](https://console.aws.amazon.com/servicequotas/home/services/ram/quotas).
+    /// - `ServerInternalException` : The operation failed because the service could not respond to the request due to an internal problem. Try again later.
+    /// - `ServiceUnavailableException` : The operation failed because the service isn't available. Try again later.
+    /// - `UnknownResourceException` : The operation failed because a specified resource couldn't be found.
     public func createPermissionVersion(input: CreatePermissionVersionInput) async throws -> CreatePermissionVersionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -248,6 +336,26 @@ extension RAMClient: RAMClientProtocol {
     }
 
     /// Creates a resource share. You can provide a list of the [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) for the resources that you want to share, a list of principals you want to share the resources with, and the permissions to grant those principals. Sharing a resource makes it available for use by principals outside of the Amazon Web Services account that created the resource. Sharing doesn't change any permissions or quotas that apply to the resource in the account that created it.
+    ///
+    /// - Parameter CreateResourceShareInput : [no documentation found]
+    ///
+    /// - Returns: `CreateResourceShareOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `IdempotentParameterMismatchException` : The operation failed because the client token input parameter matched one that was used with a previous call to the operation, but at least one of the other input parameters is different from the previous call.
+    /// - `InvalidClientTokenException` : The operation failed because the specified client token isn't valid.
+    /// - `InvalidParameterException` : The operation failed because a parameter you specified isn't valid.
+    /// - `InvalidStateTransitionException` : The operation failed because the requested operation isn't valid for the resource share in its current state.
+    /// - `MalformedArnException` : The operation failed because the specified [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) has a format that isn't valid.
+    /// - `OperationNotPermittedException` : The operation failed because the requested operation isn't permitted.
+    /// - `ResourceShareLimitExceededException` : The operation failed because it would exceed the limit for resource shares for your account. To view the limits for your Amazon Web Services account, see the [RAM page in the Service Quotas console](https://console.aws.amazon.com/servicequotas/home/services/ram/quotas).
+    /// - `ServerInternalException` : The operation failed because the service could not respond to the request due to an internal problem. Try again later.
+    /// - `ServiceUnavailableException` : The operation failed because the service isn't available. Try again later.
+    /// - `TagLimitExceededException` : The operation failed because it would exceed the limit for tags for your Amazon Web Services account.
+    /// - `TagPolicyViolationException` : The operation failed because the specified tag key is a reserved word and can't be used.
+    /// - `UnknownResourceException` : The operation failed because a specified resource couldn't be found.
     public func createResourceShare(input: CreateResourceShareInput) async throws -> CreateResourceShareOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -284,6 +392,21 @@ extension RAMClient: RAMClientProtocol {
     }
 
     /// Deletes the specified customer managed permission in the Amazon Web Services Region in which you call this operation. You can delete a customer managed permission only if it isn't attached to any resource share. The operation deletes all versions associated with the customer managed permission.
+    ///
+    /// - Parameter DeletePermissionInput : [no documentation found]
+    ///
+    /// - Returns: `DeletePermissionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `IdempotentParameterMismatchException` : The operation failed because the client token input parameter matched one that was used with a previous call to the operation, but at least one of the other input parameters is different from the previous call.
+    /// - `InvalidClientTokenException` : The operation failed because the specified client token isn't valid.
+    /// - `MalformedArnException` : The operation failed because the specified [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) has a format that isn't valid.
+    /// - `OperationNotPermittedException` : The operation failed because the requested operation isn't permitted.
+    /// - `ServerInternalException` : The operation failed because the service could not respond to the request due to an internal problem. Try again later.
+    /// - `ServiceUnavailableException` : The operation failed because the service isn't available. Try again later.
+    /// - `UnknownResourceException` : The operation failed because a specified resource couldn't be found.
     public func deletePermission(input: DeletePermissionInput) async throws -> DeletePermissionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -318,6 +441,22 @@ extension RAMClient: RAMClientProtocol {
     }
 
     /// Deletes one version of a customer managed permission. The version you specify must not be attached to any resource share and must not be the default version for the permission. If a customer managed permission has the maximum of 5 versions, then you must delete at least one version before you can create another.
+    ///
+    /// - Parameter DeletePermissionVersionInput : [no documentation found]
+    ///
+    /// - Returns: `DeletePermissionVersionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `IdempotentParameterMismatchException` : The operation failed because the client token input parameter matched one that was used with a previous call to the operation, but at least one of the other input parameters is different from the previous call.
+    /// - `InvalidClientTokenException` : The operation failed because the specified client token isn't valid.
+    /// - `InvalidParameterException` : The operation failed because a parameter you specified isn't valid.
+    /// - `MalformedArnException` : The operation failed because the specified [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) has a format that isn't valid.
+    /// - `OperationNotPermittedException` : The operation failed because the requested operation isn't permitted.
+    /// - `ServerInternalException` : The operation failed because the service could not respond to the request due to an internal problem. Try again later.
+    /// - `ServiceUnavailableException` : The operation failed because the service isn't available. Try again later.
+    /// - `UnknownResourceException` : The operation failed because a specified resource couldn't be found.
     public func deletePermissionVersion(input: DeletePermissionVersionInput) async throws -> DeletePermissionVersionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -352,6 +491,23 @@ extension RAMClient: RAMClientProtocol {
     }
 
     /// Deletes the specified resource share. This doesn't delete any of the resources that were associated with the resource share; it only stops the sharing of those resources through this resource share.
+    ///
+    /// - Parameter DeleteResourceShareInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteResourceShareOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `IdempotentParameterMismatchException` : The operation failed because the client token input parameter matched one that was used with a previous call to the operation, but at least one of the other input parameters is different from the previous call.
+    /// - `InvalidClientTokenException` : The operation failed because the specified client token isn't valid.
+    /// - `InvalidParameterException` : The operation failed because a parameter you specified isn't valid.
+    /// - `InvalidStateTransitionException` : The operation failed because the requested operation isn't valid for the resource share in its current state.
+    /// - `MalformedArnException` : The operation failed because the specified [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) has a format that isn't valid.
+    /// - `OperationNotPermittedException` : The operation failed because the requested operation isn't permitted.
+    /// - `ServerInternalException` : The operation failed because the service could not respond to the request due to an internal problem. Try again later.
+    /// - `ServiceUnavailableException` : The operation failed because the service isn't available. Try again later.
+    /// - `UnknownResourceException` : The operation failed because a specified resource couldn't be found.
     public func deleteResourceShare(input: DeleteResourceShareInput) async throws -> DeleteResourceShareOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -386,6 +542,24 @@ extension RAMClient: RAMClientProtocol {
     }
 
     /// Removes the specified principals or resources from participating in the specified resource share.
+    ///
+    /// - Parameter DisassociateResourceShareInput : [no documentation found]
+    ///
+    /// - Returns: `DisassociateResourceShareOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `IdempotentParameterMismatchException` : The operation failed because the client token input parameter matched one that was used with a previous call to the operation, but at least one of the other input parameters is different from the previous call.
+    /// - `InvalidClientTokenException` : The operation failed because the specified client token isn't valid.
+    /// - `InvalidParameterException` : The operation failed because a parameter you specified isn't valid.
+    /// - `InvalidStateTransitionException` : The operation failed because the requested operation isn't valid for the resource share in its current state.
+    /// - `MalformedArnException` : The operation failed because the specified [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) has a format that isn't valid.
+    /// - `OperationNotPermittedException` : The operation failed because the requested operation isn't permitted.
+    /// - `ResourceShareLimitExceededException` : The operation failed because it would exceed the limit for resource shares for your account. To view the limits for your Amazon Web Services account, see the [RAM page in the Service Quotas console](https://console.aws.amazon.com/servicequotas/home/services/ram/quotas).
+    /// - `ServerInternalException` : The operation failed because the service could not respond to the request due to an internal problem. Try again later.
+    /// - `ServiceUnavailableException` : The operation failed because the service isn't available. Try again later.
+    /// - `UnknownResourceException` : The operation failed because a specified resource couldn't be found.
     public func disassociateResourceShare(input: DisassociateResourceShareInput) async throws -> DisassociateResourceShareOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -422,6 +596,22 @@ extension RAMClient: RAMClientProtocol {
     }
 
     /// Removes a managed permission from a resource share. Permission changes take effect immediately. You can remove a managed permission from a resource share only if there are currently no resources of the relevant resource type currently attached to the resource share.
+    ///
+    /// - Parameter DisassociateResourceSharePermissionInput : [no documentation found]
+    ///
+    /// - Returns: `DisassociateResourceSharePermissionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidClientTokenException` : The operation failed because the specified client token isn't valid.
+    /// - `InvalidParameterException` : The operation failed because a parameter you specified isn't valid.
+    /// - `InvalidStateTransitionException` : The operation failed because the requested operation isn't valid for the resource share in its current state.
+    /// - `MalformedArnException` : The operation failed because the specified [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) has a format that isn't valid.
+    /// - `OperationNotPermittedException` : The operation failed because the requested operation isn't permitted.
+    /// - `ServerInternalException` : The operation failed because the service could not respond to the request due to an internal problem. Try again later.
+    /// - `ServiceUnavailableException` : The operation failed because the service isn't available. Try again later.
+    /// - `UnknownResourceException` : The operation failed because a specified resource couldn't be found.
     public func disassociateResourceSharePermission(input: DisassociateResourceSharePermissionInput) async throws -> DisassociateResourceSharePermissionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -458,6 +648,17 @@ extension RAMClient: RAMClientProtocol {
     }
 
     /// Enables resource sharing within your organization in Organizations. This operation creates a service-linked role called AWSServiceRoleForResourceAccessManager that has the IAM managed policy named AWSResourceAccessManagerServiceRolePolicy attached. This role permits RAM to retrieve information about the organization and its structure. This lets you share resources with all of the accounts in the calling account's organization by specifying the organization ID, or all of the accounts in an organizational unit (OU) by specifying the OU ID. Until you enable sharing within the organization, you can specify only individual Amazon Web Services accounts, or for supported resource types, IAM roles and users. You must call this operation from an IAM role or user in the organization's management account.
+    ///
+    /// - Parameter EnableSharingWithAwsOrganizationInput : [no documentation found]
+    ///
+    /// - Returns: `EnableSharingWithAwsOrganizationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `OperationNotPermittedException` : The operation failed because the requested operation isn't permitted.
+    /// - `ServerInternalException` : The operation failed because the service could not respond to the request due to an internal problem. Try again later.
+    /// - `ServiceUnavailableException` : The operation failed because the service isn't available. Try again later.
     public func enableSharingWithAwsOrganization(input: EnableSharingWithAwsOrganizationInput) async throws -> EnableSharingWithAwsOrganizationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -491,6 +692,20 @@ extension RAMClient: RAMClientProtocol {
     }
 
     /// Retrieves the contents of a managed permission in JSON format.
+    ///
+    /// - Parameter GetPermissionInput : [no documentation found]
+    ///
+    /// - Returns: `GetPermissionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParameterException` : The operation failed because a parameter you specified isn't valid.
+    /// - `MalformedArnException` : The operation failed because the specified [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) has a format that isn't valid.
+    /// - `OperationNotPermittedException` : The operation failed because the requested operation isn't permitted.
+    /// - `ServerInternalException` : The operation failed because the service could not respond to the request due to an internal problem. Try again later.
+    /// - `ServiceUnavailableException` : The operation failed because the service isn't available. Try again later.
+    /// - `UnknownResourceException` : The operation failed because a specified resource couldn't be found.
     public func getPermission(input: GetPermissionInput) async throws -> GetPermissionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -527,6 +742,20 @@ extension RAMClient: RAMClientProtocol {
     }
 
     /// Retrieves the resource policies for the specified resources that you own and have shared.
+    ///
+    /// - Parameter GetResourcePoliciesInput : [no documentation found]
+    ///
+    /// - Returns: `GetResourcePoliciesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidNextTokenException` : The operation failed because the specified value for NextToken isn't valid. You must specify a value you received in the NextToken response of a previous call to this operation.
+    /// - `InvalidParameterException` : The operation failed because a parameter you specified isn't valid.
+    /// - `MalformedArnException` : The operation failed because the specified [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) has a format that isn't valid.
+    /// - `ResourceArnNotFoundException` : The operation failed because the specified [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) was not found.
+    /// - `ServerInternalException` : The operation failed because the service could not respond to the request due to an internal problem. Try again later.
+    /// - `ServiceUnavailableException` : The operation failed because the service isn't available. Try again later.
     public func getResourcePolicies(input: GetResourcePoliciesInput) async throws -> GetResourcePoliciesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -563,6 +792,21 @@ extension RAMClient: RAMClientProtocol {
     }
 
     /// Retrieves the lists of resources and principals that associated for resource shares that you own.
+    ///
+    /// - Parameter GetResourceShareAssociationsInput : [no documentation found]
+    ///
+    /// - Returns: `GetResourceShareAssociationsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidNextTokenException` : The operation failed because the specified value for NextToken isn't valid. You must specify a value you received in the NextToken response of a previous call to this operation.
+    /// - `InvalidParameterException` : The operation failed because a parameter you specified isn't valid.
+    /// - `MalformedArnException` : The operation failed because the specified [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) has a format that isn't valid.
+    /// - `OperationNotPermittedException` : The operation failed because the requested operation isn't permitted.
+    /// - `ServerInternalException` : The operation failed because the service could not respond to the request due to an internal problem. Try again later.
+    /// - `ServiceUnavailableException` : The operation failed because the service isn't available. Try again later.
+    /// - `UnknownResourceException` : The operation failed because a specified resource couldn't be found.
     public func getResourceShareAssociations(input: GetResourceShareAssociationsInput) async throws -> GetResourceShareAssociationsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -599,6 +843,22 @@ extension RAMClient: RAMClientProtocol {
     }
 
     /// Retrieves details about invitations that you have received for resource shares.
+    ///
+    /// - Parameter GetResourceShareInvitationsInput : [no documentation found]
+    ///
+    /// - Returns: `GetResourceShareInvitationsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidMaxResultsException` : The operation failed because the specified value for MaxResults isn't valid.
+    /// - `InvalidNextTokenException` : The operation failed because the specified value for NextToken isn't valid. You must specify a value you received in the NextToken response of a previous call to this operation.
+    /// - `InvalidParameterException` : The operation failed because a parameter you specified isn't valid.
+    /// - `MalformedArnException` : The operation failed because the specified [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) has a format that isn't valid.
+    /// - `ResourceShareInvitationArnNotFoundException` : The operation failed because the specified [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) for an invitation was not found.
+    /// - `ServerInternalException` : The operation failed because the service could not respond to the request due to an internal problem. Try again later.
+    /// - `ServiceUnavailableException` : The operation failed because the service isn't available. Try again later.
+    /// - `UnknownResourceException` : The operation failed because a specified resource couldn't be found.
     public func getResourceShareInvitations(input: GetResourceShareInvitationsInput) async throws -> GetResourceShareInvitationsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -635,6 +895,20 @@ extension RAMClient: RAMClientProtocol {
     }
 
     /// Retrieves details about the resource shares that you own or that are shared with you.
+    ///
+    /// - Parameter GetResourceSharesInput : [no documentation found]
+    ///
+    /// - Returns: `GetResourceSharesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidNextTokenException` : The operation failed because the specified value for NextToken isn't valid. You must specify a value you received in the NextToken response of a previous call to this operation.
+    /// - `InvalidParameterException` : The operation failed because a parameter you specified isn't valid.
+    /// - `MalformedArnException` : The operation failed because the specified [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) has a format that isn't valid.
+    /// - `ServerInternalException` : The operation failed because the service could not respond to the request due to an internal problem. Try again later.
+    /// - `ServiceUnavailableException` : The operation failed because the service isn't available. Try again later.
+    /// - `UnknownResourceException` : The operation failed because a specified resource couldn't be found.
     public func getResourceShares(input: GetResourceSharesInput) async throws -> GetResourceSharesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -671,6 +945,23 @@ extension RAMClient: RAMClientProtocol {
     }
 
     /// Lists the resources in a resource share that is shared with you but for which the invitation is still PENDING. That means that you haven't accepted or rejected the invitation and the invitation hasn't expired.
+    ///
+    /// - Parameter ListPendingInvitationResourcesInput : [no documentation found]
+    ///
+    /// - Returns: `ListPendingInvitationResourcesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidNextTokenException` : The operation failed because the specified value for NextToken isn't valid. You must specify a value you received in the NextToken response of a previous call to this operation.
+    /// - `InvalidParameterException` : The operation failed because a parameter you specified isn't valid.
+    /// - `MalformedArnException` : The operation failed because the specified [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) has a format that isn't valid.
+    /// - `MissingRequiredParameterException` : The operation failed because a required input parameter is missing.
+    /// - `ResourceShareInvitationAlreadyRejectedException` : The operation failed because the specified invitation was already rejected.
+    /// - `ResourceShareInvitationArnNotFoundException` : The operation failed because the specified [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) for an invitation was not found.
+    /// - `ResourceShareInvitationExpiredException` : The operation failed because the specified invitation is past its expiration date and time.
+    /// - `ServerInternalException` : The operation failed because the service could not respond to the request due to an internal problem. Try again later.
+    /// - `ServiceUnavailableException` : The operation failed because the service isn't available. Try again later.
     public func listPendingInvitationResources(input: ListPendingInvitationResourcesInput) async throws -> ListPendingInvitationResourcesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -707,6 +998,19 @@ extension RAMClient: RAMClientProtocol {
     }
 
     /// Lists information about the managed permission and its associations to any resource shares that use this managed permission. This lets you see which resource shares use which versions of the specified managed permission.
+    ///
+    /// - Parameter ListPermissionAssociationsInput : [no documentation found]
+    ///
+    /// - Returns: `ListPermissionAssociationsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidNextTokenException` : The operation failed because the specified value for NextToken isn't valid. You must specify a value you received in the NextToken response of a previous call to this operation.
+    /// - `InvalidParameterException` : The operation failed because a parameter you specified isn't valid.
+    /// - `MalformedArnException` : The operation failed because the specified [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) has a format that isn't valid.
+    /// - `ServerInternalException` : The operation failed because the service could not respond to the request due to an internal problem. Try again later.
+    /// - `ServiceUnavailableException` : The operation failed because the service isn't available. Try again later.
     public func listPermissionAssociations(input: ListPermissionAssociationsInput) async throws -> ListPermissionAssociationsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -743,6 +1047,21 @@ extension RAMClient: RAMClientProtocol {
     }
 
     /// Lists the available versions of the specified RAM permission.
+    ///
+    /// - Parameter ListPermissionVersionsInput : [no documentation found]
+    ///
+    /// - Returns: `ListPermissionVersionsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidNextTokenException` : The operation failed because the specified value for NextToken isn't valid. You must specify a value you received in the NextToken response of a previous call to this operation.
+    /// - `InvalidParameterException` : The operation failed because a parameter you specified isn't valid.
+    /// - `MalformedArnException` : The operation failed because the specified [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) has a format that isn't valid.
+    /// - `OperationNotPermittedException` : The operation failed because the requested operation isn't permitted.
+    /// - `ServerInternalException` : The operation failed because the service could not respond to the request due to an internal problem. Try again later.
+    /// - `ServiceUnavailableException` : The operation failed because the service isn't available. Try again later.
+    /// - `UnknownResourceException` : The operation failed because a specified resource couldn't be found.
     public func listPermissionVersions(input: ListPermissionVersionsInput) async throws -> ListPermissionVersionsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -779,6 +1098,19 @@ extension RAMClient: RAMClientProtocol {
     }
 
     /// Retrieves a list of available RAM permissions that you can use for the supported resource types.
+    ///
+    /// - Parameter ListPermissionsInput : [no documentation found]
+    ///
+    /// - Returns: `ListPermissionsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidNextTokenException` : The operation failed because the specified value for NextToken isn't valid. You must specify a value you received in the NextToken response of a previous call to this operation.
+    /// - `InvalidParameterException` : The operation failed because a parameter you specified isn't valid.
+    /// - `OperationNotPermittedException` : The operation failed because the requested operation isn't permitted.
+    /// - `ServerInternalException` : The operation failed because the service could not respond to the request due to an internal problem. Try again later.
+    /// - `ServiceUnavailableException` : The operation failed because the service isn't available. Try again later.
     public func listPermissions(input: ListPermissionsInput) async throws -> ListPermissionsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -815,6 +1147,20 @@ extension RAMClient: RAMClientProtocol {
     }
 
     /// Lists the principals that you are sharing resources with or that are sharing resources with you.
+    ///
+    /// - Parameter ListPrincipalsInput : [no documentation found]
+    ///
+    /// - Returns: `ListPrincipalsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidNextTokenException` : The operation failed because the specified value for NextToken isn't valid. You must specify a value you received in the NextToken response of a previous call to this operation.
+    /// - `InvalidParameterException` : The operation failed because a parameter you specified isn't valid.
+    /// - `MalformedArnException` : The operation failed because the specified [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) has a format that isn't valid.
+    /// - `ServerInternalException` : The operation failed because the service could not respond to the request due to an internal problem. Try again later.
+    /// - `ServiceUnavailableException` : The operation failed because the service isn't available. Try again later.
+    /// - `UnknownResourceException` : The operation failed because a specified resource couldn't be found.
     public func listPrincipals(input: ListPrincipalsInput) async throws -> ListPrincipalsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -851,6 +1197,18 @@ extension RAMClient: RAMClientProtocol {
     }
 
     /// Retrieves the current status of the asynchronous tasks performed by RAM when you perform the [ReplacePermissionAssociationsWork] operation.
+    ///
+    /// - Parameter ListReplacePermissionAssociationsWorkInput : [no documentation found]
+    ///
+    /// - Returns: `ListReplacePermissionAssociationsWorkOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidNextTokenException` : The operation failed because the specified value for NextToken isn't valid. You must specify a value you received in the NextToken response of a previous call to this operation.
+    /// - `InvalidParameterException` : The operation failed because a parameter you specified isn't valid.
+    /// - `ServerInternalException` : The operation failed because the service could not respond to the request due to an internal problem. Try again later.
+    /// - `ServiceUnavailableException` : The operation failed because the service isn't available. Try again later.
     public func listReplacePermissionAssociationsWork(input: ListReplacePermissionAssociationsWorkInput) async throws -> ListReplacePermissionAssociationsWorkOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -887,6 +1245,21 @@ extension RAMClient: RAMClientProtocol {
     }
 
     /// Lists the RAM permissions that are associated with a resource share.
+    ///
+    /// - Parameter ListResourceSharePermissionsInput : [no documentation found]
+    ///
+    /// - Returns: `ListResourceSharePermissionsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidNextTokenException` : The operation failed because the specified value for NextToken isn't valid. You must specify a value you received in the NextToken response of a previous call to this operation.
+    /// - `InvalidParameterException` : The operation failed because a parameter you specified isn't valid.
+    /// - `MalformedArnException` : The operation failed because the specified [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) has a format that isn't valid.
+    /// - `OperationNotPermittedException` : The operation failed because the requested operation isn't permitted.
+    /// - `ServerInternalException` : The operation failed because the service could not respond to the request due to an internal problem. Try again later.
+    /// - `ServiceUnavailableException` : The operation failed because the service isn't available. Try again later.
+    /// - `UnknownResourceException` : The operation failed because a specified resource couldn't be found.
     public func listResourceSharePermissions(input: ListResourceSharePermissionsInput) async throws -> ListResourceSharePermissionsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -923,6 +1296,18 @@ extension RAMClient: RAMClientProtocol {
     }
 
     /// Lists the resource types that can be shared by RAM.
+    ///
+    /// - Parameter ListResourceTypesInput : [no documentation found]
+    ///
+    /// - Returns: `ListResourceTypesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidNextTokenException` : The operation failed because the specified value for NextToken isn't valid. You must specify a value you received in the NextToken response of a previous call to this operation.
+    /// - `InvalidParameterException` : The operation failed because a parameter you specified isn't valid.
+    /// - `ServerInternalException` : The operation failed because the service could not respond to the request due to an internal problem. Try again later.
+    /// - `ServiceUnavailableException` : The operation failed because the service isn't available. Try again later.
     public func listResourceTypes(input: ListResourceTypesInput) async throws -> ListResourceTypesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -959,6 +1344,21 @@ extension RAMClient: RAMClientProtocol {
     }
 
     /// Lists the resources that you added to a resource share or the resources that are shared with you.
+    ///
+    /// - Parameter ListResourcesInput : [no documentation found]
+    ///
+    /// - Returns: `ListResourcesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidNextTokenException` : The operation failed because the specified value for NextToken isn't valid. You must specify a value you received in the NextToken response of a previous call to this operation.
+    /// - `InvalidParameterException` : The operation failed because a parameter you specified isn't valid.
+    /// - `InvalidResourceTypeException` : The operation failed because the specified resource type isn't valid.
+    /// - `MalformedArnException` : The operation failed because the specified [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) has a format that isn't valid.
+    /// - `ServerInternalException` : The operation failed because the service could not respond to the request due to an internal problem. Try again later.
+    /// - `ServiceUnavailableException` : The operation failed because the service isn't available. Try again later.
+    /// - `UnknownResourceException` : The operation failed because a specified resource couldn't be found.
     public func listResources(input: ListResourcesInput) async throws -> ListResourcesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1001,6 +1401,21 @@ extension RAMClient: RAMClientProtocol {
     /// * You can't modify a CREATED_FROM_POLICY resource share so you can't associate the new customer managed permission by using ReplacePermsissionAssociations. However, if you use [PromoteResourceShareCreatedFromPolicy], that operation automatically associates the fully manageable customer managed permission to the newly promoted STANDARD resource share.
     ///
     /// * After you promote a resource share, if the original CREATED_FROM_POLICY managed permission has no other associations to A resource share, then RAM automatically deletes it.
+    ///
+    /// - Parameter PromotePermissionCreatedFromPolicyInput : [no documentation found]
+    ///
+    /// - Returns: `PromotePermissionCreatedFromPolicyOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParameterException` : The operation failed because a parameter you specified isn't valid.
+    /// - `MalformedArnException` : The operation failed because the specified [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) has a format that isn't valid.
+    /// - `MissingRequiredParameterException` : The operation failed because a required input parameter is missing.
+    /// - `OperationNotPermittedException` : The operation failed because the requested operation isn't permitted.
+    /// - `ServerInternalException` : The operation failed because the service could not respond to the request due to an internal problem. Try again later.
+    /// - `ServiceUnavailableException` : The operation failed because the service isn't available. Try again later.
+    /// - `UnknownResourceException` : The operation failed because a specified resource couldn't be found.
     public func promotePermissionCreatedFromPolicy(input: PromotePermissionCreatedFromPolicyInput) async throws -> PromotePermissionCreatedFromPolicyOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1037,6 +1452,24 @@ extension RAMClient: RAMClientProtocol {
     }
 
     /// When you attach a resource-based policy to a resource, RAM automatically creates a resource share of featureSet=CREATED_FROM_POLICY with a managed permission that has the same IAM permissions as the original resource-based policy. However, this type of managed permission is visible to only the resource share owner, and the associated resource share can't be modified by using RAM. This operation promotes the resource share to a STANDARD resource share that is fully manageable in RAM. When you promote a resource share, you can then manage the resource share in RAM and it becomes visible to all of the principals you shared it with. Before you perform this operation, you should first run [PromotePermissionCreatedFromPolicy]to ensure that you have an appropriate customer managed permission that can be associated with this resource share after its is promoted. If this operation can't find a managed permission that exactly matches the existing CREATED_FROM_POLICY permission, then this operation fails.
+    ///
+    /// - Parameter PromoteResourceShareCreatedFromPolicyInput : [no documentation found]
+    ///
+    /// - Returns: `PromoteResourceShareCreatedFromPolicyOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParameterException` : The operation failed because a parameter you specified isn't valid.
+    /// - `InvalidStateTransitionException` : The operation failed because the requested operation isn't valid for the resource share in its current state.
+    /// - `MalformedArnException` : The operation failed because the specified [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) has a format that isn't valid.
+    /// - `MissingRequiredParameterException` : The operation failed because a required input parameter is missing.
+    /// - `OperationNotPermittedException` : The operation failed because the requested operation isn't permitted.
+    /// - `ResourceShareLimitExceededException` : The operation failed because it would exceed the limit for resource shares for your account. To view the limits for your Amazon Web Services account, see the [RAM page in the Service Quotas console](https://console.aws.amazon.com/servicequotas/home/services/ram/quotas).
+    /// - `ServerInternalException` : The operation failed because the service could not respond to the request due to an internal problem. Try again later.
+    /// - `ServiceUnavailableException` : The operation failed because the service isn't available. Try again later.
+    /// - `UnknownResourceException` : The operation failed because a specified resource couldn't be found.
+    /// - `UnmatchedPolicyPermissionException` : There isn't an existing managed permission defined in RAM that has the same IAM permissions as the resource-based policy attached to the resource. You should first run [PromotePermissionCreatedFromPolicy] to create that managed permission.
     public func promoteResourceShareCreatedFromPolicy(input: PromoteResourceShareCreatedFromPolicyInput) async throws -> PromoteResourceShareCreatedFromPolicyOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1071,6 +1504,24 @@ extension RAMClient: RAMClientProtocol {
     }
 
     /// Rejects an invitation to a resource share from another Amazon Web Services account.
+    ///
+    /// - Parameter RejectResourceShareInvitationInput : [no documentation found]
+    ///
+    /// - Returns: `RejectResourceShareInvitationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `IdempotentParameterMismatchException` : The operation failed because the client token input parameter matched one that was used with a previous call to the operation, but at least one of the other input parameters is different from the previous call.
+    /// - `InvalidClientTokenException` : The operation failed because the specified client token isn't valid.
+    /// - `MalformedArnException` : The operation failed because the specified [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) has a format that isn't valid.
+    /// - `OperationNotPermittedException` : The operation failed because the requested operation isn't permitted.
+    /// - `ResourceShareInvitationAlreadyAcceptedException` : The operation failed because the specified invitation was already accepted.
+    /// - `ResourceShareInvitationAlreadyRejectedException` : The operation failed because the specified invitation was already rejected.
+    /// - `ResourceShareInvitationArnNotFoundException` : The operation failed because the specified [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) for an invitation was not found.
+    /// - `ResourceShareInvitationExpiredException` : The operation failed because the specified invitation is past its expiration date and time.
+    /// - `ServerInternalException` : The operation failed because the service could not respond to the request due to an internal problem. Try again later.
+    /// - `ServiceUnavailableException` : The operation failed because the service isn't available. Try again later.
     public func rejectResourceShareInvitation(input: RejectResourceShareInvitationInput) async throws -> RejectResourceShareInvitationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1107,6 +1558,22 @@ extension RAMClient: RAMClientProtocol {
     }
 
     /// Updates all resource shares that use a managed permission to a different managed permission. This operation always applies the default version of the target managed permission. You can optionally specify that the update applies to only resource shares that currently use a specified version. This enables you to update to the latest version, without changing the which managed permission is used. You can use this operation to update all of your resource shares to use the current default version of the permission by specifying the same value for the fromPermissionArn and toPermissionArn parameters. You can use the optional fromPermissionVersion parameter to update only those resources that use a specified version of the managed permission to the new managed permission. To successfully perform this operation, you must have permission to update the resource-based policy on all affected resource types.
+    ///
+    /// - Parameter ReplacePermissionAssociationsInput : [no documentation found]
+    ///
+    /// - Returns: `ReplacePermissionAssociationsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `IdempotentParameterMismatchException` : The operation failed because the client token input parameter matched one that was used with a previous call to the operation, but at least one of the other input parameters is different from the previous call.
+    /// - `InvalidClientTokenException` : The operation failed because the specified client token isn't valid.
+    /// - `InvalidParameterException` : The operation failed because a parameter you specified isn't valid.
+    /// - `MalformedArnException` : The operation failed because the specified [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) has a format that isn't valid.
+    /// - `OperationNotPermittedException` : The operation failed because the requested operation isn't permitted.
+    /// - `ServerInternalException` : The operation failed because the service could not respond to the request due to an internal problem. Try again later.
+    /// - `ServiceUnavailableException` : The operation failed because the service isn't available. Try again later.
+    /// - `UnknownResourceException` : The operation failed because a specified resource couldn't be found.
     public func replacePermissionAssociations(input: ReplacePermissionAssociationsInput) async throws -> ReplacePermissionAssociationsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1143,6 +1610,21 @@ extension RAMClient: RAMClientProtocol {
     }
 
     /// Designates the specified version number as the default version for the specified customer managed permission. New resource shares automatically use this new default permission. Existing resource shares continue to use their original permission version, but you can use [ReplacePermissionAssociations] to update them.
+    ///
+    /// - Parameter SetDefaultPermissionVersionInput : [no documentation found]
+    ///
+    /// - Returns: `SetDefaultPermissionVersionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `IdempotentParameterMismatchException` : The operation failed because the client token input parameter matched one that was used with a previous call to the operation, but at least one of the other input parameters is different from the previous call.
+    /// - `InvalidClientTokenException` : The operation failed because the specified client token isn't valid.
+    /// - `InvalidParameterException` : The operation failed because a parameter you specified isn't valid.
+    /// - `MalformedArnException` : The operation failed because the specified [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) has a format that isn't valid.
+    /// - `ServerInternalException` : The operation failed because the service could not respond to the request due to an internal problem. Try again later.
+    /// - `ServiceUnavailableException` : The operation failed because the service isn't available. Try again later.
+    /// - `UnknownResourceException` : The operation failed because a specified resource couldn't be found.
     public func setDefaultPermissionVersion(input: SetDefaultPermissionVersionInput) async throws -> SetDefaultPermissionVersionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1179,6 +1661,22 @@ extension RAMClient: RAMClientProtocol {
     }
 
     /// Adds the specified tag keys and values to a resource share or managed permission. If you choose a resource share, the tags are attached to only the resource share, not to the resources that are in the resource share. The tags on a managed permission are the same for all versions of the managed permission.
+    ///
+    /// - Parameter TagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `TagResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParameterException` : The operation failed because a parameter you specified isn't valid.
+    /// - `MalformedArnException` : The operation failed because the specified [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) has a format that isn't valid.
+    /// - `ResourceArnNotFoundException` : The operation failed because the specified [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) was not found.
+    /// - `ServerInternalException` : The operation failed because the service could not respond to the request due to an internal problem. Try again later.
+    /// - `ServiceUnavailableException` : The operation failed because the service isn't available. Try again later.
+    /// - `TagLimitExceededException` : The operation failed because it would exceed the limit for tags for your Amazon Web Services account.
+    /// - `TagPolicyViolationException` : The operation failed because the specified tag key is a reserved word and can't be used.
+    /// - `UnknownResourceException` : The operation failed because a specified resource couldn't be found.
     public func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1215,6 +1713,19 @@ extension RAMClient: RAMClientProtocol {
     }
 
     /// Removes the specified tag key and value pairs from the specified resource share or managed permission.
+    ///
+    /// - Parameter UntagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `UntagResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParameterException` : The operation failed because a parameter you specified isn't valid.
+    /// - `MalformedArnException` : The operation failed because the specified [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) has a format that isn't valid.
+    /// - `ServerInternalException` : The operation failed because the service could not respond to the request due to an internal problem. Try again later.
+    /// - `ServiceUnavailableException` : The operation failed because the service isn't available. Try again later.
+    /// - `UnknownResourceException` : The operation failed because a specified resource couldn't be found.
     public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1251,6 +1762,23 @@ extension RAMClient: RAMClientProtocol {
     }
 
     /// Modifies some of the properties of the specified resource share.
+    ///
+    /// - Parameter UpdateResourceShareInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateResourceShareOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `IdempotentParameterMismatchException` : The operation failed because the client token input parameter matched one that was used with a previous call to the operation, but at least one of the other input parameters is different from the previous call.
+    /// - `InvalidClientTokenException` : The operation failed because the specified client token isn't valid.
+    /// - `InvalidParameterException` : The operation failed because a parameter you specified isn't valid.
+    /// - `MalformedArnException` : The operation failed because the specified [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) has a format that isn't valid.
+    /// - `MissingRequiredParameterException` : The operation failed because a required input parameter is missing.
+    /// - `OperationNotPermittedException` : The operation failed because the requested operation isn't permitted.
+    /// - `ServerInternalException` : The operation failed because the service could not respond to the request due to an internal problem. Try again later.
+    /// - `ServiceUnavailableException` : The operation failed because the service isn't available. Try again later.
+    /// - `UnknownResourceException` : The operation failed because a specified resource couldn't be found.
     public func updateResourceShare(input: UpdateResourceShareInput) async throws -> UpdateResourceShareOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()

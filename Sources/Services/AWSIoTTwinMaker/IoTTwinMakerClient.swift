@@ -68,6 +68,18 @@ public struct IoTTwinMakerClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFa
 
 extension IoTTwinMakerClient: IoTTwinMakerClientProtocol {
     /// Sets values for multiple time series properties.
+    ///
+    /// - Parameter BatchPutPropertyValuesInput : [no documentation found]
+    ///
+    /// - Returns: `BatchPutPropertyValuesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : An unexpected error has occurred.
+    /// - `ResourceNotFoundException` : The resource wasn't found.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `ValidationException` : Failed
     public func batchPutPropertyValues(input: BatchPutPropertyValuesInput) async throws -> BatchPutPropertyValuesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -104,6 +116,20 @@ extension IoTTwinMakerClient: IoTTwinMakerClientProtocol {
     }
 
     /// Creates a component type.
+    ///
+    /// - Parameter CreateComponentTypeInput : [no documentation found]
+    ///
+    /// - Returns: `CreateComponentTypeOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access is denied.
+    /// - `ConflictException` : A conflict occurred.
+    /// - `InternalServerException` : An unexpected error has occurred.
+    /// - `ServiceQuotaExceededException` : The service quota was exceeded.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `ValidationException` : Failed
     public func createComponentType(input: CreateComponentTypeInput) async throws -> CreateComponentTypeOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -140,6 +166,20 @@ extension IoTTwinMakerClient: IoTTwinMakerClientProtocol {
     }
 
     /// Creates an entity.
+    ///
+    /// - Parameter CreateEntityInput : [no documentation found]
+    ///
+    /// - Returns: `CreateEntityOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access is denied.
+    /// - `ConflictException` : A conflict occurred.
+    /// - `InternalServerException` : An unexpected error has occurred.
+    /// - `ServiceQuotaExceededException` : The service quota was exceeded.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `ValidationException` : Failed
     public func createEntity(input: CreateEntityInput) async throws -> CreateEntityOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -176,6 +216,20 @@ extension IoTTwinMakerClient: IoTTwinMakerClientProtocol {
     }
 
     /// Creates a scene.
+    ///
+    /// - Parameter CreateSceneInput : [no documentation found]
+    ///
+    /// - Returns: `CreateSceneOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access is denied.
+    /// - `ConflictException` : A conflict occurred.
+    /// - `InternalServerException` : An unexpected error has occurred.
+    /// - `ServiceQuotaExceededException` : The service quota was exceeded.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `ValidationException` : Failed
     public func createScene(input: CreateSceneInput) async throws -> CreateSceneOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -212,6 +266,20 @@ extension IoTTwinMakerClient: IoTTwinMakerClientProtocol {
     }
 
     /// This action creates a SyncJob.
+    ///
+    /// - Parameter CreateSyncJobInput : [no documentation found]
+    ///
+    /// - Returns: `CreateSyncJobOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access is denied.
+    /// - `ConflictException` : A conflict occurred.
+    /// - `InternalServerException` : An unexpected error has occurred.
+    /// - `ServiceQuotaExceededException` : The service quota was exceeded.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `ValidationException` : Failed
     public func createSyncJob(input: CreateSyncJobInput) async throws -> CreateSyncJobOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -248,6 +316,20 @@ extension IoTTwinMakerClient: IoTTwinMakerClientProtocol {
     }
 
     /// Creates a workplace.
+    ///
+    /// - Parameter CreateWorkspaceInput : [no documentation found]
+    ///
+    /// - Returns: `CreateWorkspaceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access is denied.
+    /// - `ConflictException` : A conflict occurred.
+    /// - `InternalServerException` : An unexpected error has occurred.
+    /// - `ServiceQuotaExceededException` : The service quota was exceeded.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `ValidationException` : Failed
     public func createWorkspace(input: CreateWorkspaceInput) async throws -> CreateWorkspaceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -284,6 +366,19 @@ extension IoTTwinMakerClient: IoTTwinMakerClientProtocol {
     }
 
     /// Deletes a component type.
+    ///
+    /// - Parameter DeleteComponentTypeInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteComponentTypeOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access is denied.
+    /// - `InternalServerException` : An unexpected error has occurred.
+    /// - `ResourceNotFoundException` : The resource wasn't found.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `ValidationException` : Failed
     public func deleteComponentType(input: DeleteComponentTypeInput) async throws -> DeleteComponentTypeOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -317,6 +412,19 @@ extension IoTTwinMakerClient: IoTTwinMakerClientProtocol {
     }
 
     /// Deletes an entity.
+    ///
+    /// - Parameter DeleteEntityInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteEntityOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : An unexpected error has occurred.
+    /// - `ResourceNotFoundException` : The resource wasn't found.
+    /// - `ServiceQuotaExceededException` : The service quota was exceeded.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `ValidationException` : Failed
     public func deleteEntity(input: DeleteEntityInput) async throws -> DeleteEntityOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -351,6 +459,19 @@ extension IoTTwinMakerClient: IoTTwinMakerClientProtocol {
     }
 
     /// Deletes a scene.
+    ///
+    /// - Parameter DeleteSceneInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteSceneOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access is denied.
+    /// - `InternalServerException` : An unexpected error has occurred.
+    /// - `ResourceNotFoundException` : The resource wasn't found.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `ValidationException` : Failed
     public func deleteScene(input: DeleteSceneInput) async throws -> DeleteSceneOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -384,6 +505,20 @@ extension IoTTwinMakerClient: IoTTwinMakerClientProtocol {
     }
 
     /// Delete the SyncJob.
+    ///
+    /// - Parameter DeleteSyncJobInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteSyncJobOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access is denied.
+    /// - `InternalServerException` : An unexpected error has occurred.
+    /// - `ResourceNotFoundException` : The resource wasn't found.
+    /// - `ServiceQuotaExceededException` : The service quota was exceeded.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `ValidationException` : Failed
     public func deleteSyncJob(input: DeleteSyncJobInput) async throws -> DeleteSyncJobOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -417,6 +552,19 @@ extension IoTTwinMakerClient: IoTTwinMakerClientProtocol {
     }
 
     /// Deletes a workspace.
+    ///
+    /// - Parameter DeleteWorkspaceInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteWorkspaceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access is denied.
+    /// - `InternalServerException` : An unexpected error has occurred.
+    /// - `ResourceNotFoundException` : The resource wasn't found.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `ValidationException` : Failed
     public func deleteWorkspace(input: DeleteWorkspaceInput) async throws -> DeleteWorkspaceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -450,6 +598,20 @@ extension IoTTwinMakerClient: IoTTwinMakerClientProtocol {
     }
 
     /// Run queries to access information from your knowledge graph of entities within individual workspaces.
+    ///
+    /// - Parameter ExecuteQueryInput : [no documentation found]
+    ///
+    /// - Returns: `ExecuteQueryOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access is denied.
+    /// - `InternalServerException` : An unexpected error has occurred.
+    /// - `QueryTimeoutException` : The query timeout exception.
+    /// - `ServiceQuotaExceededException` : The service quota was exceeded.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `ValidationException` : Failed
     public func executeQuery(input: ExecuteQueryInput) async throws -> ExecuteQueryOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -486,6 +648,19 @@ extension IoTTwinMakerClient: IoTTwinMakerClientProtocol {
     }
 
     /// Retrieves information about a component type.
+    ///
+    /// - Parameter GetComponentTypeInput : [no documentation found]
+    ///
+    /// - Returns: `GetComponentTypeOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access is denied.
+    /// - `InternalServerException` : An unexpected error has occurred.
+    /// - `ResourceNotFoundException` : The resource wasn't found.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `ValidationException` : Failed
     public func getComponentType(input: GetComponentTypeInput) async throws -> GetComponentTypeOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -519,6 +694,19 @@ extension IoTTwinMakerClient: IoTTwinMakerClientProtocol {
     }
 
     /// Retrieves information about an entity.
+    ///
+    /// - Parameter GetEntityInput : [no documentation found]
+    ///
+    /// - Returns: `GetEntityOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : An unexpected error has occurred.
+    /// - `ResourceNotFoundException` : The resource wasn't found.
+    /// - `ServiceQuotaExceededException` : The service quota was exceeded.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `ValidationException` : Failed
     public func getEntity(input: GetEntityInput) async throws -> GetEntityOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -552,6 +740,18 @@ extension IoTTwinMakerClient: IoTTwinMakerClientProtocol {
     }
 
     /// Gets the pricing plan.
+    ///
+    /// - Parameter GetPricingPlanInput : [no documentation found]
+    ///
+    /// - Returns: `GetPricingPlanOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access is denied.
+    /// - `InternalServerException` : An unexpected error has occurred.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `ValidationException` : Failed
     public func getPricingPlan(input: GetPricingPlanInput) async throws -> GetPricingPlanOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -585,6 +785,21 @@ extension IoTTwinMakerClient: IoTTwinMakerClientProtocol {
     }
 
     /// Gets the property values for a component, component type, entity, or workspace. You must specify a value for either componentName, componentTypeId, entityId, or workspaceId.
+    ///
+    /// - Parameter GetPropertyValueInput : [no documentation found]
+    ///
+    /// - Returns: `GetPropertyValueOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access is denied.
+    /// - `ConnectorFailureException` : The connector failed.
+    /// - `ConnectorTimeoutException` : The connector timed out.
+    /// - `InternalServerException` : An unexpected error has occurred.
+    /// - `ResourceNotFoundException` : The resource wasn't found.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `ValidationException` : Failed
     public func getPropertyValue(input: GetPropertyValueInput) async throws -> GetPropertyValueOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -621,6 +836,21 @@ extension IoTTwinMakerClient: IoTTwinMakerClientProtocol {
     }
 
     /// Retrieves information about the history of a time series property value for a component, component type, entity, or workspace. You must specify a value for workspaceId. For entity-specific queries, specify values for componentName and entityId. For cross-entity quries, specify a value for componentTypeId.
+    ///
+    /// - Parameter GetPropertyValueHistoryInput : [no documentation found]
+    ///
+    /// - Returns: `GetPropertyValueHistoryOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access is denied.
+    /// - `ConnectorFailureException` : The connector failed.
+    /// - `ConnectorTimeoutException` : The connector timed out.
+    /// - `InternalServerException` : An unexpected error has occurred.
+    /// - `ResourceNotFoundException` : The resource wasn't found.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `ValidationException` : Failed
     public func getPropertyValueHistory(input: GetPropertyValueHistoryInput) async throws -> GetPropertyValueHistoryOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -657,6 +887,19 @@ extension IoTTwinMakerClient: IoTTwinMakerClientProtocol {
     }
 
     /// Retrieves information about a scene.
+    ///
+    /// - Parameter GetSceneInput : [no documentation found]
+    ///
+    /// - Returns: `GetSceneOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access is denied.
+    /// - `InternalServerException` : An unexpected error has occurred.
+    /// - `ResourceNotFoundException` : The resource wasn't found.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `ValidationException` : Failed
     public func getScene(input: GetSceneInput) async throws -> GetSceneOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -690,6 +933,20 @@ extension IoTTwinMakerClient: IoTTwinMakerClientProtocol {
     }
 
     /// Gets the SyncJob.
+    ///
+    /// - Parameter GetSyncJobInput : [no documentation found]
+    ///
+    /// - Returns: `GetSyncJobOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access is denied.
+    /// - `InternalServerException` : An unexpected error has occurred.
+    /// - `ResourceNotFoundException` : The resource wasn't found.
+    /// - `ServiceQuotaExceededException` : The service quota was exceeded.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `ValidationException` : Failed
     public func getSyncJob(input: GetSyncJobInput) async throws -> GetSyncJobOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -724,6 +981,19 @@ extension IoTTwinMakerClient: IoTTwinMakerClientProtocol {
     }
 
     /// Retrieves information about a workspace.
+    ///
+    /// - Parameter GetWorkspaceInput : [no documentation found]
+    ///
+    /// - Returns: `GetWorkspaceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : An unexpected error has occurred.
+    /// - `ResourceNotFoundException` : The resource wasn't found.
+    /// - `ServiceQuotaExceededException` : The service quota was exceeded.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `ValidationException` : Failed
     public func getWorkspace(input: GetWorkspaceInput) async throws -> GetWorkspaceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -757,6 +1027,18 @@ extension IoTTwinMakerClient: IoTTwinMakerClientProtocol {
     }
 
     /// Lists all component types in a workspace.
+    ///
+    /// - Parameter ListComponentTypesInput : [no documentation found]
+    ///
+    /// - Returns: `ListComponentTypesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access is denied.
+    /// - `InternalServerException` : An unexpected error has occurred.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `ValidationException` : Failed
     public func listComponentTypes(input: ListComponentTypesInput) async throws -> ListComponentTypesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -793,6 +1075,18 @@ extension IoTTwinMakerClient: IoTTwinMakerClientProtocol {
     }
 
     /// Lists all entities in a workspace.
+    ///
+    /// - Parameter ListEntitiesInput : [no documentation found]
+    ///
+    /// - Returns: `ListEntitiesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : An unexpected error has occurred.
+    /// - `ServiceQuotaExceededException` : The service quota was exceeded.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `ValidationException` : Failed
     public func listEntities(input: ListEntitiesInput) async throws -> ListEntitiesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -829,6 +1123,18 @@ extension IoTTwinMakerClient: IoTTwinMakerClientProtocol {
     }
 
     /// Lists all scenes in a workspace.
+    ///
+    /// - Parameter ListScenesInput : [no documentation found]
+    ///
+    /// - Returns: `ListScenesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access is denied.
+    /// - `InternalServerException` : An unexpected error has occurred.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `ValidationException` : Failed
     public func listScenes(input: ListScenesInput) async throws -> ListScenesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -865,6 +1171,19 @@ extension IoTTwinMakerClient: IoTTwinMakerClientProtocol {
     }
 
     /// List all SyncJobs.
+    ///
+    /// - Parameter ListSyncJobsInput : [no documentation found]
+    ///
+    /// - Returns: `ListSyncJobsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access is denied.
+    /// - `InternalServerException` : An unexpected error has occurred.
+    /// - `ServiceQuotaExceededException` : The service quota was exceeded.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `ValidationException` : Failed
     public func listSyncJobs(input: ListSyncJobsInput) async throws -> ListSyncJobsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -901,6 +1220,19 @@ extension IoTTwinMakerClient: IoTTwinMakerClientProtocol {
     }
 
     /// Lists the sync resources.
+    ///
+    /// - Parameter ListSyncResourcesInput : [no documentation found]
+    ///
+    /// - Returns: `ListSyncResourcesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access is denied.
+    /// - `InternalServerException` : An unexpected error has occurred.
+    /// - `ServiceQuotaExceededException` : The service quota was exceeded.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `ValidationException` : Failed
     public func listSyncResources(input: ListSyncResourcesInput) async throws -> ListSyncResourcesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -937,6 +1269,16 @@ extension IoTTwinMakerClient: IoTTwinMakerClientProtocol {
     }
 
     /// Lists all tags associated with a resource.
+    ///
+    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    ///
+    /// - Returns: `ListTagsForResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access is denied.
+    /// - `ResourceNotFoundException` : The resource wasn't found.
     public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -973,6 +1315,18 @@ extension IoTTwinMakerClient: IoTTwinMakerClientProtocol {
     }
 
     /// Retrieves information about workspaces in the current account.
+    ///
+    /// - Parameter ListWorkspacesInput : [no documentation found]
+    ///
+    /// - Returns: `ListWorkspacesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : An unexpected error has occurred.
+    /// - `ServiceQuotaExceededException` : The service quota was exceeded.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `ValidationException` : Failed
     public func listWorkspaces(input: ListWorkspacesInput) async throws -> ListWorkspacesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1009,6 +1363,17 @@ extension IoTTwinMakerClient: IoTTwinMakerClientProtocol {
     }
 
     /// Adds tags to a resource.
+    ///
+    /// - Parameter TagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `TagResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access is denied.
+    /// - `ResourceNotFoundException` : The resource wasn't found.
+    /// - `TooManyTagsException` : The number of tags exceeds the limit.
     public func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1045,6 +1410,16 @@ extension IoTTwinMakerClient: IoTTwinMakerClientProtocol {
     }
 
     /// Removes tags from a resource.
+    ///
+    /// - Parameter UntagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `UntagResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access is denied.
+    /// - `ResourceNotFoundException` : The resource wasn't found.
     public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1079,6 +1454,20 @@ extension IoTTwinMakerClient: IoTTwinMakerClientProtocol {
     }
 
     /// Updates information in a component type.
+    ///
+    /// - Parameter UpdateComponentTypeInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateComponentTypeOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access is denied.
+    /// - `InternalServerException` : An unexpected error has occurred.
+    /// - `ResourceNotFoundException` : The resource wasn't found.
+    /// - `ServiceQuotaExceededException` : The service quota was exceeded.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `ValidationException` : Failed
     public func updateComponentType(input: UpdateComponentTypeInput) async throws -> UpdateComponentTypeOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1115,6 +1504,21 @@ extension IoTTwinMakerClient: IoTTwinMakerClientProtocol {
     }
 
     /// Updates an entity.
+    ///
+    /// - Parameter UpdateEntityInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateEntityOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access is denied.
+    /// - `ConflictException` : A conflict occurred.
+    /// - `InternalServerException` : An unexpected error has occurred.
+    /// - `ResourceNotFoundException` : The resource wasn't found.
+    /// - `ServiceQuotaExceededException` : The service quota was exceeded.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `ValidationException` : Failed
     public func updateEntity(input: UpdateEntityInput) async throws -> UpdateEntityOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1151,6 +1555,18 @@ extension IoTTwinMakerClient: IoTTwinMakerClientProtocol {
     }
 
     /// Update the pricing plan.
+    ///
+    /// - Parameter UpdatePricingPlanInput : [no documentation found]
+    ///
+    /// - Returns: `UpdatePricingPlanOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access is denied.
+    /// - `InternalServerException` : An unexpected error has occurred.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `ValidationException` : Failed
     public func updatePricingPlan(input: UpdatePricingPlanInput) async throws -> UpdatePricingPlanOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1187,6 +1603,19 @@ extension IoTTwinMakerClient: IoTTwinMakerClientProtocol {
     }
 
     /// Updates a scene.
+    ///
+    /// - Parameter UpdateSceneInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateSceneOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access is denied.
+    /// - `InternalServerException` : An unexpected error has occurred.
+    /// - `ResourceNotFoundException` : The resource wasn't found.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `ValidationException` : Failed
     public func updateScene(input: UpdateSceneInput) async throws -> UpdateSceneOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1223,6 +1652,20 @@ extension IoTTwinMakerClient: IoTTwinMakerClientProtocol {
     }
 
     /// Updates a workspace.
+    ///
+    /// - Parameter UpdateWorkspaceInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateWorkspaceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access is denied.
+    /// - `InternalServerException` : An unexpected error has occurred.
+    /// - `ResourceNotFoundException` : The resource wasn't found.
+    /// - `ServiceQuotaExceededException` : The service quota was exceeded.
+    /// - `ThrottlingException` : The rate exceeds the limit.
+    /// - `ValidationException` : Failed
     public func updateWorkspace(input: UpdateWorkspaceInput) async throws -> UpdateWorkspaceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()

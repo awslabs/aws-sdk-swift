@@ -68,6 +68,19 @@ public struct TimestreamQueryClientLogHandlerFactory: ClientRuntime.SDKLogHandle
 
 extension TimestreamQueryClient: TimestreamQueryClientProtocol {
     /// Cancels a query that has been issued. Cancellation is provided only if the query has not completed running before the cancellation request was issued. Because cancellation is an idempotent operation, subsequent cancellation requests will return a CancellationMessage, indicating that the query has already been canceled. See [code sample](https://docs.aws.amazon.com/timestream/latest/developerguide/code-samples.cancel-query.html) for details.
+    ///
+    /// - Parameter CancelQueryInput : [no documentation found]
+    ///
+    /// - Returns: `CancelQueryOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You are not authorized to perform this action.
+    /// - `InternalServerException` : Timestream was unable to fully process this request because of an internal server error.
+    /// - `InvalidEndpointException` : The requested endpoint was not valid.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : Invalid or malformed request.
     public func cancelQuery(input: CancelQueryInput) async throws -> CancelQueryOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -105,6 +118,21 @@ extension TimestreamQueryClient: TimestreamQueryClientProtocol {
     }
 
     /// Create a scheduled query that will be run on your behalf at the configured schedule. Timestream assumes the execution role provided as part of the ScheduledQueryExecutionRoleArn parameter to run the query. You can use the NotificationConfiguration parameter to configure notification for your scheduled query operations.
+    ///
+    /// - Parameter CreateScheduledQueryInput : [no documentation found]
+    ///
+    /// - Returns: `CreateScheduledQueryOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You are not authorized to perform this action.
+    /// - `ConflictException` : Unable to poll results for a cancelled query.
+    /// - `InternalServerException` : Timestream was unable to fully process this request because of an internal server error.
+    /// - `InvalidEndpointException` : The requested endpoint was not valid.
+    /// - `ServiceQuotaExceededException` : You have exceeded the service quota.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : Invalid or malformed request.
     public func createScheduledQuery(input: CreateScheduledQueryInput) async throws -> CreateScheduledQueryOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -150,6 +178,20 @@ extension TimestreamQueryClient: TimestreamQueryClientProtocol {
     }
 
     /// Deletes a given scheduled query. This is an irreversible operation.
+    ///
+    /// - Parameter DeleteScheduledQueryInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteScheduledQueryOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You are not authorized to perform this action.
+    /// - `InternalServerException` : Timestream was unable to fully process this request because of an internal server error.
+    /// - `InvalidEndpointException` : The requested endpoint was not valid.
+    /// - `ResourceNotFoundException` : The requested resource could not be found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : Invalid or malformed request.
     public func deleteScheduledQuery(input: DeleteScheduledQueryInput) async throws -> DeleteScheduledQueryOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -196,6 +238,17 @@ extension TimestreamQueryClient: TimestreamQueryClientProtocol {
     ///
     ///
     /// For detailed information on how and when to use and implement DescribeEndpoints, see [The Endpoint Discovery Pattern](https://docs.aws.amazon.com/timestream/latest/developerguide/Using.API.html#Using-API.endpoint-discovery).
+    ///
+    /// - Parameter DescribeEndpointsInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeEndpointsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : Timestream was unable to fully process this request because of an internal server error.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : Invalid or malformed request.
     public func describeEndpoints(input: DescribeEndpointsInput) async throws -> DescribeEndpointsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -233,6 +286,20 @@ extension TimestreamQueryClient: TimestreamQueryClientProtocol {
     }
 
     /// Provides detailed information about a scheduled query.
+    ///
+    /// - Parameter DescribeScheduledQueryInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeScheduledQueryOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You are not authorized to perform this action.
+    /// - `InternalServerException` : Timestream was unable to fully process this request because of an internal server error.
+    /// - `InvalidEndpointException` : The requested endpoint was not valid.
+    /// - `ResourceNotFoundException` : The requested resource could not be found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : Invalid or malformed request.
     public func describeScheduledQuery(input: DescribeScheduledQueryInput) async throws -> DescribeScheduledQueryOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -270,6 +337,20 @@ extension TimestreamQueryClient: TimestreamQueryClientProtocol {
     }
 
     /// You can use this API to run a scheduled query manually.
+    ///
+    /// - Parameter ExecuteScheduledQueryInput : [no documentation found]
+    ///
+    /// - Returns: `ExecuteScheduledQueryOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You are not authorized to perform this action.
+    /// - `InternalServerException` : Timestream was unable to fully process this request because of an internal server error.
+    /// - `InvalidEndpointException` : The requested endpoint was not valid.
+    /// - `ResourceNotFoundException` : The requested resource could not be found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : Invalid or malformed request.
     public func executeScheduledQuery(input: ExecuteScheduledQueryInput) async throws -> ExecuteScheduledQueryOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -315,6 +396,19 @@ extension TimestreamQueryClient: TimestreamQueryClientProtocol {
     }
 
     /// Gets a list of all scheduled queries in the caller's Amazon account and Region. ListScheduledQueries is eventually consistent.
+    ///
+    /// - Parameter ListScheduledQueriesInput : [no documentation found]
+    ///
+    /// - Returns: `ListScheduledQueriesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You are not authorized to perform this action.
+    /// - `InternalServerException` : Timestream was unable to fully process this request because of an internal server error.
+    /// - `InvalidEndpointException` : The requested endpoint was not valid.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : Invalid or malformed request.
     public func listScheduledQueries(input: ListScheduledQueriesInput) async throws -> ListScheduledQueriesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -352,6 +446,18 @@ extension TimestreamQueryClient: TimestreamQueryClientProtocol {
     }
 
     /// List all tags on a Timestream query resource.
+    ///
+    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    ///
+    /// - Returns: `ListTagsForResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidEndpointException` : The requested endpoint was not valid.
+    /// - `ResourceNotFoundException` : The requested resource could not be found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : Invalid or malformed request.
     public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -389,6 +495,19 @@ extension TimestreamQueryClient: TimestreamQueryClientProtocol {
     }
 
     /// A synchronous operation that allows you to submit a query with parameters to be stored by Timestream for later running. Timestream only supports using this operation with the PrepareQueryRequest$ValidateOnly set to true.
+    ///
+    /// - Parameter PrepareQueryInput : [no documentation found]
+    ///
+    /// - Returns: `PrepareQueryOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You are not authorized to perform this action.
+    /// - `InternalServerException` : Timestream was unable to fully process this request because of an internal server error.
+    /// - `InvalidEndpointException` : The requested endpoint was not valid.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : Invalid or malformed request.
     public func prepareQuery(input: PrepareQueryInput) async throws -> PrepareQueryOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -434,6 +553,21 @@ extension TimestreamQueryClient: TimestreamQueryClientProtocol {
     /// * If the size of the row (including the query metadata) exceeds 1 MB, then the query will fail with the following error message: Query aborted as max page response size has been exceeded by the output result row
     ///
     /// * If the IAM principal of the query initiator and the result reader are not the same and/or the query initiator and the result reader do not have the same query string in the query requests, the query will fail with an Invalid pagination token error.
+    ///
+    /// - Parameter QueryInput : [no documentation found]
+    ///
+    /// - Returns: `QueryOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You are not authorized to perform this action.
+    /// - `ConflictException` : Unable to poll results for a cancelled query.
+    /// - `InternalServerException` : Timestream was unable to fully process this request because of an internal server error.
+    /// - `InvalidEndpointException` : The requested endpoint was not valid.
+    /// - `QueryExecutionException` : Timestream was unable to run the query successfully.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : Invalid or malformed request.
     public func query(input: QueryInput) async throws -> QueryOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -479,6 +613,19 @@ extension TimestreamQueryClient: TimestreamQueryClientProtocol {
     }
 
     /// Associate a set of tags with a Timestream resource. You can then activate these user-defined tags so that they appear on the Billing and Cost Management console for cost allocation tracking.
+    ///
+    /// - Parameter TagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `TagResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidEndpointException` : The requested endpoint was not valid.
+    /// - `ResourceNotFoundException` : The requested resource could not be found.
+    /// - `ServiceQuotaExceededException` : You have exceeded the service quota.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : Invalid or malformed request.
     public func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -516,6 +663,18 @@ extension TimestreamQueryClient: TimestreamQueryClientProtocol {
     }
 
     /// Removes the association of tags from a Timestream query resource.
+    ///
+    /// - Parameter UntagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `UntagResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidEndpointException` : The requested endpoint was not valid.
+    /// - `ResourceNotFoundException` : The requested resource could not be found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : Invalid or malformed request.
     public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -553,6 +712,20 @@ extension TimestreamQueryClient: TimestreamQueryClientProtocol {
     }
 
     /// Update a scheduled query.
+    ///
+    /// - Parameter UpdateScheduledQueryInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateScheduledQueryOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You are not authorized to perform this action.
+    /// - `InternalServerException` : Timestream was unable to fully process this request because of an internal server error.
+    /// - `InvalidEndpointException` : The requested endpoint was not valid.
+    /// - `ResourceNotFoundException` : The requested resource could not be found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : Invalid or malformed request.
     public func updateScheduledQuery(input: UpdateScheduledQueryInput) async throws -> UpdateScheduledQueryOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()

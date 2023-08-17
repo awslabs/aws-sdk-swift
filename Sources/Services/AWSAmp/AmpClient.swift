@@ -68,6 +68,21 @@ public struct AmpClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFactory {
 
 extension AmpClient: AmpClientProtocol {
     /// Create an alert manager definition.
+    ///
+    /// - Parameter CreateAlertManagerDefinitionInput : Represents the input of a CreateAlertManagerDefinition operation.
+    ///
+    /// - Returns: `CreateAlertManagerDefinitionOutputResponse` : Represents the output of a CreateAlertManagerDefinition operation.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `ConflictException` : Updating or deleting a resource can cause an inconsistent state.
+    /// - `InternalServerException` : Unexpected error during processing of request.
+    /// - `ResourceNotFoundException` : Request references a resource which does not exist.
+    /// - `ServiceQuotaExceededException` : Request would cause a service quota to be exceeded.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func createAlertManagerDefinition(input: CreateAlertManagerDefinitionInput) async throws -> CreateAlertManagerDefinitionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -112,6 +127,18 @@ extension AmpClient: AmpClientProtocol {
     }
 
     /// Create logging configuration.
+    ///
+    /// - Parameter CreateLoggingConfigurationInput : Represents the input of a CreateLoggingConfiguration operation.
+    ///
+    /// - Returns: `CreateLoggingConfigurationOutputResponse` : Represents the output of a CreateLoggingConfiguration operation.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `InternalServerException` : Unexpected error during processing of request.
+    /// - `ResourceNotFoundException` : Request references a resource which does not exist.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func createLoggingConfiguration(input: CreateLoggingConfigurationInput) async throws -> CreateLoggingConfigurationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -156,6 +183,21 @@ extension AmpClient: AmpClientProtocol {
     }
 
     /// Create a rule group namespace.
+    ///
+    /// - Parameter CreateRuleGroupsNamespaceInput : Represents the input of a CreateRuleGroupsNamespace operation.
+    ///
+    /// - Returns: `CreateRuleGroupsNamespaceOutputResponse` : Represents the output of a CreateRuleGroupsNamespace operation.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `ConflictException` : Updating or deleting a resource can cause an inconsistent state.
+    /// - `InternalServerException` : Unexpected error during processing of request.
+    /// - `ResourceNotFoundException` : Request references a resource which does not exist.
+    /// - `ServiceQuotaExceededException` : Request would cause a service quota to be exceeded.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func createRuleGroupsNamespace(input: CreateRuleGroupsNamespaceInput) async throws -> CreateRuleGroupsNamespaceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -200,6 +242,20 @@ extension AmpClient: AmpClientProtocol {
     }
 
     /// Creates a new AMP workspace.
+    ///
+    /// - Parameter CreateWorkspaceInput : Represents the input of a CreateWorkspace operation.
+    ///
+    /// - Returns: `CreateWorkspaceOutputResponse` : Represents the output of a CreateWorkspace operation.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `ConflictException` : Updating or deleting a resource can cause an inconsistent state.
+    /// - `InternalServerException` : Unexpected error during processing of request.
+    /// - `ServiceQuotaExceededException` : Request would cause a service quota to be exceeded.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func createWorkspace(input: CreateWorkspaceInput) async throws -> CreateWorkspaceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -244,6 +300,20 @@ extension AmpClient: AmpClientProtocol {
     }
 
     /// Deletes an alert manager definition.
+    ///
+    /// - Parameter DeleteAlertManagerDefinitionInput : Represents the input of a DeleteAlertManagerDefinition operation.
+    ///
+    /// - Returns: `DeleteAlertManagerDefinitionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `ConflictException` : Updating or deleting a resource can cause an inconsistent state.
+    /// - `InternalServerException` : Unexpected error during processing of request.
+    /// - `ResourceNotFoundException` : Request references a resource which does not exist.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func deleteAlertManagerDefinition(input: DeleteAlertManagerDefinitionInput) async throws -> DeleteAlertManagerDefinitionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -286,6 +356,19 @@ extension AmpClient: AmpClientProtocol {
     }
 
     /// Delete logging configuration.
+    ///
+    /// - Parameter DeleteLoggingConfigurationInput : Represents the input of a DeleteLoggingConfiguration operation.
+    ///
+    /// - Returns: `DeleteLoggingConfigurationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `ConflictException` : Updating or deleting a resource can cause an inconsistent state.
+    /// - `InternalServerException` : Unexpected error during processing of request.
+    /// - `ResourceNotFoundException` : Request references a resource which does not exist.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func deleteLoggingConfiguration(input: DeleteLoggingConfigurationInput) async throws -> DeleteLoggingConfigurationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -328,6 +411,20 @@ extension AmpClient: AmpClientProtocol {
     }
 
     /// Delete a rule groups namespace.
+    ///
+    /// - Parameter DeleteRuleGroupsNamespaceInput : Represents the input of a DeleteRuleGroupsNamespace operation.
+    ///
+    /// - Returns: `DeleteRuleGroupsNamespaceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `ConflictException` : Updating or deleting a resource can cause an inconsistent state.
+    /// - `InternalServerException` : Unexpected error during processing of request.
+    /// - `ResourceNotFoundException` : Request references a resource which does not exist.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func deleteRuleGroupsNamespace(input: DeleteRuleGroupsNamespaceInput) async throws -> DeleteRuleGroupsNamespaceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -370,6 +467,20 @@ extension AmpClient: AmpClientProtocol {
     }
 
     /// Deletes an AMP workspace.
+    ///
+    /// - Parameter DeleteWorkspaceInput : Represents the input of a DeleteWorkspace operation.
+    ///
+    /// - Returns: `DeleteWorkspaceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `ConflictException` : Updating or deleting a resource can cause an inconsistent state.
+    /// - `InternalServerException` : Unexpected error during processing of request.
+    /// - `ResourceNotFoundException` : Request references a resource which does not exist.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func deleteWorkspace(input: DeleteWorkspaceInput) async throws -> DeleteWorkspaceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -412,6 +523,19 @@ extension AmpClient: AmpClientProtocol {
     }
 
     /// Describes an alert manager definition.
+    ///
+    /// - Parameter DescribeAlertManagerDefinitionInput : Represents the input of a DescribeAlertManagerDefinition operation.
+    ///
+    /// - Returns: `DescribeAlertManagerDefinitionOutputResponse` : Represents the output of a DescribeAlertManagerDefinition operation.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `InternalServerException` : Unexpected error during processing of request.
+    /// - `ResourceNotFoundException` : Request references a resource which does not exist.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func describeAlertManagerDefinition(input: DescribeAlertManagerDefinitionInput) async throws -> DescribeAlertManagerDefinitionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -445,6 +569,18 @@ extension AmpClient: AmpClientProtocol {
     }
 
     /// Describes logging configuration.
+    ///
+    /// - Parameter DescribeLoggingConfigurationInput : Represents the input of a DescribeLoggingConfiguration operation.
+    ///
+    /// - Returns: `DescribeLoggingConfigurationOutputResponse` : Represents the output of a DescribeLoggingConfiguration operation.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `InternalServerException` : Unexpected error during processing of request.
+    /// - `ResourceNotFoundException` : Request references a resource which does not exist.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func describeLoggingConfiguration(input: DescribeLoggingConfigurationInput) async throws -> DescribeLoggingConfigurationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -478,6 +614,19 @@ extension AmpClient: AmpClientProtocol {
     }
 
     /// Describe a rule groups namespace.
+    ///
+    /// - Parameter DescribeRuleGroupsNamespaceInput : Represents the input of a DescribeRuleGroupsNamespace operation.
+    ///
+    /// - Returns: `DescribeRuleGroupsNamespaceOutputResponse` : Represents the output of a DescribeRuleGroupsNamespace operation.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `InternalServerException` : Unexpected error during processing of request.
+    /// - `ResourceNotFoundException` : Request references a resource which does not exist.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func describeRuleGroupsNamespace(input: DescribeRuleGroupsNamespaceInput) async throws -> DescribeRuleGroupsNamespaceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -511,6 +660,19 @@ extension AmpClient: AmpClientProtocol {
     }
 
     /// Describes an existing AMP workspace.
+    ///
+    /// - Parameter DescribeWorkspaceInput : Represents the input of a DescribeWorkspace operation.
+    ///
+    /// - Returns: `DescribeWorkspaceOutputResponse` : Represents the output of a DescribeWorkspace operation.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `InternalServerException` : Unexpected error during processing of request.
+    /// - `ResourceNotFoundException` : Request references a resource which does not exist.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func describeWorkspace(input: DescribeWorkspaceInput) async throws -> DescribeWorkspaceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -544,6 +706,19 @@ extension AmpClient: AmpClientProtocol {
     }
 
     /// Lists rule groups namespaces.
+    ///
+    /// - Parameter ListRuleGroupsNamespacesInput : Represents the input of a ListRuleGroupsNamespaces operation.
+    ///
+    /// - Returns: `ListRuleGroupsNamespacesOutputResponse` : Represents the output of a ListRuleGroupsNamespaces operation.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `InternalServerException` : Unexpected error during processing of request.
+    /// - `ResourceNotFoundException` : Request references a resource which does not exist.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func listRuleGroupsNamespaces(input: ListRuleGroupsNamespacesInput) async throws -> ListRuleGroupsNamespacesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -578,6 +753,19 @@ extension AmpClient: AmpClientProtocol {
     }
 
     /// Lists the tags you have assigned to the resource.
+    ///
+    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    ///
+    /// - Returns: `ListTagsForResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `InternalServerException` : Unexpected error during processing of request.
+    /// - `ResourceNotFoundException` : Request references a resource which does not exist.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -611,6 +799,18 @@ extension AmpClient: AmpClientProtocol {
     }
 
     /// Lists all AMP workspaces, including workspaces being created or deleted.
+    ///
+    /// - Parameter ListWorkspacesInput : Represents the input of a ListWorkspaces operation.
+    ///
+    /// - Returns: `ListWorkspacesOutputResponse` : Represents the output of a ListWorkspaces operation.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `InternalServerException` : Unexpected error during processing of request.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func listWorkspaces(input: ListWorkspacesInput) async throws -> ListWorkspacesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -645,6 +845,21 @@ extension AmpClient: AmpClientProtocol {
     }
 
     /// Update an alert manager definition.
+    ///
+    /// - Parameter PutAlertManagerDefinitionInput : Represents the input of a PutAlertManagerDefinition operation.
+    ///
+    /// - Returns: `PutAlertManagerDefinitionOutputResponse` : Represents the output of a PutAlertManagerDefinition operation.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `ConflictException` : Updating or deleting a resource can cause an inconsistent state.
+    /// - `InternalServerException` : Unexpected error during processing of request.
+    /// - `ResourceNotFoundException` : Request references a resource which does not exist.
+    /// - `ServiceQuotaExceededException` : Request would cause a service quota to be exceeded.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func putAlertManagerDefinition(input: PutAlertManagerDefinitionInput) async throws -> PutAlertManagerDefinitionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -689,6 +904,21 @@ extension AmpClient: AmpClientProtocol {
     }
 
     /// Update a rule groups namespace.
+    ///
+    /// - Parameter PutRuleGroupsNamespaceInput : Represents the input of a PutRuleGroupsNamespace operation.
+    ///
+    /// - Returns: `PutRuleGroupsNamespaceOutputResponse` : Represents the output of a PutRuleGroupsNamespace operation.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `ConflictException` : Updating or deleting a resource can cause an inconsistent state.
+    /// - `InternalServerException` : Unexpected error during processing of request.
+    /// - `ResourceNotFoundException` : Request references a resource which does not exist.
+    /// - `ServiceQuotaExceededException` : Request would cause a service quota to be exceeded.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func putRuleGroupsNamespace(input: PutRuleGroupsNamespaceInput) async throws -> PutRuleGroupsNamespaceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -733,6 +963,19 @@ extension AmpClient: AmpClientProtocol {
     }
 
     /// Creates tags for the specified resource.
+    ///
+    /// - Parameter TagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `TagResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `InternalServerException` : Unexpected error during processing of request.
+    /// - `ResourceNotFoundException` : Request references a resource which does not exist.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -769,6 +1012,19 @@ extension AmpClient: AmpClientProtocol {
     }
 
     /// Deletes tags from the specified resource.
+    ///
+    /// - Parameter UntagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `UntagResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `InternalServerException` : Unexpected error during processing of request.
+    /// - `ResourceNotFoundException` : Request references a resource which does not exist.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -803,6 +1059,19 @@ extension AmpClient: AmpClientProtocol {
     }
 
     /// Update logging configuration.
+    ///
+    /// - Parameter UpdateLoggingConfigurationInput : Represents the input of an UpdateLoggingConfiguration operation.
+    ///
+    /// - Returns: `UpdateLoggingConfigurationOutputResponse` : Represents the output of an UpdateLoggingConfiguration operation.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `ConflictException` : Updating or deleting a resource can cause an inconsistent state.
+    /// - `InternalServerException` : Unexpected error during processing of request.
+    /// - `ResourceNotFoundException` : Request references a resource which does not exist.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func updateLoggingConfiguration(input: UpdateLoggingConfigurationInput) async throws -> UpdateLoggingConfigurationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -847,6 +1116,21 @@ extension AmpClient: AmpClientProtocol {
     }
 
     /// Updates an AMP workspace alias.
+    ///
+    /// - Parameter UpdateWorkspaceAliasInput : Represents the input of an UpdateWorkspaceAlias operation.
+    ///
+    /// - Returns: `UpdateWorkspaceAliasOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `ConflictException` : Updating or deleting a resource can cause an inconsistent state.
+    /// - `InternalServerException` : Unexpected error during processing of request.
+    /// - `ResourceNotFoundException` : Request references a resource which does not exist.
+    /// - `ServiceQuotaExceededException` : Request would cause a service quota to be exceeded.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func updateWorkspaceAlias(input: UpdateWorkspaceAliasInput) async throws -> UpdateWorkspaceAliasOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()

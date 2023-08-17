@@ -77,6 +77,10 @@ extension S3ControlClient: S3ControlClientProtocol {
     /// * [DeleteAccessPoint](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_DeleteAccessPoint.html)
     ///
     /// * [ListAccessPoints](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_ListAccessPoints.html)
+    ///
+    /// - Parameter CreateAccessPointInput : [no documentation found]
+    ///
+    /// - Returns: `CreateAccessPointOutputResponse` : [no documentation found]
     public func createAccessPoint(input: CreateAccessPointInput) async throws -> CreateAccessPointOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -120,6 +124,10 @@ extension S3ControlClient: S3ControlClientProtocol {
     /// * [GetAccessPointForObjectLambda](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_GetAccessPointForObjectLambda.html)
     ///
     /// * [ListAccessPointsForObjectLambda](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_ListAccessPointsForObjectLambda.html)
+    ///
+    /// - Parameter CreateAccessPointForObjectLambdaInput : [no documentation found]
+    ///
+    /// - Returns: `CreateAccessPointForObjectLambdaOutputResponse` : [no documentation found]
     public func createAccessPointForObjectLambda(input: CreateAccessPointForObjectLambdaInput) async throws -> CreateAccessPointForObjectLambdaOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -174,6 +182,16 @@ extension S3ControlClient: S3ControlClientProtocol {
     /// * [CreateAccessPoint](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_CreateAccessPoint.html)
     ///
     /// * [PutAccessPointPolicy](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_PutAccessPointPolicy.html)
+    ///
+    /// - Parameter CreateBucketInput : [no documentation found]
+    ///
+    /// - Returns: `CreateBucketOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BucketAlreadyExists` : The requested Outposts bucket name is not available. The bucket namespace is shared by all users of the Outposts in this Region. Select a different name and try again.
+    /// - `BucketAlreadyOwnedByYou` : The Outposts bucket you tried to create already exists, and you own it.
     public func createBucket(input: CreateBucketInput) async throws -> CreateBucketOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -222,6 +240,18 @@ extension S3ControlClient: S3ControlClientProtocol {
     /// * [UpdateJobStatus](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_UpdateJobStatus.html)
     ///
     /// * [JobOperation](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_JobOperation.html)
+    ///
+    /// - Parameter CreateJobInput : [no documentation found]
+    ///
+    /// - Returns: `CreateJobOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` :
+    /// - `IdempotencyException` :
+    /// - `InternalServiceException` :
+    /// - `TooManyRequestsException` :
     public func createJob(input: CreateJobInput) async throws -> CreateJobOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -275,6 +305,10 @@ extension S3ControlClient: S3ControlClientProtocol {
     /// * [GetMultiRegionAccessPoint](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_GetMultiRegionAccessPoint.html)
     ///
     /// * [ListMultiRegionAccessPoints](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_ListMultiRegionAccessPoints.html)
+    ///
+    /// - Parameter CreateMultiRegionAccessPointInput : [no documentation found]
+    ///
+    /// - Returns: `CreateMultiRegionAccessPointOutputResponse` : [no documentation found]
     public func createMultiRegionAccessPoint(input: CreateMultiRegionAccessPointInput) async throws -> CreateMultiRegionAccessPointOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -327,6 +361,10 @@ extension S3ControlClient: S3ControlClientProtocol {
     /// * [GetAccessPoint](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_GetAccessPoint.html)
     ///
     /// * [ListAccessPoints](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_ListAccessPoints.html)
+    ///
+    /// - Parameter DeleteAccessPointInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteAccessPointOutputResponse` : [no documentation found]
     public func deleteAccessPoint(input: DeleteAccessPointInput) async throws -> DeleteAccessPointOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -367,6 +405,10 @@ extension S3ControlClient: S3ControlClientProtocol {
     /// * [GetAccessPointForObjectLambda](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_GetAccessPointForObjectLambda.html)
     ///
     /// * [ListAccessPointsForObjectLambda](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_ListAccessPointsForObjectLambda.html)
+    ///
+    /// - Parameter DeleteAccessPointForObjectLambdaInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteAccessPointForObjectLambdaOutputResponse` : [no documentation found]
     public func deleteAccessPointForObjectLambda(input: DeleteAccessPointForObjectLambdaInput) async throws -> DeleteAccessPointForObjectLambdaOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -405,6 +447,10 @@ extension S3ControlClient: S3ControlClientProtocol {
     /// * [PutAccessPointPolicy](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_PutAccessPointPolicy.html)
     ///
     /// * [GetAccessPointPolicy](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_GetAccessPointPolicy.html)
+    ///
+    /// - Parameter DeleteAccessPointPolicyInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteAccessPointPolicyOutputResponse` : [no documentation found]
     public func deleteAccessPointPolicy(input: DeleteAccessPointPolicyInput) async throws -> DeleteAccessPointPolicyOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -443,6 +489,10 @@ extension S3ControlClient: S3ControlClientProtocol {
     /// * [GetAccessPointPolicyForObjectLambda](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_GetAccessPointPolicyForObjectLambda.html)
     ///
     /// * [PutAccessPointPolicyForObjectLambda](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_PutAccessPointPolicyForObjectLambda.html)
+    ///
+    /// - Parameter DeleteAccessPointPolicyForObjectLambdaInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteAccessPointPolicyForObjectLambdaOutputResponse` : [no documentation found]
     public func deleteAccessPointPolicyForObjectLambda(input: DeleteAccessPointPolicyForObjectLambdaInput) async throws -> DeleteAccessPointPolicyForObjectLambdaOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -483,6 +533,10 @@ extension S3ControlClient: S3ControlClientProtocol {
     /// * [GetBucket](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_GetBucket.html)
     ///
     /// * [DeleteObject](https://docs.aws.amazon.com/AmazonS3/latest/API/API_DeleteObject.html)
+    ///
+    /// - Parameter DeleteBucketInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteBucketOutputResponse` : [no documentation found]
     public func deleteBucket(input: DeleteBucketInput) async throws -> DeleteBucketOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -521,6 +575,10 @@ extension S3ControlClient: S3ControlClientProtocol {
     /// * [PutBucketLifecycleConfiguration](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_PutBucketLifecycleConfiguration.html)
     ///
     /// * [GetBucketLifecycleConfiguration](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_GetBucketLifecycleConfiguration.html)
+    ///
+    /// - Parameter DeleteBucketLifecycleConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteBucketLifecycleConfigurationOutputResponse` : [no documentation found]
     public func deleteBucketLifecycleConfiguration(input: DeleteBucketLifecycleConfigurationInput) async throws -> DeleteBucketLifecycleConfigurationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -559,6 +617,10 @@ extension S3ControlClient: S3ControlClientProtocol {
     /// * [GetBucketPolicy](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_GetBucketPolicy.html)
     ///
     /// * [PutBucketPolicy](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_PutBucketPolicy.html)
+    ///
+    /// - Parameter DeleteBucketPolicyInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteBucketPolicyOutputResponse` : [no documentation found]
     public func deleteBucketPolicy(input: DeleteBucketPolicyInput) async throws -> DeleteBucketPolicyOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -597,6 +659,10 @@ extension S3ControlClient: S3ControlClientProtocol {
     /// * [PutBucketReplication](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_PutBucketReplication.html)
     ///
     /// * [GetBucketReplication](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_GetBucketReplication.html)
+    ///
+    /// - Parameter DeleteBucketReplicationInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteBucketReplicationOutputResponse` : [no documentation found]
     public func deleteBucketReplication(input: DeleteBucketReplicationInput) async throws -> DeleteBucketReplicationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -635,6 +701,10 @@ extension S3ControlClient: S3ControlClientProtocol {
     /// * [GetBucketTagging](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_GetBucketTagging.html)
     ///
     /// * [PutBucketTagging](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_PutBucketTagging.html)
+    ///
+    /// - Parameter DeleteBucketTaggingInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteBucketTaggingOutputResponse` : [no documentation found]
     public func deleteBucketTagging(input: DeleteBucketTaggingInput) async throws -> DeleteBucketTaggingOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -675,6 +745,17 @@ extension S3ControlClient: S3ControlClientProtocol {
     /// * [GetJobTagging](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_GetJobTagging.html)
     ///
     /// * [PutJobTagging](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_PutJobTagging.html)
+    ///
+    /// - Parameter DeleteJobTaggingInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteJobTaggingOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceException` :
+    /// - `NotFoundException` :
+    /// - `TooManyRequestsException` :
     public func deleteJobTagging(input: DeleteJobTaggingInput) async throws -> DeleteJobTaggingOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -717,6 +798,10 @@ extension S3ControlClient: S3ControlClientProtocol {
     /// * [GetMultiRegionAccessPoint](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_GetMultiRegionAccessPoint.html)
     ///
     /// * [ListMultiRegionAccessPoints](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_ListMultiRegionAccessPoints.html)
+    ///
+    /// - Parameter DeleteMultiRegionAccessPointInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteMultiRegionAccessPointOutputResponse` : [no documentation found]
     public func deleteMultiRegionAccessPoint(input: DeleteMultiRegionAccessPointInput) async throws -> DeleteMultiRegionAccessPointOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -767,6 +852,10 @@ extension S3ControlClient: S3ControlClientProtocol {
     /// * [GetPublicAccessBlock](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_GetPublicAccessBlock.html)
     ///
     /// * [PutPublicAccessBlock](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_PutPublicAccessBlock.html)
+    ///
+    /// - Parameter DeletePublicAccessBlockInput : [no documentation found]
+    ///
+    /// - Returns: `DeletePublicAccessBlockOutputResponse` : [no documentation found]
     public func deletePublicAccessBlock(input: DeletePublicAccessBlockInput) async throws -> DeletePublicAccessBlockOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -801,6 +890,10 @@ extension S3ControlClient: S3ControlClientProtocol {
     }
 
     /// Deletes the Amazon S3 Storage Lens configuration. For more information about S3 Storage Lens, see [Assessing your storage activity and usage with Amazon S3 Storage Lens ](https://docs.aws.amazon.com/AmazonS3/latest/dev/storage_lens.html) in the Amazon S3 User Guide. To use this action, you must have permission to perform the s3:DeleteStorageLensConfiguration action. For more information, see [Setting permissions to use Amazon S3 Storage Lens](https://docs.aws.amazon.com/AmazonS3/latest/dev/storage_lens_iam_permissions.html) in the Amazon S3 User Guide.
+    ///
+    /// - Parameter DeleteStorageLensConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteStorageLensConfigurationOutputResponse` : [no documentation found]
     public func deleteStorageLensConfiguration(input: DeleteStorageLensConfigurationInput) async throws -> DeleteStorageLensConfigurationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -835,6 +928,10 @@ extension S3ControlClient: S3ControlClientProtocol {
     }
 
     /// Deletes the Amazon S3 Storage Lens configuration tags. For more information about S3 Storage Lens, see [Assessing your storage activity and usage with Amazon S3 Storage Lens ](https://docs.aws.amazon.com/AmazonS3/latest/dev/storage_lens.html) in the Amazon S3 User Guide. To use this action, you must have permission to perform the s3:DeleteStorageLensConfigurationTagging action. For more information, see [Setting permissions to use Amazon S3 Storage Lens](https://docs.aws.amazon.com/AmazonS3/latest/dev/storage_lens_iam_permissions.html) in the Amazon S3 User Guide.
+    ///
+    /// - Parameter DeleteStorageLensConfigurationTaggingInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteStorageLensConfigurationTaggingOutputResponse` : [no documentation found]
     public func deleteStorageLensConfigurationTagging(input: DeleteStorageLensConfigurationTaggingInput) async throws -> DeleteStorageLensConfigurationTaggingOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -877,6 +974,18 @@ extension S3ControlClient: S3ControlClientProtocol {
     /// * [UpdateJobPriority](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_UpdateJobPriority.html)
     ///
     /// * [UpdateJobStatus](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_UpdateJobStatus.html)
+    ///
+    /// - Parameter DescribeJobInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeJobOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` :
+    /// - `InternalServiceException` :
+    /// - `NotFoundException` :
+    /// - `TooManyRequestsException` :
     public func describeJob(input: DescribeJobInput) async throws -> DescribeJobOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -919,6 +1028,10 @@ extension S3ControlClient: S3ControlClientProtocol {
     /// * [GetMultiRegionAccessPoint](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_GetMultiRegionAccessPoint.html)
     ///
     /// * [ListMultiRegionAccessPoints](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_ListMultiRegionAccessPoints.html)
+    ///
+    /// - Parameter DescribeMultiRegionAccessPointOperationInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeMultiRegionAccessPointOperationOutputResponse` : [no documentation found]
     public func describeMultiRegionAccessPointOperation(input: DescribeMultiRegionAccessPointOperationInput) async throws -> DescribeMultiRegionAccessPointOperationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -960,6 +1073,10 @@ extension S3ControlClient: S3ControlClientProtocol {
     /// * [DeleteAccessPoint](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_DeleteAccessPoint.html)
     ///
     /// * [ListAccessPoints](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_ListAccessPoints.html)
+    ///
+    /// - Parameter GetAccessPointInput : [no documentation found]
+    ///
+    /// - Returns: `GetAccessPointOutputResponse` : [no documentation found]
     public func getAccessPoint(input: GetAccessPointInput) async throws -> GetAccessPointOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -996,6 +1113,10 @@ extension S3ControlClient: S3ControlClientProtocol {
     /// Returns configuration for an Object Lambda Access Point. The following actions are related to GetAccessPointConfigurationForObjectLambda:
     ///
     /// * [PutAccessPointConfigurationForObjectLambda](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_PutAccessPointConfigurationForObjectLambda.html)
+    ///
+    /// - Parameter GetAccessPointConfigurationForObjectLambdaInput : [no documentation found]
+    ///
+    /// - Returns: `GetAccessPointConfigurationForObjectLambdaOutputResponse` : [no documentation found]
     public func getAccessPointConfigurationForObjectLambda(input: GetAccessPointConfigurationForObjectLambdaInput) async throws -> GetAccessPointConfigurationForObjectLambdaOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1036,6 +1157,10 @@ extension S3ControlClient: S3ControlClientProtocol {
     /// * [DeleteAccessPointForObjectLambda](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_DeleteAccessPointForObjectLambda.html)
     ///
     /// * [ListAccessPointsForObjectLambda](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_ListAccessPointsForObjectLambda.html)
+    ///
+    /// - Parameter GetAccessPointForObjectLambdaInput : [no documentation found]
+    ///
+    /// - Returns: `GetAccessPointForObjectLambdaOutputResponse` : [no documentation found]
     public func getAccessPointForObjectLambda(input: GetAccessPointForObjectLambdaInput) async throws -> GetAccessPointForObjectLambdaOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1074,6 +1199,10 @@ extension S3ControlClient: S3ControlClientProtocol {
     /// * [PutAccessPointPolicy](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_PutAccessPointPolicy.html)
     ///
     /// * [DeleteAccessPointPolicy](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_DeleteAccessPointPolicy.html)
+    ///
+    /// - Parameter GetAccessPointPolicyInput : [no documentation found]
+    ///
+    /// - Returns: `GetAccessPointPolicyOutputResponse` : [no documentation found]
     public func getAccessPointPolicy(input: GetAccessPointPolicyInput) async throws -> GetAccessPointPolicyOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1112,6 +1241,10 @@ extension S3ControlClient: S3ControlClientProtocol {
     /// * [DeleteAccessPointPolicyForObjectLambda](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_DeleteAccessPointPolicyForObjectLambda.html)
     ///
     /// * [PutAccessPointPolicyForObjectLambda](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_PutAccessPointPolicyForObjectLambda.html)
+    ///
+    /// - Parameter GetAccessPointPolicyForObjectLambdaInput : [no documentation found]
+    ///
+    /// - Returns: `GetAccessPointPolicyForObjectLambdaOutputResponse` : [no documentation found]
     public func getAccessPointPolicyForObjectLambda(input: GetAccessPointPolicyForObjectLambdaInput) async throws -> GetAccessPointPolicyForObjectLambdaOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1146,6 +1279,10 @@ extension S3ControlClient: S3ControlClientProtocol {
     }
 
     /// Indicates whether the specified access point currently has a policy that allows public access. For more information about public access through access points, see [Managing Data Access with Amazon S3 access points](https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-points.html) in the Amazon S3 User Guide.
+    ///
+    /// - Parameter GetAccessPointPolicyStatusInput : [no documentation found]
+    ///
+    /// - Returns: `GetAccessPointPolicyStatusOutputResponse` : [no documentation found]
     public func getAccessPointPolicyStatus(input: GetAccessPointPolicyStatusInput) async throws -> GetAccessPointPolicyStatusOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1180,6 +1317,10 @@ extension S3ControlClient: S3ControlClientProtocol {
     }
 
     /// Returns the status of the resource policy associated with an Object Lambda Access Point.
+    ///
+    /// - Parameter GetAccessPointPolicyStatusForObjectLambdaInput : [no documentation found]
+    ///
+    /// - Returns: `GetAccessPointPolicyStatusForObjectLambdaOutputResponse` : [no documentation found]
     public func getAccessPointPolicyStatusForObjectLambda(input: GetAccessPointPolicyStatusForObjectLambdaInput) async throws -> GetAccessPointPolicyStatusForObjectLambdaOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1220,6 +1361,10 @@ extension S3ControlClient: S3ControlClientProtocol {
     /// * [CreateBucket](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_CreateBucket.html)
     ///
     /// * [DeleteBucket](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_DeleteBucket.html)
+    ///
+    /// - Parameter GetBucketInput : [no documentation found]
+    ///
+    /// - Returns: `GetBucketOutputResponse` : [no documentation found]
     public func getBucket(input: GetBucketInput) async throws -> GetBucketOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1272,6 +1417,10 @@ extension S3ControlClient: S3ControlClientProtocol {
     /// * [PutBucketLifecycleConfiguration](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_PutBucketLifecycleConfiguration.html)
     ///
     /// * [DeleteBucketLifecycleConfiguration](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_DeleteBucketLifecycleConfiguration.html)
+    ///
+    /// - Parameter GetBucketLifecycleConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `GetBucketLifecycleConfigurationOutputResponse` : [no documentation found]
     public func getBucketLifecycleConfiguration(input: GetBucketLifecycleConfigurationInput) async throws -> GetBucketLifecycleConfigurationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1312,6 +1461,10 @@ extension S3ControlClient: S3ControlClientProtocol {
     /// * [PutBucketPolicy](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_PutBucketPolicy.html)
     ///
     /// * [DeleteBucketPolicy](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_DeleteBucketPolicy.html)
+    ///
+    /// - Parameter GetBucketPolicyInput : [no documentation found]
+    ///
+    /// - Returns: `GetBucketPolicyOutputResponse` : [no documentation found]
     public func getBucketPolicy(input: GetBucketPolicyInput) async throws -> GetBucketPolicyOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1350,6 +1503,10 @@ extension S3ControlClient: S3ControlClientProtocol {
     /// * [PutBucketReplication](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_PutBucketReplication.html)
     ///
     /// * [DeleteBucketReplication](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_DeleteBucketReplication.html)
+    ///
+    /// - Parameter GetBucketReplicationInput : [no documentation found]
+    ///
+    /// - Returns: `GetBucketReplicationOutputResponse` : [no documentation found]
     public func getBucketReplication(input: GetBucketReplicationInput) async throws -> GetBucketReplicationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1398,6 +1555,10 @@ extension S3ControlClient: S3ControlClientProtocol {
     /// * [PutBucketTagging](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_PutBucketTagging.html)
     ///
     /// * [DeleteBucketTagging](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_DeleteBucketTagging.html)
+    ///
+    /// - Parameter GetBucketTaggingInput : [no documentation found]
+    ///
+    /// - Returns: `GetBucketTaggingOutputResponse` : [no documentation found]
     public func getBucketTagging(input: GetBucketTaggingInput) async throws -> GetBucketTaggingOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1438,6 +1599,10 @@ extension S3ControlClient: S3ControlClientProtocol {
     /// * [PutBucketLifecycleConfiguration](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_PutBucketLifecycleConfiguration.html)
     ///
     /// * [GetBucketLifecycleConfiguration](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_GetBucketLifecycleConfiguration.html)
+    ///
+    /// - Parameter GetBucketVersioningInput : [no documentation found]
+    ///
+    /// - Returns: `GetBucketVersioningOutputResponse` : [no documentation found]
     public func getBucketVersioning(input: GetBucketVersioningInput) async throws -> GetBucketVersioningOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1478,6 +1643,17 @@ extension S3ControlClient: S3ControlClientProtocol {
     /// * [PutJobTagging](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_PutJobTagging.html)
     ///
     /// * [DeleteJobTagging](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_DeleteJobTagging.html)
+    ///
+    /// - Parameter GetJobTaggingInput : [no documentation found]
+    ///
+    /// - Returns: `GetJobTaggingOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceException` :
+    /// - `NotFoundException` :
+    /// - `TooManyRequestsException` :
     public func getJobTagging(input: GetJobTaggingInput) async throws -> GetJobTaggingOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1520,6 +1696,10 @@ extension S3ControlClient: S3ControlClientProtocol {
     /// * [DescribeMultiRegionAccessPointOperation](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_DescribeMultiRegionAccessPointOperation.html)
     ///
     /// * [ListMultiRegionAccessPoints](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_ListMultiRegionAccessPoints.html)
+    ///
+    /// - Parameter GetMultiRegionAccessPointInput : [no documentation found]
+    ///
+    /// - Returns: `GetMultiRegionAccessPointOutputResponse` : [no documentation found]
     public func getMultiRegionAccessPoint(input: GetMultiRegionAccessPointInput) async throws -> GetMultiRegionAccessPointOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1559,6 +1739,10 @@ extension S3ControlClient: S3ControlClientProtocol {
     /// * [GetMultiRegionAccessPointPolicyStatus](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_GetMultiRegionAccessPointPolicyStatus.html)
     ///
     /// * [PutMultiRegionAccessPointPolicy](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_PutMultiRegionAccessPointPolicy.html)
+    ///
+    /// - Parameter GetMultiRegionAccessPointPolicyInput : [no documentation found]
+    ///
+    /// - Returns: `GetMultiRegionAccessPointPolicyOutputResponse` : [no documentation found]
     public func getMultiRegionAccessPointPolicy(input: GetMultiRegionAccessPointPolicyInput) async throws -> GetMultiRegionAccessPointPolicyOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1598,6 +1782,10 @@ extension S3ControlClient: S3ControlClientProtocol {
     /// * [GetMultiRegionAccessPointPolicy](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_GetMultiRegionAccessPointPolicy.html)
     ///
     /// * [PutMultiRegionAccessPointPolicy](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_PutMultiRegionAccessPointPolicy.html)
+    ///
+    /// - Parameter GetMultiRegionAccessPointPolicyStatusInput : [no documentation found]
+    ///
+    /// - Returns: `GetMultiRegionAccessPointPolicyStatusOutputResponse` : [no documentation found]
     public func getMultiRegionAccessPointPolicyStatus(input: GetMultiRegionAccessPointPolicyStatusInput) async throws -> GetMultiRegionAccessPointPolicyStatusOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1646,6 +1834,10 @@ extension S3ControlClient: S3ControlClientProtocol {
     ///
     ///
     /// Your Amazon S3 bucket does not need to be in these five Regions.
+    ///
+    /// - Parameter GetMultiRegionAccessPointRoutesInput : [no documentation found]
+    ///
+    /// - Returns: `GetMultiRegionAccessPointRoutesOutputResponse` : [no documentation found]
     public func getMultiRegionAccessPointRoutes(input: GetMultiRegionAccessPointRoutesInput) async throws -> GetMultiRegionAccessPointRoutesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1685,6 +1877,15 @@ extension S3ControlClient: S3ControlClientProtocol {
     /// * [DeletePublicAccessBlock](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_DeletePublicAccessBlock.html)
     ///
     /// * [PutPublicAccessBlock](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_PutPublicAccessBlock.html)
+    ///
+    /// - Parameter GetPublicAccessBlockInput : [no documentation found]
+    ///
+    /// - Returns: `GetPublicAccessBlockOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `NoSuchPublicAccessBlockConfiguration` : Amazon S3 throws this exception if you make a GetPublicAccessBlock request against an account that doesn't have a PublicAccessBlockConfiguration set.
     public func getPublicAccessBlock(input: GetPublicAccessBlockInput) async throws -> GetPublicAccessBlockOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1719,6 +1920,10 @@ extension S3ControlClient: S3ControlClientProtocol {
     }
 
     /// Gets the Amazon S3 Storage Lens configuration. For more information, see [Assessing your storage activity and usage with Amazon S3 Storage Lens ](https://docs.aws.amazon.com/AmazonS3/latest/dev/storage_lens.html) in the Amazon S3 User Guide. For a complete list of S3 Storage Lens metrics, see [S3 Storage Lens metrics glossary](https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage_lens_metrics_glossary.html) in the Amazon S3 User Guide. To use this action, you must have permission to perform the s3:GetStorageLensConfiguration action. For more information, see [Setting permissions to use Amazon S3 Storage Lens](https://docs.aws.amazon.com/AmazonS3/latest/dev/storage_lens_iam_permissions.html) in the Amazon S3 User Guide.
+    ///
+    /// - Parameter GetStorageLensConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `GetStorageLensConfigurationOutputResponse` : [no documentation found]
     public func getStorageLensConfiguration(input: GetStorageLensConfigurationInput) async throws -> GetStorageLensConfigurationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1753,6 +1958,10 @@ extension S3ControlClient: S3ControlClientProtocol {
     }
 
     /// Gets the tags of Amazon S3 Storage Lens configuration. For more information about S3 Storage Lens, see [Assessing your storage activity and usage with Amazon S3 Storage Lens ](https://docs.aws.amazon.com/AmazonS3/latest/dev/storage_lens.html) in the Amazon S3 User Guide. To use this action, you must have permission to perform the s3:GetStorageLensConfigurationTagging action. For more information, see [Setting permissions to use Amazon S3 Storage Lens](https://docs.aws.amazon.com/AmazonS3/latest/dev/storage_lens_iam_permissions.html) in the Amazon S3 User Guide.
+    ///
+    /// - Parameter GetStorageLensConfigurationTaggingInput : [no documentation found]
+    ///
+    /// - Returns: `GetStorageLensConfigurationTaggingOutputResponse` : [no documentation found]
     public func getStorageLensConfigurationTagging(input: GetStorageLensConfigurationTaggingInput) async throws -> GetStorageLensConfigurationTaggingOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1793,6 +2002,10 @@ extension S3ControlClient: S3ControlClientProtocol {
     /// * [DeleteAccessPoint](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_DeleteAccessPoint.html)
     ///
     /// * [GetAccessPoint](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_GetAccessPoint.html)
+    ///
+    /// - Parameter ListAccessPointsInput : [no documentation found]
+    ///
+    /// - Returns: `ListAccessPointsOutputResponse` : [no documentation found]
     public func listAccessPoints(input: ListAccessPointsInput) async throws -> ListAccessPointsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1834,6 +2047,10 @@ extension S3ControlClient: S3ControlClientProtocol {
     /// * [DeleteAccessPointForObjectLambda](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_DeleteAccessPointForObjectLambda.html)
     ///
     /// * [GetAccessPointForObjectLambda](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_GetAccessPointForObjectLambda.html)
+    ///
+    /// - Parameter ListAccessPointsForObjectLambdaInput : [no documentation found]
+    ///
+    /// - Returns: `ListAccessPointsForObjectLambdaOutputResponse` : [no documentation found]
     public func listAccessPointsForObjectLambda(input: ListAccessPointsForObjectLambdaInput) async throws -> ListAccessPointsForObjectLambdaOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1877,6 +2094,17 @@ extension S3ControlClient: S3ControlClientProtocol {
     /// * [UpdateJobPriority](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_UpdateJobPriority.html)
     ///
     /// * [UpdateJobStatus](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_UpdateJobStatus.html)
+    ///
+    /// - Parameter ListJobsInput : [no documentation found]
+    ///
+    /// - Returns: `ListJobsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceException` :
+    /// - `InvalidNextTokenException` :
+    /// - `InvalidRequestException` :
     public func listJobs(input: ListJobsInput) async throws -> ListJobsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1920,6 +2148,10 @@ extension S3ControlClient: S3ControlClientProtocol {
     /// * [DescribeMultiRegionAccessPointOperation](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_DescribeMultiRegionAccessPointOperation.html)
     ///
     /// * [GetMultiRegionAccessPoint](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_GetMultiRegionAccessPoint.html)
+    ///
+    /// - Parameter ListMultiRegionAccessPointsInput : [no documentation found]
+    ///
+    /// - Returns: `ListMultiRegionAccessPointsOutputResponse` : [no documentation found]
     public func listMultiRegionAccessPoints(input: ListMultiRegionAccessPointsInput) async throws -> ListMultiRegionAccessPointsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1956,6 +2188,10 @@ extension S3ControlClient: S3ControlClientProtocol {
     }
 
     /// Returns a list of all Outposts buckets in an Outpost that are owned by the authenticated sender of the request. For more information, see [Using Amazon S3 on Outposts](https://docs.aws.amazon.com/AmazonS3/latest/userguide/S3onOutposts.html) in the Amazon S3 User Guide. For an example of the request syntax for Amazon S3 on Outposts that uses the S3 on Outposts endpoint hostname prefix and x-amz-outpost-id in your request, see the [Examples](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_ListRegionalBuckets.html#API_control_ListRegionalBuckets_Examples) section.
+    ///
+    /// - Parameter ListRegionalBucketsInput : [no documentation found]
+    ///
+    /// - Returns: `ListRegionalBucketsOutputResponse` : [no documentation found]
     public func listRegionalBuckets(input: ListRegionalBucketsInput) async throws -> ListRegionalBucketsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1991,6 +2227,10 @@ extension S3ControlClient: S3ControlClientProtocol {
     }
 
     /// Gets a list of Amazon S3 Storage Lens configurations. For more information about S3 Storage Lens, see [Assessing your storage activity and usage with Amazon S3 Storage Lens ](https://docs.aws.amazon.com/AmazonS3/latest/dev/storage_lens.html) in the Amazon S3 User Guide. To use this action, you must have permission to perform the s3:ListStorageLensConfigurations action. For more information, see [Setting permissions to use Amazon S3 Storage Lens](https://docs.aws.amazon.com/AmazonS3/latest/dev/storage_lens_iam_permissions.html) in the Amazon S3 User Guide.
+    ///
+    /// - Parameter ListStorageLensConfigurationsInput : [no documentation found]
+    ///
+    /// - Returns: `ListStorageLensConfigurationsOutputResponse` : [no documentation found]
     public func listStorageLensConfigurations(input: ListStorageLensConfigurationsInput) async throws -> ListStorageLensConfigurationsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2028,6 +2268,10 @@ extension S3ControlClient: S3ControlClientProtocol {
     /// Replaces configuration for an Object Lambda Access Point. The following actions are related to PutAccessPointConfigurationForObjectLambda:
     ///
     /// * [GetAccessPointConfigurationForObjectLambda](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_GetAccessPointConfigurationForObjectLambda.html)
+    ///
+    /// - Parameter PutAccessPointConfigurationForObjectLambdaInput : [no documentation found]
+    ///
+    /// - Returns: `PutAccessPointConfigurationForObjectLambdaOutputResponse` : [no documentation found]
     public func putAccessPointConfigurationForObjectLambda(input: PutAccessPointConfigurationForObjectLambdaInput) async throws -> PutAccessPointConfigurationForObjectLambdaOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2069,6 +2313,10 @@ extension S3ControlClient: S3ControlClientProtocol {
     /// * [GetAccessPointPolicy](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_GetAccessPointPolicy.html)
     ///
     /// * [DeleteAccessPointPolicy](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_DeleteAccessPointPolicy.html)
+    ///
+    /// - Parameter PutAccessPointPolicyInput : [no documentation found]
+    ///
+    /// - Returns: `PutAccessPointPolicyOutputResponse` : [no documentation found]
     public func putAccessPointPolicy(input: PutAccessPointPolicyInput) async throws -> PutAccessPointPolicyOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2110,6 +2358,10 @@ extension S3ControlClient: S3ControlClientProtocol {
     /// * [DeleteAccessPointPolicyForObjectLambda](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_DeleteAccessPointPolicyForObjectLambda.html)
     ///
     /// * [GetAccessPointPolicyForObjectLambda](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_GetAccessPointPolicyForObjectLambda.html)
+    ///
+    /// - Parameter PutAccessPointPolicyForObjectLambdaInput : [no documentation found]
+    ///
+    /// - Returns: `PutAccessPointPolicyForObjectLambdaOutputResponse` : [no documentation found]
     public func putAccessPointPolicyForObjectLambda(input: PutAccessPointPolicyForObjectLambdaInput) async throws -> PutAccessPointPolicyForObjectLambdaOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2151,6 +2403,10 @@ extension S3ControlClient: S3ControlClientProtocol {
     /// * [GetBucketLifecycleConfiguration](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_GetBucketLifecycleConfiguration.html)
     ///
     /// * [DeleteBucketLifecycleConfiguration](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_DeleteBucketLifecycleConfiguration.html)
+    ///
+    /// - Parameter PutBucketLifecycleConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `PutBucketLifecycleConfigurationOutputResponse` : [no documentation found]
     public func putBucketLifecycleConfiguration(input: PutBucketLifecycleConfigurationInput) async throws -> PutBucketLifecycleConfigurationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2193,6 +2449,10 @@ extension S3ControlClient: S3ControlClientProtocol {
     /// * [GetBucketPolicy](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_GetBucketPolicy.html)
     ///
     /// * [DeleteBucketPolicy](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_DeleteBucketPolicy.html)
+    ///
+    /// - Parameter PutBucketPolicyInput : [no documentation found]
+    ///
+    /// - Returns: `PutBucketPolicyOutputResponse` : [no documentation found]
     public func putBucketPolicy(input: PutBucketPolicyInput) async throws -> PutBucketPolicyOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2244,6 +2504,10 @@ extension S3ControlClient: S3ControlClientProtocol {
     /// * [GetBucketReplication](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_GetBucketReplication.html)
     ///
     /// * [DeleteBucketReplication](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_DeleteBucketReplication.html)
+    ///
+    /// - Parameter PutBucketReplicationInput : [no documentation found]
+    ///
+    /// - Returns: `PutBucketReplicationOutputResponse` : [no documentation found]
     public func putBucketReplication(input: PutBucketReplicationInput) async throws -> PutBucketReplicationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2317,6 +2581,10 @@ extension S3ControlClient: S3ControlClientProtocol {
     /// * [GetBucketTagging](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_GetBucketTagging.html)
     ///
     /// * [DeleteBucketTagging](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_DeleteBucketTagging.html)
+    ///
+    /// - Parameter PutBucketTaggingInput : [no documentation found]
+    ///
+    /// - Returns: `PutBucketTaggingOutputResponse` : [no documentation found]
     public func putBucketTagging(input: PutBucketTaggingInput) async throws -> PutBucketTaggingOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2368,6 +2636,10 @@ extension S3ControlClient: S3ControlClientProtocol {
     /// * [PutBucketLifecycleConfiguration](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_PutBucketLifecycleConfiguration.html)
     ///
     /// * [GetBucketLifecycleConfiguration](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_GetBucketLifecycleConfiguration.html)
+    ///
+    /// - Parameter PutBucketVersioningInput : [no documentation found]
+    ///
+    /// - Returns: `PutBucketVersioningOutputResponse` : [no documentation found]
     public func putBucketVersioning(input: PutBucketVersioningInput) async throws -> PutBucketVersioningOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2434,6 +2706,18 @@ extension S3ControlClient: S3ControlClientProtocol {
     /// * [GetJobTagging](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_GetJobTagging.html)
     ///
     /// * [DeleteJobTagging](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_DeleteJobTagging.html)
+    ///
+    /// - Parameter PutJobTaggingInput : [no documentation found]
+    ///
+    /// - Returns: `PutJobTaggingOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceException` :
+    /// - `NotFoundException` :
+    /// - `TooManyRequestsException` :
+    /// - `TooManyTagsException` : Amazon S3 throws this exception if you have too many tags in your tag set.
     public func putJobTagging(input: PutJobTaggingInput) async throws -> PutJobTaggingOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2475,6 +2759,10 @@ extension S3ControlClient: S3ControlClientProtocol {
     /// * [GetMultiRegionAccessPointPolicy](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_GetMultiRegionAccessPointPolicy.html)
     ///
     /// * [GetMultiRegionAccessPointPolicyStatus](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_GetMultiRegionAccessPointPolicyStatus.html)
+    ///
+    /// - Parameter PutMultiRegionAccessPointPolicyInput : [no documentation found]
+    ///
+    /// - Returns: `PutMultiRegionAccessPointPolicyOutputResponse` : [no documentation found]
     public func putMultiRegionAccessPointPolicy(input: PutMultiRegionAccessPointPolicyInput) async throws -> PutMultiRegionAccessPointPolicyOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2525,6 +2813,10 @@ extension S3ControlClient: S3ControlClientProtocol {
     /// * [GetPublicAccessBlock](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_GetPublicAccessBlock.html)
     ///
     /// * [DeletePublicAccessBlock](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_DeletePublicAccessBlock.html)
+    ///
+    /// - Parameter PutPublicAccessBlockInput : [no documentation found]
+    ///
+    /// - Returns: `PutPublicAccessBlockOutputResponse` : [no documentation found]
     public func putPublicAccessBlock(input: PutPublicAccessBlockInput) async throws -> PutPublicAccessBlockOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2562,6 +2854,10 @@ extension S3ControlClient: S3ControlClientProtocol {
     }
 
     /// Puts an Amazon S3 Storage Lens configuration. For more information about S3 Storage Lens, see [Working with Amazon S3 Storage Lens](https://docs.aws.amazon.com/AmazonS3/latest/dev/storage_lens.html) in the Amazon S3 User Guide. For a complete list of S3 Storage Lens metrics, see [S3 Storage Lens metrics glossary](https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage_lens_metrics_glossary.html) in the Amazon S3 User Guide. To use this action, you must have permission to perform the s3:PutStorageLensConfiguration action. For more information, see [Setting permissions to use Amazon S3 Storage Lens](https://docs.aws.amazon.com/AmazonS3/latest/dev/storage_lens_iam_permissions.html) in the Amazon S3 User Guide.
+    ///
+    /// - Parameter PutStorageLensConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `PutStorageLensConfigurationOutputResponse` : [no documentation found]
     public func putStorageLensConfiguration(input: PutStorageLensConfigurationInput) async throws -> PutStorageLensConfigurationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2599,6 +2895,10 @@ extension S3ControlClient: S3ControlClientProtocol {
     }
 
     /// Put or replace tags on an existing Amazon S3 Storage Lens configuration. For more information about S3 Storage Lens, see [Assessing your storage activity and usage with Amazon S3 Storage Lens ](https://docs.aws.amazon.com/AmazonS3/latest/dev/storage_lens.html) in the Amazon S3 User Guide. To use this action, you must have permission to perform the s3:PutStorageLensConfigurationTagging action. For more information, see [Setting permissions to use Amazon S3 Storage Lens](https://docs.aws.amazon.com/AmazonS3/latest/dev/storage_lens_iam_permissions.html) in the Amazon S3 User Guide.
+    ///
+    /// - Parameter PutStorageLensConfigurationTaggingInput : [no documentation found]
+    ///
+    /// - Returns: `PutStorageLensConfigurationTaggingOutputResponse` : [no documentation found]
     public func putStorageLensConfigurationTagging(input: PutStorageLensConfigurationTaggingInput) async throws -> PutStorageLensConfigurationTaggingOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2649,6 +2949,10 @@ extension S3ControlClient: S3ControlClientProtocol {
     ///
     ///
     /// Your Amazon S3 bucket does not need to be in these five Regions.
+    ///
+    /// - Parameter SubmitMultiRegionAccessPointRoutesInput : [no documentation found]
+    ///
+    /// - Returns: `SubmitMultiRegionAccessPointRoutesOutputResponse` : [no documentation found]
     public func submitMultiRegionAccessPointRoutes(input: SubmitMultiRegionAccessPointRoutesInput) async throws -> SubmitMultiRegionAccessPointRoutesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2695,6 +2999,18 @@ extension S3ControlClient: S3ControlClientProtocol {
     /// * [DescribeJob](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_DescribeJob.html)
     ///
     /// * [UpdateJobStatus](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_UpdateJobStatus.html)
+    ///
+    /// - Parameter UpdateJobPriorityInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateJobPriorityOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` :
+    /// - `InternalServiceException` :
+    /// - `NotFoundException` :
+    /// - `TooManyRequestsException` :
     public func updateJobPriority(input: UpdateJobPriorityInput) async throws -> UpdateJobPriorityOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2738,6 +3054,19 @@ extension S3ControlClient: S3ControlClientProtocol {
     /// * [DescribeJob](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_DescribeJob.html)
     ///
     /// * [UpdateJobStatus](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_UpdateJobStatus.html)
+    ///
+    /// - Parameter UpdateJobStatusInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateJobStatusOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` :
+    /// - `InternalServiceException` :
+    /// - `JobStatusException` :
+    /// - `NotFoundException` :
+    /// - `TooManyRequestsException` :
     public func updateJobStatus(input: UpdateJobStatusInput) async throws -> UpdateJobStatusOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()

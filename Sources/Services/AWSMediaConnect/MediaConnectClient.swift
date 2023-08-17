@@ -68,6 +68,21 @@ public struct MediaConnectClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFa
 
 extension MediaConnectClient: MediaConnectClientProtocol {
     /// Adds outputs to an existing bridge.
+    ///
+    /// - Parameter AddBridgeOutputsInput : A request to add outputs to the specified bridge.
+    ///
+    /// - Returns: `AddBridgeOutputsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `ConflictException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `ForbiddenException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `InternalServerErrorException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `NotFoundException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `ServiceUnavailableException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `TooManyRequestsException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
     public func addBridgeOutputs(input: AddBridgeOutputsInput) async throws -> AddBridgeOutputsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -104,6 +119,21 @@ extension MediaConnectClient: MediaConnectClientProtocol {
     }
 
     /// Adds sources to an existing bridge.
+    ///
+    /// - Parameter AddBridgeSourcesInput : A request to add sources to the specified bridge.
+    ///
+    /// - Returns: `AddBridgeSourcesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `ConflictException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `ForbiddenException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `InternalServerErrorException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `NotFoundException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `ServiceUnavailableException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `TooManyRequestsException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
     public func addBridgeSources(input: AddBridgeSourcesInput) async throws -> AddBridgeSourcesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -140,6 +170,20 @@ extension MediaConnectClient: MediaConnectClientProtocol {
     }
 
     /// Adds media streams to an existing flow. After you add a media stream to a flow, you can associate it with a source and/or an output that uses the ST 2110 JPEG XS or CDI protocol.
+    ///
+    /// - Parameter AddFlowMediaStreamsInput : A request to add media streams to the flow.
+    ///
+    /// - Returns: `AddFlowMediaStreamsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `ForbiddenException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `InternalServerErrorException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `NotFoundException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `ServiceUnavailableException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `TooManyRequestsException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
     public func addFlowMediaStreams(input: AddFlowMediaStreamsInput) async throws -> AddFlowMediaStreamsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -176,6 +220,21 @@ extension MediaConnectClient: MediaConnectClientProtocol {
     }
 
     /// Adds outputs to an existing flow. You can create up to 50 outputs per flow.
+    ///
+    /// - Parameter AddFlowOutputsInput : A request to add outputs to the specified flow.
+    ///
+    /// - Returns: `AddFlowOutputsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AddFlowOutputs420Exception` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `BadRequestException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `ForbiddenException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `InternalServerErrorException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `NotFoundException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `ServiceUnavailableException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `TooManyRequestsException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
     public func addFlowOutputs(input: AddFlowOutputsInput) async throws -> AddFlowOutputsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -212,6 +271,20 @@ extension MediaConnectClient: MediaConnectClientProtocol {
     }
 
     /// Adds Sources to flow
+    ///
+    /// - Parameter AddFlowSourcesInput : A request to add sources to the flow.
+    ///
+    /// - Returns: `AddFlowSourcesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `ForbiddenException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `InternalServerErrorException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `NotFoundException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `ServiceUnavailableException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `TooManyRequestsException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
     public func addFlowSources(input: AddFlowSourcesInput) async throws -> AddFlowSourcesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -248,6 +321,20 @@ extension MediaConnectClient: MediaConnectClientProtocol {
     }
 
     /// Adds VPC interfaces to flow
+    ///
+    /// - Parameter AddFlowVpcInterfacesInput : A request to add VPC interfaces to the flow.
+    ///
+    /// - Returns: `AddFlowVpcInterfacesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `ForbiddenException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `InternalServerErrorException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `NotFoundException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `ServiceUnavailableException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `TooManyRequestsException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
     public func addFlowVpcInterfaces(input: AddFlowVpcInterfacesInput) async throws -> AddFlowVpcInterfacesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -284,6 +371,21 @@ extension MediaConnectClient: MediaConnectClientProtocol {
     }
 
     /// Creates a new bridge. The request must include one source.
+    ///
+    /// - Parameter CreateBridgeInput : Creates a new bridge. The request must include one source.
+    ///
+    /// - Returns: `CreateBridgeOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `ConflictException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `CreateBridge420Exception` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `ForbiddenException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `InternalServerErrorException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `ServiceUnavailableException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `TooManyRequestsException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
     public func createBridge(input: CreateBridgeInput) async throws -> CreateBridgeOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -320,6 +422,20 @@ extension MediaConnectClient: MediaConnectClientProtocol {
     }
 
     /// Creates a new flow. The request must include one source. The request optionally can include outputs (up to 50) and entitlements (up to 50).
+    ///
+    /// - Parameter CreateFlowInput : Creates a new flow. The request must include one source. The request optionally can include outputs (up to 50) and entitlements (up to 50).
+    ///
+    /// - Returns: `CreateFlowOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `CreateFlow420Exception` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `ForbiddenException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `InternalServerErrorException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `ServiceUnavailableException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `TooManyRequestsException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
     public func createFlow(input: CreateFlowInput) async throws -> CreateFlowOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -356,6 +472,21 @@ extension MediaConnectClient: MediaConnectClientProtocol {
     }
 
     /// Creates a new gateway. The request must include at least one network (up to 4).
+    ///
+    /// - Parameter CreateGatewayInput : Creates a new gateway. The request must include at least one network (up to 4).
+    ///
+    /// - Returns: `CreateGatewayOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `ConflictException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `CreateGateway420Exception` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `ForbiddenException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `InternalServerErrorException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `ServiceUnavailableException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `TooManyRequestsException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
     public func createGateway(input: CreateGatewayInput) async throws -> CreateGatewayOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -392,6 +523,21 @@ extension MediaConnectClient: MediaConnectClientProtocol {
     }
 
     /// Deletes a bridge. Before you can delete a bridge, you must stop the bridge.
+    ///
+    /// - Parameter DeleteBridgeInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteBridgeOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `ConflictException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `ForbiddenException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `InternalServerErrorException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `NotFoundException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `ServiceUnavailableException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `TooManyRequestsException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
     public func deleteBridge(input: DeleteBridgeInput) async throws -> DeleteBridgeOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -425,6 +571,20 @@ extension MediaConnectClient: MediaConnectClientProtocol {
     }
 
     /// Deletes a flow. Before you can delete a flow, you must stop the flow.
+    ///
+    /// - Parameter DeleteFlowInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteFlowOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `ForbiddenException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `InternalServerErrorException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `NotFoundException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `ServiceUnavailableException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `TooManyRequestsException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
     public func deleteFlow(input: DeleteFlowInput) async throws -> DeleteFlowOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -458,6 +618,21 @@ extension MediaConnectClient: MediaConnectClientProtocol {
     }
 
     /// Deletes a gateway. Before you can delete a gateway, you must deregister its instances and delete its bridges.
+    ///
+    /// - Parameter DeleteGatewayInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteGatewayOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `ConflictException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `ForbiddenException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `InternalServerErrorException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `NotFoundException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `ServiceUnavailableException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `TooManyRequestsException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
     public func deleteGateway(input: DeleteGatewayInput) async throws -> DeleteGatewayOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -491,6 +666,21 @@ extension MediaConnectClient: MediaConnectClientProtocol {
     }
 
     /// Deregisters an instance. Before you deregister an instance, all bridges running on the instance must be stopped. If you want to deregister an instance without stopping the bridges, you must use the --force option.
+    ///
+    /// - Parameter DeregisterGatewayInstanceInput : [no documentation found]
+    ///
+    /// - Returns: `DeregisterGatewayInstanceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `ConflictException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `ForbiddenException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `InternalServerErrorException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `NotFoundException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `ServiceUnavailableException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `TooManyRequestsException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
     public func deregisterGatewayInstance(input: DeregisterGatewayInstanceInput) async throws -> DeregisterGatewayInstanceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -525,6 +715,21 @@ extension MediaConnectClient: MediaConnectClientProtocol {
     }
 
     /// Displays the details of a bridge.
+    ///
+    /// - Parameter DescribeBridgeInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeBridgeOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `ConflictException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `ForbiddenException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `InternalServerErrorException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `NotFoundException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `ServiceUnavailableException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `TooManyRequestsException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
     public func describeBridge(input: DescribeBridgeInput) async throws -> DescribeBridgeOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -558,6 +763,20 @@ extension MediaConnectClient: MediaConnectClientProtocol {
     }
 
     /// Displays the details of a flow. The response includes the flow ARN, name, and Availability Zone, as well as details about the source, outputs, and entitlements.
+    ///
+    /// - Parameter DescribeFlowInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeFlowOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `ForbiddenException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `InternalServerErrorException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `NotFoundException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `ServiceUnavailableException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `TooManyRequestsException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
     public func describeFlow(input: DescribeFlowInput) async throws -> DescribeFlowOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -591,6 +810,21 @@ extension MediaConnectClient: MediaConnectClientProtocol {
     }
 
     /// Displays the details of a gateway. The response includes the gateway ARN, name, and CIDR blocks, as well as details about the networks.
+    ///
+    /// - Parameter DescribeGatewayInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeGatewayOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `ConflictException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `ForbiddenException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `InternalServerErrorException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `NotFoundException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `ServiceUnavailableException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `TooManyRequestsException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
     public func describeGateway(input: DescribeGatewayInput) async throws -> DescribeGatewayOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -624,6 +858,21 @@ extension MediaConnectClient: MediaConnectClientProtocol {
     }
 
     /// Displays the details of an instance.
+    ///
+    /// - Parameter DescribeGatewayInstanceInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeGatewayInstanceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `ConflictException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `ForbiddenException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `InternalServerErrorException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `NotFoundException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `ServiceUnavailableException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `TooManyRequestsException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
     public func describeGatewayInstance(input: DescribeGatewayInstanceInput) async throws -> DescribeGatewayInstanceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -657,6 +906,19 @@ extension MediaConnectClient: MediaConnectClientProtocol {
     }
 
     /// Displays the details of an offering. The response includes the offering description, duration, outbound bandwidth, price, and Amazon Resource Name (ARN).
+    ///
+    /// - Parameter DescribeOfferingInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeOfferingOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `InternalServerErrorException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `NotFoundException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `ServiceUnavailableException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `TooManyRequestsException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
     public func describeOffering(input: DescribeOfferingInput) async throws -> DescribeOfferingOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -690,6 +952,19 @@ extension MediaConnectClient: MediaConnectClientProtocol {
     }
 
     /// Displays the details of a reservation. The response includes the reservation name, state, start date and time, and the details of the offering that make up the rest of the reservation (such as price, duration, and outbound bandwidth).
+    ///
+    /// - Parameter DescribeReservationInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeReservationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `InternalServerErrorException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `NotFoundException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `ServiceUnavailableException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `TooManyRequestsException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
     public func describeReservation(input: DescribeReservationInput) async throws -> DescribeReservationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -723,6 +998,21 @@ extension MediaConnectClient: MediaConnectClientProtocol {
     }
 
     /// Grants entitlements to an existing flow.
+    ///
+    /// - Parameter GrantFlowEntitlementsInput : A request to grant entitlements on a flow.
+    ///
+    /// - Returns: `GrantFlowEntitlementsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `ForbiddenException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `GrantFlowEntitlements420Exception` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `InternalServerErrorException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `NotFoundException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `ServiceUnavailableException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `TooManyRequestsException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
     public func grantFlowEntitlements(input: GrantFlowEntitlementsInput) async throws -> GrantFlowEntitlementsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -759,6 +1049,19 @@ extension MediaConnectClient: MediaConnectClientProtocol {
     }
 
     /// Displays a list of bridges that are associated with this account and an optionally specified Arn. This request returns a paginated result.
+    ///
+    /// - Parameter ListBridgesInput : [no documentation found]
+    ///
+    /// - Returns: `ListBridgesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `ConflictException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `InternalServerErrorException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `ServiceUnavailableException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `TooManyRequestsException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
     public func listBridges(input: ListBridgesInput) async throws -> ListBridgesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -793,6 +1096,18 @@ extension MediaConnectClient: MediaConnectClientProtocol {
     }
 
     /// Displays a list of all entitlements that have been granted to this account. This request returns 20 results per page.
+    ///
+    /// - Parameter ListEntitlementsInput : [no documentation found]
+    ///
+    /// - Returns: `ListEntitlementsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `InternalServerErrorException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `ServiceUnavailableException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `TooManyRequestsException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
     public func listEntitlements(input: ListEntitlementsInput) async throws -> ListEntitlementsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -827,6 +1142,18 @@ extension MediaConnectClient: MediaConnectClientProtocol {
     }
 
     /// Displays a list of flows that are associated with this account. This request returns a paginated result.
+    ///
+    /// - Parameter ListFlowsInput : [no documentation found]
+    ///
+    /// - Returns: `ListFlowsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `InternalServerErrorException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `ServiceUnavailableException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `TooManyRequestsException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
     public func listFlows(input: ListFlowsInput) async throws -> ListFlowsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -861,6 +1188,19 @@ extension MediaConnectClient: MediaConnectClientProtocol {
     }
 
     /// Displays a list of instances associated with the AWS account. This request returns a paginated result. You can use the filterArn property to display only the instances associated with the selected Gateway Amazon Resource Name (ARN).
+    ///
+    /// - Parameter ListGatewayInstancesInput : [no documentation found]
+    ///
+    /// - Returns: `ListGatewayInstancesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `ConflictException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `InternalServerErrorException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `ServiceUnavailableException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `TooManyRequestsException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
     public func listGatewayInstances(input: ListGatewayInstancesInput) async throws -> ListGatewayInstancesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -895,6 +1235,19 @@ extension MediaConnectClient: MediaConnectClientProtocol {
     }
 
     /// Displays a list of gateways that are associated with this account. This request returns a paginated result.
+    ///
+    /// - Parameter ListGatewaysInput : [no documentation found]
+    ///
+    /// - Returns: `ListGatewaysOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `ConflictException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `InternalServerErrorException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `ServiceUnavailableException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `TooManyRequestsException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
     public func listGateways(input: ListGatewaysInput) async throws -> ListGatewaysOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -929,6 +1282,18 @@ extension MediaConnectClient: MediaConnectClientProtocol {
     }
 
     /// Displays a list of all offerings that are available to this account in the current AWS Region. If you have an active reservation (which means you've purchased an offering that has already started and hasn't expired yet), your account isn't eligible for other offerings.
+    ///
+    /// - Parameter ListOfferingsInput : [no documentation found]
+    ///
+    /// - Returns: `ListOfferingsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `InternalServerErrorException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `ServiceUnavailableException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `TooManyRequestsException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
     public func listOfferings(input: ListOfferingsInput) async throws -> ListOfferingsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -963,6 +1328,18 @@ extension MediaConnectClient: MediaConnectClientProtocol {
     }
 
     /// Displays a list of all reservations that have been purchased by this account in the current AWS Region. This list includes all reservations in all states (such as active and expired).
+    ///
+    /// - Parameter ListReservationsInput : [no documentation found]
+    ///
+    /// - Returns: `ListReservationsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `InternalServerErrorException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `ServiceUnavailableException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `TooManyRequestsException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
     public func listReservations(input: ListReservationsInput) async throws -> ListReservationsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -997,6 +1374,17 @@ extension MediaConnectClient: MediaConnectClientProtocol {
     }
 
     /// List all tags on an AWS Elemental MediaConnect resource
+    ///
+    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    ///
+    /// - Returns: `ListTagsForResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `InternalServerErrorException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `NotFoundException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
     public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1030,6 +1418,20 @@ extension MediaConnectClient: MediaConnectClientProtocol {
     }
 
     /// Submits a request to purchase an offering. If you already have an active reservation, you can't purchase another offering.
+    ///
+    /// - Parameter PurchaseOfferingInput : A request to purchase a offering.
+    ///
+    /// - Returns: `PurchaseOfferingOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `ForbiddenException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `InternalServerErrorException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `NotFoundException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `ServiceUnavailableException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `TooManyRequestsException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
     public func purchaseOffering(input: PurchaseOfferingInput) async throws -> PurchaseOfferingOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1066,6 +1468,21 @@ extension MediaConnectClient: MediaConnectClientProtocol {
     }
 
     /// Removes an output from a bridge.
+    ///
+    /// - Parameter RemoveBridgeOutputInput : [no documentation found]
+    ///
+    /// - Returns: `RemoveBridgeOutputOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `ConflictException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `ForbiddenException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `InternalServerErrorException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `NotFoundException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `ServiceUnavailableException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `TooManyRequestsException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
     public func removeBridgeOutput(input: RemoveBridgeOutputInput) async throws -> RemoveBridgeOutputOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1099,6 +1516,21 @@ extension MediaConnectClient: MediaConnectClientProtocol {
     }
 
     /// Removes a source from a bridge.
+    ///
+    /// - Parameter RemoveBridgeSourceInput : [no documentation found]
+    ///
+    /// - Returns: `RemoveBridgeSourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `ConflictException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `ForbiddenException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `InternalServerErrorException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `NotFoundException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `ServiceUnavailableException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `TooManyRequestsException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
     public func removeBridgeSource(input: RemoveBridgeSourceInput) async throws -> RemoveBridgeSourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1132,6 +1564,20 @@ extension MediaConnectClient: MediaConnectClientProtocol {
     }
 
     /// Removes a media stream from a flow. This action is only available if the media stream is not associated with a source or output.
+    ///
+    /// - Parameter RemoveFlowMediaStreamInput : [no documentation found]
+    ///
+    /// - Returns: `RemoveFlowMediaStreamOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `ForbiddenException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `InternalServerErrorException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `NotFoundException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `ServiceUnavailableException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `TooManyRequestsException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
     public func removeFlowMediaStream(input: RemoveFlowMediaStreamInput) async throws -> RemoveFlowMediaStreamOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1165,6 +1611,20 @@ extension MediaConnectClient: MediaConnectClientProtocol {
     }
 
     /// Removes an output from an existing flow. This request can be made only on an output that does not have an entitlement associated with it. If the output has an entitlement, you must revoke the entitlement instead. When an entitlement is revoked from a flow, the service automatically removes the associated output.
+    ///
+    /// - Parameter RemoveFlowOutputInput : [no documentation found]
+    ///
+    /// - Returns: `RemoveFlowOutputOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `ForbiddenException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `InternalServerErrorException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `NotFoundException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `ServiceUnavailableException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `TooManyRequestsException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
     public func removeFlowOutput(input: RemoveFlowOutputInput) async throws -> RemoveFlowOutputOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1198,6 +1658,20 @@ extension MediaConnectClient: MediaConnectClientProtocol {
     }
 
     /// Removes a source from an existing flow. This request can be made only if there is more than one source on the flow.
+    ///
+    /// - Parameter RemoveFlowSourceInput : [no documentation found]
+    ///
+    /// - Returns: `RemoveFlowSourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `ForbiddenException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `InternalServerErrorException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `NotFoundException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `ServiceUnavailableException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `TooManyRequestsException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
     public func removeFlowSource(input: RemoveFlowSourceInput) async throws -> RemoveFlowSourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1231,6 +1705,20 @@ extension MediaConnectClient: MediaConnectClientProtocol {
     }
 
     /// Removes a VPC Interface from an existing flow. This request can be made only on a VPC interface that does not have a Source or Output associated with it. If the VPC interface is referenced by a Source or Output, you must first delete or update the Source or Output to no longer reference the VPC interface.
+    ///
+    /// - Parameter RemoveFlowVpcInterfaceInput : [no documentation found]
+    ///
+    /// - Returns: `RemoveFlowVpcInterfaceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `ForbiddenException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `InternalServerErrorException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `NotFoundException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `ServiceUnavailableException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `TooManyRequestsException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
     public func removeFlowVpcInterface(input: RemoveFlowVpcInterfaceInput) async throws -> RemoveFlowVpcInterfaceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1264,6 +1752,20 @@ extension MediaConnectClient: MediaConnectClientProtocol {
     }
 
     /// Revokes an entitlement from a flow. Once an entitlement is revoked, the content becomes unavailable to the subscriber and the associated output is removed.
+    ///
+    /// - Parameter RevokeFlowEntitlementInput : [no documentation found]
+    ///
+    /// - Returns: `RevokeFlowEntitlementOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `ForbiddenException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `InternalServerErrorException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `NotFoundException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `ServiceUnavailableException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `TooManyRequestsException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
     public func revokeFlowEntitlement(input: RevokeFlowEntitlementInput) async throws -> RevokeFlowEntitlementOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1297,6 +1799,20 @@ extension MediaConnectClient: MediaConnectClientProtocol {
     }
 
     /// Starts a flow.
+    ///
+    /// - Parameter StartFlowInput : [no documentation found]
+    ///
+    /// - Returns: `StartFlowOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `ForbiddenException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `InternalServerErrorException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `NotFoundException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `ServiceUnavailableException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `TooManyRequestsException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
     public func startFlow(input: StartFlowInput) async throws -> StartFlowOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1330,6 +1846,20 @@ extension MediaConnectClient: MediaConnectClientProtocol {
     }
 
     /// Stops a flow.
+    ///
+    /// - Parameter StopFlowInput : [no documentation found]
+    ///
+    /// - Returns: `StopFlowOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `ForbiddenException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `InternalServerErrorException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `NotFoundException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `ServiceUnavailableException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `TooManyRequestsException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
     public func stopFlow(input: StopFlowInput) async throws -> StopFlowOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1363,6 +1893,17 @@ extension MediaConnectClient: MediaConnectClientProtocol {
     }
 
     /// Associates the specified tags to a resource with the specified resourceArn. If existing tags on a resource are not specified in the request parameters, they are not changed. When a resource is deleted, the tags associated with that resource are deleted as well.
+    ///
+    /// - Parameter TagResourceInput : The tags to add to the resource. A tag is an array of key-value pairs. Tag keys can have a maximum character length of 128 characters, and tag values can have a maximum length of 256 characters.
+    ///
+    /// - Returns: `TagResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `InternalServerErrorException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `NotFoundException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
     public func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1399,6 +1940,17 @@ extension MediaConnectClient: MediaConnectClientProtocol {
     }
 
     /// Deletes specified tags from a resource.
+    ///
+    /// - Parameter UntagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `UntagResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `InternalServerErrorException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `NotFoundException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
     public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1433,6 +1985,21 @@ extension MediaConnectClient: MediaConnectClientProtocol {
     }
 
     /// Updates the bridge
+    ///
+    /// - Parameter UpdateBridgeInput : A request to update the bridge.
+    ///
+    /// - Returns: `UpdateBridgeOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `ConflictException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `ForbiddenException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `InternalServerErrorException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `NotFoundException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `ServiceUnavailableException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `TooManyRequestsException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
     public func updateBridge(input: UpdateBridgeInput) async throws -> UpdateBridgeOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1469,6 +2036,21 @@ extension MediaConnectClient: MediaConnectClientProtocol {
     }
 
     /// Updates an existing bridge output.
+    ///
+    /// - Parameter UpdateBridgeOutputInput : The fields that you want to update in the bridge output.
+    ///
+    /// - Returns: `UpdateBridgeOutputOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `ConflictException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `ForbiddenException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `InternalServerErrorException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `NotFoundException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `ServiceUnavailableException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `TooManyRequestsException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
     public func updateBridgeOutput(input: UpdateBridgeOutputInput) async throws -> UpdateBridgeOutputOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1505,6 +2087,21 @@ extension MediaConnectClient: MediaConnectClientProtocol {
     }
 
     /// Updates an existing bridge source.
+    ///
+    /// - Parameter UpdateBridgeSourceInput : The fields that you want to update in the bridge source.
+    ///
+    /// - Returns: `UpdateBridgeSourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `ConflictException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `ForbiddenException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `InternalServerErrorException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `NotFoundException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `ServiceUnavailableException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `TooManyRequestsException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
     public func updateBridgeSource(input: UpdateBridgeSourceInput) async throws -> UpdateBridgeSourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1541,6 +2138,21 @@ extension MediaConnectClient: MediaConnectClientProtocol {
     }
 
     /// Updates the bridge state
+    ///
+    /// - Parameter UpdateBridgeStateInput : A request to update the bridge state.
+    ///
+    /// - Returns: `UpdateBridgeStateOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `ConflictException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `ForbiddenException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `InternalServerErrorException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `NotFoundException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `ServiceUnavailableException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `TooManyRequestsException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
     public func updateBridgeState(input: UpdateBridgeStateInput) async throws -> UpdateBridgeStateOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1577,6 +2189,20 @@ extension MediaConnectClient: MediaConnectClientProtocol {
     }
 
     /// Updates flow
+    ///
+    /// - Parameter UpdateFlowInput : A request to update flow.
+    ///
+    /// - Returns: `UpdateFlowOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `ForbiddenException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `InternalServerErrorException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `NotFoundException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `ServiceUnavailableException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `TooManyRequestsException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
     public func updateFlow(input: UpdateFlowInput) async throws -> UpdateFlowOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1613,6 +2239,20 @@ extension MediaConnectClient: MediaConnectClientProtocol {
     }
 
     /// You can change an entitlement's description, subscribers, and encryption. If you change the subscribers, the service will remove the outputs that are are used by the subscribers that are removed.
+    ///
+    /// - Parameter UpdateFlowEntitlementInput : The entitlement fields that you want to update.
+    ///
+    /// - Returns: `UpdateFlowEntitlementOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `ForbiddenException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `InternalServerErrorException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `NotFoundException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `ServiceUnavailableException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `TooManyRequestsException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
     public func updateFlowEntitlement(input: UpdateFlowEntitlementInput) async throws -> UpdateFlowEntitlementOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1649,6 +2289,20 @@ extension MediaConnectClient: MediaConnectClientProtocol {
     }
 
     /// Updates an existing media stream.
+    ///
+    /// - Parameter UpdateFlowMediaStreamInput : The fields that you want to update in the media stream.
+    ///
+    /// - Returns: `UpdateFlowMediaStreamOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `ForbiddenException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `InternalServerErrorException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `NotFoundException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `ServiceUnavailableException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `TooManyRequestsException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
     public func updateFlowMediaStream(input: UpdateFlowMediaStreamInput) async throws -> UpdateFlowMediaStreamOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1685,6 +2339,20 @@ extension MediaConnectClient: MediaConnectClientProtocol {
     }
 
     /// Updates an existing flow output.
+    ///
+    /// - Parameter UpdateFlowOutputInput : The fields that you want to update in the output.
+    ///
+    /// - Returns: `UpdateFlowOutputOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `ForbiddenException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `InternalServerErrorException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `NotFoundException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `ServiceUnavailableException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `TooManyRequestsException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
     public func updateFlowOutput(input: UpdateFlowOutputInput) async throws -> UpdateFlowOutputOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1721,6 +2389,20 @@ extension MediaConnectClient: MediaConnectClientProtocol {
     }
 
     /// Updates the source of a flow.
+    ///
+    /// - Parameter UpdateFlowSourceInput : A request to update the source of a flow.
+    ///
+    /// - Returns: `UpdateFlowSourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `ForbiddenException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `InternalServerErrorException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `NotFoundException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `ServiceUnavailableException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `TooManyRequestsException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
     public func updateFlowSource(input: UpdateFlowSourceInput) async throws -> UpdateFlowSourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1757,6 +2439,21 @@ extension MediaConnectClient: MediaConnectClientProtocol {
     }
 
     /// Updates the configuration of an existing Gateway Instance.
+    ///
+    /// - Parameter UpdateGatewayInstanceInput : A request to update gateway instance state.
+    ///
+    /// - Returns: `UpdateGatewayInstanceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `ConflictException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `ForbiddenException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `InternalServerErrorException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `NotFoundException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `ServiceUnavailableException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
+    /// - `TooManyRequestsException` : Exception raised by AWS Elemental MediaConnect. See the error message and documentation for the operation for more information on the cause of this exception.
     public func updateGatewayInstance(input: UpdateGatewayInstanceInput) async throws -> UpdateGatewayInstanceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()

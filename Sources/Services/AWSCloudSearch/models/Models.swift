@@ -416,7 +416,7 @@ extension CloudSearchClientTypes.AvailabilityOptionsStatus: Swift.Codable {
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let optionsDecoded = try containerValues.decode(Swift.Bool.self, forKey: .options)
+        let optionsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .options) ?? false
         options = optionsDecoded
         let statusDecoded = try containerValues.decodeIfPresent(CloudSearchClientTypes.OptionStatus.self, forKey: .status)
         status = statusDecoded
@@ -3474,9 +3474,9 @@ extension CloudSearchClientTypes.DomainStatus: Swift.Codable {
         processing = processingDecoded
         let searchInstanceTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .searchInstanceType)
         searchInstanceType = searchInstanceTypeDecoded
-        let searchPartitionCountDecoded = try containerValues.decode(Swift.Int.self, forKey: .searchPartitionCount)
+        let searchPartitionCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .searchPartitionCount) ?? 0
         searchPartitionCount = searchPartitionCountDecoded
-        let searchInstanceCountDecoded = try containerValues.decode(Swift.Int.self, forKey: .searchInstanceCount)
+        let searchInstanceCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .searchInstanceCount) ?? 0
         searchInstanceCount = searchInstanceCountDecoded
         let limitsDecoded = try containerValues.decodeIfPresent(CloudSearchClientTypes.Limits.self, forKey: .limits)
         limits = limitsDecoded
@@ -4644,9 +4644,9 @@ extension CloudSearchClientTypes.Limits: Swift.Codable {
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let maximumReplicationCountDecoded = try containerValues.decode(Swift.Int.self, forKey: .maximumReplicationCount)
+        let maximumReplicationCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maximumReplicationCount) ?? 0
         maximumReplicationCount = maximumReplicationCountDecoded
-        let maximumPartitionCountDecoded = try containerValues.decode(Swift.Int.self, forKey: .maximumPartitionCount)
+        let maximumPartitionCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maximumPartitionCount) ?? 0
         maximumPartitionCount = maximumPartitionCountDecoded
     }
 }
@@ -4999,7 +4999,7 @@ extension CloudSearchClientTypes.OptionStatus: Swift.Codable {
         creationDate = creationDateDecoded
         let updateDateDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .updateDate)
         updateDate = updateDateDecoded
-        let updateVersionDecoded = try containerValues.decode(Swift.Int.self, forKey: .updateVersion)
+        let updateVersionDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .updateVersion) ?? 0
         updateVersion = updateVersionDecoded
         let stateDecoded = try containerValues.decodeIfPresent(CloudSearchClientTypes.OptionState.self, forKey: .state)
         state = stateDecoded
@@ -5283,9 +5283,9 @@ extension CloudSearchClientTypes.ScalingParameters: Swift.Codable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let desiredInstanceTypeDecoded = try containerValues.decodeIfPresent(CloudSearchClientTypes.PartitionInstanceType.self, forKey: .desiredInstanceType)
         desiredInstanceType = desiredInstanceTypeDecoded
-        let desiredReplicationCountDecoded = try containerValues.decode(Swift.Int.self, forKey: .desiredReplicationCount)
+        let desiredReplicationCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .desiredReplicationCount) ?? 0
         desiredReplicationCount = desiredReplicationCountDecoded
-        let desiredPartitionCountDecoded = try containerValues.decode(Swift.Int.self, forKey: .desiredPartitionCount)
+        let desiredPartitionCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .desiredPartitionCount) ?? 0
         desiredPartitionCount = desiredPartitionCountDecoded
     }
 }

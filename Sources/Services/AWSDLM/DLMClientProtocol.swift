@@ -5,20 +5,110 @@ import ClientRuntime
 /// Amazon Data Lifecycle Manager With Amazon Data Lifecycle Manager, you can manage the lifecycle of your Amazon Web Services resources. You create lifecycle policies, which are used to automate operations on the specified resources. Amazon Data Lifecycle Manager supports Amazon EBS volumes and snapshots. For information about using Amazon Data Lifecycle Manager with Amazon EBS, see [ Amazon Data Lifecycle Manager](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/snapshot-lifecycle.html) in the Amazon EC2 User Guide.
 public protocol DLMClientProtocol {
     /// Creates a policy to manage the lifecycle of the specified Amazon Web Services resources. You can create up to 100 lifecycle policies.
+    ///
+    /// - Parameter CreateLifecyclePolicyInput : [no documentation found]
+    ///
+    /// - Returns: `CreateLifecyclePolicyOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The service failed in an unexpected way.
+    /// - `InvalidRequestException` : Bad request. The request is missing required parameters or has invalid parameters.
+    /// - `LimitExceededException` : The request failed because a limit was exceeded.
     func createLifecyclePolicy(input: CreateLifecyclePolicyInput) async throws -> CreateLifecyclePolicyOutputResponse
     /// Deletes the specified lifecycle policy and halts the automated operations that the policy specified. For more information about deleting a policy, see [Delete lifecycle policies](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/view-modify-delete.html#delete).
+    ///
+    /// - Parameter DeleteLifecyclePolicyInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteLifecyclePolicyOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The service failed in an unexpected way.
+    /// - `LimitExceededException` : The request failed because a limit was exceeded.
+    /// - `ResourceNotFoundException` : A requested resource was not found.
     func deleteLifecyclePolicy(input: DeleteLifecyclePolicyInput) async throws -> DeleteLifecyclePolicyOutputResponse
     /// Gets summary information about all or the specified data lifecycle policies. To get complete information about a policy, use [GetLifecyclePolicy].
+    ///
+    /// - Parameter GetLifecyclePoliciesInput : [no documentation found]
+    ///
+    /// - Returns: `GetLifecyclePoliciesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The service failed in an unexpected way.
+    /// - `InvalidRequestException` : Bad request. The request is missing required parameters or has invalid parameters.
+    /// - `LimitExceededException` : The request failed because a limit was exceeded.
+    /// - `ResourceNotFoundException` : A requested resource was not found.
     func getLifecyclePolicies(input: GetLifecyclePoliciesInput) async throws -> GetLifecyclePoliciesOutputResponse
     /// Gets detailed information about the specified lifecycle policy.
+    ///
+    /// - Parameter GetLifecyclePolicyInput : [no documentation found]
+    ///
+    /// - Returns: `GetLifecyclePolicyOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The service failed in an unexpected way.
+    /// - `LimitExceededException` : The request failed because a limit was exceeded.
+    /// - `ResourceNotFoundException` : A requested resource was not found.
     func getLifecyclePolicy(input: GetLifecyclePolicyInput) async throws -> GetLifecyclePolicyOutputResponse
     /// Lists the tags for the specified resource.
+    ///
+    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    ///
+    /// - Returns: `ListTagsForResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The service failed in an unexpected way.
+    /// - `InvalidRequestException` : Bad request. The request is missing required parameters or has invalid parameters.
+    /// - `ResourceNotFoundException` : A requested resource was not found.
     func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
     /// Adds the specified tags to the specified resource.
+    ///
+    /// - Parameter TagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `TagResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The service failed in an unexpected way.
+    /// - `InvalidRequestException` : Bad request. The request is missing required parameters or has invalid parameters.
+    /// - `ResourceNotFoundException` : A requested resource was not found.
     func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
     /// Removes the specified tags from the specified resource.
+    ///
+    /// - Parameter UntagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `UntagResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The service failed in an unexpected way.
+    /// - `InvalidRequestException` : Bad request. The request is missing required parameters or has invalid parameters.
+    /// - `ResourceNotFoundException` : A requested resource was not found.
     func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
     /// Updates the specified lifecycle policy. For more information about updating a policy, see [Modify lifecycle policies](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/view-modify-delete.html#modify).
+    ///
+    /// - Parameter UpdateLifecyclePolicyInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateLifecyclePolicyOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The service failed in an unexpected way.
+    /// - `InvalidRequestException` : Bad request. The request is missing required parameters or has invalid parameters.
+    /// - `LimitExceededException` : The request failed because a limit was exceeded.
+    /// - `ResourceNotFoundException` : A requested resource was not found.
     func updateLifecyclePolicy(input: UpdateLifecyclePolicyInput) async throws -> UpdateLifecyclePolicyOutputResponse
 }
 

@@ -5,94 +5,684 @@ import ClientRuntime
 /// Welcome to the Clean Rooms API Reference. Clean Rooms is an Amazon Web Services service that helps multiple parties to join their data together in a secure collaboration workspace. In the collaboration, members who can query and receive results can get insights into the collective datasets without either party getting access to the other party's raw data. To learn more about Clean Rooms concepts, procedures, and best practices, see the [Clean Rooms User Guide](https://docs.aws.amazon.com/clean-rooms/latest/userguide/what-is.html).
 public protocol CleanRoomsClientProtocol {
     /// Retrieves multiple analysis templates within a collaboration by their Amazon Resource Names (ARNs).
+    ///
+    /// - Parameter BatchGetCollaborationAnalysisTemplateInput : [no documentation found]
+    ///
+    /// - Returns: `BatchGetCollaborationAnalysisTemplateOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Caller does not have sufficient access to perform this action.
+    /// - `InternalServerException` : Unexpected error during processing of request.
+    /// - `ResourceNotFoundException` : Request references a resource which does not exist.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the specified constraints.
     func batchGetCollaborationAnalysisTemplate(input: BatchGetCollaborationAnalysisTemplateInput) async throws -> BatchGetCollaborationAnalysisTemplateOutputResponse
     /// Retrieves multiple schemas by their identifiers.
+    ///
+    /// - Parameter BatchGetSchemaInput : [no documentation found]
+    ///
+    /// - Returns: `BatchGetSchemaOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Caller does not have sufficient access to perform this action.
+    /// - `InternalServerException` : Unexpected error during processing of request.
+    /// - `ResourceNotFoundException` : Request references a resource which does not exist.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the specified constraints.
     func batchGetSchema(input: BatchGetSchemaInput) async throws -> BatchGetSchemaOutputResponse
     /// Creates a new analysis template.
+    ///
+    /// - Parameter CreateAnalysisTemplateInput : [no documentation found]
+    ///
+    /// - Returns: `CreateAnalysisTemplateOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Caller does not have sufficient access to perform this action.
+    /// - `ConflictException` : Updating or deleting a resource can cause an inconsistent state.
+    /// - `InternalServerException` : Unexpected error during processing of request.
+    /// - `ResourceNotFoundException` : Request references a resource which does not exist.
+    /// - `ServiceQuotaExceededException` : Request denied because service quota has been exceeded.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the specified constraints.
     func createAnalysisTemplate(input: CreateAnalysisTemplateInput) async throws -> CreateAnalysisTemplateOutputResponse
     /// Creates a new collaboration.
+    ///
+    /// - Parameter CreateCollaborationInput : [no documentation found]
+    ///
+    /// - Returns: `CreateCollaborationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Caller does not have sufficient access to perform this action.
+    /// - `InternalServerException` : Unexpected error during processing of request.
+    /// - `ServiceQuotaExceededException` : Request denied because service quota has been exceeded.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the specified constraints.
     func createCollaboration(input: CreateCollaborationInput) async throws -> CreateCollaborationOutputResponse
     /// Creates a new configured table resource.
+    ///
+    /// - Parameter CreateConfiguredTableInput : [no documentation found]
+    ///
+    /// - Returns: `CreateConfiguredTableOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Caller does not have sufficient access to perform this action.
+    /// - `ConflictException` : Updating or deleting a resource can cause an inconsistent state.
+    /// - `InternalServerException` : Unexpected error during processing of request.
+    /// - `ResourceNotFoundException` : Request references a resource which does not exist.
+    /// - `ServiceQuotaExceededException` : Request denied because service quota has been exceeded.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the specified constraints.
     func createConfiguredTable(input: CreateConfiguredTableInput) async throws -> CreateConfiguredTableOutputResponse
     /// Creates a new analysis rule for a configured table. Currently, only one analysis rule can be created for a given configured table.
+    ///
+    /// - Parameter CreateConfiguredTableAnalysisRuleInput : [no documentation found]
+    ///
+    /// - Returns: `CreateConfiguredTableAnalysisRuleOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Caller does not have sufficient access to perform this action.
+    /// - `ConflictException` : Updating or deleting a resource can cause an inconsistent state.
+    /// - `InternalServerException` : Unexpected error during processing of request.
+    /// - `ResourceNotFoundException` : Request references a resource which does not exist.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the specified constraints.
     func createConfiguredTableAnalysisRule(input: CreateConfiguredTableAnalysisRuleInput) async throws -> CreateConfiguredTableAnalysisRuleOutputResponse
     /// Creates a configured table association. A configured table association links a configured table with a collaboration.
+    ///
+    /// - Parameter CreateConfiguredTableAssociationInput : [no documentation found]
+    ///
+    /// - Returns: `CreateConfiguredTableAssociationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Caller does not have sufficient access to perform this action.
+    /// - `ConflictException` : Updating or deleting a resource can cause an inconsistent state.
+    /// - `InternalServerException` : Unexpected error during processing of request.
+    /// - `ResourceNotFoundException` : Request references a resource which does not exist.
+    /// - `ServiceQuotaExceededException` : Request denied because service quota has been exceeded.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the specified constraints.
     func createConfiguredTableAssociation(input: CreateConfiguredTableAssociationInput) async throws -> CreateConfiguredTableAssociationOutputResponse
     /// Creates a membership for a specific collaboration identifier and joins the collaboration.
+    ///
+    /// - Parameter CreateMembershipInput : [no documentation found]
+    ///
+    /// - Returns: `CreateMembershipOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Caller does not have sufficient access to perform this action.
+    /// - `ConflictException` : Updating or deleting a resource can cause an inconsistent state.
+    /// - `InternalServerException` : Unexpected error during processing of request.
+    /// - `ResourceNotFoundException` : Request references a resource which does not exist.
+    /// - `ServiceQuotaExceededException` : Request denied because service quota has been exceeded.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the specified constraints.
     func createMembership(input: CreateMembershipInput) async throws -> CreateMembershipOutputResponse
     /// Deletes an analysis template.
+    ///
+    /// - Parameter DeleteAnalysisTemplateInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteAnalysisTemplateOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Caller does not have sufficient access to perform this action.
+    /// - `InternalServerException` : Unexpected error during processing of request.
+    /// - `ResourceNotFoundException` : Request references a resource which does not exist.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the specified constraints.
     func deleteAnalysisTemplate(input: DeleteAnalysisTemplateInput) async throws -> DeleteAnalysisTemplateOutputResponse
     /// Deletes a collaboration. It can only be called by the collaboration owner.
+    ///
+    /// - Parameter DeleteCollaborationInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteCollaborationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Caller does not have sufficient access to perform this action.
+    /// - `InternalServerException` : Unexpected error during processing of request.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the specified constraints.
     func deleteCollaboration(input: DeleteCollaborationInput) async throws -> DeleteCollaborationOutputResponse
     /// Deletes a configured table.
+    ///
+    /// - Parameter DeleteConfiguredTableInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteConfiguredTableOutputResponse` : The empty output for a successful deletion.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Caller does not have sufficient access to perform this action.
+    /// - `ConflictException` : Updating or deleting a resource can cause an inconsistent state.
+    /// - `InternalServerException` : Unexpected error during processing of request.
+    /// - `ResourceNotFoundException` : Request references a resource which does not exist.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the specified constraints.
     func deleteConfiguredTable(input: DeleteConfiguredTableInput) async throws -> DeleteConfiguredTableOutputResponse
     /// Deletes a configured table analysis rule.
+    ///
+    /// - Parameter DeleteConfiguredTableAnalysisRuleInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteConfiguredTableAnalysisRuleOutputResponse` : An empty response that indicates a successful delete.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Caller does not have sufficient access to perform this action.
+    /// - `ConflictException` : Updating or deleting a resource can cause an inconsistent state.
+    /// - `InternalServerException` : Unexpected error during processing of request.
+    /// - `ResourceNotFoundException` : Request references a resource which does not exist.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the specified constraints.
     func deleteConfiguredTableAnalysisRule(input: DeleteConfiguredTableAnalysisRuleInput) async throws -> DeleteConfiguredTableAnalysisRuleOutputResponse
     /// Deletes a configured table association.
+    ///
+    /// - Parameter DeleteConfiguredTableAssociationInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteConfiguredTableAssociationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Caller does not have sufficient access to perform this action.
+    /// - `ConflictException` : Updating or deleting a resource can cause an inconsistent state.
+    /// - `InternalServerException` : Unexpected error during processing of request.
+    /// - `ResourceNotFoundException` : Request references a resource which does not exist.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the specified constraints.
     func deleteConfiguredTableAssociation(input: DeleteConfiguredTableAssociationInput) async throws -> DeleteConfiguredTableAssociationOutputResponse
     /// Removes the specified member from a collaboration. The removed member is placed in the Removed status and can't interact with the collaboration. The removed member's data is inaccessible to active members of the collaboration.
+    ///
+    /// - Parameter DeleteMemberInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteMemberOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Caller does not have sufficient access to perform this action.
+    /// - `ConflictException` : Updating or deleting a resource can cause an inconsistent state.
+    /// - `InternalServerException` : Unexpected error during processing of request.
+    /// - `ResourceNotFoundException` : Request references a resource which does not exist.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the specified constraints.
     func deleteMember(input: DeleteMemberInput) async throws -> DeleteMemberOutputResponse
     /// Deletes a specified membership. All resources under a membership must be deleted.
+    ///
+    /// - Parameter DeleteMembershipInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteMembershipOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Caller does not have sufficient access to perform this action.
+    /// - `ConflictException` : Updating or deleting a resource can cause an inconsistent state.
+    /// - `InternalServerException` : Unexpected error during processing of request.
+    /// - `ResourceNotFoundException` : Request references a resource which does not exist.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the specified constraints.
     func deleteMembership(input: DeleteMembershipInput) async throws -> DeleteMembershipOutputResponse
     /// Retrieves an analysis template.
+    ///
+    /// - Parameter GetAnalysisTemplateInput : [no documentation found]
+    ///
+    /// - Returns: `GetAnalysisTemplateOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Caller does not have sufficient access to perform this action.
+    /// - `InternalServerException` : Unexpected error during processing of request.
+    /// - `ResourceNotFoundException` : Request references a resource which does not exist.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the specified constraints.
     func getAnalysisTemplate(input: GetAnalysisTemplateInput) async throws -> GetAnalysisTemplateOutputResponse
     /// Returns metadata about a collaboration.
+    ///
+    /// - Parameter GetCollaborationInput : [no documentation found]
+    ///
+    /// - Returns: `GetCollaborationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Caller does not have sufficient access to perform this action.
+    /// - `InternalServerException` : Unexpected error during processing of request.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the specified constraints.
     func getCollaboration(input: GetCollaborationInput) async throws -> GetCollaborationOutputResponse
     /// Retrieves an analysis template within a collaboration.
+    ///
+    /// - Parameter GetCollaborationAnalysisTemplateInput : [no documentation found]
+    ///
+    /// - Returns: `GetCollaborationAnalysisTemplateOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Caller does not have sufficient access to perform this action.
+    /// - `InternalServerException` : Unexpected error during processing of request.
+    /// - `ResourceNotFoundException` : Request references a resource which does not exist.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the specified constraints.
     func getCollaborationAnalysisTemplate(input: GetCollaborationAnalysisTemplateInput) async throws -> GetCollaborationAnalysisTemplateOutputResponse
     /// Retrieves a configured table.
+    ///
+    /// - Parameter GetConfiguredTableInput : [no documentation found]
+    ///
+    /// - Returns: `GetConfiguredTableOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Caller does not have sufficient access to perform this action.
+    /// - `InternalServerException` : Unexpected error during processing of request.
+    /// - `ResourceNotFoundException` : Request references a resource which does not exist.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the specified constraints.
     func getConfiguredTable(input: GetConfiguredTableInput) async throws -> GetConfiguredTableOutputResponse
     /// Retrieves a configured table analysis rule.
+    ///
+    /// - Parameter GetConfiguredTableAnalysisRuleInput : [no documentation found]
+    ///
+    /// - Returns: `GetConfiguredTableAnalysisRuleOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Caller does not have sufficient access to perform this action.
+    /// - `InternalServerException` : Unexpected error during processing of request.
+    /// - `ResourceNotFoundException` : Request references a resource which does not exist.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the specified constraints.
     func getConfiguredTableAnalysisRule(input: GetConfiguredTableAnalysisRuleInput) async throws -> GetConfiguredTableAnalysisRuleOutputResponse
     /// Retrieves a configured table association.
+    ///
+    /// - Parameter GetConfiguredTableAssociationInput : [no documentation found]
+    ///
+    /// - Returns: `GetConfiguredTableAssociationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Caller does not have sufficient access to perform this action.
+    /// - `InternalServerException` : Unexpected error during processing of request.
+    /// - `ResourceNotFoundException` : Request references a resource which does not exist.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the specified constraints.
     func getConfiguredTableAssociation(input: GetConfiguredTableAssociationInput) async throws -> GetConfiguredTableAssociationOutputResponse
     /// Retrieves a specified membership for an identifier.
+    ///
+    /// - Parameter GetMembershipInput : [no documentation found]
+    ///
+    /// - Returns: `GetMembershipOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Caller does not have sufficient access to perform this action.
+    /// - `InternalServerException` : Unexpected error during processing of request.
+    /// - `ResourceNotFoundException` : Request references a resource which does not exist.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the specified constraints.
     func getMembership(input: GetMembershipInput) async throws -> GetMembershipOutputResponse
     /// Returns query processing metadata.
+    ///
+    /// - Parameter GetProtectedQueryInput : [no documentation found]
+    ///
+    /// - Returns: `GetProtectedQueryOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Caller does not have sufficient access to perform this action.
+    /// - `InternalServerException` : Unexpected error during processing of request.
+    /// - `ResourceNotFoundException` : Request references a resource which does not exist.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the specified constraints.
     func getProtectedQuery(input: GetProtectedQueryInput) async throws -> GetProtectedQueryOutputResponse
     /// Retrieves the schema for a relation within a collaboration.
+    ///
+    /// - Parameter GetSchemaInput : [no documentation found]
+    ///
+    /// - Returns: `GetSchemaOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Caller does not have sufficient access to perform this action.
+    /// - `InternalServerException` : Unexpected error during processing of request.
+    /// - `ResourceNotFoundException` : Request references a resource which does not exist.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the specified constraints.
     func getSchema(input: GetSchemaInput) async throws -> GetSchemaOutputResponse
     /// Retrieves a schema analysis rule.
+    ///
+    /// - Parameter GetSchemaAnalysisRuleInput : [no documentation found]
+    ///
+    /// - Returns: `GetSchemaAnalysisRuleOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Caller does not have sufficient access to perform this action.
+    /// - `InternalServerException` : Unexpected error during processing of request.
+    /// - `ResourceNotFoundException` : Request references a resource which does not exist.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the specified constraints.
     func getSchemaAnalysisRule(input: GetSchemaAnalysisRuleInput) async throws -> GetSchemaAnalysisRuleOutputResponse
     /// Lists analysis templates that the caller owns.
+    ///
+    /// - Parameter ListAnalysisTemplatesInput : [no documentation found]
+    ///
+    /// - Returns: `ListAnalysisTemplatesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Caller does not have sufficient access to perform this action.
+    /// - `InternalServerException` : Unexpected error during processing of request.
+    /// - `ResourceNotFoundException` : Request references a resource which does not exist.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the specified constraints.
     func listAnalysisTemplates(input: ListAnalysisTemplatesInput) async throws -> ListAnalysisTemplatesOutputResponse
     /// Lists analysis templates within a collaboration.
+    ///
+    /// - Parameter ListCollaborationAnalysisTemplatesInput : [no documentation found]
+    ///
+    /// - Returns: `ListCollaborationAnalysisTemplatesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Caller does not have sufficient access to perform this action.
+    /// - `InternalServerException` : Unexpected error during processing of request.
+    /// - `ResourceNotFoundException` : Request references a resource which does not exist.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the specified constraints.
     func listCollaborationAnalysisTemplates(input: ListCollaborationAnalysisTemplatesInput) async throws -> ListCollaborationAnalysisTemplatesOutputResponse
     /// Lists collaborations the caller owns, is active in, or has been invited to.
+    ///
+    /// - Parameter ListCollaborationsInput : [no documentation found]
+    ///
+    /// - Returns: `ListCollaborationsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Caller does not have sufficient access to perform this action.
+    /// - `InternalServerException` : Unexpected error during processing of request.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the specified constraints.
     func listCollaborations(input: ListCollaborationsInput) async throws -> ListCollaborationsOutputResponse
     /// Lists configured table associations for a membership.
+    ///
+    /// - Parameter ListConfiguredTableAssociationsInput : [no documentation found]
+    ///
+    /// - Returns: `ListConfiguredTableAssociationsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Caller does not have sufficient access to perform this action.
+    /// - `InternalServerException` : Unexpected error during processing of request.
+    /// - `ResourceNotFoundException` : Request references a resource which does not exist.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the specified constraints.
     func listConfiguredTableAssociations(input: ListConfiguredTableAssociationsInput) async throws -> ListConfiguredTableAssociationsOutputResponse
     /// Lists configured tables.
+    ///
+    /// - Parameter ListConfiguredTablesInput : [no documentation found]
+    ///
+    /// - Returns: `ListConfiguredTablesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Caller does not have sufficient access to perform this action.
+    /// - `InternalServerException` : Unexpected error during processing of request.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the specified constraints.
     func listConfiguredTables(input: ListConfiguredTablesInput) async throws -> ListConfiguredTablesOutputResponse
     /// Lists all members within a collaboration.
+    ///
+    /// - Parameter ListMembersInput : [no documentation found]
+    ///
+    /// - Returns: `ListMembersOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Caller does not have sufficient access to perform this action.
+    /// - `InternalServerException` : Unexpected error during processing of request.
+    /// - `ResourceNotFoundException` : Request references a resource which does not exist.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the specified constraints.
     func listMembers(input: ListMembersInput) async throws -> ListMembersOutputResponse
     /// Lists all memberships resources within the caller's account.
+    ///
+    /// - Parameter ListMembershipsInput : [no documentation found]
+    ///
+    /// - Returns: `ListMembershipsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Caller does not have sufficient access to perform this action.
+    /// - `InternalServerException` : Unexpected error during processing of request.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the specified constraints.
     func listMemberships(input: ListMembershipsInput) async throws -> ListMembershipsOutputResponse
     /// Lists protected queries, sorted by the most recent query.
+    ///
+    /// - Parameter ListProtectedQueriesInput : [no documentation found]
+    ///
+    /// - Returns: `ListProtectedQueriesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Caller does not have sufficient access to perform this action.
+    /// - `InternalServerException` : Unexpected error during processing of request.
+    /// - `ResourceNotFoundException` : Request references a resource which does not exist.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the specified constraints.
     func listProtectedQueries(input: ListProtectedQueriesInput) async throws -> ListProtectedQueriesOutputResponse
     /// Lists the schemas for relations within a collaboration.
+    ///
+    /// - Parameter ListSchemasInput : [no documentation found]
+    ///
+    /// - Returns: `ListSchemasOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Caller does not have sufficient access to perform this action.
+    /// - `InternalServerException` : Unexpected error during processing of request.
+    /// - `ResourceNotFoundException` : Request references a resource which does not exist.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the specified constraints.
     func listSchemas(input: ListSchemasInput) async throws -> ListSchemasOutputResponse
     /// Lists all of the tags that have been added to a resource.
+    ///
+    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    ///
+    /// - Returns: `ListTagsForResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ResourceNotFoundException` : Request references a resource which does not exist.
+    /// - `ValidationException` : The input fails to satisfy the specified constraints.
     func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
     /// Creates a protected query that is started by Clean Rooms .
+    ///
+    /// - Parameter StartProtectedQueryInput : [no documentation found]
+    ///
+    /// - Returns: `StartProtectedQueryOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Caller does not have sufficient access to perform this action.
+    /// - `InternalServerException` : Unexpected error during processing of request.
+    /// - `ResourceNotFoundException` : Request references a resource which does not exist.
+    /// - `ServiceQuotaExceededException` : Request denied because service quota has been exceeded.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the specified constraints.
     func startProtectedQuery(input: StartProtectedQueryInput) async throws -> StartProtectedQueryOutputResponse
     /// Tags a resource.
+    ///
+    /// - Parameter TagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `TagResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ResourceNotFoundException` : Request references a resource which does not exist.
+    /// - `ValidationException` : The input fails to satisfy the specified constraints.
     func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
     /// Removes a tag or list of tags from a resource.
+    ///
+    /// - Parameter UntagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `UntagResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ResourceNotFoundException` : Request references a resource which does not exist.
+    /// - `ValidationException` : The input fails to satisfy the specified constraints.
     func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
     /// Updates the analysis template metadata.
+    ///
+    /// - Parameter UpdateAnalysisTemplateInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateAnalysisTemplateOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Caller does not have sufficient access to perform this action.
+    /// - `InternalServerException` : Unexpected error during processing of request.
+    /// - `ResourceNotFoundException` : Request references a resource which does not exist.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the specified constraints.
     func updateAnalysisTemplate(input: UpdateAnalysisTemplateInput) async throws -> UpdateAnalysisTemplateOutputResponse
     /// Updates collaboration metadata and can only be called by the collaboration owner.
+    ///
+    /// - Parameter UpdateCollaborationInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateCollaborationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Caller does not have sufficient access to perform this action.
+    /// - `InternalServerException` : Unexpected error during processing of request.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the specified constraints.
     func updateCollaboration(input: UpdateCollaborationInput) async throws -> UpdateCollaborationOutputResponse
     /// Updates a configured table.
+    ///
+    /// - Parameter UpdateConfiguredTableInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateConfiguredTableOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Caller does not have sufficient access to perform this action.
+    /// - `ConflictException` : Updating or deleting a resource can cause an inconsistent state.
+    /// - `InternalServerException` : Unexpected error during processing of request.
+    /// - `ResourceNotFoundException` : Request references a resource which does not exist.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the specified constraints.
     func updateConfiguredTable(input: UpdateConfiguredTableInput) async throws -> UpdateConfiguredTableOutputResponse
     /// Updates a configured table analysis rule.
+    ///
+    /// - Parameter UpdateConfiguredTableAnalysisRuleInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateConfiguredTableAnalysisRuleOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Caller does not have sufficient access to perform this action.
+    /// - `ConflictException` : Updating or deleting a resource can cause an inconsistent state.
+    /// - `InternalServerException` : Unexpected error during processing of request.
+    /// - `ResourceNotFoundException` : Request references a resource which does not exist.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the specified constraints.
     func updateConfiguredTableAnalysisRule(input: UpdateConfiguredTableAnalysisRuleInput) async throws -> UpdateConfiguredTableAnalysisRuleOutputResponse
     /// Updates a configured table association.
+    ///
+    /// - Parameter UpdateConfiguredTableAssociationInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateConfiguredTableAssociationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Caller does not have sufficient access to perform this action.
+    /// - `ConflictException` : Updating or deleting a resource can cause an inconsistent state.
+    /// - `InternalServerException` : Unexpected error during processing of request.
+    /// - `ResourceNotFoundException` : Request references a resource which does not exist.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the specified constraints.
     func updateConfiguredTableAssociation(input: UpdateConfiguredTableAssociationInput) async throws -> UpdateConfiguredTableAssociationOutputResponse
     /// Updates a membership.
+    ///
+    /// - Parameter UpdateMembershipInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateMembershipOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Caller does not have sufficient access to perform this action.
+    /// - `ConflictException` : Updating or deleting a resource can cause an inconsistent state.
+    /// - `InternalServerException` : Unexpected error during processing of request.
+    /// - `ResourceNotFoundException` : Request references a resource which does not exist.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the specified constraints.
     func updateMembership(input: UpdateMembershipInput) async throws -> UpdateMembershipOutputResponse
     /// Updates the processing of a currently running query.
+    ///
+    /// - Parameter UpdateProtectedQueryInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateProtectedQueryOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Caller does not have sufficient access to perform this action.
+    /// - `ConflictException` : Updating or deleting a resource can cause an inconsistent state.
+    /// - `InternalServerException` : Unexpected error during processing of request.
+    /// - `ResourceNotFoundException` : Request references a resource which does not exist.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the specified constraints.
     func updateProtectedQuery(input: UpdateProtectedQueryInput) async throws -> UpdateProtectedQueryOutputResponse
 }
 

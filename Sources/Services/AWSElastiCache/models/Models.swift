@@ -1464,7 +1464,7 @@ extension ElastiCacheClientTypes.CacheCluster: Swift.Codable {
         } else {
             cacheNodes = nil
         }
-        let autoMinorVersionUpgradeDecoded = try containerValues.decode(Swift.Bool.self, forKey: .autoMinorVersionUpgrade)
+        let autoMinorVersionUpgradeDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .autoMinorVersionUpgrade) ?? false
         autoMinorVersionUpgrade = autoMinorVersionUpgradeDecoded
         if containerValues.contains(.securityGroups) {
             struct KeyVal0{struct member{}}
@@ -1501,7 +1501,7 @@ extension ElastiCacheClientTypes.CacheCluster: Swift.Codable {
         atRestEncryptionEnabled = atRestEncryptionEnabledDecoded
         let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
         arn = arnDecoded
-        let replicationGroupLogDeliveryEnabledDecoded = try containerValues.decode(Swift.Bool.self, forKey: .replicationGroupLogDeliveryEnabled)
+        let replicationGroupLogDeliveryEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .replicationGroupLogDeliveryEnabled) ?? false
         replicationGroupLogDeliveryEnabled = replicationGroupLogDeliveryEnabledDecoded
         if containerValues.contains(.logDeliveryConfigurations) {
             struct KeyVal0{struct LogDeliveryConfiguration{}}
@@ -2123,7 +2123,7 @@ extension ElastiCacheClientTypes.CacheNodeTypeSpecificParameter: Swift.Codable {
         dataType = dataTypeDecoded
         let allowedValuesDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .allowedValues)
         allowedValues = allowedValuesDecoded
-        let isModifiableDecoded = try containerValues.decode(Swift.Bool.self, forKey: .isModifiable)
+        let isModifiableDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isModifiable) ?? false
         isModifiable = isModifiableDecoded
         let minimumEngineVersionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .minimumEngineVersion)
         minimumEngineVersion = minimumEngineVersionDecoded
@@ -2385,7 +2385,7 @@ extension ElastiCacheClientTypes.CacheParameterGroup: Swift.Codable {
         cacheParameterGroupFamily = cacheParameterGroupFamilyDecoded
         let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
         description = descriptionDecoded
-        let isGlobalDecoded = try containerValues.decode(Swift.Bool.self, forKey: .isGlobal)
+        let isGlobalDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isGlobal) ?? false
         isGlobal = isGlobalDecoded
         let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
         arn = arnDecoded
@@ -3600,7 +3600,7 @@ extension CompleteMigrationInputBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let replicationGroupIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .replicationGroupId)
         replicationGroupId = replicationGroupIdDecoded
-        let forceDecoded = try containerValues.decode(Swift.Bool.self, forKey: .force)
+        let forceDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .force) ?? false
         force = forceDecoded
     }
 }
@@ -3704,7 +3704,7 @@ extension ElastiCacheClientTypes.ConfigureShard: Swift.Codable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nodeGroupIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nodeGroupId)
         nodeGroupId = nodeGroupIdDecoded
-        let newReplicaCountDecoded = try containerValues.decode(Swift.Int.self, forKey: .newReplicaCount)
+        let newReplicaCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .newReplicaCount) ?? 0
         newReplicaCount = newReplicaCountDecoded
         if containerValues.contains(.preferredAvailabilityZones) {
             struct KeyVal0{struct PreferredAvailabilityZone{}}
@@ -7056,7 +7056,7 @@ extension DecreaseNodeGroupsInGlobalReplicationGroupInputBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let globalReplicationGroupIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .globalReplicationGroupId)
         globalReplicationGroupId = globalReplicationGroupIdDecoded
-        let nodeGroupCountDecoded = try containerValues.decode(Swift.Int.self, forKey: .nodeGroupCount)
+        let nodeGroupCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .nodeGroupCount) ?? 0
         nodeGroupCount = nodeGroupCountDecoded
         if containerValues.contains(.globalNodeGroupsToRemove) {
             struct KeyVal0{struct GlobalNodeGroupId{}}
@@ -7096,7 +7096,7 @@ extension DecreaseNodeGroupsInGlobalReplicationGroupInputBody: Swift.Decodable {
         } else {
             globalNodeGroupsToRetain = nil
         }
-        let applyImmediatelyDecoded = try containerValues.decode(Swift.Bool.self, forKey: .applyImmediately)
+        let applyImmediatelyDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .applyImmediately) ?? false
         applyImmediately = applyImmediatelyDecoded
     }
 }
@@ -7306,7 +7306,7 @@ extension DecreaseReplicaCountInputBody: Swift.Decodable {
         } else {
             replicasToRemove = nil
         }
-        let applyImmediatelyDecoded = try containerValues.decode(Swift.Bool.self, forKey: .applyImmediately)
+        let applyImmediatelyDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .applyImmediately) ?? false
         applyImmediately = applyImmediatelyDecoded
     }
 }
@@ -7857,7 +7857,7 @@ extension DeleteGlobalReplicationGroupInputBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let globalReplicationGroupIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .globalReplicationGroupId)
         globalReplicationGroupId = globalReplicationGroupIdDecoded
-        let retainPrimaryReplicationGroupDecoded = try containerValues.decode(Swift.Bool.self, forKey: .retainPrimaryReplicationGroup)
+        let retainPrimaryReplicationGroupDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .retainPrimaryReplicationGroup) ?? false
         retainPrimaryReplicationGroup = retainPrimaryReplicationGroupDecoded
     }
 }
@@ -8819,7 +8819,7 @@ extension DescribeCacheEngineVersionsInputBody: Swift.Decodable {
         maxRecords = maxRecordsDecoded
         let markerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .marker)
         marker = markerDecoded
-        let defaultOnlyDecoded = try containerValues.decode(Swift.Bool.self, forKey: .defaultOnly)
+        let defaultOnlyDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .defaultOnly) ?? false
         defaultOnly = defaultOnlyDecoded
     }
 }
@@ -12009,7 +12009,7 @@ extension ElastiCacheClientTypes.Endpoint: Swift.Codable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let addressDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .address)
         address = addressDecoded
-        let portDecoded = try containerValues.decode(Swift.Int.self, forKey: .port)
+        let portDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .port) ?? 0
         port = portDecoded
     }
 }
@@ -12939,7 +12939,7 @@ public struct IncreaseNodeGroupsInGlobalReplicationGroupInput: Swift.Equatable {
     /// The name of the Global datastore
     /// This member is required.
     public var globalReplicationGroupId: Swift.String?
-    /// The number of node groups you wish to add
+    /// Total number of node groups you want
     /// This member is required.
     public var nodeGroupCount: Swift.Int
     /// Describes the replication group IDs, the Amazon regions where they are stored and the shard configuration for each that comprise the Global datastore
@@ -12978,7 +12978,7 @@ extension IncreaseNodeGroupsInGlobalReplicationGroupInputBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let globalReplicationGroupIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .globalReplicationGroupId)
         globalReplicationGroupId = globalReplicationGroupIdDecoded
-        let nodeGroupCountDecoded = try containerValues.decode(Swift.Int.self, forKey: .nodeGroupCount)
+        let nodeGroupCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .nodeGroupCount) ?? 0
         nodeGroupCount = nodeGroupCountDecoded
         if containerValues.contains(.regionalConfigurations) {
             struct KeyVal0{struct RegionalConfiguration{}}
@@ -12999,7 +12999,7 @@ extension IncreaseNodeGroupsInGlobalReplicationGroupInputBody: Swift.Decodable {
         } else {
             regionalConfigurations = nil
         }
-        let applyImmediatelyDecoded = try containerValues.decode(Swift.Bool.self, forKey: .applyImmediately)
+        let applyImmediatelyDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .applyImmediately) ?? false
         applyImmediately = applyImmediatelyDecoded
     }
 }
@@ -13160,7 +13160,7 @@ extension IncreaseReplicaCountInputBody: Swift.Decodable {
         } else {
             replicaConfiguration = nil
         }
-        let applyImmediatelyDecoded = try containerValues.decode(Swift.Bool.self, forKey: .applyImmediately)
+        let applyImmediatelyDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .applyImmediately) ?? false
         applyImmediately = applyImmediatelyDecoded
     }
 }
@@ -15128,7 +15128,7 @@ extension ModifyCacheClusterInputBody: Swift.Decodable {
         cacheParameterGroupName = cacheParameterGroupNameDecoded
         let notificationTopicStatusDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .notificationTopicStatus)
         notificationTopicStatus = notificationTopicStatusDecoded
-        let applyImmediatelyDecoded = try containerValues.decode(Swift.Bool.self, forKey: .applyImmediately)
+        let applyImmediatelyDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .applyImmediately) ?? false
         applyImmediately = applyImmediatelyDecoded
         let engineVersionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .engineVersion)
         engineVersion = engineVersionDecoded
@@ -15626,7 +15626,7 @@ extension ModifyGlobalReplicationGroupInputBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let globalReplicationGroupIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .globalReplicationGroupId)
         globalReplicationGroupId = globalReplicationGroupIdDecoded
-        let applyImmediatelyDecoded = try containerValues.decode(Swift.Bool.self, forKey: .applyImmediately)
+        let applyImmediatelyDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .applyImmediately) ?? false
         applyImmediately = applyImmediatelyDecoded
         let cacheNodeTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .cacheNodeType)
         cacheNodeType = cacheNodeTypeDecoded
@@ -16129,7 +16129,7 @@ extension ModifyReplicationGroupInputBody: Swift.Decodable {
         cacheParameterGroupName = cacheParameterGroupNameDecoded
         let notificationTopicStatusDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .notificationTopicStatus)
         notificationTopicStatus = notificationTopicStatusDecoded
-        let applyImmediatelyDecoded = try containerValues.decode(Swift.Bool.self, forKey: .applyImmediately)
+        let applyImmediatelyDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .applyImmediately) ?? false
         applyImmediately = applyImmediatelyDecoded
         let engineVersionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .engineVersion)
         engineVersion = engineVersionDecoded
@@ -16399,9 +16399,9 @@ extension ModifyReplicationGroupShardConfigurationInputBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let replicationGroupIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .replicationGroupId)
         replicationGroupId = replicationGroupIdDecoded
-        let nodeGroupCountDecoded = try containerValues.decode(Swift.Int.self, forKey: .nodeGroupCount)
+        let nodeGroupCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .nodeGroupCount) ?? 0
         nodeGroupCount = nodeGroupCountDecoded
-        let applyImmediatelyDecoded = try containerValues.decode(Swift.Bool.self, forKey: .applyImmediately)
+        let applyImmediatelyDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .applyImmediately) ?? false
         applyImmediately = applyImmediatelyDecoded
         if containerValues.contains(.reshardingConfiguration) {
             struct KeyVal0{struct ReshardingConfiguration{}}
@@ -18256,7 +18256,7 @@ extension ElastiCacheClientTypes.Parameter: Swift.Codable {
         dataType = dataTypeDecoded
         let allowedValuesDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .allowedValues)
         allowedValues = allowedValuesDecoded
-        let isModifiableDecoded = try containerValues.decode(Swift.Bool.self, forKey: .isModifiable)
+        let isModifiableDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isModifiable) ?? false
         isModifiable = isModifiableDecoded
         let minimumEngineVersionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .minimumEngineVersion)
         minimumEngineVersion = minimumEngineVersionDecoded
@@ -18892,7 +18892,7 @@ extension RebalanceSlotsInGlobalReplicationGroupInputBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let globalReplicationGroupIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .globalReplicationGroupId)
         globalReplicationGroupId = globalReplicationGroupIdDecoded
-        let applyImmediatelyDecoded = try containerValues.decode(Swift.Bool.self, forKey: .applyImmediately)
+        let applyImmediatelyDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .applyImmediately) ?? false
         applyImmediately = applyImmediatelyDecoded
     }
 }
@@ -19107,7 +19107,7 @@ extension ElastiCacheClientTypes.RecurringCharge: Swift.Codable {
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let recurringChargeAmountDecoded = try containerValues.decode(Swift.Double.self, forKey: .recurringChargeAmount)
+        let recurringChargeAmountDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .recurringChargeAmount) ?? 0
         recurringChargeAmount = recurringChargeAmountDecoded
         let recurringChargeFrequencyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .recurringChargeFrequency)
         recurringChargeFrequency = recurringChargeFrequencyDecoded
@@ -19699,7 +19699,7 @@ extension ElastiCacheClientTypes.ReplicationGroup: Swift.Codable {
         replicationGroupCreateTime = replicationGroupCreateTimeDecoded
         let dataTieringDecoded = try containerValues.decodeIfPresent(ElastiCacheClientTypes.DataTieringStatus.self, forKey: .dataTiering)
         dataTiering = dataTieringDecoded
-        let autoMinorVersionUpgradeDecoded = try containerValues.decode(Swift.Bool.self, forKey: .autoMinorVersionUpgrade)
+        let autoMinorVersionUpgradeDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .autoMinorVersionUpgrade) ?? false
         autoMinorVersionUpgrade = autoMinorVersionUpgradeDecoded
         let networkTypeDecoded = try containerValues.decodeIfPresent(ElastiCacheClientTypes.NetworkType.self, forKey: .networkType)
         networkType = networkTypeDecoded
@@ -20284,13 +20284,13 @@ extension ElastiCacheClientTypes.ReservedCacheNode: Swift.Codable {
         cacheNodeType = cacheNodeTypeDecoded
         let startTimeDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .startTime)
         startTime = startTimeDecoded
-        let durationDecoded = try containerValues.decode(Swift.Int.self, forKey: .duration)
+        let durationDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .duration) ?? 0
         duration = durationDecoded
-        let fixedPriceDecoded = try containerValues.decode(Swift.Double.self, forKey: .fixedPrice)
+        let fixedPriceDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .fixedPrice) ?? 0
         fixedPrice = fixedPriceDecoded
-        let usagePriceDecoded = try containerValues.decode(Swift.Double.self, forKey: .usagePrice)
+        let usagePriceDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .usagePrice) ?? 0
         usagePrice = usagePriceDecoded
-        let cacheNodeCountDecoded = try containerValues.decode(Swift.Int.self, forKey: .cacheNodeCount)
+        let cacheNodeCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .cacheNodeCount) ?? 0
         cacheNodeCount = cacheNodeCountDecoded
         let productDescriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .productDescription)
         productDescription = productDescriptionDecoded
@@ -20642,11 +20642,11 @@ extension ElastiCacheClientTypes.ReservedCacheNodesOffering: Swift.Codable {
         reservedCacheNodesOfferingId = reservedCacheNodesOfferingIdDecoded
         let cacheNodeTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .cacheNodeType)
         cacheNodeType = cacheNodeTypeDecoded
-        let durationDecoded = try containerValues.decode(Swift.Int.self, forKey: .duration)
+        let durationDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .duration) ?? 0
         duration = durationDecoded
-        let fixedPriceDecoded = try containerValues.decode(Swift.Double.self, forKey: .fixedPrice)
+        let fixedPriceDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .fixedPrice) ?? 0
         fixedPrice = fixedPriceDecoded
-        let usagePriceDecoded = try containerValues.decode(Swift.Double.self, forKey: .usagePrice)
+        let usagePriceDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .usagePrice) ?? 0
         usagePrice = usagePriceDecoded
         let productDescriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .productDescription)
         productDescription = productDescriptionDecoded
@@ -20882,7 +20882,7 @@ extension ResetCacheParameterGroupInputBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let cacheParameterGroupNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .cacheParameterGroupName)
         cacheParameterGroupName = cacheParameterGroupNameDecoded
-        let resetAllParametersDecoded = try containerValues.decode(Swift.Bool.self, forKey: .resetAllParameters)
+        let resetAllParametersDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .resetAllParameters) ?? false
         resetAllParameters = resetAllParametersDecoded
         if containerValues.contains(.parameterNameValues) {
             struct KeyVal0{struct ParameterNameValue{}}
@@ -21653,7 +21653,7 @@ extension ElastiCacheClientTypes.SlotMigration: Swift.Codable {
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let progressPercentageDecoded = try containerValues.decode(Swift.Double.self, forKey: .progressPercentage)
+        let progressPercentageDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .progressPercentage) ?? 0
         progressPercentage = progressPercentageDecoded
     }
 }
@@ -21843,7 +21843,7 @@ extension ElastiCacheClientTypes.Snapshot: Swift.Codable {
         cacheSubnetGroupName = cacheSubnetGroupNameDecoded
         let vpcIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .vpcId)
         vpcId = vpcIdDecoded
-        let autoMinorVersionUpgradeDecoded = try containerValues.decode(Swift.Bool.self, forKey: .autoMinorVersionUpgrade)
+        let autoMinorVersionUpgradeDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .autoMinorVersionUpgrade) ?? false
         autoMinorVersionUpgrade = autoMinorVersionUpgradeDecoded
         let snapshotRetentionLimitDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .snapshotRetentionLimit)
         snapshotRetentionLimit = snapshotRetentionLimitDecoded
@@ -23022,6 +23022,144 @@ extension TestFailoverOutputResponseBody: Swift.Decodable {
     public init(from decoder: Swift.Decoder) throws {
         let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
         let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("TestFailoverResult"))
+        let replicationGroupDecoded = try containerValues.decodeIfPresent(ElastiCacheClientTypes.ReplicationGroup.self, forKey: .replicationGroup)
+        replicationGroup = replicationGroupDecoded
+    }
+}
+
+extension TestMigrationInput: Swift.Encodable {
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if let customerNodeEndpointList = customerNodeEndpointList {
+            if !customerNodeEndpointList.isEmpty {
+                var customerNodeEndpointListContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("CustomerNodeEndpointList"))
+                for (index0, customernodeendpoint0) in customerNodeEndpointList.enumerated() {
+                    try customerNodeEndpointListContainer.encode(customernodeendpoint0, forKey: ClientRuntime.Key("member.\(index0.advanced(by: 1))"))
+                }
+            }
+            else {
+                var customerNodeEndpointListContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("CustomerNodeEndpointList"))
+                try customerNodeEndpointListContainer.encode("", forKey: ClientRuntime.Key(""))
+            }
+        }
+        if let replicationGroupId = replicationGroupId {
+            try container.encode(replicationGroupId, forKey: ClientRuntime.Key("ReplicationGroupId"))
+        }
+        try container.encode("TestMigration", forKey:ClientRuntime.Key("Action"))
+        try container.encode("2015-02-02", forKey:ClientRuntime.Key("Version"))
+    }
+}
+
+extension TestMigrationInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct TestMigrationInput: Swift.Equatable {
+    /// List of endpoints from which data should be migrated. List should have only one element.
+    /// This member is required.
+    public var customerNodeEndpointList: [ElastiCacheClientTypes.CustomerNodeEndpoint]?
+    /// The ID of the replication group to which data is to be migrated.
+    /// This member is required.
+    public var replicationGroupId: Swift.String?
+
+    public init(
+        customerNodeEndpointList: [ElastiCacheClientTypes.CustomerNodeEndpoint]? = nil,
+        replicationGroupId: Swift.String? = nil
+    )
+    {
+        self.customerNodeEndpointList = customerNodeEndpointList
+        self.replicationGroupId = replicationGroupId
+    }
+}
+
+struct TestMigrationInputBody: Swift.Equatable {
+    let replicationGroupId: Swift.String?
+    let customerNodeEndpointList: [ElastiCacheClientTypes.CustomerNodeEndpoint]?
+}
+
+extension TestMigrationInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case customerNodeEndpointList = "CustomerNodeEndpointList"
+        case replicationGroupId = "ReplicationGroupId"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let replicationGroupIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .replicationGroupId)
+        replicationGroupId = replicationGroupIdDecoded
+        if containerValues.contains(.customerNodeEndpointList) {
+            struct KeyVal0{struct member{}}
+            let customerNodeEndpointListWrappedContainer = containerValues.nestedContainerNonThrowable(keyedBy: CollectionMemberCodingKey<KeyVal0.member>.CodingKeys.self, forKey: .customerNodeEndpointList)
+            if let customerNodeEndpointListWrappedContainer = customerNodeEndpointListWrappedContainer {
+                let customerNodeEndpointListContainer = try customerNodeEndpointListWrappedContainer.decodeIfPresent([ElastiCacheClientTypes.CustomerNodeEndpoint].self, forKey: .member)
+                var customerNodeEndpointListBuffer:[ElastiCacheClientTypes.CustomerNodeEndpoint]? = nil
+                if let customerNodeEndpointListContainer = customerNodeEndpointListContainer {
+                    customerNodeEndpointListBuffer = [ElastiCacheClientTypes.CustomerNodeEndpoint]()
+                    for structureContainer0 in customerNodeEndpointListContainer {
+                        customerNodeEndpointListBuffer?.append(structureContainer0)
+                    }
+                }
+                customerNodeEndpointList = customerNodeEndpointListBuffer
+            } else {
+                customerNodeEndpointList = []
+            }
+        } else {
+            customerNodeEndpointList = nil
+        }
+    }
+}
+
+public enum TestMigrationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "InvalidParameterValue": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidReplicationGroupState": return try await InvalidReplicationGroupStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ReplicationGroupAlreadyUnderMigrationFault": return try await ReplicationGroupAlreadyUnderMigrationFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "ReplicationGroupNotFoundFault": return try await ReplicationGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
+    }
+}
+
+extension TestMigrationOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: TestMigrationOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.replicationGroup = output.replicationGroup
+        } else {
+            self.replicationGroup = nil
+        }
+    }
+}
+
+public struct TestMigrationOutputResponse: Swift.Equatable {
+    /// Contains all of the attributes of a specific Redis replication group.
+    public var replicationGroup: ElastiCacheClientTypes.ReplicationGroup?
+
+    public init(
+        replicationGroup: ElastiCacheClientTypes.ReplicationGroup? = nil
+    )
+    {
+        self.replicationGroup = replicationGroup
+    }
+}
+
+struct TestMigrationOutputResponseBody: Swift.Equatable {
+    let replicationGroup: ElastiCacheClientTypes.ReplicationGroup?
+}
+
+extension TestMigrationOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case replicationGroup = "ReplicationGroup"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
+        let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("TestMigrationResult"))
         let replicationGroupDecoded = try containerValues.decodeIfPresent(ElastiCacheClientTypes.ReplicationGroup.self, forKey: .replicationGroup)
         replicationGroup = replicationGroupDecoded
     }

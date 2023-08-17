@@ -68,6 +68,19 @@ public struct WorkMailClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFactor
 
 extension WorkMailClient: WorkMailClientProtocol {
     /// Adds a member (user or group) to the resource's set of delegates.
+    ///
+    /// - Parameter AssociateDelegateToResourceInput : [no documentation found]
+    ///
+    /// - Returns: `AssociateDelegateToResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotFoundException` : The identifier supplied for the user, group, or resource does not exist in your organization.
+    /// - `EntityStateException` : You are performing an operation on a user, group, or resource that isn't in the expected state, such as trying to delete an active user.
+    /// - `InvalidParameterException` : One or more of the input parameters don't match the service's restrictions.
+    /// - `OrganizationNotFoundException` : An operation received a valid organization identifier that either doesn't belong or exist in the system.
+    /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
     public func associateDelegateToResource(input: AssociateDelegateToResourceInput) async throws -> AssociateDelegateToResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -105,6 +118,22 @@ extension WorkMailClient: WorkMailClientProtocol {
     }
 
     /// Adds a member (user or group) to the group's set.
+    ///
+    /// - Parameter AssociateMemberToGroupInput : [no documentation found]
+    ///
+    /// - Returns: `AssociateMemberToGroupOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DirectoryServiceAuthenticationFailedException` : The directory service doesn't recognize the credentials supplied by WorkMail.
+    /// - `DirectoryUnavailableException` : The directory is unavailable. It might be located in another Region or deleted.
+    /// - `EntityNotFoundException` : The identifier supplied for the user, group, or resource does not exist in your organization.
+    /// - `EntityStateException` : You are performing an operation on a user, group, or resource that isn't in the expected state, such as trying to delete an active user.
+    /// - `InvalidParameterException` : One or more of the input parameters don't match the service's restrictions.
+    /// - `OrganizationNotFoundException` : An operation received a valid organization identifier that either doesn't belong or exist in the system.
+    /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
+    /// - `UnsupportedOperationException` : You can't perform a write operation against a read-only directory.
     public func associateMemberToGroup(input: AssociateMemberToGroupInput) async throws -> AssociateMemberToGroupOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -142,6 +171,18 @@ extension WorkMailClient: WorkMailClientProtocol {
     }
 
     /// Assumes an impersonation role for the given WorkMail organization. This method returns an authentication token you can use to make impersonated calls.
+    ///
+    /// - Parameter AssumeImpersonationRoleInput : [no documentation found]
+    ///
+    /// - Returns: `AssumeImpersonationRoleOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParameterException` : One or more of the input parameters don't match the service's restrictions.
+    /// - `OrganizationNotFoundException` : An operation received a valid organization identifier that either doesn't belong or exist in the system.
+    /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
+    /// - `ResourceNotFoundException` : The resource cannot be found.
     public func assumeImpersonationRole(input: AssumeImpersonationRoleInput) async throws -> AssumeImpersonationRoleOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -179,6 +220,18 @@ extension WorkMailClient: WorkMailClientProtocol {
     }
 
     /// Cancels a mailbox export job. If the mailbox export job is near completion, it might not be possible to cancel it.
+    ///
+    /// - Parameter CancelMailboxExportJobInput : [no documentation found]
+    ///
+    /// - Returns: `CancelMailboxExportJobOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotFoundException` : The identifier supplied for the user, group, or resource does not exist in your organization.
+    /// - `InvalidParameterException` : One or more of the input parameters don't match the service's restrictions.
+    /// - `OrganizationNotFoundException` : An operation received a valid organization identifier that either doesn't belong or exist in the system.
+    /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
     public func cancelMailboxExportJob(input: CancelMailboxExportJobInput) async throws -> CancelMailboxExportJobOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -224,6 +277,23 @@ extension WorkMailClient: WorkMailClientProtocol {
     }
 
     /// Adds an alias to the set of a given member (user or group) of WorkMail.
+    ///
+    /// - Parameter CreateAliasInput : [no documentation found]
+    ///
+    /// - Returns: `CreateAliasOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EmailAddressInUseException` : The email address that you're trying to assign is already created for a different user, group, or resource.
+    /// - `EntityNotFoundException` : The identifier supplied for the user, group, or resource does not exist in your organization.
+    /// - `EntityStateException` : You are performing an operation on a user, group, or resource that isn't in the expected state, such as trying to delete an active user.
+    /// - `InvalidParameterException` : One or more of the input parameters don't match the service's restrictions.
+    /// - `LimitExceededException` : The request exceeds the limit of the resource.
+    /// - `MailDomainNotFoundException` : The domain specified is not found in your organization.
+    /// - `MailDomainStateException` : After a domain has been added to the organization, it must be verified. The domain is not yet verified.
+    /// - `OrganizationNotFoundException` : An operation received a valid organization identifier that either doesn't belong or exist in the system.
+    /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
     public func createAlias(input: CreateAliasInput) async throws -> CreateAliasOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -261,6 +331,19 @@ extension WorkMailClient: WorkMailClientProtocol {
     }
 
     /// Creates an AvailabilityConfiguration for the given WorkMail organization and domain.
+    ///
+    /// - Parameter CreateAvailabilityConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `CreateAvailabilityConfigurationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParameterException` : One or more of the input parameters don't match the service's restrictions.
+    /// - `LimitExceededException` : The request exceeds the limit of the resource.
+    /// - `NameAvailabilityException` : The user, group, or resource name isn't unique in WorkMail.
+    /// - `OrganizationNotFoundException` : An operation received a valid organization identifier that either doesn't belong or exist in the system.
+    /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
     public func createAvailabilityConfiguration(input: CreateAvailabilityConfigurationInput) async throws -> CreateAvailabilityConfigurationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -306,6 +389,22 @@ extension WorkMailClient: WorkMailClientProtocol {
     }
 
     /// Creates a group that can be used in WorkMail by calling the [RegisterToWorkMail] operation.
+    ///
+    /// - Parameter CreateGroupInput : [no documentation found]
+    ///
+    /// - Returns: `CreateGroupOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DirectoryServiceAuthenticationFailedException` : The directory service doesn't recognize the credentials supplied by WorkMail.
+    /// - `DirectoryUnavailableException` : The directory is unavailable. It might be located in another Region or deleted.
+    /// - `InvalidParameterException` : One or more of the input parameters don't match the service's restrictions.
+    /// - `NameAvailabilityException` : The user, group, or resource name isn't unique in WorkMail.
+    /// - `OrganizationNotFoundException` : An operation received a valid organization identifier that either doesn't belong or exist in the system.
+    /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
+    /// - `ReservedNameException` : This user, group, or resource name is not allowed in WorkMail.
+    /// - `UnsupportedOperationException` : You can't perform a write operation against a read-only directory.
     public func createGroup(input: CreateGroupInput) async throws -> CreateGroupOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -343,6 +442,20 @@ extension WorkMailClient: WorkMailClientProtocol {
     }
 
     /// Creates an impersonation role for the given WorkMail organization. Idempotency ensures that an API request completes no more than one time. With an idempotent request, if the original request completes successfully, any subsequent retries also complete successfully without performing any further actions.
+    ///
+    /// - Parameter CreateImpersonationRoleInput : [no documentation found]
+    ///
+    /// - Returns: `CreateImpersonationRoleOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotFoundException` : The identifier supplied for the user, group, or resource does not exist in your organization.
+    /// - `EntityStateException` : You are performing an operation on a user, group, or resource that isn't in the expected state, such as trying to delete an active user.
+    /// - `InvalidParameterException` : One or more of the input parameters don't match the service's restrictions.
+    /// - `LimitExceededException` : The request exceeds the limit of the resource.
+    /// - `OrganizationNotFoundException` : An operation received a valid organization identifier that either doesn't belong or exist in the system.
+    /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
     public func createImpersonationRole(input: CreateImpersonationRoleInput) async throws -> CreateImpersonationRoleOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -388,6 +501,18 @@ extension WorkMailClient: WorkMailClientProtocol {
     }
 
     /// Creates a new mobile device access rule for the specified WorkMail organization.
+    ///
+    /// - Parameter CreateMobileDeviceAccessRuleInput : [no documentation found]
+    ///
+    /// - Returns: `CreateMobileDeviceAccessRuleOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParameterException` : One or more of the input parameters don't match the service's restrictions.
+    /// - `LimitExceededException` : The request exceeds the limit of the resource.
+    /// - `OrganizationNotFoundException` : An operation received a valid organization identifier that either doesn't belong or exist in the system.
+    /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
     public func createMobileDeviceAccessRule(input: CreateMobileDeviceAccessRuleInput) async throws -> CreateMobileDeviceAccessRuleOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -433,6 +558,19 @@ extension WorkMailClient: WorkMailClientProtocol {
     }
 
     /// Creates a new WorkMail organization. Optionally, you can choose to associate an existing AWS Directory Service directory with your organization. If an AWS Directory Service directory ID is specified, the organization alias must match the directory alias. If you choose not to associate an existing directory with your organization, then we create a new WorkMail directory for you. For more information, see [Adding an organization](https://docs.aws.amazon.com/workmail/latest/adminguide/add_new_organization.html) in the WorkMail Administrator Guide. You can associate multiple email domains with an organization, then choose your default email domain from the WorkMail console. You can also associate a domain that is managed in an Amazon Route 53 public hosted zone. For more information, see [Adding a domain](https://docs.aws.amazon.com/workmail/latest/adminguide/add_domain.html) and [Choosing the default domain](https://docs.aws.amazon.com/workmail/latest/adminguide/default_domain.html) in the WorkMail Administrator Guide. Optionally, you can use a customer managed key from AWS Key Management Service (AWS KMS) to encrypt email for your organization. If you don't associate an AWS KMS key, WorkMail creates a default, AWS managed key for you.
+    ///
+    /// - Parameter CreateOrganizationInput : [no documentation found]
+    ///
+    /// - Returns: `CreateOrganizationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DirectoryInUseException` : The directory is already in use by another WorkMail organization in the same account and Region.
+    /// - `DirectoryUnavailableException` : The directory is unavailable. It might be located in another Region or deleted.
+    /// - `InvalidParameterException` : One or more of the input parameters don't match the service's restrictions.
+    /// - `LimitExceededException` : The request exceeds the limit of the resource.
+    /// - `NameAvailabilityException` : The user, group, or resource name isn't unique in WorkMail.
     public func createOrganization(input: CreateOrganizationInput) async throws -> CreateOrganizationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -478,6 +616,21 @@ extension WorkMailClient: WorkMailClientProtocol {
     }
 
     /// Creates a new WorkMail resource.
+    ///
+    /// - Parameter CreateResourceInput : [no documentation found]
+    ///
+    /// - Returns: `CreateResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DirectoryServiceAuthenticationFailedException` : The directory service doesn't recognize the credentials supplied by WorkMail.
+    /// - `DirectoryUnavailableException` : The directory is unavailable. It might be located in another Region or deleted.
+    /// - `InvalidParameterException` : One or more of the input parameters don't match the service's restrictions.
+    /// - `NameAvailabilityException` : The user, group, or resource name isn't unique in WorkMail.
+    /// - `OrganizationNotFoundException` : An operation received a valid organization identifier that either doesn't belong or exist in the system.
+    /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
+    /// - `ReservedNameException` : This user, group, or resource name is not allowed in WorkMail.
     public func createResource(input: CreateResourceInput) async throws -> CreateResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -515,6 +668,23 @@ extension WorkMailClient: WorkMailClientProtocol {
     }
 
     /// Creates a user who can be used in WorkMail by calling the [RegisterToWorkMail] operation.
+    ///
+    /// - Parameter CreateUserInput : [no documentation found]
+    ///
+    /// - Returns: `CreateUserOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DirectoryServiceAuthenticationFailedException` : The directory service doesn't recognize the credentials supplied by WorkMail.
+    /// - `DirectoryUnavailableException` : The directory is unavailable. It might be located in another Region or deleted.
+    /// - `InvalidParameterException` : One or more of the input parameters don't match the service's restrictions.
+    /// - `InvalidPasswordException` : The supplied password doesn't match the minimum security constraints, such as length or use of special characters.
+    /// - `NameAvailabilityException` : The user, group, or resource name isn't unique in WorkMail.
+    /// - `OrganizationNotFoundException` : An operation received a valid organization identifier that either doesn't belong or exist in the system.
+    /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
+    /// - `ReservedNameException` : This user, group, or resource name is not allowed in WorkMail.
+    /// - `UnsupportedOperationException` : You can't perform a write operation against a read-only directory.
     public func createUser(input: CreateUserInput) async throws -> CreateUserOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -552,6 +722,16 @@ extension WorkMailClient: WorkMailClientProtocol {
     }
 
     /// Deletes an access control rule for the specified WorkMail organization. Deleting already deleted and non-existing rules does not produce an error. In those cases, the service sends back an HTTP 200 response with an empty HTTP body.
+    ///
+    /// - Parameter DeleteAccessControlRuleInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteAccessControlRuleOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `OrganizationNotFoundException` : An operation received a valid organization identifier that either doesn't belong or exist in the system.
+    /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
     public func deleteAccessControlRule(input: DeleteAccessControlRuleInput) async throws -> DeleteAccessControlRuleOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -589,6 +769,19 @@ extension WorkMailClient: WorkMailClientProtocol {
     }
 
     /// Remove one or more specified aliases from a set of aliases for a given user.
+    ///
+    /// - Parameter DeleteAliasInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteAliasOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotFoundException` : The identifier supplied for the user, group, or resource does not exist in your organization.
+    /// - `EntityStateException` : You are performing an operation on a user, group, or resource that isn't in the expected state, such as trying to delete an active user.
+    /// - `InvalidParameterException` : One or more of the input parameters don't match the service's restrictions.
+    /// - `OrganizationNotFoundException` : An operation received a valid organization identifier that either doesn't belong or exist in the system.
+    /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
     public func deleteAlias(input: DeleteAliasInput) async throws -> DeleteAliasOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -626,6 +819,16 @@ extension WorkMailClient: WorkMailClientProtocol {
     }
 
     /// Deletes the AvailabilityConfiguration for the given WorkMail organization and domain.
+    ///
+    /// - Parameter DeleteAvailabilityConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteAvailabilityConfigurationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `OrganizationNotFoundException` : An operation received a valid organization identifier that either doesn't belong or exist in the system.
+    /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
     public func deleteAvailabilityConfiguration(input: DeleteAvailabilityConfigurationInput) async throws -> DeleteAvailabilityConfigurationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -663,6 +866,17 @@ extension WorkMailClient: WorkMailClientProtocol {
     }
 
     /// Deletes the email monitoring configuration for a specified organization.
+    ///
+    /// - Parameter DeleteEmailMonitoringConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteEmailMonitoringConfigurationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParameterException` : One or more of the input parameters don't match the service's restrictions.
+    /// - `OrganizationNotFoundException` : An operation received a valid organization identifier that either doesn't belong or exist in the system.
+    /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
     public func deleteEmailMonitoringConfiguration(input: DeleteEmailMonitoringConfigurationInput) async throws -> DeleteEmailMonitoringConfigurationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -700,6 +914,21 @@ extension WorkMailClient: WorkMailClientProtocol {
     }
 
     /// Deletes a group from WorkMail.
+    ///
+    /// - Parameter DeleteGroupInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteGroupOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DirectoryServiceAuthenticationFailedException` : The directory service doesn't recognize the credentials supplied by WorkMail.
+    /// - `DirectoryUnavailableException` : The directory is unavailable. It might be located in another Region or deleted.
+    /// - `EntityStateException` : You are performing an operation on a user, group, or resource that isn't in the expected state, such as trying to delete an active user.
+    /// - `InvalidParameterException` : One or more of the input parameters don't match the service's restrictions.
+    /// - `OrganizationNotFoundException` : An operation received a valid organization identifier that either doesn't belong or exist in the system.
+    /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
+    /// - `UnsupportedOperationException` : You can't perform a write operation against a read-only directory.
     public func deleteGroup(input: DeleteGroupInput) async throws -> DeleteGroupOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -737,6 +966,17 @@ extension WorkMailClient: WorkMailClientProtocol {
     }
 
     /// Deletes an impersonation role for the given WorkMail organization.
+    ///
+    /// - Parameter DeleteImpersonationRoleInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteImpersonationRoleOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParameterException` : One or more of the input parameters don't match the service's restrictions.
+    /// - `OrganizationNotFoundException` : An operation received a valid organization identifier that either doesn't belong or exist in the system.
+    /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
     public func deleteImpersonationRole(input: DeleteImpersonationRoleInput) async throws -> DeleteImpersonationRoleOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -774,6 +1014,19 @@ extension WorkMailClient: WorkMailClientProtocol {
     }
 
     /// Deletes permissions granted to a member (user or group).
+    ///
+    /// - Parameter DeleteMailboxPermissionsInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteMailboxPermissionsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotFoundException` : The identifier supplied for the user, group, or resource does not exist in your organization.
+    /// - `EntityStateException` : You are performing an operation on a user, group, or resource that isn't in the expected state, such as trying to delete an active user.
+    /// - `InvalidParameterException` : One or more of the input parameters don't match the service's restrictions.
+    /// - `OrganizationNotFoundException` : An operation received a valid organization identifier that either doesn't belong or exist in the system.
+    /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
     public func deleteMailboxPermissions(input: DeleteMailboxPermissionsInput) async throws -> DeleteMailboxPermissionsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -811,6 +1064,18 @@ extension WorkMailClient: WorkMailClientProtocol {
     }
 
     /// Deletes the mobile device access override for the given WorkMail organization, user, and device. Deleting already deleted and non-existing overrides does not produce an error. In those cases, the service sends back an HTTP 200 response with an empty HTTP body.
+    ///
+    /// - Parameter DeleteMobileDeviceAccessOverrideInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteMobileDeviceAccessOverrideOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotFoundException` : The identifier supplied for the user, group, or resource does not exist in your organization.
+    /// - `InvalidParameterException` : One or more of the input parameters don't match the service's restrictions.
+    /// - `OrganizationNotFoundException` : An operation received a valid organization identifier that either doesn't belong or exist in the system.
+    /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
     public func deleteMobileDeviceAccessOverride(input: DeleteMobileDeviceAccessOverrideInput) async throws -> DeleteMobileDeviceAccessOverrideOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -848,6 +1113,17 @@ extension WorkMailClient: WorkMailClientProtocol {
     }
 
     /// Deletes a mobile device access rule for the specified WorkMail organization. Deleting already deleted and non-existing rules does not produce an error. In those cases, the service sends back an HTTP 200 response with an empty HTTP body.
+    ///
+    /// - Parameter DeleteMobileDeviceAccessRuleInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteMobileDeviceAccessRuleOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParameterException` : One or more of the input parameters don't match the service's restrictions.
+    /// - `OrganizationNotFoundException` : An operation received a valid organization identifier that either doesn't belong or exist in the system.
+    /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
     public func deleteMobileDeviceAccessRule(input: DeleteMobileDeviceAccessRuleInput) async throws -> DeleteMobileDeviceAccessRuleOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -885,6 +1161,17 @@ extension WorkMailClient: WorkMailClientProtocol {
     }
 
     /// Deletes an WorkMail organization and all underlying AWS resources managed by WorkMail as part of the organization. You can choose whether to delete the associated directory. For more information, see [Removing an organization](https://docs.aws.amazon.com/workmail/latest/adminguide/remove_organization.html) in the WorkMail Administrator Guide.
+    ///
+    /// - Parameter DeleteOrganizationInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteOrganizationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParameterException` : One or more of the input parameters don't match the service's restrictions.
+    /// - `OrganizationNotFoundException` : An operation received a valid organization identifier that either doesn't belong or exist in the system.
+    /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
     public func deleteOrganization(input: DeleteOrganizationInput) async throws -> DeleteOrganizationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -930,6 +1217,18 @@ extension WorkMailClient: WorkMailClientProtocol {
     }
 
     /// Deletes the specified resource.
+    ///
+    /// - Parameter DeleteResourceInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityStateException` : You are performing an operation on a user, group, or resource that isn't in the expected state, such as trying to delete an active user.
+    /// - `InvalidParameterException` : One or more of the input parameters don't match the service's restrictions.
+    /// - `OrganizationNotFoundException` : An operation received a valid organization identifier that either doesn't belong or exist in the system.
+    /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
     public func deleteResource(input: DeleteResourceInput) async throws -> DeleteResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -967,6 +1266,17 @@ extension WorkMailClient: WorkMailClientProtocol {
     }
 
     /// Deletes the specified retention policy from the specified organization.
+    ///
+    /// - Parameter DeleteRetentionPolicyInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteRetentionPolicyOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParameterException` : One or more of the input parameters don't match the service's restrictions.
+    /// - `OrganizationNotFoundException` : An operation received a valid organization identifier that either doesn't belong or exist in the system.
+    /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
     public func deleteRetentionPolicy(input: DeleteRetentionPolicyInput) async throws -> DeleteRetentionPolicyOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1004,6 +1314,21 @@ extension WorkMailClient: WorkMailClientProtocol {
     }
 
     /// Deletes a user from WorkMail and all subsequent systems. Before you can delete a user, the user state must be DISABLED. Use the [DescribeUser] action to confirm the user state. Deleting a user is permanent and cannot be undone. WorkMail archives user mailboxes for 30 days before they are permanently removed.
+    ///
+    /// - Parameter DeleteUserInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteUserOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DirectoryServiceAuthenticationFailedException` : The directory service doesn't recognize the credentials supplied by WorkMail.
+    /// - `DirectoryUnavailableException` : The directory is unavailable. It might be located in another Region or deleted.
+    /// - `EntityStateException` : You are performing an operation on a user, group, or resource that isn't in the expected state, such as trying to delete an active user.
+    /// - `InvalidParameterException` : One or more of the input parameters don't match the service's restrictions.
+    /// - `OrganizationNotFoundException` : An operation received a valid organization identifier that either doesn't belong or exist in the system.
+    /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
+    /// - `UnsupportedOperationException` : You can't perform a write operation against a read-only directory.
     public func deleteUser(input: DeleteUserInput) async throws -> DeleteUserOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1041,6 +1366,19 @@ extension WorkMailClient: WorkMailClientProtocol {
     }
 
     /// Mark a user, group, or resource as no longer used in WorkMail. This action disassociates the mailbox and schedules it for clean-up. WorkMail keeps mailboxes for 30 days before they are permanently removed. The functionality in the console is Disable.
+    ///
+    /// - Parameter DeregisterFromWorkMailInput : [no documentation found]
+    ///
+    /// - Returns: `DeregisterFromWorkMailOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotFoundException` : The identifier supplied for the user, group, or resource does not exist in your organization.
+    /// - `EntityStateException` : You are performing an operation on a user, group, or resource that isn't in the expected state, such as trying to delete an active user.
+    /// - `InvalidParameterException` : One or more of the input parameters don't match the service's restrictions.
+    /// - `OrganizationNotFoundException` : An operation received a valid organization identifier that either doesn't belong or exist in the system.
+    /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
     public func deregisterFromWorkMail(input: DeregisterFromWorkMailInput) async throws -> DeregisterFromWorkMailOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1078,6 +1416,19 @@ extension WorkMailClient: WorkMailClientProtocol {
     }
 
     /// Removes a domain from WorkMail, stops email routing to WorkMail, and removes the authorization allowing WorkMail use. SES keeps the domain because other applications may use it. You must first remove any email address used by WorkMail entities before you remove the domain.
+    ///
+    /// - Parameter DeregisterMailDomainInput : [no documentation found]
+    ///
+    /// - Returns: `DeregisterMailDomainOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidCustomSesConfigurationException` : You SES configuration has customizations that WorkMail cannot save. The error message lists the invalid setting. For examples of invalid settings, refer to [CreateReceiptRule](https://docs.aws.amazon.com/ses/latest/APIReference/API_CreateReceiptRule.html).
+    /// - `InvalidParameterException` : One or more of the input parameters don't match the service's restrictions.
+    /// - `MailDomainInUseException` : The domain you're trying to change is in use by another user or organization in your account. See the error message for details.
+    /// - `OrganizationNotFoundException` : An operation received a valid organization identifier that either doesn't belong or exist in the system.
+    /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
     public func deregisterMailDomain(input: DeregisterMailDomainInput) async throws -> DeregisterMailDomainOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1115,6 +1466,18 @@ extension WorkMailClient: WorkMailClientProtocol {
     }
 
     /// Describes the current email monitoring configuration for a specified organization.
+    ///
+    /// - Parameter DescribeEmailMonitoringConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeEmailMonitoringConfigurationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParameterException` : One or more of the input parameters don't match the service's restrictions.
+    /// - `OrganizationNotFoundException` : An operation received a valid organization identifier that either doesn't belong or exist in the system.
+    /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
+    /// - `ResourceNotFoundException` : The resource cannot be found.
     public func describeEmailMonitoringConfiguration(input: DescribeEmailMonitoringConfigurationInput) async throws -> DescribeEmailMonitoringConfigurationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1152,6 +1515,18 @@ extension WorkMailClient: WorkMailClientProtocol {
     }
 
     /// Returns the data available for the group.
+    ///
+    /// - Parameter DescribeGroupInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeGroupOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotFoundException` : The identifier supplied for the user, group, or resource does not exist in your organization.
+    /// - `InvalidParameterException` : One or more of the input parameters don't match the service's restrictions.
+    /// - `OrganizationNotFoundException` : An operation received a valid organization identifier that either doesn't belong or exist in the system.
+    /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
     public func describeGroup(input: DescribeGroupInput) async throws -> DescribeGroupOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1189,6 +1564,16 @@ extension WorkMailClient: WorkMailClientProtocol {
     }
 
     /// Lists the settings in a DMARC policy for a specified organization.
+    ///
+    /// - Parameter DescribeInboundDmarcSettingsInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeInboundDmarcSettingsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `OrganizationNotFoundException` : An operation received a valid organization identifier that either doesn't belong or exist in the system.
+    /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
     public func describeInboundDmarcSettings(input: DescribeInboundDmarcSettingsInput) async throws -> DescribeInboundDmarcSettingsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1226,6 +1611,18 @@ extension WorkMailClient: WorkMailClientProtocol {
     }
 
     /// Describes the current status of a mailbox export job.
+    ///
+    /// - Parameter DescribeMailboxExportJobInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeMailboxExportJobOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotFoundException` : The identifier supplied for the user, group, or resource does not exist in your organization.
+    /// - `InvalidParameterException` : One or more of the input parameters don't match the service's restrictions.
+    /// - `OrganizationNotFoundException` : An operation received a valid organization identifier that either doesn't belong or exist in the system.
+    /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
     public func describeMailboxExportJob(input: DescribeMailboxExportJobInput) async throws -> DescribeMailboxExportJobOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1263,6 +1660,16 @@ extension WorkMailClient: WorkMailClientProtocol {
     }
 
     /// Provides more information regarding a given organization based on its identifier.
+    ///
+    /// - Parameter DescribeOrganizationInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeOrganizationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParameterException` : One or more of the input parameters don't match the service's restrictions.
+    /// - `OrganizationNotFoundException` : An operation received a valid organization identifier that either doesn't belong or exist in the system.
     public func describeOrganization(input: DescribeOrganizationInput) async throws -> DescribeOrganizationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1300,6 +1707,18 @@ extension WorkMailClient: WorkMailClientProtocol {
     }
 
     /// Returns the data available for the resource.
+    ///
+    /// - Parameter DescribeResourceInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotFoundException` : The identifier supplied for the user, group, or resource does not exist in your organization.
+    /// - `InvalidParameterException` : One or more of the input parameters don't match the service's restrictions.
+    /// - `OrganizationNotFoundException` : An operation received a valid organization identifier that either doesn't belong or exist in the system.
+    /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
     public func describeResource(input: DescribeResourceInput) async throws -> DescribeResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1337,6 +1756,18 @@ extension WorkMailClient: WorkMailClientProtocol {
     }
 
     /// Provides information regarding the user.
+    ///
+    /// - Parameter DescribeUserInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeUserOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotFoundException` : The identifier supplied for the user, group, or resource does not exist in your organization.
+    /// - `InvalidParameterException` : One or more of the input parameters don't match the service's restrictions.
+    /// - `OrganizationNotFoundException` : An operation received a valid organization identifier that either doesn't belong or exist in the system.
+    /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
     public func describeUser(input: DescribeUserInput) async throws -> DescribeUserOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1374,6 +1805,19 @@ extension WorkMailClient: WorkMailClientProtocol {
     }
 
     /// Removes a member from the resource's set of delegates.
+    ///
+    /// - Parameter DisassociateDelegateFromResourceInput : [no documentation found]
+    ///
+    /// - Returns: `DisassociateDelegateFromResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotFoundException` : The identifier supplied for the user, group, or resource does not exist in your organization.
+    /// - `EntityStateException` : You are performing an operation on a user, group, or resource that isn't in the expected state, such as trying to delete an active user.
+    /// - `InvalidParameterException` : One or more of the input parameters don't match the service's restrictions.
+    /// - `OrganizationNotFoundException` : An operation received a valid organization identifier that either doesn't belong or exist in the system.
+    /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
     public func disassociateDelegateFromResource(input: DisassociateDelegateFromResourceInput) async throws -> DisassociateDelegateFromResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1411,6 +1855,22 @@ extension WorkMailClient: WorkMailClientProtocol {
     }
 
     /// Removes a member from a group.
+    ///
+    /// - Parameter DisassociateMemberFromGroupInput : [no documentation found]
+    ///
+    /// - Returns: `DisassociateMemberFromGroupOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DirectoryServiceAuthenticationFailedException` : The directory service doesn't recognize the credentials supplied by WorkMail.
+    /// - `DirectoryUnavailableException` : The directory is unavailable. It might be located in another Region or deleted.
+    /// - `EntityNotFoundException` : The identifier supplied for the user, group, or resource does not exist in your organization.
+    /// - `EntityStateException` : You are performing an operation on a user, group, or resource that isn't in the expected state, such as trying to delete an active user.
+    /// - `InvalidParameterException` : One or more of the input parameters don't match the service's restrictions.
+    /// - `OrganizationNotFoundException` : An operation received a valid organization identifier that either doesn't belong or exist in the system.
+    /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
+    /// - `UnsupportedOperationException` : You can't perform a write operation against a read-only directory.
     public func disassociateMemberFromGroup(input: DisassociateMemberFromGroupInput) async throws -> DisassociateMemberFromGroupOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1448,6 +1908,19 @@ extension WorkMailClient: WorkMailClientProtocol {
     }
 
     /// Gets the effects of an organization's access control rules as they apply to a specified IPv4 address, access protocol action, and user ID or impersonation role ID. You must provide either the user ID or impersonation role ID. Impersonation role ID can only be used with Action EWS.
+    ///
+    /// - Parameter GetAccessControlEffectInput : [no documentation found]
+    ///
+    /// - Returns: `GetAccessControlEffectOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotFoundException` : The identifier supplied for the user, group, or resource does not exist in your organization.
+    /// - `InvalidParameterException` : One or more of the input parameters don't match the service's restrictions.
+    /// - `OrganizationNotFoundException` : An operation received a valid organization identifier that either doesn't belong or exist in the system.
+    /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
+    /// - `ResourceNotFoundException` : The resource cannot be found.
     public func getAccessControlEffect(input: GetAccessControlEffectInput) async throws -> GetAccessControlEffectOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1485,6 +1958,18 @@ extension WorkMailClient: WorkMailClientProtocol {
     }
 
     /// Gets the default retention policy details for the specified organization.
+    ///
+    /// - Parameter GetDefaultRetentionPolicyInput : [no documentation found]
+    ///
+    /// - Returns: `GetDefaultRetentionPolicyOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotFoundException` : The identifier supplied for the user, group, or resource does not exist in your organization.
+    /// - `InvalidParameterException` : One or more of the input parameters don't match the service's restrictions.
+    /// - `OrganizationNotFoundException` : An operation received a valid organization identifier that either doesn't belong or exist in the system.
+    /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
     public func getDefaultRetentionPolicy(input: GetDefaultRetentionPolicyInput) async throws -> GetDefaultRetentionPolicyOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1522,6 +2007,18 @@ extension WorkMailClient: WorkMailClientProtocol {
     }
 
     /// Gets the impersonation role details for the given WorkMail organization.
+    ///
+    /// - Parameter GetImpersonationRoleInput : [no documentation found]
+    ///
+    /// - Returns: `GetImpersonationRoleOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParameterException` : One or more of the input parameters don't match the service's restrictions.
+    /// - `OrganizationNotFoundException` : An operation received a valid organization identifier that either doesn't belong or exist in the system.
+    /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
+    /// - `ResourceNotFoundException` : The resource cannot be found.
     public func getImpersonationRole(input: GetImpersonationRoleInput) async throws -> GetImpersonationRoleOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1559,6 +2056,20 @@ extension WorkMailClient: WorkMailClientProtocol {
     }
 
     /// Tests whether the given impersonation role can impersonate a target user.
+    ///
+    /// - Parameter GetImpersonationRoleEffectInput : [no documentation found]
+    ///
+    /// - Returns: `GetImpersonationRoleEffectOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotFoundException` : The identifier supplied for the user, group, or resource does not exist in your organization.
+    /// - `EntityStateException` : You are performing an operation on a user, group, or resource that isn't in the expected state, such as trying to delete an active user.
+    /// - `InvalidParameterException` : One or more of the input parameters don't match the service's restrictions.
+    /// - `OrganizationNotFoundException` : An operation received a valid organization identifier that either doesn't belong or exist in the system.
+    /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
+    /// - `ResourceNotFoundException` : The resource cannot be found.
     public func getImpersonationRoleEffect(input: GetImpersonationRoleEffectInput) async throws -> GetImpersonationRoleEffectOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1596,6 +2107,18 @@ extension WorkMailClient: WorkMailClientProtocol {
     }
 
     /// Gets details for a mail domain, including domain records required to configure your domain with recommended security.
+    ///
+    /// - Parameter GetMailDomainInput : [no documentation found]
+    ///
+    /// - Returns: `GetMailDomainOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParameterException` : One or more of the input parameters don't match the service's restrictions.
+    /// - `MailDomainNotFoundException` : The domain specified is not found in your organization.
+    /// - `OrganizationNotFoundException` : An operation received a valid organization identifier that either doesn't belong or exist in the system.
+    /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
     public func getMailDomain(input: GetMailDomainInput) async throws -> GetMailDomainOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1633,6 +2156,17 @@ extension WorkMailClient: WorkMailClientProtocol {
     }
 
     /// Requests a user's mailbox details for a specified organization and user.
+    ///
+    /// - Parameter GetMailboxDetailsInput : [no documentation found]
+    ///
+    /// - Returns: `GetMailboxDetailsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotFoundException` : The identifier supplied for the user, group, or resource does not exist in your organization.
+    /// - `OrganizationNotFoundException` : An operation received a valid organization identifier that either doesn't belong or exist in the system.
+    /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
     public func getMailboxDetails(input: GetMailboxDetailsInput) async throws -> GetMailboxDetailsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1670,6 +2204,17 @@ extension WorkMailClient: WorkMailClientProtocol {
     }
 
     /// Simulates the effect of the mobile device access rules for the given attributes of a sample access event. Use this method to test the effects of the current set of mobile device access rules for the WorkMail organization for a particular user's attributes.
+    ///
+    /// - Parameter GetMobileDeviceAccessEffectInput : [no documentation found]
+    ///
+    /// - Returns: `GetMobileDeviceAccessEffectOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParameterException` : One or more of the input parameters don't match the service's restrictions.
+    /// - `OrganizationNotFoundException` : An operation received a valid organization identifier that either doesn't belong or exist in the system.
+    /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
     public func getMobileDeviceAccessEffect(input: GetMobileDeviceAccessEffectInput) async throws -> GetMobileDeviceAccessEffectOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1707,6 +2252,19 @@ extension WorkMailClient: WorkMailClientProtocol {
     }
 
     /// Gets the mobile device access override for the given WorkMail organization, user, and device.
+    ///
+    /// - Parameter GetMobileDeviceAccessOverrideInput : [no documentation found]
+    ///
+    /// - Returns: `GetMobileDeviceAccessOverrideOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotFoundException` : The identifier supplied for the user, group, or resource does not exist in your organization.
+    /// - `InvalidParameterException` : One or more of the input parameters don't match the service's restrictions.
+    /// - `OrganizationNotFoundException` : An operation received a valid organization identifier that either doesn't belong or exist in the system.
+    /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
+    /// - `ResourceNotFoundException` : The resource cannot be found.
     public func getMobileDeviceAccessOverride(input: GetMobileDeviceAccessOverrideInput) async throws -> GetMobileDeviceAccessOverrideOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1744,6 +2302,16 @@ extension WorkMailClient: WorkMailClientProtocol {
     }
 
     /// Lists the access control rules for the specified organization.
+    ///
+    /// - Parameter ListAccessControlRulesInput : [no documentation found]
+    ///
+    /// - Returns: `ListAccessControlRulesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `OrganizationNotFoundException` : An operation received a valid organization identifier that either doesn't belong or exist in the system.
+    /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
     public func listAccessControlRules(input: ListAccessControlRulesInput) async throws -> ListAccessControlRulesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1781,6 +2349,19 @@ extension WorkMailClient: WorkMailClientProtocol {
     }
 
     /// Creates a paginated call to list the aliases associated with a given entity.
+    ///
+    /// - Parameter ListAliasesInput : [no documentation found]
+    ///
+    /// - Returns: `ListAliasesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotFoundException` : The identifier supplied for the user, group, or resource does not exist in your organization.
+    /// - `EntityStateException` : You are performing an operation on a user, group, or resource that isn't in the expected state, such as trying to delete an active user.
+    /// - `InvalidParameterException` : One or more of the input parameters don't match the service's restrictions.
+    /// - `OrganizationNotFoundException` : An operation received a valid organization identifier that either doesn't belong or exist in the system.
+    /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
     public func listAliases(input: ListAliasesInput) async throws -> ListAliasesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1818,6 +2399,16 @@ extension WorkMailClient: WorkMailClientProtocol {
     }
 
     /// List all the AvailabilityConfiguration's for the given WorkMail organization.
+    ///
+    /// - Parameter ListAvailabilityConfigurationsInput : [no documentation found]
+    ///
+    /// - Returns: `ListAvailabilityConfigurationsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `OrganizationNotFoundException` : An operation received a valid organization identifier that either doesn't belong or exist in the system.
+    /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
     public func listAvailabilityConfigurations(input: ListAvailabilityConfigurationsInput) async throws -> ListAvailabilityConfigurationsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1855,6 +2446,19 @@ extension WorkMailClient: WorkMailClientProtocol {
     }
 
     /// Returns an overview of the members of a group. Users and groups can be members of a group.
+    ///
+    /// - Parameter ListGroupMembersInput : [no documentation found]
+    ///
+    /// - Returns: `ListGroupMembersOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotFoundException` : The identifier supplied for the user, group, or resource does not exist in your organization.
+    /// - `EntityStateException` : You are performing an operation on a user, group, or resource that isn't in the expected state, such as trying to delete an active user.
+    /// - `InvalidParameterException` : One or more of the input parameters don't match the service's restrictions.
+    /// - `OrganizationNotFoundException` : An operation received a valid organization identifier that either doesn't belong or exist in the system.
+    /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
     public func listGroupMembers(input: ListGroupMembersInput) async throws -> ListGroupMembersOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1892,6 +2496,18 @@ extension WorkMailClient: WorkMailClientProtocol {
     }
 
     /// Returns summaries of the organization's groups.
+    ///
+    /// - Parameter ListGroupsInput : [no documentation found]
+    ///
+    /// - Returns: `ListGroupsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotFoundException` : The identifier supplied for the user, group, or resource does not exist in your organization.
+    /// - `InvalidParameterException` : One or more of the input parameters don't match the service's restrictions.
+    /// - `OrganizationNotFoundException` : An operation received a valid organization identifier that either doesn't belong or exist in the system.
+    /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
     public func listGroups(input: ListGroupsInput) async throws -> ListGroupsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1929,6 +2545,17 @@ extension WorkMailClient: WorkMailClientProtocol {
     }
 
     /// Lists all the impersonation roles for the given WorkMail organization.
+    ///
+    /// - Parameter ListImpersonationRolesInput : [no documentation found]
+    ///
+    /// - Returns: `ListImpersonationRolesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParameterException` : One or more of the input parameters don't match the service's restrictions.
+    /// - `OrganizationNotFoundException` : An operation received a valid organization identifier that either doesn't belong or exist in the system.
+    /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
     public func listImpersonationRoles(input: ListImpersonationRolesInput) async throws -> ListImpersonationRolesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1966,6 +2593,17 @@ extension WorkMailClient: WorkMailClientProtocol {
     }
 
     /// Lists the mail domains in a given WorkMail organization.
+    ///
+    /// - Parameter ListMailDomainsInput : [no documentation found]
+    ///
+    /// - Returns: `ListMailDomainsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParameterException` : One or more of the input parameters don't match the service's restrictions.
+    /// - `OrganizationNotFoundException` : An operation received a valid organization identifier that either doesn't belong or exist in the system.
+    /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
     public func listMailDomains(input: ListMailDomainsInput) async throws -> ListMailDomainsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2003,6 +2641,17 @@ extension WorkMailClient: WorkMailClientProtocol {
     }
 
     /// Lists the mailbox export jobs started for the specified organization within the last seven days.
+    ///
+    /// - Parameter ListMailboxExportJobsInput : [no documentation found]
+    ///
+    /// - Returns: `ListMailboxExportJobsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParameterException` : One or more of the input parameters don't match the service's restrictions.
+    /// - `OrganizationNotFoundException` : An operation received a valid organization identifier that either doesn't belong or exist in the system.
+    /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
     public func listMailboxExportJobs(input: ListMailboxExportJobsInput) async throws -> ListMailboxExportJobsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2040,6 +2689,18 @@ extension WorkMailClient: WorkMailClientProtocol {
     }
 
     /// Lists the mailbox permissions associated with a user, group, or resource mailbox.
+    ///
+    /// - Parameter ListMailboxPermissionsInput : [no documentation found]
+    ///
+    /// - Returns: `ListMailboxPermissionsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotFoundException` : The identifier supplied for the user, group, or resource does not exist in your organization.
+    /// - `InvalidParameterException` : One or more of the input parameters don't match the service's restrictions.
+    /// - `OrganizationNotFoundException` : An operation received a valid organization identifier that either doesn't belong or exist in the system.
+    /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
     public func listMailboxPermissions(input: ListMailboxPermissionsInput) async throws -> ListMailboxPermissionsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2077,6 +2738,18 @@ extension WorkMailClient: WorkMailClientProtocol {
     }
 
     /// Lists all the mobile device access overrides for any given combination of WorkMail organization, user, or device.
+    ///
+    /// - Parameter ListMobileDeviceAccessOverridesInput : [no documentation found]
+    ///
+    /// - Returns: `ListMobileDeviceAccessOverridesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotFoundException` : The identifier supplied for the user, group, or resource does not exist in your organization.
+    /// - `InvalidParameterException` : One or more of the input parameters don't match the service's restrictions.
+    /// - `OrganizationNotFoundException` : An operation received a valid organization identifier that either doesn't belong or exist in the system.
+    /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
     public func listMobileDeviceAccessOverrides(input: ListMobileDeviceAccessOverridesInput) async throws -> ListMobileDeviceAccessOverridesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2114,6 +2787,17 @@ extension WorkMailClient: WorkMailClientProtocol {
     }
 
     /// Lists the mobile device access rules for the specified WorkMail organization.
+    ///
+    /// - Parameter ListMobileDeviceAccessRulesInput : [no documentation found]
+    ///
+    /// - Returns: `ListMobileDeviceAccessRulesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParameterException` : One or more of the input parameters don't match the service's restrictions.
+    /// - `OrganizationNotFoundException` : An operation received a valid organization identifier that either doesn't belong or exist in the system.
+    /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
     public func listMobileDeviceAccessRules(input: ListMobileDeviceAccessRulesInput) async throws -> ListMobileDeviceAccessRulesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2151,6 +2835,15 @@ extension WorkMailClient: WorkMailClientProtocol {
     }
 
     /// Returns summaries of the customer's organizations.
+    ///
+    /// - Parameter ListOrganizationsInput : [no documentation found]
+    ///
+    /// - Returns: `ListOrganizationsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParameterException` : One or more of the input parameters don't match the service's restrictions.
     public func listOrganizations(input: ListOrganizationsInput) async throws -> ListOrganizationsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2188,6 +2881,19 @@ extension WorkMailClient: WorkMailClientProtocol {
     }
 
     /// Lists the delegates associated with a resource. Users and groups can be resource delegates and answer requests on behalf of the resource.
+    ///
+    /// - Parameter ListResourceDelegatesInput : [no documentation found]
+    ///
+    /// - Returns: `ListResourceDelegatesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotFoundException` : The identifier supplied for the user, group, or resource does not exist in your organization.
+    /// - `EntityStateException` : You are performing an operation on a user, group, or resource that isn't in the expected state, such as trying to delete an active user.
+    /// - `InvalidParameterException` : One or more of the input parameters don't match the service's restrictions.
+    /// - `OrganizationNotFoundException` : An operation received a valid organization identifier that either doesn't belong or exist in the system.
+    /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
     public func listResourceDelegates(input: ListResourceDelegatesInput) async throws -> ListResourceDelegatesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2225,6 +2931,17 @@ extension WorkMailClient: WorkMailClientProtocol {
     }
 
     /// Returns summaries of the organization's resources.
+    ///
+    /// - Parameter ListResourcesInput : [no documentation found]
+    ///
+    /// - Returns: `ListResourcesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParameterException` : One or more of the input parameters don't match the service's restrictions.
+    /// - `OrganizationNotFoundException` : An operation received a valid organization identifier that either doesn't belong or exist in the system.
+    /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
     public func listResources(input: ListResourcesInput) async throws -> ListResourcesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2262,6 +2979,15 @@ extension WorkMailClient: WorkMailClientProtocol {
     }
 
     /// Lists the tags applied to an WorkMail organization resource.
+    ///
+    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    ///
+    /// - Returns: `ListTagsForResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ResourceNotFoundException` : The resource cannot be found.
     public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2299,6 +3025,17 @@ extension WorkMailClient: WorkMailClientProtocol {
     }
 
     /// Returns summaries of the organization's users.
+    ///
+    /// - Parameter ListUsersInput : [no documentation found]
+    ///
+    /// - Returns: `ListUsersOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParameterException` : One or more of the input parameters don't match the service's restrictions.
+    /// - `OrganizationNotFoundException` : An operation received a valid organization identifier that either doesn't belong or exist in the system.
+    /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
     public func listUsers(input: ListUsersInput) async throws -> ListUsersOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2336,6 +3073,20 @@ extension WorkMailClient: WorkMailClientProtocol {
     }
 
     /// Adds a new access control rule for the specified organization. The rule allows or denies access to the organization for the specified IPv4 addresses, access protocol actions, user IDs and impersonation IDs. Adding a new rule with the same name as an existing rule replaces the older rule.
+    ///
+    /// - Parameter PutAccessControlRuleInput : [no documentation found]
+    ///
+    /// - Returns: `PutAccessControlRuleOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotFoundException` : The identifier supplied for the user, group, or resource does not exist in your organization.
+    /// - `InvalidParameterException` : One or more of the input parameters don't match the service's restrictions.
+    /// - `LimitExceededException` : The request exceeds the limit of the resource.
+    /// - `OrganizationNotFoundException` : An operation received a valid organization identifier that either doesn't belong or exist in the system.
+    /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
+    /// - `ResourceNotFoundException` : The resource cannot be found.
     public func putAccessControlRule(input: PutAccessControlRuleInput) async throws -> PutAccessControlRuleOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2373,6 +3124,18 @@ extension WorkMailClient: WorkMailClientProtocol {
     }
 
     /// Creates or updates the email monitoring configuration for a specified organization.
+    ///
+    /// - Parameter PutEmailMonitoringConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `PutEmailMonitoringConfigurationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParameterException` : One or more of the input parameters don't match the service's restrictions.
+    /// - `OrganizationNotFoundException` : An operation received a valid organization identifier that either doesn't belong or exist in the system.
+    /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
+    /// - `ResourceNotFoundException` : The resource cannot be found.
     public func putEmailMonitoringConfiguration(input: PutEmailMonitoringConfigurationInput) async throws -> PutEmailMonitoringConfigurationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2410,6 +3173,16 @@ extension WorkMailClient: WorkMailClientProtocol {
     }
 
     /// Enables or disables a DMARC policy for a given organization.
+    ///
+    /// - Parameter PutInboundDmarcSettingsInput : [no documentation found]
+    ///
+    /// - Returns: `PutInboundDmarcSettingsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `OrganizationNotFoundException` : An operation received a valid organization identifier that either doesn't belong or exist in the system.
+    /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
     public func putInboundDmarcSettings(input: PutInboundDmarcSettingsInput) async throws -> PutInboundDmarcSettingsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2447,6 +3220,19 @@ extension WorkMailClient: WorkMailClientProtocol {
     }
 
     /// Sets permissions for a user, group, or resource. This replaces any pre-existing permissions.
+    ///
+    /// - Parameter PutMailboxPermissionsInput : [no documentation found]
+    ///
+    /// - Returns: `PutMailboxPermissionsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotFoundException` : The identifier supplied for the user, group, or resource does not exist in your organization.
+    /// - `EntityStateException` : You are performing an operation on a user, group, or resource that isn't in the expected state, such as trying to delete an active user.
+    /// - `InvalidParameterException` : One or more of the input parameters don't match the service's restrictions.
+    /// - `OrganizationNotFoundException` : An operation received a valid organization identifier that either doesn't belong or exist in the system.
+    /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
     public func putMailboxPermissions(input: PutMailboxPermissionsInput) async throws -> PutMailboxPermissionsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2484,6 +3270,19 @@ extension WorkMailClient: WorkMailClientProtocol {
     }
 
     /// Creates or updates a mobile device access override for the given WorkMail organization, user, and device.
+    ///
+    /// - Parameter PutMobileDeviceAccessOverrideInput : [no documentation found]
+    ///
+    /// - Returns: `PutMobileDeviceAccessOverrideOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotFoundException` : The identifier supplied for the user, group, or resource does not exist in your organization.
+    /// - `EntityStateException` : You are performing an operation on a user, group, or resource that isn't in the expected state, such as trying to delete an active user.
+    /// - `InvalidParameterException` : One or more of the input parameters don't match the service's restrictions.
+    /// - `OrganizationNotFoundException` : An operation received a valid organization identifier that either doesn't belong or exist in the system.
+    /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
     public func putMobileDeviceAccessOverride(input: PutMobileDeviceAccessOverrideInput) async throws -> PutMobileDeviceAccessOverrideOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2521,6 +3320,18 @@ extension WorkMailClient: WorkMailClientProtocol {
     }
 
     /// Puts a retention policy to the specified organization.
+    ///
+    /// - Parameter PutRetentionPolicyInput : [no documentation found]
+    ///
+    /// - Returns: `PutRetentionPolicyOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParameterException` : One or more of the input parameters don't match the service's restrictions.
+    /// - `LimitExceededException` : The request exceeds the limit of the resource.
+    /// - `OrganizationNotFoundException` : An operation received a valid organization identifier that either doesn't belong or exist in the system.
+    /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
     public func putRetentionPolicy(input: PutRetentionPolicyInput) async throws -> PutRetentionPolicyOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2558,6 +3369,19 @@ extension WorkMailClient: WorkMailClientProtocol {
     }
 
     /// Registers a new domain in WorkMail and SES, and configures it for use by WorkMail. Emails received by SES for this domain are routed to the specified WorkMail organization, and WorkMail has permanent permission to use the specified domain for sending your users' emails.
+    ///
+    /// - Parameter RegisterMailDomainInput : [no documentation found]
+    ///
+    /// - Returns: `RegisterMailDomainOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParameterException` : One or more of the input parameters don't match the service's restrictions.
+    /// - `LimitExceededException` : The request exceeds the limit of the resource.
+    /// - `MailDomainInUseException` : The domain you're trying to change is in use by another user or organization in your account. See the error message for details.
+    /// - `OrganizationNotFoundException` : An operation received a valid organization identifier that either doesn't belong or exist in the system.
+    /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
     public func registerMailDomain(input: RegisterMailDomainInput) async throws -> RegisterMailDomainOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2603,6 +3427,25 @@ extension WorkMailClient: WorkMailClientProtocol {
     }
 
     /// Registers an existing and disabled user, group, or resource for WorkMail use by associating a mailbox and calendaring capabilities. It performs no change if the user, group, or resource is enabled and fails if the user, group, or resource is deleted. This operation results in the accumulation of costs. For more information, see [Pricing](https://aws.amazon.com/workmail/pricing). The equivalent console functionality for this operation is Enable. Users can either be created by calling the [CreateUser] API operation or they can be synchronized from your directory. For more information, see [DeregisterFromWorkMail].
+    ///
+    /// - Parameter RegisterToWorkMailInput : [no documentation found]
+    ///
+    /// - Returns: `RegisterToWorkMailOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DirectoryServiceAuthenticationFailedException` : The directory service doesn't recognize the credentials supplied by WorkMail.
+    /// - `DirectoryUnavailableException` : The directory is unavailable. It might be located in another Region or deleted.
+    /// - `EmailAddressInUseException` : The email address that you're trying to assign is already created for a different user, group, or resource.
+    /// - `EntityAlreadyRegisteredException` : The user, group, or resource that you're trying to register is already registered.
+    /// - `EntityNotFoundException` : The identifier supplied for the user, group, or resource does not exist in your organization.
+    /// - `EntityStateException` : You are performing an operation on a user, group, or resource that isn't in the expected state, such as trying to delete an active user.
+    /// - `InvalidParameterException` : One or more of the input parameters don't match the service's restrictions.
+    /// - `MailDomainNotFoundException` : The domain specified is not found in your organization.
+    /// - `MailDomainStateException` : After a domain has been added to the organization, it must be verified. The domain is not yet verified.
+    /// - `OrganizationNotFoundException` : An operation received a valid organization identifier that either doesn't belong or exist in the system.
+    /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
     public func registerToWorkMail(input: RegisterToWorkMailInput) async throws -> RegisterToWorkMailOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2640,6 +3483,23 @@ extension WorkMailClient: WorkMailClientProtocol {
     }
 
     /// Allows the administrator to reset the password for a user.
+    ///
+    /// - Parameter ResetPasswordInput : [no documentation found]
+    ///
+    /// - Returns: `ResetPasswordOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DirectoryServiceAuthenticationFailedException` : The directory service doesn't recognize the credentials supplied by WorkMail.
+    /// - `DirectoryUnavailableException` : The directory is unavailable. It might be located in another Region or deleted.
+    /// - `EntityNotFoundException` : The identifier supplied for the user, group, or resource does not exist in your organization.
+    /// - `EntityStateException` : You are performing an operation on a user, group, or resource that isn't in the expected state, such as trying to delete an active user.
+    /// - `InvalidParameterException` : One or more of the input parameters don't match the service's restrictions.
+    /// - `InvalidPasswordException` : The supplied password doesn't match the minimum security constraints, such as length or use of special characters.
+    /// - `OrganizationNotFoundException` : An operation received a valid organization identifier that either doesn't belong or exist in the system.
+    /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
+    /// - `UnsupportedOperationException` : You can't perform a write operation against a read-only directory.
     public func resetPassword(input: ResetPasswordInput) async throws -> ResetPasswordOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2677,6 +3537,19 @@ extension WorkMailClient: WorkMailClientProtocol {
     }
 
     /// Starts a mailbox export job to export MIME-format email messages and calendar items from the specified mailbox to the specified Amazon Simple Storage Service (Amazon S3) bucket. For more information, see [Exporting mailbox content](https://docs.aws.amazon.com/workmail/latest/adminguide/mail-export.html) in the WorkMail Administrator Guide.
+    ///
+    /// - Parameter StartMailboxExportJobInput : [no documentation found]
+    ///
+    /// - Returns: `StartMailboxExportJobOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotFoundException` : The identifier supplied for the user, group, or resource does not exist in your organization.
+    /// - `InvalidParameterException` : One or more of the input parameters don't match the service's restrictions.
+    /// - `LimitExceededException` : The request exceeds the limit of the resource.
+    /// - `OrganizationNotFoundException` : An operation received a valid organization identifier that either doesn't belong or exist in the system.
+    /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
     public func startMailboxExportJob(input: StartMailboxExportJobInput) async throws -> StartMailboxExportJobOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2722,6 +3595,17 @@ extension WorkMailClient: WorkMailClientProtocol {
     }
 
     /// Applies the specified tags to the specified WorkMailorganization resource.
+    ///
+    /// - Parameter TagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `TagResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
+    /// - `ResourceNotFoundException` : The resource cannot be found.
+    /// - `TooManyTagsException` : The resource can have up to 50 user-applied tags.
     public func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2759,6 +3643,18 @@ extension WorkMailClient: WorkMailClientProtocol {
     }
 
     /// Performs a test on an availability provider to ensure that access is allowed. For EWS, it verifies the provided credentials can be used to successfully log in. For Lambda, it verifies that the Lambda function can be invoked and that the resource access policy was configured to deny anonymous access. An anonymous invocation is one done without providing either a SourceArn or SourceAccount header. The request must contain either one provider definition (EwsProvider or LambdaProvider) or the DomainName parameter. If the DomainName parameter is provided, the configuration stored under the DomainName will be tested.
+    ///
+    /// - Parameter TestAvailabilityConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `TestAvailabilityConfigurationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParameterException` : One or more of the input parameters don't match the service's restrictions.
+    /// - `OrganizationNotFoundException` : An operation received a valid organization identifier that either doesn't belong or exist in the system.
+    /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
+    /// - `ResourceNotFoundException` : The resource cannot be found.
     public func testAvailabilityConfiguration(input: TestAvailabilityConfigurationInput) async throws -> TestAvailabilityConfigurationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2796,6 +3692,15 @@ extension WorkMailClient: WorkMailClientProtocol {
     }
 
     /// Untags the specified tags from the specified WorkMail organization resource.
+    ///
+    /// - Parameter UntagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `UntagResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ResourceNotFoundException` : The resource cannot be found.
     public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2833,6 +3738,18 @@ extension WorkMailClient: WorkMailClientProtocol {
     }
 
     /// Updates an existing AvailabilityConfiguration for the given WorkMail organization and domain.
+    ///
+    /// - Parameter UpdateAvailabilityConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateAvailabilityConfigurationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParameterException` : One or more of the input parameters don't match the service's restrictions.
+    /// - `OrganizationNotFoundException` : An operation received a valid organization identifier that either doesn't belong or exist in the system.
+    /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
+    /// - `ResourceNotFoundException` : The resource cannot be found.
     public func updateAvailabilityConfiguration(input: UpdateAvailabilityConfigurationInput) async throws -> UpdateAvailabilityConfigurationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2870,6 +3787,19 @@ extension WorkMailClient: WorkMailClientProtocol {
     }
 
     /// Updates the default mail domain for an organization. The default mail domain is used by the WorkMail AWS Console to suggest an email address when enabling a mail user. You can only have one default domain.
+    ///
+    /// - Parameter UpdateDefaultMailDomainInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateDefaultMailDomainOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParameterException` : One or more of the input parameters don't match the service's restrictions.
+    /// - `MailDomainNotFoundException` : The domain specified is not found in your organization.
+    /// - `MailDomainStateException` : After a domain has been added to the organization, it must be verified. The domain is not yet verified.
+    /// - `OrganizationNotFoundException` : An operation received a valid organization identifier that either doesn't belong or exist in the system.
+    /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
     public func updateDefaultMailDomain(input: UpdateDefaultMailDomainInput) async throws -> UpdateDefaultMailDomainOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2907,6 +3837,21 @@ extension WorkMailClient: WorkMailClientProtocol {
     }
 
     /// Updates an impersonation role for the given WorkMail organization.
+    ///
+    /// - Parameter UpdateImpersonationRoleInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateImpersonationRoleOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotFoundException` : The identifier supplied for the user, group, or resource does not exist in your organization.
+    /// - `EntityStateException` : You are performing an operation on a user, group, or resource that isn't in the expected state, such as trying to delete an active user.
+    /// - `InvalidParameterException` : One or more of the input parameters don't match the service's restrictions.
+    /// - `LimitExceededException` : The request exceeds the limit of the resource.
+    /// - `OrganizationNotFoundException` : An operation received a valid organization identifier that either doesn't belong or exist in the system.
+    /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
+    /// - `ResourceNotFoundException` : The resource cannot be found.
     public func updateImpersonationRole(input: UpdateImpersonationRoleInput) async throws -> UpdateImpersonationRoleOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2944,6 +3889,19 @@ extension WorkMailClient: WorkMailClientProtocol {
     }
 
     /// Updates a user's current mailbox quota for a specified organization and user.
+    ///
+    /// - Parameter UpdateMailboxQuotaInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateMailboxQuotaOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotFoundException` : The identifier supplied for the user, group, or resource does not exist in your organization.
+    /// - `EntityStateException` : You are performing an operation on a user, group, or resource that isn't in the expected state, such as trying to delete an active user.
+    /// - `InvalidParameterException` : One or more of the input parameters don't match the service's restrictions.
+    /// - `OrganizationNotFoundException` : An operation received a valid organization identifier that either doesn't belong or exist in the system.
+    /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
     public func updateMailboxQuota(input: UpdateMailboxQuotaInput) async throws -> UpdateMailboxQuotaOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2981,6 +3939,18 @@ extension WorkMailClient: WorkMailClientProtocol {
     }
 
     /// Updates a mobile device access rule for the specified WorkMail organization.
+    ///
+    /// - Parameter UpdateMobileDeviceAccessRuleInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateMobileDeviceAccessRuleOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EntityNotFoundException` : The identifier supplied for the user, group, or resource does not exist in your organization.
+    /// - `InvalidParameterException` : One or more of the input parameters don't match the service's restrictions.
+    /// - `OrganizationNotFoundException` : An operation received a valid organization identifier that either doesn't belong or exist in the system.
+    /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
     public func updateMobileDeviceAccessRule(input: UpdateMobileDeviceAccessRuleInput) async throws -> UpdateMobileDeviceAccessRuleOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3018,6 +3988,25 @@ extension WorkMailClient: WorkMailClientProtocol {
     }
 
     /// Updates the primary email for a user, group, or resource. The current email is moved into the list of aliases (or swapped between an existing alias and the current primary email), and the email provided in the input is promoted as the primary.
+    ///
+    /// - Parameter UpdatePrimaryEmailAddressInput : [no documentation found]
+    ///
+    /// - Returns: `UpdatePrimaryEmailAddressOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DirectoryServiceAuthenticationFailedException` : The directory service doesn't recognize the credentials supplied by WorkMail.
+    /// - `DirectoryUnavailableException` : The directory is unavailable. It might be located in another Region or deleted.
+    /// - `EmailAddressInUseException` : The email address that you're trying to assign is already created for a different user, group, or resource.
+    /// - `EntityNotFoundException` : The identifier supplied for the user, group, or resource does not exist in your organization.
+    /// - `EntityStateException` : You are performing an operation on a user, group, or resource that isn't in the expected state, such as trying to delete an active user.
+    /// - `InvalidParameterException` : One or more of the input parameters don't match the service's restrictions.
+    /// - `MailDomainNotFoundException` : The domain specified is not found in your organization.
+    /// - `MailDomainStateException` : After a domain has been added to the organization, it must be verified. The domain is not yet verified.
+    /// - `OrganizationNotFoundException` : An operation received a valid organization identifier that either doesn't belong or exist in the system.
+    /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
+    /// - `UnsupportedOperationException` : You can't perform a write operation against a read-only directory.
     public func updatePrimaryEmailAddress(input: UpdatePrimaryEmailAddressInput) async throws -> UpdatePrimaryEmailAddressOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3055,6 +4044,24 @@ extension WorkMailClient: WorkMailClientProtocol {
     }
 
     /// Updates data for the resource. To have the latest information, it must be preceded by a [DescribeResource] call. The dataset in the request should be the one expected when performing another DescribeResource call.
+    ///
+    /// - Parameter UpdateResourceInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DirectoryUnavailableException` : The directory is unavailable. It might be located in another Region or deleted.
+    /// - `EmailAddressInUseException` : The email address that you're trying to assign is already created for a different user, group, or resource.
+    /// - `EntityNotFoundException` : The identifier supplied for the user, group, or resource does not exist in your organization.
+    /// - `EntityStateException` : You are performing an operation on a user, group, or resource that isn't in the expected state, such as trying to delete an active user.
+    /// - `InvalidConfigurationException` : The configuration for a resource isn't valid. A resource must either be able to auto-respond to requests or have at least one delegate associated that can do so on its behalf.
+    /// - `MailDomainNotFoundException` : The domain specified is not found in your organization.
+    /// - `MailDomainStateException` : After a domain has been added to the organization, it must be verified. The domain is not yet verified.
+    /// - `NameAvailabilityException` : The user, group, or resource name isn't unique in WorkMail.
+    /// - `OrganizationNotFoundException` : An operation received a valid organization identifier that either doesn't belong or exist in the system.
+    /// - `OrganizationStateException` : The organization must have a valid state to perform certain operations on the organization or its members.
     public func updateResource(input: UpdateResourceInput) async throws -> UpdateResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()

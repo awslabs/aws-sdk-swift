@@ -68,6 +68,19 @@ public struct OAMClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFactory {
 
 extension OAMClient: OAMClientProtocol {
     /// Creates a link between a source account and a sink that you have created in a monitoring account. Before you create a link, you must create a sink in the monitoring account and create a sink policy in that account. The sink policy must permit the source account to link to it. You can grant permission to source accounts by granting permission to an entire organization or to individual accounts. For more information, see [CreateSink](https://docs.aws.amazon.com/OAM/latest/APIReference/API_CreateSink.html) and [PutSinkPolicy](https://docs.aws.amazon.com/OAM/latest/APIReference/API_PutSinkPolicy.html). Each monitoring account can be linked to as many as 100,000 source accounts. Each source account can be linked to as many as five monitoring accounts.
+    ///
+    /// - Parameter CreateLinkInput : [no documentation found]
+    ///
+    /// - Returns: `CreateLinkOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictException` : A resource was in an inconsistent state during an update or a deletion.
+    /// - `InternalServiceFault` : Unexpected error while processing the request. Retry the request.
+    /// - `InvalidParameterException` : A parameter is specified incorrectly.
+    /// - `MissingRequiredParameterException` : A required parameter is missing from the request.
+    /// - `ServiceQuotaExceededException` : The request would cause a service quota to be exceeded.
     public func createLink(input: CreateLinkInput) async throws -> CreateLinkOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -104,6 +117,19 @@ extension OAMClient: OAMClientProtocol {
     }
 
     /// Use this to create a sink in the current account, so that it can be used as a monitoring account in CloudWatch cross-account observability. A sink is a resource that represents an attachment point in a monitoring account. Source accounts can link to the sink to send observability data. After you create a sink, you must create a sink policy that allows source accounts to attach to it. For more information, see [PutSinkPolicy](https://docs.aws.amazon.com/OAM/latest/APIReference/API_PutSinkPolicy.html). Each account can contain one sink. If you delete a sink, you can then create a new one in that account.
+    ///
+    /// - Parameter CreateSinkInput : [no documentation found]
+    ///
+    /// - Returns: `CreateSinkOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictException` : A resource was in an inconsistent state during an update or a deletion.
+    /// - `InternalServiceFault` : Unexpected error while processing the request. Retry the request.
+    /// - `InvalidParameterException` : A parameter is specified incorrectly.
+    /// - `MissingRequiredParameterException` : A required parameter is missing from the request.
+    /// - `ServiceQuotaExceededException` : The request would cause a service quota to be exceeded.
     public func createSink(input: CreateSinkInput) async throws -> CreateSinkOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -140,6 +166,18 @@ extension OAMClient: OAMClientProtocol {
     }
 
     /// Deletes a link between a monitoring account sink and a source account. You must run this operation in the source account.
+    ///
+    /// - Parameter DeleteLinkInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteLinkOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceFault` : Unexpected error while processing the request. Retry the request.
+    /// - `InvalidParameterException` : A parameter is specified incorrectly.
+    /// - `MissingRequiredParameterException` : A required parameter is missing from the request.
+    /// - `ResourceNotFoundException` : The request references a resource that does not exist.
     public func deleteLink(input: DeleteLinkInput) async throws -> DeleteLinkOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -176,6 +214,19 @@ extension OAMClient: OAMClientProtocol {
     }
 
     /// Deletes a sink. You must delete all links to a sink before you can delete that sink.
+    ///
+    /// - Parameter DeleteSinkInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteSinkOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictException` : A resource was in an inconsistent state during an update or a deletion.
+    /// - `InternalServiceFault` : Unexpected error while processing the request. Retry the request.
+    /// - `InvalidParameterException` : A parameter is specified incorrectly.
+    /// - `MissingRequiredParameterException` : A required parameter is missing from the request.
+    /// - `ResourceNotFoundException` : The request references a resource that does not exist.
     public func deleteSink(input: DeleteSinkInput) async throws -> DeleteSinkOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -212,6 +263,18 @@ extension OAMClient: OAMClientProtocol {
     }
 
     /// Returns complete information about one link. To use this operation, provide the link ARN. To retrieve a list of link ARNs, use [ListLinks](https://docs.aws.amazon.com/OAM/latest/APIReference/API_ListLinks.html).
+    ///
+    /// - Parameter GetLinkInput : [no documentation found]
+    ///
+    /// - Returns: `GetLinkOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceFault` : Unexpected error while processing the request. Retry the request.
+    /// - `InvalidParameterException` : A parameter is specified incorrectly.
+    /// - `MissingRequiredParameterException` : A required parameter is missing from the request.
+    /// - `ResourceNotFoundException` : The request references a resource that does not exist.
     public func getLink(input: GetLinkInput) async throws -> GetLinkOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -248,6 +311,18 @@ extension OAMClient: OAMClientProtocol {
     }
 
     /// Returns complete information about one monitoring account sink. To use this operation, provide the sink ARN. To retrieve a list of sink ARNs, use [ListSinks](https://docs.aws.amazon.com/OAM/latest/APIReference/API_ListSinks.html).
+    ///
+    /// - Parameter GetSinkInput : [no documentation found]
+    ///
+    /// - Returns: `GetSinkOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceFault` : Unexpected error while processing the request. Retry the request.
+    /// - `InvalidParameterException` : A parameter is specified incorrectly.
+    /// - `MissingRequiredParameterException` : A required parameter is missing from the request.
+    /// - `ResourceNotFoundException` : The request references a resource that does not exist.
     public func getSink(input: GetSinkInput) async throws -> GetSinkOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -284,6 +359,18 @@ extension OAMClient: OAMClientProtocol {
     }
 
     /// Returns the current sink policy attached to this sink. The sink policy specifies what accounts can attach to this sink as source accounts, and what types of data they can share.
+    ///
+    /// - Parameter GetSinkPolicyInput : [no documentation found]
+    ///
+    /// - Returns: `GetSinkPolicyOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceFault` : Unexpected error while processing the request. Retry the request.
+    /// - `InvalidParameterException` : A parameter is specified incorrectly.
+    /// - `MissingRequiredParameterException` : A required parameter is missing from the request.
+    /// - `ResourceNotFoundException` : The request references a resource that does not exist.
     public func getSinkPolicy(input: GetSinkPolicyInput) async throws -> GetSinkPolicyOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -320,6 +407,18 @@ extension OAMClient: OAMClientProtocol {
     }
 
     /// Returns a list of source account links that are linked to this monitoring account sink. To use this operation, provide the sink ARN. To retrieve a list of sink ARNs, use [ListSinks](https://docs.aws.amazon.com/OAM/latest/APIReference/API_ListSinks.html). To find a list of links for one source account, use [ListLinks](https://docs.aws.amazon.com/OAM/latest/APIReference/API_ListLinks.html).
+    ///
+    /// - Parameter ListAttachedLinksInput : [no documentation found]
+    ///
+    /// - Returns: `ListAttachedLinksOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceFault` : Unexpected error while processing the request. Retry the request.
+    /// - `InvalidParameterException` : A parameter is specified incorrectly.
+    /// - `MissingRequiredParameterException` : A required parameter is missing from the request.
+    /// - `ResourceNotFoundException` : The request references a resource that does not exist.
     public func listAttachedLinks(input: ListAttachedLinksInput) async throws -> ListAttachedLinksOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -356,6 +455,17 @@ extension OAMClient: OAMClientProtocol {
     }
 
     /// Use this operation in a source account to return a list of links to monitoring account sinks that this source account has. To find a list of links for one monitoring account sink, use [ListAttachedLinks](https://docs.aws.amazon.com/OAM/latest/APIReference/API_ListAttachedLinks.html) from within the monitoring account.
+    ///
+    /// - Parameter ListLinksInput : [no documentation found]
+    ///
+    /// - Returns: `ListLinksOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceFault` : Unexpected error while processing the request. Retry the request.
+    /// - `InvalidParameterException` : A parameter is specified incorrectly.
+    /// - `ResourceNotFoundException` : The request references a resource that does not exist.
     public func listLinks(input: ListLinksInput) async throws -> ListLinksOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -392,6 +502,17 @@ extension OAMClient: OAMClientProtocol {
     }
 
     /// Use this operation in a monitoring account to return the list of sinks created in that account.
+    ///
+    /// - Parameter ListSinksInput : [no documentation found]
+    ///
+    /// - Returns: `ListSinksOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceFault` : Unexpected error while processing the request. Retry the request.
+    /// - `InvalidParameterException` : A parameter is specified incorrectly.
+    /// - `ResourceNotFoundException` : The request references a resource that does not exist.
     public func listSinks(input: ListSinksInput) async throws -> ListSinksOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -428,6 +549,16 @@ extension OAMClient: OAMClientProtocol {
     }
 
     /// Displays the tags associated with a resource. Both sinks and links support tagging.
+    ///
+    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    ///
+    /// - Returns: `ListTagsForResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ResourceNotFoundException` : The request references a resource that does not exist.
+    /// - `ValidationException` : The value of a parameter in the request caused an error.
     public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -470,6 +601,18 @@ extension OAMClient: OAMClientProtocol {
     ///
     ///
     /// See the examples in this section to see how to specify permitted source accounts and data types.
+    ///
+    /// - Parameter PutSinkPolicyInput : [no documentation found]
+    ///
+    /// - Returns: `PutSinkPolicyOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceFault` : Unexpected error while processing the request. Retry the request.
+    /// - `InvalidParameterException` : A parameter is specified incorrectly.
+    /// - `MissingRequiredParameterException` : A required parameter is missing from the request.
+    /// - `ResourceNotFoundException` : The request references a resource that does not exist.
     public func putSinkPolicy(input: PutSinkPolicyInput) async throws -> PutSinkPolicyOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -506,6 +649,17 @@ extension OAMClient: OAMClientProtocol {
     }
 
     /// Assigns one or more tags (key-value pairs) to the specified resource. Both sinks and links can be tagged. Tags can help you organize and categorize your resources. You can also use them to scope user permissions by granting a user permission to access or change only resources with certain tag values. Tags don't have any semantic meaning to Amazon Web Services and are interpreted strictly as strings of characters. You can use the TagResource action with a resource that already has tags. If you specify a new tag key for the alarm, this tag is appended to the list of tags associated with the alarm. If you specify a tag key that is already associated with the alarm, the new tag value that you specify replaces the previous value for that tag. You can associate as many as 50 tags with a resource. Unlike tagging permissions in other Amazon Web Services services, to tag or untag links and sinks you must have the oam:ResourceTag permission. The iam:ResourceTag permission does not allow you to tag and untag links and sinks.
+    ///
+    /// - Parameter TagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `TagResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ResourceNotFoundException` : The request references a resource that does not exist.
+    /// - `TooManyTagsException` : A resource can have no more than 50 tags.
+    /// - `ValidationException` : The value of a parameter in the request caused an error.
     public func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -542,6 +696,16 @@ extension OAMClient: OAMClientProtocol {
     }
 
     /// Removes one or more tags from the specified resource. Unlike tagging permissions in other Amazon Web Services services, to tag or untag links and sinks you must have the oam:ResourceTag permission. The iam:TagResource permission does not allow you to tag and untag links and sinks.
+    ///
+    /// - Parameter UntagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `UntagResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ResourceNotFoundException` : The request references a resource that does not exist.
+    /// - `ValidationException` : The value of a parameter in the request caused an error.
     public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -576,6 +740,18 @@ extension OAMClient: OAMClientProtocol {
     }
 
     /// Use this operation to change what types of data are shared from a source account to its linked monitoring account sink. You can't change the sink or change the monitoring account with this operation. To update the list of tags associated with the sink, use [TagResource](https://docs.aws.amazon.com/OAM/latest/APIReference/API_TagResource.html).
+    ///
+    /// - Parameter UpdateLinkInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateLinkOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceFault` : Unexpected error while processing the request. Retry the request.
+    /// - `InvalidParameterException` : A parameter is specified incorrectly.
+    /// - `MissingRequiredParameterException` : A required parameter is missing from the request.
+    /// - `ResourceNotFoundException` : The request references a resource that does not exist.
     public func updateLink(input: UpdateLinkInput) async throws -> UpdateLinkOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()

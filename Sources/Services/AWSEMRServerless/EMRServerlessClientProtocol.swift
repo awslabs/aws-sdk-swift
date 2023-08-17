@@ -11,34 +11,200 @@ import ClientRuntime
 /// * It is the prefix used in Amazon EMR Serverless service endpoints. For example, emr-serverless.us-east-2.amazonaws.com.
 public protocol EMRServerlessClientProtocol {
     /// Cancels a job run.
+    ///
+    /// - Parameter CancelJobRunInput : [no documentation found]
+    ///
+    /// - Returns: `CancelJobRunOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : Request processing failed because of an error or failure with the service.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     func cancelJobRun(input: CancelJobRunInput) async throws -> CancelJobRunOutputResponse
     /// Creates an application.
+    ///
+    /// - Parameter CreateApplicationInput : [no documentation found]
+    ///
+    /// - Returns: `CreateApplicationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictException` : The request could not be processed because of conflict in the current state of the resource.
+    /// - `InternalServerException` : Request processing failed because of an error or failure with the service.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     func createApplication(input: CreateApplicationInput) async throws -> CreateApplicationOutputResponse
     /// Deletes an application. An application has to be in a stopped or created state in order to be deleted.
+    ///
+    /// - Parameter DeleteApplicationInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteApplicationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : Request processing failed because of an error or failure with the service.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     func deleteApplication(input: DeleteApplicationInput) async throws -> DeleteApplicationOutputResponse
     /// Displays detailed information about a specified application.
+    ///
+    /// - Parameter GetApplicationInput : [no documentation found]
+    ///
+    /// - Returns: `GetApplicationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : Request processing failed because of an error or failure with the service.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     func getApplication(input: GetApplicationInput) async throws -> GetApplicationOutputResponse
     /// Creates and returns a URL that you can use to access the application UIs for a job run. For jobs in a running state, the application UI is a live user interface such as the Spark or Tez web UI. For completed jobs, the application UI is a persistent application user interface such as the Spark History Server or persistent Tez UI. The URL is valid for one hour after you generate it. To access the application UI after that hour elapses, you must invoke the API again to generate a new URL.
+    ///
+    /// - Parameter GetDashboardForJobRunInput : [no documentation found]
+    ///
+    /// - Returns: `GetDashboardForJobRunOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : Request processing failed because of an error or failure with the service.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     func getDashboardForJobRun(input: GetDashboardForJobRunInput) async throws -> GetDashboardForJobRunOutputResponse
     /// Displays detailed information about a job run.
+    ///
+    /// - Parameter GetJobRunInput : [no documentation found]
+    ///
+    /// - Returns: `GetJobRunOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : Request processing failed because of an error or failure with the service.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     func getJobRun(input: GetJobRunInput) async throws -> GetJobRunOutputResponse
     /// Lists applications based on a set of parameters.
+    ///
+    /// - Parameter ListApplicationsInput : [no documentation found]
+    ///
+    /// - Returns: `ListApplicationsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : Request processing failed because of an error or failure with the service.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     func listApplications(input: ListApplicationsInput) async throws -> ListApplicationsOutputResponse
     /// Lists job runs based on a set of parameters.
+    ///
+    /// - Parameter ListJobRunsInput : [no documentation found]
+    ///
+    /// - Returns: `ListJobRunsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : Request processing failed because of an error or failure with the service.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     func listJobRuns(input: ListJobRunsInput) async throws -> ListJobRunsOutputResponse
     /// Lists the tags assigned to the resources.
+    ///
+    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    ///
+    /// - Returns: `ListTagsForResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : Request processing failed because of an error or failure with the service.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
     /// Starts a specified application and initializes initial capacity if configured.
+    ///
+    /// - Parameter StartApplicationInput : [no documentation found]
+    ///
+    /// - Returns: `StartApplicationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : Request processing failed because of an error or failure with the service.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ServiceQuotaExceededException` : The maximum number of resources per account has been reached.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     func startApplication(input: StartApplicationInput) async throws -> StartApplicationOutputResponse
     /// Starts a job run.
+    ///
+    /// - Parameter StartJobRunInput : [no documentation found]
+    ///
+    /// - Returns: `StartJobRunOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictException` : The request could not be processed because of conflict in the current state of the resource.
+    /// - `InternalServerException` : Request processing failed because of an error or failure with the service.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     func startJobRun(input: StartJobRunInput) async throws -> StartJobRunOutputResponse
     /// Stops a specified application and releases initial capacity if configured. All scheduled and running jobs must be completed or cancelled before stopping an application.
+    ///
+    /// - Parameter StopApplicationInput : [no documentation found]
+    ///
+    /// - Returns: `StopApplicationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : Request processing failed because of an error or failure with the service.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     func stopApplication(input: StopApplicationInput) async throws -> StopApplicationOutputResponse
     /// Assigns tags to resources. A tag is a label that you assign to an Amazon Web Services resource. Each tag consists of a key and an optional value, both of which you define. Tags enable you to categorize your Amazon Web Services resources by attributes such as purpose, owner, or environment. When you have many resources of the same type, you can quickly identify a specific resource based on the tags you've assigned to it.
+    ///
+    /// - Parameter TagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `TagResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : Request processing failed because of an error or failure with the service.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
     /// Removes tags from resources.
+    ///
+    /// - Parameter UntagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `UntagResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : Request processing failed because of an error or failure with the service.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
     /// Updates a specified application. An application has to be in a stopped or created state in order to be updated.
+    ///
+    /// - Parameter UpdateApplicationInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateApplicationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : Request processing failed because of an error or failure with the service.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     func updateApplication(input: UpdateApplicationInput) async throws -> UpdateApplicationOutputResponse
 }
 

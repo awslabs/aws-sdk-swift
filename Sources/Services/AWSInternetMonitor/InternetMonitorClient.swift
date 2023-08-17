@@ -68,6 +68,20 @@ public struct InternetMonitorClientLogHandlerFactory: ClientRuntime.SDKLogHandle
 
 extension InternetMonitorClient: InternetMonitorClientProtocol {
     /// Creates a monitor in Amazon CloudWatch Internet Monitor. A monitor is built based on information from the application resources that you add: VPCs, Network Load Balancers (NLBs), Amazon CloudFront distributions, and Amazon WorkSpaces directories. Internet Monitor then publishes internet measurements from Amazon Web Services that are specific to the city-networks. That is, the locations and ASNs (typically internet service providers or ISPs), where clients access your application. For more information, see [Using Amazon CloudWatch Internet Monitor](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-InternetMonitor.html) in the Amazon CloudWatch User Guide. When you create a monitor, you choose the percentage of traffic that you want to monitor. You can also set a maximum limit for the number of city-networks where client traffic is monitored, that caps the total traffic that Internet Monitor monitors. A city-network maximum is the limit of city-networks, but you only pay for the number of city-networks that are actually monitored. You can update your monitor at any time to change the percentage of traffic to monitor or the city-networks maximum. For more information, see [Choosing a city-network maximum value](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/IMCityNetworksMaximum.html) in the Amazon CloudWatch User Guide.
+    ///
+    /// - Parameter CreateMonitorInput : [no documentation found]
+    ///
+    /// - Returns: `CreateMonitorOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have sufficient permission to perform this action.
+    /// - `ConflictException` : The requested resource is in use.
+    /// - `InternalServerException` : An internal error occurred.
+    /// - `LimitExceededException` : The request exceeded a service quota.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : Invalid request.
     public func createMonitor(input: CreateMonitorInput) async throws -> CreateMonitorOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -112,6 +126,18 @@ extension InternetMonitorClient: InternetMonitorClientProtocol {
     }
 
     /// Deletes a monitor in Amazon CloudWatch Internet Monitor.
+    ///
+    /// - Parameter DeleteMonitorInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteMonitorOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have sufficient permission to perform this action.
+    /// - `InternalServerException` : An internal error occurred.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : Invalid request.
     public func deleteMonitor(input: DeleteMonitorInput) async throws -> DeleteMonitorOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -145,6 +171,18 @@ extension InternetMonitorClient: InternetMonitorClientProtocol {
     }
 
     /// Gets information the Amazon CloudWatch Internet Monitor has created and stored about a health event for a specified monitor. This information includes the impacted locations, and all the information related to the event, by location. The information returned includes the impact on performance, availability, and round-trip time, information about the network providers (ASNs), the event type, and so on. Information rolled up at the global traffic level is also returned, including the impact type and total traffic impact.
+    ///
+    /// - Parameter GetHealthEventInput : [no documentation found]
+    ///
+    /// - Returns: `GetHealthEventOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have sufficient permission to perform this action.
+    /// - `InternalServerException` : An internal error occurred.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : Invalid request.
     public func getHealthEvent(input: GetHealthEventInput) async throws -> GetHealthEventOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -178,6 +216,18 @@ extension InternetMonitorClient: InternetMonitorClientProtocol {
     }
 
     /// Gets information about a monitor in Amazon CloudWatch Internet Monitor based on a monitor name. The information returned includes the Amazon Resource Name (ARN), create time, modified time, resources included in the monitor, and status information.
+    ///
+    /// - Parameter GetMonitorInput : [no documentation found]
+    ///
+    /// - Returns: `GetMonitorOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have sufficient permission to perform this action.
+    /// - `InternalServerException` : An internal error occurred.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : Invalid request.
     public func getMonitor(input: GetMonitorInput) async throws -> GetMonitorOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -211,6 +261,18 @@ extension InternetMonitorClient: InternetMonitorClientProtocol {
     }
 
     /// Lists all health events for a monitor in Amazon CloudWatch Internet Monitor. Returns information for health events including the event start and end time and the status. Health events that have start times during the time frame that is requested are not included in the list of health events.
+    ///
+    /// - Parameter ListHealthEventsInput : [no documentation found]
+    ///
+    /// - Returns: `ListHealthEventsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have sufficient permission to perform this action.
+    /// - `InternalServerException` : An internal error occurred.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : Invalid request.
     public func listHealthEvents(input: ListHealthEventsInput) async throws -> ListHealthEventsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -245,6 +307,18 @@ extension InternetMonitorClient: InternetMonitorClientProtocol {
     }
 
     /// Lists all of your monitors for Amazon CloudWatch Internet Monitor and their statuses, along with the Amazon Resource Name (ARN) and name of each monitor.
+    ///
+    /// - Parameter ListMonitorsInput : [no documentation found]
+    ///
+    /// - Returns: `ListMonitorsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have sufficient permission to perform this action.
+    /// - `InternalServerException` : An internal error occurred.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : Invalid request.
     public func listMonitors(input: ListMonitorsInput) async throws -> ListMonitorsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -279,6 +353,19 @@ extension InternetMonitorClient: InternetMonitorClientProtocol {
     }
 
     /// Lists the tags for a resource. Tags are supported only for monitors in Amazon CloudWatch Internet Monitor.
+    ///
+    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    ///
+    /// - Returns: `ListTagsForResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have sufficient permission to perform this action.
+    /// - `BadRequestException` : A bad request was received.
+    /// - `InternalServerErrorException` : There was an internal server error.
+    /// - `NotFoundException` : The request specifies something that doesn't exist.
+    /// - `TooManyRequestsException` : There were too many requests.
     public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -312,6 +399,19 @@ extension InternetMonitorClient: InternetMonitorClientProtocol {
     }
 
     /// Adds a tag to a resource. Tags are supported only for monitors in Amazon CloudWatch Internet Monitor. You can add a maximum of 50 tags in Internet Monitor. A minimum of one tag is required for this call. It returns an error if you use the TagResource request with 0 tags.
+    ///
+    /// - Parameter TagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `TagResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have sufficient permission to perform this action.
+    /// - `BadRequestException` : A bad request was received.
+    /// - `InternalServerErrorException` : There was an internal server error.
+    /// - `NotFoundException` : The request specifies something that doesn't exist.
+    /// - `TooManyRequestsException` : There were too many requests.
     public func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -348,6 +448,19 @@ extension InternetMonitorClient: InternetMonitorClientProtocol {
     }
 
     /// Removes a tag from a resource.
+    ///
+    /// - Parameter UntagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `UntagResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have sufficient permission to perform this action.
+    /// - `BadRequestException` : A bad request was received.
+    /// - `InternalServerErrorException` : There was an internal server error.
+    /// - `NotFoundException` : The request specifies something that doesn't exist.
+    /// - `TooManyRequestsException` : There were too many requests.
     public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -382,6 +495,20 @@ extension InternetMonitorClient: InternetMonitorClientProtocol {
     }
 
     /// Updates a monitor. You can update a monitor to change the percentage of traffic to monitor or the maximum number of city-networks (locations and ASNs), to add or remove resources, or to change the status of the monitor. Note that you can't change the name of a monitor. The city-network maximum that you choose is the limit, but you only pay for the number of city-networks that are actually monitored. For more information, see [Choosing a city-network maximum value](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/IMCityNetworksMaximum.html) in the Amazon CloudWatch User Guide.
+    ///
+    /// - Parameter UpdateMonitorInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateMonitorOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have sufficient permission to perform this action.
+    /// - `InternalServerException` : An internal error occurred.
+    /// - `LimitExceededException` : The request exceeded a service quota.
+    /// - `ResourceNotFoundException` : The request specifies a resource that doesn't exist.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : Invalid request.
     public func updateMonitor(input: UpdateMonitorInput) async throws -> UpdateMonitorOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()

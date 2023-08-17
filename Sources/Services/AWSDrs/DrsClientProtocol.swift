@@ -5,99 +5,721 @@ import ClientRuntime
 /// AWS Elastic Disaster Recovery Service.
 public protocol DrsClientProtocol {
     /// Associate a Source Network to an existing CloudFormation Stack and modify launch templates to use this network. Can be used for reverting to previously deployed CloudFormation stacks.
+    ///
+    /// - Parameter AssociateSourceNetworkStackInput : [no documentation found]
+    ///
+    /// - Returns: `AssociateSourceNetworkStackOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictException` : The request could not be completed due to a conflict with the current state of the target resource.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
+    /// - `ResourceNotFoundException` : The resource for this operation was not found.
+    /// - `ServiceQuotaExceededException` : The request could not be completed because its exceeded the service quota.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `UninitializedAccountException` : The account performing the request has not been initialized.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service.
     func associateSourceNetworkStack(input: AssociateSourceNetworkStackInput) async throws -> AssociateSourceNetworkStackOutputResponse
     /// Create an extended source server in the target Account based on the source server in staging account.
+    ///
+    /// - Parameter CreateExtendedSourceServerInput : [no documentation found]
+    ///
+    /// - Returns: `CreateExtendedSourceServerOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
+    /// - `ResourceNotFoundException` : The resource for this operation was not found.
+    /// - `ServiceQuotaExceededException` : The request could not be completed because its exceeded the service quota.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `UninitializedAccountException` : The account performing the request has not been initialized.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service.
     func createExtendedSourceServer(input: CreateExtendedSourceServerInput) async throws -> CreateExtendedSourceServerOutputResponse
     /// Creates a new Launch Configuration Template.
+    ///
+    /// - Parameter CreateLaunchConfigurationTemplateInput : [no documentation found]
+    ///
+    /// - Returns: `CreateLaunchConfigurationTemplateOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
+    /// - `ServiceQuotaExceededException` : The request could not be completed because its exceeded the service quota.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `UninitializedAccountException` : The account performing the request has not been initialized.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service.
     func createLaunchConfigurationTemplate(input: CreateLaunchConfigurationTemplateInput) async throws -> CreateLaunchConfigurationTemplateOutputResponse
     /// Creates a new ReplicationConfigurationTemplate.
+    ///
+    /// - Parameter CreateReplicationConfigurationTemplateInput : [no documentation found]
+    ///
+    /// - Returns: `CreateReplicationConfigurationTemplateOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
+    /// - `ServiceQuotaExceededException` : The request could not be completed because its exceeded the service quota.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `UninitializedAccountException` : The account performing the request has not been initialized.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service.
     func createReplicationConfigurationTemplate(input: CreateReplicationConfigurationTemplateInput) async throws -> CreateReplicationConfigurationTemplateOutputResponse
     /// Create a new Source Network resource for a provided VPC ID.
+    ///
+    /// - Parameter CreateSourceNetworkInput : [no documentation found]
+    ///
+    /// - Returns: `CreateSourceNetworkOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictException` : The request could not be completed due to a conflict with the current state of the target resource.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
+    /// - `ResourceNotFoundException` : The resource for this operation was not found.
+    /// - `ServiceQuotaExceededException` : The request could not be completed because its exceeded the service quota.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `UninitializedAccountException` : The account performing the request has not been initialized.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service.
     func createSourceNetwork(input: CreateSourceNetworkInput) async throws -> CreateSourceNetworkOutputResponse
     /// Deletes a single Job by ID.
+    ///
+    /// - Parameter DeleteJobInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteJobOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictException` : The request could not be completed due to a conflict with the current state of the target resource.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
+    /// - `ResourceNotFoundException` : The resource for this operation was not found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `UninitializedAccountException` : The account performing the request has not been initialized.
     func deleteJob(input: DeleteJobInput) async throws -> DeleteJobOutputResponse
     /// Deletes a single Launch Configuration Template by ID.
+    ///
+    /// - Parameter DeleteLaunchConfigurationTemplateInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteLaunchConfigurationTemplateOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictException` : The request could not be completed due to a conflict with the current state of the target resource.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
+    /// - `ResourceNotFoundException` : The resource for this operation was not found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `UninitializedAccountException` : The account performing the request has not been initialized.
     func deleteLaunchConfigurationTemplate(input: DeleteLaunchConfigurationTemplateInput) async throws -> DeleteLaunchConfigurationTemplateOutputResponse
     /// Deletes a single Recovery Instance by ID. This deletes the Recovery Instance resource from Elastic Disaster Recovery. The Recovery Instance must be disconnected first in order to delete it.
+    ///
+    /// - Parameter DeleteRecoveryInstanceInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteRecoveryInstanceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : The request could not be completed due to a conflict with the current state of the target resource.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `UninitializedAccountException` : The account performing the request has not been initialized.
     func deleteRecoveryInstance(input: DeleteRecoveryInstanceInput) async throws -> DeleteRecoveryInstanceOutputResponse
     /// Deletes a single Replication Configuration Template by ID
+    ///
+    /// - Parameter DeleteReplicationConfigurationTemplateInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteReplicationConfigurationTemplateOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictException` : The request could not be completed due to a conflict with the current state of the target resource.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
+    /// - `ResourceNotFoundException` : The resource for this operation was not found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `UninitializedAccountException` : The account performing the request has not been initialized.
     func deleteReplicationConfigurationTemplate(input: DeleteReplicationConfigurationTemplateInput) async throws -> DeleteReplicationConfigurationTemplateOutputResponse
     /// Delete Source Network resource.
+    ///
+    /// - Parameter DeleteSourceNetworkInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteSourceNetworkOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictException` : The request could not be completed due to a conflict with the current state of the target resource.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
+    /// - `ResourceNotFoundException` : The resource for this operation was not found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `UninitializedAccountException` : The account performing the request has not been initialized.
     func deleteSourceNetwork(input: DeleteSourceNetworkInput) async throws -> DeleteSourceNetworkOutputResponse
     /// Deletes a single Source Server by ID. The Source Server must be disconnected first.
+    ///
+    /// - Parameter DeleteSourceServerInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteSourceServerOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictException` : The request could not be completed due to a conflict with the current state of the target resource.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
+    /// - `ResourceNotFoundException` : The resource for this operation was not found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `UninitializedAccountException` : The account performing the request has not been initialized.
     func deleteSourceServer(input: DeleteSourceServerInput) async throws -> DeleteSourceServerOutputResponse
     /// Retrieves a detailed Job log with pagination.
+    ///
+    /// - Parameter DescribeJobLogItemsInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeJobLogItemsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `UninitializedAccountException` : The account performing the request has not been initialized.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service.
     func describeJobLogItems(input: DescribeJobLogItemsInput) async throws -> DescribeJobLogItemsOutputResponse
     /// Returns a list of Jobs. Use the JobsID and fromDate and toDate filters to limit which jobs are returned. The response is sorted by creationDataTime - latest date first. Jobs are created by the StartRecovery, TerminateRecoveryInstances and StartFailbackLaunch APIs. Jobs are also created by DiagnosticLaunch and TerminateDiagnosticInstances, which are APIs available only to *Support* and only used in response to relevant support tickets.
+    ///
+    /// - Parameter DescribeJobsInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeJobsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `UninitializedAccountException` : The account performing the request has not been initialized.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service.
     func describeJobs(input: DescribeJobsInput) async throws -> DescribeJobsOutputResponse
     /// Lists all Launch Configuration Templates, filtered by Launch Configuration Template IDs
+    ///
+    /// - Parameter DescribeLaunchConfigurationTemplatesInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeLaunchConfigurationTemplatesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
+    /// - `ResourceNotFoundException` : The resource for this operation was not found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `UninitializedAccountException` : The account performing the request has not been initialized.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service.
     func describeLaunchConfigurationTemplates(input: DescribeLaunchConfigurationTemplatesInput) async throws -> DescribeLaunchConfigurationTemplatesOutputResponse
     /// Lists all Recovery Instances or multiple Recovery Instances by ID.
+    ///
+    /// - Parameter DescribeRecoveryInstancesInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeRecoveryInstancesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `UninitializedAccountException` : The account performing the request has not been initialized.
     func describeRecoveryInstances(input: DescribeRecoveryInstancesInput) async throws -> DescribeRecoveryInstancesOutputResponse
     /// Lists all Recovery Snapshots for a single Source Server.
+    ///
+    /// - Parameter DescribeRecoverySnapshotsInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeRecoverySnapshotsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `UninitializedAccountException` : The account performing the request has not been initialized.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service.
     func describeRecoverySnapshots(input: DescribeRecoverySnapshotsInput) async throws -> DescribeRecoverySnapshotsOutputResponse
     /// Lists all ReplicationConfigurationTemplates, filtered by Source Server IDs.
+    ///
+    /// - Parameter DescribeReplicationConfigurationTemplatesInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeReplicationConfigurationTemplatesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
+    /// - `ResourceNotFoundException` : The resource for this operation was not found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `UninitializedAccountException` : The account performing the request has not been initialized.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service.
     func describeReplicationConfigurationTemplates(input: DescribeReplicationConfigurationTemplatesInput) async throws -> DescribeReplicationConfigurationTemplatesOutputResponse
     /// Lists all Source Networks or multiple Source Networks filtered by ID.
+    ///
+    /// - Parameter DescribeSourceNetworksInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeSourceNetworksOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `UninitializedAccountException` : The account performing the request has not been initialized.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service.
     func describeSourceNetworks(input: DescribeSourceNetworksInput) async throws -> DescribeSourceNetworksOutputResponse
     /// Lists all Source Servers or multiple Source Servers filtered by ID.
+    ///
+    /// - Parameter DescribeSourceServersInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeSourceServersOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `UninitializedAccountException` : The account performing the request has not been initialized.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service.
     func describeSourceServers(input: DescribeSourceServersInput) async throws -> DescribeSourceServersOutputResponse
     /// Disconnect a Recovery Instance from Elastic Disaster Recovery. Data replication is stopped immediately. All AWS resources created by Elastic Disaster Recovery for enabling the replication of the Recovery Instance will be terminated / deleted within 90 minutes. If the agent on the Recovery Instance has not been prevented from communicating with the Elastic Disaster Recovery service, then it will receive a command to uninstall itself (within approximately 10 minutes). The following properties of the Recovery Instance will be changed immediately: dataReplicationInfo.dataReplicationState will be set to DISCONNECTED; The totalStorageBytes property for each of dataReplicationInfo.replicatedDisks will be set to zero; dataReplicationInfo.lagDuration and dataReplicationInfo.lagDuration will be nullified.
+    ///
+    /// - Parameter DisconnectRecoveryInstanceInput : [no documentation found]
+    ///
+    /// - Returns: `DisconnectRecoveryInstanceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : The request could not be completed due to a conflict with the current state of the target resource.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
+    /// - `ResourceNotFoundException` : The resource for this operation was not found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `UninitializedAccountException` : The account performing the request has not been initialized.
     func disconnectRecoveryInstance(input: DisconnectRecoveryInstanceInput) async throws -> DisconnectRecoveryInstanceOutputResponse
     /// Disconnects a specific Source Server from Elastic Disaster Recovery. Data replication is stopped immediately. All AWS resources created by Elastic Disaster Recovery for enabling the replication of the Source Server will be terminated / deleted within 90 minutes. You cannot disconnect a Source Server if it has a Recovery Instance. If the agent on the Source Server has not been prevented from communicating with the Elastic Disaster Recovery service, then it will receive a command to uninstall itself (within approximately 10 minutes). The following properties of the SourceServer will be changed immediately: dataReplicationInfo.dataReplicationState will be set to DISCONNECTED; The totalStorageBytes property for each of dataReplicationInfo.replicatedDisks will be set to zero; dataReplicationInfo.lagDuration and dataReplicationInfo.lagDuration will be nullified.
+    ///
+    /// - Parameter DisconnectSourceServerInput : [no documentation found]
+    ///
+    /// - Returns: `DisconnectSourceServerOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictException` : The request could not be completed due to a conflict with the current state of the target resource.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
+    /// - `ResourceNotFoundException` : The resource for this operation was not found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `UninitializedAccountException` : The account performing the request has not been initialized.
     func disconnectSourceServer(input: DisconnectSourceServerInput) async throws -> DisconnectSourceServerOutputResponse
     /// Export the Source Network CloudFormation template to an S3 bucket.
+    ///
+    /// - Parameter ExportSourceNetworkCfnTemplateInput : [no documentation found]
+    ///
+    /// - Returns: `ExportSourceNetworkCfnTemplateOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictException` : The request could not be completed due to a conflict with the current state of the target resource.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
+    /// - `ResourceNotFoundException` : The resource for this operation was not found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `UninitializedAccountException` : The account performing the request has not been initialized.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service.
     func exportSourceNetworkCfnTemplate(input: ExportSourceNetworkCfnTemplateInput) async throws -> ExportSourceNetworkCfnTemplateOutputResponse
     /// Lists all Failback ReplicationConfigurations, filtered by Recovery Instance ID.
+    ///
+    /// - Parameter GetFailbackReplicationConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `GetFailbackReplicationConfigurationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
+    /// - `ResourceNotFoundException` : The resource for this operation was not found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `UninitializedAccountException` : The account performing the request has not been initialized.
     func getFailbackReplicationConfiguration(input: GetFailbackReplicationConfigurationInput) async throws -> GetFailbackReplicationConfigurationOutputResponse
     /// Gets a LaunchConfiguration, filtered by Source Server IDs.
+    ///
+    /// - Parameter GetLaunchConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `GetLaunchConfigurationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
+    /// - `ResourceNotFoundException` : The resource for this operation was not found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `UninitializedAccountException` : The account performing the request has not been initialized.
     func getLaunchConfiguration(input: GetLaunchConfigurationInput) async throws -> GetLaunchConfigurationOutputResponse
     /// Gets a ReplicationConfiguration, filtered by Source Server ID.
+    ///
+    /// - Parameter GetReplicationConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `GetReplicationConfigurationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
+    /// - `ResourceNotFoundException` : The resource for this operation was not found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `UninitializedAccountException` : The account performing the request has not been initialized.
     func getReplicationConfiguration(input: GetReplicationConfigurationInput) async throws -> GetReplicationConfigurationOutputResponse
     /// Initialize Elastic Disaster Recovery.
+    ///
+    /// - Parameter InitializeServiceInput : [no documentation found]
+    ///
+    /// - Returns: `InitializeServiceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service.
     func initializeService(input: InitializeServiceInput) async throws -> InitializeServiceOutputResponse
     /// Returns a list of source servers on a staging account that are extensible, which means that: a. The source server is not already extended into this Account. b. The source server on the Account we’re reading from is not an extension of another source server.
+    ///
+    /// - Parameter ListExtensibleSourceServersInput : [no documentation found]
+    ///
+    /// - Returns: `ListExtensibleSourceServersOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `UninitializedAccountException` : The account performing the request has not been initialized.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service.
     func listExtensibleSourceServers(input: ListExtensibleSourceServersInput) async throws -> ListExtensibleSourceServersOutputResponse
     /// Returns an array of staging accounts for existing extended source servers.
+    ///
+    /// - Parameter ListStagingAccountsInput : [no documentation found]
+    ///
+    /// - Returns: `ListStagingAccountsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `UninitializedAccountException` : The account performing the request has not been initialized.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service.
     func listStagingAccounts(input: ListStagingAccountsInput) async throws -> ListStagingAccountsOutputResponse
     /// List all tags for your Elastic Disaster Recovery resources.
+    ///
+    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    ///
+    /// - Returns: `ListTagsForResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
+    /// - `ResourceNotFoundException` : The resource for this operation was not found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service.
     func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
     /// WARNING: RetryDataReplication is deprecated. Causes the data replication initiation sequence to begin immediately upon next Handshake for the specified Source Server ID, regardless of when the previous initiation started. This command will work only if the Source Server is stalled or is in a DISCONNECTED or STOPPED state.
     @available(*, deprecated, message: "WARNING: RetryDataReplication is deprecated")
+    ///
+    /// - Parameter RetryDataReplicationInput : [no documentation found]
+    ///
+    /// - Returns: `RetryDataReplicationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
+    /// - `ResourceNotFoundException` : The resource for this operation was not found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `UninitializedAccountException` : The account performing the request has not been initialized.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service.
     func retryDataReplication(input: RetryDataReplicationInput) async throws -> RetryDataReplicationOutputResponse
     /// Start replication to origin / target region - applies only to protected instances that originated in EC2. For recovery instances on target region - starts replication back to origin region. For failback instances on origin region - starts replication to target region to re-protect them.
+    ///
+    /// - Parameter ReverseReplicationInput : [no documentation found]
+    ///
+    /// - Returns: `ReverseReplicationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : The request could not be completed due to a conflict with the current state of the target resource.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
+    /// - `ResourceNotFoundException` : The resource for this operation was not found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `UninitializedAccountException` : The account performing the request has not been initialized.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service.
     func reverseReplication(input: ReverseReplicationInput) async throws -> ReverseReplicationOutputResponse
     /// Initiates a Job for launching the machine that is being failed back to from the specified Recovery Instance. This will run conversion on the failback client and will reboot your machine, thus completing the failback process.
+    ///
+    /// - Parameter StartFailbackLaunchInput : [no documentation found]
+    ///
+    /// - Returns: `StartFailbackLaunchOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictException` : The request could not be completed due to a conflict with the current state of the target resource.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
+    /// - `ServiceQuotaExceededException` : The request could not be completed because its exceeded the service quota.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `UninitializedAccountException` : The account performing the request has not been initialized.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service.
     func startFailbackLaunch(input: StartFailbackLaunchInput) async throws -> StartFailbackLaunchOutputResponse
     /// Launches Recovery Instances for the specified Source Servers. For each Source Server you may choose a point in time snapshot to launch from, or use an on demand snapshot.
+    ///
+    /// - Parameter StartRecoveryInput : [no documentation found]
+    ///
+    /// - Returns: `StartRecoveryOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictException` : The request could not be completed due to a conflict with the current state of the target resource.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
+    /// - `ServiceQuotaExceededException` : The request could not be completed because its exceeded the service quota.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `UninitializedAccountException` : The account performing the request has not been initialized.
     func startRecovery(input: StartRecoveryInput) async throws -> StartRecoveryOutputResponse
     /// Starts replication for a stopped Source Server. This action would make the Source Server protected again and restart billing for it.
+    ///
+    /// - Parameter StartReplicationInput : [no documentation found]
+    ///
+    /// - Returns: `StartReplicationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictException` : The request could not be completed due to a conflict with the current state of the target resource.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
+    /// - `ResourceNotFoundException` : The resource for this operation was not found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `UninitializedAccountException` : The account performing the request has not been initialized.
     func startReplication(input: StartReplicationInput) async throws -> StartReplicationOutputResponse
     /// Deploy VPC for the specified Source Network and modify launch templates to use this network. The VPC will be deployed using a dedicated CloudFormation stack.
+    ///
+    /// - Parameter StartSourceNetworkRecoveryInput : [no documentation found]
+    ///
+    /// - Returns: `StartSourceNetworkRecoveryOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictException` : The request could not be completed due to a conflict with the current state of the target resource.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
+    /// - `ServiceQuotaExceededException` : The request could not be completed because its exceeded the service quota.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `UninitializedAccountException` : The account performing the request has not been initialized.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service.
     func startSourceNetworkRecovery(input: StartSourceNetworkRecoveryInput) async throws -> StartSourceNetworkRecoveryOutputResponse
     /// Starts replication for a Source Network. This action would make the Source Network protected.
+    ///
+    /// - Parameter StartSourceNetworkReplicationInput : [no documentation found]
+    ///
+    /// - Returns: `StartSourceNetworkReplicationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictException` : The request could not be completed due to a conflict with the current state of the target resource.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
+    /// - `ResourceNotFoundException` : The resource for this operation was not found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `UninitializedAccountException` : The account performing the request has not been initialized.
     func startSourceNetworkReplication(input: StartSourceNetworkReplicationInput) async throws -> StartSourceNetworkReplicationOutputResponse
     /// Stops the failback process for a specified Recovery Instance. This changes the Failback State of the Recovery Instance back to FAILBACK_NOT_STARTED.
+    ///
+    /// - Parameter StopFailbackInput : [no documentation found]
+    ///
+    /// - Returns: `StopFailbackOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
+    /// - `ResourceNotFoundException` : The resource for this operation was not found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `UninitializedAccountException` : The account performing the request has not been initialized.
     func stopFailback(input: StopFailbackInput) async throws -> StopFailbackOutputResponse
     /// Stops replication for a Source Server. This action would make the Source Server unprotected, delete its existing snapshots and stop billing for it.
+    ///
+    /// - Parameter StopReplicationInput : [no documentation found]
+    ///
+    /// - Returns: `StopReplicationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictException` : The request could not be completed due to a conflict with the current state of the target resource.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
+    /// - `ResourceNotFoundException` : The resource for this operation was not found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `UninitializedAccountException` : The account performing the request has not been initialized.
     func stopReplication(input: StopReplicationInput) async throws -> StopReplicationOutputResponse
     /// Stops replication for a Source Network. This action would make the Source Network unprotected.
+    ///
+    /// - Parameter StopSourceNetworkReplicationInput : [no documentation found]
+    ///
+    /// - Returns: `StopSourceNetworkReplicationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictException` : The request could not be completed due to a conflict with the current state of the target resource.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
+    /// - `ResourceNotFoundException` : The resource for this operation was not found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `UninitializedAccountException` : The account performing the request has not been initialized.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service.
     func stopSourceNetworkReplication(input: StopSourceNetworkReplicationInput) async throws -> StopSourceNetworkReplicationOutputResponse
     /// Adds or overwrites only the specified tags for the specified Elastic Disaster Recovery resource or resources. When you specify an existing tag key, the value is overwritten with the new value. Each resource can have a maximum of 50 tags. Each tag consists of a key and optional value.
+    ///
+    /// - Parameter TagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `TagResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
+    /// - `ResourceNotFoundException` : The resource for this operation was not found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service.
     func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
     /// Initiates a Job for terminating the EC2 resources associated with the specified Recovery Instances, and then will delete the Recovery Instances from the Elastic Disaster Recovery service.
+    ///
+    /// - Parameter TerminateRecoveryInstancesInput : [no documentation found]
+    ///
+    /// - Returns: `TerminateRecoveryInstancesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictException` : The request could not be completed due to a conflict with the current state of the target resource.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
+    /// - `ServiceQuotaExceededException` : The request could not be completed because its exceeded the service quota.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `UninitializedAccountException` : The account performing the request has not been initialized.
     func terminateRecoveryInstances(input: TerminateRecoveryInstancesInput) async throws -> TerminateRecoveryInstancesOutputResponse
     /// Deletes the specified set of tags from the specified set of Elastic Disaster Recovery resources.
+    ///
+    /// - Parameter UntagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `UntagResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
+    /// - `ResourceNotFoundException` : The resource for this operation was not found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service.
     func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
     /// Allows you to update the failback replication configuration of a Recovery Instance by ID.
+    ///
+    /// - Parameter UpdateFailbackReplicationConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateFailbackReplicationConfigurationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
+    /// - `ResourceNotFoundException` : The resource for this operation was not found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `UninitializedAccountException` : The account performing the request has not been initialized.
     func updateFailbackReplicationConfiguration(input: UpdateFailbackReplicationConfigurationInput) async throws -> UpdateFailbackReplicationConfigurationOutputResponse
     /// Updates a LaunchConfiguration by Source Server ID.
+    ///
+    /// - Parameter UpdateLaunchConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateLaunchConfigurationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictException` : The request could not be completed due to a conflict with the current state of the target resource.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
+    /// - `ResourceNotFoundException` : The resource for this operation was not found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `UninitializedAccountException` : The account performing the request has not been initialized.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service.
     func updateLaunchConfiguration(input: UpdateLaunchConfigurationInput) async throws -> UpdateLaunchConfigurationOutputResponse
     /// Updates an existing Launch Configuration Template by ID.
+    ///
+    /// - Parameter UpdateLaunchConfigurationTemplateInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateLaunchConfigurationTemplateOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
+    /// - `ResourceNotFoundException` : The resource for this operation was not found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `UninitializedAccountException` : The account performing the request has not been initialized.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service.
     func updateLaunchConfigurationTemplate(input: UpdateLaunchConfigurationTemplateInput) async throws -> UpdateLaunchConfigurationTemplateOutputResponse
     /// Allows you to update a ReplicationConfiguration by Source Server ID.
+    ///
+    /// - Parameter UpdateReplicationConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateReplicationConfigurationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : The request could not be completed due to a conflict with the current state of the target resource.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
+    /// - `ResourceNotFoundException` : The resource for this operation was not found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `UninitializedAccountException` : The account performing the request has not been initialized.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service.
     func updateReplicationConfiguration(input: UpdateReplicationConfigurationInput) async throws -> UpdateReplicationConfigurationOutputResponse
     /// Updates a ReplicationConfigurationTemplate by ID.
+    ///
+    /// - Parameter UpdateReplicationConfigurationTemplateInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateReplicationConfigurationTemplateOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
+    /// - `ResourceNotFoundException` : The resource for this operation was not found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `UninitializedAccountException` : The account performing the request has not been initialized.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service.
     func updateReplicationConfigurationTemplate(input: UpdateReplicationConfigurationTemplateInput) async throws -> UpdateReplicationConfigurationTemplateOutputResponse
 }
 

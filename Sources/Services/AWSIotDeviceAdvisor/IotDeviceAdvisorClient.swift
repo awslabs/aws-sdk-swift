@@ -68,6 +68,16 @@ public struct IotDeviceAdvisorClientLogHandlerFactory: ClientRuntime.SDKLogHandl
 
 extension IotDeviceAdvisorClient: IotDeviceAdvisorClientProtocol {
     /// Creates a Device Advisor test suite. Requires permission to access the [CreateSuiteDefinition](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter CreateSuiteDefinitionInput : [no documentation found]
+    ///
+    /// - Returns: `CreateSuiteDefinitionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : Sends an Internal Failure exception.
+    /// - `ValidationException` : Sends a validation exception.
     public func createSuiteDefinition(input: CreateSuiteDefinitionInput) async throws -> CreateSuiteDefinitionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -104,6 +114,16 @@ extension IotDeviceAdvisorClient: IotDeviceAdvisorClientProtocol {
     }
 
     /// Deletes a Device Advisor test suite. Requires permission to access the [DeleteSuiteDefinition](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter DeleteSuiteDefinitionInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteSuiteDefinitionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : Sends an Internal Failure exception.
+    /// - `ValidationException` : Sends a validation exception.
     public func deleteSuiteDefinition(input: DeleteSuiteDefinitionInput) async throws -> DeleteSuiteDefinitionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -137,6 +157,17 @@ extension IotDeviceAdvisorClient: IotDeviceAdvisorClientProtocol {
     }
 
     /// Gets information about an Device Advisor endpoint.
+    ///
+    /// - Parameter GetEndpointInput : [no documentation found]
+    ///
+    /// - Returns: `GetEndpointOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : Sends an Internal Failure exception.
+    /// - `ResourceNotFoundException` : Sends a Resource Not Found exception.
+    /// - `ValidationException` : Sends a validation exception.
     public func getEndpoint(input: GetEndpointInput) async throws -> GetEndpointOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -171,6 +202,17 @@ extension IotDeviceAdvisorClient: IotDeviceAdvisorClientProtocol {
     }
 
     /// Gets information about a Device Advisor test suite. Requires permission to access the [GetSuiteDefinition](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter GetSuiteDefinitionInput : [no documentation found]
+    ///
+    /// - Returns: `GetSuiteDefinitionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : Sends an Internal Failure exception.
+    /// - `ResourceNotFoundException` : Sends a Resource Not Found exception.
+    /// - `ValidationException` : Sends a validation exception.
     public func getSuiteDefinition(input: GetSuiteDefinitionInput) async throws -> GetSuiteDefinitionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -205,6 +247,17 @@ extension IotDeviceAdvisorClient: IotDeviceAdvisorClientProtocol {
     }
 
     /// Gets information about a Device Advisor test suite run. Requires permission to access the [GetSuiteRun](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter GetSuiteRunInput : [no documentation found]
+    ///
+    /// - Returns: `GetSuiteRunOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : Sends an Internal Failure exception.
+    /// - `ResourceNotFoundException` : Sends a Resource Not Found exception.
+    /// - `ValidationException` : Sends a validation exception.
     public func getSuiteRun(input: GetSuiteRunInput) async throws -> GetSuiteRunOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -238,6 +291,17 @@ extension IotDeviceAdvisorClient: IotDeviceAdvisorClientProtocol {
     }
 
     /// Gets a report download link for a successful Device Advisor qualifying test suite run. Requires permission to access the [GetSuiteRunReport](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter GetSuiteRunReportInput : [no documentation found]
+    ///
+    /// - Returns: `GetSuiteRunReportOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : Sends an Internal Failure exception.
+    /// - `ResourceNotFoundException` : Sends a Resource Not Found exception.
+    /// - `ValidationException` : Sends a validation exception.
     public func getSuiteRunReport(input: GetSuiteRunReportInput) async throws -> GetSuiteRunReportOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -271,6 +335,16 @@ extension IotDeviceAdvisorClient: IotDeviceAdvisorClientProtocol {
     }
 
     /// Lists the Device Advisor test suites you have created. Requires permission to access the [ListSuiteDefinitions](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter ListSuiteDefinitionsInput : [no documentation found]
+    ///
+    /// - Returns: `ListSuiteDefinitionsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : Sends an Internal Failure exception.
+    /// - `ValidationException` : Sends a validation exception.
     public func listSuiteDefinitions(input: ListSuiteDefinitionsInput) async throws -> ListSuiteDefinitionsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -305,6 +379,16 @@ extension IotDeviceAdvisorClient: IotDeviceAdvisorClientProtocol {
     }
 
     /// Lists runs of the specified Device Advisor test suite. You can list all runs of the test suite, or the runs of a specific version of the test suite. Requires permission to access the [ListSuiteRuns](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter ListSuiteRunsInput : [no documentation found]
+    ///
+    /// - Returns: `ListSuiteRunsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : Sends an Internal Failure exception.
+    /// - `ValidationException` : Sends a validation exception.
     public func listSuiteRuns(input: ListSuiteRunsInput) async throws -> ListSuiteRunsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -339,6 +423,17 @@ extension IotDeviceAdvisorClient: IotDeviceAdvisorClientProtocol {
     }
 
     /// Lists the tags attached to an IoT Device Advisor resource. Requires permission to access the [ListTagsForResource](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    ///
+    /// - Returns: `ListTagsForResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : Sends an Internal Failure exception.
+    /// - `ResourceNotFoundException` : Sends a Resource Not Found exception.
+    /// - `ValidationException` : Sends a validation exception.
     public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -372,6 +467,17 @@ extension IotDeviceAdvisorClient: IotDeviceAdvisorClientProtocol {
     }
 
     /// Starts a Device Advisor test suite run. Requires permission to access the [StartSuiteRun](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter StartSuiteRunInput : [no documentation found]
+    ///
+    /// - Returns: `StartSuiteRunOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictException` : Sends a Conflict Exception.
+    /// - `InternalServerException` : Sends an Internal Failure exception.
+    /// - `ValidationException` : Sends a validation exception.
     public func startSuiteRun(input: StartSuiteRunInput) async throws -> StartSuiteRunOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -408,6 +514,17 @@ extension IotDeviceAdvisorClient: IotDeviceAdvisorClientProtocol {
     }
 
     /// Stops a Device Advisor test suite run that is currently running. Requires permission to access the [StopSuiteRun](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter StopSuiteRunInput : [no documentation found]
+    ///
+    /// - Returns: `StopSuiteRunOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : Sends an Internal Failure exception.
+    /// - `ResourceNotFoundException` : Sends a Resource Not Found exception.
+    /// - `ValidationException` : Sends a validation exception.
     public func stopSuiteRun(input: StopSuiteRunInput) async throws -> StopSuiteRunOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -441,6 +558,17 @@ extension IotDeviceAdvisorClient: IotDeviceAdvisorClientProtocol {
     }
 
     /// Adds to and modifies existing tags of an IoT Device Advisor resource. Requires permission to access the [TagResource](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter TagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `TagResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : Sends an Internal Failure exception.
+    /// - `ResourceNotFoundException` : Sends a Resource Not Found exception.
+    /// - `ValidationException` : Sends a validation exception.
     public func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -477,6 +605,17 @@ extension IotDeviceAdvisorClient: IotDeviceAdvisorClientProtocol {
     }
 
     /// Removes tags from an IoT Device Advisor resource. Requires permission to access the [UntagResource](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter UntagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `UntagResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : Sends an Internal Failure exception.
+    /// - `ResourceNotFoundException` : Sends a Resource Not Found exception.
+    /// - `ValidationException` : Sends a validation exception.
     public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -511,6 +650,16 @@ extension IotDeviceAdvisorClient: IotDeviceAdvisorClientProtocol {
     }
 
     /// Updates a Device Advisor test suite. Requires permission to access the [UpdateSuiteDefinition](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
+    ///
+    /// - Parameter UpdateSuiteDefinitionInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateSuiteDefinitionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : Sends an Internal Failure exception.
+    /// - `ValidationException` : Sends a validation exception.
     public func updateSuiteDefinition(input: UpdateSuiteDefinitionInput) async throws -> UpdateSuiteDefinitionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()

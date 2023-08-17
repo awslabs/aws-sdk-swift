@@ -2,21 +2,21 @@
 
 import ClientRuntime
 
-/// Introduction The Amazon Interactive Video Service (IVS) stage API is REST compatible, using a standard HTTP API and an AWS EventBridge event stream for responses. JSON is used for both requests and responses, including errors. Terminology:
+/// Introduction The Amazon Interactive Video Service (IVS) real-time API is REST compatible, using a standard HTTP API and an AWS EventBridge event stream for responses. JSON is used for both requests and responses, including errors. Terminology:
 ///
-/// * The IVS stage API sometimes is referred to as the IVS RealTime API.
+/// * A stage is a virtual space where participants can exchange video in real time.
 ///
-/// * A participant token is an authorization token used to publish/subscribe to a stage.
+/// * A participant token is a token that authenticates a participant when they join a stage.
 ///
 /// * A participant object represents participants (people) in the stage and contains information about them. When a token is created, it includes a participant ID; when a participant uses that token to join a stage, the participant is associated with that participant ID There is a 1:1 mapping between participant tokens and participants.
 ///
 ///
-/// Resources The following resources contain information about your IVS live stream (see [Getting Started with Amazon IVS](https://docs.aws.amazon.com/ivs/latest/userguide/getting-started.html)):
+/// Resources The following resources contain information about your IVS live stream (see [Getting Started with Amazon IVS Real-Time Streaming](https://docs.aws.amazon.com/ivs/latest/RealTimeUserGuide/getting-started.html)):
 ///
-/// * Stage — A stage is a virtual space where multiple participants can exchange audio and video in real time.
+/// * Stage — A stage is a virtual space where participants can exchange video in real time.
 ///
 ///
-/// Tagging A tag is a metadata label that you assign to an AWS resource. A tag comprises a key and a value, both set by you. For example, you might set a tag as topic:nature to label a particular video category. See [Tagging AWS Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html) for more information, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS stages has no service-specific constraints beyond what is documented there. Tags can help you identify and organize your AWS resources. For example, you can use the same tag for different resources to indicate that they are related. You can also use tags to manage access (see [Access Tags](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_tags.html)). The Amazon IVS stage API has these tag-related endpoints: [TagResource], [UntagResource], and [ListTagsForResource]. The following resource supports tagging: Stage. At most 50 tags can be applied to a resource. Stages Endpoints
+/// Tagging A tag is a metadata label that you assign to an AWS resource. A tag comprises a key and a value, both set by you. For example, you might set a tag as topic:nature to label a particular video category. See [Tagging AWS Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html) for more information, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS stages has no service-specific constraints beyond what is documented there. Tags can help you identify and organize your AWS resources. For example, you can use the same tag for different resources to indicate that they are related. You can also use tags to manage access (see [Access Tags](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_tags.html)). The Amazon IVS real-time API has these tag-related endpoints: [TagResource], [UntagResource], and [ListTagsForResource]. The following resource supports tagging: Stage. At most 50 tags can be applied to a resource. Stages Endpoints
 ///
 /// * [CreateParticipantToken] — Creates an additional token for a specified stage. This can be done after stage creation or when tokens expire.
 ///
@@ -52,34 +52,204 @@ import ClientRuntime
 /// * [UntagResource] — Removes tags from the resource with the specified ARN.
 public protocol IVSRealTimeClientProtocol {
     /// Creates an additional token for a specified stage. This can be done after stage creation or when tokens expire. Tokens always are scoped to the stage for which they are created. Encryption keys are owned by Amazon IVS and never used directly by your application.
+    ///
+    /// - Parameter CreateParticipantTokenInput : [no documentation found]
+    ///
+    /// - Returns: `CreateParticipantTokenOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` :
+    /// - `PendingVerification` :
+    /// - `ResourceNotFoundException` :
+    /// - `ServiceQuotaExceededException` :
+    /// - `ValidationException` :
     func createParticipantToken(input: CreateParticipantTokenInput) async throws -> CreateParticipantTokenOutputResponse
     /// Creates a new stage (and optionally participant tokens).
+    ///
+    /// - Parameter CreateStageInput : [no documentation found]
+    ///
+    /// - Returns: `CreateStageOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` :
+    /// - `PendingVerification` :
+    /// - `ServiceQuotaExceededException` :
+    /// - `ValidationException` :
     func createStage(input: CreateStageInput) async throws -> CreateStageOutputResponse
     /// Shuts down and deletes the specified stage (disconnecting all participants).
+    ///
+    /// - Parameter DeleteStageInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteStageOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` :
+    /// - `ConflictException` :
+    /// - `PendingVerification` :
+    /// - `ResourceNotFoundException` :
+    /// - `ValidationException` :
     func deleteStage(input: DeleteStageInput) async throws -> DeleteStageOutputResponse
     /// Disconnects a specified participant and revokes the participant permanently from a specified stage.
+    ///
+    /// - Parameter DisconnectParticipantInput : [no documentation found]
+    ///
+    /// - Returns: `DisconnectParticipantOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` :
+    /// - `PendingVerification` :
+    /// - `ResourceNotFoundException` :
+    /// - `ValidationException` :
     func disconnectParticipant(input: DisconnectParticipantInput) async throws -> DisconnectParticipantOutputResponse
     /// Gets information about the specified participant token.
+    ///
+    /// - Parameter GetParticipantInput : [no documentation found]
+    ///
+    /// - Returns: `GetParticipantOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` :
+    /// - `ResourceNotFoundException` :
+    /// - `ValidationException` :
     func getParticipant(input: GetParticipantInput) async throws -> GetParticipantOutputResponse
     /// Gets information for the specified stage.
+    ///
+    /// - Parameter GetStageInput : [no documentation found]
+    ///
+    /// - Returns: `GetStageOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` :
+    /// - `ResourceNotFoundException` :
+    /// - `ValidationException` :
     func getStage(input: GetStageInput) async throws -> GetStageOutputResponse
     /// Gets information for the specified stage session.
+    ///
+    /// - Parameter GetStageSessionInput : [no documentation found]
+    ///
+    /// - Returns: `GetStageSessionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` :
+    /// - `ResourceNotFoundException` :
+    /// - `ValidationException` :
     func getStageSession(input: GetStageSessionInput) async throws -> GetStageSessionOutputResponse
     /// Lists events for a specified participant that occurred during a specified stage session.
+    ///
+    /// - Parameter ListParticipantEventsInput : [no documentation found]
+    ///
+    /// - Returns: `ListParticipantEventsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` :
+    /// - `ValidationException` :
     func listParticipantEvents(input: ListParticipantEventsInput) async throws -> ListParticipantEventsOutputResponse
     /// Lists all participants in a specified stage session.
+    ///
+    /// - Parameter ListParticipantsInput : [no documentation found]
+    ///
+    /// - Returns: `ListParticipantsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` :
+    /// - `ValidationException` :
     func listParticipants(input: ListParticipantsInput) async throws -> ListParticipantsOutputResponse
     /// Gets summary information about all stages in your account, in the AWS region where the API request is processed.
+    ///
+    /// - Parameter ListStagesInput : [no documentation found]
+    ///
+    /// - Returns: `ListStagesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` :
+    /// - `ConflictException` :
+    /// - `ValidationException` :
     func listStages(input: ListStagesInput) async throws -> ListStagesOutputResponse
     /// Gets all sessions for a specified stage.
+    ///
+    /// - Parameter ListStageSessionsInput : [no documentation found]
+    ///
+    /// - Returns: `ListStageSessionsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` :
+    /// - `ValidationException` :
     func listStageSessions(input: ListStageSessionsInput) async throws -> ListStageSessionsOutputResponse
     /// Gets information about AWS tags for the specified ARN.
+    ///
+    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    ///
+    /// - Returns: `ListTagsForResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` :
+    /// - `ResourceNotFoundException` :
+    /// - `ValidationException` :
     func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
     /// Adds or updates tags for the AWS resource with the specified ARN.
+    ///
+    /// - Parameter TagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `TagResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` :
+    /// - `ResourceNotFoundException` :
+    /// - `ValidationException` :
     func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
     /// Removes tags from the resource with the specified ARN.
+    ///
+    /// - Parameter UntagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `UntagResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` :
+    /// - `ResourceNotFoundException` :
+    /// - `ValidationException` :
     func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
     /// Updates a stage’s configuration.
+    ///
+    /// - Parameter UpdateStageInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateStageOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` :
+    /// - `PendingVerification` :
+    /// - `ResourceNotFoundException` :
+    /// - `ServiceQuotaExceededException` :
+    /// - `ValidationException` :
     func updateStage(input: UpdateStageInput) async throws -> UpdateStageOutputResponse
 }
 

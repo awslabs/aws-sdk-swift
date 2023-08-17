@@ -5,6 +5,21 @@ import ClientRuntime
 /// Amazon Elastic File System Amazon Elastic File System (Amazon EFS) provides simple, scalable file storage for use with Amazon EC2 Linux and Mac instances in the Amazon Web Services Cloud. With Amazon EFS, storage capacity is elastic, growing and shrinking automatically as you add and remove files, so that your applications have the storage they need, when they need it. For more information, see the [Amazon Elastic File System API Reference](https://docs.aws.amazon.com/efs/latest/ug/api-reference.html) and the [Amazon Elastic File System User Guide](https://docs.aws.amazon.com/efs/latest/ug/whatisefs.html).
 public protocol EFSClientProtocol {
     /// Creates an EFS access point. An access point is an application-specific view into an EFS file system that applies an operating system user and group, and a file system path, to any file system request made through the access point. The operating system user and group override any identity information provided by the NFS client. The file system path is exposed as the access point's root directory. Applications using the access point can only access data in the application's own directory and any subdirectories. To learn more, see [Mounting a file system using EFS access points](https://docs.aws.amazon.com/efs/latest/ug/efs-access-points.html). If multiple requests to create access points on the same file system are sent in quick succession, and the file system is near the limit of 1,000 access points, you may experience a throttling response for these requests. This is to ensure that the file system does not exceed the stated access point limit. This operation requires permissions for the elasticfilesystem:CreateAccessPoint action. Access points can be tagged on creation. If tags are specified in the creation action, IAM performs additional authorization on the elasticfilesystem:TagResource action to verify if users have permissions to create tags. Therefore, you must grant explicit permissions to use the elasticfilesystem:TagResource action. For more information, see [Granting permissions to tag resources during creation](https://docs.aws.amazon.com/efs/latest/ug/using-tags-efs.html#supported-iam-actions-tagging.html).
+    ///
+    /// - Parameter CreateAccessPointInput : [no documentation found]
+    ///
+    /// - Returns: `CreateAccessPointOutputResponse` : Provides a description of an EFS file system access point.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessPointAlreadyExists` : Returned if the access point that you are trying to create already exists, with the creation token you provided in the request.
+    /// - `AccessPointLimitExceeded` : Returned if the Amazon Web Services account has already created the maximum number of access points allowed per file system. For more informaton, see [https://docs.aws.amazon.com/efs/latest/ug/limits.html#limits-efs-resources-per-account-per-region](https://docs.aws.amazon.com/efs/latest/ug/limits.html#limits-efs-resources-per-account-per-region).
+    /// - `BadRequest` : Returned if the request is malformed or contains an error such as an invalid parameter value or a missing required parameter.
+    /// - `FileSystemNotFound` : Returned if the specified FileSystemId value doesn't exist in the requester's Amazon Web Services account.
+    /// - `IncorrectFileSystemLifeCycleState` : Returned if the file system's lifecycle state is not "available".
+    /// - `InternalServerError` : Returned if an error occurred on the server side.
+    /// - `ThrottlingException` : Returned when the CreateAccessPoint API action is called too quickly and the number of Access Points on the file system is nearing the [limit of 120](https://docs.aws.amazon.com/efs/latest/ug/limits.html#limits-efs-resources-per-account-per-region).
     func createAccessPoint(input: CreateAccessPointInput) async throws -> CreateAccessPointOutputResponse
     /// Creates a new, empty file system. The operation requires a creation token in the request that Amazon EFS uses to ensure idempotent creation (calling the operation with same creation token has no effect). If a file system does not currently exist that is owned by the caller's Amazon Web Services account with the specified creation token, this operation does the following:
     ///
@@ -14,6 +29,21 @@ public protocol EFSClientProtocol {
     ///
     ///
     /// Otherwise, this operation returns a FileSystemAlreadyExists error with the ID of the existing file system. For basic use cases, you can use a randomly generated UUID for the creation token. The idempotent operation allows you to retry a CreateFileSystem call without risk of creating an extra file system. This can happen when an initial call fails in a way that leaves it uncertain whether or not a file system was actually created. An example might be that a transport level timeout occurred or your connection was reset. As long as you use the same creation token, if the initial call had succeeded in creating a file system, the client can learn of its existence from the FileSystemAlreadyExists error. For more information, see [Creating a file system](https://docs.aws.amazon.com/efs/latest/ug/creating-using-create-fs.html#creating-using-create-fs-part1) in the Amazon EFS User Guide. The CreateFileSystem call returns while the file system's lifecycle state is still creating. You can check the file system creation status by calling the [DescribeFileSystems] operation, which among other things returns the file system state. This operation accepts an optional PerformanceMode parameter that you choose for your file system. We recommend generalPurpose performance mode for most file systems. File systems using the maxIO performance mode can scale to higher levels of aggregate throughput and operations per second with a tradeoff of slightly higher latencies for most file operations. The performance mode can't be changed after the file system has been created. For more information, see [Amazon EFS performance modes](https://docs.aws.amazon.com/efs/latest/ug/performance.html#performancemodes.html). You can set the throughput mode for the file system using the ThroughputMode parameter. After the file system is fully created, Amazon EFS sets its lifecycle state to available, at which point you can create one or more mount targets for the file system in your VPC. For more information, see [CreateMountTarget]. You mount your Amazon EFS file system on an EC2 instances in your VPC by using the mount target. For more information, see [Amazon EFS: How it Works](https://docs.aws.amazon.com/efs/latest/ug/how-it-works.html). This operation requires permissions for the elasticfilesystem:CreateFileSystem action. File systems can be tagged on creation. If tags are specified in the creation action, IAM performs additional authorization on the elasticfilesystem:TagResource action to verify if users have permissions to create tags. Therefore, you must grant explicit permissions to use the elasticfilesystem:TagResource action. For more information, see [Granting permissions to tag resources during creation](https://docs.aws.amazon.com/efs/latest/ug/using-tags-efs.html#supported-iam-actions-tagging.html).
+    ///
+    /// - Parameter CreateFileSystemInput : [no documentation found]
+    ///
+    /// - Returns: `CreateFileSystemOutputResponse` : A description of the file system.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequest` : Returned if the request is malformed or contains an error such as an invalid parameter value or a missing required parameter.
+    /// - `FileSystemAlreadyExists` : Returned if the file system you are trying to create already exists, with the creation token you provided.
+    /// - `FileSystemLimitExceeded` : Returned if the Amazon Web Services account has already created the maximum number of file systems allowed per account.
+    /// - `InsufficientThroughputCapacity` : Returned if there's not enough capacity to provision additional throughput. This value might be returned when you try to create a file system in provisioned throughput mode, when you attempt to increase the provisioned throughput of an existing file system, or when you attempt to change an existing file system from Bursting Throughput to Provisioned Throughput mode. Try again later.
+    /// - `InternalServerError` : Returned if an error occurred on the server side.
+    /// - `ThroughputLimitExceeded` : Returned if the throughput mode or amount of provisioned throughput can't be changed because the throughput limit of 1024 MiB/s has been reached.
+    /// - `UnsupportedAvailabilityZone` : Returned if the requested Amazon EFS functionality is not available in the specified Availability Zone.
     func createFileSystem(input: CreateFileSystemInput) async throws -> CreateFileSystemOutputResponse
     /// Creates a mount target for a file system. You can then mount the file system on EC2 instances by using the mount target. You can create one mount target in each Availability Zone in your VPC. All EC2 instances in a VPC within a given Availability Zone share a single mount target for a given file system. If you have multiple subnets in an Availability Zone, you create a mount target in one of the subnets. EC2 instances do not need to be in the same subnet as the mount target in order to access their file system. You can create only one mount target for an EFS file system using One Zone storage classes. You must create that mount target in the same Availability Zone in which the file system is located. Use the AvailabilityZoneName and AvailabiltyZoneId properties in the [DescribeFileSystems] response object to get this information. Use the subnetId associated with the file system's Availability Zone when creating the mount target. For more information, see [Amazon EFS: How it Works](https://docs.aws.amazon.com/efs/latest/ug/how-it-works.html). To create a mount target for a file system, the file system's lifecycle state must be available. For more information, see [DescribeFileSystems]. In the request, provide the following:
     ///
@@ -68,6 +98,27 @@ public protocol EFSClientProtocol {
     /// * ec2:DescribeNetworkInterfaces
     ///
     /// * ec2:CreateNetworkInterface
+    ///
+    /// - Parameter CreateMountTargetInput :
+    ///
+    /// - Returns: `CreateMountTargetOutputResponse` : Provides a description of a mount target.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AvailabilityZonesMismatch` : Returned if the Availability Zone that was specified for a mount target is different from the Availability Zone that was specified for One Zone storage. For more information, see [Regional and One Zone storage redundancy](https://docs.aws.amazon.com/efs/latest/ug/availability-durability.html).
+    /// - `BadRequest` : Returned if the request is malformed or contains an error such as an invalid parameter value or a missing required parameter.
+    /// - `FileSystemNotFound` : Returned if the specified FileSystemId value doesn't exist in the requester's Amazon Web Services account.
+    /// - `IncorrectFileSystemLifeCycleState` : Returned if the file system's lifecycle state is not "available".
+    /// - `InternalServerError` : Returned if an error occurred on the server side.
+    /// - `IpAddressInUse` : Returned if the request specified an IpAddress that is already in use in the subnet.
+    /// - `MountTargetConflict` : Returned if the mount target would violate one of the specified restrictions based on the file system's existing mount targets.
+    /// - `NetworkInterfaceLimitExceeded` : The calling account has reached the limit for elastic network interfaces for the specific Amazon Web Services Region. Either delete some network interfaces or request that the account quota be raised. For more information, see [Amazon VPC Quotas](https://docs.aws.amazon.com/AmazonVPC/latest/UserGuide/VPC_Appendix_Limits.html) in the Amazon VPC User Guide (see the Network interfaces per Region entry in the Network interfaces table).
+    /// - `NoFreeAddressesInSubnet` : Returned if IpAddress was not specified in the request and there are no free IP addresses in the subnet.
+    /// - `SecurityGroupLimitExceeded` : Returned if the size of SecurityGroups specified in the request is greater than five.
+    /// - `SecurityGroupNotFound` : Returned if one of the specified security groups doesn't exist in the subnet's virtual private cloud (VPC).
+    /// - `SubnetNotFound` : Returned if there is no subnet with ID SubnetId provided in the request.
+    /// - `UnsupportedAvailabilityZone` : Returned if the requested Amazon EFS functionality is not available in the specified Availability Zone.
     func createMountTarget(input: CreateMountTargetInput) async throws -> CreateMountTargetOutputResponse
     /// Creates a replication configuration that replicates an existing EFS file system to a new, read-only file system. For more information, see [Amazon EFS replication](https://docs.aws.amazon.com/efs/latest/ug/efs-replication.html) in the Amazon EFS User Guide. The replication configuration specifies the following:
     ///
@@ -100,15 +151,79 @@ public protocol EFSClientProtocol {
     ///
     ///
     /// For more information, see [Amazon EFS replication](https://docs.aws.amazon.com/efs/latest/ug/efs-replication.html) in the Amazon EFS User Guide.
+    ///
+    /// - Parameter CreateReplicationConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `CreateReplicationConfigurationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequest` : Returned if the request is malformed or contains an error such as an invalid parameter value or a missing required parameter.
+    /// - `FileSystemLimitExceeded` : Returned if the Amazon Web Services account has already created the maximum number of file systems allowed per account.
+    /// - `FileSystemNotFound` : Returned if the specified FileSystemId value doesn't exist in the requester's Amazon Web Services account.
+    /// - `IncorrectFileSystemLifeCycleState` : Returned if the file system's lifecycle state is not "available".
+    /// - `InsufficientThroughputCapacity` : Returned if there's not enough capacity to provision additional throughput. This value might be returned when you try to create a file system in provisioned throughput mode, when you attempt to increase the provisioned throughput of an existing file system, or when you attempt to change an existing file system from Bursting Throughput to Provisioned Throughput mode. Try again later.
+    /// - `InternalServerError` : Returned if an error occurred on the server side.
+    /// - `ReplicationNotFound` : Returned if the specified file system does not have a replication configuration.
+    /// - `ThroughputLimitExceeded` : Returned if the throughput mode or amount of provisioned throughput can't be changed because the throughput limit of 1024 MiB/s has been reached.
+    /// - `UnsupportedAvailabilityZone` : Returned if the requested Amazon EFS functionality is not available in the specified Availability Zone.
+    /// - `ValidationException` : Returned if the Backup service is not available in the Amazon Web Services Region in which the request was made.
     func createReplicationConfiguration(input: CreateReplicationConfigurationInput) async throws -> CreateReplicationConfigurationOutputResponse
     /// DEPRECATED - CreateTags is deprecated and not maintained. To create tags for EFS resources, use the API action. Creates or overwrites tags associated with a file system. Each tag is a key-value pair. If a tag key specified in the request already exists on the file system, this operation overwrites its value with the value provided in the request. If you add the Name tag to your file system, Amazon EFS returns it in the response to the [DescribeFileSystems] operation. This operation requires permission for the elasticfilesystem:CreateTags action.
     @available(*, deprecated, message: "Use TagResource.")
+    ///
+    /// - Parameter CreateTagsInput :
+    ///
+    /// - Returns: `CreateTagsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequest` : Returned if the request is malformed or contains an error such as an invalid parameter value or a missing required parameter.
+    /// - `FileSystemNotFound` : Returned if the specified FileSystemId value doesn't exist in the requester's Amazon Web Services account.
+    /// - `InternalServerError` : Returned if an error occurred on the server side.
     func createTags(input: CreateTagsInput) async throws -> CreateTagsOutputResponse
     /// Deletes the specified access point. After deletion is complete, new clients can no longer connect to the access points. Clients connected to the access point at the time of deletion will continue to function until they terminate their connection. This operation requires permissions for the elasticfilesystem:DeleteAccessPoint action.
+    ///
+    /// - Parameter DeleteAccessPointInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteAccessPointOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessPointNotFound` : Returned if the specified AccessPointId value doesn't exist in the requester's Amazon Web Services account.
+    /// - `BadRequest` : Returned if the request is malformed or contains an error such as an invalid parameter value or a missing required parameter.
+    /// - `InternalServerError` : Returned if an error occurred on the server side.
     func deleteAccessPoint(input: DeleteAccessPointInput) async throws -> DeleteAccessPointOutputResponse
     /// Deletes a file system, permanently severing access to its contents. Upon return, the file system no longer exists and you can't access any contents of the deleted file system. You need to manually delete mount targets attached to a file system before you can delete an EFS file system. This step is performed for you when you use the Amazon Web Services console to delete a file system. You cannot delete a file system that is part of an EFS Replication configuration. You need to delete the replication configuration first. You can't delete a file system that is in use. That is, if the file system has any mount targets, you must first delete them. For more information, see [DescribeMountTargets] and [DeleteMountTarget]. The DeleteFileSystem call returns while the file system state is still deleting. You can check the file system deletion status by calling the [DescribeFileSystems] operation, which returns a list of file systems in your account. If you pass file system ID or creation token for the deleted file system, the [DescribeFileSystems] returns a 404 FileSystemNotFound error. This operation requires permissions for the elasticfilesystem:DeleteFileSystem action.
+    ///
+    /// - Parameter DeleteFileSystemInput :
+    ///
+    /// - Returns: `DeleteFileSystemOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequest` : Returned if the request is malformed or contains an error such as an invalid parameter value or a missing required parameter.
+    /// - `FileSystemInUse` : Returned if a file system has mount targets.
+    /// - `FileSystemNotFound` : Returned if the specified FileSystemId value doesn't exist in the requester's Amazon Web Services account.
+    /// - `InternalServerError` : Returned if an error occurred on the server side.
     func deleteFileSystem(input: DeleteFileSystemInput) async throws -> DeleteFileSystemOutputResponse
     /// Deletes the FileSystemPolicy for the specified file system. The default FileSystemPolicy goes into effect once the existing policy is deleted. For more information about the default file system policy, see [Using Resource-based Policies with EFS](https://docs.aws.amazon.com/efs/latest/ug/res-based-policies-efs.html). This operation requires permissions for the elasticfilesystem:DeleteFileSystemPolicy action.
+    ///
+    /// - Parameter DeleteFileSystemPolicyInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteFileSystemPolicyOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequest` : Returned if the request is malformed or contains an error such as an invalid parameter value or a missing required parameter.
+    /// - `FileSystemNotFound` : Returned if the specified FileSystemId value doesn't exist in the requester's Amazon Web Services account.
+    /// - `IncorrectFileSystemLifeCycleState` : Returned if the file system's lifecycle state is not "available".
+    /// - `InternalServerError` : Returned if an error occurred on the server side.
     func deleteFileSystemPolicy(input: DeleteFileSystemPolicyInput) async throws -> DeleteFileSystemPolicyOutputResponse
     /// Deletes the specified mount target. This operation forcibly breaks any mounts of the file system by using the mount target that is being deleted, which might disrupt instances or applications using those mounts. To avoid applications getting cut off abruptly, you might consider unmounting any mounts of the mount target, if feasible. The operation also deletes the associated network interface. Uncommitted writes might be lost, but breaking a mount target using this operation does not corrupt the file system itself. The file system you created remains. You can mount an EC2 instance in your VPC by using another mount target. This operation requires permissions for the following action on the file system:
     ///
@@ -118,50 +233,264 @@ public protocol EFSClientProtocol {
     /// The DeleteMountTarget call returns while the mount target state is still deleting. You can check the mount target deletion by calling the [DescribeMountTargets] operation, which returns a list of mount target descriptions for the given file system. The operation also requires permissions for the following Amazon EC2 action on the mount target's network interface:
     ///
     /// * ec2:DeleteNetworkInterface
+    ///
+    /// - Parameter DeleteMountTargetInput :
+    ///
+    /// - Returns: `DeleteMountTargetOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequest` : Returned if the request is malformed or contains an error such as an invalid parameter value or a missing required parameter.
+    /// - `DependencyTimeout` : The service timed out trying to fulfill the request, and the client should try the call again.
+    /// - `InternalServerError` : Returned if an error occurred on the server side.
+    /// - `MountTargetNotFound` : Returned if there is no mount target with the specified ID found in the caller's Amazon Web Services account.
     func deleteMountTarget(input: DeleteMountTargetInput) async throws -> DeleteMountTargetOutputResponse
     /// Deletes an existing replication configuration. To delete a replication configuration, you must make the request from the Amazon Web Services Region in which the destination file system is located. Deleting a replication configuration ends the replication process. After a replication configuration is deleted, the destination file system is no longer read-only. You can write to the destination file system after its status becomes Writeable.
+    ///
+    /// - Parameter DeleteReplicationConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteReplicationConfigurationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequest` : Returned if the request is malformed or contains an error such as an invalid parameter value or a missing required parameter.
+    /// - `FileSystemNotFound` : Returned if the specified FileSystemId value doesn't exist in the requester's Amazon Web Services account.
+    /// - `InternalServerError` : Returned if an error occurred on the server side.
+    /// - `ReplicationNotFound` : Returned if the specified file system does not have a replication configuration.
     func deleteReplicationConfiguration(input: DeleteReplicationConfigurationInput) async throws -> DeleteReplicationConfigurationOutputResponse
     /// DEPRECATED - DeleteTags is deprecated and not maintained. To remove tags from EFS resources, use the API action. Deletes the specified tags from a file system. If the DeleteTags request includes a tag key that doesn't exist, Amazon EFS ignores it and doesn't cause an error. For more information about tags and related restrictions, see [Tag restrictions](https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/cost-alloc-tags.html) in the Billing and Cost Management User Guide. This operation requires permissions for the elasticfilesystem:DeleteTags action.
     @available(*, deprecated, message: "Use UntagResource.")
+    ///
+    /// - Parameter DeleteTagsInput :
+    ///
+    /// - Returns: `DeleteTagsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequest` : Returned if the request is malformed or contains an error such as an invalid parameter value or a missing required parameter.
+    /// - `FileSystemNotFound` : Returned if the specified FileSystemId value doesn't exist in the requester's Amazon Web Services account.
+    /// - `InternalServerError` : Returned if an error occurred on the server side.
     func deleteTags(input: DeleteTagsInput) async throws -> DeleteTagsOutputResponse
     /// Returns the description of a specific Amazon EFS access point if the AccessPointId is provided. If you provide an EFS FileSystemId, it returns descriptions of all access points for that file system. You can provide either an AccessPointId or a FileSystemId in the request, but not both. This operation requires permissions for the elasticfilesystem:DescribeAccessPoints action.
+    ///
+    /// - Parameter DescribeAccessPointsInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeAccessPointsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessPointNotFound` : Returned if the specified AccessPointId value doesn't exist in the requester's Amazon Web Services account.
+    /// - `BadRequest` : Returned if the request is malformed or contains an error such as an invalid parameter value or a missing required parameter.
+    /// - `FileSystemNotFound` : Returned if the specified FileSystemId value doesn't exist in the requester's Amazon Web Services account.
+    /// - `InternalServerError` : Returned if an error occurred on the server side.
     func describeAccessPoints(input: DescribeAccessPointsInput) async throws -> DescribeAccessPointsOutputResponse
     /// Returns the account preferences settings for the Amazon Web Services account associated with the user making the request, in the current Amazon Web Services Region. For more information, see [Managing Amazon EFS resource IDs].
+    ///
+    /// - Parameter DescribeAccountPreferencesInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeAccountPreferencesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerError` : Returned if an error occurred on the server side.
     func describeAccountPreferences(input: DescribeAccountPreferencesInput) async throws -> DescribeAccountPreferencesOutputResponse
     /// Returns the backup policy for the specified EFS file system.
+    ///
+    /// - Parameter DescribeBackupPolicyInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeBackupPolicyOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequest` : Returned if the request is malformed or contains an error such as an invalid parameter value or a missing required parameter.
+    /// - `FileSystemNotFound` : Returned if the specified FileSystemId value doesn't exist in the requester's Amazon Web Services account.
+    /// - `InternalServerError` : Returned if an error occurred on the server side.
+    /// - `PolicyNotFound` : Returned if the default file system policy is in effect for the EFS file system specified.
+    /// - `ValidationException` : Returned if the Backup service is not available in the Amazon Web Services Region in which the request was made.
     func describeBackupPolicy(input: DescribeBackupPolicyInput) async throws -> DescribeBackupPolicyOutputResponse
     /// Returns the FileSystemPolicy for the specified EFS file system. This operation requires permissions for the elasticfilesystem:DescribeFileSystemPolicy action.
+    ///
+    /// - Parameter DescribeFileSystemPolicyInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeFileSystemPolicyOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequest` : Returned if the request is malformed or contains an error such as an invalid parameter value or a missing required parameter.
+    /// - `FileSystemNotFound` : Returned if the specified FileSystemId value doesn't exist in the requester's Amazon Web Services account.
+    /// - `InternalServerError` : Returned if an error occurred on the server side.
+    /// - `PolicyNotFound` : Returned if the default file system policy is in effect for the EFS file system specified.
     func describeFileSystemPolicy(input: DescribeFileSystemPolicyInput) async throws -> DescribeFileSystemPolicyOutputResponse
     /// Returns the description of a specific Amazon EFS file system if either the file system CreationToken or the FileSystemId is provided. Otherwise, it returns descriptions of all file systems owned by the caller's Amazon Web Services account in the Amazon Web Services Region of the endpoint that you're calling. When retrieving all file system descriptions, you can optionally specify the MaxItems parameter to limit the number of descriptions in a response. This number is automatically set to 100. If more file system descriptions remain, Amazon EFS returns a NextMarker, an opaque token, in the response. In this case, you should send a subsequent request with the Marker request parameter set to the value of NextMarker. To retrieve a list of your file system descriptions, this operation is used in an iterative process, where DescribeFileSystems is called first without the Marker and then the operation continues to call it with the Marker parameter set to the value of the NextMarker from the previous response until the response has no NextMarker. The order of file systems returned in the response of one DescribeFileSystems call and the order of file systems returned across the responses of a multi-call iteration is unspecified. This operation requires permissions for the elasticfilesystem:DescribeFileSystems action.
+    ///
+    /// - Parameter DescribeFileSystemsInput :
+    ///
+    /// - Returns: `DescribeFileSystemsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequest` : Returned if the request is malformed or contains an error such as an invalid parameter value or a missing required parameter.
+    /// - `FileSystemNotFound` : Returned if the specified FileSystemId value doesn't exist in the requester's Amazon Web Services account.
+    /// - `InternalServerError` : Returned if an error occurred on the server side.
     func describeFileSystems(input: DescribeFileSystemsInput) async throws -> DescribeFileSystemsOutputResponse
     /// Returns the current LifecycleConfiguration object for the specified Amazon EFS file system. EFS lifecycle management uses the LifecycleConfiguration object to identify which files to move to the EFS Infrequent Access (IA) storage class. For a file system without a LifecycleConfiguration object, the call returns an empty array in the response. When EFS Intelligent-Tiering is enabled, TransitionToPrimaryStorageClass has a value of AFTER_1_ACCESS. This operation requires permissions for the elasticfilesystem:DescribeLifecycleConfiguration operation.
+    ///
+    /// - Parameter DescribeLifecycleConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeLifecycleConfigurationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequest` : Returned if the request is malformed or contains an error such as an invalid parameter value or a missing required parameter.
+    /// - `FileSystemNotFound` : Returned if the specified FileSystemId value doesn't exist in the requester's Amazon Web Services account.
+    /// - `InternalServerError` : Returned if an error occurred on the server side.
     func describeLifecycleConfiguration(input: DescribeLifecycleConfigurationInput) async throws -> DescribeLifecycleConfigurationOutputResponse
     /// Returns the descriptions of all the current mount targets, or a specific mount target, for a file system. When requesting all of the current mount targets, the order of mount targets returned in the response is unspecified. This operation requires permissions for the elasticfilesystem:DescribeMountTargets action, on either the file system ID that you specify in FileSystemId, or on the file system of the mount target that you specify in MountTargetId.
+    ///
+    /// - Parameter DescribeMountTargetsInput :
+    ///
+    /// - Returns: `DescribeMountTargetsOutputResponse` :
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessPointNotFound` : Returned if the specified AccessPointId value doesn't exist in the requester's Amazon Web Services account.
+    /// - `BadRequest` : Returned if the request is malformed or contains an error such as an invalid parameter value or a missing required parameter.
+    /// - `FileSystemNotFound` : Returned if the specified FileSystemId value doesn't exist in the requester's Amazon Web Services account.
+    /// - `InternalServerError` : Returned if an error occurred on the server side.
+    /// - `MountTargetNotFound` : Returned if there is no mount target with the specified ID found in the caller's Amazon Web Services account.
     func describeMountTargets(input: DescribeMountTargetsInput) async throws -> DescribeMountTargetsOutputResponse
     /// Returns the security groups currently in effect for a mount target. This operation requires that the network interface of the mount target has been created and the lifecycle state of the mount target is not deleted. This operation requires permissions for the following actions:
     ///
     /// * elasticfilesystem:DescribeMountTargetSecurityGroups action on the mount target's file system.
     ///
     /// * ec2:DescribeNetworkInterfaceAttribute action on the mount target's network interface.
+    ///
+    /// - Parameter DescribeMountTargetSecurityGroupsInput :
+    ///
+    /// - Returns: `DescribeMountTargetSecurityGroupsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequest` : Returned if the request is malformed or contains an error such as an invalid parameter value or a missing required parameter.
+    /// - `IncorrectMountTargetState` : Returned if the mount target is not in the correct state for the operation.
+    /// - `InternalServerError` : Returned if an error occurred on the server side.
+    /// - `MountTargetNotFound` : Returned if there is no mount target with the specified ID found in the caller's Amazon Web Services account.
     func describeMountTargetSecurityGroups(input: DescribeMountTargetSecurityGroupsInput) async throws -> DescribeMountTargetSecurityGroupsOutputResponse
     /// Retrieves the replication configuration for a specific file system. If a file system is not specified, all of the replication configurations for the Amazon Web Services account in an Amazon Web Services Region are retrieved.
+    ///
+    /// - Parameter DescribeReplicationConfigurationsInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeReplicationConfigurationsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequest` : Returned if the request is malformed or contains an error such as an invalid parameter value or a missing required parameter.
+    /// - `FileSystemNotFound` : Returned if the specified FileSystemId value doesn't exist in the requester's Amazon Web Services account.
+    /// - `InternalServerError` : Returned if an error occurred on the server side.
+    /// - `ReplicationNotFound` : Returned if the specified file system does not have a replication configuration.
+    /// - `ValidationException` : Returned if the Backup service is not available in the Amazon Web Services Region in which the request was made.
     func describeReplicationConfigurations(input: DescribeReplicationConfigurationsInput) async throws -> DescribeReplicationConfigurationsOutputResponse
     /// DEPRECATED - The DescribeTags action is deprecated and not maintained. To view tags associated with EFS resources, use the ListTagsForResource API action. Returns the tags associated with a file system. The order of tags returned in the response of one DescribeTags call and the order of tags returned across the responses of a multiple-call iteration (when using pagination) is unspecified. This operation requires permissions for the elasticfilesystem:DescribeTags action.
     @available(*, deprecated, message: "Use ListTagsForResource.")
+    ///
+    /// - Parameter DescribeTagsInput :
+    ///
+    /// - Returns: `DescribeTagsOutputResponse` :
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequest` : Returned if the request is malformed or contains an error such as an invalid parameter value or a missing required parameter.
+    /// - `FileSystemNotFound` : Returned if the specified FileSystemId value doesn't exist in the requester's Amazon Web Services account.
+    /// - `InternalServerError` : Returned if an error occurred on the server side.
     func describeTags(input: DescribeTagsInput) async throws -> DescribeTagsOutputResponse
     /// Lists all tags for a top-level EFS resource. You must provide the ID of the resource that you want to retrieve the tags for. This operation requires permissions for the elasticfilesystem:DescribeAccessPoints action.
+    ///
+    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    ///
+    /// - Returns: `ListTagsForResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessPointNotFound` : Returned if the specified AccessPointId value doesn't exist in the requester's Amazon Web Services account.
+    /// - `BadRequest` : Returned if the request is malformed or contains an error such as an invalid parameter value or a missing required parameter.
+    /// - `FileSystemNotFound` : Returned if the specified FileSystemId value doesn't exist in the requester's Amazon Web Services account.
+    /// - `InternalServerError` : Returned if an error occurred on the server side.
     func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
     /// Modifies the set of security groups in effect for a mount target. When you create a mount target, Amazon EFS also creates a new network interface. For more information, see [CreateMountTarget]. This operation replaces the security groups in effect for the network interface associated with a mount target, with the SecurityGroups provided in the request. This operation requires that the network interface of the mount target has been created and the lifecycle state of the mount target is not deleted. The operation requires permissions for the following actions:
     ///
     /// * elasticfilesystem:ModifyMountTargetSecurityGroups action on the mount target's file system.
     ///
     /// * ec2:ModifyNetworkInterfaceAttribute action on the mount target's network interface.
+    ///
+    /// - Parameter ModifyMountTargetSecurityGroupsInput :
+    ///
+    /// - Returns: `ModifyMountTargetSecurityGroupsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequest` : Returned if the request is malformed or contains an error such as an invalid parameter value or a missing required parameter.
+    /// - `IncorrectMountTargetState` : Returned if the mount target is not in the correct state for the operation.
+    /// - `InternalServerError` : Returned if an error occurred on the server side.
+    /// - `MountTargetNotFound` : Returned if there is no mount target with the specified ID found in the caller's Amazon Web Services account.
+    /// - `SecurityGroupLimitExceeded` : Returned if the size of SecurityGroups specified in the request is greater than five.
+    /// - `SecurityGroupNotFound` : Returned if one of the specified security groups doesn't exist in the subnet's virtual private cloud (VPC).
     func modifyMountTargetSecurityGroups(input: ModifyMountTargetSecurityGroupsInput) async throws -> ModifyMountTargetSecurityGroupsOutputResponse
     /// Use this operation to set the account preference in the current Amazon Web Services Region to use long 17 character (63 bit) or short 8 character (32 bit) resource IDs for new EFS file system and mount target resources. All existing resource IDs are not affected by any changes you make. You can set the ID preference during the opt-in period as EFS transitions to long resource IDs. For more information, see [Managing Amazon EFS resource IDs](https://docs.aws.amazon.com/efs/latest/ug/manage-efs-resource-ids.html). Starting in October, 2021, you will receive an error if you try to set the account preference to use the short 8 character format resource ID. Contact Amazon Web Services support if you receive an error and must use short IDs for file system and mount target resources.
+    ///
+    /// - Parameter PutAccountPreferencesInput : [no documentation found]
+    ///
+    /// - Returns: `PutAccountPreferencesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequest` : Returned if the request is malformed or contains an error such as an invalid parameter value or a missing required parameter.
+    /// - `InternalServerError` : Returned if an error occurred on the server side.
     func putAccountPreferences(input: PutAccountPreferencesInput) async throws -> PutAccountPreferencesOutputResponse
     /// Updates the file system's backup policy. Use this action to start or stop automatic backups of the file system.
+    ///
+    /// - Parameter PutBackupPolicyInput : [no documentation found]
+    ///
+    /// - Returns: `PutBackupPolicyOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequest` : Returned if the request is malformed or contains an error such as an invalid parameter value or a missing required parameter.
+    /// - `FileSystemNotFound` : Returned if the specified FileSystemId value doesn't exist in the requester's Amazon Web Services account.
+    /// - `IncorrectFileSystemLifeCycleState` : Returned if the file system's lifecycle state is not "available".
+    /// - `InternalServerError` : Returned if an error occurred on the server side.
+    /// - `ValidationException` : Returned if the Backup service is not available in the Amazon Web Services Region in which the request was made.
     func putBackupPolicy(input: PutBackupPolicyInput) async throws -> PutBackupPolicyOutputResponse
     /// Applies an Amazon EFS FileSystemPolicy to an Amazon EFS file system. A file system policy is an IAM resource-based policy and can contain multiple policy statements. A file system always has exactly one file system policy, which can be the default policy or an explicit policy set or updated using this API operation. EFS file system policies have a 20,000 character limit. When an explicit policy is set, it overrides the default policy. For more information about the default file system policy, see [Default EFS File System Policy](https://docs.aws.amazon.com/efs/latest/ug/iam-access-control-nfs-efs.html#default-filesystempolicy). EFS file system policies have a 20,000 character limit. This operation requires permissions for the elasticfilesystem:PutFileSystemPolicy action.
+    ///
+    /// - Parameter PutFileSystemPolicyInput : [no documentation found]
+    ///
+    /// - Returns: `PutFileSystemPolicyOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequest` : Returned if the request is malformed or contains an error such as an invalid parameter value or a missing required parameter.
+    /// - `FileSystemNotFound` : Returned if the specified FileSystemId value doesn't exist in the requester's Amazon Web Services account.
+    /// - `IncorrectFileSystemLifeCycleState` : Returned if the file system's lifecycle state is not "available".
+    /// - `InternalServerError` : Returned if an error occurred on the server side.
+    /// - `InvalidPolicyException` : Returned if the FileSystemPolicy is malformed or contains an error such as a parameter value that is not valid or a missing required parameter. Returned in the case of a policy lockout safety check error.
     func putFileSystemPolicy(input: PutFileSystemPolicyInput) async throws -> PutFileSystemPolicyOutputResponse
     /// Use this action to manage EFS lifecycle management and EFS Intelligent-Tiering. A LifecycleConfiguration consists of one or more LifecyclePolicy objects that define the following:
     ///
@@ -178,12 +507,63 @@ public protocol EFSClientProtocol {
     ///
     ///
     /// This operation requires permissions for the elasticfilesystem:PutLifecycleConfiguration operation. To apply a LifecycleConfiguration object to an encrypted file system, you need the same Key Management Service permissions as when you created the encrypted file system.
+    ///
+    /// - Parameter PutLifecycleConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `PutLifecycleConfigurationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequest` : Returned if the request is malformed or contains an error such as an invalid parameter value or a missing required parameter.
+    /// - `FileSystemNotFound` : Returned if the specified FileSystemId value doesn't exist in the requester's Amazon Web Services account.
+    /// - `IncorrectFileSystemLifeCycleState` : Returned if the file system's lifecycle state is not "available".
+    /// - `InternalServerError` : Returned if an error occurred on the server side.
     func putLifecycleConfiguration(input: PutLifecycleConfigurationInput) async throws -> PutLifecycleConfigurationOutputResponse
     /// Creates a tag for an EFS resource. You can create tags for EFS file systems and access points using this API operation. This operation requires permissions for the elasticfilesystem:TagResource action.
+    ///
+    /// - Parameter TagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `TagResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessPointNotFound` : Returned if the specified AccessPointId value doesn't exist in the requester's Amazon Web Services account.
+    /// - `BadRequest` : Returned if the request is malformed or contains an error such as an invalid parameter value or a missing required parameter.
+    /// - `FileSystemNotFound` : Returned if the specified FileSystemId value doesn't exist in the requester's Amazon Web Services account.
+    /// - `InternalServerError` : Returned if an error occurred on the server side.
     func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
     /// Removes tags from an EFS resource. You can remove tags from EFS file systems and access points using this API operation. This operation requires permissions for the elasticfilesystem:UntagResource action.
+    ///
+    /// - Parameter UntagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `UntagResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessPointNotFound` : Returned if the specified AccessPointId value doesn't exist in the requester's Amazon Web Services account.
+    /// - `BadRequest` : Returned if the request is malformed or contains an error such as an invalid parameter value or a missing required parameter.
+    /// - `FileSystemNotFound` : Returned if the specified FileSystemId value doesn't exist in the requester's Amazon Web Services account.
+    /// - `InternalServerError` : Returned if an error occurred on the server side.
     func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
     /// Updates the throughput mode or the amount of provisioned throughput of an existing file system.
+    ///
+    /// - Parameter UpdateFileSystemInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateFileSystemOutputResponse` : A description of the file system.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequest` : Returned if the request is malformed or contains an error such as an invalid parameter value or a missing required parameter.
+    /// - `FileSystemNotFound` : Returned if the specified FileSystemId value doesn't exist in the requester's Amazon Web Services account.
+    /// - `IncorrectFileSystemLifeCycleState` : Returned if the file system's lifecycle state is not "available".
+    /// - `InsufficientThroughputCapacity` : Returned if there's not enough capacity to provision additional throughput. This value might be returned when you try to create a file system in provisioned throughput mode, when you attempt to increase the provisioned throughput of an existing file system, or when you attempt to change an existing file system from Bursting Throughput to Provisioned Throughput mode. Try again later.
+    /// - `InternalServerError` : Returned if an error occurred on the server side.
+    /// - `ThroughputLimitExceeded` : Returned if the throughput mode or amount of provisioned throughput can't be changed because the throughput limit of 1024 MiB/s has been reached.
+    /// - `TooManyRequests` : Returned if you don’t wait at least 24 hours before either changing the throughput mode, or decreasing the Provisioned Throughput value.
     func updateFileSystem(input: UpdateFileSystemInput) async throws -> UpdateFileSystemOutputResponse
 }
 

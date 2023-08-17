@@ -68,6 +68,21 @@ public struct MedicalImagingClientLogHandlerFactory: ClientRuntime.SDKLogHandler
 
 extension MedicalImagingClient: MedicalImagingClientProtocol {
     /// Copy an image set.
+    ///
+    /// - Parameter CopyImageSetInput : [no documentation found]
+    ///
+    /// - Returns: `CopyImageSetOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The user does not have sufficient access to perform this action.
+    /// - `ConflictException` : Updating or deleting a resource can cause an inconsistent state.
+    /// - `InternalServerException` : An unexpected error occurred during processing of the request.
+    /// - `ResourceNotFoundException` : The request references a resource which does not exist.
+    /// - `ServiceQuotaExceededException` : The request caused a service quota to be exceeded.
+    /// - `ThrottlingException` : The request was denied due to throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func copyImageSet(input: CopyImageSetInput) async throws -> CopyImageSetOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -104,6 +119,20 @@ extension MedicalImagingClient: MedicalImagingClientProtocol {
     }
 
     /// Create a data store.
+    ///
+    /// - Parameter CreateDatastoreInput : [no documentation found]
+    ///
+    /// - Returns: `CreateDatastoreOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The user does not have sufficient access to perform this action.
+    /// - `ConflictException` : Updating or deleting a resource can cause an inconsistent state.
+    /// - `InternalServerException` : An unexpected error occurred during processing of the request.
+    /// - `ServiceQuotaExceededException` : The request caused a service quota to be exceeded.
+    /// - `ThrottlingException` : The request was denied due to throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func createDatastore(input: CreateDatastoreInput) async throws -> CreateDatastoreOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -148,6 +177,20 @@ extension MedicalImagingClient: MedicalImagingClientProtocol {
     }
 
     /// Delete a data store. Before a data store can be deleted, you must first delete all image sets within it.
+    ///
+    /// - Parameter DeleteDatastoreInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteDatastoreOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The user does not have sufficient access to perform this action.
+    /// - `ConflictException` : Updating or deleting a resource can cause an inconsistent state.
+    /// - `InternalServerException` : An unexpected error occurred during processing of the request.
+    /// - `ResourceNotFoundException` : The request references a resource which does not exist.
+    /// - `ThrottlingException` : The request was denied due to throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func deleteDatastore(input: DeleteDatastoreInput) async throws -> DeleteDatastoreOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -181,6 +224,20 @@ extension MedicalImagingClient: MedicalImagingClientProtocol {
     }
 
     /// Delete an image set.
+    ///
+    /// - Parameter DeleteImageSetInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteImageSetOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The user does not have sufficient access to perform this action.
+    /// - `ConflictException` : Updating or deleting a resource can cause an inconsistent state.
+    /// - `InternalServerException` : An unexpected error occurred during processing of the request.
+    /// - `ResourceNotFoundException` : The request references a resource which does not exist.
+    /// - `ThrottlingException` : The request was denied due to throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func deleteImageSet(input: DeleteImageSetInput) async throws -> DeleteImageSetOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -214,6 +271,20 @@ extension MedicalImagingClient: MedicalImagingClientProtocol {
     }
 
     /// Get the import job properties to learn more about the job or job progress.
+    ///
+    /// - Parameter GetDICOMImportJobInput : [no documentation found]
+    ///
+    /// - Returns: `GetDICOMImportJobOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The user does not have sufficient access to perform this action.
+    /// - `ConflictException` : Updating or deleting a resource can cause an inconsistent state.
+    /// - `InternalServerException` : An unexpected error occurred during processing of the request.
+    /// - `ResourceNotFoundException` : The request references a resource which does not exist.
+    /// - `ThrottlingException` : The request was denied due to throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func getDICOMImportJob(input: GetDICOMImportJobInput) async throws -> GetDICOMImportJobOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -247,6 +318,19 @@ extension MedicalImagingClient: MedicalImagingClientProtocol {
     }
 
     /// Get data store properties.
+    ///
+    /// - Parameter GetDatastoreInput : [no documentation found]
+    ///
+    /// - Returns: `GetDatastoreOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The user does not have sufficient access to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred during processing of the request.
+    /// - `ResourceNotFoundException` : The request references a resource which does not exist.
+    /// - `ThrottlingException` : The request was denied due to throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func getDatastore(input: GetDatastoreInput) async throws -> GetDatastoreOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -280,6 +364,20 @@ extension MedicalImagingClient: MedicalImagingClientProtocol {
     }
 
     /// Get an image frame (pixel data) for an image set.
+    ///
+    /// - Parameter GetImageFrameInput : [no documentation found]
+    ///
+    /// - Returns: `GetImageFrameOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The user does not have sufficient access to perform this action.
+    /// - `ConflictException` : Updating or deleting a resource can cause an inconsistent state.
+    /// - `InternalServerException` : An unexpected error occurred during processing of the request.
+    /// - `ResourceNotFoundException` : The request references a resource which does not exist.
+    /// - `ThrottlingException` : The request was denied due to throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func getImageFrame(input: GetImageFrameInput) async throws -> GetImageFrameOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -316,6 +414,20 @@ extension MedicalImagingClient: MedicalImagingClientProtocol {
     }
 
     /// Get image set properties.
+    ///
+    /// - Parameter GetImageSetInput : [no documentation found]
+    ///
+    /// - Returns: `GetImageSetOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The user does not have sufficient access to perform this action.
+    /// - `ConflictException` : Updating or deleting a resource can cause an inconsistent state.
+    /// - `InternalServerException` : An unexpected error occurred during processing of the request.
+    /// - `ResourceNotFoundException` : The request references a resource which does not exist.
+    /// - `ThrottlingException` : The request was denied due to throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func getImageSet(input: GetImageSetInput) async throws -> GetImageSetOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -350,6 +462,20 @@ extension MedicalImagingClient: MedicalImagingClientProtocol {
     }
 
     /// Get metadata attributes for an image set.
+    ///
+    /// - Parameter GetImageSetMetadataInput : [no documentation found]
+    ///
+    /// - Returns: `GetImageSetMetadataOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The user does not have sufficient access to perform this action.
+    /// - `ConflictException` : Updating or deleting a resource can cause an inconsistent state.
+    /// - `InternalServerException` : An unexpected error occurred during processing of the request.
+    /// - `ResourceNotFoundException` : The request references a resource which does not exist.
+    /// - `ThrottlingException` : The request was denied due to throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func getImageSetMetadata(input: GetImageSetMetadataInput) async throws -> GetImageSetMetadataOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -384,6 +510,20 @@ extension MedicalImagingClient: MedicalImagingClientProtocol {
     }
 
     /// List import jobs created by this AWS account for a specific data store.
+    ///
+    /// - Parameter ListDICOMImportJobsInput : [no documentation found]
+    ///
+    /// - Returns: `ListDICOMImportJobsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The user does not have sufficient access to perform this action.
+    /// - `ConflictException` : Updating or deleting a resource can cause an inconsistent state.
+    /// - `InternalServerException` : An unexpected error occurred during processing of the request.
+    /// - `ResourceNotFoundException` : The request references a resource which does not exist.
+    /// - `ThrottlingException` : The request was denied due to throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func listDICOMImportJobs(input: ListDICOMImportJobsInput) async throws -> ListDICOMImportJobsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -418,6 +558,18 @@ extension MedicalImagingClient: MedicalImagingClientProtocol {
     }
 
     /// List data stores created by this AWS account.
+    ///
+    /// - Parameter ListDatastoresInput : [no documentation found]
+    ///
+    /// - Returns: `ListDatastoresOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The user does not have sufficient access to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred during processing of the request.
+    /// - `ThrottlingException` : The request was denied due to throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func listDatastores(input: ListDatastoresInput) async throws -> ListDatastoresOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -452,6 +604,20 @@ extension MedicalImagingClient: MedicalImagingClientProtocol {
     }
 
     /// List image set versions.
+    ///
+    /// - Parameter ListImageSetVersionsInput : [no documentation found]
+    ///
+    /// - Returns: `ListImageSetVersionsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The user does not have sufficient access to perform this action.
+    /// - `ConflictException` : Updating or deleting a resource can cause an inconsistent state.
+    /// - `InternalServerException` : An unexpected error occurred during processing of the request.
+    /// - `ResourceNotFoundException` : The request references a resource which does not exist.
+    /// - `ThrottlingException` : The request was denied due to throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func listImageSetVersions(input: ListImageSetVersionsInput) async throws -> ListImageSetVersionsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -486,6 +652,19 @@ extension MedicalImagingClient: MedicalImagingClientProtocol {
     }
 
     /// Lists all tags associated with a medical imaging resource.
+    ///
+    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    ///
+    /// - Returns: `ListTagsForResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The user does not have sufficient access to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred during processing of the request.
+    /// - `ResourceNotFoundException` : The request references a resource which does not exist.
+    /// - `ThrottlingException` : The request was denied due to throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -519,6 +698,20 @@ extension MedicalImagingClient: MedicalImagingClientProtocol {
     }
 
     /// Search image sets based on defined input attributes.
+    ///
+    /// - Parameter SearchImageSetsInput : [no documentation found]
+    ///
+    /// - Returns: `SearchImageSetsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The user does not have sufficient access to perform this action.
+    /// - `ConflictException` : Updating or deleting a resource can cause an inconsistent state.
+    /// - `InternalServerException` : An unexpected error occurred during processing of the request.
+    /// - `ResourceNotFoundException` : The request references a resource which does not exist.
+    /// - `ThrottlingException` : The request was denied due to throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func searchImageSets(input: SearchImageSetsInput) async throws -> SearchImageSetsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -556,6 +749,21 @@ extension MedicalImagingClient: MedicalImagingClientProtocol {
     }
 
     /// Start importing bulk data into an ACTIVE data store. The import job imports DICOM P10 files found in the S3 prefix specified by the inputS3Uri parameter. The import job stores processing results in the file specified by the outputS3Uri parameter.
+    ///
+    /// - Parameter StartDICOMImportJobInput : [no documentation found]
+    ///
+    /// - Returns: `StartDICOMImportJobOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The user does not have sufficient access to perform this action.
+    /// - `ConflictException` : Updating or deleting a resource can cause an inconsistent state.
+    /// - `InternalServerException` : An unexpected error occurred during processing of the request.
+    /// - `ResourceNotFoundException` : The request references a resource which does not exist.
+    /// - `ServiceQuotaExceededException` : The request caused a service quota to be exceeded.
+    /// - `ThrottlingException` : The request was denied due to throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func startDICOMImportJob(input: StartDICOMImportJobInput) async throws -> StartDICOMImportJobOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -600,6 +808,19 @@ extension MedicalImagingClient: MedicalImagingClientProtocol {
     }
 
     /// Adds a user-specifed key and value tag to a medical imaging resource.
+    ///
+    /// - Parameter TagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `TagResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The user does not have sufficient access to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred during processing of the request.
+    /// - `ResourceNotFoundException` : The request references a resource which does not exist.
+    /// - `ThrottlingException` : The request was denied due to throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -636,6 +857,19 @@ extension MedicalImagingClient: MedicalImagingClientProtocol {
     }
 
     /// Removes tags from a medical imaging resource.
+    ///
+    /// - Parameter UntagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `UntagResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The user does not have sufficient access to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred during processing of the request.
+    /// - `ResourceNotFoundException` : The request references a resource which does not exist.
+    /// - `ThrottlingException` : The request was denied due to throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -670,6 +904,21 @@ extension MedicalImagingClient: MedicalImagingClientProtocol {
     }
 
     /// Update image set metadata attributes.
+    ///
+    /// - Parameter UpdateImageSetMetadataInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateImageSetMetadataOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The user does not have sufficient access to perform this action.
+    /// - `ConflictException` : Updating or deleting a resource can cause an inconsistent state.
+    /// - `InternalServerException` : An unexpected error occurred during processing of the request.
+    /// - `ResourceNotFoundException` : The request references a resource which does not exist.
+    /// - `ServiceQuotaExceededException` : The request caused a service quota to be exceeded.
+    /// - `ThrottlingException` : The request was denied due to throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func updateImageSetMetadata(input: UpdateImageSetMetadataInput) async throws -> UpdateImageSetMetadataOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()

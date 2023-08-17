@@ -68,6 +68,17 @@ public struct OpenSearchClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFact
 
 extension OpenSearchClient: OpenSearchClientProtocol {
     /// Allows the destination Amazon OpenSearch Service domain owner to accept an inbound cross-cluster search connection request. For more information, see [Cross-cluster search for Amazon OpenSearch Service](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/cross-cluster-search.html).
+    ///
+    /// - Parameter AcceptInboundConnectionInput : Container for the parameters to the AcceptInboundConnection operation.
+    ///
+    /// - Returns: `AcceptInboundConnectionOutputResponse` : Contains details about the accepted inbound connection.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DisabledOperationException` : An error occured because the client wanted to access an unsupported operation.
+    /// - `LimitExceededException` : An exception for trying to create more than the allowed number of resources or sub-resources.
+    /// - `ResourceNotFoundException` : An exception for accessing or deleting a resource that doesn't exist.
     public func acceptInboundConnection(input: AcceptInboundConnectionInput) async throws -> AcceptInboundConnectionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -101,6 +112,18 @@ extension OpenSearchClient: OpenSearchClientProtocol {
     }
 
     /// Attaches tags to an existing Amazon OpenSearch Service domain. Tags are a set of case-sensitive key-value pairs. A domain can have up to 10 tags. For more information, see [Tagging Amazon OpenSearch Service domains](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/managedomains-awsresourcetagging.html).
+    ///
+    /// - Parameter AddTagsInput : Container for the parameters to the AddTags operation. Specifies the tags to attach to the domain.
+    ///
+    /// - Returns: `AddTagsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BaseException` : An error occurred while processing the request.
+    /// - `InternalException` : Request processing failed because of an unknown error, exception, or internal failure.
+    /// - `LimitExceededException` : An exception for trying to create more than the allowed number of resources or sub-resources.
+    /// - `ValidationException` : An exception for accessing or deleting a resource that doesn't exist.
     public func addTags(input: AddTagsInput) async throws -> AddTagsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -137,6 +160,20 @@ extension OpenSearchClient: OpenSearchClientProtocol {
     }
 
     /// Associates a package with an Amazon OpenSearch Service domain. For more information, see [Custom packages for Amazon OpenSearch Service](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/custom-packages.html).
+    ///
+    /// - Parameter AssociatePackageInput : Container for the request parameters to the AssociatePackage operation.
+    ///
+    /// - Returns: `AssociatePackageOutputResponse` : Container for the response returned by the AssociatePackage operation.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : An error occurred because you don't have permissions to access the resource.
+    /// - `BaseException` : An error occurred while processing the request.
+    /// - `ConflictException` : An error occurred because the client attempts to remove a resource that is currently in use.
+    /// - `InternalException` : Request processing failed because of an unknown error, exception, or internal failure.
+    /// - `ResourceNotFoundException` : An exception for accessing or deleting a resource that doesn't exist.
+    /// - `ValidationException` : An exception for accessing or deleting a resource that doesn't exist.
     public func associatePackage(input: AssociatePackageInput) async throws -> AssociatePackageOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -170,6 +207,20 @@ extension OpenSearchClient: OpenSearchClientProtocol {
     }
 
     /// Provides access to an Amazon OpenSearch Service domain through the use of an interface VPC endpoint.
+    ///
+    /// - Parameter AuthorizeVpcEndpointAccessInput : [no documentation found]
+    ///
+    /// - Returns: `AuthorizeVpcEndpointAccessOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BaseException` : An error occurred while processing the request.
+    /// - `DisabledOperationException` : An error occured because the client wanted to access an unsupported operation.
+    /// - `InternalException` : Request processing failed because of an unknown error, exception, or internal failure.
+    /// - `LimitExceededException` : An exception for trying to create more than the allowed number of resources or sub-resources.
+    /// - `ResourceNotFoundException` : An exception for accessing or deleting a resource that doesn't exist.
+    /// - `ValidationException` : An exception for accessing or deleting a resource that doesn't exist.
     public func authorizeVpcEndpointAccess(input: AuthorizeVpcEndpointAccessInput) async throws -> AuthorizeVpcEndpointAccessOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -206,6 +257,18 @@ extension OpenSearchClient: OpenSearchClientProtocol {
     }
 
     /// Cancels a scheduled service software update for an Amazon OpenSearch Service domain. You can only perform this operation before the AutomatedUpdateDate and when the domain's UpdateStatus is PENDING_UPDATE. For more information, see [Service software updates in Amazon OpenSearch Service](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/service-software.html).
+    ///
+    /// - Parameter CancelServiceSoftwareUpdateInput : Container for the request parameters to cancel a service software update.
+    ///
+    /// - Returns: `CancelServiceSoftwareUpdateOutputResponse` : Container for the response to a CancelServiceSoftwareUpdate operation. Contains the status of the update.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BaseException` : An error occurred while processing the request.
+    /// - `InternalException` : Request processing failed because of an unknown error, exception, or internal failure.
+    /// - `ResourceNotFoundException` : An exception for accessing or deleting a resource that doesn't exist.
+    /// - `ValidationException` : An exception for accessing or deleting a resource that doesn't exist.
     public func cancelServiceSoftwareUpdate(input: CancelServiceSoftwareUpdateInput) async throws -> CancelServiceSoftwareUpdateOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -242,6 +305,21 @@ extension OpenSearchClient: OpenSearchClientProtocol {
     }
 
     /// Creates an Amazon OpenSearch Service domain. For more information, see [Creating and managing Amazon OpenSearch Service domains](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/createupdatedomains.html).
+    ///
+    /// - Parameter CreateDomainInput : [no documentation found]
+    ///
+    /// - Returns: `CreateDomainOutputResponse` : The result of a CreateDomain operation. Contains the status of the newly created domain.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BaseException` : An error occurred while processing the request.
+    /// - `DisabledOperationException` : An error occured because the client wanted to access an unsupported operation.
+    /// - `InternalException` : Request processing failed because of an unknown error, exception, or internal failure.
+    /// - `InvalidTypeException` : An exception for trying to create or access a sub-resource that's either invalid or not supported.
+    /// - `LimitExceededException` : An exception for trying to create more than the allowed number of resources or sub-resources.
+    /// - `ResourceAlreadyExistsException` : An exception for creating a resource that already exists.
+    /// - `ValidationException` : An exception for accessing or deleting a resource that doesn't exist.
     public func createDomain(input: CreateDomainInput) async throws -> CreateDomainOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -278,6 +356,18 @@ extension OpenSearchClient: OpenSearchClientProtocol {
     }
 
     /// Creates a new cross-cluster search connection from a source Amazon OpenSearch Service domain to a destination domain. For more information, see [Cross-cluster search for Amazon OpenSearch Service](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/cross-cluster-search.html).
+    ///
+    /// - Parameter CreateOutboundConnectionInput : Container for the parameters to the CreateOutboundConnection operation.
+    ///
+    /// - Returns: `CreateOutboundConnectionOutputResponse` : The result of a CreateOutboundConnection request. Contains details about the newly created cross-cluster connection.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DisabledOperationException` : An error occured because the client wanted to access an unsupported operation.
+    /// - `InternalException` : Request processing failed because of an unknown error, exception, or internal failure.
+    /// - `LimitExceededException` : An exception for trying to create more than the allowed number of resources or sub-resources.
+    /// - `ResourceAlreadyExistsException` : An exception for creating a resource that already exists.
     public func createOutboundConnection(input: CreateOutboundConnectionInput) async throws -> CreateOutboundConnectionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -314,6 +404,21 @@ extension OpenSearchClient: OpenSearchClientProtocol {
     }
 
     /// Creates a package for use with Amazon OpenSearch Service domains. For more information, see [Custom packages for Amazon OpenSearch Service](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/custom-packages.html).
+    ///
+    /// - Parameter CreatePackageInput : Container for request parameters to the CreatePackage operation.
+    ///
+    /// - Returns: `CreatePackageOutputResponse` : Container for the response returned by the CreatePackage operation.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : An error occurred because you don't have permissions to access the resource.
+    /// - `BaseException` : An error occurred while processing the request.
+    /// - `InternalException` : Request processing failed because of an unknown error, exception, or internal failure.
+    /// - `InvalidTypeException` : An exception for trying to create or access a sub-resource that's either invalid or not supported.
+    /// - `LimitExceededException` : An exception for trying to create more than the allowed number of resources or sub-resources.
+    /// - `ResourceAlreadyExistsException` : An exception for creating a resource that already exists.
+    /// - `ValidationException` : An exception for accessing or deleting a resource that doesn't exist.
     public func createPackage(input: CreatePackageInput) async throws -> CreatePackageOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -350,6 +455,20 @@ extension OpenSearchClient: OpenSearchClientProtocol {
     }
 
     /// Creates an Amazon OpenSearch Service-managed VPC endpoint.
+    ///
+    /// - Parameter CreateVpcEndpointInput : [no documentation found]
+    ///
+    /// - Returns: `CreateVpcEndpointOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BaseException` : An error occurred while processing the request.
+    /// - `ConflictException` : An error occurred because the client attempts to remove a resource that is currently in use.
+    /// - `DisabledOperationException` : An error occured because the client wanted to access an unsupported operation.
+    /// - `InternalException` : Request processing failed because of an unknown error, exception, or internal failure.
+    /// - `LimitExceededException` : An exception for trying to create more than the allowed number of resources or sub-resources.
+    /// - `ValidationException` : An exception for accessing or deleting a resource that doesn't exist.
     public func createVpcEndpoint(input: CreateVpcEndpointInput) async throws -> CreateVpcEndpointOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -386,6 +505,18 @@ extension OpenSearchClient: OpenSearchClientProtocol {
     }
 
     /// Deletes an Amazon OpenSearch Service domain and all of its data. You can't recover a domain after you delete it.
+    ///
+    /// - Parameter DeleteDomainInput : Container for the parameters to the DeleteDomain operation.
+    ///
+    /// - Returns: `DeleteDomainOutputResponse` : The results of a DeleteDomain request. Contains the status of the pending deletion, or a "domain not found" error if the domain and all of its resources have been deleted.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BaseException` : An error occurred while processing the request.
+    /// - `InternalException` : Request processing failed because of an unknown error, exception, or internal failure.
+    /// - `ResourceNotFoundException` : An exception for accessing or deleting a resource that doesn't exist.
+    /// - `ValidationException` : An exception for accessing or deleting a resource that doesn't exist.
     public func deleteDomain(input: DeleteDomainInput) async throws -> DeleteDomainOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -419,6 +550,16 @@ extension OpenSearchClient: OpenSearchClientProtocol {
     }
 
     /// Allows the destination Amazon OpenSearch Service domain owner to delete an existing inbound cross-cluster search connection. For more information, see [Cross-cluster search for Amazon OpenSearch Service](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/cross-cluster-search.html).
+    ///
+    /// - Parameter DeleteInboundConnectionInput : Container for the parameters to the DeleteInboundConnection operation.
+    ///
+    /// - Returns: `DeleteInboundConnectionOutputResponse` : The results of a DeleteInboundConnection operation. Contains details about the deleted inbound connection.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DisabledOperationException` : An error occured because the client wanted to access an unsupported operation.
+    /// - `ResourceNotFoundException` : An exception for accessing or deleting a resource that doesn't exist.
     public func deleteInboundConnection(input: DeleteInboundConnectionInput) async throws -> DeleteInboundConnectionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -452,6 +593,16 @@ extension OpenSearchClient: OpenSearchClientProtocol {
     }
 
     /// Allows the source Amazon OpenSearch Service domain owner to delete an existing outbound cross-cluster search connection. For more information, see [Cross-cluster search for Amazon OpenSearch Service](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/cross-cluster-search.html).
+    ///
+    /// - Parameter DeleteOutboundConnectionInput : Container for the parameters to the DeleteOutboundConnection operation.
+    ///
+    /// - Returns: `DeleteOutboundConnectionOutputResponse` : Details about the deleted outbound connection.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DisabledOperationException` : An error occured because the client wanted to access an unsupported operation.
+    /// - `ResourceNotFoundException` : An exception for accessing or deleting a resource that doesn't exist.
     public func deleteOutboundConnection(input: DeleteOutboundConnectionInput) async throws -> DeleteOutboundConnectionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -485,6 +636,20 @@ extension OpenSearchClient: OpenSearchClientProtocol {
     }
 
     /// Deletes an Amazon OpenSearch Service package. For more information, see [Custom packages for Amazon OpenSearch Service](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/custom-packages.html).
+    ///
+    /// - Parameter DeletePackageInput : Deletes a package from OpenSearch Service. The package can't be associated with any OpenSearch Service domain.
+    ///
+    /// - Returns: `DeletePackageOutputResponse` : Container for the response parameters to the DeletePackage operation.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : An error occurred because you don't have permissions to access the resource.
+    /// - `BaseException` : An error occurred while processing the request.
+    /// - `ConflictException` : An error occurred because the client attempts to remove a resource that is currently in use.
+    /// - `InternalException` : Request processing failed because of an unknown error, exception, or internal failure.
+    /// - `ResourceNotFoundException` : An exception for accessing or deleting a resource that doesn't exist.
+    /// - `ValidationException` : An exception for accessing or deleting a resource that doesn't exist.
     public func deletePackage(input: DeletePackageInput) async throws -> DeletePackageOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -518,6 +683,18 @@ extension OpenSearchClient: OpenSearchClientProtocol {
     }
 
     /// Deletes an Amazon OpenSearch Service-managed interface VPC endpoint.
+    ///
+    /// - Parameter DeleteVpcEndpointInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteVpcEndpointOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BaseException` : An error occurred while processing the request.
+    /// - `DisabledOperationException` : An error occured because the client wanted to access an unsupported operation.
+    /// - `InternalException` : Request processing failed because of an unknown error, exception, or internal failure.
+    /// - `ResourceNotFoundException` : An exception for accessing or deleting a resource that doesn't exist.
     public func deleteVpcEndpoint(input: DeleteVpcEndpointInput) async throws -> DeleteVpcEndpointOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -551,6 +728,18 @@ extension OpenSearchClient: OpenSearchClientProtocol {
     }
 
     /// Describes the domain configuration for the specified Amazon OpenSearch Service domain, including the domain ID, domain service endpoint, and domain ARN.
+    ///
+    /// - Parameter DescribeDomainInput : Container for the parameters to the DescribeDomain operation.
+    ///
+    /// - Returns: `DescribeDomainOutputResponse` : Contains the status of the domain specified in the request.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BaseException` : An error occurred while processing the request.
+    /// - `InternalException` : Request processing failed because of an unknown error, exception, or internal failure.
+    /// - `ResourceNotFoundException` : An exception for accessing or deleting a resource that doesn't exist.
+    /// - `ValidationException` : An exception for accessing or deleting a resource that doesn't exist.
     public func describeDomain(input: DescribeDomainInput) async throws -> DescribeDomainOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -584,6 +773,18 @@ extension OpenSearchClient: OpenSearchClientProtocol {
     }
 
     /// Returns the list of optimizations that Auto-Tune has made to an Amazon OpenSearch Service domain. For more information, see [Auto-Tune for Amazon OpenSearch Service](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/auto-tune.html).
+    ///
+    /// - Parameter DescribeDomainAutoTunesInput : Container for the parameters to the DescribeDomainAutoTunes operation.
+    ///
+    /// - Returns: `DescribeDomainAutoTunesOutputResponse` : The result of a DescribeDomainAutoTunes request.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BaseException` : An error occurred while processing the request.
+    /// - `InternalException` : Request processing failed because of an unknown error, exception, or internal failure.
+    /// - `ResourceNotFoundException` : An exception for accessing or deleting a resource that doesn't exist.
+    /// - `ValidationException` : An exception for accessing or deleting a resource that doesn't exist.
     public func describeDomainAutoTunes(input: DescribeDomainAutoTunesInput) async throws -> DescribeDomainAutoTunesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -620,6 +821,18 @@ extension OpenSearchClient: OpenSearchClientProtocol {
     }
 
     /// Returns information about the current blue/green deployment happening on an Amazon OpenSearch Service domain. For more information, see [Making configuration changes in Amazon OpenSearch Service](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/managedomains-configuration-changes.html).
+    ///
+    /// - Parameter DescribeDomainChangeProgressInput : Container for the parameters to the DescribeDomainChangeProgress operation.
+    ///
+    /// - Returns: `DescribeDomainChangeProgressOutputResponse` : The result of a DescribeDomainChangeProgress request. Contains progress information for the requested domain change.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BaseException` : An error occurred while processing the request.
+    /// - `InternalException` : Request processing failed because of an unknown error, exception, or internal failure.
+    /// - `ResourceNotFoundException` : An exception for accessing or deleting a resource that doesn't exist.
+    /// - `ValidationException` : An exception for accessing or deleting a resource that doesn't exist.
     public func describeDomainChangeProgress(input: DescribeDomainChangeProgressInput) async throws -> DescribeDomainChangeProgressOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -654,6 +867,18 @@ extension OpenSearchClient: OpenSearchClientProtocol {
     }
 
     /// Returns the configuration of an Amazon OpenSearch Service domain.
+    ///
+    /// - Parameter DescribeDomainConfigInput : Container for the parameters to the DescribeDomainConfig operation.
+    ///
+    /// - Returns: `DescribeDomainConfigOutputResponse` : Contains the configuration information of the requested domain.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BaseException` : An error occurred while processing the request.
+    /// - `InternalException` : Request processing failed because of an unknown error, exception, or internal failure.
+    /// - `ResourceNotFoundException` : An exception for accessing or deleting a resource that doesn't exist.
+    /// - `ValidationException` : An exception for accessing or deleting a resource that doesn't exist.
     public func describeDomainConfig(input: DescribeDomainConfigInput) async throws -> DescribeDomainConfigOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -687,6 +912,19 @@ extension OpenSearchClient: OpenSearchClientProtocol {
     }
 
     /// Returns information about domain and node health, the standby Availability Zone, number of nodes per Availability Zone, and shard count per node.
+    ///
+    /// - Parameter DescribeDomainHealthInput : Container for the parameters to the DescribeDomainHealth operation.
+    ///
+    /// - Returns: `DescribeDomainHealthOutputResponse` : The result of a DescribeDomainHealth request. Contains health information for the requested domain.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BaseException` : An error occurred while processing the request.
+    /// - `DisabledOperationException` : An error occured because the client wanted to access an unsupported operation.
+    /// - `InternalException` : Request processing failed because of an unknown error, exception, or internal failure.
+    /// - `ResourceNotFoundException` : An exception for accessing or deleting a resource that doesn't exist.
+    /// - `ValidationException` : An exception for accessing or deleting a resource that doesn't exist.
     public func describeDomainHealth(input: DescribeDomainHealthInput) async throws -> DescribeDomainHealthOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -720,6 +958,20 @@ extension OpenSearchClient: OpenSearchClientProtocol {
     }
 
     /// Returns information about domain and nodes, including data nodes, master nodes, ultrawarm nodes, Availability Zone(s), standby nodes, node configurations, and node states.
+    ///
+    /// - Parameter DescribeDomainNodesInput : Container for the parameters to the DescribeDomainNodes operation.
+    ///
+    /// - Returns: `DescribeDomainNodesOutputResponse` : The result of a DescribeDomainNodes request. Contains information about the nodes on the requested domain.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BaseException` : An error occurred while processing the request.
+    /// - `DependencyFailureException` : An exception for when a failure in one of the dependencies results in the service being unable to fetch details about the resource.
+    /// - `DisabledOperationException` : An error occured because the client wanted to access an unsupported operation.
+    /// - `InternalException` : Request processing failed because of an unknown error, exception, or internal failure.
+    /// - `ResourceNotFoundException` : An exception for accessing or deleting a resource that doesn't exist.
+    /// - `ValidationException` : An exception for accessing or deleting a resource that doesn't exist.
     public func describeDomainNodes(input: DescribeDomainNodesInput) async throws -> DescribeDomainNodesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -753,6 +1005,17 @@ extension OpenSearchClient: OpenSearchClientProtocol {
     }
 
     /// Returns domain configuration information about the specified Amazon OpenSearch Service domains.
+    ///
+    /// - Parameter DescribeDomainsInput : Container for the parameters to the DescribeDomains operation.
+    ///
+    /// - Returns: `DescribeDomainsOutputResponse` : Contains the status of the specified domains or all domains owned by the account.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BaseException` : An error occurred while processing the request.
+    /// - `InternalException` : Request processing failed because of an unknown error, exception, or internal failure.
+    /// - `ValidationException` : An exception for accessing or deleting a resource that doesn't exist.
     public func describeDomains(input: DescribeDomainsInput) async throws -> DescribeDomainsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -789,6 +1052,19 @@ extension OpenSearchClient: OpenSearchClientProtocol {
     }
 
     /// Describes the progress of a pre-update dry run analysis on an Amazon OpenSearch Service domain. For more information, see [Determining whether a change will cause a blue/green deployment](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/managedomains-configuration-changes#dryrun).
+    ///
+    /// - Parameter DescribeDryRunProgressInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeDryRunProgressOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BaseException` : An error occurred while processing the request.
+    /// - `DisabledOperationException` : An error occured because the client wanted to access an unsupported operation.
+    /// - `InternalException` : Request processing failed because of an unknown error, exception, or internal failure.
+    /// - `ResourceNotFoundException` : An exception for accessing or deleting a resource that doesn't exist.
+    /// - `ValidationException` : An exception for accessing or deleting a resource that doesn't exist.
     public func describeDryRunProgress(input: DescribeDryRunProgressInput) async throws -> DescribeDryRunProgressOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -823,6 +1099,16 @@ extension OpenSearchClient: OpenSearchClientProtocol {
     }
 
     /// Lists all the inbound cross-cluster search connections for a destination (remote) Amazon OpenSearch Service domain. For more information, see [Cross-cluster search for Amazon OpenSearch Service](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/cross-cluster-search.html).
+    ///
+    /// - Parameter DescribeInboundConnectionsInput : Container for the parameters to the DescribeInboundConnections operation.
+    ///
+    /// - Returns: `DescribeInboundConnectionsOutputResponse` : Contains a list of connections matching the filter criteria.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DisabledOperationException` : An error occured because the client wanted to access an unsupported operation.
+    /// - `InvalidPaginationTokenException` : Request processing failed because you provided an invalid pagination token.
     public func describeInboundConnections(input: DescribeInboundConnectionsInput) async throws -> DescribeInboundConnectionsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -859,6 +1145,20 @@ extension OpenSearchClient: OpenSearchClientProtocol {
     }
 
     /// Describes the instance count, storage, and master node limits for a given OpenSearch or Elasticsearch version and instance type.
+    ///
+    /// - Parameter DescribeInstanceTypeLimitsInput : Container for the parameters to the DescribeInstanceTypeLimits operation.
+    ///
+    /// - Returns: `DescribeInstanceTypeLimitsOutputResponse` : Container for the parameters received from the DescribeInstanceTypeLimits operation.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BaseException` : An error occurred while processing the request.
+    /// - `InternalException` : Request processing failed because of an unknown error, exception, or internal failure.
+    /// - `InvalidTypeException` : An exception for trying to create or access a sub-resource that's either invalid or not supported.
+    /// - `LimitExceededException` : An exception for trying to create more than the allowed number of resources or sub-resources.
+    /// - `ResourceNotFoundException` : An exception for accessing or deleting a resource that doesn't exist.
+    /// - `ValidationException` : An exception for accessing or deleting a resource that doesn't exist.
     public func describeInstanceTypeLimits(input: DescribeInstanceTypeLimitsInput) async throws -> DescribeInstanceTypeLimitsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -893,6 +1193,16 @@ extension OpenSearchClient: OpenSearchClientProtocol {
     }
 
     /// Lists all the outbound cross-cluster connections for a local (source) Amazon OpenSearch Service domain. For more information, see [Cross-cluster search for Amazon OpenSearch Service](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/cross-cluster-search.html).
+    ///
+    /// - Parameter DescribeOutboundConnectionsInput : Container for the parameters to the DescribeOutboundConnections operation.
+    ///
+    /// - Returns: `DescribeOutboundConnectionsOutputResponse` : Contains a list of connections matching the filter criteria.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DisabledOperationException` : An error occured because the client wanted to access an unsupported operation.
+    /// - `InvalidPaginationTokenException` : Request processing failed because you provided an invalid pagination token.
     public func describeOutboundConnections(input: DescribeOutboundConnectionsInput) async throws -> DescribeOutboundConnectionsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -929,6 +1239,19 @@ extension OpenSearchClient: OpenSearchClientProtocol {
     }
 
     /// Describes all packages available to OpenSearch Service. For more information, see [Custom packages for Amazon OpenSearch Service](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/custom-packages.html).
+    ///
+    /// - Parameter DescribePackagesInput : Container for the request parameters to the DescribePackage operation.
+    ///
+    /// - Returns: `DescribePackagesOutputResponse` : Container for the response returned by the DescribePackages operation.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : An error occurred because you don't have permissions to access the resource.
+    /// - `BaseException` : An error occurred while processing the request.
+    /// - `InternalException` : Request processing failed because of an unknown error, exception, or internal failure.
+    /// - `ResourceNotFoundException` : An exception for accessing or deleting a resource that doesn't exist.
+    /// - `ValidationException` : An exception for accessing or deleting a resource that doesn't exist.
     public func describePackages(input: DescribePackagesInput) async throws -> DescribePackagesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -965,6 +1288,18 @@ extension OpenSearchClient: OpenSearchClientProtocol {
     }
 
     /// Describes the available Amazon OpenSearch Service Reserved Instance offerings for a given Region. For more information, see [Reserved Instances in Amazon OpenSearch Service](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/ri.html).
+    ///
+    /// - Parameter DescribeReservedInstanceOfferingsInput : Container for the request parameters to a DescribeReservedInstanceOfferings operation.
+    ///
+    /// - Returns: `DescribeReservedInstanceOfferingsOutputResponse` : Container for results of a DescribeReservedInstanceOfferings request.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DisabledOperationException` : An error occured because the client wanted to access an unsupported operation.
+    /// - `InternalException` : Request processing failed because of an unknown error, exception, or internal failure.
+    /// - `ResourceNotFoundException` : An exception for accessing or deleting a resource that doesn't exist.
+    /// - `ValidationException` : An exception for accessing or deleting a resource that doesn't exist.
     public func describeReservedInstanceOfferings(input: DescribeReservedInstanceOfferingsInput) async throws -> DescribeReservedInstanceOfferingsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -999,6 +1334,18 @@ extension OpenSearchClient: OpenSearchClientProtocol {
     }
 
     /// Describes the Amazon OpenSearch Service instances that you have reserved in a given Region. For more information, see [Reserved Instances in Amazon OpenSearch Service](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/ri.html).
+    ///
+    /// - Parameter DescribeReservedInstancesInput : Container for the request parameters to the DescribeReservedInstances operation.
+    ///
+    /// - Returns: `DescribeReservedInstancesOutputResponse` : Container for results from DescribeReservedInstances
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DisabledOperationException` : An error occured because the client wanted to access an unsupported operation.
+    /// - `InternalException` : Request processing failed because of an unknown error, exception, or internal failure.
+    /// - `ResourceNotFoundException` : An exception for accessing or deleting a resource that doesn't exist.
+    /// - `ValidationException` : An exception for accessing or deleting a resource that doesn't exist.
     public func describeReservedInstances(input: DescribeReservedInstancesInput) async throws -> DescribeReservedInstancesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1033,6 +1380,18 @@ extension OpenSearchClient: OpenSearchClientProtocol {
     }
 
     /// Describes one or more Amazon OpenSearch Service-managed VPC endpoints.
+    ///
+    /// - Parameter DescribeVpcEndpointsInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeVpcEndpointsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BaseException` : An error occurred while processing the request.
+    /// - `DisabledOperationException` : An error occured because the client wanted to access an unsupported operation.
+    /// - `InternalException` : Request processing failed because of an unknown error, exception, or internal failure.
+    /// - `ValidationException` : An exception for accessing or deleting a resource that doesn't exist.
     public func describeVpcEndpoints(input: DescribeVpcEndpointsInput) async throws -> DescribeVpcEndpointsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1069,6 +1428,20 @@ extension OpenSearchClient: OpenSearchClientProtocol {
     }
 
     /// Removes a package from the specified Amazon OpenSearch Service domain. The package can't be in use with any OpenSearch index for the dissociation to succeed. The package is still available in OpenSearch Service for association later. For more information, see [Custom packages for Amazon OpenSearch Service](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/custom-packages.html).
+    ///
+    /// - Parameter DissociatePackageInput : Container for the request parameters to the DissociatePackage operation.
+    ///
+    /// - Returns: `DissociatePackageOutputResponse` : Container for the response returned by an DissociatePackage operation.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : An error occurred because you don't have permissions to access the resource.
+    /// - `BaseException` : An error occurred while processing the request.
+    /// - `ConflictException` : An error occurred because the client attempts to remove a resource that is currently in use.
+    /// - `InternalException` : Request processing failed because of an unknown error, exception, or internal failure.
+    /// - `ResourceNotFoundException` : An exception for accessing or deleting a resource that doesn't exist.
+    /// - `ValidationException` : An exception for accessing or deleting a resource that doesn't exist.
     public func dissociatePackage(input: DissociatePackageInput) async throws -> DissociatePackageOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1102,6 +1475,19 @@ extension OpenSearchClient: OpenSearchClientProtocol {
     }
 
     /// Returns a map of OpenSearch or Elasticsearch versions and the versions you can upgrade them to.
+    ///
+    /// - Parameter GetCompatibleVersionsInput : Container for the request parameters to GetCompatibleVersions operation.
+    ///
+    /// - Returns: `GetCompatibleVersionsOutputResponse` : Container for the response returned by the GetCompatibleVersions operation.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BaseException` : An error occurred while processing the request.
+    /// - `DisabledOperationException` : An error occured because the client wanted to access an unsupported operation.
+    /// - `InternalException` : Request processing failed because of an unknown error, exception, or internal failure.
+    /// - `ResourceNotFoundException` : An exception for accessing or deleting a resource that doesn't exist.
+    /// - `ValidationException` : An exception for accessing or deleting a resource that doesn't exist.
     public func getCompatibleVersions(input: GetCompatibleVersionsInput) async throws -> GetCompatibleVersionsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1136,6 +1522,19 @@ extension OpenSearchClient: OpenSearchClientProtocol {
     }
 
     /// Returns a list of Amazon OpenSearch Service package versions, along with their creation time, commit message, and plugin properties (if the package is a zip plugin package). For more information, see [Custom packages for Amazon OpenSearch Service](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/custom-packages.html).
+    ///
+    /// - Parameter GetPackageVersionHistoryInput : Container for the request parameters to the GetPackageVersionHistory operation.
+    ///
+    /// - Returns: `GetPackageVersionHistoryOutputResponse` : Container for response returned by GetPackageVersionHistory operation.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : An error occurred because you don't have permissions to access the resource.
+    /// - `BaseException` : An error occurred while processing the request.
+    /// - `InternalException` : Request processing failed because of an unknown error, exception, or internal failure.
+    /// - `ResourceNotFoundException` : An exception for accessing or deleting a resource that doesn't exist.
+    /// - `ValidationException` : An exception for accessing or deleting a resource that doesn't exist.
     public func getPackageVersionHistory(input: GetPackageVersionHistoryInput) async throws -> GetPackageVersionHistoryOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1170,6 +1569,19 @@ extension OpenSearchClient: OpenSearchClientProtocol {
     }
 
     /// Retrieves the complete history of the last 10 upgrades performed on an Amazon OpenSearch Service domain.
+    ///
+    /// - Parameter GetUpgradeHistoryInput : Container for the request parameters to the GetUpgradeHistory operation.
+    ///
+    /// - Returns: `GetUpgradeHistoryOutputResponse` : Container for the response returned by the GetUpgradeHistory operation.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BaseException` : An error occurred while processing the request.
+    /// - `DisabledOperationException` : An error occured because the client wanted to access an unsupported operation.
+    /// - `InternalException` : Request processing failed because of an unknown error, exception, or internal failure.
+    /// - `ResourceNotFoundException` : An exception for accessing or deleting a resource that doesn't exist.
+    /// - `ValidationException` : An exception for accessing or deleting a resource that doesn't exist.
     public func getUpgradeHistory(input: GetUpgradeHistoryInput) async throws -> GetUpgradeHistoryOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1204,6 +1616,19 @@ extension OpenSearchClient: OpenSearchClientProtocol {
     }
 
     /// Returns the most recent status of the last upgrade or upgrade eligibility check performed on an Amazon OpenSearch Service domain.
+    ///
+    /// - Parameter GetUpgradeStatusInput : Container for the request parameters to the GetUpgradeStatus operation.
+    ///
+    /// - Returns: `GetUpgradeStatusOutputResponse` : Container for the response returned by the GetUpgradeStatus operation.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BaseException` : An error occurred while processing the request.
+    /// - `DisabledOperationException` : An error occured because the client wanted to access an unsupported operation.
+    /// - `InternalException` : Request processing failed because of an unknown error, exception, or internal failure.
+    /// - `ResourceNotFoundException` : An exception for accessing or deleting a resource that doesn't exist.
+    /// - `ValidationException` : An exception for accessing or deleting a resource that doesn't exist.
     public func getUpgradeStatus(input: GetUpgradeStatusInput) async throws -> GetUpgradeStatusOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1237,6 +1662,16 @@ extension OpenSearchClient: OpenSearchClientProtocol {
     }
 
     /// Returns the names of all Amazon OpenSearch Service domains owned by the current user in the active Region.
+    ///
+    /// - Parameter ListDomainNamesInput : Container for the parameters to the ListDomainNames operation.
+    ///
+    /// - Returns: `ListDomainNamesOutputResponse` : The results of a ListDomainNames operation. Contains the names of all domains owned by this account and their respective engine types.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BaseException` : An error occurred while processing the request.
+    /// - `ValidationException` : An exception for accessing or deleting a resource that doesn't exist.
     public func listDomainNames(input: ListDomainNamesInput) async throws -> ListDomainNamesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1271,6 +1706,19 @@ extension OpenSearchClient: OpenSearchClientProtocol {
     }
 
     /// Lists all Amazon OpenSearch Service domains associated with a given package. For more information, see [Custom packages for Amazon OpenSearch Service](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/custom-packages.html).
+    ///
+    /// - Parameter ListDomainsForPackageInput : Container for the request parameters to the ListDomainsForPackage operation.
+    ///
+    /// - Returns: `ListDomainsForPackageOutputResponse` : Container for the response parameters to the ListDomainsForPackage operation.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : An error occurred because you don't have permissions to access the resource.
+    /// - `BaseException` : An error occurred while processing the request.
+    /// - `InternalException` : Request processing failed because of an unknown error, exception, or internal failure.
+    /// - `ResourceNotFoundException` : An exception for accessing or deleting a resource that doesn't exist.
+    /// - `ValidationException` : An exception for accessing or deleting a resource that doesn't exist.
     public func listDomainsForPackage(input: ListDomainsForPackageInput) async throws -> ListDomainsForPackageOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1305,6 +1753,18 @@ extension OpenSearchClient: OpenSearchClientProtocol {
     }
 
     /// Lists all instance types and available features for a given OpenSearch or Elasticsearch version.
+    ///
+    /// - Parameter ListInstanceTypeDetailsInput : [no documentation found]
+    ///
+    /// - Returns: `ListInstanceTypeDetailsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BaseException` : An error occurred while processing the request.
+    /// - `InternalException` : Request processing failed because of an unknown error, exception, or internal failure.
+    /// - `ResourceNotFoundException` : An exception for accessing or deleting a resource that doesn't exist.
+    /// - `ValidationException` : An exception for accessing or deleting a resource that doesn't exist.
     public func listInstanceTypeDetails(input: ListInstanceTypeDetailsInput) async throws -> ListInstanceTypeDetailsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1339,6 +1799,19 @@ extension OpenSearchClient: OpenSearchClientProtocol {
     }
 
     /// Lists all packages associated with an Amazon OpenSearch Service domain. For more information, see [Custom packages for Amazon OpenSearch Service](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/custom-packages.html).
+    ///
+    /// - Parameter ListPackagesForDomainInput : Container for the request parameters to the ListPackagesForDomain operation.
+    ///
+    /// - Returns: `ListPackagesForDomainOutputResponse` : Container for the response parameters to the ListPackagesForDomain operation.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : An error occurred because you don't have permissions to access the resource.
+    /// - `BaseException` : An error occurred while processing the request.
+    /// - `InternalException` : Request processing failed because of an unknown error, exception, or internal failure.
+    /// - `ResourceNotFoundException` : An exception for accessing or deleting a resource that doesn't exist.
+    /// - `ValidationException` : An exception for accessing or deleting a resource that doesn't exist.
     public func listPackagesForDomain(input: ListPackagesForDomainInput) async throws -> ListPackagesForDomainOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1373,6 +1846,19 @@ extension OpenSearchClient: OpenSearchClientProtocol {
     }
 
     /// Retrieves a list of configuration changes that are scheduled for a domain. These changes can be [service software updates](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/service-software.html) or [blue/green Auto-Tune enhancements](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/auto-tune.html#auto-tune-types).
+    ///
+    /// - Parameter ListScheduledActionsInput : [no documentation found]
+    ///
+    /// - Returns: `ListScheduledActionsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BaseException` : An error occurred while processing the request.
+    /// - `InternalException` : Request processing failed because of an unknown error, exception, or internal failure.
+    /// - `InvalidPaginationTokenException` : Request processing failed because you provided an invalid pagination token.
+    /// - `ResourceNotFoundException` : An exception for accessing or deleting a resource that doesn't exist.
+    /// - `ValidationException` : An exception for accessing or deleting a resource that doesn't exist.
     public func listScheduledActions(input: ListScheduledActionsInput) async throws -> ListScheduledActionsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1407,6 +1893,18 @@ extension OpenSearchClient: OpenSearchClientProtocol {
     }
 
     /// Returns all resource tags for an Amazon OpenSearch Service domain. For more information, see [Tagging Amazon OpenSearch Service domains](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/managedomains-awsresourcetagging.html).
+    ///
+    /// - Parameter ListTagsInput : Container for the parameters to the ListTags operation.
+    ///
+    /// - Returns: `ListTagsOutputResponse` : The results of a ListTags operation.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BaseException` : An error occurred while processing the request.
+    /// - `InternalException` : Request processing failed because of an unknown error, exception, or internal failure.
+    /// - `ResourceNotFoundException` : An exception for accessing or deleting a resource that doesn't exist.
+    /// - `ValidationException` : An exception for accessing or deleting a resource that doesn't exist.
     public func listTags(input: ListTagsInput) async throws -> ListTagsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1441,6 +1939,18 @@ extension OpenSearchClient: OpenSearchClientProtocol {
     }
 
     /// Lists all versions of OpenSearch and Elasticsearch that Amazon OpenSearch Service supports.
+    ///
+    /// - Parameter ListVersionsInput : Container for the request parameters to the ListVersions operation.
+    ///
+    /// - Returns: `ListVersionsOutputResponse` : Container for the parameters for response received from the ListVersions operation.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BaseException` : An error occurred while processing the request.
+    /// - `InternalException` : Request processing failed because of an unknown error, exception, or internal failure.
+    /// - `ResourceNotFoundException` : An exception for accessing or deleting a resource that doesn't exist.
+    /// - `ValidationException` : An exception for accessing or deleting a resource that doesn't exist.
     public func listVersions(input: ListVersionsInput) async throws -> ListVersionsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1475,6 +1985,18 @@ extension OpenSearchClient: OpenSearchClientProtocol {
     }
 
     /// Retrieves information about each Amazon Web Services principal that is allowed to access a given Amazon OpenSearch Service domain through the use of an interface VPC endpoint.
+    ///
+    /// - Parameter ListVpcEndpointAccessInput : [no documentation found]
+    ///
+    /// - Returns: `ListVpcEndpointAccessOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BaseException` : An error occurred while processing the request.
+    /// - `DisabledOperationException` : An error occured because the client wanted to access an unsupported operation.
+    /// - `InternalException` : Request processing failed because of an unknown error, exception, or internal failure.
+    /// - `ResourceNotFoundException` : An exception for accessing or deleting a resource that doesn't exist.
     public func listVpcEndpointAccess(input: ListVpcEndpointAccessInput) async throws -> ListVpcEndpointAccessOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1509,6 +2031,17 @@ extension OpenSearchClient: OpenSearchClientProtocol {
     }
 
     /// Retrieves all Amazon OpenSearch Service-managed VPC endpoints in the current Amazon Web Services account and Region.
+    ///
+    /// - Parameter ListVpcEndpointsInput : [no documentation found]
+    ///
+    /// - Returns: `ListVpcEndpointsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BaseException` : An error occurred while processing the request.
+    /// - `DisabledOperationException` : An error occured because the client wanted to access an unsupported operation.
+    /// - `InternalException` : Request processing failed because of an unknown error, exception, or internal failure.
     public func listVpcEndpoints(input: ListVpcEndpointsInput) async throws -> ListVpcEndpointsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1543,6 +2076,18 @@ extension OpenSearchClient: OpenSearchClientProtocol {
     }
 
     /// Retrieves all Amazon OpenSearch Service-managed VPC endpoints associated with a particular domain.
+    ///
+    /// - Parameter ListVpcEndpointsForDomainInput : [no documentation found]
+    ///
+    /// - Returns: `ListVpcEndpointsForDomainOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BaseException` : An error occurred while processing the request.
+    /// - `DisabledOperationException` : An error occured because the client wanted to access an unsupported operation.
+    /// - `InternalException` : Request processing failed because of an unknown error, exception, or internal failure.
+    /// - `ResourceNotFoundException` : An exception for accessing or deleting a resource that doesn't exist.
     public func listVpcEndpointsForDomain(input: ListVpcEndpointsForDomainInput) async throws -> ListVpcEndpointsForDomainOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1577,6 +2122,20 @@ extension OpenSearchClient: OpenSearchClientProtocol {
     }
 
     /// Allows you to purchase Amazon OpenSearch Service Reserved Instances.
+    ///
+    /// - Parameter PurchaseReservedInstanceOfferingInput : Container for request parameters to the PurchaseReservedInstanceOffering operation.
+    ///
+    /// - Returns: `PurchaseReservedInstanceOfferingOutputResponse` : Represents the output of a PurchaseReservedInstanceOffering operation.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DisabledOperationException` : An error occured because the client wanted to access an unsupported operation.
+    /// - `InternalException` : Request processing failed because of an unknown error, exception, or internal failure.
+    /// - `LimitExceededException` : An exception for trying to create more than the allowed number of resources or sub-resources.
+    /// - `ResourceAlreadyExistsException` : An exception for creating a resource that already exists.
+    /// - `ResourceNotFoundException` : An exception for accessing or deleting a resource that doesn't exist.
+    /// - `ValidationException` : An exception for accessing or deleting a resource that doesn't exist.
     public func purchaseReservedInstanceOffering(input: PurchaseReservedInstanceOfferingInput) async throws -> PurchaseReservedInstanceOfferingOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1613,6 +2172,16 @@ extension OpenSearchClient: OpenSearchClientProtocol {
     }
 
     /// Allows the remote Amazon OpenSearch Service domain owner to reject an inbound cross-cluster connection request.
+    ///
+    /// - Parameter RejectInboundConnectionInput : Container for the request parameters to the RejectInboundConnection operation.
+    ///
+    /// - Returns: `RejectInboundConnectionOutputResponse` : Represents the output of a RejectInboundConnection operation.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DisabledOperationException` : An error occured because the client wanted to access an unsupported operation.
+    /// - `ResourceNotFoundException` : An exception for accessing or deleting a resource that doesn't exist.
     public func rejectInboundConnection(input: RejectInboundConnectionInput) async throws -> RejectInboundConnectionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1646,6 +2215,17 @@ extension OpenSearchClient: OpenSearchClientProtocol {
     }
 
     /// Removes the specified set of tags from an Amazon OpenSearch Service domain. For more information, see [ Tagging Amazon OpenSearch Service domains](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/managedomains.html#managedomains-awsresorcetagging).
+    ///
+    /// - Parameter RemoveTagsInput : Container for the request parameters to the RemoveTags operation.
+    ///
+    /// - Returns: `RemoveTagsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BaseException` : An error occurred while processing the request.
+    /// - `InternalException` : Request processing failed because of an unknown error, exception, or internal failure.
+    /// - `ValidationException` : An exception for accessing or deleting a resource that doesn't exist.
     public func removeTags(input: RemoveTagsInput) async throws -> RemoveTagsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1682,6 +2262,19 @@ extension OpenSearchClient: OpenSearchClientProtocol {
     }
 
     /// Revokes access to an Amazon OpenSearch Service domain that was provided through an interface VPC endpoint.
+    ///
+    /// - Parameter RevokeVpcEndpointAccessInput : [no documentation found]
+    ///
+    /// - Returns: `RevokeVpcEndpointAccessOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BaseException` : An error occurred while processing the request.
+    /// - `DisabledOperationException` : An error occured because the client wanted to access an unsupported operation.
+    /// - `InternalException` : Request processing failed because of an unknown error, exception, or internal failure.
+    /// - `ResourceNotFoundException` : An exception for accessing or deleting a resource that doesn't exist.
+    /// - `ValidationException` : An exception for accessing or deleting a resource that doesn't exist.
     public func revokeVpcEndpointAccess(input: RevokeVpcEndpointAccessInput) async throws -> RevokeVpcEndpointAccessOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1718,6 +2311,18 @@ extension OpenSearchClient: OpenSearchClientProtocol {
     }
 
     /// Schedules a service software update for an Amazon OpenSearch Service domain. For more information, see [Service software updates in Amazon OpenSearch Service](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/service-software.html).
+    ///
+    /// - Parameter StartServiceSoftwareUpdateInput : Container for the request parameters to the StartServiceSoftwareUpdate operation.
+    ///
+    /// - Returns: `StartServiceSoftwareUpdateOutputResponse` : Represents the output of a StartServiceSoftwareUpdate operation. Contains the status of the update.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BaseException` : An error occurred while processing the request.
+    /// - `InternalException` : Request processing failed because of an unknown error, exception, or internal failure.
+    /// - `ResourceNotFoundException` : An exception for accessing or deleting a resource that doesn't exist.
+    /// - `ValidationException` : An exception for accessing or deleting a resource that doesn't exist.
     public func startServiceSoftwareUpdate(input: StartServiceSoftwareUpdateInput) async throws -> StartServiceSoftwareUpdateOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1754,6 +2359,20 @@ extension OpenSearchClient: OpenSearchClientProtocol {
     }
 
     /// Modifies the cluster configuration of the specified Amazon OpenSearch Service domain.sl
+    ///
+    /// - Parameter UpdateDomainConfigInput : Container for the request parameters to the UpdateDomain operation.
+    ///
+    /// - Returns: `UpdateDomainConfigOutputResponse` : The results of an UpdateDomain request. Contains the status of the domain being updated.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BaseException` : An error occurred while processing the request.
+    /// - `InternalException` : Request processing failed because of an unknown error, exception, or internal failure.
+    /// - `InvalidTypeException` : An exception for trying to create or access a sub-resource that's either invalid or not supported.
+    /// - `LimitExceededException` : An exception for trying to create more than the allowed number of resources or sub-resources.
+    /// - `ResourceNotFoundException` : An exception for accessing or deleting a resource that doesn't exist.
+    /// - `ValidationException` : An exception for accessing or deleting a resource that doesn't exist.
     public func updateDomainConfig(input: UpdateDomainConfigInput) async throws -> UpdateDomainConfigOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1790,6 +2409,20 @@ extension OpenSearchClient: OpenSearchClientProtocol {
     }
 
     /// Updates a package for use with Amazon OpenSearch Service domains. For more information, see [Custom packages for Amazon OpenSearch Service](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/custom-packages.html).
+    ///
+    /// - Parameter UpdatePackageInput : Container for request parameters to the UpdatePackage operation.
+    ///
+    /// - Returns: `UpdatePackageOutputResponse` : Container for the response returned by the UpdatePackage operation.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : An error occurred because you don't have permissions to access the resource.
+    /// - `BaseException` : An error occurred while processing the request.
+    /// - `InternalException` : Request processing failed because of an unknown error, exception, or internal failure.
+    /// - `LimitExceededException` : An exception for trying to create more than the allowed number of resources or sub-resources.
+    /// - `ResourceNotFoundException` : An exception for accessing or deleting a resource that doesn't exist.
+    /// - `ValidationException` : An exception for accessing or deleting a resource that doesn't exist.
     public func updatePackage(input: UpdatePackageInput) async throws -> UpdatePackageOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1826,6 +2459,21 @@ extension OpenSearchClient: OpenSearchClientProtocol {
     }
 
     /// Reschedules a planned domain configuration change for a later time. This change can be a scheduled [service software update](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/service-software.html) or a [blue/green Auto-Tune enhancement](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/auto-tune.html#auto-tune-types).
+    ///
+    /// - Parameter UpdateScheduledActionInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateScheduledActionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BaseException` : An error occurred while processing the request.
+    /// - `ConflictException` : An error occurred because the client attempts to remove a resource that is currently in use.
+    /// - `InternalException` : Request processing failed because of an unknown error, exception, or internal failure.
+    /// - `LimitExceededException` : An exception for trying to create more than the allowed number of resources or sub-resources.
+    /// - `ResourceNotFoundException` : An exception for accessing or deleting a resource that doesn't exist.
+    /// - `SlotNotAvailableException` : An exception for attempting to schedule a domain action during an unavailable time slot.
+    /// - `ValidationException` : An exception for accessing or deleting a resource that doesn't exist.
     public func updateScheduledAction(input: UpdateScheduledActionInput) async throws -> UpdateScheduledActionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1862,6 +2510,20 @@ extension OpenSearchClient: OpenSearchClientProtocol {
     }
 
     /// Modifies an Amazon OpenSearch Service-managed interface VPC endpoint.
+    ///
+    /// - Parameter UpdateVpcEndpointInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateVpcEndpointOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BaseException` : An error occurred while processing the request.
+    /// - `ConflictException` : An error occurred because the client attempts to remove a resource that is currently in use.
+    /// - `DisabledOperationException` : An error occured because the client wanted to access an unsupported operation.
+    /// - `InternalException` : Request processing failed because of an unknown error, exception, or internal failure.
+    /// - `ResourceNotFoundException` : An exception for accessing or deleting a resource that doesn't exist.
+    /// - `ValidationException` : An exception for accessing or deleting a resource that doesn't exist.
     public func updateVpcEndpoint(input: UpdateVpcEndpointInput) async throws -> UpdateVpcEndpointOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1898,6 +2560,20 @@ extension OpenSearchClient: OpenSearchClientProtocol {
     }
 
     /// Allows you to either upgrade your Amazon OpenSearch Service domain or perform an upgrade eligibility check to a compatible version of OpenSearch or Elasticsearch.
+    ///
+    /// - Parameter UpgradeDomainInput : Container for the request parameters to the UpgradeDomain operation.
+    ///
+    /// - Returns: `UpgradeDomainOutputResponse` : Container for the response returned by UpgradeDomain operation.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BaseException` : An error occurred while processing the request.
+    /// - `DisabledOperationException` : An error occured because the client wanted to access an unsupported operation.
+    /// - `InternalException` : Request processing failed because of an unknown error, exception, or internal failure.
+    /// - `ResourceAlreadyExistsException` : An exception for creating a resource that already exists.
+    /// - `ResourceNotFoundException` : An exception for accessing or deleting a resource that doesn't exist.
+    /// - `ValidationException` : An exception for accessing or deleting a resource that doesn't exist.
     public func upgradeDomain(input: UpgradeDomainInput) async throws -> UpgradeDomainOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()

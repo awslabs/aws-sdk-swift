@@ -20,7 +20,7 @@ extension S3ClientTypes.AbortIncompleteMultipartUpload: Swift.Codable {
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let daysAfterInitiationDecoded = try containerValues.decode(Swift.Int.self, forKey: .daysAfterInitiation)
+        let daysAfterInitiationDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .daysAfterInitiation) ?? 0
         daysAfterInitiation = daysAfterInitiationDecoded
     }
 }
@@ -1469,7 +1469,7 @@ extension S3ClientTypes.CORSRule: Swift.Codable {
         } else {
             exposeHeaders = nil
         }
-        let maxAgeSecondsDecoded = try containerValues.decode(Swift.Int.self, forKey: .maxAgeSeconds)
+        let maxAgeSecondsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxAgeSeconds) ?? 0
         maxAgeSeconds = maxAgeSecondsDecoded
     }
 }
@@ -1579,7 +1579,7 @@ extension S3ClientTypes.CSVInput: Swift.Codable {
         fieldDelimiter = fieldDelimiterDecoded
         let quoteCharacterDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .quoteCharacter)
         quoteCharacter = quoteCharacterDecoded
-        let allowQuotedRecordDelimiterDecoded = try containerValues.decode(Swift.Bool.self, forKey: .allowQuotedRecordDelimiter)
+        let allowQuotedRecordDelimiterDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .allowQuotedRecordDelimiter) ?? false
         allowQuotedRecordDelimiter = allowQuotedRecordDelimiterDecoded
     }
 }
@@ -2454,7 +2454,7 @@ extension S3ClientTypes.CompletedPart: Swift.Codable {
         checksumSHA1 = checksumSHA1Decoded
         let checksumSHA256Decoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .checksumSHA256)
         checksumSHA256 = checksumSHA256Decoded
-        let partNumberDecoded = try containerValues.decode(Swift.Int.self, forKey: .partNumber)
+        let partNumberDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .partNumber) ?? 0
         partNumber = partNumberDecoded
     }
 }
@@ -4017,9 +4017,9 @@ extension S3ClientTypes.DefaultRetention: Swift.Codable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let modeDecoded = try containerValues.decodeIfPresent(S3ClientTypes.ObjectLockRetentionMode.self, forKey: .mode)
         mode = modeDecoded
-        let daysDecoded = try containerValues.decode(Swift.Int.self, forKey: .days)
+        let daysDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .days) ?? 0
         days = daysDecoded
-        let yearsDecoded = try containerValues.decode(Swift.Int.self, forKey: .years)
+        let yearsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .years) ?? 0
         years = yearsDecoded
     }
 }
@@ -4113,7 +4113,7 @@ extension S3ClientTypes.Delete: Swift.Codable {
         } else {
             objects = nil
         }
-        let quietDecoded = try containerValues.decode(Swift.Bool.self, forKey: .quiet)
+        let quietDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .quiet) ?? false
         quiet = quietDecoded
     }
 }
@@ -5135,7 +5135,7 @@ extension S3ClientTypes.DeleteMarkerEntry: Swift.Codable {
         key = keyDecoded
         let versionIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .versionId)
         versionId = versionIdDecoded
-        let isLatestDecoded = try containerValues.decode(Swift.Bool.self, forKey: .isLatest)
+        let isLatestDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isLatest) ?? false
         isLatest = isLatestDecoded
         let lastModifiedDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .lastModified)
         lastModified = lastModifiedDecoded
@@ -5875,7 +5875,7 @@ extension S3ClientTypes.DeletedObject: Swift.Codable {
         key = keyDecoded
         let versionIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .versionId)
         versionId = versionIdDecoded
-        let deleteMarkerDecoded = try containerValues.decode(Swift.Bool.self, forKey: .deleteMarker)
+        let deleteMarkerDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .deleteMarker) ?? false
         deleteMarker = deleteMarkerDecoded
         let deleteMarkerVersionIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .deleteMarkerVersionId)
         deleteMarkerVersionId = deleteMarkerVersionIdDecoded
@@ -10484,7 +10484,7 @@ extension GetObjectAttributesOutputResponseBody: Swift.Decodable {
         objectParts = objectPartsDecoded
         let storageClassDecoded = try containerValues.decodeIfPresent(S3ClientTypes.StorageClass.self, forKey: .storageClass)
         storageClass = storageClassDecoded
-        let objectSizeDecoded = try containerValues.decode(Swift.Int.self, forKey: .objectSize)
+        let objectSizeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .objectSize) ?? 0
         objectSize = objectSizeDecoded
     }
 }
@@ -10534,15 +10534,15 @@ extension S3ClientTypes.GetObjectAttributesParts: Swift.Codable {
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let totalPartsCountDecoded = try containerValues.decode(Swift.Int.self, forKey: .totalPartsCount)
+        let totalPartsCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .totalPartsCount) ?? 0
         totalPartsCount = totalPartsCountDecoded
         let partNumberMarkerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .partNumberMarker)
         partNumberMarker = partNumberMarkerDecoded
         let nextPartNumberMarkerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextPartNumberMarker)
         nextPartNumberMarker = nextPartNumberMarkerDecoded
-        let maxPartsDecoded = try containerValues.decode(Swift.Int.self, forKey: .maxParts)
+        let maxPartsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxParts) ?? 0
         maxParts = maxPartsDecoded
-        let isTruncatedDecoded = try containerValues.decode(Swift.Bool.self, forKey: .isTruncated)
+        let isTruncatedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isTruncated) ?? false
         isTruncated = isTruncatedDecoded
         if containerValues.contains(.parts) {
             let partsWrappedContainer = containerValues.nestedContainerNonThrowable(keyedBy: CodingKeys.self, forKey: .parts)
@@ -13553,7 +13553,7 @@ extension S3ClientTypes.InventoryConfiguration: Swift.Codable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let destinationDecoded = try containerValues.decodeIfPresent(S3ClientTypes.InventoryDestination.self, forKey: .destination)
         destination = destinationDecoded
-        let isEnabledDecoded = try containerValues.decode(Swift.Bool.self, forKey: .isEnabled)
+        let isEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isEnabled) ?? false
         isEnabled = isEnabledDecoded
         let filterDecoded = try containerValues.decodeIfPresent(S3ClientTypes.InventoryFilter.self, forKey: .filter)
         filter = filterDecoded
@@ -14400,9 +14400,9 @@ extension S3ClientTypes.LifecycleExpiration: Swift.Codable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let dateDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .date)
         date = dateDecoded
-        let daysDecoded = try containerValues.decode(Swift.Int.self, forKey: .days)
+        let daysDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .days) ?? 0
         days = daysDecoded
-        let expiredObjectDeleteMarkerDecoded = try containerValues.decode(Swift.Bool.self, forKey: .expiredObjectDeleteMarker)
+        let expiredObjectDeleteMarkerDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .expiredObjectDeleteMarker) ?? false
         expiredObjectDeleteMarker = expiredObjectDeleteMarkerDecoded
     }
 }
@@ -14684,9 +14684,9 @@ extension S3ClientTypes.LifecycleRuleAndOperator: Swift.Codable {
         } else {
             tags = nil
         }
-        let objectSizeGreaterThanDecoded = try containerValues.decode(Swift.Int.self, forKey: .objectSizeGreaterThan)
+        let objectSizeGreaterThanDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .objectSizeGreaterThan) ?? 0
         objectSizeGreaterThan = objectSizeGreaterThanDecoded
-        let objectSizeLessThanDecoded = try containerValues.decode(Swift.Int.self, forKey: .objectSizeLessThan)
+        let objectSizeLessThanDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .objectSizeLessThan) ?? 0
         objectSizeLessThan = objectSizeLessThanDecoded
     }
 }
@@ -14933,7 +14933,7 @@ extension ListBucketAnalyticsConfigurationsOutputResponseBody: Swift.Decodable {
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let isTruncatedDecoded = try containerValues.decode(Swift.Bool.self, forKey: .isTruncated)
+        let isTruncatedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isTruncated) ?? false
         isTruncated = isTruncatedDecoded
         let continuationTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .continuationToken)
         continuationToken = continuationTokenDecoded
@@ -15075,7 +15075,7 @@ extension ListBucketIntelligentTieringConfigurationsOutputResponseBody: Swift.De
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let isTruncatedDecoded = try containerValues.decode(Swift.Bool.self, forKey: .isTruncated)
+        let isTruncatedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isTruncated) ?? false
         isTruncated = isTruncatedDecoded
         let continuationTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .continuationToken)
         continuationToken = continuationTokenDecoded
@@ -15251,7 +15251,7 @@ extension ListBucketInventoryConfigurationsOutputResponseBody: Swift.Decodable {
         } else {
             inventoryConfigurationList = nil
         }
-        let isTruncatedDecoded = try containerValues.decode(Swift.Bool.self, forKey: .isTruncated)
+        let isTruncatedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isTruncated) ?? false
         isTruncated = isTruncatedDecoded
         let nextContinuationTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextContinuationToken)
         nextContinuationToken = nextContinuationTokenDecoded
@@ -15387,7 +15387,7 @@ extension ListBucketMetricsConfigurationsOutputResponseBody: Swift.Decodable {
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let isTruncatedDecoded = try containerValues.decode(Swift.Bool.self, forKey: .isTruncated)
+        let isTruncatedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isTruncated) ?? false
         isTruncated = isTruncatedDecoded
         let continuationTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .continuationToken)
         continuationToken = continuationTokenDecoded
@@ -15772,9 +15772,9 @@ extension ListMultipartUploadsOutputResponseBody: Swift.Decodable {
         delimiter = delimiterDecoded
         let nextUploadIdMarkerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextUploadIdMarker)
         nextUploadIdMarker = nextUploadIdMarkerDecoded
-        let maxUploadsDecoded = try containerValues.decode(Swift.Int.self, forKey: .maxUploads)
+        let maxUploadsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxUploads) ?? 0
         maxUploads = maxUploadsDecoded
-        let isTruncatedDecoded = try containerValues.decode(Swift.Bool.self, forKey: .isTruncated)
+        let isTruncatedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isTruncated) ?? false
         isTruncated = isTruncatedDecoded
         if containerValues.contains(.uploads) {
             let uploadsWrappedContainer = containerValues.nestedContainerNonThrowable(keyedBy: CodingKeys.self, forKey: .uploads)
@@ -16082,7 +16082,7 @@ extension ListObjectVersionsOutputResponseBody: Swift.Decodable {
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let isTruncatedDecoded = try containerValues.decode(Swift.Bool.self, forKey: .isTruncated)
+        let isTruncatedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isTruncated) ?? false
         isTruncated = isTruncatedDecoded
         let keyMarkerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .keyMarker)
         keyMarker = keyMarkerDecoded
@@ -16134,7 +16134,7 @@ extension ListObjectVersionsOutputResponseBody: Swift.Decodable {
         `prefix` = prefixDecoded
         let delimiterDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .delimiter)
         delimiter = delimiterDecoded
-        let maxKeysDecoded = try containerValues.decode(Swift.Int.self, forKey: .maxKeys)
+        let maxKeysDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxKeys) ?? 0
         maxKeys = maxKeysDecoded
         if containerValues.contains(.commonPrefixes) {
             let commonPrefixesWrappedContainer = containerValues.nestedContainerNonThrowable(keyedBy: CodingKeys.self, forKey: .commonPrefixes)
@@ -16392,7 +16392,7 @@ extension ListObjectsOutputResponseBody: Swift.Decodable {
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let isTruncatedDecoded = try containerValues.decode(Swift.Bool.self, forKey: .isTruncated)
+        let isTruncatedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isTruncated) ?? false
         isTruncated = isTruncatedDecoded
         let markerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .marker)
         marker = markerDecoded
@@ -16422,7 +16422,7 @@ extension ListObjectsOutputResponseBody: Swift.Decodable {
         `prefix` = prefixDecoded
         let delimiterDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .delimiter)
         delimiter = delimiterDecoded
-        let maxKeysDecoded = try containerValues.decode(Swift.Int.self, forKey: .maxKeys)
+        let maxKeysDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxKeys) ?? 0
         maxKeys = maxKeysDecoded
         if containerValues.contains(.commonPrefixes) {
             let commonPrefixesWrappedContainer = containerValues.nestedContainerNonThrowable(keyedBy: CodingKeys.self, forKey: .commonPrefixes)
@@ -16713,7 +16713,7 @@ extension ListObjectsV2OutputResponseBody: Swift.Decodable {
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let isTruncatedDecoded = try containerValues.decode(Swift.Bool.self, forKey: .isTruncated)
+        let isTruncatedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isTruncated) ?? false
         isTruncated = isTruncatedDecoded
         if containerValues.contains(.contents) {
             let contentsWrappedContainer = containerValues.nestedContainerNonThrowable(keyedBy: CodingKeys.self, forKey: .contents)
@@ -16739,7 +16739,7 @@ extension ListObjectsV2OutputResponseBody: Swift.Decodable {
         `prefix` = prefixDecoded
         let delimiterDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .delimiter)
         delimiter = delimiterDecoded
-        let maxKeysDecoded = try containerValues.decode(Swift.Int.self, forKey: .maxKeys)
+        let maxKeysDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxKeys) ?? 0
         maxKeys = maxKeysDecoded
         if containerValues.contains(.commonPrefixes) {
             let commonPrefixesWrappedContainer = containerValues.nestedContainerNonThrowable(keyedBy: CodingKeys.self, forKey: .commonPrefixes)
@@ -16761,7 +16761,7 @@ extension ListObjectsV2OutputResponseBody: Swift.Decodable {
         }
         let encodingTypeDecoded = try containerValues.decodeIfPresent(S3ClientTypes.EncodingType.self, forKey: .encodingType)
         encodingType = encodingTypeDecoded
-        let keyCountDecoded = try containerValues.decode(Swift.Int.self, forKey: .keyCount)
+        let keyCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .keyCount) ?? 0
         keyCount = keyCountDecoded
         let continuationTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .continuationToken)
         continuationToken = continuationTokenDecoded
@@ -17061,9 +17061,9 @@ extension ListPartsOutputResponseBody: Swift.Decodable {
         partNumberMarker = partNumberMarkerDecoded
         let nextPartNumberMarkerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextPartNumberMarker)
         nextPartNumberMarker = nextPartNumberMarkerDecoded
-        let maxPartsDecoded = try containerValues.decode(Swift.Int.self, forKey: .maxParts)
+        let maxPartsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxParts) ?? 0
         maxParts = maxPartsDecoded
-        let isTruncatedDecoded = try containerValues.decode(Swift.Bool.self, forKey: .isTruncated)
+        let isTruncatedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isTruncated) ?? false
         isTruncated = isTruncatedDecoded
         if containerValues.contains(.parts) {
             let partsWrappedContainer = containerValues.nestedContainerNonThrowable(keyedBy: CodingKeys.self, forKey: .parts)
@@ -17865,9 +17865,9 @@ extension S3ClientTypes.NoncurrentVersionExpiration: Swift.Codable {
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let noncurrentDaysDecoded = try containerValues.decode(Swift.Int.self, forKey: .noncurrentDays)
+        let noncurrentDaysDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .noncurrentDays) ?? 0
         noncurrentDays = noncurrentDaysDecoded
-        let newerNoncurrentVersionsDecoded = try containerValues.decode(Swift.Int.self, forKey: .newerNoncurrentVersions)
+        let newerNoncurrentVersionsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .newerNoncurrentVersions) ?? 0
         newerNoncurrentVersions = newerNoncurrentVersionsDecoded
     }
 }
@@ -17931,11 +17931,11 @@ extension S3ClientTypes.NoncurrentVersionTransition: Swift.Codable {
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let noncurrentDaysDecoded = try containerValues.decode(Swift.Int.self, forKey: .noncurrentDays)
+        let noncurrentDaysDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .noncurrentDays) ?? 0
         noncurrentDays = noncurrentDaysDecoded
         let storageClassDecoded = try containerValues.decodeIfPresent(S3ClientTypes.TransitionStorageClass.self, forKey: .storageClass)
         storageClass = storageClassDecoded
-        let newerNoncurrentVersionsDecoded = try containerValues.decode(Swift.Int.self, forKey: .newerNoncurrentVersions)
+        let newerNoncurrentVersionsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .newerNoncurrentVersions) ?? 0
         newerNoncurrentVersions = newerNoncurrentVersionsDecoded
     }
 }
@@ -18284,7 +18284,7 @@ extension S3ClientTypes.Object: Swift.Codable {
         } else {
             checksumAlgorithm = nil
         }
-        let sizeDecoded = try containerValues.decode(Swift.Int.self, forKey: .size)
+        let sizeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .size) ?? 0
         size = sizeDecoded
         let storageClassDecoded = try containerValues.decodeIfPresent(S3ClientTypes.ObjectStorageClass.self, forKey: .storageClass)
         storageClass = storageClassDecoded
@@ -18982,9 +18982,9 @@ extension S3ClientTypes.ObjectPart: Swift.Codable {
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let partNumberDecoded = try containerValues.decode(Swift.Int.self, forKey: .partNumber)
+        let partNumberDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .partNumber) ?? 0
         partNumber = partNumberDecoded
-        let sizeDecoded = try containerValues.decode(Swift.Int.self, forKey: .size)
+        let sizeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .size) ?? 0
         size = sizeDecoded
         let checksumCRC32Decoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .checksumCRC32)
         checksumCRC32 = checksumCRC32Decoded
@@ -19184,7 +19184,7 @@ extension S3ClientTypes.ObjectVersion: Swift.Codable {
         } else {
             checksumAlgorithm = nil
         }
-        let sizeDecoded = try containerValues.decode(Swift.Int.self, forKey: .size)
+        let sizeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .size) ?? 0
         size = sizeDecoded
         let storageClassDecoded = try containerValues.decodeIfPresent(S3ClientTypes.ObjectVersionStorageClass.self, forKey: .storageClass)
         storageClass = storageClassDecoded
@@ -19192,7 +19192,7 @@ extension S3ClientTypes.ObjectVersion: Swift.Codable {
         key = keyDecoded
         let versionIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .versionId)
         versionId = versionIdDecoded
-        let isLatestDecoded = try containerValues.decode(Swift.Bool.self, forKey: .isLatest)
+        let isLatestDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isLatest) ?? false
         isLatest = isLatestDecoded
         let lastModifiedDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .lastModified)
         lastModified = lastModifiedDecoded
@@ -19741,13 +19741,13 @@ extension S3ClientTypes.Part: Swift.Codable {
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let partNumberDecoded = try containerValues.decode(Swift.Int.self, forKey: .partNumber)
+        let partNumberDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .partNumber) ?? 0
         partNumber = partNumberDecoded
         let lastModifiedDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .lastModified)
         lastModified = lastModifiedDecoded
         let eTagDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .eTag)
         eTag = eTagDecoded
-        let sizeDecoded = try containerValues.decode(Swift.Int.self, forKey: .size)
+        let sizeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .size) ?? 0
         size = sizeDecoded
         let checksumCRC32Decoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .checksumCRC32)
         checksumCRC32 = checksumCRC32Decoded
@@ -19908,7 +19908,7 @@ extension S3ClientTypes.PolicyStatus: Swift.Codable {
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let isPublicDecoded = try containerValues.decode(Swift.Bool.self, forKey: .isPublic)
+        let isPublicDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isPublic) ?? false
         isPublic = isPublicDecoded
     }
 }
@@ -19968,11 +19968,11 @@ extension S3ClientTypes.Progress: Swift.Codable {
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let bytesScannedDecoded = try containerValues.decode(Swift.Int.self, forKey: .bytesScanned)
+        let bytesScannedDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .bytesScanned) ?? 0
         bytesScanned = bytesScannedDecoded
-        let bytesProcessedDecoded = try containerValues.decode(Swift.Int.self, forKey: .bytesProcessed)
+        let bytesProcessedDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .bytesProcessed) ?? 0
         bytesProcessed = bytesProcessedDecoded
-        let bytesReturnedDecoded = try containerValues.decode(Swift.Int.self, forKey: .bytesReturned)
+        let bytesReturnedDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .bytesReturned) ?? 0
         bytesReturned = bytesReturnedDecoded
     }
 }
@@ -20128,13 +20128,13 @@ extension S3ClientTypes.PublicAccessBlockConfiguration: Swift.Codable {
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let blockPublicAclsDecoded = try containerValues.decode(Swift.Bool.self, forKey: .blockPublicAcls)
+        let blockPublicAclsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .blockPublicAcls) ?? false
         blockPublicAcls = blockPublicAclsDecoded
-        let ignorePublicAclsDecoded = try containerValues.decode(Swift.Bool.self, forKey: .ignorePublicAcls)
+        let ignorePublicAclsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .ignorePublicAcls) ?? false
         ignorePublicAcls = ignorePublicAclsDecoded
-        let blockPublicPolicyDecoded = try containerValues.decode(Swift.Bool.self, forKey: .blockPublicPolicy)
+        let blockPublicPolicyDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .blockPublicPolicy) ?? false
         blockPublicPolicy = blockPublicPolicyDecoded
-        let restrictPublicBucketsDecoded = try containerValues.decode(Swift.Bool.self, forKey: .restrictPublicBuckets)
+        let restrictPublicBucketsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .restrictPublicBuckets) ?? false
         restrictPublicBuckets = restrictPublicBucketsDecoded
     }
 }
@@ -25580,7 +25580,7 @@ extension S3ClientTypes.ReplicationRule: Swift.Codable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
         id = idDecoded
-        let priorityDecoded = try containerValues.decode(Swift.Int.self, forKey: .priority)
+        let priorityDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .priority) ?? 0
         priority = priorityDecoded
         let prefixDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .prefix)
         `prefix` = prefixDecoded
@@ -25996,7 +25996,7 @@ extension S3ClientTypes.ReplicationTimeValue: Swift.Codable {
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let minutesDecoded = try containerValues.decode(Swift.Int.self, forKey: .minutes)
+        let minutesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .minutes) ?? 0
         minutes = minutesDecoded
     }
 }
@@ -26161,7 +26161,7 @@ extension S3ClientTypes.RequestProgress: Swift.Codable {
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let enabledDecoded = try containerValues.decode(Swift.Bool.self, forKey: .enabled)
+        let enabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enabled) ?? false
         enabled = enabledDecoded
     }
 }
@@ -26441,7 +26441,7 @@ extension S3ClientTypes.RestoreRequest: Swift.Codable {
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let daysDecoded = try containerValues.decode(Swift.Int.self, forKey: .days)
+        let daysDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .days) ?? 0
         days = daysDecoded
         let glacierJobParametersDecoded = try containerValues.decodeIfPresent(S3ClientTypes.GlacierJobParameters.self, forKey: .glacierJobParameters)
         glacierJobParameters = glacierJobParametersDecoded
@@ -26562,7 +26562,7 @@ extension S3ClientTypes.RestoreStatus: Swift.Codable {
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let isRestoreInProgressDecoded = try containerValues.decode(Swift.Bool.self, forKey: .isRestoreInProgress)
+        let isRestoreInProgressDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isRestoreInProgress) ?? false
         isRestoreInProgress = isRestoreInProgressDecoded
         let restoreExpiryDateDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .restoreExpiryDate)
         restoreExpiryDate = restoreExpiryDateDecoded
@@ -27003,9 +27003,9 @@ extension S3ClientTypes.ScanRange: Swift.Codable {
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let startDecoded = try containerValues.decode(Swift.Int.self, forKey: .start)
+        let startDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .start) ?? 0
         start = startDecoded
-        let endDecoded = try containerValues.decode(Swift.Int.self, forKey: .end)
+        let endDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .end) ?? 0
         end = endDecoded
     }
 }
@@ -27597,7 +27597,7 @@ extension S3ClientTypes.ServerSideEncryptionRule: Swift.Codable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let applyServerSideEncryptionByDefaultDecoded = try containerValues.decodeIfPresent(S3ClientTypes.ServerSideEncryptionByDefault.self, forKey: .applyServerSideEncryptionByDefault)
         applyServerSideEncryptionByDefault = applyServerSideEncryptionByDefaultDecoded
-        let bucketKeyEnabledDecoded = try containerValues.decode(Swift.Bool.self, forKey: .bucketKeyEnabled)
+        let bucketKeyEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .bucketKeyEnabled) ?? false
         bucketKeyEnabled = bucketKeyEnabledDecoded
     }
 }
@@ -27808,11 +27808,11 @@ extension S3ClientTypes.Stats: Swift.Codable {
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let bytesScannedDecoded = try containerValues.decode(Swift.Int.self, forKey: .bytesScanned)
+        let bytesScannedDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .bytesScanned) ?? 0
         bytesScanned = bytesScannedDecoded
-        let bytesProcessedDecoded = try containerValues.decode(Swift.Int.self, forKey: .bytesProcessed)
+        let bytesProcessedDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .bytesProcessed) ?? 0
         bytesProcessed = bytesProcessedDecoded
-        let bytesReturnedDecoded = try containerValues.decode(Swift.Int.self, forKey: .bytesReturned)
+        let bytesReturnedDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .bytesReturned) ?? 0
         bytesReturned = bytesReturnedDecoded
     }
 }
@@ -28398,7 +28398,7 @@ extension S3ClientTypes.Tiering: Swift.Codable {
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let daysDecoded = try containerValues.decode(Swift.Int.self, forKey: .days)
+        let daysDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .days) ?? 0
         days = daysDecoded
         let accessTierDecoded = try containerValues.decodeIfPresent(S3ClientTypes.IntelligentTieringAccessTier.self, forKey: .accessTier)
         accessTier = accessTierDecoded
@@ -28576,7 +28576,7 @@ extension S3ClientTypes.Transition: Swift.Codable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let dateDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .date)
         date = dateDecoded
-        let daysDecoded = try containerValues.decode(Swift.Int.self, forKey: .days)
+        let daysDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .days) ?? 0
         days = daysDecoded
         let storageClassDecoded = try containerValues.decodeIfPresent(S3ClientTypes.TransitionStorageClass.self, forKey: .storageClass)
         storageClass = storageClassDecoded

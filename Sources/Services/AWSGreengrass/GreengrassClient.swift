@@ -68,6 +68,16 @@ public struct GreengrassClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFact
 
 extension GreengrassClient: GreengrassClientProtocol {
     /// Associates a role with a group. Your Greengrass core will use the role to access AWS cloud services. The role's permissions should allow Greengrass core Lambda functions to perform actions against the cloud.
+    ///
+    /// - Parameter AssociateRoleToGroupInput : [no documentation found]
+    ///
+    /// - Returns: `AssociateRoleToGroupOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : General error information.
+    /// - `InternalServerErrorException` : General error information.
     public func associateRoleToGroup(input: AssociateRoleToGroupInput) async throws -> AssociateRoleToGroupOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -104,6 +114,16 @@ extension GreengrassClient: GreengrassClientProtocol {
     }
 
     /// Associates a role with your account. AWS IoT Greengrass will use the role to access your Lambda functions and AWS IoT resources. This is necessary for deployments to succeed. The role must have at least minimum permissions in the policy ''AWSGreengrassResourceAccessRolePolicy''.
+    ///
+    /// - Parameter AssociateServiceRoleToAccountInput : [no documentation found]
+    ///
+    /// - Returns: `AssociateServiceRoleToAccountOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : General error information.
+    /// - `InternalServerErrorException` : General error information.
     public func associateServiceRoleToAccount(input: AssociateServiceRoleToAccountInput) async throws -> AssociateServiceRoleToAccountOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -140,6 +160,15 @@ extension GreengrassClient: GreengrassClientProtocol {
     }
 
     /// Creates a connector definition. You may provide the initial version of the connector definition now or use ''CreateConnectorDefinitionVersion'' at a later time.
+    ///
+    /// - Parameter CreateConnectorDefinitionInput : [no documentation found]
+    ///
+    /// - Returns: `CreateConnectorDefinitionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : General error information.
     public func createConnectorDefinition(input: CreateConnectorDefinitionInput) async throws -> CreateConnectorDefinitionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -177,6 +206,15 @@ extension GreengrassClient: GreengrassClientProtocol {
     }
 
     /// Creates a version of a connector definition which has already been defined.
+    ///
+    /// - Parameter CreateConnectorDefinitionVersionInput : [no documentation found]
+    ///
+    /// - Returns: `CreateConnectorDefinitionVersionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : General error information.
     public func createConnectorDefinitionVersion(input: CreateConnectorDefinitionVersionInput) async throws -> CreateConnectorDefinitionVersionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -214,6 +252,15 @@ extension GreengrassClient: GreengrassClientProtocol {
     }
 
     /// Creates a core definition. You may provide the initial version of the core definition now or use ''CreateCoreDefinitionVersion'' at a later time. Greengrass groups must each contain exactly one Greengrass core.
+    ///
+    /// - Parameter CreateCoreDefinitionInput : Information needed to create a core definition.
+    ///
+    /// - Returns: `CreateCoreDefinitionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : General error information.
     public func createCoreDefinition(input: CreateCoreDefinitionInput) async throws -> CreateCoreDefinitionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -251,6 +298,15 @@ extension GreengrassClient: GreengrassClientProtocol {
     }
 
     /// Creates a version of a core definition that has already been defined. Greengrass groups must each contain exactly one Greengrass core.
+    ///
+    /// - Parameter CreateCoreDefinitionVersionInput : [no documentation found]
+    ///
+    /// - Returns: `CreateCoreDefinitionVersionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : General error information.
     public func createCoreDefinitionVersion(input: CreateCoreDefinitionVersionInput) async throws -> CreateCoreDefinitionVersionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -288,6 +344,15 @@ extension GreengrassClient: GreengrassClientProtocol {
     }
 
     /// Creates a deployment. ''CreateDeployment'' requests are idempotent with respect to the ''X-Amzn-Client-Token'' token and the request parameters.
+    ///
+    /// - Parameter CreateDeploymentInput : [no documentation found]
+    ///
+    /// - Returns: `CreateDeploymentOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : General error information.
     public func createDeployment(input: CreateDeploymentInput) async throws -> CreateDeploymentOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -325,6 +390,15 @@ extension GreengrassClient: GreengrassClientProtocol {
     }
 
     /// Creates a device definition. You may provide the initial version of the device definition now or use ''CreateDeviceDefinitionVersion'' at a later time.
+    ///
+    /// - Parameter CreateDeviceDefinitionInput : [no documentation found]
+    ///
+    /// - Returns: `CreateDeviceDefinitionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : General error information.
     public func createDeviceDefinition(input: CreateDeviceDefinitionInput) async throws -> CreateDeviceDefinitionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -362,6 +436,15 @@ extension GreengrassClient: GreengrassClientProtocol {
     }
 
     /// Creates a version of a device definition that has already been defined.
+    ///
+    /// - Parameter CreateDeviceDefinitionVersionInput : [no documentation found]
+    ///
+    /// - Returns: `CreateDeviceDefinitionVersionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : General error information.
     public func createDeviceDefinitionVersion(input: CreateDeviceDefinitionVersionInput) async throws -> CreateDeviceDefinitionVersionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -399,6 +482,15 @@ extension GreengrassClient: GreengrassClientProtocol {
     }
 
     /// Creates a Lambda function definition which contains a list of Lambda functions and their configurations to be used in a group. You can create an initial version of the definition by providing a list of Lambda functions and their configurations now, or use ''CreateFunctionDefinitionVersion'' later.
+    ///
+    /// - Parameter CreateFunctionDefinitionInput : [no documentation found]
+    ///
+    /// - Returns: `CreateFunctionDefinitionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : General error information.
     public func createFunctionDefinition(input: CreateFunctionDefinitionInput) async throws -> CreateFunctionDefinitionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -436,6 +528,15 @@ extension GreengrassClient: GreengrassClientProtocol {
     }
 
     /// Creates a version of a Lambda function definition that has already been defined.
+    ///
+    /// - Parameter CreateFunctionDefinitionVersionInput : Information needed to create a function definition version.
+    ///
+    /// - Returns: `CreateFunctionDefinitionVersionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : General error information.
     public func createFunctionDefinitionVersion(input: CreateFunctionDefinitionVersionInput) async throws -> CreateFunctionDefinitionVersionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -473,6 +574,15 @@ extension GreengrassClient: GreengrassClientProtocol {
     }
 
     /// Creates a group. You may provide the initial version of the group or use ''CreateGroupVersion'' at a later time. Tip: You can use the ''gg_group_setup'' package (https://github.com/awslabs/aws-greengrass-group-setup) as a library or command-line application to create and deploy Greengrass groups.
+    ///
+    /// - Parameter CreateGroupInput : [no documentation found]
+    ///
+    /// - Returns: `CreateGroupOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : General error information.
     public func createGroup(input: CreateGroupInput) async throws -> CreateGroupOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -510,6 +620,16 @@ extension GreengrassClient: GreengrassClientProtocol {
     }
 
     /// Creates a CA for the group. If a CA already exists, it will rotate the existing CA.
+    ///
+    /// - Parameter CreateGroupCertificateAuthorityInput : [no documentation found]
+    ///
+    /// - Returns: `CreateGroupCertificateAuthorityOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : General error information.
+    /// - `InternalServerErrorException` : General error information.
     public func createGroupCertificateAuthority(input: CreateGroupCertificateAuthorityInput) async throws -> CreateGroupCertificateAuthorityOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -544,6 +664,15 @@ extension GreengrassClient: GreengrassClientProtocol {
     }
 
     /// Creates a version of a group which has already been defined.
+    ///
+    /// - Parameter CreateGroupVersionInput : [no documentation found]
+    ///
+    /// - Returns: `CreateGroupVersionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : General error information.
     public func createGroupVersion(input: CreateGroupVersionInput) async throws -> CreateGroupVersionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -581,6 +710,15 @@ extension GreengrassClient: GreengrassClientProtocol {
     }
 
     /// Creates a logger definition. You may provide the initial version of the logger definition now or use ''CreateLoggerDefinitionVersion'' at a later time.
+    ///
+    /// - Parameter CreateLoggerDefinitionInput : [no documentation found]
+    ///
+    /// - Returns: `CreateLoggerDefinitionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : General error information.
     public func createLoggerDefinition(input: CreateLoggerDefinitionInput) async throws -> CreateLoggerDefinitionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -618,6 +756,15 @@ extension GreengrassClient: GreengrassClientProtocol {
     }
 
     /// Creates a version of a logger definition that has already been defined.
+    ///
+    /// - Parameter CreateLoggerDefinitionVersionInput : [no documentation found]
+    ///
+    /// - Returns: `CreateLoggerDefinitionVersionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : General error information.
     public func createLoggerDefinitionVersion(input: CreateLoggerDefinitionVersionInput) async throws -> CreateLoggerDefinitionVersionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -655,6 +802,15 @@ extension GreengrassClient: GreengrassClientProtocol {
     }
 
     /// Creates a resource definition which contains a list of resources to be used in a group. You can create an initial version of the definition by providing a list of resources now, or use ''CreateResourceDefinitionVersion'' later.
+    ///
+    /// - Parameter CreateResourceDefinitionInput : [no documentation found]
+    ///
+    /// - Returns: `CreateResourceDefinitionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : General error information.
     public func createResourceDefinition(input: CreateResourceDefinitionInput) async throws -> CreateResourceDefinitionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -692,6 +848,15 @@ extension GreengrassClient: GreengrassClientProtocol {
     }
 
     /// Creates a version of a resource definition that has already been defined.
+    ///
+    /// - Parameter CreateResourceDefinitionVersionInput : [no documentation found]
+    ///
+    /// - Returns: `CreateResourceDefinitionVersionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : General error information.
     public func createResourceDefinitionVersion(input: CreateResourceDefinitionVersionInput) async throws -> CreateResourceDefinitionVersionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -729,6 +894,16 @@ extension GreengrassClient: GreengrassClientProtocol {
     }
 
     /// Creates a software update for a core or group of cores (specified as an IoT thing group.) Use this to update the OTA Agent as well as the Greengrass core software. It makes use of the IoT Jobs feature which provides additional commands to manage a Greengrass core software update job.
+    ///
+    /// - Parameter CreateSoftwareUpdateJobInput : [no documentation found]
+    ///
+    /// - Returns: `CreateSoftwareUpdateJobOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : General error information.
+    /// - `InternalServerErrorException` : General error information.
     public func createSoftwareUpdateJob(input: CreateSoftwareUpdateJobInput) async throws -> CreateSoftwareUpdateJobOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -766,6 +941,15 @@ extension GreengrassClient: GreengrassClientProtocol {
     }
 
     /// Creates a subscription definition. You may provide the initial version of the subscription definition now or use ''CreateSubscriptionDefinitionVersion'' at a later time.
+    ///
+    /// - Parameter CreateSubscriptionDefinitionInput : [no documentation found]
+    ///
+    /// - Returns: `CreateSubscriptionDefinitionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : General error information.
     public func createSubscriptionDefinition(input: CreateSubscriptionDefinitionInput) async throws -> CreateSubscriptionDefinitionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -803,6 +987,15 @@ extension GreengrassClient: GreengrassClientProtocol {
     }
 
     /// Creates a version of a subscription definition which has already been defined.
+    ///
+    /// - Parameter CreateSubscriptionDefinitionVersionInput : [no documentation found]
+    ///
+    /// - Returns: `CreateSubscriptionDefinitionVersionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : General error information.
     public func createSubscriptionDefinitionVersion(input: CreateSubscriptionDefinitionVersionInput) async throws -> CreateSubscriptionDefinitionVersionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -840,6 +1033,15 @@ extension GreengrassClient: GreengrassClientProtocol {
     }
 
     /// Deletes a connector definition.
+    ///
+    /// - Parameter DeleteConnectorDefinitionInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteConnectorDefinitionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : General error information.
     public func deleteConnectorDefinition(input: DeleteConnectorDefinitionInput) async throws -> DeleteConnectorDefinitionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -873,6 +1075,15 @@ extension GreengrassClient: GreengrassClientProtocol {
     }
 
     /// Deletes a core definition.
+    ///
+    /// - Parameter DeleteCoreDefinitionInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteCoreDefinitionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : General error information.
     public func deleteCoreDefinition(input: DeleteCoreDefinitionInput) async throws -> DeleteCoreDefinitionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -906,6 +1117,15 @@ extension GreengrassClient: GreengrassClientProtocol {
     }
 
     /// Deletes a device definition.
+    ///
+    /// - Parameter DeleteDeviceDefinitionInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteDeviceDefinitionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : General error information.
     public func deleteDeviceDefinition(input: DeleteDeviceDefinitionInput) async throws -> DeleteDeviceDefinitionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -939,6 +1159,15 @@ extension GreengrassClient: GreengrassClientProtocol {
     }
 
     /// Deletes a Lambda function definition.
+    ///
+    /// - Parameter DeleteFunctionDefinitionInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteFunctionDefinitionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : General error information.
     public func deleteFunctionDefinition(input: DeleteFunctionDefinitionInput) async throws -> DeleteFunctionDefinitionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -972,6 +1201,15 @@ extension GreengrassClient: GreengrassClientProtocol {
     }
 
     /// Deletes a group.
+    ///
+    /// - Parameter DeleteGroupInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteGroupOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : General error information.
     public func deleteGroup(input: DeleteGroupInput) async throws -> DeleteGroupOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1005,6 +1243,15 @@ extension GreengrassClient: GreengrassClientProtocol {
     }
 
     /// Deletes a logger definition.
+    ///
+    /// - Parameter DeleteLoggerDefinitionInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteLoggerDefinitionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : General error information.
     public func deleteLoggerDefinition(input: DeleteLoggerDefinitionInput) async throws -> DeleteLoggerDefinitionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1038,6 +1285,15 @@ extension GreengrassClient: GreengrassClientProtocol {
     }
 
     /// Deletes a resource definition.
+    ///
+    /// - Parameter DeleteResourceDefinitionInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteResourceDefinitionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : General error information.
     public func deleteResourceDefinition(input: DeleteResourceDefinitionInput) async throws -> DeleteResourceDefinitionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1071,6 +1327,15 @@ extension GreengrassClient: GreengrassClientProtocol {
     }
 
     /// Deletes a subscription definition.
+    ///
+    /// - Parameter DeleteSubscriptionDefinitionInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteSubscriptionDefinitionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : General error information.
     public func deleteSubscriptionDefinition(input: DeleteSubscriptionDefinitionInput) async throws -> DeleteSubscriptionDefinitionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1104,6 +1369,16 @@ extension GreengrassClient: GreengrassClientProtocol {
     }
 
     /// Disassociates the role from a group.
+    ///
+    /// - Parameter DisassociateRoleFromGroupInput : [no documentation found]
+    ///
+    /// - Returns: `DisassociateRoleFromGroupOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : General error information.
+    /// - `InternalServerErrorException` : General error information.
     public func disassociateRoleFromGroup(input: DisassociateRoleFromGroupInput) async throws -> DisassociateRoleFromGroupOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1137,6 +1412,15 @@ extension GreengrassClient: GreengrassClientProtocol {
     }
 
     /// Disassociates the service role from your account. Without a service role, deployments will not work.
+    ///
+    /// - Parameter DisassociateServiceRoleFromAccountInput : [no documentation found]
+    ///
+    /// - Returns: `DisassociateServiceRoleFromAccountOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerErrorException` : General error information.
     public func disassociateServiceRoleFromAccount(input: DisassociateServiceRoleFromAccountInput) async throws -> DisassociateServiceRoleFromAccountOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1170,6 +1454,16 @@ extension GreengrassClient: GreengrassClientProtocol {
     }
 
     /// Retrieves the role associated with a particular group.
+    ///
+    /// - Parameter GetAssociatedRoleInput : [no documentation found]
+    ///
+    /// - Returns: `GetAssociatedRoleOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : General error information.
+    /// - `InternalServerErrorException` : General error information.
     public func getAssociatedRole(input: GetAssociatedRoleInput) async throws -> GetAssociatedRoleOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1203,6 +1497,15 @@ extension GreengrassClient: GreengrassClientProtocol {
     }
 
     /// Returns the status of a bulk deployment.
+    ///
+    /// - Parameter GetBulkDeploymentStatusInput : [no documentation found]
+    ///
+    /// - Returns: `GetBulkDeploymentStatusOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : General error information.
     public func getBulkDeploymentStatus(input: GetBulkDeploymentStatusInput) async throws -> GetBulkDeploymentStatusOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1236,6 +1539,16 @@ extension GreengrassClient: GreengrassClientProtocol {
     }
 
     /// Retrieves the connectivity information for a core.
+    ///
+    /// - Parameter GetConnectivityInfoInput : [no documentation found]
+    ///
+    /// - Returns: `GetConnectivityInfoOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : General error information.
+    /// - `InternalServerErrorException` : General error information.
     public func getConnectivityInfo(input: GetConnectivityInfoInput) async throws -> GetConnectivityInfoOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1269,6 +1582,15 @@ extension GreengrassClient: GreengrassClientProtocol {
     }
 
     /// Retrieves information about a connector definition.
+    ///
+    /// - Parameter GetConnectorDefinitionInput : [no documentation found]
+    ///
+    /// - Returns: `GetConnectorDefinitionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : General error information.
     public func getConnectorDefinition(input: GetConnectorDefinitionInput) async throws -> GetConnectorDefinitionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1302,6 +1624,15 @@ extension GreengrassClient: GreengrassClientProtocol {
     }
 
     /// Retrieves information about a connector definition version, including the connectors that the version contains. Connectors are prebuilt modules that interact with local infrastructure, device protocols, AWS, and other cloud services.
+    ///
+    /// - Parameter GetConnectorDefinitionVersionInput : [no documentation found]
+    ///
+    /// - Returns: `GetConnectorDefinitionVersionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : General error information.
     public func getConnectorDefinitionVersion(input: GetConnectorDefinitionVersionInput) async throws -> GetConnectorDefinitionVersionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1336,6 +1667,15 @@ extension GreengrassClient: GreengrassClientProtocol {
     }
 
     /// Retrieves information about a core definition version.
+    ///
+    /// - Parameter GetCoreDefinitionInput : [no documentation found]
+    ///
+    /// - Returns: `GetCoreDefinitionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : General error information.
     public func getCoreDefinition(input: GetCoreDefinitionInput) async throws -> GetCoreDefinitionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1369,6 +1709,15 @@ extension GreengrassClient: GreengrassClientProtocol {
     }
 
     /// Retrieves information about a core definition version.
+    ///
+    /// - Parameter GetCoreDefinitionVersionInput : [no documentation found]
+    ///
+    /// - Returns: `GetCoreDefinitionVersionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : General error information.
     public func getCoreDefinitionVersion(input: GetCoreDefinitionVersionInput) async throws -> GetCoreDefinitionVersionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1402,6 +1751,15 @@ extension GreengrassClient: GreengrassClientProtocol {
     }
 
     /// Returns the status of a deployment.
+    ///
+    /// - Parameter GetDeploymentStatusInput : [no documentation found]
+    ///
+    /// - Returns: `GetDeploymentStatusOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : General error information.
     public func getDeploymentStatus(input: GetDeploymentStatusInput) async throws -> GetDeploymentStatusOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1435,6 +1793,15 @@ extension GreengrassClient: GreengrassClientProtocol {
     }
 
     /// Retrieves information about a device definition.
+    ///
+    /// - Parameter GetDeviceDefinitionInput : [no documentation found]
+    ///
+    /// - Returns: `GetDeviceDefinitionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : General error information.
     public func getDeviceDefinition(input: GetDeviceDefinitionInput) async throws -> GetDeviceDefinitionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1468,6 +1835,15 @@ extension GreengrassClient: GreengrassClientProtocol {
     }
 
     /// Retrieves information about a device definition version.
+    ///
+    /// - Parameter GetDeviceDefinitionVersionInput : [no documentation found]
+    ///
+    /// - Returns: `GetDeviceDefinitionVersionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : General error information.
     public func getDeviceDefinitionVersion(input: GetDeviceDefinitionVersionInput) async throws -> GetDeviceDefinitionVersionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1502,6 +1878,15 @@ extension GreengrassClient: GreengrassClientProtocol {
     }
 
     /// Retrieves information about a Lambda function definition, including its creation time and latest version.
+    ///
+    /// - Parameter GetFunctionDefinitionInput : [no documentation found]
+    ///
+    /// - Returns: `GetFunctionDefinitionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : General error information.
     public func getFunctionDefinition(input: GetFunctionDefinitionInput) async throws -> GetFunctionDefinitionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1535,6 +1920,15 @@ extension GreengrassClient: GreengrassClientProtocol {
     }
 
     /// Retrieves information about a Lambda function definition version, including which Lambda functions are included in the version and their configurations.
+    ///
+    /// - Parameter GetFunctionDefinitionVersionInput : [no documentation found]
+    ///
+    /// - Returns: `GetFunctionDefinitionVersionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : General error information.
     public func getFunctionDefinitionVersion(input: GetFunctionDefinitionVersionInput) async throws -> GetFunctionDefinitionVersionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1569,6 +1963,15 @@ extension GreengrassClient: GreengrassClientProtocol {
     }
 
     /// Retrieves information about a group.
+    ///
+    /// - Parameter GetGroupInput : [no documentation found]
+    ///
+    /// - Returns: `GetGroupOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : General error information.
     public func getGroup(input: GetGroupInput) async throws -> GetGroupOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1602,6 +2005,16 @@ extension GreengrassClient: GreengrassClientProtocol {
     }
 
     /// Retreives the CA associated with a group. Returns the public key of the CA.
+    ///
+    /// - Parameter GetGroupCertificateAuthorityInput : [no documentation found]
+    ///
+    /// - Returns: `GetGroupCertificateAuthorityOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : General error information.
+    /// - `InternalServerErrorException` : General error information.
     public func getGroupCertificateAuthority(input: GetGroupCertificateAuthorityInput) async throws -> GetGroupCertificateAuthorityOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1635,6 +2048,16 @@ extension GreengrassClient: GreengrassClientProtocol {
     }
 
     /// Retrieves the current configuration for the CA used by the group.
+    ///
+    /// - Parameter GetGroupCertificateConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `GetGroupCertificateConfigurationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : General error information.
+    /// - `InternalServerErrorException` : General error information.
     public func getGroupCertificateConfiguration(input: GetGroupCertificateConfigurationInput) async throws -> GetGroupCertificateConfigurationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1668,6 +2091,15 @@ extension GreengrassClient: GreengrassClientProtocol {
     }
 
     /// Retrieves information about a group version.
+    ///
+    /// - Parameter GetGroupVersionInput : [no documentation found]
+    ///
+    /// - Returns: `GetGroupVersionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : General error information.
     public func getGroupVersion(input: GetGroupVersionInput) async throws -> GetGroupVersionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1701,6 +2133,15 @@ extension GreengrassClient: GreengrassClientProtocol {
     }
 
     /// Retrieves information about a logger definition.
+    ///
+    /// - Parameter GetLoggerDefinitionInput : [no documentation found]
+    ///
+    /// - Returns: `GetLoggerDefinitionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : General error information.
     public func getLoggerDefinition(input: GetLoggerDefinitionInput) async throws -> GetLoggerDefinitionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1734,6 +2175,15 @@ extension GreengrassClient: GreengrassClientProtocol {
     }
 
     /// Retrieves information about a logger definition version.
+    ///
+    /// - Parameter GetLoggerDefinitionVersionInput : [no documentation found]
+    ///
+    /// - Returns: `GetLoggerDefinitionVersionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : General error information.
     public func getLoggerDefinitionVersion(input: GetLoggerDefinitionVersionInput) async throws -> GetLoggerDefinitionVersionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1768,6 +2218,15 @@ extension GreengrassClient: GreengrassClientProtocol {
     }
 
     /// Retrieves information about a resource definition, including its creation time and latest version.
+    ///
+    /// - Parameter GetResourceDefinitionInput : [no documentation found]
+    ///
+    /// - Returns: `GetResourceDefinitionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : General error information.
     public func getResourceDefinition(input: GetResourceDefinitionInput) async throws -> GetResourceDefinitionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1801,6 +2260,15 @@ extension GreengrassClient: GreengrassClientProtocol {
     }
 
     /// Retrieves information about a resource definition version, including which resources are included in the version.
+    ///
+    /// - Parameter GetResourceDefinitionVersionInput : [no documentation found]
+    ///
+    /// - Returns: `GetResourceDefinitionVersionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : General error information.
     public func getResourceDefinitionVersion(input: GetResourceDefinitionVersionInput) async throws -> GetResourceDefinitionVersionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1834,6 +2302,15 @@ extension GreengrassClient: GreengrassClientProtocol {
     }
 
     /// Retrieves the service role that is attached to your account.
+    ///
+    /// - Parameter GetServiceRoleForAccountInput : [no documentation found]
+    ///
+    /// - Returns: `GetServiceRoleForAccountOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerErrorException` : General error information.
     public func getServiceRoleForAccount(input: GetServiceRoleForAccountInput) async throws -> GetServiceRoleForAccountOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1867,6 +2344,15 @@ extension GreengrassClient: GreengrassClientProtocol {
     }
 
     /// Retrieves information about a subscription definition.
+    ///
+    /// - Parameter GetSubscriptionDefinitionInput : [no documentation found]
+    ///
+    /// - Returns: `GetSubscriptionDefinitionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : General error information.
     public func getSubscriptionDefinition(input: GetSubscriptionDefinitionInput) async throws -> GetSubscriptionDefinitionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1900,6 +2386,15 @@ extension GreengrassClient: GreengrassClientProtocol {
     }
 
     /// Retrieves information about a subscription definition version.
+    ///
+    /// - Parameter GetSubscriptionDefinitionVersionInput : [no documentation found]
+    ///
+    /// - Returns: `GetSubscriptionDefinitionVersionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : General error information.
     public func getSubscriptionDefinitionVersion(input: GetSubscriptionDefinitionVersionInput) async throws -> GetSubscriptionDefinitionVersionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1934,6 +2429,16 @@ extension GreengrassClient: GreengrassClientProtocol {
     }
 
     /// Get the runtime configuration of a thing.
+    ///
+    /// - Parameter GetThingRuntimeConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `GetThingRuntimeConfigurationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : General error information.
+    /// - `InternalServerErrorException` : General error information.
     public func getThingRuntimeConfiguration(input: GetThingRuntimeConfigurationInput) async throws -> GetThingRuntimeConfigurationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1967,6 +2472,15 @@ extension GreengrassClient: GreengrassClientProtocol {
     }
 
     /// Gets a paginated list of the deployments that have been started in a bulk deployment operation, and their current deployment status.
+    ///
+    /// - Parameter ListBulkDeploymentDetailedReportsInput : [no documentation found]
+    ///
+    /// - Returns: `ListBulkDeploymentDetailedReportsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : General error information.
     public func listBulkDeploymentDetailedReports(input: ListBulkDeploymentDetailedReportsInput) async throws -> ListBulkDeploymentDetailedReportsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2001,6 +2515,15 @@ extension GreengrassClient: GreengrassClientProtocol {
     }
 
     /// Returns a list of bulk deployments.
+    ///
+    /// - Parameter ListBulkDeploymentsInput : [no documentation found]
+    ///
+    /// - Returns: `ListBulkDeploymentsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : General error information.
     public func listBulkDeployments(input: ListBulkDeploymentsInput) async throws -> ListBulkDeploymentsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2035,6 +2558,15 @@ extension GreengrassClient: GreengrassClientProtocol {
     }
 
     /// Lists the versions of a connector definition, which are containers for connectors. Connectors run on the Greengrass core and contain built-in integration with local infrastructure, device protocols, AWS, and other cloud services.
+    ///
+    /// - Parameter ListConnectorDefinitionVersionsInput : [no documentation found]
+    ///
+    /// - Returns: `ListConnectorDefinitionVersionsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : General error information.
     public func listConnectorDefinitionVersions(input: ListConnectorDefinitionVersionsInput) async throws -> ListConnectorDefinitionVersionsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2069,6 +2601,10 @@ extension GreengrassClient: GreengrassClientProtocol {
     }
 
     /// Retrieves a list of connector definitions.
+    ///
+    /// - Parameter ListConnectorDefinitionsInput : [no documentation found]
+    ///
+    /// - Returns: `ListConnectorDefinitionsOutputResponse` : [no documentation found]
     public func listConnectorDefinitions(input: ListConnectorDefinitionsInput) async throws -> ListConnectorDefinitionsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2103,6 +2639,15 @@ extension GreengrassClient: GreengrassClientProtocol {
     }
 
     /// Lists the versions of a core definition.
+    ///
+    /// - Parameter ListCoreDefinitionVersionsInput : [no documentation found]
+    ///
+    /// - Returns: `ListCoreDefinitionVersionsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : General error information.
     public func listCoreDefinitionVersions(input: ListCoreDefinitionVersionsInput) async throws -> ListCoreDefinitionVersionsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2137,6 +2682,10 @@ extension GreengrassClient: GreengrassClientProtocol {
     }
 
     /// Retrieves a list of core definitions.
+    ///
+    /// - Parameter ListCoreDefinitionsInput : [no documentation found]
+    ///
+    /// - Returns: `ListCoreDefinitionsOutputResponse` : [no documentation found]
     public func listCoreDefinitions(input: ListCoreDefinitionsInput) async throws -> ListCoreDefinitionsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2171,6 +2720,15 @@ extension GreengrassClient: GreengrassClientProtocol {
     }
 
     /// Returns a history of deployments for the group.
+    ///
+    /// - Parameter ListDeploymentsInput : [no documentation found]
+    ///
+    /// - Returns: `ListDeploymentsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : General error information.
     public func listDeployments(input: ListDeploymentsInput) async throws -> ListDeploymentsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2205,6 +2763,15 @@ extension GreengrassClient: GreengrassClientProtocol {
     }
 
     /// Lists the versions of a device definition.
+    ///
+    /// - Parameter ListDeviceDefinitionVersionsInput : [no documentation found]
+    ///
+    /// - Returns: `ListDeviceDefinitionVersionsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : General error information.
     public func listDeviceDefinitionVersions(input: ListDeviceDefinitionVersionsInput) async throws -> ListDeviceDefinitionVersionsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2239,6 +2806,10 @@ extension GreengrassClient: GreengrassClientProtocol {
     }
 
     /// Retrieves a list of device definitions.
+    ///
+    /// - Parameter ListDeviceDefinitionsInput : [no documentation found]
+    ///
+    /// - Returns: `ListDeviceDefinitionsOutputResponse` : [no documentation found]
     public func listDeviceDefinitions(input: ListDeviceDefinitionsInput) async throws -> ListDeviceDefinitionsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2273,6 +2844,15 @@ extension GreengrassClient: GreengrassClientProtocol {
     }
 
     /// Lists the versions of a Lambda function definition.
+    ///
+    /// - Parameter ListFunctionDefinitionVersionsInput : [no documentation found]
+    ///
+    /// - Returns: `ListFunctionDefinitionVersionsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : General error information.
     public func listFunctionDefinitionVersions(input: ListFunctionDefinitionVersionsInput) async throws -> ListFunctionDefinitionVersionsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2307,6 +2887,10 @@ extension GreengrassClient: GreengrassClientProtocol {
     }
 
     /// Retrieves a list of Lambda function definitions.
+    ///
+    /// - Parameter ListFunctionDefinitionsInput : [no documentation found]
+    ///
+    /// - Returns: `ListFunctionDefinitionsOutputResponse` : [no documentation found]
     public func listFunctionDefinitions(input: ListFunctionDefinitionsInput) async throws -> ListFunctionDefinitionsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2341,6 +2925,16 @@ extension GreengrassClient: GreengrassClientProtocol {
     }
 
     /// Retrieves the current CAs for a group.
+    ///
+    /// - Parameter ListGroupCertificateAuthoritiesInput : [no documentation found]
+    ///
+    /// - Returns: `ListGroupCertificateAuthoritiesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : General error information.
+    /// - `InternalServerErrorException` : General error information.
     public func listGroupCertificateAuthorities(input: ListGroupCertificateAuthoritiesInput) async throws -> ListGroupCertificateAuthoritiesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2374,6 +2968,15 @@ extension GreengrassClient: GreengrassClientProtocol {
     }
 
     /// Lists the versions of a group.
+    ///
+    /// - Parameter ListGroupVersionsInput : [no documentation found]
+    ///
+    /// - Returns: `ListGroupVersionsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : General error information.
     public func listGroupVersions(input: ListGroupVersionsInput) async throws -> ListGroupVersionsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2408,6 +3011,10 @@ extension GreengrassClient: GreengrassClientProtocol {
     }
 
     /// Retrieves a list of groups.
+    ///
+    /// - Parameter ListGroupsInput : [no documentation found]
+    ///
+    /// - Returns: `ListGroupsOutputResponse` : [no documentation found]
     public func listGroups(input: ListGroupsInput) async throws -> ListGroupsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2442,6 +3049,15 @@ extension GreengrassClient: GreengrassClientProtocol {
     }
 
     /// Lists the versions of a logger definition.
+    ///
+    /// - Parameter ListLoggerDefinitionVersionsInput : [no documentation found]
+    ///
+    /// - Returns: `ListLoggerDefinitionVersionsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : General error information.
     public func listLoggerDefinitionVersions(input: ListLoggerDefinitionVersionsInput) async throws -> ListLoggerDefinitionVersionsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2476,6 +3092,10 @@ extension GreengrassClient: GreengrassClientProtocol {
     }
 
     /// Retrieves a list of logger definitions.
+    ///
+    /// - Parameter ListLoggerDefinitionsInput : [no documentation found]
+    ///
+    /// - Returns: `ListLoggerDefinitionsOutputResponse` : [no documentation found]
     public func listLoggerDefinitions(input: ListLoggerDefinitionsInput) async throws -> ListLoggerDefinitionsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2510,6 +3130,15 @@ extension GreengrassClient: GreengrassClientProtocol {
     }
 
     /// Lists the versions of a resource definition.
+    ///
+    /// - Parameter ListResourceDefinitionVersionsInput : [no documentation found]
+    ///
+    /// - Returns: `ListResourceDefinitionVersionsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : General error information.
     public func listResourceDefinitionVersions(input: ListResourceDefinitionVersionsInput) async throws -> ListResourceDefinitionVersionsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2544,6 +3173,10 @@ extension GreengrassClient: GreengrassClientProtocol {
     }
 
     /// Retrieves a list of resource definitions.
+    ///
+    /// - Parameter ListResourceDefinitionsInput : [no documentation found]
+    ///
+    /// - Returns: `ListResourceDefinitionsOutputResponse` : [no documentation found]
     public func listResourceDefinitions(input: ListResourceDefinitionsInput) async throws -> ListResourceDefinitionsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2578,6 +3211,15 @@ extension GreengrassClient: GreengrassClientProtocol {
     }
 
     /// Lists the versions of a subscription definition.
+    ///
+    /// - Parameter ListSubscriptionDefinitionVersionsInput : [no documentation found]
+    ///
+    /// - Returns: `ListSubscriptionDefinitionVersionsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : General error information.
     public func listSubscriptionDefinitionVersions(input: ListSubscriptionDefinitionVersionsInput) async throws -> ListSubscriptionDefinitionVersionsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2612,6 +3254,10 @@ extension GreengrassClient: GreengrassClientProtocol {
     }
 
     /// Retrieves a list of subscription definitions.
+    ///
+    /// - Parameter ListSubscriptionDefinitionsInput : [no documentation found]
+    ///
+    /// - Returns: `ListSubscriptionDefinitionsOutputResponse` : [no documentation found]
     public func listSubscriptionDefinitions(input: ListSubscriptionDefinitionsInput) async throws -> ListSubscriptionDefinitionsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2646,6 +3292,15 @@ extension GreengrassClient: GreengrassClientProtocol {
     }
 
     /// Retrieves a list of resource tags for a resource arn.
+    ///
+    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    ///
+    /// - Returns: `ListTagsForResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : General error information.
     public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2679,6 +3334,15 @@ extension GreengrassClient: GreengrassClientProtocol {
     }
 
     /// Resets a group's deployments.
+    ///
+    /// - Parameter ResetDeploymentsInput : Information needed to reset deployments.
+    ///
+    /// - Returns: `ResetDeploymentsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : General error information.
     public func resetDeployments(input: ResetDeploymentsInput) async throws -> ResetDeploymentsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2716,6 +3380,15 @@ extension GreengrassClient: GreengrassClientProtocol {
     }
 
     /// Deploys multiple groups in one operation. This action starts the bulk deployment of a specified set of group versions. Each group version deployment will be triggered with an adaptive rate that has a fixed upper limit. We recommend that you include an ''X-Amzn-Client-Token'' token in every ''StartBulkDeployment'' request. These requests are idempotent with respect to the token and the request parameters.
+    ///
+    /// - Parameter StartBulkDeploymentInput : [no documentation found]
+    ///
+    /// - Returns: `StartBulkDeploymentOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : General error information.
     public func startBulkDeployment(input: StartBulkDeploymentInput) async throws -> StartBulkDeploymentOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2753,6 +3426,15 @@ extension GreengrassClient: GreengrassClientProtocol {
     }
 
     /// Stops the execution of a bulk deployment. This action returns a status of ''Stopping'' until the deployment is stopped. You cannot start a new bulk deployment while a previous deployment is in the ''Stopping'' state. This action doesn't rollback completed deployments or cancel pending deployments.
+    ///
+    /// - Parameter StopBulkDeploymentInput : [no documentation found]
+    ///
+    /// - Returns: `StopBulkDeploymentOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : General error information.
     public func stopBulkDeployment(input: StopBulkDeploymentInput) async throws -> StopBulkDeploymentOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2786,6 +3468,15 @@ extension GreengrassClient: GreengrassClientProtocol {
     }
 
     /// Adds tags to a Greengrass resource. Valid resources are 'Group', 'ConnectorDefinition', 'CoreDefinition', 'DeviceDefinition', 'FunctionDefinition', 'LoggerDefinition', 'SubscriptionDefinition', 'ResourceDefinition', and 'BulkDeployment'.
+    ///
+    /// - Parameter TagResourceInput : A map of the key-value pairs for the resource tag.
+    ///
+    /// - Returns: `TagResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : General error information.
     public func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2822,6 +3513,15 @@ extension GreengrassClient: GreengrassClientProtocol {
     }
 
     /// Remove resource tags from a Greengrass Resource.
+    ///
+    /// - Parameter UntagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `UntagResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : General error information.
     public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2856,6 +3556,16 @@ extension GreengrassClient: GreengrassClientProtocol {
     }
 
     /// Updates the connectivity information for the core. Any devices that belong to the group which has this core will receive this information in order to find the location of the core and connect to it.
+    ///
+    /// - Parameter UpdateConnectivityInfoInput : Connectivity information.
+    ///
+    /// - Returns: `UpdateConnectivityInfoOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : General error information.
+    /// - `InternalServerErrorException` : General error information.
     public func updateConnectivityInfo(input: UpdateConnectivityInfoInput) async throws -> UpdateConnectivityInfoOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2892,6 +3602,15 @@ extension GreengrassClient: GreengrassClientProtocol {
     }
 
     /// Updates a connector definition.
+    ///
+    /// - Parameter UpdateConnectorDefinitionInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateConnectorDefinitionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : General error information.
     public func updateConnectorDefinition(input: UpdateConnectorDefinitionInput) async throws -> UpdateConnectorDefinitionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2928,6 +3647,15 @@ extension GreengrassClient: GreengrassClientProtocol {
     }
 
     /// Updates a core definition.
+    ///
+    /// - Parameter UpdateCoreDefinitionInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateCoreDefinitionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : General error information.
     public func updateCoreDefinition(input: UpdateCoreDefinitionInput) async throws -> UpdateCoreDefinitionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2964,6 +3692,15 @@ extension GreengrassClient: GreengrassClientProtocol {
     }
 
     /// Updates a device definition.
+    ///
+    /// - Parameter UpdateDeviceDefinitionInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateDeviceDefinitionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : General error information.
     public func updateDeviceDefinition(input: UpdateDeviceDefinitionInput) async throws -> UpdateDeviceDefinitionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3000,6 +3737,15 @@ extension GreengrassClient: GreengrassClientProtocol {
     }
 
     /// Updates a Lambda function definition.
+    ///
+    /// - Parameter UpdateFunctionDefinitionInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateFunctionDefinitionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : General error information.
     public func updateFunctionDefinition(input: UpdateFunctionDefinitionInput) async throws -> UpdateFunctionDefinitionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3036,6 +3782,15 @@ extension GreengrassClient: GreengrassClientProtocol {
     }
 
     /// Updates a group.
+    ///
+    /// - Parameter UpdateGroupInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateGroupOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : General error information.
     public func updateGroup(input: UpdateGroupInput) async throws -> UpdateGroupOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3072,6 +3827,16 @@ extension GreengrassClient: GreengrassClientProtocol {
     }
 
     /// Updates the Certificate expiry time for a group.
+    ///
+    /// - Parameter UpdateGroupCertificateConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateGroupCertificateConfigurationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : General error information.
+    /// - `InternalServerErrorException` : General error information.
     public func updateGroupCertificateConfiguration(input: UpdateGroupCertificateConfigurationInput) async throws -> UpdateGroupCertificateConfigurationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3108,6 +3873,15 @@ extension GreengrassClient: GreengrassClientProtocol {
     }
 
     /// Updates a logger definition.
+    ///
+    /// - Parameter UpdateLoggerDefinitionInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateLoggerDefinitionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : General error information.
     public func updateLoggerDefinition(input: UpdateLoggerDefinitionInput) async throws -> UpdateLoggerDefinitionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3144,6 +3918,15 @@ extension GreengrassClient: GreengrassClientProtocol {
     }
 
     /// Updates a resource definition.
+    ///
+    /// - Parameter UpdateResourceDefinitionInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateResourceDefinitionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : General error information.
     public func updateResourceDefinition(input: UpdateResourceDefinitionInput) async throws -> UpdateResourceDefinitionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3180,6 +3963,15 @@ extension GreengrassClient: GreengrassClientProtocol {
     }
 
     /// Updates a subscription definition.
+    ///
+    /// - Parameter UpdateSubscriptionDefinitionInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateSubscriptionDefinitionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : General error information.
     public func updateSubscriptionDefinition(input: UpdateSubscriptionDefinitionInput) async throws -> UpdateSubscriptionDefinitionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3216,6 +4008,16 @@ extension GreengrassClient: GreengrassClientProtocol {
     }
 
     /// Updates the runtime configuration of a thing.
+    ///
+    /// - Parameter UpdateThingRuntimeConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateThingRuntimeConfigurationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : General error information.
+    /// - `InternalServerErrorException` : General error information.
     public func updateThingRuntimeConfiguration(input: UpdateThingRuntimeConfigurationInput) async throws -> UpdateThingRuntimeConfigurationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
