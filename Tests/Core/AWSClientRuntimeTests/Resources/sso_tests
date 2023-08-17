@@ -1,7 +1,3 @@
-[default]
-aws_access_key_id = default_access_key_id
-aws_secret_access_key = default_secret_access_key
-
 [profile dev]
 sso_session = my-sso
 sso_account_id = 111122223333
