@@ -73,6 +73,28 @@ extension DescribeConnectionsInput: ClientRuntime.PaginateToken {
         )}
 }
 extension DatabaseMigrationClient {
+    /// Paginate over `[DescribeDataProvidersOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeDataProvidersInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeDataProvidersOutputResponse`
+    public func describeDataProvidersPaginated(input: DescribeDataProvidersInput) -> ClientRuntime.PaginatorSequence<DescribeDataProvidersInput, DescribeDataProvidersOutputResponse> {
+        return ClientRuntime.PaginatorSequence<DescribeDataProvidersInput, DescribeDataProvidersOutputResponse>(input: input, inputKey: \DescribeDataProvidersInput.marker, outputKey: \DescribeDataProvidersOutputResponse.marker, paginationFunction: self.describeDataProviders(input:))
+    }
+}
+
+extension DescribeDataProvidersInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> DescribeDataProvidersInput {
+        return DescribeDataProvidersInput(
+            filters: self.filters,
+            marker: token,
+            maxRecords: self.maxRecords
+        )}
+}
+extension DatabaseMigrationClient {
     /// Paginate over `[DescribeEndpointsOutputResponse]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
@@ -211,6 +233,29 @@ extension DescribeEventSubscriptionsInput: ClientRuntime.PaginateToken {
         )}
 }
 extension DatabaseMigrationClient {
+    /// Paginate over `[DescribeExtensionPackAssociationsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeExtensionPackAssociationsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeExtensionPackAssociationsOutputResponse`
+    public func describeExtensionPackAssociationsPaginated(input: DescribeExtensionPackAssociationsInput) -> ClientRuntime.PaginatorSequence<DescribeExtensionPackAssociationsInput, DescribeExtensionPackAssociationsOutputResponse> {
+        return ClientRuntime.PaginatorSequence<DescribeExtensionPackAssociationsInput, DescribeExtensionPackAssociationsOutputResponse>(input: input, inputKey: \DescribeExtensionPackAssociationsInput.marker, outputKey: \DescribeExtensionPackAssociationsOutputResponse.marker, paginationFunction: self.describeExtensionPackAssociations(input:))
+    }
+}
+
+extension DescribeExtensionPackAssociationsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> DescribeExtensionPackAssociationsInput {
+        return DescribeExtensionPackAssociationsInput(
+            filters: self.filters,
+            marker: token,
+            maxRecords: self.maxRecords,
+            migrationProjectIdentifier: self.migrationProjectIdentifier
+        )}
+}
+extension DatabaseMigrationClient {
     /// Paginate over `[DescribeFleetAdvisorCollectorsOutputResponse]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
@@ -317,6 +362,165 @@ extension DescribeFleetAdvisorSchemasInput: ClientRuntime.PaginateToken {
             filters: self.filters,
             maxRecords: self.maxRecords,
             nextToken: token
+        )}
+}
+extension DatabaseMigrationClient {
+    /// Paginate over `[DescribeInstanceProfilesOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeInstanceProfilesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeInstanceProfilesOutputResponse`
+    public func describeInstanceProfilesPaginated(input: DescribeInstanceProfilesInput) -> ClientRuntime.PaginatorSequence<DescribeInstanceProfilesInput, DescribeInstanceProfilesOutputResponse> {
+        return ClientRuntime.PaginatorSequence<DescribeInstanceProfilesInput, DescribeInstanceProfilesOutputResponse>(input: input, inputKey: \DescribeInstanceProfilesInput.marker, outputKey: \DescribeInstanceProfilesOutputResponse.marker, paginationFunction: self.describeInstanceProfiles(input:))
+    }
+}
+
+extension DescribeInstanceProfilesInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> DescribeInstanceProfilesInput {
+        return DescribeInstanceProfilesInput(
+            filters: self.filters,
+            marker: token,
+            maxRecords: self.maxRecords
+        )}
+}
+extension DatabaseMigrationClient {
+    /// Paginate over `[DescribeMetadataModelAssessmentsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeMetadataModelAssessmentsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeMetadataModelAssessmentsOutputResponse`
+    public func describeMetadataModelAssessmentsPaginated(input: DescribeMetadataModelAssessmentsInput) -> ClientRuntime.PaginatorSequence<DescribeMetadataModelAssessmentsInput, DescribeMetadataModelAssessmentsOutputResponse> {
+        return ClientRuntime.PaginatorSequence<DescribeMetadataModelAssessmentsInput, DescribeMetadataModelAssessmentsOutputResponse>(input: input, inputKey: \DescribeMetadataModelAssessmentsInput.marker, outputKey: \DescribeMetadataModelAssessmentsOutputResponse.marker, paginationFunction: self.describeMetadataModelAssessments(input:))
+    }
+}
+
+extension DescribeMetadataModelAssessmentsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> DescribeMetadataModelAssessmentsInput {
+        return DescribeMetadataModelAssessmentsInput(
+            filters: self.filters,
+            marker: token,
+            maxRecords: self.maxRecords,
+            migrationProjectIdentifier: self.migrationProjectIdentifier
+        )}
+}
+extension DatabaseMigrationClient {
+    /// Paginate over `[DescribeMetadataModelConversionsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeMetadataModelConversionsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeMetadataModelConversionsOutputResponse`
+    public func describeMetadataModelConversionsPaginated(input: DescribeMetadataModelConversionsInput) -> ClientRuntime.PaginatorSequence<DescribeMetadataModelConversionsInput, DescribeMetadataModelConversionsOutputResponse> {
+        return ClientRuntime.PaginatorSequence<DescribeMetadataModelConversionsInput, DescribeMetadataModelConversionsOutputResponse>(input: input, inputKey: \DescribeMetadataModelConversionsInput.marker, outputKey: \DescribeMetadataModelConversionsOutputResponse.marker, paginationFunction: self.describeMetadataModelConversions(input:))
+    }
+}
+
+extension DescribeMetadataModelConversionsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> DescribeMetadataModelConversionsInput {
+        return DescribeMetadataModelConversionsInput(
+            filters: self.filters,
+            marker: token,
+            maxRecords: self.maxRecords,
+            migrationProjectIdentifier: self.migrationProjectIdentifier
+        )}
+}
+extension DatabaseMigrationClient {
+    /// Paginate over `[DescribeMetadataModelExportsAsScriptOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeMetadataModelExportsAsScriptInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeMetadataModelExportsAsScriptOutputResponse`
+    public func describeMetadataModelExportsAsScriptPaginated(input: DescribeMetadataModelExportsAsScriptInput) -> ClientRuntime.PaginatorSequence<DescribeMetadataModelExportsAsScriptInput, DescribeMetadataModelExportsAsScriptOutputResponse> {
+        return ClientRuntime.PaginatorSequence<DescribeMetadataModelExportsAsScriptInput, DescribeMetadataModelExportsAsScriptOutputResponse>(input: input, inputKey: \DescribeMetadataModelExportsAsScriptInput.marker, outputKey: \DescribeMetadataModelExportsAsScriptOutputResponse.marker, paginationFunction: self.describeMetadataModelExportsAsScript(input:))
+    }
+}
+
+extension DescribeMetadataModelExportsAsScriptInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> DescribeMetadataModelExportsAsScriptInput {
+        return DescribeMetadataModelExportsAsScriptInput(
+            filters: self.filters,
+            marker: token,
+            maxRecords: self.maxRecords,
+            migrationProjectIdentifier: self.migrationProjectIdentifier
+        )}
+}
+extension DatabaseMigrationClient {
+    /// Paginate over `[DescribeMetadataModelExportsToTargetOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeMetadataModelExportsToTargetInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeMetadataModelExportsToTargetOutputResponse`
+    public func describeMetadataModelExportsToTargetPaginated(input: DescribeMetadataModelExportsToTargetInput) -> ClientRuntime.PaginatorSequence<DescribeMetadataModelExportsToTargetInput, DescribeMetadataModelExportsToTargetOutputResponse> {
+        return ClientRuntime.PaginatorSequence<DescribeMetadataModelExportsToTargetInput, DescribeMetadataModelExportsToTargetOutputResponse>(input: input, inputKey: \DescribeMetadataModelExportsToTargetInput.marker, outputKey: \DescribeMetadataModelExportsToTargetOutputResponse.marker, paginationFunction: self.describeMetadataModelExportsToTarget(input:))
+    }
+}
+
+extension DescribeMetadataModelExportsToTargetInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> DescribeMetadataModelExportsToTargetInput {
+        return DescribeMetadataModelExportsToTargetInput(
+            filters: self.filters,
+            marker: token,
+            maxRecords: self.maxRecords,
+            migrationProjectIdentifier: self.migrationProjectIdentifier
+        )}
+}
+extension DatabaseMigrationClient {
+    /// Paginate over `[DescribeMetadataModelImportsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeMetadataModelImportsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeMetadataModelImportsOutputResponse`
+    public func describeMetadataModelImportsPaginated(input: DescribeMetadataModelImportsInput) -> ClientRuntime.PaginatorSequence<DescribeMetadataModelImportsInput, DescribeMetadataModelImportsOutputResponse> {
+        return ClientRuntime.PaginatorSequence<DescribeMetadataModelImportsInput, DescribeMetadataModelImportsOutputResponse>(input: input, inputKey: \DescribeMetadataModelImportsInput.marker, outputKey: \DescribeMetadataModelImportsOutputResponse.marker, paginationFunction: self.describeMetadataModelImports(input:))
+    }
+}
+
+extension DescribeMetadataModelImportsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> DescribeMetadataModelImportsInput {
+        return DescribeMetadataModelImportsInput(
+            filters: self.filters,
+            marker: token,
+            maxRecords: self.maxRecords,
+            migrationProjectIdentifier: self.migrationProjectIdentifier
+        )}
+}
+extension DatabaseMigrationClient {
+    /// Paginate over `[DescribeMigrationProjectsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeMigrationProjectsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeMigrationProjectsOutputResponse`
+    public func describeMigrationProjectsPaginated(input: DescribeMigrationProjectsInput) -> ClientRuntime.PaginatorSequence<DescribeMigrationProjectsInput, DescribeMigrationProjectsOutputResponse> {
+        return ClientRuntime.PaginatorSequence<DescribeMigrationProjectsInput, DescribeMigrationProjectsOutputResponse>(input: input, inputKey: \DescribeMigrationProjectsInput.marker, outputKey: \DescribeMigrationProjectsOutputResponse.marker, paginationFunction: self.describeMigrationProjects(input:))
+    }
+}
+
+extension DescribeMigrationProjectsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> DescribeMigrationProjectsInput {
+        return DescribeMigrationProjectsInput(
+            filters: self.filters,
+            marker: token,
+            maxRecords: self.maxRecords
         )}
 }
 extension DatabaseMigrationClient {

@@ -17,36 +17,231 @@ public protocol SimSpaceWeaverClientProtocol {
     /// * mm  is the 2-digit minutes
     ///
     /// * ss  is the 2-digit seconds
+    ///
+    /// - Parameter CreateSnapshotInput : [no documentation found]
+    ///
+    /// - Returns: `CreateSnapshotOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` :
+    /// - `ConflictException` :
+    /// - `InternalServerException` :
+    /// - `ResourceNotFoundException` :
+    /// - `ValidationException` :
     func createSnapshot(input: CreateSnapshotInput) async throws -> CreateSnapshotOutputResponse
     /// Deletes the instance of the given custom app.
+    ///
+    /// - Parameter DeleteAppInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteAppOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` :
+    /// - `ConflictException` :
+    /// - `InternalServerException` :
+    /// - `ResourceNotFoundException` :
+    /// - `ValidationException` :
     func deleteApp(input: DeleteAppInput) async throws -> DeleteAppOutputResponse
     /// Deletes all SimSpace Weaver resources assigned to the given simulation. Your simulation uses resources in other Amazon Web Services. This API operation doesn't delete resources in other Amazon Web Services.
+    ///
+    /// - Parameter DeleteSimulationInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteSimulationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` :
+    /// - `ConflictException` :
+    /// - `InternalServerException` :
+    /// - `ResourceNotFoundException` :
+    /// - `ValidationException` :
     func deleteSimulation(input: DeleteSimulationInput) async throws -> DeleteSimulationOutputResponse
     /// Returns the state of the given custom app.
+    ///
+    /// - Parameter DescribeAppInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeAppOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` :
+    /// - `InternalServerException` :
+    /// - `ResourceNotFoundException` :
+    /// - `ValidationException` :
     func describeApp(input: DescribeAppInput) async throws -> DescribeAppOutputResponse
     /// Returns the current state of the given simulation.
+    ///
+    /// - Parameter DescribeSimulationInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeSimulationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` :
+    /// - `InternalServerException` :
+    /// - `ResourceNotFoundException` :
+    /// - `ValidationException` :
     func describeSimulation(input: DescribeSimulationInput) async throws -> DescribeSimulationOutputResponse
     /// Lists all custom apps or service apps for the given simulation and domain.
+    ///
+    /// - Parameter ListAppsInput : [no documentation found]
+    ///
+    /// - Returns: `ListAppsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` :
+    /// - `InternalServerException` :
+    /// - `ResourceNotFoundException` :
+    /// - `ValidationException` :
     func listApps(input: ListAppsInput) async throws -> ListAppsOutputResponse
     /// Lists the SimSpace Weaver simulations in the Amazon Web Services account used to make the API call.
+    ///
+    /// - Parameter ListSimulationsInput : [no documentation found]
+    ///
+    /// - Returns: `ListSimulationsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` :
+    /// - `InternalServerException` :
+    /// - `ValidationException` :
     func listSimulations(input: ListSimulationsInput) async throws -> ListSimulationsOutputResponse
     /// Lists all tags on a SimSpace Weaver resource.
+    ///
+    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    ///
+    /// - Returns: `ListTagsForResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ResourceNotFoundException` :
+    /// - `ValidationException` :
     func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
     /// Starts a custom app with the configuration specified in the simulation schema.
+    ///
+    /// - Parameter StartAppInput : [no documentation found]
+    ///
+    /// - Returns: `StartAppOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` :
+    /// - `ConflictException` :
+    /// - `InternalServerException` :
+    /// - `ServiceQuotaExceededException` :
+    /// - `ValidationException` :
     func startApp(input: StartAppInput) async throws -> StartAppOutputResponse
     /// Starts the simulation clock.
+    ///
+    /// - Parameter StartClockInput : [no documentation found]
+    ///
+    /// - Returns: `StartClockOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` :
+    /// - `ConflictException` :
+    /// - `InternalServerException` :
+    /// - `ResourceNotFoundException` :
+    /// - `ValidationException` :
     func startClock(input: StartClockInput) async throws -> StartClockOutputResponse
     /// Starts a simulation with the given name. You must choose to start your simulation from a schema or from a snapshot. For more information about the schema, see the [schema reference](https://docs.aws.amazon.com/simspaceweaver/latest/userguide/schema-reference.html) in the SimSpace Weaver User Guide. For more information about snapshots, see [Snapshots](https://docs.aws.amazon.com/simspaceweaver/latest/userguide/working-with_snapshots.html) in the SimSpace Weaver User Guide.
+    ///
+    /// - Parameter StartSimulationInput : [no documentation found]
+    ///
+    /// - Returns: `StartSimulationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` :
+    /// - `ConflictException` :
+    /// - `InternalServerException` :
+    /// - `ServiceQuotaExceededException` :
+    /// - `ValidationException` :
     func startSimulation(input: StartSimulationInput) async throws -> StartSimulationOutputResponse
     /// Stops the given custom app and shuts down all of its allocated compute resources.
+    ///
+    /// - Parameter StopAppInput : [no documentation found]
+    ///
+    /// - Returns: `StopAppOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` :
+    /// - `ConflictException` :
+    /// - `InternalServerException` :
+    /// - `ResourceNotFoundException` :
+    /// - `ValidationException` :
     func stopApp(input: StopAppInput) async throws -> StopAppOutputResponse
     /// Stops the simulation clock.
+    ///
+    /// - Parameter StopClockInput : [no documentation found]
+    ///
+    /// - Returns: `StopClockOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` :
+    /// - `ConflictException` :
+    /// - `InternalServerException` :
+    /// - `ResourceNotFoundException` :
+    /// - `ValidationException` :
     func stopClock(input: StopClockInput) async throws -> StopClockOutputResponse
     /// Stops the given simulation. You can't restart a simulation after you stop it. If you want to restart a simulation, then you must stop it, delete it, and start a new instance of it.
+    ///
+    /// - Parameter StopSimulationInput : [no documentation found]
+    ///
+    /// - Returns: `StopSimulationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` :
+    /// - `ConflictException` :
+    /// - `InternalServerException` :
+    /// - `ResourceNotFoundException` :
+    /// - `ValidationException` :
     func stopSimulation(input: StopSimulationInput) async throws -> StopSimulationOutputResponse
     /// Adds tags to a SimSpace Weaver resource. For more information about tags, see [Tagging Amazon Web Services resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html) in the Amazon Web Services General Reference.
+    ///
+    /// - Parameter TagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `TagResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ResourceNotFoundException` :
+    /// - `TooManyTagsException` :
+    /// - `ValidationException` :
     func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
     /// Removes tags from a SimSpace Weaver resource. For more information about tags, see [Tagging Amazon Web Services resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html) in the Amazon Web Services General Reference.
+    ///
+    /// - Parameter UntagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `UntagResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ResourceNotFoundException` :
+    /// - `ValidationException` :
     func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
 }
 

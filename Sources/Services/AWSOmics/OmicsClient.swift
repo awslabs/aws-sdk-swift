@@ -68,6 +68,22 @@ public struct OmicsClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFactory {
 
 extension OmicsClient: OmicsClientProtocol {
     /// Stops a multipart upload.
+    ///
+    /// - Parameter AbortMultipartReadSetUploadInput : [no documentation found]
+    ///
+    /// - Returns: `AbortMultipartReadSetUploadOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred. Try the request again.
+    /// - `NotSupportedOperationException` : The operation is not supported by Amazon Omics, or the API does not exist.
+    /// - `RequestTimeoutException` : The request timed out.
+    /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
+    /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func abortMultipartReadSetUpload(input: AbortMultipartReadSetUploadInput) async throws -> AbortMultipartReadSetUploadOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -100,7 +116,69 @@ extension OmicsClient: OmicsClientProtocol {
         return result
     }
 
+    /// Accepts a share for an analytics store.
+    ///
+    /// - Parameter AcceptShareInput : [no documentation found]
+    ///
+    /// - Returns: `AcceptShareOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : The request cannot be applied to the target resource in its current state.
+    /// - `InternalServerException` : An unexpected error occurred. Try the request again.
+    /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
+    /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
+    public func acceptShare(input: AcceptShareInput) async throws -> AcceptShareOutputResponse
+    {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "acceptShare")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withCredentialsProvider(value: config.credentialsProvider)
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "omics")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<AcceptShareInput, AcceptShareOutputResponse, AcceptShareOutputError>(id: "acceptShare")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<AcceptShareInput, AcceptShareOutputResponse, AcceptShareOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AcceptShareInput, AcceptShareOutputResponse>(hostPrefix: "analytics-"))
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AcceptShareOutputResponse, AcceptShareOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, AcceptShareOutputResponse, AcceptShareOutputError>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<AcceptShareOutputResponse, AcceptShareOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<AcceptShareOutputResponse, AcceptShareOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<AcceptShareOutputResponse, AcceptShareOutputError>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
     /// Deletes one or more read sets.
+    ///
+    /// - Parameter BatchDeleteReadSetInput : [no documentation found]
+    ///
+    /// - Returns: `BatchDeleteReadSetOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred. Try the request again.
+    /// - `RequestTimeoutException` : The request timed out.
+    /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func batchDeleteReadSet(input: BatchDeleteReadSetInput) async throws -> BatchDeleteReadSetOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -137,6 +215,19 @@ extension OmicsClient: OmicsClientProtocol {
     }
 
     /// Cancels an annotation import job.
+    ///
+    /// - Parameter CancelAnnotationImportJobInput : [no documentation found]
+    ///
+    /// - Returns: `CancelAnnotationImportJobOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred. Try the request again.
+    /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func cancelAnnotationImportJob(input: CancelAnnotationImportJobInput) async throws -> CancelAnnotationImportJobOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -170,6 +261,22 @@ extension OmicsClient: OmicsClientProtocol {
     }
 
     /// Cancels a run.
+    ///
+    /// - Parameter CancelRunInput : [no documentation found]
+    ///
+    /// - Returns: `CancelRunOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : The request cannot be applied to the target resource in its current state.
+    /// - `InternalServerException` : An unexpected error occurred. Try the request again.
+    /// - `RequestTimeoutException` : The request timed out.
+    /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
+    /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func cancelRun(input: CancelRunInput) async throws -> CancelRunOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -203,6 +310,19 @@ extension OmicsClient: OmicsClientProtocol {
     }
 
     /// Cancels a variant import job.
+    ///
+    /// - Parameter CancelVariantImportJobInput : [no documentation found]
+    ///
+    /// - Returns: `CancelVariantImportJobOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred. Try the request again.
+    /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func cancelVariantImportJob(input: CancelVariantImportJobInput) async throws -> CancelVariantImportJobOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -236,6 +356,22 @@ extension OmicsClient: OmicsClientProtocol {
     }
 
     /// Concludes a multipart upload once you have uploaded all the components.
+    ///
+    /// - Parameter CompleteMultipartReadSetUploadInput : [no documentation found]
+    ///
+    /// - Returns: `CompleteMultipartReadSetUploadOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred. Try the request again.
+    /// - `NotSupportedOperationException` : The operation is not supported by Amazon Omics, or the API does not exist.
+    /// - `RequestTimeoutException` : The request timed out.
+    /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
+    /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func completeMultipartReadSetUpload(input: CompleteMultipartReadSetUploadInput) async throws -> CompleteMultipartReadSetUploadOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -272,6 +408,21 @@ extension OmicsClient: OmicsClientProtocol {
     }
 
     /// Creates an annotation store.
+    ///
+    /// - Parameter CreateAnnotationStoreInput : [no documentation found]
+    ///
+    /// - Returns: `CreateAnnotationStoreOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : The request cannot be applied to the target resource in its current state.
+    /// - `InternalServerException` : An unexpected error occurred. Try the request again.
+    /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
+    /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func createAnnotationStore(input: CreateAnnotationStoreInput) async throws -> CreateAnnotationStoreOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -307,7 +458,74 @@ extension OmicsClient: OmicsClientProtocol {
         return result
     }
 
+    /// Creates a new version of an annotation store.
+    ///
+    /// - Parameter CreateAnnotationStoreVersionInput : [no documentation found]
+    ///
+    /// - Returns: `CreateAnnotationStoreVersionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : The request cannot be applied to the target resource in its current state.
+    /// - `InternalServerException` : An unexpected error occurred. Try the request again.
+    /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
+    /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
+    public func createAnnotationStoreVersion(input: CreateAnnotationStoreVersionInput) async throws -> CreateAnnotationStoreVersionOutputResponse
+    {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "createAnnotationStoreVersion")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withCredentialsProvider(value: config.credentialsProvider)
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "omics")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<CreateAnnotationStoreVersionInput, CreateAnnotationStoreVersionOutputResponse, CreateAnnotationStoreVersionOutputError>(id: "createAnnotationStoreVersion")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateAnnotationStoreVersionInput, CreateAnnotationStoreVersionOutputResponse, CreateAnnotationStoreVersionOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateAnnotationStoreVersionInput, CreateAnnotationStoreVersionOutputResponse>(hostPrefix: "analytics-"))
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateAnnotationStoreVersionOutputResponse, CreateAnnotationStoreVersionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateAnnotationStoreVersionInput, CreateAnnotationStoreVersionOutputResponse>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateAnnotationStoreVersionInput, CreateAnnotationStoreVersionOutputResponse>(xmlName: "CreateAnnotationStoreVersionRequest"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateAnnotationStoreVersionOutputResponse, CreateAnnotationStoreVersionOutputError>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateAnnotationStoreVersionOutputResponse, CreateAnnotationStoreVersionOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateAnnotationStoreVersionOutputResponse, CreateAnnotationStoreVersionOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateAnnotationStoreVersionOutputResponse, CreateAnnotationStoreVersionOutputError>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
     /// Begins a multipart read set upload.
+    ///
+    /// - Parameter CreateMultipartReadSetUploadInput : [no documentation found]
+    ///
+    /// - Returns: `CreateMultipartReadSetUploadOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred. Try the request again.
+    /// - `NotSupportedOperationException` : The operation is not supported by Amazon Omics, or the API does not exist.
+    /// - `RequestTimeoutException` : The request timed out.
+    /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
+    /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func createMultipartReadSetUpload(input: CreateMultipartReadSetUploadInput) async throws -> CreateMultipartReadSetUploadOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -344,6 +562,20 @@ extension OmicsClient: OmicsClientProtocol {
     }
 
     /// Creates a reference store.
+    ///
+    /// - Parameter CreateReferenceStoreInput : [no documentation found]
+    ///
+    /// - Returns: `CreateReferenceStoreOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred. Try the request again.
+    /// - `RequestTimeoutException` : The request timed out.
+    /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func createReferenceStore(input: CreateReferenceStoreInput) async throws -> CreateReferenceStoreOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -380,6 +612,22 @@ extension OmicsClient: OmicsClientProtocol {
     }
 
     /// Creates a run group.
+    ///
+    /// - Parameter CreateRunGroupInput : [no documentation found]
+    ///
+    /// - Returns: `CreateRunGroupOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : The request cannot be applied to the target resource in its current state.
+    /// - `InternalServerException` : An unexpected error occurred. Try the request again.
+    /// - `RequestTimeoutException` : The request timed out.
+    /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
+    /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func createRunGroup(input: CreateRunGroupInput) async throws -> CreateRunGroupOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -424,6 +672,20 @@ extension OmicsClient: OmicsClientProtocol {
     }
 
     /// Creates a sequence store.
+    ///
+    /// - Parameter CreateSequenceStoreInput : [no documentation found]
+    ///
+    /// - Returns: `CreateSequenceStoreOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred. Try the request again.
+    /// - `RequestTimeoutException` : The request timed out.
+    /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func createSequenceStore(input: CreateSequenceStoreInput) async throws -> CreateSequenceStoreOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -459,7 +721,73 @@ extension OmicsClient: OmicsClientProtocol {
         return result
     }
 
+    /// Creates a share offer that can be accepted outside the account by a subscriber. The share is created by the owner and accepted by the principal subscriber.
+    ///
+    /// - Parameter CreateShareInput : [no documentation found]
+    ///
+    /// - Returns: `CreateShareOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : The request cannot be applied to the target resource in its current state.
+    /// - `InternalServerException` : An unexpected error occurred. Try the request again.
+    /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
+    /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
+    public func createShare(input: CreateShareInput) async throws -> CreateShareOutputResponse
+    {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "createShare")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withCredentialsProvider(value: config.credentialsProvider)
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "omics")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<CreateShareInput, CreateShareOutputResponse, CreateShareOutputError>(id: "createShare")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateShareInput, CreateShareOutputResponse, CreateShareOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateShareInput, CreateShareOutputResponse>(hostPrefix: "analytics-"))
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateShareOutputResponse, CreateShareOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateShareInput, CreateShareOutputResponse>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateShareInput, CreateShareOutputResponse>(xmlName: "CreateShareRequest"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateShareOutputResponse, CreateShareOutputError>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateShareOutputResponse, CreateShareOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateShareOutputResponse, CreateShareOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateShareOutputResponse, CreateShareOutputError>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
     /// Creates a variant store.
+    ///
+    /// - Parameter CreateVariantStoreInput : [no documentation found]
+    ///
+    /// - Returns: `CreateVariantStoreOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : The request cannot be applied to the target resource in its current state.
+    /// - `InternalServerException` : An unexpected error occurred. Try the request again.
+    /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
+    /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func createVariantStore(input: CreateVariantStoreInput) async throws -> CreateVariantStoreOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -496,6 +824,22 @@ extension OmicsClient: OmicsClientProtocol {
     }
 
     /// Creates a workflow.
+    ///
+    /// - Parameter CreateWorkflowInput : [no documentation found]
+    ///
+    /// - Returns: `CreateWorkflowOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : The request cannot be applied to the target resource in its current state.
+    /// - `InternalServerException` : An unexpected error occurred. Try the request again.
+    /// - `RequestTimeoutException` : The request timed out.
+    /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
+    /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func createWorkflow(input: CreateWorkflowInput) async throws -> CreateWorkflowOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -540,6 +884,20 @@ extension OmicsClient: OmicsClientProtocol {
     }
 
     /// Deletes an annotation store.
+    ///
+    /// - Parameter DeleteAnnotationStoreInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteAnnotationStoreOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : The request cannot be applied to the target resource in its current state.
+    /// - `InternalServerException` : An unexpected error occurred. Try the request again.
+    /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func deleteAnnotationStore(input: DeleteAnnotationStoreInput) async throws -> DeleteAnnotationStoreOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -573,7 +931,73 @@ extension OmicsClient: OmicsClientProtocol {
         return result
     }
 
+    /// Deletes one or multiple versions of an annotation store.
+    ///
+    /// - Parameter DeleteAnnotationStoreVersionsInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteAnnotationStoreVersionsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : The request cannot be applied to the target resource in its current state.
+    /// - `InternalServerException` : An unexpected error occurred. Try the request again.
+    /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
+    public func deleteAnnotationStoreVersions(input: DeleteAnnotationStoreVersionsInput) async throws -> DeleteAnnotationStoreVersionsOutputResponse
+    {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "deleteAnnotationStoreVersions")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withCredentialsProvider(value: config.credentialsProvider)
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "omics")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<DeleteAnnotationStoreVersionsInput, DeleteAnnotationStoreVersionsOutputResponse, DeleteAnnotationStoreVersionsOutputError>(id: "deleteAnnotationStoreVersions")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteAnnotationStoreVersionsInput, DeleteAnnotationStoreVersionsOutputResponse, DeleteAnnotationStoreVersionsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteAnnotationStoreVersionsInput, DeleteAnnotationStoreVersionsOutputResponse>(hostPrefix: "analytics-"))
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteAnnotationStoreVersionsOutputResponse, DeleteAnnotationStoreVersionsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<DeleteAnnotationStoreVersionsInput, DeleteAnnotationStoreVersionsOutputResponse>())
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteAnnotationStoreVersionsInput, DeleteAnnotationStoreVersionsOutputResponse>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteAnnotationStoreVersionsInput, DeleteAnnotationStoreVersionsOutputResponse>(xmlName: "DeleteAnnotationStoreVersionsRequest"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteAnnotationStoreVersionsOutputResponse, DeleteAnnotationStoreVersionsOutputError>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteAnnotationStoreVersionsOutputResponse, DeleteAnnotationStoreVersionsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteAnnotationStoreVersionsOutputResponse, DeleteAnnotationStoreVersionsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteAnnotationStoreVersionsOutputResponse, DeleteAnnotationStoreVersionsOutputError>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
     /// Deletes a genome reference.
+    ///
+    /// - Parameter DeleteReferenceInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteReferenceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : The request cannot be applied to the target resource in its current state.
+    /// - `InternalServerException` : An unexpected error occurred. Try the request again.
+    /// - `RequestTimeoutException` : The request timed out.
+    /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func deleteReference(input: DeleteReferenceInput) async throws -> DeleteReferenceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -607,6 +1031,21 @@ extension OmicsClient: OmicsClientProtocol {
     }
 
     /// Deletes a genome reference store.
+    ///
+    /// - Parameter DeleteReferenceStoreInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteReferenceStoreOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : The request cannot be applied to the target resource in its current state.
+    /// - `InternalServerException` : An unexpected error occurred. Try the request again.
+    /// - `RequestTimeoutException` : The request timed out.
+    /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func deleteReferenceStore(input: DeleteReferenceStoreInput) async throws -> DeleteReferenceStoreOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -640,6 +1079,22 @@ extension OmicsClient: OmicsClientProtocol {
     }
 
     /// Deletes a workflow run.
+    ///
+    /// - Parameter DeleteRunInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteRunOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : The request cannot be applied to the target resource in its current state.
+    /// - `InternalServerException` : An unexpected error occurred. Try the request again.
+    /// - `RequestTimeoutException` : The request timed out.
+    /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
+    /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func deleteRun(input: DeleteRunInput) async throws -> DeleteRunOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -673,6 +1128,22 @@ extension OmicsClient: OmicsClientProtocol {
     }
 
     /// Deletes a workflow run group.
+    ///
+    /// - Parameter DeleteRunGroupInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteRunGroupOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : The request cannot be applied to the target resource in its current state.
+    /// - `InternalServerException` : An unexpected error occurred. Try the request again.
+    /// - `RequestTimeoutException` : The request timed out.
+    /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
+    /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func deleteRunGroup(input: DeleteRunGroupInput) async throws -> DeleteRunGroupOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -706,6 +1177,21 @@ extension OmicsClient: OmicsClientProtocol {
     }
 
     /// Deletes a sequence store.
+    ///
+    /// - Parameter DeleteSequenceStoreInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteSequenceStoreOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : The request cannot be applied to the target resource in its current state.
+    /// - `InternalServerException` : An unexpected error occurred. Try the request again.
+    /// - `RequestTimeoutException` : The request timed out.
+    /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func deleteSequenceStore(input: DeleteSequenceStoreInput) async throws -> DeleteSequenceStoreOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -738,7 +1224,69 @@ extension OmicsClient: OmicsClientProtocol {
         return result
     }
 
+    /// Deletes a share of an analytics store.
+    ///
+    /// - Parameter DeleteShareInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteShareOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : The request cannot be applied to the target resource in its current state.
+    /// - `InternalServerException` : An unexpected error occurred. Try the request again.
+    /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
+    /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
+    public func deleteShare(input: DeleteShareInput) async throws -> DeleteShareOutputResponse
+    {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .delete)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "deleteShare")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withCredentialsProvider(value: config.credentialsProvider)
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "omics")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<DeleteShareInput, DeleteShareOutputResponse, DeleteShareOutputError>(id: "deleteShare")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteShareInput, DeleteShareOutputResponse, DeleteShareOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteShareInput, DeleteShareOutputResponse>(hostPrefix: "analytics-"))
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteShareOutputResponse, DeleteShareOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteShareOutputResponse, DeleteShareOutputError>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteShareOutputResponse, DeleteShareOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteShareOutputResponse, DeleteShareOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteShareOutputResponse, DeleteShareOutputError>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
     /// Deletes a variant store.
+    ///
+    /// - Parameter DeleteVariantStoreInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteVariantStoreOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : The request cannot be applied to the target resource in its current state.
+    /// - `InternalServerException` : An unexpected error occurred. Try the request again.
+    /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func deleteVariantStore(input: DeleteVariantStoreInput) async throws -> DeleteVariantStoreOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -773,6 +1321,22 @@ extension OmicsClient: OmicsClientProtocol {
     }
 
     /// Deletes a workflow.
+    ///
+    /// - Parameter DeleteWorkflowInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteWorkflowOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : The request cannot be applied to the target resource in its current state.
+    /// - `InternalServerException` : An unexpected error occurred. Try the request again.
+    /// - `RequestTimeoutException` : The request timed out.
+    /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
+    /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func deleteWorkflow(input: DeleteWorkflowInput) async throws -> DeleteWorkflowOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -806,6 +1370,19 @@ extension OmicsClient: OmicsClientProtocol {
     }
 
     /// Gets information about an annotation import job.
+    ///
+    /// - Parameter GetAnnotationImportJobInput : [no documentation found]
+    ///
+    /// - Returns: `GetAnnotationImportJobOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred. Try the request again.
+    /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func getAnnotationImportJob(input: GetAnnotationImportJobInput) async throws -> GetAnnotationImportJobOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -839,6 +1416,19 @@ extension OmicsClient: OmicsClientProtocol {
     }
 
     /// Gets information about an annotation store.
+    ///
+    /// - Parameter GetAnnotationStoreInput : [no documentation found]
+    ///
+    /// - Returns: `GetAnnotationStoreOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred. Try the request again.
+    /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func getAnnotationStore(input: GetAnnotationStoreInput) async throws -> GetAnnotationStoreOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -871,7 +1461,69 @@ extension OmicsClient: OmicsClientProtocol {
         return result
     }
 
+    /// Retrieves the metadata for an annotation store version.
+    ///
+    /// - Parameter GetAnnotationStoreVersionInput : [no documentation found]
+    ///
+    /// - Returns: `GetAnnotationStoreVersionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred. Try the request again.
+    /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
+    public func getAnnotationStoreVersion(input: GetAnnotationStoreVersionInput) async throws -> GetAnnotationStoreVersionOutputResponse
+    {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .get)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getAnnotationStoreVersion")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withCredentialsProvider(value: config.credentialsProvider)
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "omics")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<GetAnnotationStoreVersionInput, GetAnnotationStoreVersionOutputResponse, GetAnnotationStoreVersionOutputError>(id: "getAnnotationStoreVersion")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetAnnotationStoreVersionInput, GetAnnotationStoreVersionOutputResponse, GetAnnotationStoreVersionOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetAnnotationStoreVersionInput, GetAnnotationStoreVersionOutputResponse>(hostPrefix: "analytics-"))
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetAnnotationStoreVersionOutputResponse, GetAnnotationStoreVersionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetAnnotationStoreVersionOutputResponse, GetAnnotationStoreVersionOutputError>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetAnnotationStoreVersionOutputResponse, GetAnnotationStoreVersionOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetAnnotationStoreVersionOutputResponse, GetAnnotationStoreVersionOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetAnnotationStoreVersionOutputResponse, GetAnnotationStoreVersionOutputError>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
     /// Gets a file from a read set.
+    ///
+    /// - Parameter GetReadSetInput : [no documentation found]
+    ///
+    /// - Returns: `GetReadSetOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : The request cannot be applied to the target resource in its current state.
+    /// - `InternalServerException` : An unexpected error occurred. Try the request again.
+    /// - `RangeNotSatisfiableException` : The ranges specified in the request are not valid.
+    /// - `RequestTimeoutException` : The request timed out.
+    /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func getReadSet(input: GetReadSetInput) async throws -> GetReadSetOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -906,6 +1558,20 @@ extension OmicsClient: OmicsClientProtocol {
     }
 
     /// Gets information about a read set activation job.
+    ///
+    /// - Parameter GetReadSetActivationJobInput : [no documentation found]
+    ///
+    /// - Returns: `GetReadSetActivationJobOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred. Try the request again.
+    /// - `RequestTimeoutException` : The request timed out.
+    /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func getReadSetActivationJob(input: GetReadSetActivationJobInput) async throws -> GetReadSetActivationJobOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -939,6 +1605,20 @@ extension OmicsClient: OmicsClientProtocol {
     }
 
     /// Gets information about a read set export job.
+    ///
+    /// - Parameter GetReadSetExportJobInput : [no documentation found]
+    ///
+    /// - Returns: `GetReadSetExportJobOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred. Try the request again.
+    /// - `RequestTimeoutException` : The request timed out.
+    /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func getReadSetExportJob(input: GetReadSetExportJobInput) async throws -> GetReadSetExportJobOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -972,6 +1652,20 @@ extension OmicsClient: OmicsClientProtocol {
     }
 
     /// Gets information about a read set import job.
+    ///
+    /// - Parameter GetReadSetImportJobInput : [no documentation found]
+    ///
+    /// - Returns: `GetReadSetImportJobOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred. Try the request again.
+    /// - `RequestTimeoutException` : The request timed out.
+    /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func getReadSetImportJob(input: GetReadSetImportJobInput) async throws -> GetReadSetImportJobOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1005,6 +1699,20 @@ extension OmicsClient: OmicsClientProtocol {
     }
 
     /// Gets details about a read set.
+    ///
+    /// - Parameter GetReadSetMetadataInput : [no documentation found]
+    ///
+    /// - Returns: `GetReadSetMetadataOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred. Try the request again.
+    /// - `RequestTimeoutException` : The request timed out.
+    /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func getReadSetMetadata(input: GetReadSetMetadataInput) async throws -> GetReadSetMetadataOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1038,6 +1746,21 @@ extension OmicsClient: OmicsClientProtocol {
     }
 
     /// Gets a reference file.
+    ///
+    /// - Parameter GetReferenceInput : [no documentation found]
+    ///
+    /// - Returns: `GetReferenceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred. Try the request again.
+    /// - `RangeNotSatisfiableException` : The ranges specified in the request are not valid.
+    /// - `RequestTimeoutException` : The request timed out.
+    /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func getReference(input: GetReferenceInput) async throws -> GetReferenceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1073,6 +1796,20 @@ extension OmicsClient: OmicsClientProtocol {
     }
 
     /// Gets information about a reference import job.
+    ///
+    /// - Parameter GetReferenceImportJobInput : [no documentation found]
+    ///
+    /// - Returns: `GetReferenceImportJobOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred. Try the request again.
+    /// - `RequestTimeoutException` : The request timed out.
+    /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func getReferenceImportJob(input: GetReferenceImportJobInput) async throws -> GetReferenceImportJobOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1106,6 +1843,20 @@ extension OmicsClient: OmicsClientProtocol {
     }
 
     /// Gets information about a genome reference's metadata.
+    ///
+    /// - Parameter GetReferenceMetadataInput : [no documentation found]
+    ///
+    /// - Returns: `GetReferenceMetadataOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred. Try the request again.
+    /// - `RequestTimeoutException` : The request timed out.
+    /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func getReferenceMetadata(input: GetReferenceMetadataInput) async throws -> GetReferenceMetadataOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1139,6 +1890,20 @@ extension OmicsClient: OmicsClientProtocol {
     }
 
     /// Gets information about a reference store.
+    ///
+    /// - Parameter GetReferenceStoreInput : [no documentation found]
+    ///
+    /// - Returns: `GetReferenceStoreOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred. Try the request again.
+    /// - `RequestTimeoutException` : The request timed out.
+    /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func getReferenceStore(input: GetReferenceStoreInput) async throws -> GetReferenceStoreOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1172,6 +1937,22 @@ extension OmicsClient: OmicsClientProtocol {
     }
 
     /// Gets information about a workflow run.
+    ///
+    /// - Parameter GetRunInput : [no documentation found]
+    ///
+    /// - Returns: `GetRunOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : The request cannot be applied to the target resource in its current state.
+    /// - `InternalServerException` : An unexpected error occurred. Try the request again.
+    /// - `RequestTimeoutException` : The request timed out.
+    /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
+    /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func getRun(input: GetRunInput) async throws -> GetRunOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1206,6 +1987,22 @@ extension OmicsClient: OmicsClientProtocol {
     }
 
     /// Gets information about a workflow run group.
+    ///
+    /// - Parameter GetRunGroupInput : [no documentation found]
+    ///
+    /// - Returns: `GetRunGroupOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : The request cannot be applied to the target resource in its current state.
+    /// - `InternalServerException` : An unexpected error occurred. Try the request again.
+    /// - `RequestTimeoutException` : The request timed out.
+    /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
+    /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func getRunGroup(input: GetRunGroupInput) async throws -> GetRunGroupOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1239,6 +2036,22 @@ extension OmicsClient: OmicsClientProtocol {
     }
 
     /// Gets information about a workflow run task.
+    ///
+    /// - Parameter GetRunTaskInput : [no documentation found]
+    ///
+    /// - Returns: `GetRunTaskOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : The request cannot be applied to the target resource in its current state.
+    /// - `InternalServerException` : An unexpected error occurred. Try the request again.
+    /// - `RequestTimeoutException` : The request timed out.
+    /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
+    /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func getRunTask(input: GetRunTaskInput) async throws -> GetRunTaskOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1272,6 +2085,20 @@ extension OmicsClient: OmicsClientProtocol {
     }
 
     /// Gets information about a sequence store.
+    ///
+    /// - Parameter GetSequenceStoreInput : [no documentation found]
+    ///
+    /// - Returns: `GetSequenceStoreOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred. Try the request again.
+    /// - `RequestTimeoutException` : The request timed out.
+    /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func getSequenceStore(input: GetSequenceStoreInput) async throws -> GetSequenceStoreOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1304,7 +2131,68 @@ extension OmicsClient: OmicsClientProtocol {
         return result
     }
 
+    /// Retrieves the metadata for a share.
+    ///
+    /// - Parameter GetShareInput : [no documentation found]
+    ///
+    /// - Returns: `GetShareOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : The request cannot be applied to the target resource in its current state.
+    /// - `InternalServerException` : An unexpected error occurred. Try the request again.
+    /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
+    /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
+    public func getShare(input: GetShareInput) async throws -> GetShareOutputResponse
+    {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .get)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getShare")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withCredentialsProvider(value: config.credentialsProvider)
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "omics")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<GetShareInput, GetShareOutputResponse, GetShareOutputError>(id: "getShare")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetShareInput, GetShareOutputResponse, GetShareOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetShareInput, GetShareOutputResponse>(hostPrefix: "analytics-"))
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetShareOutputResponse, GetShareOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetShareOutputResponse, GetShareOutputError>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetShareOutputResponse, GetShareOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetShareOutputResponse, GetShareOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetShareOutputResponse, GetShareOutputError>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
     /// Gets information about a variant import job.
+    ///
+    /// - Parameter GetVariantImportJobInput : [no documentation found]
+    ///
+    /// - Returns: `GetVariantImportJobOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred. Try the request again.
+    /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func getVariantImportJob(input: GetVariantImportJobInput) async throws -> GetVariantImportJobOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1338,6 +2226,19 @@ extension OmicsClient: OmicsClientProtocol {
     }
 
     /// Gets information about a variant store.
+    ///
+    /// - Parameter GetVariantStoreInput : [no documentation found]
+    ///
+    /// - Returns: `GetVariantStoreOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred. Try the request again.
+    /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func getVariantStore(input: GetVariantStoreInput) async throws -> GetVariantStoreOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1371,6 +2272,22 @@ extension OmicsClient: OmicsClientProtocol {
     }
 
     /// Gets information about a workflow.
+    ///
+    /// - Parameter GetWorkflowInput : [no documentation found]
+    ///
+    /// - Returns: `GetWorkflowOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : The request cannot be applied to the target resource in its current state.
+    /// - `InternalServerException` : An unexpected error occurred. Try the request again.
+    /// - `RequestTimeoutException` : The request timed out.
+    /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
+    /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func getWorkflow(input: GetWorkflowInput) async throws -> GetWorkflowOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1405,6 +2322,19 @@ extension OmicsClient: OmicsClientProtocol {
     }
 
     /// Retrieves a list of annotation import jobs.
+    ///
+    /// - Parameter ListAnnotationImportJobsInput : [no documentation found]
+    ///
+    /// - Returns: `ListAnnotationImportJobsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred. Try the request again.
+    /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func listAnnotationImportJobs(input: ListAnnotationImportJobsInput) async throws -> ListAnnotationImportJobsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1441,7 +2371,70 @@ extension OmicsClient: OmicsClientProtocol {
         return result
     }
 
+    /// Lists the versions of an annotation store.
+    ///
+    /// - Parameter ListAnnotationStoreVersionsInput : [no documentation found]
+    ///
+    /// - Returns: `ListAnnotationStoreVersionsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred. Try the request again.
+    /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
+    public func listAnnotationStoreVersions(input: ListAnnotationStoreVersionsInput) async throws -> ListAnnotationStoreVersionsOutputResponse
+    {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listAnnotationStoreVersions")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withCredentialsProvider(value: config.credentialsProvider)
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "omics")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<ListAnnotationStoreVersionsInput, ListAnnotationStoreVersionsOutputResponse, ListAnnotationStoreVersionsOutputError>(id: "listAnnotationStoreVersions")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListAnnotationStoreVersionsInput, ListAnnotationStoreVersionsOutputResponse, ListAnnotationStoreVersionsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListAnnotationStoreVersionsInput, ListAnnotationStoreVersionsOutputResponse>(hostPrefix: "analytics-"))
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListAnnotationStoreVersionsOutputResponse, ListAnnotationStoreVersionsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListAnnotationStoreVersionsInput, ListAnnotationStoreVersionsOutputResponse>())
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListAnnotationStoreVersionsInput, ListAnnotationStoreVersionsOutputResponse>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListAnnotationStoreVersionsInput, ListAnnotationStoreVersionsOutputResponse>(xmlName: "ListAnnotationStoreVersionsRequest"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListAnnotationStoreVersionsOutputResponse, ListAnnotationStoreVersionsOutputError>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListAnnotationStoreVersionsOutputResponse, ListAnnotationStoreVersionsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListAnnotationStoreVersionsOutputResponse, ListAnnotationStoreVersionsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListAnnotationStoreVersionsOutputResponse, ListAnnotationStoreVersionsOutputError>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
     /// Retrieves a list of annotation stores.
+    ///
+    /// - Parameter ListAnnotationStoresInput : [no documentation found]
+    ///
+    /// - Returns: `ListAnnotationStoresOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred. Try the request again.
+    /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func listAnnotationStores(input: ListAnnotationStoresInput) async throws -> ListAnnotationStoresOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1479,6 +2472,22 @@ extension OmicsClient: OmicsClientProtocol {
     }
 
     /// Lists all multipart read set uploads and their statuses.
+    ///
+    /// - Parameter ListMultipartReadSetUploadsInput : [no documentation found]
+    ///
+    /// - Returns: `ListMultipartReadSetUploadsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred. Try the request again.
+    /// - `NotSupportedOperationException` : The operation is not supported by Amazon Omics, or the API does not exist.
+    /// - `RequestTimeoutException` : The request timed out.
+    /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
+    /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func listMultipartReadSetUploads(input: ListMultipartReadSetUploadsInput) async throws -> ListMultipartReadSetUploadsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1513,6 +2522,20 @@ extension OmicsClient: OmicsClientProtocol {
     }
 
     /// Retrieves a list of read set activation jobs.
+    ///
+    /// - Parameter ListReadSetActivationJobsInput : [no documentation found]
+    ///
+    /// - Returns: `ListReadSetActivationJobsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred. Try the request again.
+    /// - `RequestTimeoutException` : The request timed out.
+    /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func listReadSetActivationJobs(input: ListReadSetActivationJobsInput) async throws -> ListReadSetActivationJobsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1550,6 +2573,20 @@ extension OmicsClient: OmicsClientProtocol {
     }
 
     /// Retrieves a list of read set export jobs.
+    ///
+    /// - Parameter ListReadSetExportJobsInput : [no documentation found]
+    ///
+    /// - Returns: `ListReadSetExportJobsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred. Try the request again.
+    /// - `RequestTimeoutException` : The request timed out.
+    /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func listReadSetExportJobs(input: ListReadSetExportJobsInput) async throws -> ListReadSetExportJobsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1587,6 +2624,20 @@ extension OmicsClient: OmicsClientProtocol {
     }
 
     /// Retrieves a list of read set import jobs.
+    ///
+    /// - Parameter ListReadSetImportJobsInput : [no documentation found]
+    ///
+    /// - Returns: `ListReadSetImportJobsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred. Try the request again.
+    /// - `RequestTimeoutException` : The request timed out.
+    /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func listReadSetImportJobs(input: ListReadSetImportJobsInput) async throws -> ListReadSetImportJobsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1624,6 +2675,22 @@ extension OmicsClient: OmicsClientProtocol {
     }
 
     /// This operation will list all parts in a requested multipart upload for a sequence store.
+    ///
+    /// - Parameter ListReadSetUploadPartsInput : [no documentation found]
+    ///
+    /// - Returns: `ListReadSetUploadPartsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred. Try the request again.
+    /// - `NotSupportedOperationException` : The operation is not supported by Amazon Omics, or the API does not exist.
+    /// - `RequestTimeoutException` : The request timed out.
+    /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
+    /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func listReadSetUploadParts(input: ListReadSetUploadPartsInput) async throws -> ListReadSetUploadPartsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1661,6 +2728,20 @@ extension OmicsClient: OmicsClientProtocol {
     }
 
     /// Retrieves a list of read sets.
+    ///
+    /// - Parameter ListReadSetsInput : [no documentation found]
+    ///
+    /// - Returns: `ListReadSetsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred. Try the request again.
+    /// - `RequestTimeoutException` : The request timed out.
+    /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func listReadSets(input: ListReadSetsInput) async throws -> ListReadSetsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1698,6 +2779,20 @@ extension OmicsClient: OmicsClientProtocol {
     }
 
     /// Retrieves a list of reference import jobs.
+    ///
+    /// - Parameter ListReferenceImportJobsInput : [no documentation found]
+    ///
+    /// - Returns: `ListReferenceImportJobsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred. Try the request again.
+    /// - `RequestTimeoutException` : The request timed out.
+    /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func listReferenceImportJobs(input: ListReferenceImportJobsInput) async throws -> ListReferenceImportJobsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1735,6 +2830,19 @@ extension OmicsClient: OmicsClientProtocol {
     }
 
     /// Retrieves a list of reference stores.
+    ///
+    /// - Parameter ListReferenceStoresInput : [no documentation found]
+    ///
+    /// - Returns: `ListReferenceStoresOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred. Try the request again.
+    /// - `RequestTimeoutException` : The request timed out.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func listReferenceStores(input: ListReferenceStoresInput) async throws -> ListReferenceStoresOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1772,6 +2880,20 @@ extension OmicsClient: OmicsClientProtocol {
     }
 
     /// Retrieves a list of references.
+    ///
+    /// - Parameter ListReferencesInput : [no documentation found]
+    ///
+    /// - Returns: `ListReferencesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred. Try the request again.
+    /// - `RequestTimeoutException` : The request timed out.
+    /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func listReferences(input: ListReferencesInput) async throws -> ListReferencesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1809,6 +2931,22 @@ extension OmicsClient: OmicsClientProtocol {
     }
 
     /// Retrieves a list of run groups.
+    ///
+    /// - Parameter ListRunGroupsInput : [no documentation found]
+    ///
+    /// - Returns: `ListRunGroupsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : The request cannot be applied to the target resource in its current state.
+    /// - `InternalServerException` : An unexpected error occurred. Try the request again.
+    /// - `RequestTimeoutException` : The request timed out.
+    /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
+    /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func listRunGroups(input: ListRunGroupsInput) async throws -> ListRunGroupsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1843,6 +2981,22 @@ extension OmicsClient: OmicsClientProtocol {
     }
 
     /// Retrieves a list of tasks for a run.
+    ///
+    /// - Parameter ListRunTasksInput : [no documentation found]
+    ///
+    /// - Returns: `ListRunTasksOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : The request cannot be applied to the target resource in its current state.
+    /// - `InternalServerException` : An unexpected error occurred. Try the request again.
+    /// - `RequestTimeoutException` : The request timed out.
+    /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
+    /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func listRunTasks(input: ListRunTasksInput) async throws -> ListRunTasksOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1877,6 +3031,22 @@ extension OmicsClient: OmicsClientProtocol {
     }
 
     /// Retrieves a list of runs.
+    ///
+    /// - Parameter ListRunsInput : [no documentation found]
+    ///
+    /// - Returns: `ListRunsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : The request cannot be applied to the target resource in its current state.
+    /// - `InternalServerException` : An unexpected error occurred. Try the request again.
+    /// - `RequestTimeoutException` : The request timed out.
+    /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
+    /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func listRuns(input: ListRunsInput) async throws -> ListRunsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1911,6 +3081,19 @@ extension OmicsClient: OmicsClientProtocol {
     }
 
     /// Retrieves a list of sequence stores.
+    ///
+    /// - Parameter ListSequenceStoresInput : [no documentation found]
+    ///
+    /// - Returns: `ListSequenceStoresOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred. Try the request again.
+    /// - `RequestTimeoutException` : The request timed out.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func listSequenceStores(input: ListSequenceStoresInput) async throws -> ListSequenceStoresOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1947,7 +3130,75 @@ extension OmicsClient: OmicsClientProtocol {
         return result
     }
 
+    /// Lists all shares associated with an account.
+    ///
+    /// - Parameter ListSharesInput : [no documentation found]
+    ///
+    /// - Returns: `ListSharesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : The request cannot be applied to the target resource in its current state.
+    /// - `InternalServerException` : An unexpected error occurred. Try the request again.
+    /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
+    /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
+    public func listShares(input: ListSharesInput) async throws -> ListSharesOutputResponse
+    {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listShares")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withCredentialsProvider(value: config.credentialsProvider)
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "omics")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<ListSharesInput, ListSharesOutputResponse, ListSharesOutputError>(id: "listShares")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListSharesInput, ListSharesOutputResponse, ListSharesOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListSharesInput, ListSharesOutputResponse>(hostPrefix: "analytics-"))
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListSharesOutputResponse, ListSharesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListSharesInput, ListSharesOutputResponse>())
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListSharesInput, ListSharesOutputResponse>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListSharesInput, ListSharesOutputResponse>(xmlName: "ListSharesRequest"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListSharesOutputResponse, ListSharesOutputError>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListSharesOutputResponse, ListSharesOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListSharesOutputResponse, ListSharesOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListSharesOutputResponse, ListSharesOutputError>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
     /// Retrieves a list of tags for a resource.
+    ///
+    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    ///
+    /// - Returns: `ListTagsForResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : The request cannot be applied to the target resource in its current state.
+    /// - `InternalServerException` : An unexpected error occurred. Try the request again.
+    /// - `RequestTimeoutException` : The request timed out.
+    /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
+    /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1981,6 +3232,19 @@ extension OmicsClient: OmicsClientProtocol {
     }
 
     /// Retrieves a list of variant import jobs.
+    ///
+    /// - Parameter ListVariantImportJobsInput : [no documentation found]
+    ///
+    /// - Returns: `ListVariantImportJobsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred. Try the request again.
+    /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func listVariantImportJobs(input: ListVariantImportJobsInput) async throws -> ListVariantImportJobsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2018,6 +3282,19 @@ extension OmicsClient: OmicsClientProtocol {
     }
 
     /// Retrieves a list of variant stores.
+    ///
+    /// - Parameter ListVariantStoresInput : [no documentation found]
+    ///
+    /// - Returns: `ListVariantStoresOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred. Try the request again.
+    /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func listVariantStores(input: ListVariantStoresInput) async throws -> ListVariantStoresOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2055,6 +3332,22 @@ extension OmicsClient: OmicsClientProtocol {
     }
 
     /// Retrieves a list of workflows.
+    ///
+    /// - Parameter ListWorkflowsInput : [no documentation found]
+    ///
+    /// - Returns: `ListWorkflowsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : The request cannot be applied to the target resource in its current state.
+    /// - `InternalServerException` : An unexpected error occurred. Try the request again.
+    /// - `RequestTimeoutException` : The request timed out.
+    /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
+    /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func listWorkflows(input: ListWorkflowsInput) async throws -> ListWorkflowsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2089,6 +3382,20 @@ extension OmicsClient: OmicsClientProtocol {
     }
 
     /// Starts an annotation import job.
+    ///
+    /// - Parameter StartAnnotationImportJobInput : [no documentation found]
+    ///
+    /// - Returns: `StartAnnotationImportJobOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred. Try the request again.
+    /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
+    /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func startAnnotationImportJob(input: StartAnnotationImportJobInput) async throws -> StartAnnotationImportJobOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2125,6 +3432,21 @@ extension OmicsClient: OmicsClientProtocol {
     }
 
     /// Activates an archived read set. To reduce storage charges, Amazon Omics archives unused read sets after 30 days.
+    ///
+    /// - Parameter StartReadSetActivationJobInput : [no documentation found]
+    ///
+    /// - Returns: `StartReadSetActivationJobOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred. Try the request again.
+    /// - `RequestTimeoutException` : The request timed out.
+    /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
+    /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func startReadSetActivationJob(input: StartReadSetActivationJobInput) async throws -> StartReadSetActivationJobOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2161,6 +3483,21 @@ extension OmicsClient: OmicsClientProtocol {
     }
 
     /// Exports a read set to Amazon S3.
+    ///
+    /// - Parameter StartReadSetExportJobInput : [no documentation found]
+    ///
+    /// - Returns: `StartReadSetExportJobOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred. Try the request again.
+    /// - `RequestTimeoutException` : The request timed out.
+    /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
+    /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func startReadSetExportJob(input: StartReadSetExportJobInput) async throws -> StartReadSetExportJobOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2197,6 +3534,21 @@ extension OmicsClient: OmicsClientProtocol {
     }
 
     /// Starts a read set import job.
+    ///
+    /// - Parameter StartReadSetImportJobInput : [no documentation found]
+    ///
+    /// - Returns: `StartReadSetImportJobOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred. Try the request again.
+    /// - `RequestTimeoutException` : The request timed out.
+    /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
+    /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func startReadSetImportJob(input: StartReadSetImportJobInput) async throws -> StartReadSetImportJobOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2233,6 +3585,21 @@ extension OmicsClient: OmicsClientProtocol {
     }
 
     /// Starts a reference import job.
+    ///
+    /// - Parameter StartReferenceImportJobInput : [no documentation found]
+    ///
+    /// - Returns: `StartReferenceImportJobOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred. Try the request again.
+    /// - `RequestTimeoutException` : The request timed out.
+    /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
+    /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func startReferenceImportJob(input: StartReferenceImportJobInput) async throws -> StartReferenceImportJobOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2269,6 +3636,22 @@ extension OmicsClient: OmicsClientProtocol {
     }
 
     /// Starts a run.
+    ///
+    /// - Parameter StartRunInput : [no documentation found]
+    ///
+    /// - Returns: `StartRunOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : The request cannot be applied to the target resource in its current state.
+    /// - `InternalServerException` : An unexpected error occurred. Try the request again.
+    /// - `RequestTimeoutException` : The request timed out.
+    /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
+    /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func startRun(input: StartRunInput) async throws -> StartRunOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2313,6 +3696,20 @@ extension OmicsClient: OmicsClientProtocol {
     }
 
     /// Starts a variant import job.
+    ///
+    /// - Parameter StartVariantImportJobInput : [no documentation found]
+    ///
+    /// - Returns: `StartVariantImportJobOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred. Try the request again.
+    /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
+    /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func startVariantImportJob(input: StartVariantImportJobInput) async throws -> StartVariantImportJobOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2349,6 +3746,22 @@ extension OmicsClient: OmicsClientProtocol {
     }
 
     /// Tags a resource.
+    ///
+    /// - Parameter TagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `TagResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : The request cannot be applied to the target resource in its current state.
+    /// - `InternalServerException` : An unexpected error occurred. Try the request again.
+    /// - `RequestTimeoutException` : The request timed out.
+    /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
+    /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2385,6 +3798,22 @@ extension OmicsClient: OmicsClientProtocol {
     }
 
     /// Removes tags from a resource.
+    ///
+    /// - Parameter UntagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `UntagResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : The request cannot be applied to the target resource in its current state.
+    /// - `InternalServerException` : An unexpected error occurred. Try the request again.
+    /// - `RequestTimeoutException` : The request timed out.
+    /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
+    /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2419,6 +3848,19 @@ extension OmicsClient: OmicsClientProtocol {
     }
 
     /// Updates an annotation store.
+    ///
+    /// - Parameter UpdateAnnotationStoreInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateAnnotationStoreOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred. Try the request again.
+    /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func updateAnnotationStore(input: UpdateAnnotationStoreInput) async throws -> UpdateAnnotationStoreOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2454,7 +3896,72 @@ extension OmicsClient: OmicsClientProtocol {
         return result
     }
 
+    /// Updates the description of an annotation store version.
+    ///
+    /// - Parameter UpdateAnnotationStoreVersionInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateAnnotationStoreVersionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred. Try the request again.
+    /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
+    public func updateAnnotationStoreVersion(input: UpdateAnnotationStoreVersionInput) async throws -> UpdateAnnotationStoreVersionOutputResponse
+    {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "updateAnnotationStoreVersion")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withCredentialsProvider(value: config.credentialsProvider)
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "omics")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<UpdateAnnotationStoreVersionInput, UpdateAnnotationStoreVersionOutputResponse, UpdateAnnotationStoreVersionOutputError>(id: "updateAnnotationStoreVersion")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateAnnotationStoreVersionInput, UpdateAnnotationStoreVersionOutputResponse, UpdateAnnotationStoreVersionOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateAnnotationStoreVersionInput, UpdateAnnotationStoreVersionOutputResponse>(hostPrefix: "analytics-"))
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateAnnotationStoreVersionOutputResponse, UpdateAnnotationStoreVersionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateAnnotationStoreVersionInput, UpdateAnnotationStoreVersionOutputResponse>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateAnnotationStoreVersionInput, UpdateAnnotationStoreVersionOutputResponse>(xmlName: "UpdateAnnotationStoreVersionRequest"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateAnnotationStoreVersionOutputResponse, UpdateAnnotationStoreVersionOutputError>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateAnnotationStoreVersionOutputResponse, UpdateAnnotationStoreVersionOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateAnnotationStoreVersionOutputResponse, UpdateAnnotationStoreVersionOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateAnnotationStoreVersionOutputResponse, UpdateAnnotationStoreVersionOutputError>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
     /// Updates a run group.
+    ///
+    /// - Parameter UpdateRunGroupInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateRunGroupOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : The request cannot be applied to the target resource in its current state.
+    /// - `InternalServerException` : An unexpected error occurred. Try the request again.
+    /// - `RequestTimeoutException` : The request timed out.
+    /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
+    /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func updateRunGroup(input: UpdateRunGroupInput) async throws -> UpdateRunGroupOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2491,6 +3998,19 @@ extension OmicsClient: OmicsClientProtocol {
     }
 
     /// Updates a variant store.
+    ///
+    /// - Parameter UpdateVariantStoreInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateVariantStoreOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred. Try the request again.
+    /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func updateVariantStore(input: UpdateVariantStoreInput) async throws -> UpdateVariantStoreOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2527,6 +4047,22 @@ extension OmicsClient: OmicsClientProtocol {
     }
 
     /// Updates a workflow.
+    ///
+    /// - Parameter UpdateWorkflowInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateWorkflowOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : The request cannot be applied to the target resource in its current state.
+    /// - `InternalServerException` : An unexpected error occurred. Try the request again.
+    /// - `RequestTimeoutException` : The request timed out.
+    /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
+    /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func updateWorkflow(input: UpdateWorkflowInput) async throws -> UpdateWorkflowOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2563,6 +4099,22 @@ extension OmicsClient: OmicsClientProtocol {
     }
 
     /// This operation uploads a specific part of a read set. If you upload a new part using a previously used part number, the previously uploaded part will be overwritten.
+    ///
+    /// - Parameter UploadReadSetPartInput : [no documentation found]
+    ///
+    /// - Returns: `UploadReadSetPartOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : An unexpected error occurred. Try the request again.
+    /// - `NotSupportedOperationException` : The operation is not supported by Amazon Omics, or the API does not exist.
+    /// - `RequestTimeoutException` : The request timed out.
+    /// - `ResourceNotFoundException` : The target resource was not found in the current Region.
+    /// - `ServiceQuotaExceededException` : The request exceeds a service quota.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func uploadReadSetPart(input: UploadReadSetPartInput) async throws -> UploadReadSetPartOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()

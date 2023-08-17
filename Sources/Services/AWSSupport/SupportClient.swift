@@ -72,6 +72,19 @@ extension SupportClient: SupportClientProtocol {
     /// * You must have a Business, Enterprise On-Ramp, or Enterprise Support plan to use the Amazon Web Services Support API.
     ///
     /// * If you call the Amazon Web Services Support API from an account that doesn't have a Business, Enterprise On-Ramp, or Enterprise Support plan, the SubscriptionRequiredException error message appears. For information about changing your support plan, see [Amazon Web Services Support](http://aws.amazon.com/premiumsupport/).
+    ///
+    /// - Parameter AddAttachmentsToSetInput : [no documentation found]
+    ///
+    /// - Returns: `AddAttachmentsToSetOutputResponse` : The ID and expiry time of the attachment set returned by the [AddAttachmentsToSet] operation.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AttachmentLimitExceeded` : The limit for the number of attachment sets created in a short period of time has been exceeded.
+    /// - `AttachmentSetExpired` : The expiration time of the attachment set has passed. The set expires 1 hour after it is created.
+    /// - `AttachmentSetIdNotFound` : An attachment set with the specified ID could not be found.
+    /// - `AttachmentSetSizeLimitExceeded` : A limit for the size of an attachment set has been exceeded. The limits are three attachments and 5 MB per attachment.
+    /// - `InternalServerError` : An internal server error occurred.
     public func addAttachmentsToSet(input: AddAttachmentsToSetInput) async throws -> AddAttachmentsToSetOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -113,6 +126,18 @@ extension SupportClient: SupportClientProtocol {
     /// * You must have a Business, Enterprise On-Ramp, or Enterprise Support plan to use the Amazon Web Services Support API.
     ///
     /// * If you call the Amazon Web Services Support API from an account that doesn't have a Business, Enterprise On-Ramp, or Enterprise Support plan, the SubscriptionRequiredException error message appears. For information about changing your support plan, see [Amazon Web Services Support](http://aws.amazon.com/premiumsupport/).
+    ///
+    /// - Parameter AddCommunicationToCaseInput : [no documentation found]
+    ///
+    /// - Returns: `AddCommunicationToCaseOutputResponse` : The result of the [AddCommunicationToCase] operation.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AttachmentSetExpired` : The expiration time of the attachment set has passed. The set expires 1 hour after it is created.
+    /// - `AttachmentSetIdNotFound` : An attachment set with the specified ID could not be found.
+    /// - `CaseIdNotFound` : The requested caseId couldn't be located.
+    /// - `InternalServerError` : An internal server error occurred.
     public func addCommunicationToCase(input: AddCommunicationToCaseInput) async throws -> AddCommunicationToCaseOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -161,6 +186,18 @@ extension SupportClient: SupportClientProtocol {
     /// * You must have a Business, Enterprise On-Ramp, or Enterprise Support plan to use the Amazon Web Services Support API.
     ///
     /// * If you call the Amazon Web Services Support API from an account that doesn't have a Business, Enterprise On-Ramp, or Enterprise Support plan, the SubscriptionRequiredException error message appears. For information about changing your support plan, see [Amazon Web Services Support](http://aws.amazon.com/premiumsupport/).
+    ///
+    /// - Parameter CreateCaseInput : [no documentation found]
+    ///
+    /// - Returns: `CreateCaseOutputResponse` : The support case ID returned by a successful completion of the [CreateCase] operation.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AttachmentSetExpired` : The expiration time of the attachment set has passed. The set expires 1 hour after it is created.
+    /// - `AttachmentSetIdNotFound` : An attachment set with the specified ID could not be found.
+    /// - `CaseCreationLimitExceeded` : The case creation limit for the account has been exceeded.
+    /// - `InternalServerError` : An internal server error occurred.
     public func createCase(input: CreateCaseInput) async throws -> CreateCaseOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -202,6 +239,17 @@ extension SupportClient: SupportClientProtocol {
     /// * You must have a Business, Enterprise On-Ramp, or Enterprise Support plan to use the Amazon Web Services Support API.
     ///
     /// * If you call the Amazon Web Services Support API from an account that doesn't have a Business, Enterprise On-Ramp, or Enterprise Support plan, the SubscriptionRequiredException error message appears. For information about changing your support plan, see [Amazon Web Services Support](http://aws.amazon.com/premiumsupport/).
+    ///
+    /// - Parameter DescribeAttachmentInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeAttachmentOutputResponse` : The content and file name of the attachment returned by the [DescribeAttachment] operation.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AttachmentIdNotFound` : An attachment with the specified ID could not be found.
+    /// - `DescribeAttachmentLimitExceeded` : The limit for the number of [DescribeAttachment] requests in a short period of time has been exceeded.
+    /// - `InternalServerError` : An internal server error occurred.
     public func describeAttachment(input: DescribeAttachmentInput) async throws -> DescribeAttachmentOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -250,6 +298,16 @@ extension SupportClient: SupportClientProtocol {
     /// * You must have a Business, Enterprise On-Ramp, or Enterprise Support plan to use the Amazon Web Services Support API.
     ///
     /// * If you call the Amazon Web Services Support API from an account that doesn't have a Business, Enterprise On-Ramp, or Enterprise Support plan, the SubscriptionRequiredException error message appears. For information about changing your support plan, see [Amazon Web Services Support](http://aws.amazon.com/premiumsupport/).
+    ///
+    /// - Parameter DescribeCasesInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeCasesOutputResponse` : Returns an array of [CaseDetails](https://docs.aws.amazon.com/awssupport/latest/APIReference/API_CaseDetails.html) objects and a nextToken that defines a point for pagination in the result set.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `CaseIdNotFound` : The requested caseId couldn't be located.
+    /// - `InternalServerError` : An internal server error occurred.
     public func describeCases(input: DescribeCasesInput) async throws -> DescribeCasesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -291,6 +349,16 @@ extension SupportClient: SupportClientProtocol {
     /// * You must have a Business, Enterprise On-Ramp, or Enterprise Support plan to use the Amazon Web Services Support API.
     ///
     /// * If you call the Amazon Web Services Support API from an account that doesn't have a Business, Enterprise On-Ramp, or Enterprise Support plan, the SubscriptionRequiredException error message appears. For information about changing your support plan, see [Amazon Web Services Support](http://aws.amazon.com/premiumsupport/).
+    ///
+    /// - Parameter DescribeCommunicationsInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeCommunicationsOutputResponse` : The communications returned by the [DescribeCommunications] operation.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `CaseIdNotFound` : The requested caseId couldn't be located.
+    /// - `InternalServerError` : An internal server error occurred.
     public func describeCommunications(input: DescribeCommunicationsInput) async throws -> DescribeCommunicationsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -332,6 +400,16 @@ extension SupportClient: SupportClientProtocol {
     /// * You must have a Business, Enterprise On-Ramp, or Enterprise Support plan to use the Amazon Web Services Support API.
     ///
     /// * If you call the Amazon Web Services Support API from an account that doesn't have a Business, Enterprise On-Ramp, or Enterprise Support plan, the SubscriptionRequiredException error message appears. For information about changing your support plan, see [Amazon Web Services Support](http://aws.amazon.com/premiumsupport/).
+    ///
+    /// - Parameter DescribeCreateCaseOptionsInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeCreateCaseOptionsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerError` : An internal server error occurred.
+    /// - `ThrottlingException` : You have exceeded the maximum allowed TPS (Transactions Per Second) for the operations.
     public func describeCreateCaseOptions(input: DescribeCreateCaseOptionsInput) async throws -> DescribeCreateCaseOptionsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -373,6 +451,15 @@ extension SupportClient: SupportClientProtocol {
     /// * You must have a Business, Enterprise On-Ramp, or Enterprise Support plan to use the Amazon Web Services Support API.
     ///
     /// * If you call the Amazon Web Services Support API from an account that doesn't have a Business, Enterprise On-Ramp, or Enterprise Support plan, the SubscriptionRequiredException error message appears. For information about changing your support plan, see [Amazon Web Services Support](http://aws.amazon.com/premiumsupport/).
+    ///
+    /// - Parameter DescribeServicesInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeServicesOutputResponse` : The list of Amazon Web Services services returned by the [DescribeServices] operation.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerError` : An internal server error occurred.
     public func describeServices(input: DescribeServicesInput) async throws -> DescribeServicesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -414,6 +501,15 @@ extension SupportClient: SupportClientProtocol {
     /// * You must have a Business, Enterprise On-Ramp, or Enterprise Support plan to use the Amazon Web Services Support API.
     ///
     /// * If you call the Amazon Web Services Support API from an account that doesn't have a Business, Enterprise On-Ramp, or Enterprise Support plan, the SubscriptionRequiredException error message appears. For information about changing your support plan, see [Amazon Web Services Support](http://aws.amazon.com/premiumsupport/).
+    ///
+    /// - Parameter DescribeSeverityLevelsInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeSeverityLevelsOutputResponse` : The list of severity levels returned by the [DescribeSeverityLevels] operation.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerError` : An internal server error occurred.
     public func describeSeverityLevels(input: DescribeSeverityLevelsInput) async throws -> DescribeSeverityLevelsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -455,6 +551,16 @@ extension SupportClient: SupportClientProtocol {
     /// * You must have a Business, Enterprise On-Ramp, or Enterprise Support plan to use the Amazon Web Services Support API.
     ///
     /// * If you call the Amazon Web Services Support API from an account that doesn't have a Business, Enterprise On-Ramp, or Enterprise Support plan, the SubscriptionRequiredException error message appears. For information about changing your support plan, see [Amazon Web Services Support](http://aws.amazon.com/premiumsupport/).
+    ///
+    /// - Parameter DescribeSupportedLanguagesInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeSupportedLanguagesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerError` : An internal server error occurred.
+    /// - `ThrottlingException` : You have exceeded the maximum allowed TPS (Transactions Per Second) for the operations.
     public func describeSupportedLanguages(input: DescribeSupportedLanguagesInput) async throws -> DescribeSupportedLanguagesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -499,6 +605,16 @@ extension SupportClient: SupportClientProtocol {
     ///
     ///
     /// To call the Trusted Advisor operations in the Amazon Web Services Support API, you must use the US East (N. Virginia) endpoint. Currently, the US West (Oregon) and Europe (Ireland) endpoints don't support the Trusted Advisor operations. For more information, see [About the Amazon Web Services Support API](https://docs.aws.amazon.com/awssupport/latest/user/about-support-api.html#endpoint) in the Amazon Web Services Support User Guide.
+    ///
+    /// - Parameter DescribeTrustedAdvisorCheckRefreshStatusesInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeTrustedAdvisorCheckRefreshStatusesOutputResponse` : The statuses of the Trusted Advisor checks returned by the [DescribeTrustedAdvisorCheckRefreshStatuses] operation.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerError` : An internal server error occurred.
+    /// - `ThrottlingException` : You have exceeded the maximum allowed TPS (Transactions Per Second) for the operations.
     public func describeTrustedAdvisorCheckRefreshStatuses(input: DescribeTrustedAdvisorCheckRefreshStatusesInput) async throws -> DescribeTrustedAdvisorCheckRefreshStatusesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -561,6 +677,16 @@ extension SupportClient: SupportClientProtocol {
     ///
     ///
     /// To call the Trusted Advisor operations in the Amazon Web Services Support API, you must use the US East (N. Virginia) endpoint. Currently, the US West (Oregon) and Europe (Ireland) endpoints don't support the Trusted Advisor operations. For more information, see [About the Amazon Web Services Support API](https://docs.aws.amazon.com/awssupport/latest/user/about-support-api.html#endpoint) in the Amazon Web Services Support User Guide.
+    ///
+    /// - Parameter DescribeTrustedAdvisorCheckResultInput :
+    ///
+    /// - Returns: `DescribeTrustedAdvisorCheckResultOutputResponse` : The result of the Trusted Advisor check returned by the [DescribeTrustedAdvisorCheckResult] operation.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerError` : An internal server error occurred.
+    /// - `ThrottlingException` : You have exceeded the maximum allowed TPS (Transactions Per Second) for the operations.
     public func describeTrustedAdvisorCheckResult(input: DescribeTrustedAdvisorCheckResultInput) async throws -> DescribeTrustedAdvisorCheckResultOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -605,6 +731,16 @@ extension SupportClient: SupportClientProtocol {
     ///
     ///
     /// To call the Trusted Advisor operations in the Amazon Web Services Support API, you must use the US East (N. Virginia) endpoint. Currently, the US West (Oregon) and Europe (Ireland) endpoints don't support the Trusted Advisor operations. For more information, see [About the Amazon Web Services Support API](https://docs.aws.amazon.com/awssupport/latest/user/about-support-api.html#endpoint) in the Amazon Web Services Support User Guide.
+    ///
+    /// - Parameter DescribeTrustedAdvisorCheckSummariesInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeTrustedAdvisorCheckSummariesOutputResponse` : The summaries of the Trusted Advisor checks returned by the [DescribeTrustedAdvisorCheckSummaries] operation.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerError` : An internal server error occurred.
+    /// - `ThrottlingException` : You have exceeded the maximum allowed TPS (Transactions Per Second) for the operations.
     public func describeTrustedAdvisorCheckSummaries(input: DescribeTrustedAdvisorCheckSummariesInput) async throws -> DescribeTrustedAdvisorCheckSummariesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -651,6 +787,16 @@ extension SupportClient: SupportClientProtocol {
     ///
     ///
     /// To call the Trusted Advisor operations in the Amazon Web Services Support API, you must use the US East (N. Virginia) endpoint. Currently, the US West (Oregon) and Europe (Ireland) endpoints don't support the Trusted Advisor operations. For more information, see [About the Amazon Web Services Support API](https://docs.aws.amazon.com/awssupport/latest/user/about-support-api.html#endpoint) in the Amazon Web Services Support User Guide.
+    ///
+    /// - Parameter DescribeTrustedAdvisorChecksInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeTrustedAdvisorChecksOutputResponse` : Information about the Trusted Advisor checks returned by the [DescribeTrustedAdvisorChecks] operation.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerError` : An internal server error occurred.
+    /// - `ThrottlingException` : You have exceeded the maximum allowed TPS (Transactions Per Second) for the operations.
     public func describeTrustedAdvisorChecks(input: DescribeTrustedAdvisorChecksInput) async throws -> DescribeTrustedAdvisorChecksOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -695,6 +841,15 @@ extension SupportClient: SupportClientProtocol {
     ///
     ///
     /// To call the Trusted Advisor operations in the Amazon Web Services Support API, you must use the US East (N. Virginia) endpoint. Currently, the US West (Oregon) and Europe (Ireland) endpoints don't support the Trusted Advisor operations. For more information, see [About the Amazon Web Services Support API](https://docs.aws.amazon.com/awssupport/latest/user/about-support-api.html#endpoint) in the Amazon Web Services Support User Guide.
+    ///
+    /// - Parameter RefreshTrustedAdvisorCheckInput :
+    ///
+    /// - Returns: `RefreshTrustedAdvisorCheckOutputResponse` : The current refresh status of a Trusted Advisor check.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerError` : An internal server error occurred.
     public func refreshTrustedAdvisorCheck(input: RefreshTrustedAdvisorCheckInput) async throws -> RefreshTrustedAdvisorCheckOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -736,6 +891,16 @@ extension SupportClient: SupportClientProtocol {
     /// * You must have a Business, Enterprise On-Ramp, or Enterprise Support plan to use the Amazon Web Services Support API.
     ///
     /// * If you call the Amazon Web Services Support API from an account that doesn't have a Business, Enterprise On-Ramp, or Enterprise Support plan, the SubscriptionRequiredException error message appears. For information about changing your support plan, see [Amazon Web Services Support](http://aws.amazon.com/premiumsupport/).
+    ///
+    /// - Parameter ResolveCaseInput : [no documentation found]
+    ///
+    /// - Returns: `ResolveCaseOutputResponse` : The status of the case returned by the [ResolveCase] operation.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `CaseIdNotFound` : The requested caseId couldn't be located.
+    /// - `InternalServerError` : An internal server error occurred.
     public func resolveCase(input: ResolveCaseInput) async throws -> ResolveCaseOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()

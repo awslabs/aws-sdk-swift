@@ -68,6 +68,17 @@ public struct ApiGatewayManagementApiClientLogHandlerFactory: ClientRuntime.SDKL
 
 extension ApiGatewayManagementApiClient: ApiGatewayManagementApiClientProtocol {
     /// Delete the connection with the provided id.
+    ///
+    /// - Parameter DeleteConnectionInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteConnectionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ForbiddenException` : The caller is not authorized to invoke this operation.
+    /// - `GoneException` : The connection with the provided id no longer exists.
+    /// - `LimitExceededException` : The client is sending more than the allowed number of requests per unit of time or the WebSocket client side buffer is full.
     public func deleteConnection(input: DeleteConnectionInput) async throws -> DeleteConnectionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -101,6 +112,17 @@ extension ApiGatewayManagementApiClient: ApiGatewayManagementApiClientProtocol {
     }
 
     /// Get information about the connection with the provided id.
+    ///
+    /// - Parameter GetConnectionInput : [no documentation found]
+    ///
+    /// - Returns: `GetConnectionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ForbiddenException` : The caller is not authorized to invoke this operation.
+    /// - `GoneException` : The connection with the provided id no longer exists.
+    /// - `LimitExceededException` : The client is sending more than the allowed number of requests per unit of time or the WebSocket client side buffer is full.
     public func getConnection(input: GetConnectionInput) async throws -> GetConnectionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -134,6 +156,18 @@ extension ApiGatewayManagementApiClient: ApiGatewayManagementApiClientProtocol {
     }
 
     /// Sends the provided data to the specified connection.
+    ///
+    /// - Parameter PostToConnectionInput : [no documentation found]
+    ///
+    /// - Returns: `PostToConnectionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ForbiddenException` : The caller is not authorized to invoke this operation.
+    /// - `GoneException` : The connection with the provided id no longer exists.
+    /// - `LimitExceededException` : The client is sending more than the allowed number of requests per unit of time or the WebSocket client side buffer is full.
+    /// - `PayloadTooLargeException` : The data has exceeded the maximum size allowed.
     public func postToConnection(input: PostToConnectionInput) async throws -> PostToConnectionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()

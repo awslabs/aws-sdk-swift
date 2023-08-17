@@ -95,6 +95,19 @@ extension MqClient: MqClientProtocol {
     ///
     ///
     /// For more information, see [Create an IAM User and Get Your Amazon Web Services Credentials](https://docs.aws.amazon.com//amazon-mq/latest/developer-guide/amazon-mq-setting-up.html#create-iam-user) and [Never Modify or Delete the Amazon MQ Elastic Network Interface](https://docs.aws.amazon.com//amazon-mq/latest/developer-guide/connecting-to-amazon-mq.html#never-modify-delete-elastic-network-interface) in the Amazon MQ Developer Guide.
+    ///
+    /// - Parameter CreateBrokerInput : Creates a broker using the specified properties.
+    ///
+    /// - Returns: `CreateBrokerOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Returns information about an error.
+    /// - `ConflictException` : Returns information about an error.
+    /// - `ForbiddenException` : Returns information about an error.
+    /// - `InternalServerErrorException` : Returns information about an error.
+    /// - `UnauthorizedException` : Returns information about an error.
     public func createBroker(input: CreateBrokerInput) async throws -> CreateBrokerOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -139,6 +152,18 @@ extension MqClient: MqClientProtocol {
     }
 
     /// Creates a new configuration for the specified configuration name. Amazon MQ uses the default configuration (the engine type and version).
+    ///
+    /// - Parameter CreateConfigurationInput : Creates a new configuration for the specified configuration name. Amazon MQ uses the default configuration (the engine type and version).
+    ///
+    /// - Returns: `CreateConfigurationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Returns information about an error.
+    /// - `ConflictException` : Returns information about an error.
+    /// - `ForbiddenException` : Returns information about an error.
+    /// - `InternalServerErrorException` : Returns information about an error.
     public func createConfiguration(input: CreateConfigurationInput) async throws -> CreateConfigurationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -175,6 +200,18 @@ extension MqClient: MqClientProtocol {
     }
 
     /// Add a tag to a resource.
+    ///
+    /// - Parameter CreateTagsInput : A map of the key-value pairs for the resource tag.
+    ///
+    /// - Returns: `CreateTagsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Returns information about an error.
+    /// - `ForbiddenException` : Returns information about an error.
+    /// - `InternalServerErrorException` : Returns information about an error.
+    /// - `NotFoundException` : Returns information about an error.
     public func createTags(input: CreateTagsInput) async throws -> CreateTagsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -211,6 +248,19 @@ extension MqClient: MqClientProtocol {
     }
 
     /// Creates an ActiveMQ user. Do not add personally identifiable information (PII) or other confidential or sensitive information in broker usernames. Broker usernames are accessible to other Amazon Web Services services, including CloudWatch Logs. Broker usernames are not intended to be used for private or sensitive data.
+    ///
+    /// - Parameter CreateUserInput : Creates a new ActiveMQ user.
+    ///
+    /// - Returns: `CreateUserOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Returns information about an error.
+    /// - `ConflictException` : Returns information about an error.
+    /// - `ForbiddenException` : Returns information about an error.
+    /// - `InternalServerErrorException` : Returns information about an error.
+    /// - `NotFoundException` : Returns information about an error.
     public func createUser(input: CreateUserInput) async throws -> CreateUserOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -247,6 +297,18 @@ extension MqClient: MqClientProtocol {
     }
 
     /// Deletes a broker. Note: This API is asynchronous.
+    ///
+    /// - Parameter DeleteBrokerInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteBrokerOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Returns information about an error.
+    /// - `ForbiddenException` : Returns information about an error.
+    /// - `InternalServerErrorException` : Returns information about an error.
+    /// - `NotFoundException` : Returns information about an error.
     public func deleteBroker(input: DeleteBrokerInput) async throws -> DeleteBrokerOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -280,6 +342,18 @@ extension MqClient: MqClientProtocol {
     }
 
     /// Removes a tag from a resource.
+    ///
+    /// - Parameter DeleteTagsInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteTagsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Returns information about an error.
+    /// - `ForbiddenException` : Returns information about an error.
+    /// - `InternalServerErrorException` : Returns information about an error.
+    /// - `NotFoundException` : Returns information about an error.
     public func deleteTags(input: DeleteTagsInput) async throws -> DeleteTagsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -314,6 +388,18 @@ extension MqClient: MqClientProtocol {
     }
 
     /// Deletes an ActiveMQ user.
+    ///
+    /// - Parameter DeleteUserInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteUserOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Returns information about an error.
+    /// - `ForbiddenException` : Returns information about an error.
+    /// - `InternalServerErrorException` : Returns information about an error.
+    /// - `NotFoundException` : Returns information about an error.
     public func deleteUser(input: DeleteUserInput) async throws -> DeleteUserOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -347,6 +433,18 @@ extension MqClient: MqClientProtocol {
     }
 
     /// Returns information about the specified broker.
+    ///
+    /// - Parameter DescribeBrokerInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeBrokerOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Returns information about an error.
+    /// - `ForbiddenException` : Returns information about an error.
+    /// - `InternalServerErrorException` : Returns information about an error.
+    /// - `NotFoundException` : Returns information about an error.
     public func describeBroker(input: DescribeBrokerInput) async throws -> DescribeBrokerOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -380,6 +478,17 @@ extension MqClient: MqClientProtocol {
     }
 
     /// Describe available engine types and versions.
+    ///
+    /// - Parameter DescribeBrokerEngineTypesInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeBrokerEngineTypesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Returns information about an error.
+    /// - `ForbiddenException` : Returns information about an error.
+    /// - `InternalServerErrorException` : Returns information about an error.
     public func describeBrokerEngineTypes(input: DescribeBrokerEngineTypesInput) async throws -> DescribeBrokerEngineTypesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -414,6 +523,17 @@ extension MqClient: MqClientProtocol {
     }
 
     /// Describe available broker instance options.
+    ///
+    /// - Parameter DescribeBrokerInstanceOptionsInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeBrokerInstanceOptionsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Returns information about an error.
+    /// - `ForbiddenException` : Returns information about an error.
+    /// - `InternalServerErrorException` : Returns information about an error.
     public func describeBrokerInstanceOptions(input: DescribeBrokerInstanceOptionsInput) async throws -> DescribeBrokerInstanceOptionsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -448,6 +568,18 @@ extension MqClient: MqClientProtocol {
     }
 
     /// Returns information about the specified configuration.
+    ///
+    /// - Parameter DescribeConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeConfigurationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Returns information about an error.
+    /// - `ForbiddenException` : Returns information about an error.
+    /// - `InternalServerErrorException` : Returns information about an error.
+    /// - `NotFoundException` : Returns information about an error.
     public func describeConfiguration(input: DescribeConfigurationInput) async throws -> DescribeConfigurationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -481,6 +613,18 @@ extension MqClient: MqClientProtocol {
     }
 
     /// Returns the specified configuration revision for the specified configuration.
+    ///
+    /// - Parameter DescribeConfigurationRevisionInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeConfigurationRevisionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Returns information about an error.
+    /// - `ForbiddenException` : Returns information about an error.
+    /// - `InternalServerErrorException` : Returns information about an error.
+    /// - `NotFoundException` : Returns information about an error.
     public func describeConfigurationRevision(input: DescribeConfigurationRevisionInput) async throws -> DescribeConfigurationRevisionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -514,6 +658,18 @@ extension MqClient: MqClientProtocol {
     }
 
     /// Returns information about an ActiveMQ user.
+    ///
+    /// - Parameter DescribeUserInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeUserOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Returns information about an error.
+    /// - `ForbiddenException` : Returns information about an error.
+    /// - `InternalServerErrorException` : Returns information about an error.
+    /// - `NotFoundException` : Returns information about an error.
     public func describeUser(input: DescribeUserInput) async throws -> DescribeUserOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -547,6 +703,17 @@ extension MqClient: MqClientProtocol {
     }
 
     /// Returns a list of all brokers.
+    ///
+    /// - Parameter ListBrokersInput : [no documentation found]
+    ///
+    /// - Returns: `ListBrokersOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Returns information about an error.
+    /// - `ForbiddenException` : Returns information about an error.
+    /// - `InternalServerErrorException` : Returns information about an error.
     public func listBrokers(input: ListBrokersInput) async throws -> ListBrokersOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -581,6 +748,18 @@ extension MqClient: MqClientProtocol {
     }
 
     /// Returns a list of all revisions for the specified configuration.
+    ///
+    /// - Parameter ListConfigurationRevisionsInput : [no documentation found]
+    ///
+    /// - Returns: `ListConfigurationRevisionsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Returns information about an error.
+    /// - `ForbiddenException` : Returns information about an error.
+    /// - `InternalServerErrorException` : Returns information about an error.
+    /// - `NotFoundException` : Returns information about an error.
     public func listConfigurationRevisions(input: ListConfigurationRevisionsInput) async throws -> ListConfigurationRevisionsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -615,6 +794,17 @@ extension MqClient: MqClientProtocol {
     }
 
     /// Returns a list of all configurations.
+    ///
+    /// - Parameter ListConfigurationsInput : [no documentation found]
+    ///
+    /// - Returns: `ListConfigurationsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Returns information about an error.
+    /// - `ForbiddenException` : Returns information about an error.
+    /// - `InternalServerErrorException` : Returns information about an error.
     public func listConfigurations(input: ListConfigurationsInput) async throws -> ListConfigurationsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -649,6 +839,18 @@ extension MqClient: MqClientProtocol {
     }
 
     /// Lists tags for a resource.
+    ///
+    /// - Parameter ListTagsInput : [no documentation found]
+    ///
+    /// - Returns: `ListTagsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Returns information about an error.
+    /// - `ForbiddenException` : Returns information about an error.
+    /// - `InternalServerErrorException` : Returns information about an error.
+    /// - `NotFoundException` : Returns information about an error.
     public func listTags(input: ListTagsInput) async throws -> ListTagsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -682,6 +884,18 @@ extension MqClient: MqClientProtocol {
     }
 
     /// Returns a list of all ActiveMQ users.
+    ///
+    /// - Parameter ListUsersInput : [no documentation found]
+    ///
+    /// - Returns: `ListUsersOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Returns information about an error.
+    /// - `ForbiddenException` : Returns information about an error.
+    /// - `InternalServerErrorException` : Returns information about an error.
+    /// - `NotFoundException` : Returns information about an error.
     public func listUsers(input: ListUsersInput) async throws -> ListUsersOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -716,6 +930,18 @@ extension MqClient: MqClientProtocol {
     }
 
     /// Promotes a data replication replica broker to the primary broker role.
+    ///
+    /// - Parameter PromoteInput : Promotes a data replication replica broker to the primary broker role.
+    ///
+    /// - Returns: `PromoteOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Returns information about an error.
+    /// - `ForbiddenException` : Returns information about an error.
+    /// - `InternalServerErrorException` : Returns information about an error.
+    /// - `NotFoundException` : Returns information about an error.
     public func promote(input: PromoteInput) async throws -> PromoteOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -752,6 +978,18 @@ extension MqClient: MqClientProtocol {
     }
 
     /// Reboots a broker. Note: This API is asynchronous.
+    ///
+    /// - Parameter RebootBrokerInput : [no documentation found]
+    ///
+    /// - Returns: `RebootBrokerOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Returns information about an error.
+    /// - `ForbiddenException` : Returns information about an error.
+    /// - `InternalServerErrorException` : Returns information about an error.
+    /// - `NotFoundException` : Returns information about an error.
     public func rebootBroker(input: RebootBrokerInput) async throws -> RebootBrokerOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -785,6 +1023,19 @@ extension MqClient: MqClientProtocol {
     }
 
     /// Adds a pending configuration change to a broker.
+    ///
+    /// - Parameter UpdateBrokerInput : Updates the broker using the specified properties.
+    ///
+    /// - Returns: `UpdateBrokerOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Returns information about an error.
+    /// - `ConflictException` : Returns information about an error.
+    /// - `ForbiddenException` : Returns information about an error.
+    /// - `InternalServerErrorException` : Returns information about an error.
+    /// - `NotFoundException` : Returns information about an error.
     public func updateBroker(input: UpdateBrokerInput) async throws -> UpdateBrokerOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -821,6 +1072,19 @@ extension MqClient: MqClientProtocol {
     }
 
     /// Updates the specified configuration.
+    ///
+    /// - Parameter UpdateConfigurationInput : Updates the specified configuration.
+    ///
+    /// - Returns: `UpdateConfigurationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Returns information about an error.
+    /// - `ConflictException` : Returns information about an error.
+    /// - `ForbiddenException` : Returns information about an error.
+    /// - `InternalServerErrorException` : Returns information about an error.
+    /// - `NotFoundException` : Returns information about an error.
     public func updateConfiguration(input: UpdateConfigurationInput) async throws -> UpdateConfigurationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -857,6 +1121,19 @@ extension MqClient: MqClientProtocol {
     }
 
     /// Updates the information for an ActiveMQ user.
+    ///
+    /// - Parameter UpdateUserInput : Updates the information for an ActiveMQ user.
+    ///
+    /// - Returns: `UpdateUserOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Returns information about an error.
+    /// - `ConflictException` : Returns information about an error.
+    /// - `ForbiddenException` : Returns information about an error.
+    /// - `InternalServerErrorException` : Returns information about an error.
+    /// - `NotFoundException` : Returns information about an error.
     public func updateUser(input: UpdateUserInput) async throws -> UpdateUserOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()

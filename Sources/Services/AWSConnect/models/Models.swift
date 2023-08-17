@@ -273,6 +273,86 @@ extension ActivateEvaluationFormOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension ConnectClientTypes {
+    public enum AgentAvailabilityTimer: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case timeSinceLastActivity
+        case timeSinceLastInbound
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AgentAvailabilityTimer] {
+            return [
+                .timeSinceLastActivity,
+                .timeSinceLastInbound,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .timeSinceLastActivity: return "TIME_SINCE_LAST_ACTIVITY"
+            case .timeSinceLastInbound: return "TIME_SINCE_LAST_INBOUND"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = AgentAvailabilityTimer(rawValue: rawValue) ?? AgentAvailabilityTimer.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension ConnectClientTypes.AgentConfig: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case distributions = "Distributions"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let distributions = distributions {
+            var distributionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .distributions)
+            for distribution0 in distributions {
+                try distributionsContainer.encode(distribution0)
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let distributionsContainer = try containerValues.decodeIfPresent([ConnectClientTypes.Distribution?].self, forKey: .distributions)
+        var distributionsDecoded0:[ConnectClientTypes.Distribution]? = nil
+        if let distributionsContainer = distributionsContainer {
+            distributionsDecoded0 = [ConnectClientTypes.Distribution]()
+            for structure0 in distributionsContainer {
+                if let structure0 = structure0 {
+                    distributionsDecoded0?.append(structure0)
+                }
+            }
+        }
+        distributions = distributionsDecoded0
+    }
+}
+
+extension ConnectClientTypes {
+    /// The distribution of agents between the instance and its replica(s).
+    public struct AgentConfig: Swift.Equatable {
+        /// Information about traffic distributions.
+        /// This member is required.
+        public var distributions: [ConnectClientTypes.Distribution]?
+
+        public init(
+            distributions: [ConnectClientTypes.Distribution]? = nil
+        )
+        {
+            self.distributions = distributions
+        }
+    }
+
+}
+
 extension ConnectClientTypes.AgentContactReference: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case agentContactState = "AgentContactState"
@@ -1746,6 +1826,101 @@ extension AssociateSecurityKeyOutputResponseBody: Swift.Decodable {
         let associationIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .associationId)
         associationId = associationIdDecoded
     }
+}
+
+extension AssociateTrafficDistributionGroupUserInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case instanceId = "InstanceId"
+        case userId = "UserId"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let instanceId = self.instanceId {
+            try encodeContainer.encode(instanceId, forKey: .instanceId)
+        }
+        if let userId = self.userId {
+            try encodeContainer.encode(userId, forKey: .userId)
+        }
+    }
+}
+
+extension AssociateTrafficDistributionGroupUserInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let trafficDistributionGroupId = trafficDistributionGroupId else {
+            return nil
+        }
+        return "/traffic-distribution-group/\(trafficDistributionGroupId.urlPercentEncoding())/user"
+    }
+}
+
+public struct AssociateTrafficDistributionGroupUserInput: Swift.Equatable {
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// This member is required.
+    public var instanceId: Swift.String?
+    /// The identifier of the traffic distribution group. This can be the ID or the ARN if the API is being called in the Region where the traffic distribution group was created. The ARN must be provided if the call is from the replicated Region.
+    /// This member is required.
+    public var trafficDistributionGroupId: Swift.String?
+    /// The identifier of the user account. This can be the ID or the ARN of the user.
+    /// This member is required.
+    public var userId: Swift.String?
+
+    public init(
+        instanceId: Swift.String? = nil,
+        trafficDistributionGroupId: Swift.String? = nil,
+        userId: Swift.String? = nil
+    )
+    {
+        self.instanceId = instanceId
+        self.trafficDistributionGroupId = trafficDistributionGroupId
+        self.userId = userId
+    }
+}
+
+struct AssociateTrafficDistributionGroupUserInputBody: Swift.Equatable {
+    let userId: Swift.String?
+    let instanceId: Swift.String?
+}
+
+extension AssociateTrafficDistributionGroupUserInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case instanceId = "InstanceId"
+        case userId = "UserId"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let userIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .userId)
+        userId = userIdDecoded
+        let instanceIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .instanceId)
+        instanceId = instanceIdDecoded
+    }
+}
+
+public enum AssociateTrafficDistributionGroupUserOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServiceException": return try await InternalServiceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceConflictException": return try await ResourceConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension AssociateTrafficDistributionGroupUserOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct AssociateTrafficDistributionGroupUserOutputResponse: Swift.Equatable {
+
+    public init() { }
 }
 
 extension ConnectClientTypes.AttachmentReference: Swift.Codable {
@@ -5543,6 +5718,7 @@ extension CreateQuickConnectOutputResponseBody: Swift.Decodable {
 
 extension CreateRoutingProfileInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case agentAvailabilityTimer = "AgentAvailabilityTimer"
         case defaultOutboundQueueId = "DefaultOutboundQueueId"
         case description = "Description"
         case mediaConcurrencies = "MediaConcurrencies"
@@ -5553,6 +5729,9 @@ extension CreateRoutingProfileInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let agentAvailabilityTimer = self.agentAvailabilityTimer {
+            try encodeContainer.encode(agentAvailabilityTimer.rawValue, forKey: .agentAvailabilityTimer)
+        }
         if let defaultOutboundQueueId = self.defaultOutboundQueueId {
             try encodeContainer.encode(defaultOutboundQueueId, forKey: .defaultOutboundQueueId)
         }
@@ -5593,6 +5772,8 @@ extension CreateRoutingProfileInput: ClientRuntime.URLPathProvider {
 }
 
 public struct CreateRoutingProfileInput: Swift.Equatable {
+    /// Whether agents with this routing profile will have their routing order calculated based on longest idle time or time since their last inbound contact.
+    public var agentAvailabilityTimer: ConnectClientTypes.AgentAvailabilityTimer?
     /// The default outbound queue for the routing profile.
     /// This member is required.
     public var defaultOutboundQueueId: Swift.String?
@@ -5614,6 +5795,7 @@ public struct CreateRoutingProfileInput: Swift.Equatable {
     public var tags: [Swift.String:Swift.String]?
 
     public init(
+        agentAvailabilityTimer: ConnectClientTypes.AgentAvailabilityTimer? = nil,
         defaultOutboundQueueId: Swift.String? = nil,
         description: Swift.String? = nil,
         instanceId: Swift.String? = nil,
@@ -5623,6 +5805,7 @@ public struct CreateRoutingProfileInput: Swift.Equatable {
         tags: [Swift.String:Swift.String]? = nil
     )
     {
+        self.agentAvailabilityTimer = agentAvailabilityTimer
         self.defaultOutboundQueueId = defaultOutboundQueueId
         self.description = description
         self.instanceId = instanceId
@@ -5640,10 +5823,12 @@ struct CreateRoutingProfileInputBody: Swift.Equatable {
     let queueConfigs: [ConnectClientTypes.RoutingProfileQueueConfig]?
     let mediaConcurrencies: [ConnectClientTypes.MediaConcurrency]?
     let tags: [Swift.String:Swift.String]?
+    let agentAvailabilityTimer: ConnectClientTypes.AgentAvailabilityTimer?
 }
 
 extension CreateRoutingProfileInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case agentAvailabilityTimer = "AgentAvailabilityTimer"
         case defaultOutboundQueueId = "DefaultOutboundQueueId"
         case description = "Description"
         case mediaConcurrencies = "MediaConcurrencies"
@@ -5693,6 +5878,8 @@ extension CreateRoutingProfileInputBody: Swift.Decodable {
             }
         }
         tags = tagsDecoded0
+        let agentAvailabilityTimerDecoded = try containerValues.decodeIfPresent(ConnectClientTypes.AgentAvailabilityTimer.self, forKey: .agentAvailabilityTimer)
+        agentAvailabilityTimer = agentAvailabilityTimerDecoded
     }
 }
 
@@ -12239,6 +12426,94 @@ public struct DisassociateSecurityKeyOutputResponse: Swift.Equatable {
     public init() { }
 }
 
+extension DisassociateTrafficDistributionGroupUserInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            guard let instanceId = instanceId else {
+                let message = "Creating a URL Query Item failed. instanceId is required and must not be nil."
+                throw ClientRuntime.ClientError.unknownError(message)
+            }
+            let instanceIdQueryItem = ClientRuntime.URLQueryItem(name: "InstanceId".urlPercentEncoding(), value: Swift.String(instanceId).urlPercentEncoding())
+            items.append(instanceIdQueryItem)
+            guard let userId = userId else {
+                let message = "Creating a URL Query Item failed. userId is required and must not be nil."
+                throw ClientRuntime.ClientError.unknownError(message)
+            }
+            let userIdQueryItem = ClientRuntime.URLQueryItem(name: "UserId".urlPercentEncoding(), value: Swift.String(userId).urlPercentEncoding())
+            items.append(userIdQueryItem)
+            return items
+        }
+    }
+}
+
+extension DisassociateTrafficDistributionGroupUserInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let trafficDistributionGroupId = trafficDistributionGroupId else {
+            return nil
+        }
+        return "/traffic-distribution-group/\(trafficDistributionGroupId.urlPercentEncoding())/user"
+    }
+}
+
+public struct DisassociateTrafficDistributionGroupUserInput: Swift.Equatable {
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// This member is required.
+    public var instanceId: Swift.String?
+    /// The identifier of the traffic distribution group. This can be the ID or the ARN if the API is being called in the Region where the traffic distribution group was created. The ARN must be provided if the call is from the replicated Region.
+    /// This member is required.
+    public var trafficDistributionGroupId: Swift.String?
+    /// The identifier for the user. This can be the ID or the ARN of the user.
+    /// This member is required.
+    public var userId: Swift.String?
+
+    public init(
+        instanceId: Swift.String? = nil,
+        trafficDistributionGroupId: Swift.String? = nil,
+        userId: Swift.String? = nil
+    )
+    {
+        self.instanceId = instanceId
+        self.trafficDistributionGroupId = trafficDistributionGroupId
+        self.userId = userId
+    }
+}
+
+struct DisassociateTrafficDistributionGroupUserInputBody: Swift.Equatable {
+}
+
+extension DisassociateTrafficDistributionGroupUserInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+public enum DisassociateTrafficDistributionGroupUserOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServiceException": return try await InternalServiceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceConflictException": return try await ResourceConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension DisassociateTrafficDistributionGroupUserOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DisassociateTrafficDistributionGroupUserOutputResponse: Swift.Equatable {
+
+    public init() { }
+}
+
 extension DismissUserContactInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case contactId = "ContactId"
@@ -15511,7 +15786,7 @@ public struct GetFederationTokenOutputResponse: Swift.Equatable {
     public var signInUrl: Swift.String?
     /// The Amazon Resource Name (ARN) of the user.
     public var userArn: Swift.String?
-    /// The identifier for the user.
+    /// The identifier for the user. This can be the ID or the ARN of the user.
     public var userId: Swift.String?
 
     public init(
@@ -16447,33 +16722,45 @@ extension GetTrafficDistributionOutputResponse: ClientRuntime.HttpResponseBindin
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: GetTrafficDistributionOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.agentConfig = output.agentConfig
             self.arn = output.arn
             self.id = output.id
+            self.signInConfig = output.signInConfig
             self.telephonyConfig = output.telephonyConfig
         } else {
+            self.agentConfig = nil
             self.arn = nil
             self.id = nil
+            self.signInConfig = nil
             self.telephonyConfig = nil
         }
     }
 }
 
 public struct GetTrafficDistributionOutputResponse: Swift.Equatable {
+    /// The distribution of agents between the instance and its replica(s).
+    public var agentConfig: ConnectClientTypes.AgentConfig?
     /// The Amazon Resource Name (ARN) of the traffic distribution group.
     public var arn: Swift.String?
     /// The identifier of the traffic distribution group. This can be the ID or the ARN if the API is being called in the Region where the traffic distribution group was created. The ARN must be provided if the call is from the replicated Region.
     public var id: Swift.String?
+    /// The distribution of allowing signing in to the instance and its replica(s).
+    public var signInConfig: ConnectClientTypes.SignInConfig?
     /// The distribution of traffic between the instance and its replicas.
     public var telephonyConfig: ConnectClientTypes.TelephonyConfig?
 
     public init(
+        agentConfig: ConnectClientTypes.AgentConfig? = nil,
         arn: Swift.String? = nil,
         id: Swift.String? = nil,
+        signInConfig: ConnectClientTypes.SignInConfig? = nil,
         telephonyConfig: ConnectClientTypes.TelephonyConfig? = nil
     )
     {
+        self.agentConfig = agentConfig
         self.arn = arn
         self.id = id
+        self.signInConfig = signInConfig
         self.telephonyConfig = telephonyConfig
     }
 }
@@ -16482,12 +16769,16 @@ struct GetTrafficDistributionOutputResponseBody: Swift.Equatable {
     let telephonyConfig: ConnectClientTypes.TelephonyConfig?
     let id: Swift.String?
     let arn: Swift.String?
+    let signInConfig: ConnectClientTypes.SignInConfig?
+    let agentConfig: ConnectClientTypes.AgentConfig?
 }
 
 extension GetTrafficDistributionOutputResponseBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case agentConfig = "AgentConfig"
         case arn = "Arn"
         case id = "Id"
+        case signInConfig = "SignInConfig"
         case telephonyConfig = "TelephonyConfig"
     }
 
@@ -16499,6 +16790,10 @@ extension GetTrafficDistributionOutputResponseBody: Swift.Decodable {
         id = idDecoded
         let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
         arn = arnDecoded
+        let signInConfigDecoded = try containerValues.decodeIfPresent(ConnectClientTypes.SignInConfig.self, forKey: .signInConfig)
+        signInConfig = signInConfigDecoded
+        let agentConfigDecoded = try containerValues.decodeIfPresent(ConnectClientTypes.AgentConfig.self, forKey: .agentConfig)
+        agentConfig = agentConfigDecoded
     }
 }
 
@@ -23679,6 +23974,136 @@ extension ListTaskTemplatesOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension ListTrafficDistributionGroupUsersInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            if let maxResults = maxResults {
+                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+                items.append(maxResultsQueryItem)
+            }
+            return items
+        }
+    }
+}
+
+extension ListTrafficDistributionGroupUsersInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let trafficDistributionGroupId = trafficDistributionGroupId else {
+            return nil
+        }
+        return "/traffic-distribution-group/\(trafficDistributionGroupId.urlPercentEncoding())/user"
+    }
+}
+
+public struct ListTrafficDistributionGroupUsersInput: Swift.Equatable {
+    /// The maximum number of results to return per page.
+    public var maxResults: Swift.Int?
+    /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
+    public var nextToken: Swift.String?
+    /// The identifier of the traffic distribution group. This can be the ID or the ARN if the API is being called in the Region where the traffic distribution group was created. The ARN must be provided if the call is from the replicated Region.
+    /// This member is required.
+    public var trafficDistributionGroupId: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        trafficDistributionGroupId: Swift.String? = nil
+    )
+    {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.trafficDistributionGroupId = trafficDistributionGroupId
+    }
+}
+
+struct ListTrafficDistributionGroupUsersInputBody: Swift.Equatable {
+}
+
+extension ListTrafficDistributionGroupUsersInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+public enum ListTrafficDistributionGroupUsersOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServiceException": return try await InternalServiceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension ListTrafficDistributionGroupUsersOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ListTrafficDistributionGroupUsersOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.nextToken = output.nextToken
+            self.trafficDistributionGroupUserSummaryList = output.trafficDistributionGroupUserSummaryList
+        } else {
+            self.nextToken = nil
+            self.trafficDistributionGroupUserSummaryList = nil
+        }
+    }
+}
+
+public struct ListTrafficDistributionGroupUsersOutputResponse: Swift.Equatable {
+    /// If there are additional results, this is the token for the next set of results.
+    public var nextToken: Swift.String?
+    /// A list of traffic distribution group users.
+    public var trafficDistributionGroupUserSummaryList: [ConnectClientTypes.TrafficDistributionGroupUserSummary]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        trafficDistributionGroupUserSummaryList: [ConnectClientTypes.TrafficDistributionGroupUserSummary]? = nil
+    )
+    {
+        self.nextToken = nextToken
+        self.trafficDistributionGroupUserSummaryList = trafficDistributionGroupUserSummaryList
+    }
+}
+
+struct ListTrafficDistributionGroupUsersOutputResponseBody: Swift.Equatable {
+    let nextToken: Swift.String?
+    let trafficDistributionGroupUserSummaryList: [ConnectClientTypes.TrafficDistributionGroupUserSummary]?
+}
+
+extension ListTrafficDistributionGroupUsersOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case nextToken = "NextToken"
+        case trafficDistributionGroupUserSummaryList = "TrafficDistributionGroupUserSummaryList"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+        let trafficDistributionGroupUserSummaryListContainer = try containerValues.decodeIfPresent([ConnectClientTypes.TrafficDistributionGroupUserSummary?].self, forKey: .trafficDistributionGroupUserSummaryList)
+        var trafficDistributionGroupUserSummaryListDecoded0:[ConnectClientTypes.TrafficDistributionGroupUserSummary]? = nil
+        if let trafficDistributionGroupUserSummaryListContainer = trafficDistributionGroupUserSummaryListContainer {
+            trafficDistributionGroupUserSummaryListDecoded0 = [ConnectClientTypes.TrafficDistributionGroupUserSummary]()
+            for structure0 in trafficDistributionGroupUserSummaryListContainer {
+                if let structure0 = structure0 {
+                    trafficDistributionGroupUserSummaryListDecoded0?.append(structure0)
+                }
+            }
+        }
+        trafficDistributionGroupUserSummaryList = trafficDistributionGroupUserSummaryListDecoded0
+    }
+}
+
 extension ListTrafficDistributionGroupsInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
         get throws {
@@ -28972,6 +29397,7 @@ public struct ResumeContactRecordingOutputResponse: Swift.Equatable {
 
 extension ConnectClientTypes.RoutingProfile: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case agentAvailabilityTimer = "AgentAvailabilityTimer"
         case defaultOutboundQueueId = "DefaultOutboundQueueId"
         case description = "Description"
         case instanceId = "InstanceId"
@@ -28986,6 +29412,9 @@ extension ConnectClientTypes.RoutingProfile: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let agentAvailabilityTimer = self.agentAvailabilityTimer {
+            try encodeContainer.encode(agentAvailabilityTimer.rawValue, forKey: .agentAvailabilityTimer)
+        }
         if let defaultOutboundQueueId = self.defaultOutboundQueueId {
             try encodeContainer.encode(defaultOutboundQueueId, forKey: .defaultOutboundQueueId)
         }
@@ -29064,12 +29493,16 @@ extension ConnectClientTypes.RoutingProfile: Swift.Codable {
         numberOfAssociatedQueues = numberOfAssociatedQueuesDecoded
         let numberOfAssociatedUsersDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .numberOfAssociatedUsers)
         numberOfAssociatedUsers = numberOfAssociatedUsersDecoded
+        let agentAvailabilityTimerDecoded = try containerValues.decodeIfPresent(ConnectClientTypes.AgentAvailabilityTimer.self, forKey: .agentAvailabilityTimer)
+        agentAvailabilityTimer = agentAvailabilityTimerDecoded
     }
 }
 
 extension ConnectClientTypes {
     /// Contains information about a routing profile.
     public struct RoutingProfile: Swift.Equatable {
+        /// Whether agents with this routing profile will have their routing order calculated based on time since their last inbound contact or longest idle time.
+        public var agentAvailabilityTimer: ConnectClientTypes.AgentAvailabilityTimer?
         /// The identifier of the default outbound queue for this routing profile.
         public var defaultOutboundQueueId: Swift.String?
         /// The description of the routing profile.
@@ -29092,6 +29525,7 @@ extension ConnectClientTypes {
         public var tags: [Swift.String:Swift.String]?
 
         public init(
+            agentAvailabilityTimer: ConnectClientTypes.AgentAvailabilityTimer? = nil,
             defaultOutboundQueueId: Swift.String? = nil,
             description: Swift.String? = nil,
             instanceId: Swift.String? = nil,
@@ -29104,6 +29538,7 @@ extension ConnectClientTypes {
             tags: [Swift.String:Swift.String]? = nil
         )
         {
+            self.agentAvailabilityTimer = agentAvailabilityTimer
             self.defaultOutboundQueueId = defaultOutboundQueueId
             self.description = description
             self.instanceId = instanceId
@@ -32468,6 +32903,101 @@ extension ServiceQuotaExceededExceptionBody: Swift.Decodable {
     }
 }
 
+extension ConnectClientTypes.SignInConfig: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case distributions = "Distributions"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let distributions = distributions {
+            var distributionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .distributions)
+            for signindistribution0 in distributions {
+                try distributionsContainer.encode(signindistribution0)
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let distributionsContainer = try containerValues.decodeIfPresent([ConnectClientTypes.SignInDistribution?].self, forKey: .distributions)
+        var distributionsDecoded0:[ConnectClientTypes.SignInDistribution]? = nil
+        if let distributionsContainer = distributionsContainer {
+            distributionsDecoded0 = [ConnectClientTypes.SignInDistribution]()
+            for structure0 in distributionsContainer {
+                if let structure0 = structure0 {
+                    distributionsDecoded0?.append(structure0)
+                }
+            }
+        }
+        distributions = distributionsDecoded0
+    }
+}
+
+extension ConnectClientTypes {
+    /// The distribution of allowing signing in to the instance and its replica(s).
+    public struct SignInConfig: Swift.Equatable {
+        /// Information about traffic distributions.
+        /// This member is required.
+        public var distributions: [ConnectClientTypes.SignInDistribution]?
+
+        public init(
+            distributions: [ConnectClientTypes.SignInDistribution]? = nil
+        )
+        {
+            self.distributions = distributions
+        }
+    }
+
+}
+
+extension ConnectClientTypes.SignInDistribution: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case enabled = "Enabled"
+        case region = "Region"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if enabled != false {
+            try encodeContainer.encode(enabled, forKey: .enabled)
+        }
+        if let region = self.region {
+            try encodeContainer.encode(region, forKey: .region)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let regionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .region)
+        region = regionDecoded
+        let enabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enabled) ?? false
+        enabled = enabledDecoded
+    }
+}
+
+extension ConnectClientTypes {
+    /// The distribution of sign in traffic between the instance and its replica(s).
+    public struct SignInDistribution: Swift.Equatable {
+        /// Whether sign in distribution is enabled.
+        /// This member is required.
+        public var enabled: Swift.Bool
+        /// The Amazon Web Services Region of the sign in distribution.
+        /// This member is required.
+        public var region: Swift.String?
+
+        public init(
+            enabled: Swift.Bool = false,
+            region: Swift.String? = nil
+        )
+        {
+            self.enabled = enabled
+            self.region = region
+        }
+    }
+
+}
+
 extension ConnectClientTypes.SingleSelectQuestionRuleCategoryAutomation: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case category = "Category"
@@ -35575,6 +36105,7 @@ extension ConnectClientTypes.TrafficDistributionGroup: Swift.Codable {
         case description = "Description"
         case id = "Id"
         case instanceArn = "InstanceArn"
+        case isDefault = "IsDefault"
         case name = "Name"
         case status = "Status"
         case tags = "Tags"
@@ -35593,6 +36124,9 @@ extension ConnectClientTypes.TrafficDistributionGroup: Swift.Codable {
         }
         if let instanceArn = self.instanceArn {
             try encodeContainer.encode(instanceArn, forKey: .instanceArn)
+        }
+        if isDefault != false {
+            try encodeContainer.encode(isDefault, forKey: .isDefault)
         }
         if let name = self.name {
             try encodeContainer.encode(name, forKey: .name)
@@ -35633,6 +36167,8 @@ extension ConnectClientTypes.TrafficDistributionGroup: Swift.Codable {
             }
         }
         tags = tagsDecoded0
+        let isDefaultDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isDefault) ?? false
+        isDefault = isDefaultDecoded
     }
 }
 
@@ -35647,6 +36183,8 @@ extension ConnectClientTypes {
         public var id: Swift.String?
         /// The Amazon Resource Name (ARN).
         public var instanceArn: Swift.String?
+        /// Whether this is the default traffic distribution group created during instance replication. The default traffic distribution group cannot be deleted by the DeleteTrafficDistributionGroup API. The default traffic distribution group is deleted as part of the process for deleting a replica. You can change the SignInConfig only for a default TrafficDistributionGroup. If you call UpdateTrafficDistribution with a modified SignInConfig and a non-default TrafficDistributionGroup, an InvalidRequestException is returned.
+        public var isDefault: Swift.Bool
         /// The name of the traffic distribution group.
         public var name: Swift.String?
         /// The status of the traffic distribution group.
@@ -35671,6 +36209,7 @@ extension ConnectClientTypes {
             description: Swift.String? = nil,
             id: Swift.String? = nil,
             instanceArn: Swift.String? = nil,
+            isDefault: Swift.Bool = false,
             name: Swift.String? = nil,
             status: ConnectClientTypes.TrafficDistributionGroupStatus? = nil,
             tags: [Swift.String:Swift.String]? = nil
@@ -35680,6 +36219,7 @@ extension ConnectClientTypes {
             self.description = description
             self.id = id
             self.instanceArn = instanceArn
+            self.isDefault = isDefault
             self.name = name
             self.status = status
             self.tags = tags
@@ -35737,6 +36277,7 @@ extension ConnectClientTypes.TrafficDistributionGroupSummary: Swift.Codable {
         case arn = "Arn"
         case id = "Id"
         case instanceArn = "InstanceArn"
+        case isDefault = "IsDefault"
         case name = "Name"
         case status = "Status"
     }
@@ -35751,6 +36292,9 @@ extension ConnectClientTypes.TrafficDistributionGroupSummary: Swift.Codable {
         }
         if let instanceArn = self.instanceArn {
             try encodeContainer.encode(instanceArn, forKey: .instanceArn)
+        }
+        if isDefault != false {
+            try encodeContainer.encode(isDefault, forKey: .isDefault)
         }
         if let name = self.name {
             try encodeContainer.encode(name, forKey: .name)
@@ -35772,6 +36316,8 @@ extension ConnectClientTypes.TrafficDistributionGroupSummary: Swift.Codable {
         instanceArn = instanceArnDecoded
         let statusDecoded = try containerValues.decodeIfPresent(ConnectClientTypes.TrafficDistributionGroupStatus.self, forKey: .status)
         status = statusDecoded
+        let isDefaultDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isDefault) ?? false
+        isDefault = isDefaultDecoded
     }
 }
 
@@ -35784,6 +36330,8 @@ extension ConnectClientTypes {
         public var id: Swift.String?
         /// The Amazon Resource Name (ARN) of the traffic distribution group.
         public var instanceArn: Swift.String?
+        /// Whether this is the default traffic distribution group created during instance replication. The default traffic distribution group cannot be deleted by the DeleteTrafficDistributionGroup API. The default traffic distribution group is deleted as part of the process for deleting a replica.
+        public var isDefault: Swift.Bool
         /// The name of the traffic distribution group.
         public var name: Swift.String?
         /// The status of the traffic distribution group.
@@ -35805,6 +36353,7 @@ extension ConnectClientTypes {
             arn: Swift.String? = nil,
             id: Swift.String? = nil,
             instanceArn: Swift.String? = nil,
+            isDefault: Swift.Bool = false,
             name: Swift.String? = nil,
             status: ConnectClientTypes.TrafficDistributionGroupStatus? = nil
         )
@@ -35812,8 +36361,44 @@ extension ConnectClientTypes {
             self.arn = arn
             self.id = id
             self.instanceArn = instanceArn
+            self.isDefault = isDefault
             self.name = name
             self.status = status
+        }
+    }
+
+}
+
+extension ConnectClientTypes.TrafficDistributionGroupUserSummary: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case userId = "UserId"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let userId = self.userId {
+            try encodeContainer.encode(userId, forKey: .userId)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let userIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .userId)
+        userId = userIdDecoded
+    }
+}
+
+extension ConnectClientTypes {
+    /// Summary information about a traffic distribution group user.
+    public struct TrafficDistributionGroupUserSummary: Swift.Equatable {
+        /// The identifier for the user. This can be the ID or the ARN of the user.
+        public var userId: Swift.String?
+
+        public init(
+            userId: Swift.String? = nil
+        )
+        {
+            self.userId = userId
         }
     }
 
@@ -35904,7 +36489,7 @@ public struct TransferContactInput: Swift.Equatable {
     public var instanceId: Swift.String?
     /// The identifier for the queue.
     public var queueId: Swift.String?
-    /// The identifier for the user.
+    /// The identifier for the user. This can be the ID or the ARN of the user.
     public var userId: Swift.String?
 
     public init(
@@ -38910,6 +39495,95 @@ public struct UpdateQuickConnectNameOutputResponse: Swift.Equatable {
     public init() { }
 }
 
+extension UpdateRoutingProfileAgentAvailabilityTimerInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case agentAvailabilityTimer = "AgentAvailabilityTimer"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let agentAvailabilityTimer = self.agentAvailabilityTimer {
+            try encodeContainer.encode(agentAvailabilityTimer.rawValue, forKey: .agentAvailabilityTimer)
+        }
+    }
+}
+
+extension UpdateRoutingProfileAgentAvailabilityTimerInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let instanceId = instanceId else {
+            return nil
+        }
+        guard let routingProfileId = routingProfileId else {
+            return nil
+        }
+        return "/routing-profiles/\(instanceId.urlPercentEncoding())/\(routingProfileId.urlPercentEncoding())/agent-availability-timer"
+    }
+}
+
+public struct UpdateRoutingProfileAgentAvailabilityTimerInput: Swift.Equatable {
+    /// Whether agents with this routing profile will have their routing order calculated based on time since their last inbound contact or longest idle time.
+    /// This member is required.
+    public var agentAvailabilityTimer: ConnectClientTypes.AgentAvailabilityTimer?
+    /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
+    /// This member is required.
+    public var instanceId: Swift.String?
+    /// The identifier of the routing profile.
+    /// This member is required.
+    public var routingProfileId: Swift.String?
+
+    public init(
+        agentAvailabilityTimer: ConnectClientTypes.AgentAvailabilityTimer? = nil,
+        instanceId: Swift.String? = nil,
+        routingProfileId: Swift.String? = nil
+    )
+    {
+        self.agentAvailabilityTimer = agentAvailabilityTimer
+        self.instanceId = instanceId
+        self.routingProfileId = routingProfileId
+    }
+}
+
+struct UpdateRoutingProfileAgentAvailabilityTimerInputBody: Swift.Equatable {
+    let agentAvailabilityTimer: ConnectClientTypes.AgentAvailabilityTimer?
+}
+
+extension UpdateRoutingProfileAgentAvailabilityTimerInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case agentAvailabilityTimer = "AgentAvailabilityTimer"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let agentAvailabilityTimerDecoded = try containerValues.decodeIfPresent(ConnectClientTypes.AgentAvailabilityTimer.self, forKey: .agentAvailabilityTimer)
+        agentAvailabilityTimer = agentAvailabilityTimerDecoded
+    }
+}
+
+public enum UpdateRoutingProfileAgentAvailabilityTimerOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServiceException": return try await InternalServiceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension UpdateRoutingProfileAgentAvailabilityTimerOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct UpdateRoutingProfileAgentAvailabilityTimerOutputResponse: Swift.Equatable {
+
+    public init() { }
+}
+
 extension UpdateRoutingProfileConcurrencyInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case mediaConcurrencies = "MediaConcurrencies"
@@ -39927,11 +40601,19 @@ extension UpdateTaskTemplateOutputResponseBody: Swift.Decodable {
 
 extension UpdateTrafficDistributionInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case agentConfig = "AgentConfig"
+        case signInConfig = "SignInConfig"
         case telephonyConfig = "TelephonyConfig"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let agentConfig = self.agentConfig {
+            try encodeContainer.encode(agentConfig, forKey: .agentConfig)
+        }
+        if let signInConfig = self.signInConfig {
+            try encodeContainer.encode(signInConfig, forKey: .signInConfig)
+        }
         if let telephonyConfig = self.telephonyConfig {
             try encodeContainer.encode(telephonyConfig, forKey: .telephonyConfig)
         }
@@ -39948,28 +40630,40 @@ extension UpdateTrafficDistributionInput: ClientRuntime.URLPathProvider {
 }
 
 public struct UpdateTrafficDistributionInput: Swift.Equatable {
+    /// The distribution of agents between the instance and its replica(s).
+    public var agentConfig: ConnectClientTypes.AgentConfig?
     /// The identifier of the traffic distribution group. This can be the ID or the ARN if the API is being called in the Region where the traffic distribution group was created. The ARN must be provided if the call is from the replicated Region.
     /// This member is required.
     public var id: Swift.String?
+    /// The distribution of allowing signing in to the instance and its replica(s).
+    public var signInConfig: ConnectClientTypes.SignInConfig?
     /// The distribution of traffic between the instance and its replica(s).
     public var telephonyConfig: ConnectClientTypes.TelephonyConfig?
 
     public init(
+        agentConfig: ConnectClientTypes.AgentConfig? = nil,
         id: Swift.String? = nil,
+        signInConfig: ConnectClientTypes.SignInConfig? = nil,
         telephonyConfig: ConnectClientTypes.TelephonyConfig? = nil
     )
     {
+        self.agentConfig = agentConfig
         self.id = id
+        self.signInConfig = signInConfig
         self.telephonyConfig = telephonyConfig
     }
 }
 
 struct UpdateTrafficDistributionInputBody: Swift.Equatable {
     let telephonyConfig: ConnectClientTypes.TelephonyConfig?
+    let signInConfig: ConnectClientTypes.SignInConfig?
+    let agentConfig: ConnectClientTypes.AgentConfig?
 }
 
 extension UpdateTrafficDistributionInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case agentConfig = "AgentConfig"
+        case signInConfig = "SignInConfig"
         case telephonyConfig = "TelephonyConfig"
     }
 
@@ -39977,6 +40671,10 @@ extension UpdateTrafficDistributionInputBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let telephonyConfigDecoded = try containerValues.decodeIfPresent(ConnectClientTypes.TelephonyConfig.self, forKey: .telephonyConfig)
         telephonyConfig = telephonyConfigDecoded
+        let signInConfigDecoded = try containerValues.decodeIfPresent(ConnectClientTypes.SignInConfig.self, forKey: .signInConfig)
+        signInConfig = signInConfigDecoded
+        let agentConfigDecoded = try containerValues.decodeIfPresent(ConnectClientTypes.AgentConfig.self, forKey: .agentConfig)
+        agentConfig = agentConfigDecoded
     }
 }
 

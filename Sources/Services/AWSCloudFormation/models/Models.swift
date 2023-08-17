@@ -3955,7 +3955,7 @@ extension DeleteStackInstancesInputBody: Swift.Decodable {
         }
         let operationPreferencesDecoded = try containerValues.decodeIfPresent(CloudFormationClientTypes.StackSetOperationPreferences.self, forKey: .operationPreferences)
         operationPreferences = operationPreferencesDecoded
-        let retainStacksDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .retainStacks)
+        let retainStacksDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .retainStacks) ?? false
         retainStacks = retainStacksDecoded
         let operationIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .operationId)
         operationId = operationIdDecoded
@@ -17613,15 +17613,15 @@ extension CloudFormationClientTypes.StackSetDriftDetectionDetails: Swift.Codable
         driftDetectionStatus = driftDetectionStatusDecoded
         let lastDriftCheckTimestampDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .lastDriftCheckTimestamp)
         lastDriftCheckTimestamp = lastDriftCheckTimestampDecoded
-        let totalStackInstancesCountDecoded = try containerValues.decode(Swift.Int.self, forKey: .totalStackInstancesCount)
+        let totalStackInstancesCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .totalStackInstancesCount) ?? 0
         totalStackInstancesCount = totalStackInstancesCountDecoded
-        let driftedStackInstancesCountDecoded = try containerValues.decode(Swift.Int.self, forKey: .driftedStackInstancesCount)
+        let driftedStackInstancesCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .driftedStackInstancesCount) ?? 0
         driftedStackInstancesCount = driftedStackInstancesCountDecoded
-        let inSyncStackInstancesCountDecoded = try containerValues.decode(Swift.Int.self, forKey: .inSyncStackInstancesCount)
+        let inSyncStackInstancesCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .inSyncStackInstancesCount) ?? 0
         inSyncStackInstancesCount = inSyncStackInstancesCountDecoded
-        let inProgressStackInstancesCountDecoded = try containerValues.decode(Swift.Int.self, forKey: .inProgressStackInstancesCount)
+        let inProgressStackInstancesCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .inProgressStackInstancesCount) ?? 0
         inProgressStackInstancesCount = inProgressStackInstancesCountDecoded
-        let failedStackInstancesCountDecoded = try containerValues.decode(Swift.Int.self, forKey: .failedStackInstancesCount)
+        let failedStackInstancesCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .failedStackInstancesCount) ?? 0
         failedStackInstancesCount = failedStackInstancesCountDecoded
     }
 }
@@ -18398,7 +18398,7 @@ extension CloudFormationClientTypes.StackSetOperationStatusDetails: Swift.Codabl
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let failedStackInstancesCountDecoded = try containerValues.decode(Swift.Int.self, forKey: .failedStackInstancesCount)
+        let failedStackInstancesCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .failedStackInstancesCount) ?? 0
         failedStackInstancesCount = failedStackInstancesCountDecoded
     }
 }

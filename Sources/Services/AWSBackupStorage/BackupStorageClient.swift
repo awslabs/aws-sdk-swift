@@ -68,6 +68,21 @@ public struct BackupStorageClientLogHandlerFactory: ClientRuntime.SDKLogHandlerF
 
 extension BackupStorageClient: BackupStorageClientProtocol {
     /// Delete Object from the incremental base Backup.
+    ///
+    /// - Parameter DeleteObjectInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteObjectOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : [no documentation found]
+    /// - `IllegalArgumentException` : Non-retryable exception, indicates client error (wrong argument passed to API). See exception message for details.
+    /// - `ResourceNotFoundException` : Non-retryable exception. Attempted to make an operation on non-existing or expired resource.
+    /// - `RetryableException` : Retryable exception. In general indicates internal failure that can be fixed by retry.
+    /// - `ServiceInternalException` : Deprecated. To be removed from the model.
+    /// - `ServiceUnavailableException` : Retryable exception, indicates internal server error.
+    /// - `ThrottlingException` : Increased rate over throttling limits. Can be retried with exponential backoff.
     public func deleteObject(input: DeleteObjectInput) async throws -> DeleteObjectOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -101,6 +116,21 @@ extension BackupStorageClient: BackupStorageClientProtocol {
     }
 
     /// Gets the specified object's chunk.
+    ///
+    /// - Parameter GetChunkInput : [no documentation found]
+    ///
+    /// - Returns: `GetChunkOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : [no documentation found]
+    /// - `IllegalArgumentException` : Non-retryable exception, indicates client error (wrong argument passed to API). See exception message for details.
+    /// - `KMSInvalidKeyUsageException` : Non-retryable exception. Indicates the KMS key usage is incorrect. See exception message for details.
+    /// - `ResourceNotFoundException` : Non-retryable exception. Attempted to make an operation on non-existing or expired resource.
+    /// - `RetryableException` : Retryable exception. In general indicates internal failure that can be fixed by retry.
+    /// - `ServiceInternalException` : Deprecated. To be removed from the model.
+    /// - `ThrottlingException` : Increased rate over throttling limits. Can be retried with exponential backoff.
     public func getChunk(input: GetChunkInput) async throws -> GetChunkOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -134,6 +164,22 @@ extension BackupStorageClient: BackupStorageClientProtocol {
     }
 
     /// Get metadata associated with an Object.
+    ///
+    /// - Parameter GetObjectMetadataInput : [no documentation found]
+    ///
+    /// - Returns: `GetObjectMetadataOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : [no documentation found]
+    /// - `IllegalArgumentException` : Non-retryable exception, indicates client error (wrong argument passed to API). See exception message for details.
+    /// - `KMSInvalidKeyUsageException` : Non-retryable exception. Indicates the KMS key usage is incorrect. See exception message for details.
+    /// - `ResourceNotFoundException` : Non-retryable exception. Attempted to make an operation on non-existing or expired resource.
+    /// - `RetryableException` : Retryable exception. In general indicates internal failure that can be fixed by retry.
+    /// - `ServiceInternalException` : Deprecated. To be removed from the model.
+    /// - `ServiceUnavailableException` : Retryable exception, indicates internal server error.
+    /// - `ThrottlingException` : Increased rate over throttling limits. Can be retried with exponential backoff.
     public func getObjectMetadata(input: GetObjectMetadataInput) async throws -> GetObjectMetadataOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -167,6 +213,20 @@ extension BackupStorageClient: BackupStorageClientProtocol {
     }
 
     /// List chunks in a given Object
+    ///
+    /// - Parameter ListChunksInput : [no documentation found]
+    ///
+    /// - Returns: `ListChunksOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : [no documentation found]
+    /// - `IllegalArgumentException` : Non-retryable exception, indicates client error (wrong argument passed to API). See exception message for details.
+    /// - `ResourceNotFoundException` : Non-retryable exception. Attempted to make an operation on non-existing or expired resource.
+    /// - `RetryableException` : Retryable exception. In general indicates internal failure that can be fixed by retry.
+    /// - `ServiceInternalException` : Deprecated. To be removed from the model.
+    /// - `ServiceUnavailableException` : Retryable exception, indicates internal server error.
     public func listChunks(input: ListChunksInput) async throws -> ListChunksOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -201,6 +261,22 @@ extension BackupStorageClient: BackupStorageClientProtocol {
     }
 
     /// List all Objects in a given Backup.
+    ///
+    /// - Parameter ListObjectsInput : [no documentation found]
+    ///
+    /// - Returns: `ListObjectsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : [no documentation found]
+    /// - `IllegalArgumentException` : Non-retryable exception, indicates client error (wrong argument passed to API). See exception message for details.
+    /// - `KMSInvalidKeyUsageException` : Non-retryable exception. Indicates the KMS key usage is incorrect. See exception message for details.
+    /// - `ResourceNotFoundException` : Non-retryable exception. Attempted to make an operation on non-existing or expired resource.
+    /// - `RetryableException` : Retryable exception. In general indicates internal failure that can be fixed by retry.
+    /// - `ServiceInternalException` : Deprecated. To be removed from the model.
+    /// - `ServiceUnavailableException` : Retryable exception, indicates internal server error.
+    /// - `ThrottlingException` : Increased rate over throttling limits. Can be retried with exponential backoff.
     public func listObjects(input: ListObjectsInput) async throws -> ListObjectsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -235,6 +311,22 @@ extension BackupStorageClient: BackupStorageClientProtocol {
     }
 
     /// Complete upload
+    ///
+    /// - Parameter NotifyObjectCompleteInput : [no documentation found]
+    ///
+    /// - Returns: `NotifyObjectCompleteOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : [no documentation found]
+    /// - `IllegalArgumentException` : Non-retryable exception, indicates client error (wrong argument passed to API). See exception message for details.
+    /// - `KMSInvalidKeyUsageException` : Non-retryable exception. Indicates the KMS key usage is incorrect. See exception message for details.
+    /// - `NotReadableInputStreamException` : Retryalble exception. Indicated issues while reading an input stream due to the networking issues or connection drop on the client side.
+    /// - `RetryableException` : Retryable exception. In general indicates internal failure that can be fixed by retry.
+    /// - `ServiceInternalException` : Deprecated. To be removed from the model.
+    /// - `ServiceUnavailableException` : Retryable exception, indicates internal server error.
+    /// - `ThrottlingException` : Increased rate over throttling limits. Can be retried with exponential backoff.
     public func notifyObjectComplete(input: NotifyObjectCompleteInput) async throws -> NotifyObjectCompleteOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -272,6 +364,22 @@ extension BackupStorageClient: BackupStorageClientProtocol {
     }
 
     /// Upload chunk.
+    ///
+    /// - Parameter PutChunkInput : [no documentation found]
+    ///
+    /// - Returns: `PutChunkOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : [no documentation found]
+    /// - `IllegalArgumentException` : Non-retryable exception, indicates client error (wrong argument passed to API). See exception message for details.
+    /// - `KMSInvalidKeyUsageException` : Non-retryable exception. Indicates the KMS key usage is incorrect. See exception message for details.
+    /// - `NotReadableInputStreamException` : Retryalble exception. Indicated issues while reading an input stream due to the networking issues or connection drop on the client side.
+    /// - `RetryableException` : Retryable exception. In general indicates internal failure that can be fixed by retry.
+    /// - `ServiceInternalException` : Deprecated. To be removed from the model.
+    /// - `ServiceUnavailableException` : Retryable exception, indicates internal server error.
+    /// - `ThrottlingException` : Increased rate over throttling limits. Can be retried with exponential backoff.
     public func putChunk(input: PutChunkInput) async throws -> PutChunkOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -309,6 +417,22 @@ extension BackupStorageClient: BackupStorageClientProtocol {
     }
 
     /// Upload object that can store object metadata String and data blob in single API call using inline chunk field.
+    ///
+    /// - Parameter PutObjectInput : [no documentation found]
+    ///
+    /// - Returns: `PutObjectOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : [no documentation found]
+    /// - `IllegalArgumentException` : Non-retryable exception, indicates client error (wrong argument passed to API). See exception message for details.
+    /// - `KMSInvalidKeyUsageException` : Non-retryable exception. Indicates the KMS key usage is incorrect. See exception message for details.
+    /// - `NotReadableInputStreamException` : Retryalble exception. Indicated issues while reading an input stream due to the networking issues or connection drop on the client side.
+    /// - `RetryableException` : Retryable exception. In general indicates internal failure that can be fixed by retry.
+    /// - `ServiceInternalException` : Deprecated. To be removed from the model.
+    /// - `ServiceUnavailableException` : Retryable exception, indicates internal server error.
+    /// - `ThrottlingException` : Increased rate over throttling limits. Can be retried with exponential backoff.
     public func putObject(input: PutObjectInput) async throws -> PutObjectOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -346,6 +470,22 @@ extension BackupStorageClient: BackupStorageClientProtocol {
     }
 
     /// Start upload containing one or many chunks.
+    ///
+    /// - Parameter StartObjectInput : [no documentation found]
+    ///
+    /// - Returns: `StartObjectOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : [no documentation found]
+    /// - `DataAlreadyExistsException` : Non-retryable exception. Attempted to create already existing object or chunk. This message contains a checksum of already presented data.
+    /// - `IllegalArgumentException` : Non-retryable exception, indicates client error (wrong argument passed to API). See exception message for details.
+    /// - `ResourceNotFoundException` : Non-retryable exception. Attempted to make an operation on non-existing or expired resource.
+    /// - `RetryableException` : Retryable exception. In general indicates internal failure that can be fixed by retry.
+    /// - `ServiceInternalException` : Deprecated. To be removed from the model.
+    /// - `ServiceUnavailableException` : Retryable exception, indicates internal server error.
+    /// - `ThrottlingException` : Increased rate over throttling limits. Can be retried with exponential backoff.
     public func startObject(input: StartObjectInput) async throws -> StartObjectOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()

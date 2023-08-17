@@ -5,28 +5,211 @@ import ClientRuntime
 ///
 public protocol KafkaConnectClientProtocol {
     /// Creates a connector using the specified properties.
+    ///
+    /// - Parameter CreateConnectorInput : [no documentation found]
+    ///
+    /// - Returns: `CreateConnectorOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : HTTP Status Code 400: Bad request due to incorrect input. Correct your request and then retry it.
+    /// - `ConflictException` : HTTP Status Code 409: Conflict. A resource with this name already exists. Retry your request with another name.
+    /// - `ForbiddenException` : HTTP Status Code 403: Access forbidden. Correct your credentials and then retry your request.
+    /// - `InternalServerErrorException` : HTTP Status Code 500: Unexpected internal server error. Retrying your request might resolve the issue.
+    /// - `NotFoundException` : HTTP Status Code 404: Resource not found due to incorrect input. Correct your request and then retry it.
+    /// - `ServiceUnavailableException` : HTTP Status Code 503: Service Unavailable. Retrying your request in some time might resolve the issue.
+    /// - `TooManyRequestsException` : HTTP Status Code 429: Limit exceeded. Resource limit reached.
+    /// - `UnauthorizedException` : HTTP Status Code 401: Unauthorized request. The provided credentials couldn't be validated.
     func createConnector(input: CreateConnectorInput) async throws -> CreateConnectorOutputResponse
     /// Creates a custom plugin using the specified properties.
+    ///
+    /// - Parameter CreateCustomPluginInput : [no documentation found]
+    ///
+    /// - Returns: `CreateCustomPluginOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : HTTP Status Code 400: Bad request due to incorrect input. Correct your request and then retry it.
+    /// - `ConflictException` : HTTP Status Code 409: Conflict. A resource with this name already exists. Retry your request with another name.
+    /// - `ForbiddenException` : HTTP Status Code 403: Access forbidden. Correct your credentials and then retry your request.
+    /// - `InternalServerErrorException` : HTTP Status Code 500: Unexpected internal server error. Retrying your request might resolve the issue.
+    /// - `NotFoundException` : HTTP Status Code 404: Resource not found due to incorrect input. Correct your request and then retry it.
+    /// - `ServiceUnavailableException` : HTTP Status Code 503: Service Unavailable. Retrying your request in some time might resolve the issue.
+    /// - `TooManyRequestsException` : HTTP Status Code 429: Limit exceeded. Resource limit reached.
+    /// - `UnauthorizedException` : HTTP Status Code 401: Unauthorized request. The provided credentials couldn't be validated.
     func createCustomPlugin(input: CreateCustomPluginInput) async throws -> CreateCustomPluginOutputResponse
     /// Creates a worker configuration using the specified properties.
+    ///
+    /// - Parameter CreateWorkerConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `CreateWorkerConfigurationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : HTTP Status Code 400: Bad request due to incorrect input. Correct your request and then retry it.
+    /// - `ConflictException` : HTTP Status Code 409: Conflict. A resource with this name already exists. Retry your request with another name.
+    /// - `ForbiddenException` : HTTP Status Code 403: Access forbidden. Correct your credentials and then retry your request.
+    /// - `InternalServerErrorException` : HTTP Status Code 500: Unexpected internal server error. Retrying your request might resolve the issue.
+    /// - `NotFoundException` : HTTP Status Code 404: Resource not found due to incorrect input. Correct your request and then retry it.
+    /// - `ServiceUnavailableException` : HTTP Status Code 503: Service Unavailable. Retrying your request in some time might resolve the issue.
+    /// - `TooManyRequestsException` : HTTP Status Code 429: Limit exceeded. Resource limit reached.
+    /// - `UnauthorizedException` : HTTP Status Code 401: Unauthorized request. The provided credentials couldn't be validated.
     func createWorkerConfiguration(input: CreateWorkerConfigurationInput) async throws -> CreateWorkerConfigurationOutputResponse
     /// Deletes the specified connector.
+    ///
+    /// - Parameter DeleteConnectorInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteConnectorOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : HTTP Status Code 400: Bad request due to incorrect input. Correct your request and then retry it.
+    /// - `ForbiddenException` : HTTP Status Code 403: Access forbidden. Correct your credentials and then retry your request.
+    /// - `InternalServerErrorException` : HTTP Status Code 500: Unexpected internal server error. Retrying your request might resolve the issue.
+    /// - `NotFoundException` : HTTP Status Code 404: Resource not found due to incorrect input. Correct your request and then retry it.
+    /// - `ServiceUnavailableException` : HTTP Status Code 503: Service Unavailable. Retrying your request in some time might resolve the issue.
+    /// - `TooManyRequestsException` : HTTP Status Code 429: Limit exceeded. Resource limit reached.
+    /// - `UnauthorizedException` : HTTP Status Code 401: Unauthorized request. The provided credentials couldn't be validated.
     func deleteConnector(input: DeleteConnectorInput) async throws -> DeleteConnectorOutputResponse
     /// Deletes a custom plugin.
+    ///
+    /// - Parameter DeleteCustomPluginInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteCustomPluginOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : HTTP Status Code 400: Bad request due to incorrect input. Correct your request and then retry it.
+    /// - `ForbiddenException` : HTTP Status Code 403: Access forbidden. Correct your credentials and then retry your request.
+    /// - `InternalServerErrorException` : HTTP Status Code 500: Unexpected internal server error. Retrying your request might resolve the issue.
+    /// - `NotFoundException` : HTTP Status Code 404: Resource not found due to incorrect input. Correct your request and then retry it.
+    /// - `ServiceUnavailableException` : HTTP Status Code 503: Service Unavailable. Retrying your request in some time might resolve the issue.
+    /// - `TooManyRequestsException` : HTTP Status Code 429: Limit exceeded. Resource limit reached.
+    /// - `UnauthorizedException` : HTTP Status Code 401: Unauthorized request. The provided credentials couldn't be validated.
     func deleteCustomPlugin(input: DeleteCustomPluginInput) async throws -> DeleteCustomPluginOutputResponse
     /// Returns summary information about the connector.
+    ///
+    /// - Parameter DescribeConnectorInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeConnectorOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : HTTP Status Code 400: Bad request due to incorrect input. Correct your request and then retry it.
+    /// - `ForbiddenException` : HTTP Status Code 403: Access forbidden. Correct your credentials and then retry your request.
+    /// - `InternalServerErrorException` : HTTP Status Code 500: Unexpected internal server error. Retrying your request might resolve the issue.
+    /// - `NotFoundException` : HTTP Status Code 404: Resource not found due to incorrect input. Correct your request and then retry it.
+    /// - `ServiceUnavailableException` : HTTP Status Code 503: Service Unavailable. Retrying your request in some time might resolve the issue.
+    /// - `TooManyRequestsException` : HTTP Status Code 429: Limit exceeded. Resource limit reached.
+    /// - `UnauthorizedException` : HTTP Status Code 401: Unauthorized request. The provided credentials couldn't be validated.
     func describeConnector(input: DescribeConnectorInput) async throws -> DescribeConnectorOutputResponse
     /// A summary description of the custom plugin.
+    ///
+    /// - Parameter DescribeCustomPluginInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeCustomPluginOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : HTTP Status Code 400: Bad request due to incorrect input. Correct your request and then retry it.
+    /// - `ForbiddenException` : HTTP Status Code 403: Access forbidden. Correct your credentials and then retry your request.
+    /// - `InternalServerErrorException` : HTTP Status Code 500: Unexpected internal server error. Retrying your request might resolve the issue.
+    /// - `NotFoundException` : HTTP Status Code 404: Resource not found due to incorrect input. Correct your request and then retry it.
+    /// - `ServiceUnavailableException` : HTTP Status Code 503: Service Unavailable. Retrying your request in some time might resolve the issue.
+    /// - `TooManyRequestsException` : HTTP Status Code 429: Limit exceeded. Resource limit reached.
+    /// - `UnauthorizedException` : HTTP Status Code 401: Unauthorized request. The provided credentials couldn't be validated.
     func describeCustomPlugin(input: DescribeCustomPluginInput) async throws -> DescribeCustomPluginOutputResponse
     /// Returns information about a worker configuration.
+    ///
+    /// - Parameter DescribeWorkerConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeWorkerConfigurationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : HTTP Status Code 400: Bad request due to incorrect input. Correct your request and then retry it.
+    /// - `ForbiddenException` : HTTP Status Code 403: Access forbidden. Correct your credentials and then retry your request.
+    /// - `InternalServerErrorException` : HTTP Status Code 500: Unexpected internal server error. Retrying your request might resolve the issue.
+    /// - `NotFoundException` : HTTP Status Code 404: Resource not found due to incorrect input. Correct your request and then retry it.
+    /// - `ServiceUnavailableException` : HTTP Status Code 503: Service Unavailable. Retrying your request in some time might resolve the issue.
+    /// - `TooManyRequestsException` : HTTP Status Code 429: Limit exceeded. Resource limit reached.
+    /// - `UnauthorizedException` : HTTP Status Code 401: Unauthorized request. The provided credentials couldn't be validated.
     func describeWorkerConfiguration(input: DescribeWorkerConfigurationInput) async throws -> DescribeWorkerConfigurationOutputResponse
     /// Returns a list of all the connectors in this account and Region. The list is limited to connectors whose name starts with the specified prefix. The response also includes a description of each of the listed connectors.
+    ///
+    /// - Parameter ListConnectorsInput : [no documentation found]
+    ///
+    /// - Returns: `ListConnectorsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : HTTP Status Code 400: Bad request due to incorrect input. Correct your request and then retry it.
+    /// - `ForbiddenException` : HTTP Status Code 403: Access forbidden. Correct your credentials and then retry your request.
+    /// - `InternalServerErrorException` : HTTP Status Code 500: Unexpected internal server error. Retrying your request might resolve the issue.
+    /// - `NotFoundException` : HTTP Status Code 404: Resource not found due to incorrect input. Correct your request and then retry it.
+    /// - `ServiceUnavailableException` : HTTP Status Code 503: Service Unavailable. Retrying your request in some time might resolve the issue.
+    /// - `TooManyRequestsException` : HTTP Status Code 429: Limit exceeded. Resource limit reached.
+    /// - `UnauthorizedException` : HTTP Status Code 401: Unauthorized request. The provided credentials couldn't be validated.
     func listConnectors(input: ListConnectorsInput) async throws -> ListConnectorsOutputResponse
     /// Returns a list of all of the custom plugins in this account and Region.
+    ///
+    /// - Parameter ListCustomPluginsInput : [no documentation found]
+    ///
+    /// - Returns: `ListCustomPluginsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : HTTP Status Code 400: Bad request due to incorrect input. Correct your request and then retry it.
+    /// - `ForbiddenException` : HTTP Status Code 403: Access forbidden. Correct your credentials and then retry your request.
+    /// - `InternalServerErrorException` : HTTP Status Code 500: Unexpected internal server error. Retrying your request might resolve the issue.
+    /// - `NotFoundException` : HTTP Status Code 404: Resource not found due to incorrect input. Correct your request and then retry it.
+    /// - `ServiceUnavailableException` : HTTP Status Code 503: Service Unavailable. Retrying your request in some time might resolve the issue.
+    /// - `TooManyRequestsException` : HTTP Status Code 429: Limit exceeded. Resource limit reached.
+    /// - `UnauthorizedException` : HTTP Status Code 401: Unauthorized request. The provided credentials couldn't be validated.
     func listCustomPlugins(input: ListCustomPluginsInput) async throws -> ListCustomPluginsOutputResponse
     /// Returns a list of all of the worker configurations in this account and Region.
+    ///
+    /// - Parameter ListWorkerConfigurationsInput : [no documentation found]
+    ///
+    /// - Returns: `ListWorkerConfigurationsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : HTTP Status Code 400: Bad request due to incorrect input. Correct your request and then retry it.
+    /// - `ForbiddenException` : HTTP Status Code 403: Access forbidden. Correct your credentials and then retry your request.
+    /// - `InternalServerErrorException` : HTTP Status Code 500: Unexpected internal server error. Retrying your request might resolve the issue.
+    /// - `NotFoundException` : HTTP Status Code 404: Resource not found due to incorrect input. Correct your request and then retry it.
+    /// - `ServiceUnavailableException` : HTTP Status Code 503: Service Unavailable. Retrying your request in some time might resolve the issue.
+    /// - `TooManyRequestsException` : HTTP Status Code 429: Limit exceeded. Resource limit reached.
+    /// - `UnauthorizedException` : HTTP Status Code 401: Unauthorized request. The provided credentials couldn't be validated.
     func listWorkerConfigurations(input: ListWorkerConfigurationsInput) async throws -> ListWorkerConfigurationsOutputResponse
     /// Updates the specified connector.
+    ///
+    /// - Parameter UpdateConnectorInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateConnectorOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : HTTP Status Code 400: Bad request due to incorrect input. Correct your request and then retry it.
+    /// - `ForbiddenException` : HTTP Status Code 403: Access forbidden. Correct your credentials and then retry your request.
+    /// - `InternalServerErrorException` : HTTP Status Code 500: Unexpected internal server error. Retrying your request might resolve the issue.
+    /// - `NotFoundException` : HTTP Status Code 404: Resource not found due to incorrect input. Correct your request and then retry it.
+    /// - `ServiceUnavailableException` : HTTP Status Code 503: Service Unavailable. Retrying your request in some time might resolve the issue.
+    /// - `TooManyRequestsException` : HTTP Status Code 429: Limit exceeded. Resource limit reached.
+    /// - `UnauthorizedException` : HTTP Status Code 401: Unauthorized request. The provided credentials couldn't be validated.
     func updateConnector(input: UpdateConnectorInput) async throws -> UpdateConnectorOutputResponse
 }
 

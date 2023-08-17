@@ -551,7 +551,7 @@ extension KinesisVideoArchivedMediaClientTypes {
         public var fragmentSizeInBytes: Swift.Int
         /// The timestamp from the producer corresponding to the fragment.
         public var producerTimestamp: ClientRuntime.Date?
-        /// The timestamp from the AWS server corresponding to the fragment.
+        /// The timestamp from the Amazon Web Services server corresponding to the fragment.
         public var serverTimestamp: ClientRuntime.Date?
 
         public init(
@@ -1287,7 +1287,7 @@ extension GetImagesInput: ClientRuntime.URLPathProvider {
 }
 
 public struct GetImagesInput: Swift.Equatable {
-    /// The end timestamp for the range of images to be generated.
+    /// The end timestamp for the range of images to be generated. If the time range between StartTimestamp and EndTimestamp is more than 300 seconds above StartTimestamp, you will receive an IllegalArgumentException.
     /// This member is required.
     public var endTimestamp: ClientRuntime.Date?
     /// The format that will be used to encode the image.
@@ -1300,12 +1300,11 @@ public struct GetImagesInput: Swift.Equatable {
     /// The origin of the Server or Producer timestamps to use to generate the images.
     /// This member is required.
     public var imageSelectorType: KinesisVideoArchivedMediaClientTypes.ImageSelectorType?
-    /// The maximum number of images to be returned by the API. The default limit is 100 images per API response. The additional results will be paginated.
+    /// The maximum number of images to be returned by the API. The default limit is 25 images per API response. Providing a MaxResults greater than this value will result in a page size of 25. Any additional results will be paginated.
     public var maxResults: Swift.Int?
     /// A token that specifies where to start paginating the next set of Images. This is the GetImages:NextToken from a previously truncated response.
     public var nextToken: Swift.String?
-    /// The time interval in milliseconds (ms) at which the images need to be generated from the stream. The minimum value that can be provided is 3000 ms. If the timestamp range is less than the sampling interval, the Image from the startTimestamp will be returned if available. The minimum value of 3000 ms is a soft limit. If needed, a lower sampling frequency can be requested.
-    /// This member is required.
+    /// The time interval in milliseconds (ms) at which the images need to be generated from the stream, with a default of 3000 ms. The minimum value that can be provided is 200 ms. If the timestamp range is less than the sampling interval, the Image from the startTimestamp will be returned if available. The minimum value of 200 ms is a hard limit.
     public var samplingInterval: Swift.Int?
     /// The starting point from which the images should be generated. This StartTimestamp must be within an inclusive range of timestamps for an image to be returned.
     /// This member is required.
@@ -1621,7 +1620,7 @@ public struct GetMediaForFragmentListOutputResponse: Swift.Equatable {
     ///
     /// * AWS_KINESISVIDEO_FRAGMENT_NUMBER - The number of the fragment that threw the exception
     ///
-    /// * AWS_KINESISVIDEO_EXCEPTION_ERROR_CODE - The integer code of the exception
+    /// * AWS_KINESISVIDEO_EXCEPTION_ERROR_CODE - The integer code of the
     ///
     /// * AWS_KINESISVIDEO_EXCEPTION_MESSAGE - A text description of the exception
     public var payload: ClientRuntime.ByteStream?
@@ -2515,7 +2514,7 @@ extension ResourceNotFoundException {
     }
 }
 
-/// GetMedia throws this error when Kinesis Video Streams can't find the stream that you specified. GetHLSStreamingSessionURL and GetDASHStreamingSessionURL throw this error if a session with a PlaybackMode of ON_DEMAND or LIVE_REPLAYis requested for a stream that has no fragments within the requested time range, or if a session with a PlaybackMode of LIVE is requested for a stream that has no fragments within the last 30 seconds.
+/// GetImages will throw this error when Kinesis Video Streams can't find the stream that you specified. GetHLSStreamingSessionURL and GetDASHStreamingSessionURL throw this error if a session with a PlaybackMode of ON_DEMAND or LIVE_REPLAYis requested for a stream that has no fragments within the requested time range, or if a session with a PlaybackMode of LIVE is requested for a stream that has no fragments within the last 30 seconds.
 public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {

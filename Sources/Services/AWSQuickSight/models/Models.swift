@@ -118,6 +118,7 @@ extension QuickSightClientTypes.AccountInfo: Swift.Codable {
         case accountSubscriptionStatus = "AccountSubscriptionStatus"
         case authenticationType = "AuthenticationType"
         case edition = "Edition"
+        case iamIdentityCenterInstanceArn = "IAMIdentityCenterInstanceArn"
         case notificationEmail = "NotificationEmail"
     }
 
@@ -134,6 +135,9 @@ extension QuickSightClientTypes.AccountInfo: Swift.Codable {
         }
         if let edition = self.edition {
             try encodeContainer.encode(edition.rawValue, forKey: .edition)
+        }
+        if let iamIdentityCenterInstanceArn = self.iamIdentityCenterInstanceArn {
+            try encodeContainer.encode(iamIdentityCenterInstanceArn, forKey: .iamIdentityCenterInstanceArn)
         }
         if let notificationEmail = self.notificationEmail {
             try encodeContainer.encode(notificationEmail, forKey: .notificationEmail)
@@ -152,6 +156,8 @@ extension QuickSightClientTypes.AccountInfo: Swift.Codable {
         authenticationType = authenticationTypeDecoded
         let accountSubscriptionStatusDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .accountSubscriptionStatus)
         accountSubscriptionStatus = accountSubscriptionStatusDecoded
+        let iamIdentityCenterInstanceArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .iamIdentityCenterInstanceArn)
+        iamIdentityCenterInstanceArn = iamIdentityCenterInstanceArnDecoded
     }
 }
 
@@ -176,6 +182,8 @@ extension QuickSightClientTypes {
         public var authenticationType: Swift.String?
         /// The edition of your Amazon QuickSight account.
         public var edition: QuickSightClientTypes.Edition?
+        /// The Amazon Resource Name (ARN) for the IAM Identity Center instance.
+        public var iamIdentityCenterInstanceArn: Swift.String?
         /// The email address that will be used for Amazon QuickSight to send notifications regarding your Amazon Web Services account or Amazon QuickSight subscription.
         public var notificationEmail: Swift.String?
 
@@ -184,6 +192,7 @@ extension QuickSightClientTypes {
             accountSubscriptionStatus: Swift.String? = nil,
             authenticationType: Swift.String? = nil,
             edition: QuickSightClientTypes.Edition? = nil,
+            iamIdentityCenterInstanceArn: Swift.String? = nil,
             notificationEmail: Swift.String? = nil
         )
         {
@@ -191,6 +200,7 @@ extension QuickSightClientTypes {
             self.accountSubscriptionStatus = accountSubscriptionStatus
             self.authenticationType = authenticationType
             self.edition = edition
+            self.iamIdentityCenterInstanceArn = iamIdentityCenterInstanceArn
             self.notificationEmail = notificationEmail
         }
     }
@@ -4306,6 +4316,7 @@ extension QuickSightClientTypes {
     public enum AuthenticationMethodOption: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case activeDirectory
         case iamAndQuicksight
+        case iamIdentityCenter
         case iamOnly
         case sdkUnknown(Swift.String)
 
@@ -4313,6 +4324,7 @@ extension QuickSightClientTypes {
             return [
                 .activeDirectory,
                 .iamAndQuicksight,
+                .iamIdentityCenter,
                 .iamOnly,
                 .sdkUnknown("")
             ]
@@ -4325,6 +4337,7 @@ extension QuickSightClientTypes {
             switch self {
             case .activeDirectory: return "ACTIVE_DIRECTORY"
             case .iamAndQuicksight: return "IAM_AND_QUICKSIGHT"
+            case .iamIdentityCenter: return "IAM_IDENTITY_CENTER"
             case .iamOnly: return "IAM_ONLY"
             case let .sdkUnknown(s): return s
             }
@@ -21526,8 +21539,13 @@ extension QuickSightClientTypes {
         case count
         case distinctCount
         case max
+        case median
         case min
+        case stdev
+        case stdevp
         case sum
+        case `var`
+        case varp
         case sdkUnknown(Swift.String)
 
         public static var allCases: [DefaultAggregation] {
@@ -21536,8 +21554,13 @@ extension QuickSightClientTypes {
                 .count,
                 .distinctCount,
                 .max,
+                .median,
                 .min,
+                .stdev,
+                .stdevp,
                 .sum,
+                .var,
+                .varp,
                 .sdkUnknown("")
             ]
         }
@@ -21551,8 +21574,13 @@ extension QuickSightClientTypes {
             case .count: return "COUNT"
             case .distinctCount: return "DISTINCT_COUNT"
             case .max: return "MAX"
+            case .median: return "MEDIAN"
             case .min: return "MIN"
+            case .stdev: return "STDEV"
+            case .stdevp: return "STDEVP"
             case .sum: return "SUM"
+            case .var: return "VAR"
+            case .varp: return "VARP"
             case let .sdkUnknown(s): return s
             }
         }
@@ -40080,12 +40108,14 @@ extension QuickSightClientTypes {
 extension QuickSightClientTypes {
     public enum IdentityType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case iam
+        case iamIdentityCenter
         case quicksight
         case sdkUnknown(Swift.String)
 
         public static var allCases: [IdentityType] {
             return [
                 .iam,
+                .iamIdentityCenter,
                 .quicksight,
                 .sdkUnknown("")
             ]
@@ -40097,6 +40127,7 @@ extension QuickSightClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .iam: return "IAM"
+            case .iamIdentityCenter: return "IAM_IDENTITY_CENTER"
             case .quicksight: return "QUICKSIGHT"
             case let .sdkUnknown(s): return s
             }
@@ -54410,10 +54441,13 @@ extension QuickSightClientTypes.PivotTableOptions: Swift.Codable {
         case collapsedRowDimensionsVisibility = "CollapsedRowDimensionsVisibility"
         case columnHeaderStyle = "ColumnHeaderStyle"
         case columnNamesVisibility = "ColumnNamesVisibility"
+        case defaultCellWidth = "DefaultCellWidth"
         case metricPlacement = "MetricPlacement"
         case rowAlternateColorOptions = "RowAlternateColorOptions"
         case rowFieldNamesStyle = "RowFieldNamesStyle"
         case rowHeaderStyle = "RowHeaderStyle"
+        case rowsLabelOptions = "RowsLabelOptions"
+        case rowsLayout = "RowsLayout"
         case singleMetricVisibility = "SingleMetricVisibility"
         case toggleButtonsVisibility = "ToggleButtonsVisibility"
     }
@@ -54432,6 +54466,9 @@ extension QuickSightClientTypes.PivotTableOptions: Swift.Codable {
         if let columnNamesVisibility = self.columnNamesVisibility {
             try encodeContainer.encode(columnNamesVisibility.rawValue, forKey: .columnNamesVisibility)
         }
+        if let defaultCellWidth = self.defaultCellWidth {
+            try encodeContainer.encode(defaultCellWidth, forKey: .defaultCellWidth)
+        }
         if let metricPlacement = self.metricPlacement {
             try encodeContainer.encode(metricPlacement.rawValue, forKey: .metricPlacement)
         }
@@ -54443,6 +54480,12 @@ extension QuickSightClientTypes.PivotTableOptions: Swift.Codable {
         }
         if let rowHeaderStyle = self.rowHeaderStyle {
             try encodeContainer.encode(rowHeaderStyle, forKey: .rowHeaderStyle)
+        }
+        if let rowsLabelOptions = self.rowsLabelOptions {
+            try encodeContainer.encode(rowsLabelOptions, forKey: .rowsLabelOptions)
+        }
+        if let rowsLayout = self.rowsLayout {
+            try encodeContainer.encode(rowsLayout.rawValue, forKey: .rowsLayout)
         }
         if let singleMetricVisibility = self.singleMetricVisibility {
             try encodeContainer.encode(singleMetricVisibility.rawValue, forKey: .singleMetricVisibility)
@@ -54474,6 +54517,12 @@ extension QuickSightClientTypes.PivotTableOptions: Swift.Codable {
         rowAlternateColorOptions = rowAlternateColorOptionsDecoded
         let collapsedRowDimensionsVisibilityDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.Visibility.self, forKey: .collapsedRowDimensionsVisibility)
         collapsedRowDimensionsVisibility = collapsedRowDimensionsVisibilityDecoded
+        let rowsLayoutDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.PivotTableRowsLayout.self, forKey: .rowsLayout)
+        rowsLayout = rowsLayoutDecoded
+        let rowsLabelOptionsDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.PivotTableRowsLabelOptions.self, forKey: .rowsLabelOptions)
+        rowsLabelOptions = rowsLabelOptionsDecoded
+        let defaultCellWidthDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .defaultCellWidth)
+        defaultCellWidth = defaultCellWidthDecoded
     }
 }
 
@@ -54488,6 +54537,8 @@ extension QuickSightClientTypes {
         public var columnHeaderStyle: QuickSightClientTypes.TableCellStyle?
         /// The visibility of the column names.
         public var columnNamesVisibility: QuickSightClientTypes.Visibility?
+        /// The default cell width of the pivot table.
+        public var defaultCellWidth: Swift.String?
         /// The metric placement (row, column) options.
         public var metricPlacement: QuickSightClientTypes.PivotTableMetricPlacement?
         /// The row alternate color options (widget status, row alternate colors).
@@ -54496,6 +54547,14 @@ extension QuickSightClientTypes {
         public var rowFieldNamesStyle: QuickSightClientTypes.TableCellStyle?
         /// The table cell style of the row headers.
         public var rowHeaderStyle: QuickSightClientTypes.TableCellStyle?
+        /// The options for the label that is located above the row headers. This option is only applicable when RowsLayout is set to HIERARCHY.
+        public var rowsLabelOptions: QuickSightClientTypes.PivotTableRowsLabelOptions?
+        /// The layout for the row dimension headers of a pivot table. Choose one of the following options.
+        ///
+        /// * TABULAR: (Default) Each row field is displayed in a separate column.
+        ///
+        /// * HIERARCHY: All row fields are displayed in a single column. Indentation is used to differentiate row headers of different fields.
+        public var rowsLayout: QuickSightClientTypes.PivotTableRowsLayout?
         /// The visibility of the single metric options.
         public var singleMetricVisibility: QuickSightClientTypes.Visibility?
         /// Determines the visibility of the pivot table.
@@ -54506,10 +54565,13 @@ extension QuickSightClientTypes {
             collapsedRowDimensionsVisibility: QuickSightClientTypes.Visibility? = nil,
             columnHeaderStyle: QuickSightClientTypes.TableCellStyle? = nil,
             columnNamesVisibility: QuickSightClientTypes.Visibility? = nil,
+            defaultCellWidth: Swift.String? = nil,
             metricPlacement: QuickSightClientTypes.PivotTableMetricPlacement? = nil,
             rowAlternateColorOptions: QuickSightClientTypes.RowAlternateColorOptions? = nil,
             rowFieldNamesStyle: QuickSightClientTypes.TableCellStyle? = nil,
             rowHeaderStyle: QuickSightClientTypes.TableCellStyle? = nil,
+            rowsLabelOptions: QuickSightClientTypes.PivotTableRowsLabelOptions? = nil,
+            rowsLayout: QuickSightClientTypes.PivotTableRowsLayout? = nil,
             singleMetricVisibility: QuickSightClientTypes.Visibility? = nil,
             toggleButtonsVisibility: QuickSightClientTypes.Visibility? = nil
         )
@@ -54518,10 +54580,13 @@ extension QuickSightClientTypes {
             self.collapsedRowDimensionsVisibility = collapsedRowDimensionsVisibility
             self.columnHeaderStyle = columnHeaderStyle
             self.columnNamesVisibility = columnNamesVisibility
+            self.defaultCellWidth = defaultCellWidth
             self.metricPlacement = metricPlacement
             self.rowAlternateColorOptions = rowAlternateColorOptions
             self.rowFieldNamesStyle = rowFieldNamesStyle
             self.rowHeaderStyle = rowHeaderStyle
+            self.rowsLabelOptions = rowsLabelOptions
+            self.rowsLayout = rowsLayout
             self.singleMetricVisibility = singleMetricVisibility
             self.toggleButtonsVisibility = toggleButtonsVisibility
         }
@@ -54572,6 +54637,83 @@ extension QuickSightClientTypes {
         }
     }
 
+}
+
+extension QuickSightClientTypes.PivotTableRowsLabelOptions: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case customLabel = "CustomLabel"
+        case visibility = "Visibility"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let customLabel = self.customLabel {
+            try encodeContainer.encode(customLabel, forKey: .customLabel)
+        }
+        if let visibility = self.visibility {
+            try encodeContainer.encode(visibility.rawValue, forKey: .visibility)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let visibilityDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.Visibility.self, forKey: .visibility)
+        visibility = visibilityDecoded
+        let customLabelDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .customLabel)
+        customLabel = customLabelDecoded
+    }
+}
+
+extension QuickSightClientTypes {
+    /// The options for the label thta is located above the row headers. This option is only applicable when RowsLayout is set to HIERARCHY.
+    public struct PivotTableRowsLabelOptions: Swift.Equatable {
+        /// The custom label string for the rows label.
+        public var customLabel: Swift.String?
+        /// The visibility of the rows label.
+        public var visibility: QuickSightClientTypes.Visibility?
+
+        public init(
+            customLabel: Swift.String? = nil,
+            visibility: QuickSightClientTypes.Visibility? = nil
+        )
+        {
+            self.customLabel = customLabel
+            self.visibility = visibility
+        }
+    }
+
+}
+
+extension QuickSightClientTypes {
+    public enum PivotTableRowsLayout: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case hierarchy
+        case tabular
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [PivotTableRowsLayout] {
+            return [
+                .hierarchy,
+                .tabular,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .hierarchy: return "HIERARCHY"
+            case .tabular: return "TABULAR"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = PivotTableRowsLayout(rawValue: rawValue) ?? PivotTableRowsLayout.sdkUnknown(rawValue)
+        }
+    }
 }
 
 extension QuickSightClientTypes.PivotTableSortBy: Swift.Codable {
@@ -58910,6 +59052,7 @@ extension QuickSightClientTypes.RowAlternateColorOptions: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case rowAlternateColors = "RowAlternateColors"
         case status = "Status"
+        case usePrimaryBackgroundColor = "UsePrimaryBackgroundColor"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -58922,6 +59065,9 @@ extension QuickSightClientTypes.RowAlternateColorOptions: Swift.Codable {
         }
         if let status = self.status {
             try encodeContainer.encode(status.rawValue, forKey: .status)
+        }
+        if let usePrimaryBackgroundColor = self.usePrimaryBackgroundColor {
+            try encodeContainer.encode(usePrimaryBackgroundColor.rawValue, forKey: .usePrimaryBackgroundColor)
         }
     }
 
@@ -58940,6 +59086,8 @@ extension QuickSightClientTypes.RowAlternateColorOptions: Swift.Codable {
             }
         }
         rowAlternateColors = rowAlternateColorsDecoded0
+        let usePrimaryBackgroundColorDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.WidgetStatus.self, forKey: .usePrimaryBackgroundColor)
+        usePrimaryBackgroundColor = usePrimaryBackgroundColorDecoded
     }
 }
 
@@ -58950,14 +59098,18 @@ extension QuickSightClientTypes {
         public var rowAlternateColors: [Swift.String]?
         /// Determines the widget status.
         public var status: QuickSightClientTypes.WidgetStatus?
+        /// The primary background color options for alternate rows.
+        public var usePrimaryBackgroundColor: QuickSightClientTypes.WidgetStatus?
 
         public init(
             rowAlternateColors: [Swift.String]? = nil,
-            status: QuickSightClientTypes.WidgetStatus? = nil
+            status: QuickSightClientTypes.WidgetStatus? = nil,
+            usePrimaryBackgroundColor: QuickSightClientTypes.WidgetStatus? = nil
         )
         {
             self.rowAlternateColors = rowAlternateColors
             self.status = status
+            self.usePrimaryBackgroundColor = usePrimaryBackgroundColor
         }
     }
 
@@ -64225,7 +64377,7 @@ extension QuickSightClientTypes.SnapshotFile: Swift.Codable {
 extension QuickSightClientTypes {
     /// A structure that contains the information for the snapshot that you want to generate. This information is provided by you when you start a new snapshot job.
     public struct SnapshotFile: Swift.Equatable {
-        /// The format of the snapshot file to be generated. You can choose between CSV and PDF.
+        /// The format of the snapshot file to be generated. You can choose between CSV or PDF.
         /// This member is required.
         public var formatType: QuickSightClientTypes.SnapshotFileFormatType?
         /// A list of SnapshotFileSheetSelection objects that contain information on the dashboard sheet that is exported. These objects provide information about the snapshot artifacts that are generated during the job. This structure can hold a maximum of 5 CSV configurations or 1 configuration for PDF.
@@ -64376,10 +64528,10 @@ extension QuickSightClientTypes {
         /// * SELECTED_VISUALS - Select the visual that you want to add to the snapshot. This value is required if the snapshot is a CSV.
         /// This member is required.
         public var selectionScope: QuickSightClientTypes.SnapshotFileSheetSelectionScope?
-        /// The sheet ID of the dashboard to generate the snapshot artifact from. This value is required for CSV or PDF format types.
+        /// The sheet ID of the dashboard to generate the snapshot artifact from. This value is required for CSV and PDF format types.
         /// This member is required.
         public var sheetId: Swift.String?
-        /// A structure that lists the IDs of the visuals in the selected sheet. Supported visual types are table, pivot table visuals. This value is required if you are generating a CSV. This value supports a maximum of 1 visual ID.
+        /// A list of visual IDs that are located in the selected sheet. This structure supports tables and pivot tables. This structure is required if you are generating a CSV. You can add a maximum of 1 visual ID to this structure.
         public var visualIds: [Swift.String]?
 
         public init(
@@ -66268,12 +66420,48 @@ extension QuickSightClientTypes {
 
 }
 
+extension QuickSightClientTypes {
+    public enum StyledCellType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case metricHeader
+        case total
+        case value
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [StyledCellType] {
+            return [
+                .metricHeader,
+                .total,
+                .value,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .metricHeader: return "METRIC_HEADER"
+            case .total: return "TOTAL"
+            case .value: return "VALUE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = StyledCellType(rawValue: rawValue) ?? StyledCellType.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension QuickSightClientTypes.SubtotalOptions: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case customLabel = "CustomLabel"
         case fieldLevel = "FieldLevel"
         case fieldLevelOptions = "FieldLevelOptions"
         case metricHeaderCellStyle = "MetricHeaderCellStyle"
+        case styleTargets = "StyleTargets"
         case totalCellStyle = "TotalCellStyle"
         case totalsVisibility = "TotalsVisibility"
         case valueCellStyle = "ValueCellStyle"
@@ -66295,6 +66483,12 @@ extension QuickSightClientTypes.SubtotalOptions: Swift.Codable {
         }
         if let metricHeaderCellStyle = self.metricHeaderCellStyle {
             try encodeContainer.encode(metricHeaderCellStyle, forKey: .metricHeaderCellStyle)
+        }
+        if let styleTargets = styleTargets {
+            var styleTargetsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .styleTargets)
+            for tablestyletarget0 in styleTargets {
+                try styleTargetsContainer.encode(tablestyletarget0)
+            }
         }
         if let totalCellStyle = self.totalCellStyle {
             try encodeContainer.encode(totalCellStyle, forKey: .totalCellStyle)
@@ -66332,6 +66526,17 @@ extension QuickSightClientTypes.SubtotalOptions: Swift.Codable {
         valueCellStyle = valueCellStyleDecoded
         let metricHeaderCellStyleDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.TableCellStyle.self, forKey: .metricHeaderCellStyle)
         metricHeaderCellStyle = metricHeaderCellStyleDecoded
+        let styleTargetsContainer = try containerValues.decodeIfPresent([QuickSightClientTypes.TableStyleTarget?].self, forKey: .styleTargets)
+        var styleTargetsDecoded0:[QuickSightClientTypes.TableStyleTarget]? = nil
+        if let styleTargetsContainer = styleTargetsContainer {
+            styleTargetsDecoded0 = [QuickSightClientTypes.TableStyleTarget]()
+            for structure0 in styleTargetsContainer {
+                if let structure0 = structure0 {
+                    styleTargetsDecoded0?.append(structure0)
+                }
+            }
+        }
+        styleTargets = styleTargetsDecoded0
     }
 }
 
@@ -66346,6 +66551,8 @@ extension QuickSightClientTypes {
         public var fieldLevelOptions: [QuickSightClientTypes.PivotTableFieldSubtotalOptions]?
         /// The cell styling options for the subtotals of header cells.
         public var metricHeaderCellStyle: QuickSightClientTypes.TableCellStyle?
+        /// The style targets options for subtotals.
+        public var styleTargets: [QuickSightClientTypes.TableStyleTarget]?
         /// The cell styling options for the subtotal cells.
         public var totalCellStyle: QuickSightClientTypes.TableCellStyle?
         /// The visibility configuration for the subtotal cells.
@@ -66358,6 +66565,7 @@ extension QuickSightClientTypes {
             fieldLevel: QuickSightClientTypes.PivotTableSubtotalLevel? = nil,
             fieldLevelOptions: [QuickSightClientTypes.PivotTableFieldSubtotalOptions]? = nil,
             metricHeaderCellStyle: QuickSightClientTypes.TableCellStyle? = nil,
+            styleTargets: [QuickSightClientTypes.TableStyleTarget]? = nil,
             totalCellStyle: QuickSightClientTypes.TableCellStyle? = nil,
             totalsVisibility: QuickSightClientTypes.Visibility? = nil,
             valueCellStyle: QuickSightClientTypes.TableCellStyle? = nil
@@ -66367,6 +66575,7 @@ extension QuickSightClientTypes {
             self.fieldLevel = fieldLevel
             self.fieldLevelOptions = fieldLevelOptions
             self.metricHeaderCellStyle = metricHeaderCellStyle
+            self.styleTargets = styleTargets
             self.totalCellStyle = totalCellStyle
             self.totalsVisibility = totalsVisibility
             self.valueCellStyle = valueCellStyle
@@ -67782,6 +67991,42 @@ extension QuickSightClientTypes {
         {
             self.paginationConfiguration = paginationConfiguration
             self.rowSort = rowSort
+        }
+    }
+
+}
+
+extension QuickSightClientTypes.TableStyleTarget: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case cellType = "CellType"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let cellType = self.cellType {
+            try encodeContainer.encode(cellType.rawValue, forKey: .cellType)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let cellTypeDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.StyledCellType.self, forKey: .cellType)
+        cellType = cellTypeDecoded
+    }
+}
+
+extension QuickSightClientTypes {
+    /// The table style target.
+    public struct TableStyleTarget: Swift.Equatable {
+        /// The cell type of the table style target.
+        /// This member is required.
+        public var cellType: QuickSightClientTypes.StyledCellType?
+
+        public init(
+            cellType: QuickSightClientTypes.StyledCellType? = nil
+        )
+        {
+            self.cellType = cellType
         }
     }
 
@@ -71242,6 +71487,7 @@ extension QuickSightClientTypes.TopicCalculatedField: Swift.Codable {
         case expression = "Expression"
         case isIncludedInTopic = "IsIncludedInTopic"
         case neverAggregateInFilter = "NeverAggregateInFilter"
+        case nonAdditive = "NonAdditive"
         case notAllowedAggregations = "NotAllowedAggregations"
         case semanticType = "SemanticType"
         case timeGranularity = "TimeGranularity"
@@ -71296,6 +71542,9 @@ extension QuickSightClientTypes.TopicCalculatedField: Swift.Codable {
         }
         if neverAggregateInFilter != false {
             try encodeContainer.encode(neverAggregateInFilter, forKey: .neverAggregateInFilter)
+        }
+        if let nonAdditive = self.nonAdditive {
+            try encodeContainer.encode(nonAdditive, forKey: .nonAdditive)
         }
         if let notAllowedAggregations = notAllowedAggregations {
             var notAllowedAggregationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .notAllowedAggregations)
@@ -71381,12 +71630,14 @@ extension QuickSightClientTypes.TopicCalculatedField: Swift.Codable {
             }
         }
         cellValueSynonyms = cellValueSynonymsDecoded0
+        let nonAdditiveDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .nonAdditive)
+        nonAdditive = nonAdditiveDecoded
     }
 }
 
 extension QuickSightClientTypes.TopicCalculatedField: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "TopicCalculatedField(aggregation: \(Swift.String(describing: aggregation)), allowedAggregations: \(Swift.String(describing: allowedAggregations)), calculatedFieldDescription: \(Swift.String(describing: calculatedFieldDescription)), calculatedFieldName: \(Swift.String(describing: calculatedFieldName)), calculatedFieldSynonyms: \(Swift.String(describing: calculatedFieldSynonyms)), cellValueSynonyms: \(Swift.String(describing: cellValueSynonyms)), columnDataRole: \(Swift.String(describing: columnDataRole)), comparativeOrder: \(Swift.String(describing: comparativeOrder)), defaultFormatting: \(Swift.String(describing: defaultFormatting)), disableIndexing: \(Swift.String(describing: disableIndexing)), isIncludedInTopic: \(Swift.String(describing: isIncludedInTopic)), neverAggregateInFilter: \(Swift.String(describing: neverAggregateInFilter)), notAllowedAggregations: \(Swift.String(describing: notAllowedAggregations)), semanticType: \(Swift.String(describing: semanticType)), timeGranularity: \(Swift.String(describing: timeGranularity)), expression: \"CONTENT_REDACTED\")"}
+        "TopicCalculatedField(aggregation: \(Swift.String(describing: aggregation)), allowedAggregations: \(Swift.String(describing: allowedAggregations)), calculatedFieldDescription: \(Swift.String(describing: calculatedFieldDescription)), calculatedFieldName: \(Swift.String(describing: calculatedFieldName)), calculatedFieldSynonyms: \(Swift.String(describing: calculatedFieldSynonyms)), cellValueSynonyms: \(Swift.String(describing: cellValueSynonyms)), columnDataRole: \(Swift.String(describing: columnDataRole)), comparativeOrder: \(Swift.String(describing: comparativeOrder)), defaultFormatting: \(Swift.String(describing: defaultFormatting)), disableIndexing: \(Swift.String(describing: disableIndexing)), isIncludedInTopic: \(Swift.String(describing: isIncludedInTopic)), neverAggregateInFilter: \(Swift.String(describing: neverAggregateInFilter)), nonAdditive: \(Swift.String(describing: nonAdditive)), notAllowedAggregations: \(Swift.String(describing: notAllowedAggregations)), semanticType: \(Swift.String(describing: semanticType)), timeGranularity: \(Swift.String(describing: timeGranularity)), expression: \"CONTENT_REDACTED\")"}
 }
 
 extension QuickSightClientTypes {
@@ -71420,6 +71671,8 @@ extension QuickSightClientTypes {
         public var isIncludedInTopic: Swift.Bool
         /// A Boolean value that indicates whether to never aggregate calculated field in filters.
         public var neverAggregateInFilter: Swift.Bool
+        /// The non additive for the table style target.
+        public var nonAdditive: Swift.Bool?
         /// The list of aggregation types that are not allowed for the calculated field. Valid values for this structure are COUNT, DISTINCT_COUNT, MIN, MAX, MEDIAN, SUM, AVERAGE, STDEV, STDEVP, VAR, VARP, and PERCENTILE.
         public var notAllowedAggregations: [QuickSightClientTypes.AuthorSpecifiedAggregation]?
         /// The semantic type.
@@ -71441,6 +71694,7 @@ extension QuickSightClientTypes {
             expression: Swift.String? = nil,
             isIncludedInTopic: Swift.Bool = false,
             neverAggregateInFilter: Swift.Bool = false,
+            nonAdditive: Swift.Bool? = nil,
             notAllowedAggregations: [QuickSightClientTypes.AuthorSpecifiedAggregation]? = nil,
             semanticType: QuickSightClientTypes.SemanticType? = nil,
             timeGranularity: QuickSightClientTypes.TopicTimeGranularity? = nil
@@ -71459,6 +71713,7 @@ extension QuickSightClientTypes {
             self.expression = expression
             self.isIncludedInTopic = isIncludedInTopic
             self.neverAggregateInFilter = neverAggregateInFilter
+            self.nonAdditive = nonAdditive
             self.notAllowedAggregations = notAllowedAggregations
             self.semanticType = semanticType
             self.timeGranularity = timeGranularity
@@ -71613,6 +71868,7 @@ extension QuickSightClientTypes.TopicColumn: Swift.Codable {
         case disableIndexing = "DisableIndexing"
         case isIncludedInTopic = "IsIncludedInTopic"
         case neverAggregateInFilter = "NeverAggregateInFilter"
+        case nonAdditive = "NonAdditive"
         case notAllowedAggregations = "NotAllowedAggregations"
         case semanticType = "SemanticType"
         case timeGranularity = "TimeGranularity"
@@ -71667,6 +71923,9 @@ extension QuickSightClientTypes.TopicColumn: Swift.Codable {
         }
         if neverAggregateInFilter != false {
             try encodeContainer.encode(neverAggregateInFilter, forKey: .neverAggregateInFilter)
+        }
+        if let nonAdditive = self.nonAdditive {
+            try encodeContainer.encode(nonAdditive, forKey: .nonAdditive)
         }
         if let notAllowedAggregations = notAllowedAggregations {
             var notAllowedAggregationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .notAllowedAggregations)
@@ -71752,13 +72011,15 @@ extension QuickSightClientTypes.TopicColumn: Swift.Codable {
             }
         }
         cellValueSynonyms = cellValueSynonymsDecoded0
+        let nonAdditiveDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .nonAdditive)
+        nonAdditive = nonAdditiveDecoded
     }
 }
 
 extension QuickSightClientTypes {
     /// Represents a column in a dataset.
     public struct TopicColumn: Swift.Equatable {
-        /// The type of aggregation that is performed on the column data when it's queried. Valid values for this structure are SUM, MAX, MIN, COUNT, DISTINCT_COUNT, and AVERAGE.
+        /// The type of aggregation that is performed on the column data when it's queried.
         public var aggregation: QuickSightClientTypes.DefaultAggregation?
         /// The list of aggregation types that are allowed for the column. Valid values for this structure are COUNT, DISTINCT_COUNT, MIN, MAX, MEDIAN, SUM, AVERAGE, STDEV, STDEVP, VAR, VARP, and PERCENTILE.
         public var allowedAggregations: [QuickSightClientTypes.AuthorSpecifiedAggregation]?
@@ -71785,6 +72046,8 @@ extension QuickSightClientTypes {
         public var isIncludedInTopic: Swift.Bool
         /// A Boolean value that indicates whether to aggregate the column data when it's used in a filter context.
         public var neverAggregateInFilter: Swift.Bool
+        /// The non additive value for the column.
+        public var nonAdditive: Swift.Bool?
         /// The list of aggregation types that are not allowed for the column. Valid values for this structure are COUNT, DISTINCT_COUNT, MIN, MAX, MEDIAN, SUM, AVERAGE, STDEV, STDEVP, VAR, VARP, and PERCENTILE.
         public var notAllowedAggregations: [QuickSightClientTypes.AuthorSpecifiedAggregation]?
         /// The semantic type of data contained in the column.
@@ -71806,6 +72069,7 @@ extension QuickSightClientTypes {
             disableIndexing: Swift.Bool? = nil,
             isIncludedInTopic: Swift.Bool = false,
             neverAggregateInFilter: Swift.Bool = false,
+            nonAdditive: Swift.Bool? = nil,
             notAllowedAggregations: [QuickSightClientTypes.AuthorSpecifiedAggregation]? = nil,
             semanticType: QuickSightClientTypes.SemanticType? = nil,
             timeGranularity: QuickSightClientTypes.TopicTimeGranularity? = nil
@@ -71824,6 +72088,7 @@ extension QuickSightClientTypes {
             self.disableIndexing = disableIndexing
             self.isIncludedInTopic = isIncludedInTopic
             self.neverAggregateInFilter = neverAggregateInFilter
+            self.nonAdditive = nonAdditive
             self.notAllowedAggregations = notAllowedAggregations
             self.semanticType = semanticType
             self.timeGranularity = timeGranularity
@@ -80798,6 +81063,7 @@ extension QuickSightClientTypes {
 
 extension QuickSightClientTypes {
     public enum VerticalTextAlignment: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case auto
         case bottom
         case middle
         case top
@@ -80805,6 +81071,7 @@ extension QuickSightClientTypes {
 
         public static var allCases: [VerticalTextAlignment] {
             return [
+                .auto,
                 .bottom,
                 .middle,
                 .top,
@@ -80817,6 +81084,7 @@ extension QuickSightClientTypes {
         }
         public var rawValue: Swift.String {
             switch self {
+            case .auto: return "AUTO"
             case .bottom: return "BOTTOM"
             case .middle: return "MIDDLE"
             case .top: return "TOP"

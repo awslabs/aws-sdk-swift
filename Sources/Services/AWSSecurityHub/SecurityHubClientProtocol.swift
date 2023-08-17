@@ -17,21 +17,122 @@ import ClientRuntime
 /// * All other operations - RateLimit of 10 requests per second. BurstLimit of 30 requests per second.
 public protocol SecurityHubClientProtocol {
     /// Accepts the invitation to be a member account and be monitored by the Security Hub administrator account that the invitation was sent from. This operation is only used by member accounts that are not added through Organizations. When the member account accepts the invitation, permission is granted to the administrator account to view findings generated in the member account.
+    ///
+    /// - Parameter AcceptAdministratorInvitationInput : [no documentation found]
+    ///
+    /// - Returns: `AcceptAdministratorInvitationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalException` : Internal server error.
+    /// - `InvalidAccessException` : The account doesn't have permission to perform this action.
+    /// - `InvalidInputException` : The request was rejected because you supplied an invalid or out-of-range value for an input parameter.
+    /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account or throttling limits. The error code describes the limit exceeded.
+    /// - `ResourceNotFoundException` : The request was rejected because we can't find the specified resource.
     func acceptAdministratorInvitation(input: AcceptAdministratorInvitationInput) async throws -> AcceptAdministratorInvitationOutputResponse
     /// This method is deprecated. Instead, use AcceptAdministratorInvitation. The Security Hub console continues to use AcceptInvitation. It will eventually change to use AcceptAdministratorInvitation. Any IAM policies that specifically control access to this function must continue to use AcceptInvitation. You should also add AcceptAdministratorInvitation to your policies to ensure that the correct permissions are in place after the console begins to use AcceptAdministratorInvitation. Accepts the invitation to be a member account and be monitored by the Security Hub administrator account that the invitation was sent from. This operation is only used by member accounts that are not added through Organizations. When the member account accepts the invitation, permission is granted to the administrator account to view findings generated in the member account.
     @available(*, deprecated, message: "This API has been deprecated, use AcceptAdministratorInvitation API instead.")
+    ///
+    /// - Parameter AcceptInvitationInput : [no documentation found]
+    ///
+    /// - Returns: `AcceptInvitationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalException` : Internal server error.
+    /// - `InvalidAccessException` : The account doesn't have permission to perform this action.
+    /// - `InvalidInputException` : The request was rejected because you supplied an invalid or out-of-range value for an input parameter.
+    /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account or throttling limits. The error code describes the limit exceeded.
+    /// - `ResourceNotFoundException` : The request was rejected because we can't find the specified resource.
     func acceptInvitation(input: AcceptInvitationInput) async throws -> AcceptInvitationOutputResponse
     /// Deletes one or more automation rules.
+    ///
+    /// - Parameter BatchDeleteAutomationRulesInput : [no documentation found]
+    ///
+    /// - Returns: `BatchDeleteAutomationRulesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalException` : Internal server error.
+    /// - `InvalidAccessException` : The account doesn't have permission to perform this action.
+    /// - `InvalidInputException` : The request was rejected because you supplied an invalid or out-of-range value for an input parameter.
+    /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account or throttling limits. The error code describes the limit exceeded.
+    /// - `ResourceNotFoundException` : The request was rejected because we can't find the specified resource.
     func batchDeleteAutomationRules(input: BatchDeleteAutomationRulesInput) async throws -> BatchDeleteAutomationRulesOutputResponse
     /// Disables the standards specified by the provided StandardsSubscriptionArns. For more information, see [Security Standards](https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-standards.html) section of the Security Hub User Guide.
+    ///
+    /// - Parameter BatchDisableStandardsInput : [no documentation found]
+    ///
+    /// - Returns: `BatchDisableStandardsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalException` : Internal server error.
+    /// - `InvalidAccessException` : The account doesn't have permission to perform this action.
+    /// - `InvalidInputException` : The request was rejected because you supplied an invalid or out-of-range value for an input parameter.
+    /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account or throttling limits. The error code describes the limit exceeded.
     func batchDisableStandards(input: BatchDisableStandardsInput) async throws -> BatchDisableStandardsOutputResponse
     /// Enables the standards specified by the provided StandardsArn. To obtain the ARN for a standard, use the DescribeStandards operation. For more information, see the [Security Standards](https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-standards.html) section of the Security Hub User Guide.
+    ///
+    /// - Parameter BatchEnableStandardsInput : [no documentation found]
+    ///
+    /// - Returns: `BatchEnableStandardsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalException` : Internal server error.
+    /// - `InvalidAccessException` : The account doesn't have permission to perform this action.
+    /// - `InvalidInputException` : The request was rejected because you supplied an invalid or out-of-range value for an input parameter.
+    /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account or throttling limits. The error code describes the limit exceeded.
     func batchEnableStandards(input: BatchEnableStandardsInput) async throws -> BatchEnableStandardsOutputResponse
     /// Retrieves a list of details for automation rules based on rule Amazon Resource Names (ARNs).
+    ///
+    /// - Parameter BatchGetAutomationRulesInput : [no documentation found]
+    ///
+    /// - Returns: `BatchGetAutomationRulesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have permission to perform the action specified in the request.
+    /// - `InternalException` : Internal server error.
+    /// - `InvalidAccessException` : The account doesn't have permission to perform this action.
+    /// - `InvalidInputException` : The request was rejected because you supplied an invalid or out-of-range value for an input parameter.
+    /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account or throttling limits. The error code describes the limit exceeded.
+    /// - `ResourceNotFoundException` : The request was rejected because we can't find the specified resource.
     func batchGetAutomationRules(input: BatchGetAutomationRulesInput) async throws -> BatchGetAutomationRulesOutputResponse
     /// Provides details about a batch of security controls for the current Amazon Web Services account and Amazon Web Services Region.
+    ///
+    /// - Parameter BatchGetSecurityControlsInput : [no documentation found]
+    ///
+    /// - Returns: `BatchGetSecurityControlsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalException` : Internal server error.
+    /// - `InvalidAccessException` : The account doesn't have permission to perform this action.
+    /// - `InvalidInputException` : The request was rejected because you supplied an invalid or out-of-range value for an input parameter.
+    /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account or throttling limits. The error code describes the limit exceeded.
     func batchGetSecurityControls(input: BatchGetSecurityControlsInput) async throws -> BatchGetSecurityControlsOutputResponse
     /// For a batch of security controls and standards, identifies whether each control is currently enabled or disabled in a standard.
+    ///
+    /// - Parameter BatchGetStandardsControlAssociationsInput : [no documentation found]
+    ///
+    /// - Returns: `BatchGetStandardsControlAssociationsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalException` : Internal server error.
+    /// - `InvalidAccessException` : The account doesn't have permission to perform this action.
+    /// - `InvalidInputException` : The request was rejected because you supplied an invalid or out-of-range value for an input parameter.
+    /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account or throttling limits. The error code describes the limit exceeded.
     func batchGetStandardsControlAssociations(input: BatchGetStandardsControlAssociationsInput) async throws -> BatchGetStandardsControlAssociationsOutputResponse
     /// Imports security findings generated by a finding provider into Security Hub. This action is requested by the finding provider to import its findings into Security Hub. BatchImportFindings must be called by one of the following:
     ///
@@ -65,8 +166,33 @@ public protocol SecurityHubClientProtocol {
     ///
     ///
     /// Instead, finding providers use FindingProviderFields to provide values for these attributes.
+    ///
+    /// - Parameter BatchImportFindingsInput : [no documentation found]
+    ///
+    /// - Returns: `BatchImportFindingsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalException` : Internal server error.
+    /// - `InvalidAccessException` : The account doesn't have permission to perform this action.
+    /// - `InvalidInputException` : The request was rejected because you supplied an invalid or out-of-range value for an input parameter.
+    /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account or throttling limits. The error code describes the limit exceeded.
     func batchImportFindings(input: BatchImportFindingsInput) async throws -> BatchImportFindingsOutputResponse
     /// Updates one or more automation rules based on rule Amazon Resource Names (ARNs) and input parameters.
+    ///
+    /// - Parameter BatchUpdateAutomationRulesInput : [no documentation found]
+    ///
+    /// - Returns: `BatchUpdateAutomationRulesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalException` : Internal server error.
+    /// - `InvalidAccessException` : The account doesn't have permission to perform this action.
+    /// - `InvalidInputException` : The request was rejected because you supplied an invalid or out-of-range value for an input parameter.
+    /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account or throttling limits. The error code describes the limit exceeded.
+    /// - `ResourceNotFoundException` : The request was rejected because we can't find the specified resource.
     func batchUpdateAutomationRules(input: BatchUpdateAutomationRulesInput) async throws -> BatchUpdateAutomationRulesOutputResponse
     /// Used by Security Hub customers to update information about their investigation into a finding. Requested by administrator accounts or member accounts. Administrator accounts can update findings for their account and their member accounts. Member accounts can update findings for their account. Updates from BatchUpdateFindings do not affect the value of UpdatedAt for a finding. Administrator and member accounts can use BatchUpdateFindings to update the following finding fields and objects.
     ///
@@ -90,16 +216,92 @@ public protocol SecurityHubClientProtocol {
     ///
     ///
     /// You can configure IAM policies to restrict access to fields and field values. For example, you might not want member accounts to be able to suppress findings or change the finding severity. See [Configuring access to BatchUpdateFindings](https://docs.aws.amazon.com/securityhub/latest/userguide/finding-update-batchupdatefindings.html#batchupdatefindings-configure-access) in the Security Hub User Guide.
+    ///
+    /// - Parameter BatchUpdateFindingsInput : [no documentation found]
+    ///
+    /// - Returns: `BatchUpdateFindingsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalException` : Internal server error.
+    /// - `InvalidAccessException` : The account doesn't have permission to perform this action.
+    /// - `InvalidInputException` : The request was rejected because you supplied an invalid or out-of-range value for an input parameter.
+    /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account or throttling limits. The error code describes the limit exceeded.
     func batchUpdateFindings(input: BatchUpdateFindingsInput) async throws -> BatchUpdateFindingsOutputResponse
     /// For a batch of security controls and standards, this operation updates the enablement status of a control in a standard.
+    ///
+    /// - Parameter BatchUpdateStandardsControlAssociationsInput : [no documentation found]
+    ///
+    /// - Returns: `BatchUpdateStandardsControlAssociationsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalException` : Internal server error.
+    /// - `InvalidAccessException` : The account doesn't have permission to perform this action.
+    /// - `InvalidInputException` : The request was rejected because you supplied an invalid or out-of-range value for an input parameter.
+    /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account or throttling limits. The error code describes the limit exceeded.
     func batchUpdateStandardsControlAssociations(input: BatchUpdateStandardsControlAssociationsInput) async throws -> BatchUpdateStandardsControlAssociationsOutputResponse
     /// Creates a custom action target in Security Hub. You can use custom actions on findings and insights in Security Hub to trigger target actions in Amazon CloudWatch Events.
+    ///
+    /// - Parameter CreateActionTargetInput : [no documentation found]
+    ///
+    /// - Returns: `CreateActionTargetOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalException` : Internal server error.
+    /// - `InvalidAccessException` : The account doesn't have permission to perform this action.
+    /// - `InvalidInputException` : The request was rejected because you supplied an invalid or out-of-range value for an input parameter.
+    /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account or throttling limits. The error code describes the limit exceeded.
+    /// - `ResourceConflictException` : The resource specified in the request conflicts with an existing resource.
     func createActionTarget(input: CreateActionTargetInput) async throws -> CreateActionTargetOutputResponse
     /// Creates an automation rule based on input parameters.
+    ///
+    /// - Parameter CreateAutomationRuleInput : [no documentation found]
+    ///
+    /// - Returns: `CreateAutomationRuleOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have permission to perform the action specified in the request.
+    /// - `InternalException` : Internal server error.
+    /// - `InvalidAccessException` : The account doesn't have permission to perform this action.
+    /// - `InvalidInputException` : The request was rejected because you supplied an invalid or out-of-range value for an input parameter.
+    /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account or throttling limits. The error code describes the limit exceeded.
     func createAutomationRule(input: CreateAutomationRuleInput) async throws -> CreateAutomationRuleOutputResponse
     /// Used to enable finding aggregation. Must be called from the aggregation Region. For more details about cross-Region replication, see [Configuring finding aggregation](https://docs.aws.amazon.com/securityhub/latest/userguide/finding-aggregation.html) in the Security Hub User Guide.
+    ///
+    /// - Parameter CreateFindingAggregatorInput : [no documentation found]
+    ///
+    /// - Returns: `CreateFindingAggregatorOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have permission to perform the action specified in the request.
+    /// - `InternalException` : Internal server error.
+    /// - `InvalidAccessException` : The account doesn't have permission to perform this action.
+    /// - `InvalidInputException` : The request was rejected because you supplied an invalid or out-of-range value for an input parameter.
+    /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account or throttling limits. The error code describes the limit exceeded.
     func createFindingAggregator(input: CreateFindingAggregatorInput) async throws -> CreateFindingAggregatorOutputResponse
     /// Creates a custom insight in Security Hub. An insight is a consolidation of findings that relate to a security issue that requires attention or remediation. To group the related findings in the insight, use the GroupByAttribute.
+    ///
+    /// - Parameter CreateInsightInput : [no documentation found]
+    ///
+    /// - Returns: `CreateInsightOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalException` : Internal server error.
+    /// - `InvalidAccessException` : The account doesn't have permission to perform this action.
+    /// - `InvalidInputException` : The request was rejected because you supplied an invalid or out-of-range value for an input parameter.
+    /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account or throttling limits. The error code describes the limit exceeded.
+    /// - `ResourceConflictException` : The resource specified in the request conflicts with an existing resource.
     func createInsight(input: CreateInsightInput) async throws -> CreateInsightOutputResponse
     /// Creates a member association in Security Hub between the specified accounts and the account used to make the request, which is the administrator account. If you are integrated with Organizations, then the administrator account is designated by the organization management account. CreateMembers is always used to add accounts that are not organization members. For accounts that are managed using Organizations, CreateMembers is only used in the following cases:
     ///
@@ -116,47 +318,310 @@ public protocol SecurityHubClientProtocol {
     ///
     ///
     /// A permissions policy is added that permits the administrator account to view the findings generated in the member account. To remove the association between the administrator and member accounts, use the DisassociateFromMasterAccount or DisassociateMembers operation.
+    ///
+    /// - Parameter CreateMembersInput : [no documentation found]
+    ///
+    /// - Returns: `CreateMembersOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalException` : Internal server error.
+    /// - `InvalidAccessException` : The account doesn't have permission to perform this action.
+    /// - `InvalidInputException` : The request was rejected because you supplied an invalid or out-of-range value for an input parameter.
+    /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account or throttling limits. The error code describes the limit exceeded.
+    /// - `ResourceConflictException` : The resource specified in the request conflicts with an existing resource.
     func createMembers(input: CreateMembersInput) async throws -> CreateMembersOutputResponse
     /// Declines invitations to become a member account. A prospective member account uses this operation to decline an invitation to become a member. This operation is only called by member accounts that aren't part of an organization. Organization accounts don't receive invitations.
+    ///
+    /// - Parameter DeclineInvitationsInput : [no documentation found]
+    ///
+    /// - Returns: `DeclineInvitationsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalException` : Internal server error.
+    /// - `InvalidAccessException` : The account doesn't have permission to perform this action.
+    /// - `InvalidInputException` : The request was rejected because you supplied an invalid or out-of-range value for an input parameter.
+    /// - `ResourceNotFoundException` : The request was rejected because we can't find the specified resource.
     func declineInvitations(input: DeclineInvitationsInput) async throws -> DeclineInvitationsOutputResponse
     /// Deletes a custom action target from Security Hub. Deleting a custom action target does not affect any findings or insights that were already sent to Amazon CloudWatch Events using the custom action.
+    ///
+    /// - Parameter DeleteActionTargetInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteActionTargetOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalException` : Internal server error.
+    /// - `InvalidAccessException` : The account doesn't have permission to perform this action.
+    /// - `InvalidInputException` : The request was rejected because you supplied an invalid or out-of-range value for an input parameter.
+    /// - `ResourceNotFoundException` : The request was rejected because we can't find the specified resource.
     func deleteActionTarget(input: DeleteActionTargetInput) async throws -> DeleteActionTargetOutputResponse
     /// Deletes a finding aggregator. When you delete the finding aggregator, you stop finding aggregation. When you stop finding aggregation, findings that were already aggregated to the aggregation Region are still visible from the aggregation Region. New findings and finding updates are not aggregated.
+    ///
+    /// - Parameter DeleteFindingAggregatorInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteFindingAggregatorOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have permission to perform the action specified in the request.
+    /// - `InternalException` : Internal server error.
+    /// - `InvalidAccessException` : The account doesn't have permission to perform this action.
+    /// - `InvalidInputException` : The request was rejected because you supplied an invalid or out-of-range value for an input parameter.
+    /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account or throttling limits. The error code describes the limit exceeded.
+    /// - `ResourceNotFoundException` : The request was rejected because we can't find the specified resource.
     func deleteFindingAggregator(input: DeleteFindingAggregatorInput) async throws -> DeleteFindingAggregatorOutputResponse
     /// Deletes the insight specified by the InsightArn.
+    ///
+    /// - Parameter DeleteInsightInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteInsightOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalException` : Internal server error.
+    /// - `InvalidAccessException` : The account doesn't have permission to perform this action.
+    /// - `InvalidInputException` : The request was rejected because you supplied an invalid or out-of-range value for an input parameter.
+    /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account or throttling limits. The error code describes the limit exceeded.
+    /// - `ResourceNotFoundException` : The request was rejected because we can't find the specified resource.
     func deleteInsight(input: DeleteInsightInput) async throws -> DeleteInsightOutputResponse
     /// Deletes invitations received by the Amazon Web Services account to become a member account. A Security Hub administrator account can use this operation to delete invitations sent to one or more member accounts. This operation is only used to delete invitations that are sent to member accounts that aren't part of an organization. Organization accounts don't receive invitations.
+    ///
+    /// - Parameter DeleteInvitationsInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteInvitationsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalException` : Internal server error.
+    /// - `InvalidAccessException` : The account doesn't have permission to perform this action.
+    /// - `InvalidInputException` : The request was rejected because you supplied an invalid or out-of-range value for an input parameter.
+    /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account or throttling limits. The error code describes the limit exceeded.
+    /// - `ResourceNotFoundException` : The request was rejected because we can't find the specified resource.
     func deleteInvitations(input: DeleteInvitationsInput) async throws -> DeleteInvitationsOutputResponse
     /// Deletes the specified member accounts from Security Hub. Can be used to delete member accounts that belong to an organization as well as member accounts that were invited manually.
+    ///
+    /// - Parameter DeleteMembersInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteMembersOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalException` : Internal server error.
+    /// - `InvalidAccessException` : The account doesn't have permission to perform this action.
+    /// - `InvalidInputException` : The request was rejected because you supplied an invalid or out-of-range value for an input parameter.
+    /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account or throttling limits. The error code describes the limit exceeded.
+    /// - `ResourceNotFoundException` : The request was rejected because we can't find the specified resource.
     func deleteMembers(input: DeleteMembersInput) async throws -> DeleteMembersOutputResponse
     /// Returns a list of the custom action targets in Security Hub in your account.
+    ///
+    /// - Parameter DescribeActionTargetsInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeActionTargetsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalException` : Internal server error.
+    /// - `InvalidAccessException` : The account doesn't have permission to perform this action.
+    /// - `InvalidInputException` : The request was rejected because you supplied an invalid or out-of-range value for an input parameter.
+    /// - `ResourceNotFoundException` : The request was rejected because we can't find the specified resource.
     func describeActionTargets(input: DescribeActionTargetsInput) async throws -> DescribeActionTargetsOutputResponse
     /// Returns details about the Hub resource in your account, including the HubArn and the time when you enabled Security Hub.
+    ///
+    /// - Parameter DescribeHubInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeHubOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalException` : Internal server error.
+    /// - `InvalidAccessException` : The account doesn't have permission to perform this action.
+    /// - `InvalidInputException` : The request was rejected because you supplied an invalid or out-of-range value for an input parameter.
+    /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account or throttling limits. The error code describes the limit exceeded.
+    /// - `ResourceNotFoundException` : The request was rejected because we can't find the specified resource.
     func describeHub(input: DescribeHubInput) async throws -> DescribeHubOutputResponse
     /// Returns information about the Organizations configuration for Security Hub. Can only be called from a Security Hub administrator account.
+    ///
+    /// - Parameter DescribeOrganizationConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeOrganizationConfigurationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalException` : Internal server error.
+    /// - `InvalidAccessException` : The account doesn't have permission to perform this action.
+    /// - `InvalidInputException` : The request was rejected because you supplied an invalid or out-of-range value for an input parameter.
+    /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account or throttling limits. The error code describes the limit exceeded.
     func describeOrganizationConfiguration(input: DescribeOrganizationConfigurationInput) async throws -> DescribeOrganizationConfigurationOutputResponse
     /// Returns information about product integrations in Security Hub. You can optionally provide an integration ARN. If you provide an integration ARN, then the results only include that integration. If you do not provide an integration ARN, then the results include all of the available product integrations.
+    ///
+    /// - Parameter DescribeProductsInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeProductsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalException` : Internal server error.
+    /// - `InvalidAccessException` : The account doesn't have permission to perform this action.
+    /// - `InvalidInputException` : The request was rejected because you supplied an invalid or out-of-range value for an input parameter.
+    /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account or throttling limits. The error code describes the limit exceeded.
     func describeProducts(input: DescribeProductsInput) async throws -> DescribeProductsOutputResponse
     /// Returns a list of the available standards in Security Hub. For each standard, the results include the standard ARN, the name, and a description.
+    ///
+    /// - Parameter DescribeStandardsInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeStandardsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalException` : Internal server error.
+    /// - `InvalidAccessException` : The account doesn't have permission to perform this action.
+    /// - `InvalidInputException` : The request was rejected because you supplied an invalid or out-of-range value for an input parameter.
     func describeStandards(input: DescribeStandardsInput) async throws -> DescribeStandardsOutputResponse
     /// Returns a list of security standards controls. For each control, the results include information about whether it is currently enabled, the severity, and a link to remediation information.
+    ///
+    /// - Parameter DescribeStandardsControlsInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeStandardsControlsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalException` : Internal server error.
+    /// - `InvalidAccessException` : The account doesn't have permission to perform this action.
+    /// - `InvalidInputException` : The request was rejected because you supplied an invalid or out-of-range value for an input parameter.
+    /// - `ResourceNotFoundException` : The request was rejected because we can't find the specified resource.
     func describeStandardsControls(input: DescribeStandardsControlsInput) async throws -> DescribeStandardsControlsOutputResponse
     /// Disables the integration of the specified product with Security Hub. After the integration is disabled, findings from that product are no longer sent to Security Hub.
+    ///
+    /// - Parameter DisableImportFindingsForProductInput : [no documentation found]
+    ///
+    /// - Returns: `DisableImportFindingsForProductOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalException` : Internal server error.
+    /// - `InvalidAccessException` : The account doesn't have permission to perform this action.
+    /// - `InvalidInputException` : The request was rejected because you supplied an invalid or out-of-range value for an input parameter.
+    /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account or throttling limits. The error code describes the limit exceeded.
+    /// - `ResourceNotFoundException` : The request was rejected because we can't find the specified resource.
     func disableImportFindingsForProduct(input: DisableImportFindingsForProductInput) async throws -> DisableImportFindingsForProductOutputResponse
     /// Disables a Security Hub administrator account. Can only be called by the organization management account.
+    ///
+    /// - Parameter DisableOrganizationAdminAccountInput : [no documentation found]
+    ///
+    /// - Returns: `DisableOrganizationAdminAccountOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalException` : Internal server error.
+    /// - `InvalidAccessException` : The account doesn't have permission to perform this action.
+    /// - `InvalidInputException` : The request was rejected because you supplied an invalid or out-of-range value for an input parameter.
+    /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account or throttling limits. The error code describes the limit exceeded.
     func disableOrganizationAdminAccount(input: DisableOrganizationAdminAccountInput) async throws -> DisableOrganizationAdminAccountOutputResponse
     /// Disables Security Hub in your account only in the current Region. To disable Security Hub in all Regions, you must submit one request per Region where you have enabled Security Hub. When you disable Security Hub for an administrator account, it doesn't disable Security Hub for any associated member accounts. When you disable Security Hub, your existing findings and insights and any Security Hub configuration settings are deleted after 90 days and cannot be recovered. Any standards that were enabled are disabled, and your administrator and member account associations are removed. If you want to save your existing findings, you must export them before you disable Security Hub.
+    ///
+    /// - Parameter DisableSecurityHubInput : [no documentation found]
+    ///
+    /// - Returns: `DisableSecurityHubOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalException` : Internal server error.
+    /// - `InvalidAccessException` : The account doesn't have permission to perform this action.
+    /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account or throttling limits. The error code describes the limit exceeded.
+    /// - `ResourceNotFoundException` : The request was rejected because we can't find the specified resource.
     func disableSecurityHub(input: DisableSecurityHubInput) async throws -> DisableSecurityHubOutputResponse
     /// Disassociates the current Security Hub member account from the associated administrator account. This operation is only used by accounts that are not part of an organization. For organization accounts, only the administrator account can disassociate a member account.
+    ///
+    /// - Parameter DisassociateFromAdministratorAccountInput : [no documentation found]
+    ///
+    /// - Returns: `DisassociateFromAdministratorAccountOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalException` : Internal server error.
+    /// - `InvalidAccessException` : The account doesn't have permission to perform this action.
+    /// - `InvalidInputException` : The request was rejected because you supplied an invalid or out-of-range value for an input parameter.
+    /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account or throttling limits. The error code describes the limit exceeded.
+    /// - `ResourceNotFoundException` : The request was rejected because we can't find the specified resource.
     func disassociateFromAdministratorAccount(input: DisassociateFromAdministratorAccountInput) async throws -> DisassociateFromAdministratorAccountOutputResponse
     /// This method is deprecated. Instead, use DisassociateFromAdministratorAccount. The Security Hub console continues to use DisassociateFromMasterAccount. It will eventually change to use DisassociateFromAdministratorAccount. Any IAM policies that specifically control access to this function must continue to use DisassociateFromMasterAccount. You should also add DisassociateFromAdministratorAccount to your policies to ensure that the correct permissions are in place after the console begins to use DisassociateFromAdministratorAccount. Disassociates the current Security Hub member account from the associated administrator account. This operation is only used by accounts that are not part of an organization. For organization accounts, only the administrator account can disassociate a member account.
     @available(*, deprecated, message: "This API has been deprecated, use DisassociateFromAdministratorAccount API instead.")
+    ///
+    /// - Parameter DisassociateFromMasterAccountInput : [no documentation found]
+    ///
+    /// - Returns: `DisassociateFromMasterAccountOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalException` : Internal server error.
+    /// - `InvalidAccessException` : The account doesn't have permission to perform this action.
+    /// - `InvalidInputException` : The request was rejected because you supplied an invalid or out-of-range value for an input parameter.
+    /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account or throttling limits. The error code describes the limit exceeded.
+    /// - `ResourceNotFoundException` : The request was rejected because we can't find the specified resource.
     func disassociateFromMasterAccount(input: DisassociateFromMasterAccountInput) async throws -> DisassociateFromMasterAccountOutputResponse
     /// Disassociates the specified member accounts from the associated administrator account. Can be used to disassociate both accounts that are managed using Organizations and accounts that were invited manually.
+    ///
+    /// - Parameter DisassociateMembersInput : [no documentation found]
+    ///
+    /// - Returns: `DisassociateMembersOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalException` : Internal server error.
+    /// - `InvalidAccessException` : The account doesn't have permission to perform this action.
+    /// - `InvalidInputException` : The request was rejected because you supplied an invalid or out-of-range value for an input parameter.
+    /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account or throttling limits. The error code describes the limit exceeded.
+    /// - `ResourceNotFoundException` : The request was rejected because we can't find the specified resource.
     func disassociateMembers(input: DisassociateMembersInput) async throws -> DisassociateMembersOutputResponse
     /// Enables the integration of a partner product with Security Hub. Integrated products send findings to Security Hub. When you enable a product integration, a permissions policy that grants permission for the product to send findings to Security Hub is applied.
+    ///
+    /// - Parameter EnableImportFindingsForProductInput : [no documentation found]
+    ///
+    /// - Returns: `EnableImportFindingsForProductOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalException` : Internal server error.
+    /// - `InvalidAccessException` : The account doesn't have permission to perform this action.
+    /// - `InvalidInputException` : The request was rejected because you supplied an invalid or out-of-range value for an input parameter.
+    /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account or throttling limits. The error code describes the limit exceeded.
+    /// - `ResourceConflictException` : The resource specified in the request conflicts with an existing resource.
     func enableImportFindingsForProduct(input: EnableImportFindingsForProductInput) async throws -> EnableImportFindingsForProductOutputResponse
     /// Designates the Security Hub administrator account for an organization. Can only be called by the organization management account.
+    ///
+    /// - Parameter EnableOrganizationAdminAccountInput : [no documentation found]
+    ///
+    /// - Returns: `EnableOrganizationAdminAccountOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalException` : Internal server error.
+    /// - `InvalidAccessException` : The account doesn't have permission to perform this action.
+    /// - `InvalidInputException` : The request was rejected because you supplied an invalid or out-of-range value for an input parameter.
+    /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account or throttling limits. The error code describes the limit exceeded.
     func enableOrganizationAdminAccount(input: EnableOrganizationAdminAccountInput) async throws -> EnableOrganizationAdminAccountOutputResponse
     /// Enables Security Hub for your account in the current Region or the Region you specify in the request. When you enable Security Hub, you grant to Security Hub the permissions necessary to gather findings from other services that are integrated with Security Hub. When you use the EnableSecurityHub operation to enable Security Hub, you also automatically enable the following standards:
     ///
@@ -166,65 +631,437 @@ public protocol SecurityHubClientProtocol {
     ///
     ///
     /// Other standards are not automatically enabled. To opt out of automatically enabled standards, set EnableDefaultStandards to false. After you enable Security Hub, to enable a standard, use the BatchEnableStandards operation. To disable a standard, use the BatchDisableStandards operation. To learn more, see the [setup information](https://docs.aws.amazon.com/securityhub/latest/userguide/securityhub-settingup.html) in the Security Hub User Guide.
+    ///
+    /// - Parameter EnableSecurityHubInput : [no documentation found]
+    ///
+    /// - Returns: `EnableSecurityHubOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have permission to perform the action specified in the request.
+    /// - `InternalException` : Internal server error.
+    /// - `InvalidAccessException` : The account doesn't have permission to perform this action.
+    /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account or throttling limits. The error code describes the limit exceeded.
+    /// - `ResourceConflictException` : The resource specified in the request conflicts with an existing resource.
     func enableSecurityHub(input: EnableSecurityHubInput) async throws -> EnableSecurityHubOutputResponse
     /// Provides the details for the Security Hub administrator account for the current member account. Can be used by both member accounts that are managed using Organizations and accounts that were invited manually.
+    ///
+    /// - Parameter GetAdministratorAccountInput : [no documentation found]
+    ///
+    /// - Returns: `GetAdministratorAccountOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalException` : Internal server error.
+    /// - `InvalidAccessException` : The account doesn't have permission to perform this action.
+    /// - `InvalidInputException` : The request was rejected because you supplied an invalid or out-of-range value for an input parameter.
+    /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account or throttling limits. The error code describes the limit exceeded.
+    /// - `ResourceNotFoundException` : The request was rejected because we can't find the specified resource.
     func getAdministratorAccount(input: GetAdministratorAccountInput) async throws -> GetAdministratorAccountOutputResponse
     /// Returns a list of the standards that are currently enabled.
+    ///
+    /// - Parameter GetEnabledStandardsInput : [no documentation found]
+    ///
+    /// - Returns: `GetEnabledStandardsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalException` : Internal server error.
+    /// - `InvalidAccessException` : The account doesn't have permission to perform this action.
+    /// - `InvalidInputException` : The request was rejected because you supplied an invalid or out-of-range value for an input parameter.
+    /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account or throttling limits. The error code describes the limit exceeded.
     func getEnabledStandards(input: GetEnabledStandardsInput) async throws -> GetEnabledStandardsOutputResponse
     /// Returns the current finding aggregation configuration.
+    ///
+    /// - Parameter GetFindingAggregatorInput : [no documentation found]
+    ///
+    /// - Returns: `GetFindingAggregatorOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have permission to perform the action specified in the request.
+    /// - `InternalException` : Internal server error.
+    /// - `InvalidAccessException` : The account doesn't have permission to perform this action.
+    /// - `InvalidInputException` : The request was rejected because you supplied an invalid or out-of-range value for an input parameter.
+    /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account or throttling limits. The error code describes the limit exceeded.
+    /// - `ResourceNotFoundException` : The request was rejected because we can't find the specified resource.
     func getFindingAggregator(input: GetFindingAggregatorInput) async throws -> GetFindingAggregatorOutputResponse
     /// Returns history for a Security Hub finding in the last 90 days. The history includes changes made to any fields in the Amazon Web Services Security Finding Format (ASFF).
+    ///
+    /// - Parameter GetFindingHistoryInput : [no documentation found]
+    ///
+    /// - Returns: `GetFindingHistoryOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalException` : Internal server error.
+    /// - `InvalidAccessException` : The account doesn't have permission to perform this action.
+    /// - `InvalidInputException` : The request was rejected because you supplied an invalid or out-of-range value for an input parameter.
+    /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account or throttling limits. The error code describes the limit exceeded.
     func getFindingHistory(input: GetFindingHistoryInput) async throws -> GetFindingHistoryOutputResponse
     /// Returns a list of findings that match the specified criteria. If finding aggregation is enabled, then when you call GetFindings from the aggregation Region, the results include all of the matching findings from both the aggregation Region and the linked Regions.
+    ///
+    /// - Parameter GetFindingsInput : [no documentation found]
+    ///
+    /// - Returns: `GetFindingsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalException` : Internal server error.
+    /// - `InvalidAccessException` : The account doesn't have permission to perform this action.
+    /// - `InvalidInputException` : The request was rejected because you supplied an invalid or out-of-range value for an input parameter.
+    /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account or throttling limits. The error code describes the limit exceeded.
     func getFindings(input: GetFindingsInput) async throws -> GetFindingsOutputResponse
     /// Lists the results of the Security Hub insight specified by the insight ARN.
+    ///
+    /// - Parameter GetInsightResultsInput : [no documentation found]
+    ///
+    /// - Returns: `GetInsightResultsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalException` : Internal server error.
+    /// - `InvalidAccessException` : The account doesn't have permission to perform this action.
+    /// - `InvalidInputException` : The request was rejected because you supplied an invalid or out-of-range value for an input parameter.
+    /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account or throttling limits. The error code describes the limit exceeded.
+    /// - `ResourceNotFoundException` : The request was rejected because we can't find the specified resource.
     func getInsightResults(input: GetInsightResultsInput) async throws -> GetInsightResultsOutputResponse
     /// Lists and describes insights for the specified insight ARNs.
+    ///
+    /// - Parameter GetInsightsInput : [no documentation found]
+    ///
+    /// - Returns: `GetInsightsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalException` : Internal server error.
+    /// - `InvalidAccessException` : The account doesn't have permission to perform this action.
+    /// - `InvalidInputException` : The request was rejected because you supplied an invalid or out-of-range value for an input parameter.
+    /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account or throttling limits. The error code describes the limit exceeded.
+    /// - `ResourceNotFoundException` : The request was rejected because we can't find the specified resource.
     func getInsights(input: GetInsightsInput) async throws -> GetInsightsOutputResponse
     /// Returns the count of all Security Hub membership invitations that were sent to the current member account, not including the currently accepted invitation.
+    ///
+    /// - Parameter GetInvitationsCountInput : [no documentation found]
+    ///
+    /// - Returns: `GetInvitationsCountOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalException` : Internal server error.
+    /// - `InvalidAccessException` : The account doesn't have permission to perform this action.
+    /// - `InvalidInputException` : The request was rejected because you supplied an invalid or out-of-range value for an input parameter.
+    /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account or throttling limits. The error code describes the limit exceeded.
     func getInvitationsCount(input: GetInvitationsCountInput) async throws -> GetInvitationsCountOutputResponse
     /// This method is deprecated. Instead, use GetAdministratorAccount. The Security Hub console continues to use GetMasterAccount. It will eventually change to use GetAdministratorAccount. Any IAM policies that specifically control access to this function must continue to use GetMasterAccount. You should also add GetAdministratorAccount to your policies to ensure that the correct permissions are in place after the console begins to use GetAdministratorAccount. Provides the details for the Security Hub administrator account for the current member account. Can be used by both member accounts that are managed using Organizations and accounts that were invited manually.
     @available(*, deprecated, message: "This API has been deprecated, use GetAdministratorAccount API instead.")
+    ///
+    /// - Parameter GetMasterAccountInput : [no documentation found]
+    ///
+    /// - Returns: `GetMasterAccountOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalException` : Internal server error.
+    /// - `InvalidAccessException` : The account doesn't have permission to perform this action.
+    /// - `InvalidInputException` : The request was rejected because you supplied an invalid or out-of-range value for an input parameter.
+    /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account or throttling limits. The error code describes the limit exceeded.
+    /// - `ResourceNotFoundException` : The request was rejected because we can't find the specified resource.
     func getMasterAccount(input: GetMasterAccountInput) async throws -> GetMasterAccountOutputResponse
     /// Returns the details for the Security Hub member accounts for the specified account IDs. An administrator account can be either the delegated Security Hub administrator account for an organization or an administrator account that enabled Security Hub manually. The results include both member accounts that are managed using Organizations and accounts that were invited manually.
+    ///
+    /// - Parameter GetMembersInput : [no documentation found]
+    ///
+    /// - Returns: `GetMembersOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalException` : Internal server error.
+    /// - `InvalidAccessException` : The account doesn't have permission to perform this action.
+    /// - `InvalidInputException` : The request was rejected because you supplied an invalid or out-of-range value for an input parameter.
+    /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account or throttling limits. The error code describes the limit exceeded.
+    /// - `ResourceNotFoundException` : The request was rejected because we can't find the specified resource.
     func getMembers(input: GetMembersInput) async throws -> GetMembersOutputResponse
     /// Invites other Amazon Web Services accounts to become member accounts for the Security Hub administrator account that the invitation is sent from. This operation is only used to invite accounts that do not belong to an organization. Organization accounts do not receive invitations. Before you can use this action to invite a member, you must first use the CreateMembers action to create the member account in Security Hub. When the account owner enables Security Hub and accepts the invitation to become a member account, the administrator account can view the findings generated from the member account.
+    ///
+    /// - Parameter InviteMembersInput : [no documentation found]
+    ///
+    /// - Returns: `InviteMembersOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalException` : Internal server error.
+    /// - `InvalidAccessException` : The account doesn't have permission to perform this action.
+    /// - `InvalidInputException` : The request was rejected because you supplied an invalid or out-of-range value for an input parameter.
+    /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account or throttling limits. The error code describes the limit exceeded.
+    /// - `ResourceNotFoundException` : The request was rejected because we can't find the specified resource.
     func inviteMembers(input: InviteMembersInput) async throws -> InviteMembersOutputResponse
     /// A list of automation rules and their metadata for the calling account.
+    ///
+    /// - Parameter ListAutomationRulesInput : [no documentation found]
+    ///
+    /// - Returns: `ListAutomationRulesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have permission to perform the action specified in the request.
+    /// - `InternalException` : Internal server error.
+    /// - `InvalidAccessException` : The account doesn't have permission to perform this action.
+    /// - `InvalidInputException` : The request was rejected because you supplied an invalid or out-of-range value for an input parameter.
+    /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account or throttling limits. The error code describes the limit exceeded.
     func listAutomationRules(input: ListAutomationRulesInput) async throws -> ListAutomationRulesOutputResponse
     /// Lists all findings-generating solutions (products) that you are subscribed to receive findings from in Security Hub.
+    ///
+    /// - Parameter ListEnabledProductsForImportInput : [no documentation found]
+    ///
+    /// - Returns: `ListEnabledProductsForImportOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalException` : Internal server error.
+    /// - `InvalidAccessException` : The account doesn't have permission to perform this action.
+    /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account or throttling limits. The error code describes the limit exceeded.
     func listEnabledProductsForImport(input: ListEnabledProductsForImportInput) async throws -> ListEnabledProductsForImportOutputResponse
     /// If finding aggregation is enabled, then ListFindingAggregators returns the ARN of the finding aggregator. You can run this operation from any Region.
+    ///
+    /// - Parameter ListFindingAggregatorsInput : [no documentation found]
+    ///
+    /// - Returns: `ListFindingAggregatorsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have permission to perform the action specified in the request.
+    /// - `InternalException` : Internal server error.
+    /// - `InvalidAccessException` : The account doesn't have permission to perform this action.
+    /// - `InvalidInputException` : The request was rejected because you supplied an invalid or out-of-range value for an input parameter.
+    /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account or throttling limits. The error code describes the limit exceeded.
     func listFindingAggregators(input: ListFindingAggregatorsInput) async throws -> ListFindingAggregatorsOutputResponse
     /// Lists all Security Hub membership invitations that were sent to the current Amazon Web Services account. This operation is only used by accounts that are managed by invitation. Accounts that are managed using the integration with Organizations do not receive invitations.
+    ///
+    /// - Parameter ListInvitationsInput : [no documentation found]
+    ///
+    /// - Returns: `ListInvitationsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalException` : Internal server error.
+    /// - `InvalidAccessException` : The account doesn't have permission to perform this action.
+    /// - `InvalidInputException` : The request was rejected because you supplied an invalid or out-of-range value for an input parameter.
+    /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account or throttling limits. The error code describes the limit exceeded.
     func listInvitations(input: ListInvitationsInput) async throws -> ListInvitationsOutputResponse
     /// Lists details about all member accounts for the current Security Hub administrator account. The results include both member accounts that belong to an organization and member accounts that were invited manually.
+    ///
+    /// - Parameter ListMembersInput : [no documentation found]
+    ///
+    /// - Returns: `ListMembersOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalException` : Internal server error.
+    /// - `InvalidAccessException` : The account doesn't have permission to perform this action.
+    /// - `InvalidInputException` : The request was rejected because you supplied an invalid or out-of-range value for an input parameter.
+    /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account or throttling limits. The error code describes the limit exceeded.
     func listMembers(input: ListMembersInput) async throws -> ListMembersOutputResponse
     /// Lists the Security Hub administrator accounts. Can only be called by the organization management account.
+    ///
+    /// - Parameter ListOrganizationAdminAccountsInput : [no documentation found]
+    ///
+    /// - Returns: `ListOrganizationAdminAccountsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalException` : Internal server error.
+    /// - `InvalidAccessException` : The account doesn't have permission to perform this action.
+    /// - `InvalidInputException` : The request was rejected because you supplied an invalid or out-of-range value for an input parameter.
+    /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account or throttling limits. The error code describes the limit exceeded.
     func listOrganizationAdminAccounts(input: ListOrganizationAdminAccountsInput) async throws -> ListOrganizationAdminAccountsOutputResponse
     /// Lists all of the security controls that apply to a specified standard.
+    ///
+    /// - Parameter ListSecurityControlDefinitionsInput : [no documentation found]
+    ///
+    /// - Returns: `ListSecurityControlDefinitionsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalException` : Internal server error.
+    /// - `InvalidAccessException` : The account doesn't have permission to perform this action.
+    /// - `InvalidInputException` : The request was rejected because you supplied an invalid or out-of-range value for an input parameter.
+    /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account or throttling limits. The error code describes the limit exceeded.
     func listSecurityControlDefinitions(input: ListSecurityControlDefinitionsInput) async throws -> ListSecurityControlDefinitionsOutputResponse
     /// Specifies whether a control is currently enabled or disabled in each enabled standard in the calling account.
+    ///
+    /// - Parameter ListStandardsControlAssociationsInput : [no documentation found]
+    ///
+    /// - Returns: `ListStandardsControlAssociationsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalException` : Internal server error.
+    /// - `InvalidAccessException` : The account doesn't have permission to perform this action.
+    /// - `InvalidInputException` : The request was rejected because you supplied an invalid or out-of-range value for an input parameter.
+    /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account or throttling limits. The error code describes the limit exceeded.
     func listStandardsControlAssociations(input: ListStandardsControlAssociationsInput) async throws -> ListStandardsControlAssociationsOutputResponse
     /// Returns a list of tags associated with a resource.
+    ///
+    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    ///
+    /// - Returns: `ListTagsForResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalException` : Internal server error.
+    /// - `InvalidInputException` : The request was rejected because you supplied an invalid or out-of-range value for an input parameter.
+    /// - `ResourceNotFoundException` : The request was rejected because we can't find the specified resource.
     func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
     /// Adds one or more tags to a resource.
+    ///
+    /// - Parameter TagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `TagResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalException` : Internal server error.
+    /// - `InvalidInputException` : The request was rejected because you supplied an invalid or out-of-range value for an input parameter.
+    /// - `ResourceNotFoundException` : The request was rejected because we can't find the specified resource.
     func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
     /// Removes one or more tags from a resource.
+    ///
+    /// - Parameter UntagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `UntagResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalException` : Internal server error.
+    /// - `InvalidInputException` : The request was rejected because you supplied an invalid or out-of-range value for an input parameter.
+    /// - `ResourceNotFoundException` : The request was rejected because we can't find the specified resource.
     func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
     /// Updates the name and description of a custom action target in Security Hub.
+    ///
+    /// - Parameter UpdateActionTargetInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateActionTargetOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalException` : Internal server error.
+    /// - `InvalidAccessException` : The account doesn't have permission to perform this action.
+    /// - `InvalidInputException` : The request was rejected because you supplied an invalid or out-of-range value for an input parameter.
+    /// - `ResourceNotFoundException` : The request was rejected because we can't find the specified resource.
     func updateActionTarget(input: UpdateActionTargetInput) async throws -> UpdateActionTargetOutputResponse
     /// Updates the finding aggregation configuration. Used to update the Region linking mode and the list of included or excluded Regions. You cannot use UpdateFindingAggregator to change the aggregation Region. You must run UpdateFindingAggregator from the current aggregation Region.
+    ///
+    /// - Parameter UpdateFindingAggregatorInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateFindingAggregatorOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have permission to perform the action specified in the request.
+    /// - `InternalException` : Internal server error.
+    /// - `InvalidAccessException` : The account doesn't have permission to perform this action.
+    /// - `InvalidInputException` : The request was rejected because you supplied an invalid or out-of-range value for an input parameter.
+    /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account or throttling limits. The error code describes the limit exceeded.
+    /// - `ResourceNotFoundException` : The request was rejected because we can't find the specified resource.
     func updateFindingAggregator(input: UpdateFindingAggregatorInput) async throws -> UpdateFindingAggregatorOutputResponse
     /// UpdateFindings is deprecated. Instead of UpdateFindings, use BatchUpdateFindings. Updates the Note and RecordState of the Security Hub-aggregated findings that the filter attributes specify. Any member account that can view the finding also sees the update to the finding.
+    ///
+    /// - Parameter UpdateFindingsInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateFindingsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalException` : Internal server error.
+    /// - `InvalidAccessException` : The account doesn't have permission to perform this action.
+    /// - `InvalidInputException` : The request was rejected because you supplied an invalid or out-of-range value for an input parameter.
+    /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account or throttling limits. The error code describes the limit exceeded.
+    /// - `ResourceNotFoundException` : The request was rejected because we can't find the specified resource.
     func updateFindings(input: UpdateFindingsInput) async throws -> UpdateFindingsOutputResponse
     /// Updates the Security Hub insight identified by the specified insight ARN.
+    ///
+    /// - Parameter UpdateInsightInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateInsightOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalException` : Internal server error.
+    /// - `InvalidAccessException` : The account doesn't have permission to perform this action.
+    /// - `InvalidInputException` : The request was rejected because you supplied an invalid or out-of-range value for an input parameter.
+    /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account or throttling limits. The error code describes the limit exceeded.
+    /// - `ResourceNotFoundException` : The request was rejected because we can't find the specified resource.
     func updateInsight(input: UpdateInsightInput) async throws -> UpdateInsightOutputResponse
     /// Used to update the configuration related to Organizations. Can only be called from a Security Hub administrator account.
+    ///
+    /// - Parameter UpdateOrganizationConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateOrganizationConfigurationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalException` : Internal server error.
+    /// - `InvalidAccessException` : The account doesn't have permission to perform this action.
+    /// - `InvalidInputException` : The request was rejected because you supplied an invalid or out-of-range value for an input parameter.
+    /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account or throttling limits. The error code describes the limit exceeded.
     func updateOrganizationConfiguration(input: UpdateOrganizationConfigurationInput) async throws -> UpdateOrganizationConfigurationOutputResponse
     /// Updates configuration options for Security Hub.
+    ///
+    /// - Parameter UpdateSecurityHubConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateSecurityHubConfigurationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalException` : Internal server error.
+    /// - `InvalidAccessException` : The account doesn't have permission to perform this action.
+    /// - `InvalidInputException` : The request was rejected because you supplied an invalid or out-of-range value for an input parameter.
+    /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account or throttling limits. The error code describes the limit exceeded.
+    /// - `ResourceNotFoundException` : The request was rejected because we can't find the specified resource.
     func updateSecurityHubConfiguration(input: UpdateSecurityHubConfigurationInput) async throws -> UpdateSecurityHubConfigurationOutputResponse
     /// Used to control whether an individual security standard control is enabled or disabled.
+    ///
+    /// - Parameter UpdateStandardsControlInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateStandardsControlOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalException` : Internal server error.
+    /// - `InvalidAccessException` : The account doesn't have permission to perform this action.
+    /// - `InvalidInputException` : The request was rejected because you supplied an invalid or out-of-range value for an input parameter.
+    /// - `ResourceNotFoundException` : The request was rejected because we can't find the specified resource.
     func updateStandardsControl(input: UpdateStandardsControlInput) async throws -> UpdateStandardsControlOutputResponse
 }
 

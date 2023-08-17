@@ -45,40 +45,247 @@ import ClientRuntime
 /// * UpdateUserProfile, which updates the profile for a user.
 public protocol CodeStarClientProtocol {
     /// Adds an IAM user to the team for an AWS CodeStar project.
+    ///
+    /// - Parameter AssociateTeamMemberInput : [no documentation found]
+    ///
+    /// - Returns: `AssociateTeamMemberOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConcurrentModificationException` : Another modification is being made. That modification must complete before you can make your change.
+    /// - `InvalidServiceRoleException` : The service role is not valid.
+    /// - `LimitExceededException` : A resource limit has been exceeded.
+    /// - `ProjectConfigurationException` : Project configuration information is required but not specified.
+    /// - `ProjectNotFoundException` : The specified AWS CodeStar project was not found.
+    /// - `TeamMemberAlreadyAssociatedException` : The team member is already associated with a role in this project.
+    /// - `ValidationException` : The specified input is either not valid, or it could not be validated.
     func associateTeamMember(input: AssociateTeamMemberInput) async throws -> AssociateTeamMemberOutputResponse
     /// Creates a project, including project resources. This action creates a project based on a submitted project request. A set of source code files and a toolchain template file can be included with the project request. If these are not provided, an empty project is created.
+    ///
+    /// - Parameter CreateProjectInput : [no documentation found]
+    ///
+    /// - Returns: `CreateProjectOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConcurrentModificationException` : Another modification is being made. That modification must complete before you can make your change.
+    /// - `InvalidServiceRoleException` : The service role is not valid.
+    /// - `LimitExceededException` : A resource limit has been exceeded.
+    /// - `ProjectAlreadyExistsException` : An AWS CodeStar project with the same ID already exists in this region for the AWS account. AWS CodeStar project IDs must be unique within a region for the AWS account.
+    /// - `ProjectConfigurationException` : Project configuration information is required but not specified.
+    /// - `ProjectCreationFailedException` : The project creation request was valid, but a nonspecific exception or error occurred during project creation. The project could not be created in AWS CodeStar.
+    /// - `ValidationException` : The specified input is either not valid, or it could not be validated.
     func createProject(input: CreateProjectInput) async throws -> CreateProjectOutputResponse
     /// Creates a profile for a user that includes user preferences, such as the display name and email address assocciated with the user, in AWS CodeStar. The user profile is not project-specific. Information in the user profile is displayed wherever the user's information appears to other users in AWS CodeStar.
+    ///
+    /// - Parameter CreateUserProfileInput : [no documentation found]
+    ///
+    /// - Returns: `CreateUserProfileOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `UserProfileAlreadyExistsException` : A user profile with that name already exists in this region for the AWS account. AWS CodeStar user profile names must be unique within a region for the AWS account.
+    /// - `ValidationException` : The specified input is either not valid, or it could not be validated.
     func createUserProfile(input: CreateUserProfileInput) async throws -> CreateUserProfileOutputResponse
     /// Deletes a project, including project resources. Does not delete users associated with the project, but does delete the IAM roles that allowed access to the project.
+    ///
+    /// - Parameter DeleteProjectInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteProjectOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConcurrentModificationException` : Another modification is being made. That modification must complete before you can make your change.
+    /// - `InvalidServiceRoleException` : The service role is not valid.
+    /// - `ValidationException` : The specified input is either not valid, or it could not be validated.
     func deleteProject(input: DeleteProjectInput) async throws -> DeleteProjectOutputResponse
     /// Deletes a user profile in AWS CodeStar, including all personal preference data associated with that profile, such as display name and email address. It does not delete the history of that user, for example the history of commits made by that user.
+    ///
+    /// - Parameter DeleteUserProfileInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteUserProfileOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ValidationException` : The specified input is either not valid, or it could not be validated.
     func deleteUserProfile(input: DeleteUserProfileInput) async throws -> DeleteUserProfileOutputResponse
     /// Describes a project and its resources.
+    ///
+    /// - Parameter DescribeProjectInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeProjectOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConcurrentModificationException` : Another modification is being made. That modification must complete before you can make your change.
+    /// - `InvalidServiceRoleException` : The service role is not valid.
+    /// - `ProjectConfigurationException` : Project configuration information is required but not specified.
+    /// - `ProjectNotFoundException` : The specified AWS CodeStar project was not found.
+    /// - `ValidationException` : The specified input is either not valid, or it could not be validated.
     func describeProject(input: DescribeProjectInput) async throws -> DescribeProjectOutputResponse
     /// Describes a user in AWS CodeStar and the user attributes across all projects.
+    ///
+    /// - Parameter DescribeUserProfileInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeUserProfileOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `UserProfileNotFoundException` : The user profile was not found.
+    /// - `ValidationException` : The specified input is either not valid, or it could not be validated.
     func describeUserProfile(input: DescribeUserProfileInput) async throws -> DescribeUserProfileOutputResponse
     /// Removes a user from a project. Removing a user from a project also removes the IAM policies from that user that allowed access to the project and its resources. Disassociating a team member does not remove that user's profile from AWS CodeStar. It does not remove the user from IAM.
+    ///
+    /// - Parameter DisassociateTeamMemberInput : [no documentation found]
+    ///
+    /// - Returns: `DisassociateTeamMemberOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConcurrentModificationException` : Another modification is being made. That modification must complete before you can make your change.
+    /// - `InvalidServiceRoleException` : The service role is not valid.
+    /// - `ProjectNotFoundException` : The specified AWS CodeStar project was not found.
+    /// - `ValidationException` : The specified input is either not valid, or it could not be validated.
     func disassociateTeamMember(input: DisassociateTeamMemberInput) async throws -> DisassociateTeamMemberOutputResponse
     /// Lists all projects in AWS CodeStar associated with your AWS account.
+    ///
+    /// - Parameter ListProjectsInput : [no documentation found]
+    ///
+    /// - Returns: `ListProjectsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidNextTokenException` : The next token is not valid.
+    /// - `ValidationException` : The specified input is either not valid, or it could not be validated.
     func listProjects(input: ListProjectsInput) async throws -> ListProjectsOutputResponse
     /// Lists resources associated with a project in AWS CodeStar.
+    ///
+    /// - Parameter ListResourcesInput : [no documentation found]
+    ///
+    /// - Returns: `ListResourcesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidNextTokenException` : The next token is not valid.
+    /// - `ProjectNotFoundException` : The specified AWS CodeStar project was not found.
+    /// - `ValidationException` : The specified input is either not valid, or it could not be validated.
     func listResources(input: ListResourcesInput) async throws -> ListResourcesOutputResponse
     /// Gets the tags for a project.
+    ///
+    /// - Parameter ListTagsForProjectInput : [no documentation found]
+    ///
+    /// - Returns: `ListTagsForProjectOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidNextTokenException` : The next token is not valid.
+    /// - `ProjectNotFoundException` : The specified AWS CodeStar project was not found.
+    /// - `ValidationException` : The specified input is either not valid, or it could not be validated.
     func listTagsForProject(input: ListTagsForProjectInput) async throws -> ListTagsForProjectOutputResponse
     /// Lists all team members associated with a project.
+    ///
+    /// - Parameter ListTeamMembersInput : [no documentation found]
+    ///
+    /// - Returns: `ListTeamMembersOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidNextTokenException` : The next token is not valid.
+    /// - `ProjectNotFoundException` : The specified AWS CodeStar project was not found.
+    /// - `ValidationException` : The specified input is either not valid, or it could not be validated.
     func listTeamMembers(input: ListTeamMembersInput) async throws -> ListTeamMembersOutputResponse
     /// Lists all the user profiles configured for your AWS account in AWS CodeStar.
+    ///
+    /// - Parameter ListUserProfilesInput : [no documentation found]
+    ///
+    /// - Returns: `ListUserProfilesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidNextTokenException` : The next token is not valid.
+    /// - `ValidationException` : The specified input is either not valid, or it could not be validated.
     func listUserProfiles(input: ListUserProfilesInput) async throws -> ListUserProfilesOutputResponse
     /// Adds tags to a project.
+    ///
+    /// - Parameter TagProjectInput : [no documentation found]
+    ///
+    /// - Returns: `TagProjectOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConcurrentModificationException` : Another modification is being made. That modification must complete before you can make your change.
+    /// - `LimitExceededException` : A resource limit has been exceeded.
+    /// - `ProjectNotFoundException` : The specified AWS CodeStar project was not found.
+    /// - `ValidationException` : The specified input is either not valid, or it could not be validated.
     func tagProject(input: TagProjectInput) async throws -> TagProjectOutputResponse
     /// Removes tags from a project.
+    ///
+    /// - Parameter UntagProjectInput : [no documentation found]
+    ///
+    /// - Returns: `UntagProjectOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConcurrentModificationException` : Another modification is being made. That modification must complete before you can make your change.
+    /// - `LimitExceededException` : A resource limit has been exceeded.
+    /// - `ProjectNotFoundException` : The specified AWS CodeStar project was not found.
+    /// - `ValidationException` : The specified input is either not valid, or it could not be validated.
     func untagProject(input: UntagProjectInput) async throws -> UntagProjectOutputResponse
     /// Updates a project in AWS CodeStar.
+    ///
+    /// - Parameter UpdateProjectInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateProjectOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ProjectNotFoundException` : The specified AWS CodeStar project was not found.
+    /// - `ValidationException` : The specified input is either not valid, or it could not be validated.
     func updateProject(input: UpdateProjectInput) async throws -> UpdateProjectOutputResponse
     /// Updates a team member's attributes in an AWS CodeStar project. For example, you can change a team member's role in the project, or change whether they have remote access to project resources.
+    ///
+    /// - Parameter UpdateTeamMemberInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateTeamMemberOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConcurrentModificationException` : Another modification is being made. That modification must complete before you can make your change.
+    /// - `InvalidServiceRoleException` : The service role is not valid.
+    /// - `LimitExceededException` : A resource limit has been exceeded.
+    /// - `ProjectConfigurationException` : Project configuration information is required but not specified.
+    /// - `ProjectNotFoundException` : The specified AWS CodeStar project was not found.
+    /// - `TeamMemberNotFoundException` : The specified team member was not found.
+    /// - `ValidationException` : The specified input is either not valid, or it could not be validated.
     func updateTeamMember(input: UpdateTeamMemberInput) async throws -> UpdateTeamMemberOutputResponse
     /// Updates a user's profile in AWS CodeStar. The user profile is not project-specific. Information in the user profile is displayed wherever the user's information appears to other users in AWS CodeStar.
+    ///
+    /// - Parameter UpdateUserProfileInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateUserProfileOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `UserProfileNotFoundException` : The user profile was not found.
+    /// - `ValidationException` : The specified input is either not valid, or it could not be validated.
     func updateUserProfile(input: UpdateUserProfileInput) async throws -> UpdateUserProfileOutputResponse
 }
 

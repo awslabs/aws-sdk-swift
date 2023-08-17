@@ -343,6 +343,38 @@ extension ApplyPendingMaintenanceActionOutputResponseBody: Swift.Decodable {
 }
 
 extension DatabaseMigrationClientTypes {
+    public enum AssessmentReportType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case csv
+        case pdf
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AssessmentReportType] {
+            return [
+                .csv,
+                .pdf,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .csv: return "csv"
+            case .pdf: return "pdf"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = AssessmentReportType(rawValue: rawValue) ?? AssessmentReportType.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension DatabaseMigrationClientTypes {
     public enum AuthMechanismValue: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case `default`
         case mongodbCr
@@ -1537,6 +1569,168 @@ extension DatabaseMigrationClientTypes {
 
 }
 
+extension CreateDataProviderInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case dataProviderName = "DataProviderName"
+        case description = "Description"
+        case engine = "Engine"
+        case settings = "Settings"
+        case tags = "Tags"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let dataProviderName = self.dataProviderName {
+            try encodeContainer.encode(dataProviderName, forKey: .dataProviderName)
+        }
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
+        if let engine = self.engine {
+            try encodeContainer.encode(engine, forKey: .engine)
+        }
+        if let settings = self.settings {
+            try encodeContainer.encode(settings, forKey: .settings)
+        }
+        if let tags = tags {
+            var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
+            }
+        }
+    }
+}
+
+extension CreateDataProviderInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct CreateDataProviderInput: Swift.Equatable {
+    /// A user-friendly name for the data provider.
+    public var dataProviderName: Swift.String?
+    /// A user-friendly description of the data provider.
+    public var description: Swift.String?
+    /// The type of database engine for the data provider. Valid values include "aurora", "aurora_postgresql", "mysql", "oracle", "postgres", and "sqlserver". A value of "aurora" represents Amazon Aurora MySQL-Compatible Edition.
+    /// This member is required.
+    public var engine: Swift.String?
+    /// The settings in JSON format for a data provider.
+    /// This member is required.
+    public var settings: DatabaseMigrationClientTypes.DataProviderSettings?
+    /// One or more tags to be assigned to the data provider.
+    public var tags: [DatabaseMigrationClientTypes.Tag]?
+
+    public init(
+        dataProviderName: Swift.String? = nil,
+        description: Swift.String? = nil,
+        engine: Swift.String? = nil,
+        settings: DatabaseMigrationClientTypes.DataProviderSettings? = nil,
+        tags: [DatabaseMigrationClientTypes.Tag]? = nil
+    )
+    {
+        self.dataProviderName = dataProviderName
+        self.description = description
+        self.engine = engine
+        self.settings = settings
+        self.tags = tags
+    }
+}
+
+struct CreateDataProviderInputBody: Swift.Equatable {
+    let dataProviderName: Swift.String?
+    let description: Swift.String?
+    let engine: Swift.String?
+    let settings: DatabaseMigrationClientTypes.DataProviderSettings?
+    let tags: [DatabaseMigrationClientTypes.Tag]?
+}
+
+extension CreateDataProviderInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case dataProviderName = "DataProviderName"
+        case description = "Description"
+        case engine = "Engine"
+        case settings = "Settings"
+        case tags = "Tags"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let dataProviderNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dataProviderName)
+        dataProviderName = dataProviderNameDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let engineDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .engine)
+        engine = engineDecoded
+        let settingsDecoded = try containerValues.decodeIfPresent(DatabaseMigrationClientTypes.DataProviderSettings.self, forKey: .settings)
+        settings = settingsDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([DatabaseMigrationClientTypes.Tag?].self, forKey: .tags)
+        var tagsDecoded0:[DatabaseMigrationClientTypes.Tag]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [DatabaseMigrationClientTypes.Tag]()
+            for structure0 in tagsContainer {
+                if let structure0 = structure0 {
+                    tagsDecoded0?.append(structure0)
+                }
+            }
+        }
+        tags = tagsDecoded0
+    }
+}
+
+public enum CreateDataProviderOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedFault": return try await AccessDeniedFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceAlreadyExistsFault": return try await ResourceAlreadyExistsFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceQuotaExceededFault": return try await ResourceQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension CreateDataProviderOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CreateDataProviderOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.dataProvider = output.dataProvider
+        } else {
+            self.dataProvider = nil
+        }
+    }
+}
+
+public struct CreateDataProviderOutputResponse: Swift.Equatable {
+    /// The data provider that was created.
+    public var dataProvider: DatabaseMigrationClientTypes.DataProvider?
+
+    public init(
+        dataProvider: DatabaseMigrationClientTypes.DataProvider? = nil
+    )
+    {
+        self.dataProvider = dataProvider
+    }
+}
+
+struct CreateDataProviderOutputResponseBody: Swift.Equatable {
+    let dataProvider: DatabaseMigrationClientTypes.DataProvider?
+}
+
+extension CreateDataProviderOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case dataProvider = "DataProvider"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let dataProviderDecoded = try containerValues.decodeIfPresent(DatabaseMigrationClientTypes.DataProvider.self, forKey: .dataProvider)
+        dataProvider = dataProviderDecoded
+    }
+}
+
 extension CreateEndpointInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
         "CreateEndpointInput(certificateArn: \(Swift.String(describing: certificateArn)), databaseName: \(Swift.String(describing: databaseName)), dmsTransferSettings: \(Swift.String(describing: dmsTransferSettings)), docDbSettings: \(Swift.String(describing: docDbSettings)), dynamoDbSettings: \(Swift.String(describing: dynamoDbSettings)), elasticsearchSettings: \(Swift.String(describing: elasticsearchSettings)), endpointIdentifier: \(Swift.String(describing: endpointIdentifier)), endpointType: \(Swift.String(describing: endpointType)), engineName: \(Swift.String(describing: engineName)), externalTableDefinition: \(Swift.String(describing: externalTableDefinition)), extraConnectionAttributes: \(Swift.String(describing: extraConnectionAttributes)), gcpMySQLSettings: \(Swift.String(describing: gcpMySQLSettings)), ibmDb2Settings: \(Swift.String(describing: ibmDb2Settings)), kafkaSettings: \(Swift.String(describing: kafkaSettings)), kinesisSettings: \(Swift.String(describing: kinesisSettings)), kmsKeyId: \(Swift.String(describing: kmsKeyId)), microsoftSQLServerSettings: \(Swift.String(describing: microsoftSQLServerSettings)), mongoDbSettings: \(Swift.String(describing: mongoDbSettings)), mySQLSettings: \(Swift.String(describing: mySQLSettings)), neptuneSettings: \(Swift.String(describing: neptuneSettings)), oracleSettings: \(Swift.String(describing: oracleSettings)), port: \(Swift.String(describing: port)), postgreSQLSettings: \(Swift.String(describing: postgreSQLSettings)), redisSettings: \(Swift.String(describing: redisSettings)), redshiftSettings: \(Swift.String(describing: redshiftSettings)), resourceIdentifier: \(Swift.String(describing: resourceIdentifier)), s3Settings: \(Swift.String(describing: s3Settings)), serverName: \(Swift.String(describing: serverName)), serviceAccessRoleArn: \(Swift.String(describing: serviceAccessRoleArn)), sslMode: \(Swift.String(describing: sslMode)), sybaseSettings: \(Swift.String(describing: sybaseSettings)), tags: \(Swift.String(describing: tags)), timestreamSettings: \(Swift.String(describing: timestreamSettings)), username: \(Swift.String(describing: username)), password: \"CONTENT_REDACTED\")"}
@@ -2475,6 +2669,457 @@ extension CreateFleetAdvisorCollectorOutputResponseBody: Swift.Decodable {
         serviceAccessRoleArn = serviceAccessRoleArnDecoded
         let s3BucketNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .s3BucketName)
         s3BucketName = s3BucketNameDecoded
+    }
+}
+
+extension CreateInstanceProfileInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case availabilityZone = "AvailabilityZone"
+        case description = "Description"
+        case instanceProfileName = "InstanceProfileName"
+        case kmsKeyArn = "KmsKeyArn"
+        case networkType = "NetworkType"
+        case publiclyAccessible = "PubliclyAccessible"
+        case subnetGroupIdentifier = "SubnetGroupIdentifier"
+        case tags = "Tags"
+        case vpcSecurityGroups = "VpcSecurityGroups"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let availabilityZone = self.availabilityZone {
+            try encodeContainer.encode(availabilityZone, forKey: .availabilityZone)
+        }
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
+        if let instanceProfileName = self.instanceProfileName {
+            try encodeContainer.encode(instanceProfileName, forKey: .instanceProfileName)
+        }
+        if let kmsKeyArn = self.kmsKeyArn {
+            try encodeContainer.encode(kmsKeyArn, forKey: .kmsKeyArn)
+        }
+        if let networkType = self.networkType {
+            try encodeContainer.encode(networkType, forKey: .networkType)
+        }
+        if let publiclyAccessible = self.publiclyAccessible {
+            try encodeContainer.encode(publiclyAccessible, forKey: .publiclyAccessible)
+        }
+        if let subnetGroupIdentifier = self.subnetGroupIdentifier {
+            try encodeContainer.encode(subnetGroupIdentifier, forKey: .subnetGroupIdentifier)
+        }
+        if let tags = tags {
+            var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
+            }
+        }
+        if let vpcSecurityGroups = vpcSecurityGroups {
+            var vpcSecurityGroupsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .vpcSecurityGroups)
+            for string0 in vpcSecurityGroups {
+                try vpcSecurityGroupsContainer.encode(string0)
+            }
+        }
+    }
+}
+
+extension CreateInstanceProfileInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct CreateInstanceProfileInput: Swift.Equatable {
+    /// The Availability Zone where the instance profile will be created. The default value is a random, system-chosen Availability Zone in the Amazon Web Services Region where your data provider is created, for examplem us-east-1d.
+    public var availabilityZone: Swift.String?
+    /// A user-friendly description of the instance profile.
+    public var description: Swift.String?
+    /// A user-friendly name for the instance profile.
+    public var instanceProfileName: Swift.String?
+    /// The Amazon Resource Name (ARN) of the KMS key that is used to encrypt the connection parameters for the instance profile. If you don't specify a value for the KmsKeyArn parameter, then DMS uses your default encryption key. KMS creates the default encryption key for your Amazon Web Services account. Your Amazon Web Services account has a different default encryption key for each Amazon Web Services Region.
+    public var kmsKeyArn: Swift.String?
+    /// Specifies the network type for the instance profile. A value of IPV4 represents an instance profile with IPv4 network type and only supports IPv4 addressing. A value of IPV6 represents an instance profile with IPv6 network type and only supports IPv6 addressing. A value of DUAL represents an instance profile with dual network type that supports IPv4 and IPv6 addressing.
+    public var networkType: Swift.String?
+    /// Specifies the accessibility options for the instance profile. A value of true represents an instance profile with a public IP address. A value of false represents an instance profile with a private IP address. The default value is true.
+    public var publiclyAccessible: Swift.Bool?
+    /// A subnet group to associate with the instance profile.
+    public var subnetGroupIdentifier: Swift.String?
+    /// One or more tags to be assigned to the instance profile.
+    public var tags: [DatabaseMigrationClientTypes.Tag]?
+    /// Specifies the VPC security group names to be used with the instance profile. The VPC security group must work with the VPC containing the instance profile.
+    public var vpcSecurityGroups: [Swift.String]?
+
+    public init(
+        availabilityZone: Swift.String? = nil,
+        description: Swift.String? = nil,
+        instanceProfileName: Swift.String? = nil,
+        kmsKeyArn: Swift.String? = nil,
+        networkType: Swift.String? = nil,
+        publiclyAccessible: Swift.Bool? = nil,
+        subnetGroupIdentifier: Swift.String? = nil,
+        tags: [DatabaseMigrationClientTypes.Tag]? = nil,
+        vpcSecurityGroups: [Swift.String]? = nil
+    )
+    {
+        self.availabilityZone = availabilityZone
+        self.description = description
+        self.instanceProfileName = instanceProfileName
+        self.kmsKeyArn = kmsKeyArn
+        self.networkType = networkType
+        self.publiclyAccessible = publiclyAccessible
+        self.subnetGroupIdentifier = subnetGroupIdentifier
+        self.tags = tags
+        self.vpcSecurityGroups = vpcSecurityGroups
+    }
+}
+
+struct CreateInstanceProfileInputBody: Swift.Equatable {
+    let availabilityZone: Swift.String?
+    let kmsKeyArn: Swift.String?
+    let publiclyAccessible: Swift.Bool?
+    let tags: [DatabaseMigrationClientTypes.Tag]?
+    let networkType: Swift.String?
+    let instanceProfileName: Swift.String?
+    let description: Swift.String?
+    let subnetGroupIdentifier: Swift.String?
+    let vpcSecurityGroups: [Swift.String]?
+}
+
+extension CreateInstanceProfileInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case availabilityZone = "AvailabilityZone"
+        case description = "Description"
+        case instanceProfileName = "InstanceProfileName"
+        case kmsKeyArn = "KmsKeyArn"
+        case networkType = "NetworkType"
+        case publiclyAccessible = "PubliclyAccessible"
+        case subnetGroupIdentifier = "SubnetGroupIdentifier"
+        case tags = "Tags"
+        case vpcSecurityGroups = "VpcSecurityGroups"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let availabilityZoneDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .availabilityZone)
+        availabilityZone = availabilityZoneDecoded
+        let kmsKeyArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .kmsKeyArn)
+        kmsKeyArn = kmsKeyArnDecoded
+        let publiclyAccessibleDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .publiclyAccessible)
+        publiclyAccessible = publiclyAccessibleDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([DatabaseMigrationClientTypes.Tag?].self, forKey: .tags)
+        var tagsDecoded0:[DatabaseMigrationClientTypes.Tag]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [DatabaseMigrationClientTypes.Tag]()
+            for structure0 in tagsContainer {
+                if let structure0 = structure0 {
+                    tagsDecoded0?.append(structure0)
+                }
+            }
+        }
+        tags = tagsDecoded0
+        let networkTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .networkType)
+        networkType = networkTypeDecoded
+        let instanceProfileNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .instanceProfileName)
+        instanceProfileName = instanceProfileNameDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let subnetGroupIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .subnetGroupIdentifier)
+        subnetGroupIdentifier = subnetGroupIdentifierDecoded
+        let vpcSecurityGroupsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .vpcSecurityGroups)
+        var vpcSecurityGroupsDecoded0:[Swift.String]? = nil
+        if let vpcSecurityGroupsContainer = vpcSecurityGroupsContainer {
+            vpcSecurityGroupsDecoded0 = [Swift.String]()
+            for string0 in vpcSecurityGroupsContainer {
+                if let string0 = string0 {
+                    vpcSecurityGroupsDecoded0?.append(string0)
+                }
+            }
+        }
+        vpcSecurityGroups = vpcSecurityGroupsDecoded0
+    }
+}
+
+public enum CreateInstanceProfileOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedFault": return try await AccessDeniedFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidResourceStateFault": return try await InvalidResourceStateFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "KMSKeyNotAccessibleFault": return try await KMSKeyNotAccessibleFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceAlreadyExistsFault": return try await ResourceAlreadyExistsFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundFault": return try await ResourceNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceQuotaExceededFault": return try await ResourceQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "S3AccessDeniedFault": return try await S3AccessDeniedFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "S3ResourceNotFoundFault": return try await S3ResourceNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension CreateInstanceProfileOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CreateInstanceProfileOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.instanceProfile = output.instanceProfile
+        } else {
+            self.instanceProfile = nil
+        }
+    }
+}
+
+public struct CreateInstanceProfileOutputResponse: Swift.Equatable {
+    /// The instance profile that was created.
+    public var instanceProfile: DatabaseMigrationClientTypes.InstanceProfile?
+
+    public init(
+        instanceProfile: DatabaseMigrationClientTypes.InstanceProfile? = nil
+    )
+    {
+        self.instanceProfile = instanceProfile
+    }
+}
+
+struct CreateInstanceProfileOutputResponseBody: Swift.Equatable {
+    let instanceProfile: DatabaseMigrationClientTypes.InstanceProfile?
+}
+
+extension CreateInstanceProfileOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case instanceProfile = "InstanceProfile"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let instanceProfileDecoded = try containerValues.decodeIfPresent(DatabaseMigrationClientTypes.InstanceProfile.self, forKey: .instanceProfile)
+        instanceProfile = instanceProfileDecoded
+    }
+}
+
+extension CreateMigrationProjectInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case description = "Description"
+        case instanceProfileIdentifier = "InstanceProfileIdentifier"
+        case migrationProjectName = "MigrationProjectName"
+        case schemaConversionApplicationAttributes = "SchemaConversionApplicationAttributes"
+        case sourceDataProviderDescriptors = "SourceDataProviderDescriptors"
+        case tags = "Tags"
+        case targetDataProviderDescriptors = "TargetDataProviderDescriptors"
+        case transformationRules = "TransformationRules"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
+        if let instanceProfileIdentifier = self.instanceProfileIdentifier {
+            try encodeContainer.encode(instanceProfileIdentifier, forKey: .instanceProfileIdentifier)
+        }
+        if let migrationProjectName = self.migrationProjectName {
+            try encodeContainer.encode(migrationProjectName, forKey: .migrationProjectName)
+        }
+        if let schemaConversionApplicationAttributes = self.schemaConversionApplicationAttributes {
+            try encodeContainer.encode(schemaConversionApplicationAttributes, forKey: .schemaConversionApplicationAttributes)
+        }
+        if let sourceDataProviderDescriptors = sourceDataProviderDescriptors {
+            var sourceDataProviderDescriptorsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .sourceDataProviderDescriptors)
+            for dataproviderdescriptordefinition0 in sourceDataProviderDescriptors {
+                try sourceDataProviderDescriptorsContainer.encode(dataproviderdescriptordefinition0)
+            }
+        }
+        if let tags = tags {
+            var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
+            }
+        }
+        if let targetDataProviderDescriptors = targetDataProviderDescriptors {
+            var targetDataProviderDescriptorsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .targetDataProviderDescriptors)
+            for dataproviderdescriptordefinition0 in targetDataProviderDescriptors {
+                try targetDataProviderDescriptorsContainer.encode(dataproviderdescriptordefinition0)
+            }
+        }
+        if let transformationRules = self.transformationRules {
+            try encodeContainer.encode(transformationRules, forKey: .transformationRules)
+        }
+    }
+}
+
+extension CreateMigrationProjectInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct CreateMigrationProjectInput: Swift.Equatable {
+    /// A user-friendly description of the migration project.
+    public var description: Swift.String?
+    /// The identifier of the associated instance profile. Identifiers must begin with a letter and must contain only ASCII letters, digits, and hyphens. They can't end with a hyphen, or contain two consecutive hyphens.
+    /// This member is required.
+    public var instanceProfileIdentifier: Swift.String?
+    /// A user-friendly name for the migration project.
+    public var migrationProjectName: Swift.String?
+    /// The schema conversion application attributes, including the Amazon S3 bucket name and Amazon S3 role ARN.
+    public var schemaConversionApplicationAttributes: DatabaseMigrationClientTypes.SCApplicationAttributes?
+    /// Information about the source data provider, including the name, ARN, and Secrets Manager parameters.
+    /// This member is required.
+    public var sourceDataProviderDescriptors: [DatabaseMigrationClientTypes.DataProviderDescriptorDefinition]?
+    /// One or more tags to be assigned to the migration project.
+    public var tags: [DatabaseMigrationClientTypes.Tag]?
+    /// Information about the target data provider, including the name, ARN, and Amazon Web Services Secrets Manager parameters.
+    /// This member is required.
+    public var targetDataProviderDescriptors: [DatabaseMigrationClientTypes.DataProviderDescriptorDefinition]?
+    /// The settings in JSON format for migration rules. Migration rules make it possible for you to change the object names according to the rules that you specify. For example, you can change an object name to lowercase or uppercase, add or remove a prefix or suffix, or rename objects.
+    public var transformationRules: Swift.String?
+
+    public init(
+        description: Swift.String? = nil,
+        instanceProfileIdentifier: Swift.String? = nil,
+        migrationProjectName: Swift.String? = nil,
+        schemaConversionApplicationAttributes: DatabaseMigrationClientTypes.SCApplicationAttributes? = nil,
+        sourceDataProviderDescriptors: [DatabaseMigrationClientTypes.DataProviderDescriptorDefinition]? = nil,
+        tags: [DatabaseMigrationClientTypes.Tag]? = nil,
+        targetDataProviderDescriptors: [DatabaseMigrationClientTypes.DataProviderDescriptorDefinition]? = nil,
+        transformationRules: Swift.String? = nil
+    )
+    {
+        self.description = description
+        self.instanceProfileIdentifier = instanceProfileIdentifier
+        self.migrationProjectName = migrationProjectName
+        self.schemaConversionApplicationAttributes = schemaConversionApplicationAttributes
+        self.sourceDataProviderDescriptors = sourceDataProviderDescriptors
+        self.tags = tags
+        self.targetDataProviderDescriptors = targetDataProviderDescriptors
+        self.transformationRules = transformationRules
+    }
+}
+
+struct CreateMigrationProjectInputBody: Swift.Equatable {
+    let migrationProjectName: Swift.String?
+    let sourceDataProviderDescriptors: [DatabaseMigrationClientTypes.DataProviderDescriptorDefinition]?
+    let targetDataProviderDescriptors: [DatabaseMigrationClientTypes.DataProviderDescriptorDefinition]?
+    let instanceProfileIdentifier: Swift.String?
+    let transformationRules: Swift.String?
+    let description: Swift.String?
+    let tags: [DatabaseMigrationClientTypes.Tag]?
+    let schemaConversionApplicationAttributes: DatabaseMigrationClientTypes.SCApplicationAttributes?
+}
+
+extension CreateMigrationProjectInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case description = "Description"
+        case instanceProfileIdentifier = "InstanceProfileIdentifier"
+        case migrationProjectName = "MigrationProjectName"
+        case schemaConversionApplicationAttributes = "SchemaConversionApplicationAttributes"
+        case sourceDataProviderDescriptors = "SourceDataProviderDescriptors"
+        case tags = "Tags"
+        case targetDataProviderDescriptors = "TargetDataProviderDescriptors"
+        case transformationRules = "TransformationRules"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let migrationProjectNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .migrationProjectName)
+        migrationProjectName = migrationProjectNameDecoded
+        let sourceDataProviderDescriptorsContainer = try containerValues.decodeIfPresent([DatabaseMigrationClientTypes.DataProviderDescriptorDefinition?].self, forKey: .sourceDataProviderDescriptors)
+        var sourceDataProviderDescriptorsDecoded0:[DatabaseMigrationClientTypes.DataProviderDescriptorDefinition]? = nil
+        if let sourceDataProviderDescriptorsContainer = sourceDataProviderDescriptorsContainer {
+            sourceDataProviderDescriptorsDecoded0 = [DatabaseMigrationClientTypes.DataProviderDescriptorDefinition]()
+            for structure0 in sourceDataProviderDescriptorsContainer {
+                if let structure0 = structure0 {
+                    sourceDataProviderDescriptorsDecoded0?.append(structure0)
+                }
+            }
+        }
+        sourceDataProviderDescriptors = sourceDataProviderDescriptorsDecoded0
+        let targetDataProviderDescriptorsContainer = try containerValues.decodeIfPresent([DatabaseMigrationClientTypes.DataProviderDescriptorDefinition?].self, forKey: .targetDataProviderDescriptors)
+        var targetDataProviderDescriptorsDecoded0:[DatabaseMigrationClientTypes.DataProviderDescriptorDefinition]? = nil
+        if let targetDataProviderDescriptorsContainer = targetDataProviderDescriptorsContainer {
+            targetDataProviderDescriptorsDecoded0 = [DatabaseMigrationClientTypes.DataProviderDescriptorDefinition]()
+            for structure0 in targetDataProviderDescriptorsContainer {
+                if let structure0 = structure0 {
+                    targetDataProviderDescriptorsDecoded0?.append(structure0)
+                }
+            }
+        }
+        targetDataProviderDescriptors = targetDataProviderDescriptorsDecoded0
+        let instanceProfileIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .instanceProfileIdentifier)
+        instanceProfileIdentifier = instanceProfileIdentifierDecoded
+        let transformationRulesDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .transformationRules)
+        transformationRules = transformationRulesDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([DatabaseMigrationClientTypes.Tag?].self, forKey: .tags)
+        var tagsDecoded0:[DatabaseMigrationClientTypes.Tag]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [DatabaseMigrationClientTypes.Tag]()
+            for structure0 in tagsContainer {
+                if let structure0 = structure0 {
+                    tagsDecoded0?.append(structure0)
+                }
+            }
+        }
+        tags = tagsDecoded0
+        let schemaConversionApplicationAttributesDecoded = try containerValues.decodeIfPresent(DatabaseMigrationClientTypes.SCApplicationAttributes.self, forKey: .schemaConversionApplicationAttributes)
+        schemaConversionApplicationAttributes = schemaConversionApplicationAttributesDecoded
+    }
+}
+
+public enum CreateMigrationProjectOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedFault": return try await AccessDeniedFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceAlreadyExistsFault": return try await ResourceAlreadyExistsFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundFault": return try await ResourceNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceQuotaExceededFault": return try await ResourceQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "S3AccessDeniedFault": return try await S3AccessDeniedFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "S3ResourceNotFoundFault": return try await S3ResourceNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension CreateMigrationProjectOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CreateMigrationProjectOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.migrationProject = output.migrationProject
+        } else {
+            self.migrationProject = nil
+        }
+    }
+}
+
+public struct CreateMigrationProjectOutputResponse: Swift.Equatable {
+    /// The migration project that was created.
+    public var migrationProject: DatabaseMigrationClientTypes.MigrationProject?
+
+    public init(
+        migrationProject: DatabaseMigrationClientTypes.MigrationProject? = nil
+    )
+    {
+        self.migrationProject = migrationProject
+    }
+}
+
+struct CreateMigrationProjectOutputResponseBody: Swift.Equatable {
+    let migrationProject: DatabaseMigrationClientTypes.MigrationProject?
+}
+
+extension CreateMigrationProjectOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case migrationProject = "MigrationProject"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let migrationProjectDecoded = try containerValues.decodeIfPresent(DatabaseMigrationClientTypes.MigrationProject.self, forKey: .migrationProject)
+        migrationProject = migrationProjectDecoded
     }
 }
 
@@ -3514,6 +4159,279 @@ extension DatabaseMigrationClientTypes {
     }
 }
 
+extension DatabaseMigrationClientTypes.DataProvider: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case dataProviderArn = "DataProviderArn"
+        case dataProviderCreationTime = "DataProviderCreationTime"
+        case dataProviderName = "DataProviderName"
+        case description = "Description"
+        case engine = "Engine"
+        case settings = "Settings"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let dataProviderArn = self.dataProviderArn {
+            try encodeContainer.encode(dataProviderArn, forKey: .dataProviderArn)
+        }
+        if let dataProviderCreationTime = self.dataProviderCreationTime {
+            try encodeContainer.encodeTimestamp(dataProviderCreationTime, format: .dateTime, forKey: .dataProviderCreationTime)
+        }
+        if let dataProviderName = self.dataProviderName {
+            try encodeContainer.encode(dataProviderName, forKey: .dataProviderName)
+        }
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
+        if let engine = self.engine {
+            try encodeContainer.encode(engine, forKey: .engine)
+        }
+        if let settings = self.settings {
+            try encodeContainer.encode(settings, forKey: .settings)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let dataProviderNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dataProviderName)
+        dataProviderName = dataProviderNameDecoded
+        let dataProviderArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dataProviderArn)
+        dataProviderArn = dataProviderArnDecoded
+        let dataProviderCreationTimeDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .dataProviderCreationTime)
+        dataProviderCreationTime = dataProviderCreationTimeDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let engineDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .engine)
+        engine = engineDecoded
+        let settingsDecoded = try containerValues.decodeIfPresent(DatabaseMigrationClientTypes.DataProviderSettings.self, forKey: .settings)
+        settings = settingsDecoded
+    }
+}
+
+extension DatabaseMigrationClientTypes {
+    /// Provides information that defines a data provider.
+    public struct DataProvider: Swift.Equatable {
+        /// The Amazon Resource Name (ARN) string that uniquely identifies the data provider.
+        public var dataProviderArn: Swift.String?
+        /// The time the data provider was created.
+        public var dataProviderCreationTime: ClientRuntime.Date?
+        /// The name of the data provider.
+        public var dataProviderName: Swift.String?
+        /// A description of the data provider. Descriptions can have up to 31 characters. A description can contain only ASCII letters, digits, and hyphens ('-'). Also, it can't end with a hyphen or contain two consecutive hyphens, and can only begin with a letter.
+        public var description: Swift.String?
+        /// The type of database engine for the data provider. Valid values include "aurora", "aurora_postgresql", "mysql", "oracle", "postgres", and "sqlserver". A value of "aurora" represents Amazon Aurora MySQL-Compatible Edition.
+        public var engine: Swift.String?
+        /// The settings in JSON format for a data provider.
+        public var settings: DatabaseMigrationClientTypes.DataProviderSettings?
+
+        public init(
+            dataProviderArn: Swift.String? = nil,
+            dataProviderCreationTime: ClientRuntime.Date? = nil,
+            dataProviderName: Swift.String? = nil,
+            description: Swift.String? = nil,
+            engine: Swift.String? = nil,
+            settings: DatabaseMigrationClientTypes.DataProviderSettings? = nil
+        )
+        {
+            self.dataProviderArn = dataProviderArn
+            self.dataProviderCreationTime = dataProviderCreationTime
+            self.dataProviderName = dataProviderName
+            self.description = description
+            self.engine = engine
+            self.settings = settings
+        }
+    }
+
+}
+
+extension DatabaseMigrationClientTypes.DataProviderDescriptor: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case dataProviderArn = "DataProviderArn"
+        case dataProviderName = "DataProviderName"
+        case secretsManagerAccessRoleArn = "SecretsManagerAccessRoleArn"
+        case secretsManagerSecretId = "SecretsManagerSecretId"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let dataProviderArn = self.dataProviderArn {
+            try encodeContainer.encode(dataProviderArn, forKey: .dataProviderArn)
+        }
+        if let dataProviderName = self.dataProviderName {
+            try encodeContainer.encode(dataProviderName, forKey: .dataProviderName)
+        }
+        if let secretsManagerAccessRoleArn = self.secretsManagerAccessRoleArn {
+            try encodeContainer.encode(secretsManagerAccessRoleArn, forKey: .secretsManagerAccessRoleArn)
+        }
+        if let secretsManagerSecretId = self.secretsManagerSecretId {
+            try encodeContainer.encode(secretsManagerSecretId, forKey: .secretsManagerSecretId)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let secretsManagerSecretIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .secretsManagerSecretId)
+        secretsManagerSecretId = secretsManagerSecretIdDecoded
+        let secretsManagerAccessRoleArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .secretsManagerAccessRoleArn)
+        secretsManagerAccessRoleArn = secretsManagerAccessRoleArnDecoded
+        let dataProviderNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dataProviderName)
+        dataProviderName = dataProviderNameDecoded
+        let dataProviderArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dataProviderArn)
+        dataProviderArn = dataProviderArnDecoded
+    }
+}
+
+extension DatabaseMigrationClientTypes {
+    /// Information about a data provider.
+    public struct DataProviderDescriptor: Swift.Equatable {
+        /// The Amazon Resource Name (ARN) of the data provider.
+        public var dataProviderArn: Swift.String?
+        /// The user-friendly name of the data provider.
+        public var dataProviderName: Swift.String?
+        /// The ARN of the role used to access Amazon Web Services Secrets Manager.
+        public var secretsManagerAccessRoleArn: Swift.String?
+        /// The identifier of the Amazon Web Services Secrets Manager Secret used to store access credentials for the data provider.
+        public var secretsManagerSecretId: Swift.String?
+
+        public init(
+            dataProviderArn: Swift.String? = nil,
+            dataProviderName: Swift.String? = nil,
+            secretsManagerAccessRoleArn: Swift.String? = nil,
+            secretsManagerSecretId: Swift.String? = nil
+        )
+        {
+            self.dataProviderArn = dataProviderArn
+            self.dataProviderName = dataProviderName
+            self.secretsManagerAccessRoleArn = secretsManagerAccessRoleArn
+            self.secretsManagerSecretId = secretsManagerSecretId
+        }
+    }
+
+}
+
+extension DatabaseMigrationClientTypes.DataProviderDescriptorDefinition: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case dataProviderIdentifier = "DataProviderIdentifier"
+        case secretsManagerAccessRoleArn = "SecretsManagerAccessRoleArn"
+        case secretsManagerSecretId = "SecretsManagerSecretId"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let dataProviderIdentifier = self.dataProviderIdentifier {
+            try encodeContainer.encode(dataProviderIdentifier, forKey: .dataProviderIdentifier)
+        }
+        if let secretsManagerAccessRoleArn = self.secretsManagerAccessRoleArn {
+            try encodeContainer.encode(secretsManagerAccessRoleArn, forKey: .secretsManagerAccessRoleArn)
+        }
+        if let secretsManagerSecretId = self.secretsManagerSecretId {
+            try encodeContainer.encode(secretsManagerSecretId, forKey: .secretsManagerSecretId)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let dataProviderIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dataProviderIdentifier)
+        dataProviderIdentifier = dataProviderIdentifierDecoded
+        let secretsManagerSecretIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .secretsManagerSecretId)
+        secretsManagerSecretId = secretsManagerSecretIdDecoded
+        let secretsManagerAccessRoleArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .secretsManagerAccessRoleArn)
+        secretsManagerAccessRoleArn = secretsManagerAccessRoleArnDecoded
+    }
+}
+
+extension DatabaseMigrationClientTypes {
+    /// Information about a data provider.
+    public struct DataProviderDescriptorDefinition: Swift.Equatable {
+        /// The name or Amazon Resource Name (ARN) of the data provider.
+        /// This member is required.
+        public var dataProviderIdentifier: Swift.String?
+        /// The ARN of the role used to access Amazon Web Services Secrets Manager.
+        public var secretsManagerAccessRoleArn: Swift.String?
+        /// The identifier of the Amazon Web Services Secrets Manager Secret used to store access credentials for the data provider.
+        public var secretsManagerSecretId: Swift.String?
+
+        public init(
+            dataProviderIdentifier: Swift.String? = nil,
+            secretsManagerAccessRoleArn: Swift.String? = nil,
+            secretsManagerSecretId: Swift.String? = nil
+        )
+        {
+            self.dataProviderIdentifier = dataProviderIdentifier
+            self.secretsManagerAccessRoleArn = secretsManagerAccessRoleArn
+            self.secretsManagerSecretId = secretsManagerSecretId
+        }
+    }
+
+}
+
+extension DatabaseMigrationClientTypes.DataProviderSettings: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case microsoftsqlserversettings = "MicrosoftSqlServerSettings"
+        case mysqlsettings = "MySqlSettings"
+        case oraclesettings = "OracleSettings"
+        case postgresqlsettings = "PostgreSqlSettings"
+        case sdkUnknown
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        switch self {
+            case let .microsoftsqlserversettings(microsoftsqlserversettings):
+                try container.encode(microsoftsqlserversettings, forKey: .microsoftsqlserversettings)
+            case let .mysqlsettings(mysqlsettings):
+                try container.encode(mysqlsettings, forKey: .mysqlsettings)
+            case let .oraclesettings(oraclesettings):
+                try container.encode(oraclesettings, forKey: .oraclesettings)
+            case let .postgresqlsettings(postgresqlsettings):
+                try container.encode(postgresqlsettings, forKey: .postgresqlsettings)
+            case let .sdkUnknown(sdkUnknown):
+                try container.encode(sdkUnknown, forKey: .sdkUnknown)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        let postgresqlsettingsDecoded = try values.decodeIfPresent(DatabaseMigrationClientTypes.PostgreSqlDataProviderSettings.self, forKey: .postgresqlsettings)
+        if let postgresqlsettings = postgresqlsettingsDecoded {
+            self = .postgresqlsettings(postgresqlsettings)
+            return
+        }
+        let mysqlsettingsDecoded = try values.decodeIfPresent(DatabaseMigrationClientTypes.MySqlDataProviderSettings.self, forKey: .mysqlsettings)
+        if let mysqlsettings = mysqlsettingsDecoded {
+            self = .mysqlsettings(mysqlsettings)
+            return
+        }
+        let oraclesettingsDecoded = try values.decodeIfPresent(DatabaseMigrationClientTypes.OracleDataProviderSettings.self, forKey: .oraclesettings)
+        if let oraclesettings = oraclesettingsDecoded {
+            self = .oraclesettings(oraclesettings)
+            return
+        }
+        let microsoftsqlserversettingsDecoded = try values.decodeIfPresent(DatabaseMigrationClientTypes.MicrosoftSqlServerDataProviderSettings.self, forKey: .microsoftsqlserversettings)
+        if let microsoftsqlserversettings = microsoftsqlserversettingsDecoded {
+            self = .microsoftsqlserversettings(microsoftsqlserversettings)
+            return
+        }
+        self = .sdkUnknown("")
+    }
+}
+
+extension DatabaseMigrationClientTypes {
+    /// Provides information that defines a data provider.
+    public enum DataProviderSettings: Swift.Equatable {
+        /// Provides information that defines a PostgreSQL data provider.
+        case postgresqlsettings(DatabaseMigrationClientTypes.PostgreSqlDataProviderSettings)
+        /// Provides information that defines a MySQL data provider.
+        case mysqlsettings(DatabaseMigrationClientTypes.MySqlDataProviderSettings)
+        /// Provides information that defines an Oracle data provider.
+        case oraclesettings(DatabaseMigrationClientTypes.OracleDataProviderSettings)
+        /// Provides information that defines a Microsoft SQL Server data provider.
+        case microsoftsqlserversettings(DatabaseMigrationClientTypes.MicrosoftSqlServerDataProviderSettings)
+        case sdkUnknown(Swift.String)
+    }
+
+}
+
 extension DatabaseMigrationClientTypes.DatabaseInstanceSoftwareDetailsResponse: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case engine = "Engine"
@@ -3892,6 +4810,41 @@ extension DatabaseMigrationClientTypes {
     }
 }
 
+extension DatabaseMigrationClientTypes.DefaultErrorDetails: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message = "Message"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let message = self.message {
+            try encodeContainer.encode(message, forKey: .message)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
+}
+
+extension DatabaseMigrationClientTypes {
+    /// Provides error information about a schema conversion operation.
+    public struct DefaultErrorDetails: Swift.Equatable {
+        /// The error message.
+        public var message: Swift.String?
+
+        public init(
+            message: Swift.String? = nil
+        )
+        {
+            self.message = message
+        }
+    }
+
+}
+
 extension DeleteCertificateInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case certificateArn = "CertificateArn"
@@ -4105,6 +5058,107 @@ extension DeleteConnectionOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let connectionDecoded = try containerValues.decodeIfPresent(DatabaseMigrationClientTypes.Connection.self, forKey: .connection)
         connection = connectionDecoded
+    }
+}
+
+extension DeleteDataProviderInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case dataProviderIdentifier = "DataProviderIdentifier"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let dataProviderIdentifier = self.dataProviderIdentifier {
+            try encodeContainer.encode(dataProviderIdentifier, forKey: .dataProviderIdentifier)
+        }
+    }
+}
+
+extension DeleteDataProviderInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct DeleteDataProviderInput: Swift.Equatable {
+    /// The identifier of the data provider to delete.
+    /// This member is required.
+    public var dataProviderIdentifier: Swift.String?
+
+    public init(
+        dataProviderIdentifier: Swift.String? = nil
+    )
+    {
+        self.dataProviderIdentifier = dataProviderIdentifier
+    }
+}
+
+struct DeleteDataProviderInputBody: Swift.Equatable {
+    let dataProviderIdentifier: Swift.String?
+}
+
+extension DeleteDataProviderInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case dataProviderIdentifier = "DataProviderIdentifier"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let dataProviderIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dataProviderIdentifier)
+        dataProviderIdentifier = dataProviderIdentifierDecoded
+    }
+}
+
+public enum DeleteDataProviderOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedFault": return try await AccessDeniedFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidResourceStateFault": return try await InvalidResourceStateFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundFault": return try await ResourceNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension DeleteDataProviderOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DeleteDataProviderOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.dataProvider = output.dataProvider
+        } else {
+            self.dataProvider = nil
+        }
+    }
+}
+
+public struct DeleteDataProviderOutputResponse: Swift.Equatable {
+    /// The data provider that was deleted.
+    public var dataProvider: DatabaseMigrationClientTypes.DataProvider?
+
+    public init(
+        dataProvider: DatabaseMigrationClientTypes.DataProvider? = nil
+    )
+    {
+        self.dataProvider = dataProvider
+    }
+}
+
+struct DeleteDataProviderOutputResponseBody: Swift.Equatable {
+    let dataProvider: DatabaseMigrationClientTypes.DataProvider?
+}
+
+extension DeleteDataProviderOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case dataProvider = "DataProvider"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let dataProviderDecoded = try containerValues.decodeIfPresent(DatabaseMigrationClientTypes.DataProvider.self, forKey: .dataProvider)
+        dataProvider = dataProviderDecoded
     }
 }
 
@@ -4500,6 +5554,208 @@ extension DeleteFleetAdvisorDatabasesOutputResponseBody: Swift.Decodable {
             }
         }
         databaseIds = databaseIdsDecoded0
+    }
+}
+
+extension DeleteInstanceProfileInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case instanceProfileIdentifier = "InstanceProfileIdentifier"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let instanceProfileIdentifier = self.instanceProfileIdentifier {
+            try encodeContainer.encode(instanceProfileIdentifier, forKey: .instanceProfileIdentifier)
+        }
+    }
+}
+
+extension DeleteInstanceProfileInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct DeleteInstanceProfileInput: Swift.Equatable {
+    /// The identifier of the instance profile to delete.
+    /// This member is required.
+    public var instanceProfileIdentifier: Swift.String?
+
+    public init(
+        instanceProfileIdentifier: Swift.String? = nil
+    )
+    {
+        self.instanceProfileIdentifier = instanceProfileIdentifier
+    }
+}
+
+struct DeleteInstanceProfileInputBody: Swift.Equatable {
+    let instanceProfileIdentifier: Swift.String?
+}
+
+extension DeleteInstanceProfileInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case instanceProfileIdentifier = "InstanceProfileIdentifier"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let instanceProfileIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .instanceProfileIdentifier)
+        instanceProfileIdentifier = instanceProfileIdentifierDecoded
+    }
+}
+
+public enum DeleteInstanceProfileOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedFault": return try await AccessDeniedFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidResourceStateFault": return try await InvalidResourceStateFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundFault": return try await ResourceNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension DeleteInstanceProfileOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DeleteInstanceProfileOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.instanceProfile = output.instanceProfile
+        } else {
+            self.instanceProfile = nil
+        }
+    }
+}
+
+public struct DeleteInstanceProfileOutputResponse: Swift.Equatable {
+    /// The instance profile that was deleted.
+    public var instanceProfile: DatabaseMigrationClientTypes.InstanceProfile?
+
+    public init(
+        instanceProfile: DatabaseMigrationClientTypes.InstanceProfile? = nil
+    )
+    {
+        self.instanceProfile = instanceProfile
+    }
+}
+
+struct DeleteInstanceProfileOutputResponseBody: Swift.Equatable {
+    let instanceProfile: DatabaseMigrationClientTypes.InstanceProfile?
+}
+
+extension DeleteInstanceProfileOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case instanceProfile = "InstanceProfile"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let instanceProfileDecoded = try containerValues.decodeIfPresent(DatabaseMigrationClientTypes.InstanceProfile.self, forKey: .instanceProfile)
+        instanceProfile = instanceProfileDecoded
+    }
+}
+
+extension DeleteMigrationProjectInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case migrationProjectIdentifier = "MigrationProjectIdentifier"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let migrationProjectIdentifier = self.migrationProjectIdentifier {
+            try encodeContainer.encode(migrationProjectIdentifier, forKey: .migrationProjectIdentifier)
+        }
+    }
+}
+
+extension DeleteMigrationProjectInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct DeleteMigrationProjectInput: Swift.Equatable {
+    /// The name or Amazon Resource Name (ARN) of the migration project to delete.
+    /// This member is required.
+    public var migrationProjectIdentifier: Swift.String?
+
+    public init(
+        migrationProjectIdentifier: Swift.String? = nil
+    )
+    {
+        self.migrationProjectIdentifier = migrationProjectIdentifier
+    }
+}
+
+struct DeleteMigrationProjectInputBody: Swift.Equatable {
+    let migrationProjectIdentifier: Swift.String?
+}
+
+extension DeleteMigrationProjectInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case migrationProjectIdentifier = "MigrationProjectIdentifier"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let migrationProjectIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .migrationProjectIdentifier)
+        migrationProjectIdentifier = migrationProjectIdentifierDecoded
+    }
+}
+
+public enum DeleteMigrationProjectOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedFault": return try await AccessDeniedFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidResourceStateFault": return try await InvalidResourceStateFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundFault": return try await ResourceNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension DeleteMigrationProjectOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DeleteMigrationProjectOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.migrationProject = output.migrationProject
+        } else {
+            self.migrationProject = nil
+        }
+    }
+}
+
+public struct DeleteMigrationProjectOutputResponse: Swift.Equatable {
+    /// The migration project that was deleted.
+    public var migrationProject: DatabaseMigrationClientTypes.MigrationProject?
+
+    public init(
+        migrationProject: DatabaseMigrationClientTypes.MigrationProject? = nil
+    )
+    {
+        self.migrationProject = migrationProject
+    }
+}
+
+struct DeleteMigrationProjectOutputResponseBody: Swift.Equatable {
+    let migrationProject: DatabaseMigrationClientTypes.MigrationProject?
+}
+
+extension DeleteMigrationProjectOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case migrationProject = "MigrationProject"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let migrationProjectDecoded = try containerValues.decodeIfPresent(DatabaseMigrationClientTypes.MigrationProject.self, forKey: .migrationProject)
+        migrationProject = migrationProjectDecoded
     }
 }
 
@@ -5582,6 +6838,269 @@ extension DescribeConnectionsOutputResponseBody: Swift.Decodable {
             }
         }
         connections = connectionsDecoded0
+    }
+}
+
+extension DescribeConversionConfigurationInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case migrationProjectIdentifier = "MigrationProjectIdentifier"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let migrationProjectIdentifier = self.migrationProjectIdentifier {
+            try encodeContainer.encode(migrationProjectIdentifier, forKey: .migrationProjectIdentifier)
+        }
+    }
+}
+
+extension DescribeConversionConfigurationInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct DescribeConversionConfigurationInput: Swift.Equatable {
+    /// The name or Amazon Resource Name (ARN) for the schema conversion project to describe.
+    /// This member is required.
+    public var migrationProjectIdentifier: Swift.String?
+
+    public init(
+        migrationProjectIdentifier: Swift.String? = nil
+    )
+    {
+        self.migrationProjectIdentifier = migrationProjectIdentifier
+    }
+}
+
+struct DescribeConversionConfigurationInputBody: Swift.Equatable {
+    let migrationProjectIdentifier: Swift.String?
+}
+
+extension DescribeConversionConfigurationInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case migrationProjectIdentifier = "MigrationProjectIdentifier"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let migrationProjectIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .migrationProjectIdentifier)
+        migrationProjectIdentifier = migrationProjectIdentifierDecoded
+    }
+}
+
+public enum DescribeConversionConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ResourceNotFoundFault": return try await ResourceNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension DescribeConversionConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DescribeConversionConfigurationOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.conversionConfiguration = output.conversionConfiguration
+            self.migrationProjectIdentifier = output.migrationProjectIdentifier
+        } else {
+            self.conversionConfiguration = nil
+            self.migrationProjectIdentifier = nil
+        }
+    }
+}
+
+public struct DescribeConversionConfigurationOutputResponse: Swift.Equatable {
+    /// The configuration parameters for the schema conversion project.
+    public var conversionConfiguration: Swift.String?
+    /// The name or Amazon Resource Name (ARN) for the schema conversion project.
+    public var migrationProjectIdentifier: Swift.String?
+
+    public init(
+        conversionConfiguration: Swift.String? = nil,
+        migrationProjectIdentifier: Swift.String? = nil
+    )
+    {
+        self.conversionConfiguration = conversionConfiguration
+        self.migrationProjectIdentifier = migrationProjectIdentifier
+    }
+}
+
+struct DescribeConversionConfigurationOutputResponseBody: Swift.Equatable {
+    let migrationProjectIdentifier: Swift.String?
+    let conversionConfiguration: Swift.String?
+}
+
+extension DescribeConversionConfigurationOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case conversionConfiguration = "ConversionConfiguration"
+        case migrationProjectIdentifier = "MigrationProjectIdentifier"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let migrationProjectIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .migrationProjectIdentifier)
+        migrationProjectIdentifier = migrationProjectIdentifierDecoded
+        let conversionConfigurationDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .conversionConfiguration)
+        conversionConfiguration = conversionConfigurationDecoded
+    }
+}
+
+extension DescribeDataProvidersInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case filters = "Filters"
+        case marker = "Marker"
+        case maxRecords = "MaxRecords"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let filters = filters {
+            var filtersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filters)
+            for filter0 in filters {
+                try filtersContainer.encode(filter0)
+            }
+        }
+        if let marker = self.marker {
+            try encodeContainer.encode(marker, forKey: .marker)
+        }
+        if let maxRecords = self.maxRecords {
+            try encodeContainer.encode(maxRecords, forKey: .maxRecords)
+        }
+    }
+}
+
+extension DescribeDataProvidersInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct DescribeDataProvidersInput: Swift.Equatable {
+    /// Filters applied to the data providers described in the form of key-value pairs.
+    public var filters: [DatabaseMigrationClientTypes.Filter]?
+    /// Specifies the unique pagination token that makes it possible to display the next page of results. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. If Marker is returned by a previous response, there are more results available. The value of Marker is a unique pagination token for each page. To retrieve the next page, make the call again using the returned token and keeping all other arguments unchanged.
+    public var marker: Swift.String?
+    /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, DMS includes a pagination token in the response so that you can retrieve the remaining results.
+    public var maxRecords: Swift.Int?
+
+    public init(
+        filters: [DatabaseMigrationClientTypes.Filter]? = nil,
+        marker: Swift.String? = nil,
+        maxRecords: Swift.Int? = nil
+    )
+    {
+        self.filters = filters
+        self.marker = marker
+        self.maxRecords = maxRecords
+    }
+}
+
+struct DescribeDataProvidersInputBody: Swift.Equatable {
+    let filters: [DatabaseMigrationClientTypes.Filter]?
+    let maxRecords: Swift.Int?
+    let marker: Swift.String?
+}
+
+extension DescribeDataProvidersInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case filters = "Filters"
+        case marker = "Marker"
+        case maxRecords = "MaxRecords"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let filtersContainer = try containerValues.decodeIfPresent([DatabaseMigrationClientTypes.Filter?].self, forKey: .filters)
+        var filtersDecoded0:[DatabaseMigrationClientTypes.Filter]? = nil
+        if let filtersContainer = filtersContainer {
+            filtersDecoded0 = [DatabaseMigrationClientTypes.Filter]()
+            for structure0 in filtersContainer {
+                if let structure0 = structure0 {
+                    filtersDecoded0?.append(structure0)
+                }
+            }
+        }
+        filters = filtersDecoded0
+        let maxRecordsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxRecords)
+        maxRecords = maxRecordsDecoded
+        let markerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .marker)
+        marker = markerDecoded
+    }
+}
+
+public enum DescribeDataProvidersOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedFault": return try await AccessDeniedFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundFault": return try await ResourceNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension DescribeDataProvidersOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DescribeDataProvidersOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.dataProviders = output.dataProviders
+            self.marker = output.marker
+        } else {
+            self.dataProviders = nil
+            self.marker = nil
+        }
+    }
+}
+
+public struct DescribeDataProvidersOutputResponse: Swift.Equatable {
+    /// A description of data providers.
+    public var dataProviders: [DatabaseMigrationClientTypes.DataProvider]?
+    /// Specifies the unique pagination token that makes it possible to display the next page of results. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. If Marker is returned by a previous response, there are more results available. The value of Marker is a unique pagination token for each page. To retrieve the next page, make the call again using the returned token and keeping all other arguments unchanged.
+    public var marker: Swift.String?
+
+    public init(
+        dataProviders: [DatabaseMigrationClientTypes.DataProvider]? = nil,
+        marker: Swift.String? = nil
+    )
+    {
+        self.dataProviders = dataProviders
+        self.marker = marker
+    }
+}
+
+struct DescribeDataProvidersOutputResponseBody: Swift.Equatable {
+    let marker: Swift.String?
+    let dataProviders: [DatabaseMigrationClientTypes.DataProvider]?
+}
+
+extension DescribeDataProvidersOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case dataProviders = "DataProviders"
+        case marker = "Marker"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let markerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .marker)
+        marker = markerDecoded
+        let dataProvidersContainer = try containerValues.decodeIfPresent([DatabaseMigrationClientTypes.DataProvider?].self, forKey: .dataProviders)
+        var dataProvidersDecoded0:[DatabaseMigrationClientTypes.DataProvider]? = nil
+        if let dataProvidersContainer = dataProvidersContainer {
+            dataProvidersDecoded0 = [DatabaseMigrationClientTypes.DataProvider]()
+            for structure0 in dataProvidersContainer {
+                if let structure0 = structure0 {
+                    dataProvidersDecoded0?.append(structure0)
+                }
+            }
+        }
+        dataProviders = dataProvidersDecoded0
     }
 }
 
@@ -6700,6 +8219,171 @@ extension DescribeEventsOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension DescribeExtensionPackAssociationsInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case filters = "Filters"
+        case marker = "Marker"
+        case maxRecords = "MaxRecords"
+        case migrationProjectIdentifier = "MigrationProjectIdentifier"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let filters = filters {
+            var filtersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filters)
+            for filter0 in filters {
+                try filtersContainer.encode(filter0)
+            }
+        }
+        if let marker = self.marker {
+            try encodeContainer.encode(marker, forKey: .marker)
+        }
+        if let maxRecords = self.maxRecords {
+            try encodeContainer.encode(maxRecords, forKey: .maxRecords)
+        }
+        if let migrationProjectIdentifier = self.migrationProjectIdentifier {
+            try encodeContainer.encode(migrationProjectIdentifier, forKey: .migrationProjectIdentifier)
+        }
+    }
+}
+
+extension DescribeExtensionPackAssociationsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct DescribeExtensionPackAssociationsInput: Swift.Equatable {
+    /// Filters applied to the extension pack associations described in the form of key-value pairs.
+    public var filters: [DatabaseMigrationClientTypes.Filter]?
+    /// Specifies the unique pagination token that makes it possible to display the next page of results. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. If Marker is returned by a previous response, there are more results available. The value of Marker is a unique pagination token for each page. To retrieve the next page, make the call again using the returned token and keeping all other arguments unchanged.
+    public var marker: Swift.String?
+    /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, DMS includes a pagination token in the response so that you can retrieve the remaining results.
+    public var maxRecords: Swift.Int?
+    /// The name or Amazon Resource Name (ARN) for the migration project.
+    /// This member is required.
+    public var migrationProjectIdentifier: Swift.String?
+
+    public init(
+        filters: [DatabaseMigrationClientTypes.Filter]? = nil,
+        marker: Swift.String? = nil,
+        maxRecords: Swift.Int? = nil,
+        migrationProjectIdentifier: Swift.String? = nil
+    )
+    {
+        self.filters = filters
+        self.marker = marker
+        self.maxRecords = maxRecords
+        self.migrationProjectIdentifier = migrationProjectIdentifier
+    }
+}
+
+struct DescribeExtensionPackAssociationsInputBody: Swift.Equatable {
+    let migrationProjectIdentifier: Swift.String?
+    let filters: [DatabaseMigrationClientTypes.Filter]?
+    let marker: Swift.String?
+    let maxRecords: Swift.Int?
+}
+
+extension DescribeExtensionPackAssociationsInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case filters = "Filters"
+        case marker = "Marker"
+        case maxRecords = "MaxRecords"
+        case migrationProjectIdentifier = "MigrationProjectIdentifier"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let migrationProjectIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .migrationProjectIdentifier)
+        migrationProjectIdentifier = migrationProjectIdentifierDecoded
+        let filtersContainer = try containerValues.decodeIfPresent([DatabaseMigrationClientTypes.Filter?].self, forKey: .filters)
+        var filtersDecoded0:[DatabaseMigrationClientTypes.Filter]? = nil
+        if let filtersContainer = filtersContainer {
+            filtersDecoded0 = [DatabaseMigrationClientTypes.Filter]()
+            for structure0 in filtersContainer {
+                if let structure0 = structure0 {
+                    filtersDecoded0?.append(structure0)
+                }
+            }
+        }
+        filters = filtersDecoded0
+        let markerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .marker)
+        marker = markerDecoded
+        let maxRecordsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxRecords)
+        maxRecords = maxRecordsDecoded
+    }
+}
+
+public enum DescribeExtensionPackAssociationsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension DescribeExtensionPackAssociationsOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DescribeExtensionPackAssociationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.marker = output.marker
+            self.requests = output.requests
+        } else {
+            self.marker = nil
+            self.requests = nil
+        }
+    }
+}
+
+public struct DescribeExtensionPackAssociationsOutputResponse: Swift.Equatable {
+    /// Specifies the unique pagination token that makes it possible to display the next page of results. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. If Marker is returned by a previous response, there are more results available. The value of Marker is a unique pagination token for each page. To retrieve the next page, make the call again using the returned token and keeping all other arguments unchanged.
+    public var marker: Swift.String?
+    /// A paginated list of extension pack associations for the specified migration project.
+    public var requests: [DatabaseMigrationClientTypes.SchemaConversionRequest]?
+
+    public init(
+        marker: Swift.String? = nil,
+        requests: [DatabaseMigrationClientTypes.SchemaConversionRequest]? = nil
+    )
+    {
+        self.marker = marker
+        self.requests = requests
+    }
+}
+
+struct DescribeExtensionPackAssociationsOutputResponseBody: Swift.Equatable {
+    let marker: Swift.String?
+    let requests: [DatabaseMigrationClientTypes.SchemaConversionRequest]?
+}
+
+extension DescribeExtensionPackAssociationsOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case marker = "Marker"
+        case requests = "Requests"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let markerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .marker)
+        marker = markerDecoded
+        let requestsContainer = try containerValues.decodeIfPresent([DatabaseMigrationClientTypes.SchemaConversionRequest?].self, forKey: .requests)
+        var requestsDecoded0:[DatabaseMigrationClientTypes.SchemaConversionRequest]? = nil
+        if let requestsContainer = requestsContainer {
+            requestsDecoded0 = [DatabaseMigrationClientTypes.SchemaConversionRequest]()
+            for structure0 in requestsContainer {
+                if let structure0 = structure0 {
+                    requestsDecoded0?.append(structure0)
+                }
+            }
+        }
+        requests = requestsDecoded0
+    }
+}
+
 extension DescribeFleetAdvisorCollectorsInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case filters = "Filters"
@@ -7486,6 +9170,1144 @@ extension DescribeFleetAdvisorSchemasOutputResponseBody: Swift.Decodable {
         fleetAdvisorSchemas = fleetAdvisorSchemasDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+extension DescribeInstanceProfilesInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case filters = "Filters"
+        case marker = "Marker"
+        case maxRecords = "MaxRecords"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let filters = filters {
+            var filtersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filters)
+            for filter0 in filters {
+                try filtersContainer.encode(filter0)
+            }
+        }
+        if let marker = self.marker {
+            try encodeContainer.encode(marker, forKey: .marker)
+        }
+        if let maxRecords = self.maxRecords {
+            try encodeContainer.encode(maxRecords, forKey: .maxRecords)
+        }
+    }
+}
+
+extension DescribeInstanceProfilesInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct DescribeInstanceProfilesInput: Swift.Equatable {
+    /// Filters applied to the instance profiles described in the form of key-value pairs.
+    public var filters: [DatabaseMigrationClientTypes.Filter]?
+    /// Specifies the unique pagination token that makes it possible to display the next page of results. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. If Marker is returned by a previous response, there are more results available. The value of Marker is a unique pagination token for each page. To retrieve the next page, make the call again using the returned token and keeping all other arguments unchanged.
+    public var marker: Swift.String?
+    /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, DMS includes a pagination token in the response so that you can retrieve the remaining results.
+    public var maxRecords: Swift.Int?
+
+    public init(
+        filters: [DatabaseMigrationClientTypes.Filter]? = nil,
+        marker: Swift.String? = nil,
+        maxRecords: Swift.Int? = nil
+    )
+    {
+        self.filters = filters
+        self.marker = marker
+        self.maxRecords = maxRecords
+    }
+}
+
+struct DescribeInstanceProfilesInputBody: Swift.Equatable {
+    let filters: [DatabaseMigrationClientTypes.Filter]?
+    let maxRecords: Swift.Int?
+    let marker: Swift.String?
+}
+
+extension DescribeInstanceProfilesInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case filters = "Filters"
+        case marker = "Marker"
+        case maxRecords = "MaxRecords"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let filtersContainer = try containerValues.decodeIfPresent([DatabaseMigrationClientTypes.Filter?].self, forKey: .filters)
+        var filtersDecoded0:[DatabaseMigrationClientTypes.Filter]? = nil
+        if let filtersContainer = filtersContainer {
+            filtersDecoded0 = [DatabaseMigrationClientTypes.Filter]()
+            for structure0 in filtersContainer {
+                if let structure0 = structure0 {
+                    filtersDecoded0?.append(structure0)
+                }
+            }
+        }
+        filters = filtersDecoded0
+        let maxRecordsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxRecords)
+        maxRecords = maxRecordsDecoded
+        let markerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .marker)
+        marker = markerDecoded
+    }
+}
+
+public enum DescribeInstanceProfilesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedFault": return try await AccessDeniedFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundFault": return try await ResourceNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension DescribeInstanceProfilesOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DescribeInstanceProfilesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.instanceProfiles = output.instanceProfiles
+            self.marker = output.marker
+        } else {
+            self.instanceProfiles = nil
+            self.marker = nil
+        }
+    }
+}
+
+public struct DescribeInstanceProfilesOutputResponse: Swift.Equatable {
+    /// A description of instance profiles.
+    public var instanceProfiles: [DatabaseMigrationClientTypes.InstanceProfile]?
+    /// Specifies the unique pagination token that makes it possible to display the next page of results. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. If Marker is returned by a previous response, there are more results available. The value of Marker is a unique pagination token for each page. To retrieve the next page, make the call again using the returned token and keeping all other arguments unchanged.
+    public var marker: Swift.String?
+
+    public init(
+        instanceProfiles: [DatabaseMigrationClientTypes.InstanceProfile]? = nil,
+        marker: Swift.String? = nil
+    )
+    {
+        self.instanceProfiles = instanceProfiles
+        self.marker = marker
+    }
+}
+
+struct DescribeInstanceProfilesOutputResponseBody: Swift.Equatable {
+    let marker: Swift.String?
+    let instanceProfiles: [DatabaseMigrationClientTypes.InstanceProfile]?
+}
+
+extension DescribeInstanceProfilesOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case instanceProfiles = "InstanceProfiles"
+        case marker = "Marker"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let markerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .marker)
+        marker = markerDecoded
+        let instanceProfilesContainer = try containerValues.decodeIfPresent([DatabaseMigrationClientTypes.InstanceProfile?].self, forKey: .instanceProfiles)
+        var instanceProfilesDecoded0:[DatabaseMigrationClientTypes.InstanceProfile]? = nil
+        if let instanceProfilesContainer = instanceProfilesContainer {
+            instanceProfilesDecoded0 = [DatabaseMigrationClientTypes.InstanceProfile]()
+            for structure0 in instanceProfilesContainer {
+                if let structure0 = structure0 {
+                    instanceProfilesDecoded0?.append(structure0)
+                }
+            }
+        }
+        instanceProfiles = instanceProfilesDecoded0
+    }
+}
+
+extension DescribeMetadataModelAssessmentsInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case filters = "Filters"
+        case marker = "Marker"
+        case maxRecords = "MaxRecords"
+        case migrationProjectIdentifier = "MigrationProjectIdentifier"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let filters = filters {
+            var filtersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filters)
+            for filter0 in filters {
+                try filtersContainer.encode(filter0)
+            }
+        }
+        if let marker = self.marker {
+            try encodeContainer.encode(marker, forKey: .marker)
+        }
+        if let maxRecords = self.maxRecords {
+            try encodeContainer.encode(maxRecords, forKey: .maxRecords)
+        }
+        if let migrationProjectIdentifier = self.migrationProjectIdentifier {
+            try encodeContainer.encode(migrationProjectIdentifier, forKey: .migrationProjectIdentifier)
+        }
+    }
+}
+
+extension DescribeMetadataModelAssessmentsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct DescribeMetadataModelAssessmentsInput: Swift.Equatable {
+    /// Filters applied to the metadata model assessments described in the form of key-value pairs.
+    public var filters: [DatabaseMigrationClientTypes.Filter]?
+    /// Specifies the unique pagination token that makes it possible to display the next page of results. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. If Marker is returned by a previous response, there are more results available. The value of Marker is a unique pagination token for each page. To retrieve the next page, make the call again using the returned token and keeping all other arguments unchanged.
+    public var marker: Swift.String?
+    /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, DMS includes a pagination token in the response so that you can retrieve the remaining results.
+    public var maxRecords: Swift.Int?
+    /// The name or Amazon Resource Name (ARN) of the migration project.
+    /// This member is required.
+    public var migrationProjectIdentifier: Swift.String?
+
+    public init(
+        filters: [DatabaseMigrationClientTypes.Filter]? = nil,
+        marker: Swift.String? = nil,
+        maxRecords: Swift.Int? = nil,
+        migrationProjectIdentifier: Swift.String? = nil
+    )
+    {
+        self.filters = filters
+        self.marker = marker
+        self.maxRecords = maxRecords
+        self.migrationProjectIdentifier = migrationProjectIdentifier
+    }
+}
+
+struct DescribeMetadataModelAssessmentsInputBody: Swift.Equatable {
+    let migrationProjectIdentifier: Swift.String?
+    let filters: [DatabaseMigrationClientTypes.Filter]?
+    let marker: Swift.String?
+    let maxRecords: Swift.Int?
+}
+
+extension DescribeMetadataModelAssessmentsInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case filters = "Filters"
+        case marker = "Marker"
+        case maxRecords = "MaxRecords"
+        case migrationProjectIdentifier = "MigrationProjectIdentifier"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let migrationProjectIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .migrationProjectIdentifier)
+        migrationProjectIdentifier = migrationProjectIdentifierDecoded
+        let filtersContainer = try containerValues.decodeIfPresent([DatabaseMigrationClientTypes.Filter?].self, forKey: .filters)
+        var filtersDecoded0:[DatabaseMigrationClientTypes.Filter]? = nil
+        if let filtersContainer = filtersContainer {
+            filtersDecoded0 = [DatabaseMigrationClientTypes.Filter]()
+            for structure0 in filtersContainer {
+                if let structure0 = structure0 {
+                    filtersDecoded0?.append(structure0)
+                }
+            }
+        }
+        filters = filtersDecoded0
+        let markerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .marker)
+        marker = markerDecoded
+        let maxRecordsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxRecords)
+        maxRecords = maxRecordsDecoded
+    }
+}
+
+public enum DescribeMetadataModelAssessmentsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ResourceNotFoundFault": return try await ResourceNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension DescribeMetadataModelAssessmentsOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DescribeMetadataModelAssessmentsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.marker = output.marker
+            self.requests = output.requests
+        } else {
+            self.marker = nil
+            self.requests = nil
+        }
+    }
+}
+
+public struct DescribeMetadataModelAssessmentsOutputResponse: Swift.Equatable {
+    /// Specifies the unique pagination token that makes it possible to display the next page of results. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. If Marker is returned by a previous response, there are more results available. The value of Marker is a unique pagination token for each page. To retrieve the next page, make the call again using the returned token and keeping all other arguments unchanged.
+    public var marker: Swift.String?
+    /// A paginated list of metadata model assessments for the specified migration project.
+    public var requests: [DatabaseMigrationClientTypes.SchemaConversionRequest]?
+
+    public init(
+        marker: Swift.String? = nil,
+        requests: [DatabaseMigrationClientTypes.SchemaConversionRequest]? = nil
+    )
+    {
+        self.marker = marker
+        self.requests = requests
+    }
+}
+
+struct DescribeMetadataModelAssessmentsOutputResponseBody: Swift.Equatable {
+    let marker: Swift.String?
+    let requests: [DatabaseMigrationClientTypes.SchemaConversionRequest]?
+}
+
+extension DescribeMetadataModelAssessmentsOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case marker = "Marker"
+        case requests = "Requests"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let markerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .marker)
+        marker = markerDecoded
+        let requestsContainer = try containerValues.decodeIfPresent([DatabaseMigrationClientTypes.SchemaConversionRequest?].self, forKey: .requests)
+        var requestsDecoded0:[DatabaseMigrationClientTypes.SchemaConversionRequest]? = nil
+        if let requestsContainer = requestsContainer {
+            requestsDecoded0 = [DatabaseMigrationClientTypes.SchemaConversionRequest]()
+            for structure0 in requestsContainer {
+                if let structure0 = structure0 {
+                    requestsDecoded0?.append(structure0)
+                }
+            }
+        }
+        requests = requestsDecoded0
+    }
+}
+
+extension DescribeMetadataModelConversionsInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case filters = "Filters"
+        case marker = "Marker"
+        case maxRecords = "MaxRecords"
+        case migrationProjectIdentifier = "MigrationProjectIdentifier"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let filters = filters {
+            var filtersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filters)
+            for filter0 in filters {
+                try filtersContainer.encode(filter0)
+            }
+        }
+        if let marker = self.marker {
+            try encodeContainer.encode(marker, forKey: .marker)
+        }
+        if let maxRecords = self.maxRecords {
+            try encodeContainer.encode(maxRecords, forKey: .maxRecords)
+        }
+        if let migrationProjectIdentifier = self.migrationProjectIdentifier {
+            try encodeContainer.encode(migrationProjectIdentifier, forKey: .migrationProjectIdentifier)
+        }
+    }
+}
+
+extension DescribeMetadataModelConversionsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct DescribeMetadataModelConversionsInput: Swift.Equatable {
+    /// Filters applied to the metadata model conversions described in the form of key-value pairs.
+    public var filters: [DatabaseMigrationClientTypes.Filter]?
+    /// Specifies the unique pagination token that makes it possible to display the next page of results. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. If Marker is returned by a previous response, there are more results available. The value of Marker is a unique pagination token for each page. To retrieve the next page, make the call again using the returned token and keeping all other arguments unchanged.
+    public var marker: Swift.String?
+    /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, DMS includes a pagination token in the response so that you can retrieve the remaining results.
+    public var maxRecords: Swift.Int?
+    /// The migration project name or Amazon Resource Name (ARN).
+    /// This member is required.
+    public var migrationProjectIdentifier: Swift.String?
+
+    public init(
+        filters: [DatabaseMigrationClientTypes.Filter]? = nil,
+        marker: Swift.String? = nil,
+        maxRecords: Swift.Int? = nil,
+        migrationProjectIdentifier: Swift.String? = nil
+    )
+    {
+        self.filters = filters
+        self.marker = marker
+        self.maxRecords = maxRecords
+        self.migrationProjectIdentifier = migrationProjectIdentifier
+    }
+}
+
+struct DescribeMetadataModelConversionsInputBody: Swift.Equatable {
+    let migrationProjectIdentifier: Swift.String?
+    let filters: [DatabaseMigrationClientTypes.Filter]?
+    let marker: Swift.String?
+    let maxRecords: Swift.Int?
+}
+
+extension DescribeMetadataModelConversionsInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case filters = "Filters"
+        case marker = "Marker"
+        case maxRecords = "MaxRecords"
+        case migrationProjectIdentifier = "MigrationProjectIdentifier"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let migrationProjectIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .migrationProjectIdentifier)
+        migrationProjectIdentifier = migrationProjectIdentifierDecoded
+        let filtersContainer = try containerValues.decodeIfPresent([DatabaseMigrationClientTypes.Filter?].self, forKey: .filters)
+        var filtersDecoded0:[DatabaseMigrationClientTypes.Filter]? = nil
+        if let filtersContainer = filtersContainer {
+            filtersDecoded0 = [DatabaseMigrationClientTypes.Filter]()
+            for structure0 in filtersContainer {
+                if let structure0 = structure0 {
+                    filtersDecoded0?.append(structure0)
+                }
+            }
+        }
+        filters = filtersDecoded0
+        let markerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .marker)
+        marker = markerDecoded
+        let maxRecordsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxRecords)
+        maxRecords = maxRecordsDecoded
+    }
+}
+
+public enum DescribeMetadataModelConversionsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ResourceNotFoundFault": return try await ResourceNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension DescribeMetadataModelConversionsOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DescribeMetadataModelConversionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.marker = output.marker
+            self.requests = output.requests
+        } else {
+            self.marker = nil
+            self.requests = nil
+        }
+    }
+}
+
+public struct DescribeMetadataModelConversionsOutputResponse: Swift.Equatable {
+    /// Specifies the unique pagination token that makes it possible to display the next page of results. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. If Marker is returned by a previous response, there are more results available. The value of Marker is a unique pagination token for each page. To retrieve the next page, make the call again using the returned token and keeping all other arguments unchanged.
+    public var marker: Swift.String?
+    /// A paginated list of metadata model conversions.
+    public var requests: [DatabaseMigrationClientTypes.SchemaConversionRequest]?
+
+    public init(
+        marker: Swift.String? = nil,
+        requests: [DatabaseMigrationClientTypes.SchemaConversionRequest]? = nil
+    )
+    {
+        self.marker = marker
+        self.requests = requests
+    }
+}
+
+struct DescribeMetadataModelConversionsOutputResponseBody: Swift.Equatable {
+    let marker: Swift.String?
+    let requests: [DatabaseMigrationClientTypes.SchemaConversionRequest]?
+}
+
+extension DescribeMetadataModelConversionsOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case marker = "Marker"
+        case requests = "Requests"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let markerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .marker)
+        marker = markerDecoded
+        let requestsContainer = try containerValues.decodeIfPresent([DatabaseMigrationClientTypes.SchemaConversionRequest?].self, forKey: .requests)
+        var requestsDecoded0:[DatabaseMigrationClientTypes.SchemaConversionRequest]? = nil
+        if let requestsContainer = requestsContainer {
+            requestsDecoded0 = [DatabaseMigrationClientTypes.SchemaConversionRequest]()
+            for structure0 in requestsContainer {
+                if let structure0 = structure0 {
+                    requestsDecoded0?.append(structure0)
+                }
+            }
+        }
+        requests = requestsDecoded0
+    }
+}
+
+extension DescribeMetadataModelExportsAsScriptInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case filters = "Filters"
+        case marker = "Marker"
+        case maxRecords = "MaxRecords"
+        case migrationProjectIdentifier = "MigrationProjectIdentifier"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let filters = filters {
+            var filtersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filters)
+            for filter0 in filters {
+                try filtersContainer.encode(filter0)
+            }
+        }
+        if let marker = self.marker {
+            try encodeContainer.encode(marker, forKey: .marker)
+        }
+        if let maxRecords = self.maxRecords {
+            try encodeContainer.encode(maxRecords, forKey: .maxRecords)
+        }
+        if let migrationProjectIdentifier = self.migrationProjectIdentifier {
+            try encodeContainer.encode(migrationProjectIdentifier, forKey: .migrationProjectIdentifier)
+        }
+    }
+}
+
+extension DescribeMetadataModelExportsAsScriptInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct DescribeMetadataModelExportsAsScriptInput: Swift.Equatable {
+    /// Filters applied to the metadata model exports described in the form of key-value pairs.
+    public var filters: [DatabaseMigrationClientTypes.Filter]?
+    /// Specifies the unique pagination token that makes it possible to display the next page of results. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. If Marker is returned by a previous response, there are more results available. The value of Marker is a unique pagination token for each page. To retrieve the next page, make the call again using the returned token and keeping all other arguments unchanged.
+    public var marker: Swift.String?
+    /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, DMS includes a pagination token in the response so that you can retrieve the remaining results.
+    public var maxRecords: Swift.Int?
+    /// The migration project name or Amazon Resource Name (ARN).
+    /// This member is required.
+    public var migrationProjectIdentifier: Swift.String?
+
+    public init(
+        filters: [DatabaseMigrationClientTypes.Filter]? = nil,
+        marker: Swift.String? = nil,
+        maxRecords: Swift.Int? = nil,
+        migrationProjectIdentifier: Swift.String? = nil
+    )
+    {
+        self.filters = filters
+        self.marker = marker
+        self.maxRecords = maxRecords
+        self.migrationProjectIdentifier = migrationProjectIdentifier
+    }
+}
+
+struct DescribeMetadataModelExportsAsScriptInputBody: Swift.Equatable {
+    let migrationProjectIdentifier: Swift.String?
+    let filters: [DatabaseMigrationClientTypes.Filter]?
+    let marker: Swift.String?
+    let maxRecords: Swift.Int?
+}
+
+extension DescribeMetadataModelExportsAsScriptInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case filters = "Filters"
+        case marker = "Marker"
+        case maxRecords = "MaxRecords"
+        case migrationProjectIdentifier = "MigrationProjectIdentifier"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let migrationProjectIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .migrationProjectIdentifier)
+        migrationProjectIdentifier = migrationProjectIdentifierDecoded
+        let filtersContainer = try containerValues.decodeIfPresent([DatabaseMigrationClientTypes.Filter?].self, forKey: .filters)
+        var filtersDecoded0:[DatabaseMigrationClientTypes.Filter]? = nil
+        if let filtersContainer = filtersContainer {
+            filtersDecoded0 = [DatabaseMigrationClientTypes.Filter]()
+            for structure0 in filtersContainer {
+                if let structure0 = structure0 {
+                    filtersDecoded0?.append(structure0)
+                }
+            }
+        }
+        filters = filtersDecoded0
+        let markerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .marker)
+        marker = markerDecoded
+        let maxRecordsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxRecords)
+        maxRecords = maxRecordsDecoded
+    }
+}
+
+public enum DescribeMetadataModelExportsAsScriptOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ResourceNotFoundFault": return try await ResourceNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension DescribeMetadataModelExportsAsScriptOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DescribeMetadataModelExportsAsScriptOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.marker = output.marker
+            self.requests = output.requests
+        } else {
+            self.marker = nil
+            self.requests = nil
+        }
+    }
+}
+
+public struct DescribeMetadataModelExportsAsScriptOutputResponse: Swift.Equatable {
+    /// Specifies the unique pagination token that makes it possible to display the next page of results. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. If Marker is returned by a previous response, there are more results available. The value of Marker is a unique pagination token for each page. To retrieve the next page, make the call again using the returned token and keeping all other arguments unchanged.
+    public var marker: Swift.String?
+    /// A paginated list of metadata model exports.
+    public var requests: [DatabaseMigrationClientTypes.SchemaConversionRequest]?
+
+    public init(
+        marker: Swift.String? = nil,
+        requests: [DatabaseMigrationClientTypes.SchemaConversionRequest]? = nil
+    )
+    {
+        self.marker = marker
+        self.requests = requests
+    }
+}
+
+struct DescribeMetadataModelExportsAsScriptOutputResponseBody: Swift.Equatable {
+    let marker: Swift.String?
+    let requests: [DatabaseMigrationClientTypes.SchemaConversionRequest]?
+}
+
+extension DescribeMetadataModelExportsAsScriptOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case marker = "Marker"
+        case requests = "Requests"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let markerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .marker)
+        marker = markerDecoded
+        let requestsContainer = try containerValues.decodeIfPresent([DatabaseMigrationClientTypes.SchemaConversionRequest?].self, forKey: .requests)
+        var requestsDecoded0:[DatabaseMigrationClientTypes.SchemaConversionRequest]? = nil
+        if let requestsContainer = requestsContainer {
+            requestsDecoded0 = [DatabaseMigrationClientTypes.SchemaConversionRequest]()
+            for structure0 in requestsContainer {
+                if let structure0 = structure0 {
+                    requestsDecoded0?.append(structure0)
+                }
+            }
+        }
+        requests = requestsDecoded0
+    }
+}
+
+extension DescribeMetadataModelExportsToTargetInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case filters = "Filters"
+        case marker = "Marker"
+        case maxRecords = "MaxRecords"
+        case migrationProjectIdentifier = "MigrationProjectIdentifier"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let filters = filters {
+            var filtersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filters)
+            for filter0 in filters {
+                try filtersContainer.encode(filter0)
+            }
+        }
+        if let marker = self.marker {
+            try encodeContainer.encode(marker, forKey: .marker)
+        }
+        if let maxRecords = self.maxRecords {
+            try encodeContainer.encode(maxRecords, forKey: .maxRecords)
+        }
+        if let migrationProjectIdentifier = self.migrationProjectIdentifier {
+            try encodeContainer.encode(migrationProjectIdentifier, forKey: .migrationProjectIdentifier)
+        }
+    }
+}
+
+extension DescribeMetadataModelExportsToTargetInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct DescribeMetadataModelExportsToTargetInput: Swift.Equatable {
+    /// Filters applied to the metadata model exports described in the form of key-value pairs.
+    public var filters: [DatabaseMigrationClientTypes.Filter]?
+    /// Specifies the unique pagination token that makes it possible to display the next page of results. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. If Marker is returned by a previous response, there are more results available. The value of Marker is a unique pagination token for each page. To retrieve the next page, make the call again using the returned token and keeping all other arguments unchanged.
+    public var marker: Swift.String?
+    /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, DMS includes a pagination token in the response so that you can retrieve the remaining results.
+    public var maxRecords: Swift.Int?
+    /// The migration project name or Amazon Resource Name (ARN).
+    /// This member is required.
+    public var migrationProjectIdentifier: Swift.String?
+
+    public init(
+        filters: [DatabaseMigrationClientTypes.Filter]? = nil,
+        marker: Swift.String? = nil,
+        maxRecords: Swift.Int? = nil,
+        migrationProjectIdentifier: Swift.String? = nil
+    )
+    {
+        self.filters = filters
+        self.marker = marker
+        self.maxRecords = maxRecords
+        self.migrationProjectIdentifier = migrationProjectIdentifier
+    }
+}
+
+struct DescribeMetadataModelExportsToTargetInputBody: Swift.Equatable {
+    let migrationProjectIdentifier: Swift.String?
+    let filters: [DatabaseMigrationClientTypes.Filter]?
+    let marker: Swift.String?
+    let maxRecords: Swift.Int?
+}
+
+extension DescribeMetadataModelExportsToTargetInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case filters = "Filters"
+        case marker = "Marker"
+        case maxRecords = "MaxRecords"
+        case migrationProjectIdentifier = "MigrationProjectIdentifier"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let migrationProjectIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .migrationProjectIdentifier)
+        migrationProjectIdentifier = migrationProjectIdentifierDecoded
+        let filtersContainer = try containerValues.decodeIfPresent([DatabaseMigrationClientTypes.Filter?].self, forKey: .filters)
+        var filtersDecoded0:[DatabaseMigrationClientTypes.Filter]? = nil
+        if let filtersContainer = filtersContainer {
+            filtersDecoded0 = [DatabaseMigrationClientTypes.Filter]()
+            for structure0 in filtersContainer {
+                if let structure0 = structure0 {
+                    filtersDecoded0?.append(structure0)
+                }
+            }
+        }
+        filters = filtersDecoded0
+        let markerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .marker)
+        marker = markerDecoded
+        let maxRecordsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxRecords)
+        maxRecords = maxRecordsDecoded
+    }
+}
+
+public enum DescribeMetadataModelExportsToTargetOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ResourceNotFoundFault": return try await ResourceNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension DescribeMetadataModelExportsToTargetOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DescribeMetadataModelExportsToTargetOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.marker = output.marker
+            self.requests = output.requests
+        } else {
+            self.marker = nil
+            self.requests = nil
+        }
+    }
+}
+
+public struct DescribeMetadataModelExportsToTargetOutputResponse: Swift.Equatable {
+    /// Specifies the unique pagination token that makes it possible to display the next page of results. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. If Marker is returned by a previous response, there are more results available. The value of Marker is a unique pagination token for each page. To retrieve the next page, make the call again using the returned token and keeping all other arguments unchanged.
+    public var marker: Swift.String?
+    /// A paginated list of metadata model exports.
+    public var requests: [DatabaseMigrationClientTypes.SchemaConversionRequest]?
+
+    public init(
+        marker: Swift.String? = nil,
+        requests: [DatabaseMigrationClientTypes.SchemaConversionRequest]? = nil
+    )
+    {
+        self.marker = marker
+        self.requests = requests
+    }
+}
+
+struct DescribeMetadataModelExportsToTargetOutputResponseBody: Swift.Equatable {
+    let marker: Swift.String?
+    let requests: [DatabaseMigrationClientTypes.SchemaConversionRequest]?
+}
+
+extension DescribeMetadataModelExportsToTargetOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case marker = "Marker"
+        case requests = "Requests"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let markerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .marker)
+        marker = markerDecoded
+        let requestsContainer = try containerValues.decodeIfPresent([DatabaseMigrationClientTypes.SchemaConversionRequest?].self, forKey: .requests)
+        var requestsDecoded0:[DatabaseMigrationClientTypes.SchemaConversionRequest]? = nil
+        if let requestsContainer = requestsContainer {
+            requestsDecoded0 = [DatabaseMigrationClientTypes.SchemaConversionRequest]()
+            for structure0 in requestsContainer {
+                if let structure0 = structure0 {
+                    requestsDecoded0?.append(structure0)
+                }
+            }
+        }
+        requests = requestsDecoded0
+    }
+}
+
+extension DescribeMetadataModelImportsInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case filters = "Filters"
+        case marker = "Marker"
+        case maxRecords = "MaxRecords"
+        case migrationProjectIdentifier = "MigrationProjectIdentifier"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let filters = filters {
+            var filtersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filters)
+            for filter0 in filters {
+                try filtersContainer.encode(filter0)
+            }
+        }
+        if let marker = self.marker {
+            try encodeContainer.encode(marker, forKey: .marker)
+        }
+        if let maxRecords = self.maxRecords {
+            try encodeContainer.encode(maxRecords, forKey: .maxRecords)
+        }
+        if let migrationProjectIdentifier = self.migrationProjectIdentifier {
+            try encodeContainer.encode(migrationProjectIdentifier, forKey: .migrationProjectIdentifier)
+        }
+    }
+}
+
+extension DescribeMetadataModelImportsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct DescribeMetadataModelImportsInput: Swift.Equatable {
+    /// Filters applied to the metadata model imports described in the form of key-value pairs.
+    public var filters: [DatabaseMigrationClientTypes.Filter]?
+    /// Specifies the unique pagination token that makes it possible to display the next page of results. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. If Marker is returned by a previous response, there are more results available. The value of Marker is a unique pagination token for each page. To retrieve the next page, make the call again using the returned token and keeping all other arguments unchanged.
+    public var marker: Swift.String?
+    /// A paginated list of metadata model imports.
+    public var maxRecords: Swift.Int?
+    /// The migration project name or Amazon Resource Name (ARN).
+    /// This member is required.
+    public var migrationProjectIdentifier: Swift.String?
+
+    public init(
+        filters: [DatabaseMigrationClientTypes.Filter]? = nil,
+        marker: Swift.String? = nil,
+        maxRecords: Swift.Int? = nil,
+        migrationProjectIdentifier: Swift.String? = nil
+    )
+    {
+        self.filters = filters
+        self.marker = marker
+        self.maxRecords = maxRecords
+        self.migrationProjectIdentifier = migrationProjectIdentifier
+    }
+}
+
+struct DescribeMetadataModelImportsInputBody: Swift.Equatable {
+    let migrationProjectIdentifier: Swift.String?
+    let filters: [DatabaseMigrationClientTypes.Filter]?
+    let marker: Swift.String?
+    let maxRecords: Swift.Int?
+}
+
+extension DescribeMetadataModelImportsInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case filters = "Filters"
+        case marker = "Marker"
+        case maxRecords = "MaxRecords"
+        case migrationProjectIdentifier = "MigrationProjectIdentifier"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let migrationProjectIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .migrationProjectIdentifier)
+        migrationProjectIdentifier = migrationProjectIdentifierDecoded
+        let filtersContainer = try containerValues.decodeIfPresent([DatabaseMigrationClientTypes.Filter?].self, forKey: .filters)
+        var filtersDecoded0:[DatabaseMigrationClientTypes.Filter]? = nil
+        if let filtersContainer = filtersContainer {
+            filtersDecoded0 = [DatabaseMigrationClientTypes.Filter]()
+            for structure0 in filtersContainer {
+                if let structure0 = structure0 {
+                    filtersDecoded0?.append(structure0)
+                }
+            }
+        }
+        filters = filtersDecoded0
+        let markerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .marker)
+        marker = markerDecoded
+        let maxRecordsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxRecords)
+        maxRecords = maxRecordsDecoded
+    }
+}
+
+public enum DescribeMetadataModelImportsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ResourceNotFoundFault": return try await ResourceNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension DescribeMetadataModelImportsOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DescribeMetadataModelImportsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.marker = output.marker
+            self.requests = output.requests
+        } else {
+            self.marker = nil
+            self.requests = nil
+        }
+    }
+}
+
+public struct DescribeMetadataModelImportsOutputResponse: Swift.Equatable {
+    /// Specifies the unique pagination token that makes it possible to display the next page of results. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. If Marker is returned by a previous response, there are more results available. The value of Marker is a unique pagination token for each page. To retrieve the next page, make the call again using the returned token and keeping all other arguments unchanged.
+    public var marker: Swift.String?
+    /// A paginated list of metadata model imports.
+    public var requests: [DatabaseMigrationClientTypes.SchemaConversionRequest]?
+
+    public init(
+        marker: Swift.String? = nil,
+        requests: [DatabaseMigrationClientTypes.SchemaConversionRequest]? = nil
+    )
+    {
+        self.marker = marker
+        self.requests = requests
+    }
+}
+
+struct DescribeMetadataModelImportsOutputResponseBody: Swift.Equatable {
+    let marker: Swift.String?
+    let requests: [DatabaseMigrationClientTypes.SchemaConversionRequest]?
+}
+
+extension DescribeMetadataModelImportsOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case marker = "Marker"
+        case requests = "Requests"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let markerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .marker)
+        marker = markerDecoded
+        let requestsContainer = try containerValues.decodeIfPresent([DatabaseMigrationClientTypes.SchemaConversionRequest?].self, forKey: .requests)
+        var requestsDecoded0:[DatabaseMigrationClientTypes.SchemaConversionRequest]? = nil
+        if let requestsContainer = requestsContainer {
+            requestsDecoded0 = [DatabaseMigrationClientTypes.SchemaConversionRequest]()
+            for structure0 in requestsContainer {
+                if let structure0 = structure0 {
+                    requestsDecoded0?.append(structure0)
+                }
+            }
+        }
+        requests = requestsDecoded0
+    }
+}
+
+extension DescribeMigrationProjectsInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case filters = "Filters"
+        case marker = "Marker"
+        case maxRecords = "MaxRecords"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let filters = filters {
+            var filtersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filters)
+            for filter0 in filters {
+                try filtersContainer.encode(filter0)
+            }
+        }
+        if let marker = self.marker {
+            try encodeContainer.encode(marker, forKey: .marker)
+        }
+        if let maxRecords = self.maxRecords {
+            try encodeContainer.encode(maxRecords, forKey: .maxRecords)
+        }
+    }
+}
+
+extension DescribeMigrationProjectsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct DescribeMigrationProjectsInput: Swift.Equatable {
+    /// Filters applied to the migration projects described in the form of key-value pairs.
+    public var filters: [DatabaseMigrationClientTypes.Filter]?
+    /// Specifies the unique pagination token that makes it possible to display the next page of results. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. If Marker is returned by a previous response, there are more results available. The value of Marker is a unique pagination token for each page. To retrieve the next page, make the call again using the returned token and keeping all other arguments unchanged.
+    public var marker: Swift.String?
+    /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, DMS includes a pagination token in the response so that you can retrieve the remaining results.
+    public var maxRecords: Swift.Int?
+
+    public init(
+        filters: [DatabaseMigrationClientTypes.Filter]? = nil,
+        marker: Swift.String? = nil,
+        maxRecords: Swift.Int? = nil
+    )
+    {
+        self.filters = filters
+        self.marker = marker
+        self.maxRecords = maxRecords
+    }
+}
+
+struct DescribeMigrationProjectsInputBody: Swift.Equatable {
+    let filters: [DatabaseMigrationClientTypes.Filter]?
+    let maxRecords: Swift.Int?
+    let marker: Swift.String?
+}
+
+extension DescribeMigrationProjectsInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case filters = "Filters"
+        case marker = "Marker"
+        case maxRecords = "MaxRecords"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let filtersContainer = try containerValues.decodeIfPresent([DatabaseMigrationClientTypes.Filter?].self, forKey: .filters)
+        var filtersDecoded0:[DatabaseMigrationClientTypes.Filter]? = nil
+        if let filtersContainer = filtersContainer {
+            filtersDecoded0 = [DatabaseMigrationClientTypes.Filter]()
+            for structure0 in filtersContainer {
+                if let structure0 = structure0 {
+                    filtersDecoded0?.append(structure0)
+                }
+            }
+        }
+        filters = filtersDecoded0
+        let maxRecordsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxRecords)
+        maxRecords = maxRecordsDecoded
+        let markerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .marker)
+        marker = markerDecoded
+    }
+}
+
+public enum DescribeMigrationProjectsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedFault": return try await AccessDeniedFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundFault": return try await ResourceNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension DescribeMigrationProjectsOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DescribeMigrationProjectsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.marker = output.marker
+            self.migrationProjects = output.migrationProjects
+        } else {
+            self.marker = nil
+            self.migrationProjects = nil
+        }
+    }
+}
+
+public struct DescribeMigrationProjectsOutputResponse: Swift.Equatable {
+    /// Specifies the unique pagination token that makes it possible to display the next page of results. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords. If Marker is returned by a previous response, there are more results available. The value of Marker is a unique pagination token for each page. To retrieve the next page, make the call again using the returned token and keeping all other arguments unchanged.
+    public var marker: Swift.String?
+    /// A description of migration projects.
+    public var migrationProjects: [DatabaseMigrationClientTypes.MigrationProject]?
+
+    public init(
+        marker: Swift.String? = nil,
+        migrationProjects: [DatabaseMigrationClientTypes.MigrationProject]? = nil
+    )
+    {
+        self.marker = marker
+        self.migrationProjects = migrationProjects
+    }
+}
+
+struct DescribeMigrationProjectsOutputResponseBody: Swift.Equatable {
+    let marker: Swift.String?
+    let migrationProjects: [DatabaseMigrationClientTypes.MigrationProject]?
+}
+
+extension DescribeMigrationProjectsOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case marker = "Marker"
+        case migrationProjects = "MigrationProjects"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let markerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .marker)
+        marker = markerDecoded
+        let migrationProjectsContainer = try containerValues.decodeIfPresent([DatabaseMigrationClientTypes.MigrationProject?].self, forKey: .migrationProjects)
+        var migrationProjectsDecoded0:[DatabaseMigrationClientTypes.MigrationProject]? = nil
+        if let migrationProjectsContainer = migrationProjectsContainer {
+            migrationProjectsDecoded0 = [DatabaseMigrationClientTypes.MigrationProject]()
+            for structure0 in migrationProjectsContainer {
+                if let structure0 = structure0 {
+                    migrationProjectsDecoded0?.append(structure0)
+                }
+            }
+        }
+        migrationProjects = migrationProjectsDecoded0
     }
 }
 
@@ -11202,6 +14024,43 @@ extension DatabaseMigrationClientTypes {
 
 }
 
+extension DatabaseMigrationClientTypes.ErrorDetails: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case defaulterrordetails = "defaultErrorDetails"
+        case sdkUnknown
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        switch self {
+            case let .defaulterrordetails(defaulterrordetails):
+                try container.encode(defaulterrordetails, forKey: .defaulterrordetails)
+            case let .sdkUnknown(sdkUnknown):
+                try container.encode(sdkUnknown, forKey: .sdkUnknown)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        let defaulterrordetailsDecoded = try values.decodeIfPresent(DatabaseMigrationClientTypes.DefaultErrorDetails.self, forKey: .defaulterrordetails)
+        if let defaulterrordetails = defaulterrordetailsDecoded {
+            self = .defaulterrordetails(defaulterrordetails)
+            return
+        }
+        self = .sdkUnknown("")
+    }
+}
+
+extension DatabaseMigrationClientTypes {
+    /// Provides error information about a project.
+    public enum ErrorDetails: Swift.Equatable {
+        /// Error information about a project.
+        case defaulterrordetails(DatabaseMigrationClientTypes.DefaultErrorDetails)
+        case sdkUnknown(Swift.String)
+    }
+
+}
+
 extension DatabaseMigrationClientTypes.Event: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case date = "Date"
@@ -11480,6 +14339,254 @@ extension DatabaseMigrationClientTypes {
             self.sourceType = sourceType
             self.status = status
             self.subscriptionCreationTime = subscriptionCreationTime
+        }
+    }
+
+}
+
+extension ExportMetadataModelAssessmentInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case assessmentReportTypes = "AssessmentReportTypes"
+        case fileName = "FileName"
+        case migrationProjectIdentifier = "MigrationProjectIdentifier"
+        case selectionRules = "SelectionRules"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let assessmentReportTypes = assessmentReportTypes {
+            var assessmentReportTypesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .assessmentReportTypes)
+            for assessmentreporttype0 in assessmentReportTypes {
+                try assessmentReportTypesContainer.encode(assessmentreporttype0.rawValue)
+            }
+        }
+        if let fileName = self.fileName {
+            try encodeContainer.encode(fileName, forKey: .fileName)
+        }
+        if let migrationProjectIdentifier = self.migrationProjectIdentifier {
+            try encodeContainer.encode(migrationProjectIdentifier, forKey: .migrationProjectIdentifier)
+        }
+        if let selectionRules = self.selectionRules {
+            try encodeContainer.encode(selectionRules, forKey: .selectionRules)
+        }
+    }
+}
+
+extension ExportMetadataModelAssessmentInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct ExportMetadataModelAssessmentInput: Swift.Equatable {
+    /// The file format of the assessment file.
+    public var assessmentReportTypes: [DatabaseMigrationClientTypes.AssessmentReportType]?
+    /// The name of the assessment file to create in your Amazon S3 bucket.
+    public var fileName: Swift.String?
+    /// The migration project name or Amazon Resource Name (ARN).
+    /// This member is required.
+    public var migrationProjectIdentifier: Swift.String?
+    /// A value that specifies the database objects to assess.
+    /// This member is required.
+    public var selectionRules: Swift.String?
+
+    public init(
+        assessmentReportTypes: [DatabaseMigrationClientTypes.AssessmentReportType]? = nil,
+        fileName: Swift.String? = nil,
+        migrationProjectIdentifier: Swift.String? = nil,
+        selectionRules: Swift.String? = nil
+    )
+    {
+        self.assessmentReportTypes = assessmentReportTypes
+        self.fileName = fileName
+        self.migrationProjectIdentifier = migrationProjectIdentifier
+        self.selectionRules = selectionRules
+    }
+}
+
+struct ExportMetadataModelAssessmentInputBody: Swift.Equatable {
+    let migrationProjectIdentifier: Swift.String?
+    let selectionRules: Swift.String?
+    let fileName: Swift.String?
+    let assessmentReportTypes: [DatabaseMigrationClientTypes.AssessmentReportType]?
+}
+
+extension ExportMetadataModelAssessmentInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case assessmentReportTypes = "AssessmentReportTypes"
+        case fileName = "FileName"
+        case migrationProjectIdentifier = "MigrationProjectIdentifier"
+        case selectionRules = "SelectionRules"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let migrationProjectIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .migrationProjectIdentifier)
+        migrationProjectIdentifier = migrationProjectIdentifierDecoded
+        let selectionRulesDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .selectionRules)
+        selectionRules = selectionRulesDecoded
+        let fileNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .fileName)
+        fileName = fileNameDecoded
+        let assessmentReportTypesContainer = try containerValues.decodeIfPresent([DatabaseMigrationClientTypes.AssessmentReportType?].self, forKey: .assessmentReportTypes)
+        var assessmentReportTypesDecoded0:[DatabaseMigrationClientTypes.AssessmentReportType]? = nil
+        if let assessmentReportTypesContainer = assessmentReportTypesContainer {
+            assessmentReportTypesDecoded0 = [DatabaseMigrationClientTypes.AssessmentReportType]()
+            for enum0 in assessmentReportTypesContainer {
+                if let enum0 = enum0 {
+                    assessmentReportTypesDecoded0?.append(enum0)
+                }
+            }
+        }
+        assessmentReportTypes = assessmentReportTypesDecoded0
+    }
+}
+
+public enum ExportMetadataModelAssessmentOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ResourceNotFoundFault": return try await ResourceNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension ExportMetadataModelAssessmentOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ExportMetadataModelAssessmentOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.csvReport = output.csvReport
+            self.pdfReport = output.pdfReport
+        } else {
+            self.csvReport = nil
+            self.pdfReport = nil
+        }
+    }
+}
+
+public struct ExportMetadataModelAssessmentOutputResponse: Swift.Equatable {
+    /// The Amazon S3 details for an assessment exported in CSV format.
+    public var csvReport: DatabaseMigrationClientTypes.ExportMetadataModelAssessmentResultEntry?
+    /// The Amazon S3 details for an assessment exported in PDF format.
+    public var pdfReport: DatabaseMigrationClientTypes.ExportMetadataModelAssessmentResultEntry?
+
+    public init(
+        csvReport: DatabaseMigrationClientTypes.ExportMetadataModelAssessmentResultEntry? = nil,
+        pdfReport: DatabaseMigrationClientTypes.ExportMetadataModelAssessmentResultEntry? = nil
+    )
+    {
+        self.csvReport = csvReport
+        self.pdfReport = pdfReport
+    }
+}
+
+struct ExportMetadataModelAssessmentOutputResponseBody: Swift.Equatable {
+    let pdfReport: DatabaseMigrationClientTypes.ExportMetadataModelAssessmentResultEntry?
+    let csvReport: DatabaseMigrationClientTypes.ExportMetadataModelAssessmentResultEntry?
+}
+
+extension ExportMetadataModelAssessmentOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case csvReport = "CsvReport"
+        case pdfReport = "PdfReport"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let pdfReportDecoded = try containerValues.decodeIfPresent(DatabaseMigrationClientTypes.ExportMetadataModelAssessmentResultEntry.self, forKey: .pdfReport)
+        pdfReport = pdfReportDecoded
+        let csvReportDecoded = try containerValues.decodeIfPresent(DatabaseMigrationClientTypes.ExportMetadataModelAssessmentResultEntry.self, forKey: .csvReport)
+        csvReport = csvReportDecoded
+    }
+}
+
+extension DatabaseMigrationClientTypes.ExportMetadataModelAssessmentResultEntry: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case objectURL = "ObjectURL"
+        case s3ObjectKey = "S3ObjectKey"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let objectURL = self.objectURL {
+            try encodeContainer.encode(objectURL, forKey: .objectURL)
+        }
+        if let s3ObjectKey = self.s3ObjectKey {
+            try encodeContainer.encode(s3ObjectKey, forKey: .s3ObjectKey)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let s3ObjectKeyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .s3ObjectKey)
+        s3ObjectKey = s3ObjectKeyDecoded
+        let objectURLDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .objectURL)
+        objectURL = objectURLDecoded
+    }
+}
+
+extension DatabaseMigrationClientTypes {
+    /// Provides information about an exported metadata model assessment.
+    public struct ExportMetadataModelAssessmentResultEntry: Swift.Equatable {
+        /// The URL for the object containing the exported metadata model assessment.
+        public var objectURL: Swift.String?
+        /// The object key for the object containing the exported metadata model assessment.
+        public var s3ObjectKey: Swift.String?
+
+        public init(
+            objectURL: Swift.String? = nil,
+            s3ObjectKey: Swift.String? = nil
+        )
+        {
+            self.objectURL = objectURL
+            self.s3ObjectKey = s3ObjectKey
+        }
+    }
+
+}
+
+extension DatabaseMigrationClientTypes.ExportSqlDetails: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case objectURL = "ObjectURL"
+        case s3ObjectKey = "S3ObjectKey"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let objectURL = self.objectURL {
+            try encodeContainer.encode(objectURL, forKey: .objectURL)
+        }
+        if let s3ObjectKey = self.s3ObjectKey {
+            try encodeContainer.encode(s3ObjectKey, forKey: .s3ObjectKey)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let s3ObjectKeyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .s3ObjectKey)
+        s3ObjectKey = s3ObjectKeyDecoded
+        let objectURLDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .objectURL)
+        objectURL = objectURLDecoded
+    }
+}
+
+extension DatabaseMigrationClientTypes {
+    /// Provides information about a metadata model assessment exported to SQL.
+    public struct ExportSqlDetails: Swift.Equatable {
+        /// The URL for the object containing the exported metadata model assessment.
+        public var objectURL: Swift.String?
+        /// The Amazon S3 object key for the object containing the exported metadata model assessment.
+        public var s3ObjectKey: Swift.String?
+
+        public init(
+            objectURL: Swift.String? = nil,
+            s3ObjectKey: Swift.String? = nil
+        )
+        {
+            self.objectURL = objectURL
+            self.s3ObjectKey = s3ObjectKey
         }
     }
 
@@ -12124,6 +15231,143 @@ extension ImportCertificateOutputResponseBody: Swift.Decodable {
         let certificateDecoded = try containerValues.decodeIfPresent(DatabaseMigrationClientTypes.Certificate.self, forKey: .certificate)
         certificate = certificateDecoded
     }
+}
+
+extension DatabaseMigrationClientTypes.InstanceProfile: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case availabilityZone = "AvailabilityZone"
+        case description = "Description"
+        case instanceProfileArn = "InstanceProfileArn"
+        case instanceProfileCreationTime = "InstanceProfileCreationTime"
+        case instanceProfileName = "InstanceProfileName"
+        case kmsKeyArn = "KmsKeyArn"
+        case networkType = "NetworkType"
+        case publiclyAccessible = "PubliclyAccessible"
+        case subnetGroupIdentifier = "SubnetGroupIdentifier"
+        case vpcSecurityGroups = "VpcSecurityGroups"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let availabilityZone = self.availabilityZone {
+            try encodeContainer.encode(availabilityZone, forKey: .availabilityZone)
+        }
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
+        if let instanceProfileArn = self.instanceProfileArn {
+            try encodeContainer.encode(instanceProfileArn, forKey: .instanceProfileArn)
+        }
+        if let instanceProfileCreationTime = self.instanceProfileCreationTime {
+            try encodeContainer.encodeTimestamp(instanceProfileCreationTime, format: .dateTime, forKey: .instanceProfileCreationTime)
+        }
+        if let instanceProfileName = self.instanceProfileName {
+            try encodeContainer.encode(instanceProfileName, forKey: .instanceProfileName)
+        }
+        if let kmsKeyArn = self.kmsKeyArn {
+            try encodeContainer.encode(kmsKeyArn, forKey: .kmsKeyArn)
+        }
+        if let networkType = self.networkType {
+            try encodeContainer.encode(networkType, forKey: .networkType)
+        }
+        if let publiclyAccessible = self.publiclyAccessible {
+            try encodeContainer.encode(publiclyAccessible, forKey: .publiclyAccessible)
+        }
+        if let subnetGroupIdentifier = self.subnetGroupIdentifier {
+            try encodeContainer.encode(subnetGroupIdentifier, forKey: .subnetGroupIdentifier)
+        }
+        if let vpcSecurityGroups = vpcSecurityGroups {
+            var vpcSecurityGroupsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .vpcSecurityGroups)
+            for string0 in vpcSecurityGroups {
+                try vpcSecurityGroupsContainer.encode(string0)
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let instanceProfileArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .instanceProfileArn)
+        instanceProfileArn = instanceProfileArnDecoded
+        let availabilityZoneDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .availabilityZone)
+        availabilityZone = availabilityZoneDecoded
+        let kmsKeyArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .kmsKeyArn)
+        kmsKeyArn = kmsKeyArnDecoded
+        let publiclyAccessibleDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .publiclyAccessible)
+        publiclyAccessible = publiclyAccessibleDecoded
+        let networkTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .networkType)
+        networkType = networkTypeDecoded
+        let instanceProfileNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .instanceProfileName)
+        instanceProfileName = instanceProfileNameDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let instanceProfileCreationTimeDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .instanceProfileCreationTime)
+        instanceProfileCreationTime = instanceProfileCreationTimeDecoded
+        let subnetGroupIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .subnetGroupIdentifier)
+        subnetGroupIdentifier = subnetGroupIdentifierDecoded
+        let vpcSecurityGroupsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .vpcSecurityGroups)
+        var vpcSecurityGroupsDecoded0:[Swift.String]? = nil
+        if let vpcSecurityGroupsContainer = vpcSecurityGroupsContainer {
+            vpcSecurityGroupsDecoded0 = [Swift.String]()
+            for string0 in vpcSecurityGroupsContainer {
+                if let string0 = string0 {
+                    vpcSecurityGroupsDecoded0?.append(string0)
+                }
+            }
+        }
+        vpcSecurityGroups = vpcSecurityGroupsDecoded0
+    }
+}
+
+extension DatabaseMigrationClientTypes {
+    /// Provides information that defines an instance profile.
+    public struct InstanceProfile: Swift.Equatable {
+        /// The Availability Zone where the instance profile runs.
+        public var availabilityZone: Swift.String?
+        /// A description of the instance profile. Descriptions can have up to 31 characters. A description can contain only ASCII letters, digits, and hyphens ('-'). Also, it can't end with a hyphen or contain two consecutive hyphens, and can only begin with a letter.
+        public var description: Swift.String?
+        /// The Amazon Resource Name (ARN) string that uniquely identifies the instance profile.
+        public var instanceProfileArn: Swift.String?
+        /// The time the instance profile was created.
+        public var instanceProfileCreationTime: ClientRuntime.Date?
+        /// The user-friendly name for the instance profile.
+        public var instanceProfileName: Swift.String?
+        /// The Amazon Resource Name (ARN) of the KMS key that is used to encrypt the connection parameters for the instance profile. If you don't specify a value for the KmsKeyArn parameter, then DMS uses your default encryption key. KMS creates the default encryption key for your Amazon Web Services account. Your Amazon Web Services account has a different default encryption key for each Amazon Web Services Region.
+        public var kmsKeyArn: Swift.String?
+        /// Specifies the network type for the instance profile. A value of IPV4 represents an instance profile with IPv4 network type and only supports IPv4 addressing. A value of IPV6 represents an instance profile with IPv6 network type and only supports IPv6 addressing. A value of DUAL represents an instance profile with dual network type that supports IPv4 and IPv6 addressing.
+        public var networkType: Swift.String?
+        /// Specifies the accessibility options for the instance profile. A value of true represents an instance profile with a public IP address. A value of false represents an instance profile with a private IP address. The default value is true.
+        public var publiclyAccessible: Swift.Bool?
+        /// The identifier of the subnet group that is associated with the instance profile.
+        public var subnetGroupIdentifier: Swift.String?
+        /// The VPC security groups that are used with the instance profile. The VPC security group must work with the VPC containing the instance profile.
+        public var vpcSecurityGroups: [Swift.String]?
+
+        public init(
+            availabilityZone: Swift.String? = nil,
+            description: Swift.String? = nil,
+            instanceProfileArn: Swift.String? = nil,
+            instanceProfileCreationTime: ClientRuntime.Date? = nil,
+            instanceProfileName: Swift.String? = nil,
+            kmsKeyArn: Swift.String? = nil,
+            networkType: Swift.String? = nil,
+            publiclyAccessible: Swift.Bool? = nil,
+            subnetGroupIdentifier: Swift.String? = nil,
+            vpcSecurityGroups: [Swift.String]? = nil
+        )
+        {
+            self.availabilityZone = availabilityZone
+            self.description = description
+            self.instanceProfileArn = instanceProfileArn
+            self.instanceProfileCreationTime = instanceProfileCreationTime
+            self.instanceProfileName = instanceProfileName
+            self.kmsKeyArn = kmsKeyArn
+            self.networkType = networkType
+            self.publiclyAccessible = publiclyAccessible
+            self.subnetGroupIdentifier = subnetGroupIdentifier
+            self.vpcSecurityGroups = vpcSecurityGroups
+        }
+    }
+
 }
 
 extension InsufficientResourceCapacityFault {
@@ -13777,6 +17021,230 @@ extension DatabaseMigrationClientTypes {
 
 }
 
+extension DatabaseMigrationClientTypes.MicrosoftSqlServerDataProviderSettings: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case certificateArn = "CertificateArn"
+        case databaseName = "DatabaseName"
+        case port = "Port"
+        case serverName = "ServerName"
+        case sslMode = "SslMode"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let certificateArn = self.certificateArn {
+            try encodeContainer.encode(certificateArn, forKey: .certificateArn)
+        }
+        if let databaseName = self.databaseName {
+            try encodeContainer.encode(databaseName, forKey: .databaseName)
+        }
+        if let port = self.port {
+            try encodeContainer.encode(port, forKey: .port)
+        }
+        if let serverName = self.serverName {
+            try encodeContainer.encode(serverName, forKey: .serverName)
+        }
+        if let sslMode = self.sslMode {
+            try encodeContainer.encode(sslMode.rawValue, forKey: .sslMode)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let serverNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .serverName)
+        serverName = serverNameDecoded
+        let portDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .port)
+        port = portDecoded
+        let databaseNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .databaseName)
+        databaseName = databaseNameDecoded
+        let sslModeDecoded = try containerValues.decodeIfPresent(DatabaseMigrationClientTypes.DmsSslModeValue.self, forKey: .sslMode)
+        sslMode = sslModeDecoded
+        let certificateArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .certificateArn)
+        certificateArn = certificateArnDecoded
+    }
+}
+
+extension DatabaseMigrationClientTypes {
+    /// Provides information that defines a Microsoft SQL Server data provider.
+    public struct MicrosoftSqlServerDataProviderSettings: Swift.Equatable {
+        /// The Amazon Resource Name (ARN) of the certificate used for SSL connection.
+        public var certificateArn: Swift.String?
+        /// The database name on the Microsoft SQL Server data provider.
+        public var databaseName: Swift.String?
+        /// The port value for the Microsoft SQL Server data provider.
+        public var port: Swift.Int?
+        /// The name of the Microsoft SQL Server server.
+        public var serverName: Swift.String?
+        /// The SSL mode used to connect to the Microsoft SQL Server data provider. The default value is none.
+        public var sslMode: DatabaseMigrationClientTypes.DmsSslModeValue?
+
+        public init(
+            certificateArn: Swift.String? = nil,
+            databaseName: Swift.String? = nil,
+            port: Swift.Int? = nil,
+            serverName: Swift.String? = nil,
+            sslMode: DatabaseMigrationClientTypes.DmsSslModeValue? = nil
+        )
+        {
+            self.certificateArn = certificateArn
+            self.databaseName = databaseName
+            self.port = port
+            self.serverName = serverName
+            self.sslMode = sslMode
+        }
+    }
+
+}
+
+extension DatabaseMigrationClientTypes.MigrationProject: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case description = "Description"
+        case instanceProfileArn = "InstanceProfileArn"
+        case instanceProfileName = "InstanceProfileName"
+        case migrationProjectArn = "MigrationProjectArn"
+        case migrationProjectCreationTime = "MigrationProjectCreationTime"
+        case migrationProjectName = "MigrationProjectName"
+        case schemaConversionApplicationAttributes = "SchemaConversionApplicationAttributes"
+        case sourceDataProviderDescriptors = "SourceDataProviderDescriptors"
+        case targetDataProviderDescriptors = "TargetDataProviderDescriptors"
+        case transformationRules = "TransformationRules"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
+        if let instanceProfileArn = self.instanceProfileArn {
+            try encodeContainer.encode(instanceProfileArn, forKey: .instanceProfileArn)
+        }
+        if let instanceProfileName = self.instanceProfileName {
+            try encodeContainer.encode(instanceProfileName, forKey: .instanceProfileName)
+        }
+        if let migrationProjectArn = self.migrationProjectArn {
+            try encodeContainer.encode(migrationProjectArn, forKey: .migrationProjectArn)
+        }
+        if let migrationProjectCreationTime = self.migrationProjectCreationTime {
+            try encodeContainer.encodeTimestamp(migrationProjectCreationTime, format: .dateTime, forKey: .migrationProjectCreationTime)
+        }
+        if let migrationProjectName = self.migrationProjectName {
+            try encodeContainer.encode(migrationProjectName, forKey: .migrationProjectName)
+        }
+        if let schemaConversionApplicationAttributes = self.schemaConversionApplicationAttributes {
+            try encodeContainer.encode(schemaConversionApplicationAttributes, forKey: .schemaConversionApplicationAttributes)
+        }
+        if let sourceDataProviderDescriptors = sourceDataProviderDescriptors {
+            var sourceDataProviderDescriptorsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .sourceDataProviderDescriptors)
+            for dataproviderdescriptor0 in sourceDataProviderDescriptors {
+                try sourceDataProviderDescriptorsContainer.encode(dataproviderdescriptor0)
+            }
+        }
+        if let targetDataProviderDescriptors = targetDataProviderDescriptors {
+            var targetDataProviderDescriptorsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .targetDataProviderDescriptors)
+            for dataproviderdescriptor0 in targetDataProviderDescriptors {
+                try targetDataProviderDescriptorsContainer.encode(dataproviderdescriptor0)
+            }
+        }
+        if let transformationRules = self.transformationRules {
+            try encodeContainer.encode(transformationRules, forKey: .transformationRules)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let migrationProjectNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .migrationProjectName)
+        migrationProjectName = migrationProjectNameDecoded
+        let migrationProjectArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .migrationProjectArn)
+        migrationProjectArn = migrationProjectArnDecoded
+        let migrationProjectCreationTimeDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .migrationProjectCreationTime)
+        migrationProjectCreationTime = migrationProjectCreationTimeDecoded
+        let sourceDataProviderDescriptorsContainer = try containerValues.decodeIfPresent([DatabaseMigrationClientTypes.DataProviderDescriptor?].self, forKey: .sourceDataProviderDescriptors)
+        var sourceDataProviderDescriptorsDecoded0:[DatabaseMigrationClientTypes.DataProviderDescriptor]? = nil
+        if let sourceDataProviderDescriptorsContainer = sourceDataProviderDescriptorsContainer {
+            sourceDataProviderDescriptorsDecoded0 = [DatabaseMigrationClientTypes.DataProviderDescriptor]()
+            for structure0 in sourceDataProviderDescriptorsContainer {
+                if let structure0 = structure0 {
+                    sourceDataProviderDescriptorsDecoded0?.append(structure0)
+                }
+            }
+        }
+        sourceDataProviderDescriptors = sourceDataProviderDescriptorsDecoded0
+        let targetDataProviderDescriptorsContainer = try containerValues.decodeIfPresent([DatabaseMigrationClientTypes.DataProviderDescriptor?].self, forKey: .targetDataProviderDescriptors)
+        var targetDataProviderDescriptorsDecoded0:[DatabaseMigrationClientTypes.DataProviderDescriptor]? = nil
+        if let targetDataProviderDescriptorsContainer = targetDataProviderDescriptorsContainer {
+            targetDataProviderDescriptorsDecoded0 = [DatabaseMigrationClientTypes.DataProviderDescriptor]()
+            for structure0 in targetDataProviderDescriptorsContainer {
+                if let structure0 = structure0 {
+                    targetDataProviderDescriptorsDecoded0?.append(structure0)
+                }
+            }
+        }
+        targetDataProviderDescriptors = targetDataProviderDescriptorsDecoded0
+        let instanceProfileArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .instanceProfileArn)
+        instanceProfileArn = instanceProfileArnDecoded
+        let instanceProfileNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .instanceProfileName)
+        instanceProfileName = instanceProfileNameDecoded
+        let transformationRulesDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .transformationRules)
+        transformationRules = transformationRulesDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let schemaConversionApplicationAttributesDecoded = try containerValues.decodeIfPresent(DatabaseMigrationClientTypes.SCApplicationAttributes.self, forKey: .schemaConversionApplicationAttributes)
+        schemaConversionApplicationAttributes = schemaConversionApplicationAttributesDecoded
+    }
+}
+
+extension DatabaseMigrationClientTypes {
+    /// Provides information that defines a migration project.
+    public struct MigrationProject: Swift.Equatable {
+        /// A user-friendly description of the migration project.
+        public var description: Swift.String?
+        /// The Amazon Resource Name (ARN) of the instance profile for your migration project.
+        public var instanceProfileArn: Swift.String?
+        /// The name of the associated instance profile.
+        public var instanceProfileName: Swift.String?
+        /// The ARN string that uniquely identifies the migration project.
+        public var migrationProjectArn: Swift.String?
+        /// The time when the migration project was created.
+        public var migrationProjectCreationTime: ClientRuntime.Date?
+        /// The name of the migration project.
+        public var migrationProjectName: Swift.String?
+        /// The schema conversion application attributes, including the Amazon S3 bucket name and Amazon S3 role ARN.
+        public var schemaConversionApplicationAttributes: DatabaseMigrationClientTypes.SCApplicationAttributes?
+        /// Information about the source data provider, including the name or ARN, and Secrets Manager parameters.
+        public var sourceDataProviderDescriptors: [DatabaseMigrationClientTypes.DataProviderDescriptor]?
+        /// Information about the target data provider, including the name or ARN, and Secrets Manager parameters.
+        public var targetDataProviderDescriptors: [DatabaseMigrationClientTypes.DataProviderDescriptor]?
+        /// The settings in JSON format for migration rules. Migration rules make it possible for you to change the object names according to the rules that you specify. For example, you can change an object name to lowercase or uppercase, add or remove a prefix or suffix, or rename objects.
+        public var transformationRules: Swift.String?
+
+        public init(
+            description: Swift.String? = nil,
+            instanceProfileArn: Swift.String? = nil,
+            instanceProfileName: Swift.String? = nil,
+            migrationProjectArn: Swift.String? = nil,
+            migrationProjectCreationTime: ClientRuntime.Date? = nil,
+            migrationProjectName: Swift.String? = nil,
+            schemaConversionApplicationAttributes: DatabaseMigrationClientTypes.SCApplicationAttributes? = nil,
+            sourceDataProviderDescriptors: [DatabaseMigrationClientTypes.DataProviderDescriptor]? = nil,
+            targetDataProviderDescriptors: [DatabaseMigrationClientTypes.DataProviderDescriptor]? = nil,
+            transformationRules: Swift.String? = nil
+        )
+        {
+            self.description = description
+            self.instanceProfileArn = instanceProfileArn
+            self.instanceProfileName = instanceProfileName
+            self.migrationProjectArn = migrationProjectArn
+            self.migrationProjectCreationTime = migrationProjectCreationTime
+            self.migrationProjectName = migrationProjectName
+            self.schemaConversionApplicationAttributes = schemaConversionApplicationAttributes
+            self.sourceDataProviderDescriptors = sourceDataProviderDescriptors
+            self.targetDataProviderDescriptors = targetDataProviderDescriptors
+            self.transformationRules = transformationRules
+        }
+    }
+
+}
+
 extension DatabaseMigrationClientTypes {
     public enum MigrationTypeValue: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case cdc
@@ -13809,6 +17277,284 @@ extension DatabaseMigrationClientTypes {
             let rawValue = try container.decode(RawValue.self)
             self = MigrationTypeValue(rawValue: rawValue) ?? MigrationTypeValue.sdkUnknown(rawValue)
         }
+    }
+}
+
+extension ModifyConversionConfigurationInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case conversionConfiguration = "ConversionConfiguration"
+        case migrationProjectIdentifier = "MigrationProjectIdentifier"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let conversionConfiguration = self.conversionConfiguration {
+            try encodeContainer.encode(conversionConfiguration, forKey: .conversionConfiguration)
+        }
+        if let migrationProjectIdentifier = self.migrationProjectIdentifier {
+            try encodeContainer.encode(migrationProjectIdentifier, forKey: .migrationProjectIdentifier)
+        }
+    }
+}
+
+extension ModifyConversionConfigurationInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct ModifyConversionConfigurationInput: Swift.Equatable {
+    /// The new conversion configuration.
+    /// This member is required.
+    public var conversionConfiguration: Swift.String?
+    /// The migration project name or Amazon Resource Name (ARN).
+    /// This member is required.
+    public var migrationProjectIdentifier: Swift.String?
+
+    public init(
+        conversionConfiguration: Swift.String? = nil,
+        migrationProjectIdentifier: Swift.String? = nil
+    )
+    {
+        self.conversionConfiguration = conversionConfiguration
+        self.migrationProjectIdentifier = migrationProjectIdentifier
+    }
+}
+
+struct ModifyConversionConfigurationInputBody: Swift.Equatable {
+    let migrationProjectIdentifier: Swift.String?
+    let conversionConfiguration: Swift.String?
+}
+
+extension ModifyConversionConfigurationInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case conversionConfiguration = "ConversionConfiguration"
+        case migrationProjectIdentifier = "MigrationProjectIdentifier"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let migrationProjectIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .migrationProjectIdentifier)
+        migrationProjectIdentifier = migrationProjectIdentifierDecoded
+        let conversionConfigurationDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .conversionConfiguration)
+        conversionConfiguration = conversionConfigurationDecoded
+    }
+}
+
+public enum ModifyConversionConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidResourceStateFault": return try await InvalidResourceStateFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundFault": return try await ResourceNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension ModifyConversionConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ModifyConversionConfigurationOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.migrationProjectIdentifier = output.migrationProjectIdentifier
+        } else {
+            self.migrationProjectIdentifier = nil
+        }
+    }
+}
+
+public struct ModifyConversionConfigurationOutputResponse: Swift.Equatable {
+    /// The name or Amazon Resource Name (ARN) of the modified configuration.
+    public var migrationProjectIdentifier: Swift.String?
+
+    public init(
+        migrationProjectIdentifier: Swift.String? = nil
+    )
+    {
+        self.migrationProjectIdentifier = migrationProjectIdentifier
+    }
+}
+
+struct ModifyConversionConfigurationOutputResponseBody: Swift.Equatable {
+    let migrationProjectIdentifier: Swift.String?
+}
+
+extension ModifyConversionConfigurationOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case migrationProjectIdentifier = "MigrationProjectIdentifier"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let migrationProjectIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .migrationProjectIdentifier)
+        migrationProjectIdentifier = migrationProjectIdentifierDecoded
+    }
+}
+
+extension ModifyDataProviderInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case dataProviderIdentifier = "DataProviderIdentifier"
+        case dataProviderName = "DataProviderName"
+        case description = "Description"
+        case engine = "Engine"
+        case exactSettings = "ExactSettings"
+        case settings = "Settings"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let dataProviderIdentifier = self.dataProviderIdentifier {
+            try encodeContainer.encode(dataProviderIdentifier, forKey: .dataProviderIdentifier)
+        }
+        if let dataProviderName = self.dataProviderName {
+            try encodeContainer.encode(dataProviderName, forKey: .dataProviderName)
+        }
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
+        if let engine = self.engine {
+            try encodeContainer.encode(engine, forKey: .engine)
+        }
+        if let exactSettings = self.exactSettings {
+            try encodeContainer.encode(exactSettings, forKey: .exactSettings)
+        }
+        if let settings = self.settings {
+            try encodeContainer.encode(settings, forKey: .settings)
+        }
+    }
+}
+
+extension ModifyDataProviderInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct ModifyDataProviderInput: Swift.Equatable {
+    /// The identifier of the data provider. Identifiers must begin with a letter and must contain only ASCII letters, digits, and hyphens. They can't end with a hyphen, or contain two consecutive hyphens.
+    /// This member is required.
+    public var dataProviderIdentifier: Swift.String?
+    /// The name of the data provider.
+    public var dataProviderName: Swift.String?
+    /// A user-friendly description of the data provider.
+    public var description: Swift.String?
+    /// The type of database engine for the data provider. Valid values include "aurora", "aurora_postgresql", "mysql", "oracle", "postgres", and "sqlserver". A value of "aurora" represents Amazon Aurora MySQL-Compatible Edition.
+    public var engine: Swift.String?
+    /// If this attribute is Y, the current call to ModifyDataProvider replaces all existing data provider settings with the exact settings that you specify in this call. If this attribute is N, the current call to ModifyDataProvider does two things:
+    ///
+    /// * It replaces any data provider settings that already exist with new values, for settings with the same names.
+    ///
+    /// * It creates new data provider settings that you specify in the call, for settings with different names.
+    public var exactSettings: Swift.Bool?
+    /// The settings in JSON format for a data provider.
+    public var settings: DatabaseMigrationClientTypes.DataProviderSettings?
+
+    public init(
+        dataProviderIdentifier: Swift.String? = nil,
+        dataProviderName: Swift.String? = nil,
+        description: Swift.String? = nil,
+        engine: Swift.String? = nil,
+        exactSettings: Swift.Bool? = nil,
+        settings: DatabaseMigrationClientTypes.DataProviderSettings? = nil
+    )
+    {
+        self.dataProviderIdentifier = dataProviderIdentifier
+        self.dataProviderName = dataProviderName
+        self.description = description
+        self.engine = engine
+        self.exactSettings = exactSettings
+        self.settings = settings
+    }
+}
+
+struct ModifyDataProviderInputBody: Swift.Equatable {
+    let dataProviderIdentifier: Swift.String?
+    let dataProviderName: Swift.String?
+    let description: Swift.String?
+    let engine: Swift.String?
+    let exactSettings: Swift.Bool?
+    let settings: DatabaseMigrationClientTypes.DataProviderSettings?
+}
+
+extension ModifyDataProviderInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case dataProviderIdentifier = "DataProviderIdentifier"
+        case dataProviderName = "DataProviderName"
+        case description = "Description"
+        case engine = "Engine"
+        case exactSettings = "ExactSettings"
+        case settings = "Settings"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let dataProviderIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dataProviderIdentifier)
+        dataProviderIdentifier = dataProviderIdentifierDecoded
+        let dataProviderNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dataProviderName)
+        dataProviderName = dataProviderNameDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let engineDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .engine)
+        engine = engineDecoded
+        let exactSettingsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .exactSettings)
+        exactSettings = exactSettingsDecoded
+        let settingsDecoded = try containerValues.decodeIfPresent(DatabaseMigrationClientTypes.DataProviderSettings.self, forKey: .settings)
+        settings = settingsDecoded
+    }
+}
+
+public enum ModifyDataProviderOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedFault": return try await AccessDeniedFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidResourceStateFault": return try await InvalidResourceStateFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundFault": return try await ResourceNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension ModifyDataProviderOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ModifyDataProviderOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.dataProvider = output.dataProvider
+        } else {
+            self.dataProvider = nil
+        }
+    }
+}
+
+public struct ModifyDataProviderOutputResponse: Swift.Equatable {
+    /// The data provider that was modified.
+    public var dataProvider: DatabaseMigrationClientTypes.DataProvider?
+
+    public init(
+        dataProvider: DatabaseMigrationClientTypes.DataProvider? = nil
+    )
+    {
+        self.dataProvider = dataProvider
+    }
+}
+
+struct ModifyDataProviderOutputResponseBody: Swift.Equatable {
+    let dataProvider: DatabaseMigrationClientTypes.DataProvider?
+}
+
+extension ModifyDataProviderOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case dataProvider = "DataProvider"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let dataProviderDecoded = try containerValues.decodeIfPresent(DatabaseMigrationClientTypes.DataProvider.self, forKey: .dataProvider)
+        dataProvider = dataProviderDecoded
     }
 }
 
@@ -14501,6 +18247,429 @@ extension ModifyEventSubscriptionOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension ModifyInstanceProfileInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case availabilityZone = "AvailabilityZone"
+        case description = "Description"
+        case instanceProfileIdentifier = "InstanceProfileIdentifier"
+        case instanceProfileName = "InstanceProfileName"
+        case kmsKeyArn = "KmsKeyArn"
+        case networkType = "NetworkType"
+        case publiclyAccessible = "PubliclyAccessible"
+        case subnetGroupIdentifier = "SubnetGroupIdentifier"
+        case vpcSecurityGroups = "VpcSecurityGroups"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let availabilityZone = self.availabilityZone {
+            try encodeContainer.encode(availabilityZone, forKey: .availabilityZone)
+        }
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
+        if let instanceProfileIdentifier = self.instanceProfileIdentifier {
+            try encodeContainer.encode(instanceProfileIdentifier, forKey: .instanceProfileIdentifier)
+        }
+        if let instanceProfileName = self.instanceProfileName {
+            try encodeContainer.encode(instanceProfileName, forKey: .instanceProfileName)
+        }
+        if let kmsKeyArn = self.kmsKeyArn {
+            try encodeContainer.encode(kmsKeyArn, forKey: .kmsKeyArn)
+        }
+        if let networkType = self.networkType {
+            try encodeContainer.encode(networkType, forKey: .networkType)
+        }
+        if let publiclyAccessible = self.publiclyAccessible {
+            try encodeContainer.encode(publiclyAccessible, forKey: .publiclyAccessible)
+        }
+        if let subnetGroupIdentifier = self.subnetGroupIdentifier {
+            try encodeContainer.encode(subnetGroupIdentifier, forKey: .subnetGroupIdentifier)
+        }
+        if let vpcSecurityGroups = vpcSecurityGroups {
+            var vpcSecurityGroupsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .vpcSecurityGroups)
+            for string0 in vpcSecurityGroups {
+                try vpcSecurityGroupsContainer.encode(string0)
+            }
+        }
+    }
+}
+
+extension ModifyInstanceProfileInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct ModifyInstanceProfileInput: Swift.Equatable {
+    /// The Availability Zone where the instance profile runs.
+    public var availabilityZone: Swift.String?
+    /// A user-friendly description for the instance profile.
+    public var description: Swift.String?
+    /// The identifier of the instance profile. Identifiers must begin with a letter and must contain only ASCII letters, digits, and hyphens. They can't end with a hyphen, or contain two consecutive hyphens.
+    /// This member is required.
+    public var instanceProfileIdentifier: Swift.String?
+    /// A user-friendly name for the instance profile.
+    public var instanceProfileName: Swift.String?
+    /// The Amazon Resource Name (ARN) of the KMS key that is used to encrypt the connection parameters for the instance profile. If you don't specify a value for the KmsKeyArn parameter, then DMS uses your default encryption key. KMS creates the default encryption key for your Amazon Web Services account. Your Amazon Web Services account has a different default encryption key for each Amazon Web Services Region.
+    public var kmsKeyArn: Swift.String?
+    /// Specifies the network type for the instance profile. A value of IPV4 represents an instance profile with IPv4 network type and only supports IPv4 addressing. A value of IPV6 represents an instance profile with IPv6 network type and only supports IPv6 addressing. A value of DUAL represents an instance profile with dual network type that supports IPv4 and IPv6 addressing.
+    public var networkType: Swift.String?
+    /// Specifies the accessibility options for the instance profile. A value of true represents an instance profile with a public IP address. A value of false represents an instance profile with a private IP address. The default value is true.
+    public var publiclyAccessible: Swift.Bool?
+    /// A subnet group to associate with the instance profile.
+    public var subnetGroupIdentifier: Swift.String?
+    /// Specifies the VPC security groups to be used with the instance profile. The VPC security group must work with the VPC containing the instance profile.
+    public var vpcSecurityGroups: [Swift.String]?
+
+    public init(
+        availabilityZone: Swift.String? = nil,
+        description: Swift.String? = nil,
+        instanceProfileIdentifier: Swift.String? = nil,
+        instanceProfileName: Swift.String? = nil,
+        kmsKeyArn: Swift.String? = nil,
+        networkType: Swift.String? = nil,
+        publiclyAccessible: Swift.Bool? = nil,
+        subnetGroupIdentifier: Swift.String? = nil,
+        vpcSecurityGroups: [Swift.String]? = nil
+    )
+    {
+        self.availabilityZone = availabilityZone
+        self.description = description
+        self.instanceProfileIdentifier = instanceProfileIdentifier
+        self.instanceProfileName = instanceProfileName
+        self.kmsKeyArn = kmsKeyArn
+        self.networkType = networkType
+        self.publiclyAccessible = publiclyAccessible
+        self.subnetGroupIdentifier = subnetGroupIdentifier
+        self.vpcSecurityGroups = vpcSecurityGroups
+    }
+}
+
+struct ModifyInstanceProfileInputBody: Swift.Equatable {
+    let instanceProfileIdentifier: Swift.String?
+    let availabilityZone: Swift.String?
+    let kmsKeyArn: Swift.String?
+    let publiclyAccessible: Swift.Bool?
+    let networkType: Swift.String?
+    let instanceProfileName: Swift.String?
+    let description: Swift.String?
+    let subnetGroupIdentifier: Swift.String?
+    let vpcSecurityGroups: [Swift.String]?
+}
+
+extension ModifyInstanceProfileInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case availabilityZone = "AvailabilityZone"
+        case description = "Description"
+        case instanceProfileIdentifier = "InstanceProfileIdentifier"
+        case instanceProfileName = "InstanceProfileName"
+        case kmsKeyArn = "KmsKeyArn"
+        case networkType = "NetworkType"
+        case publiclyAccessible = "PubliclyAccessible"
+        case subnetGroupIdentifier = "SubnetGroupIdentifier"
+        case vpcSecurityGroups = "VpcSecurityGroups"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let instanceProfileIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .instanceProfileIdentifier)
+        instanceProfileIdentifier = instanceProfileIdentifierDecoded
+        let availabilityZoneDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .availabilityZone)
+        availabilityZone = availabilityZoneDecoded
+        let kmsKeyArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .kmsKeyArn)
+        kmsKeyArn = kmsKeyArnDecoded
+        let publiclyAccessibleDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .publiclyAccessible)
+        publiclyAccessible = publiclyAccessibleDecoded
+        let networkTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .networkType)
+        networkType = networkTypeDecoded
+        let instanceProfileNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .instanceProfileName)
+        instanceProfileName = instanceProfileNameDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let subnetGroupIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .subnetGroupIdentifier)
+        subnetGroupIdentifier = subnetGroupIdentifierDecoded
+        let vpcSecurityGroupsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .vpcSecurityGroups)
+        var vpcSecurityGroupsDecoded0:[Swift.String]? = nil
+        if let vpcSecurityGroupsContainer = vpcSecurityGroupsContainer {
+            vpcSecurityGroupsDecoded0 = [Swift.String]()
+            for string0 in vpcSecurityGroupsContainer {
+                if let string0 = string0 {
+                    vpcSecurityGroupsDecoded0?.append(string0)
+                }
+            }
+        }
+        vpcSecurityGroups = vpcSecurityGroupsDecoded0
+    }
+}
+
+public enum ModifyInstanceProfileOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedFault": return try await AccessDeniedFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidResourceStateFault": return try await InvalidResourceStateFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "KMSKeyNotAccessibleFault": return try await KMSKeyNotAccessibleFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundFault": return try await ResourceNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "S3AccessDeniedFault": return try await S3AccessDeniedFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "S3ResourceNotFoundFault": return try await S3ResourceNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension ModifyInstanceProfileOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ModifyInstanceProfileOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.instanceProfile = output.instanceProfile
+        } else {
+            self.instanceProfile = nil
+        }
+    }
+}
+
+public struct ModifyInstanceProfileOutputResponse: Swift.Equatable {
+    /// The instance profile that was modified.
+    public var instanceProfile: DatabaseMigrationClientTypes.InstanceProfile?
+
+    public init(
+        instanceProfile: DatabaseMigrationClientTypes.InstanceProfile? = nil
+    )
+    {
+        self.instanceProfile = instanceProfile
+    }
+}
+
+struct ModifyInstanceProfileOutputResponseBody: Swift.Equatable {
+    let instanceProfile: DatabaseMigrationClientTypes.InstanceProfile?
+}
+
+extension ModifyInstanceProfileOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case instanceProfile = "InstanceProfile"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let instanceProfileDecoded = try containerValues.decodeIfPresent(DatabaseMigrationClientTypes.InstanceProfile.self, forKey: .instanceProfile)
+        instanceProfile = instanceProfileDecoded
+    }
+}
+
+extension ModifyMigrationProjectInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case description = "Description"
+        case instanceProfileIdentifier = "InstanceProfileIdentifier"
+        case migrationProjectIdentifier = "MigrationProjectIdentifier"
+        case migrationProjectName = "MigrationProjectName"
+        case schemaConversionApplicationAttributes = "SchemaConversionApplicationAttributes"
+        case sourceDataProviderDescriptors = "SourceDataProviderDescriptors"
+        case targetDataProviderDescriptors = "TargetDataProviderDescriptors"
+        case transformationRules = "TransformationRules"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
+        if let instanceProfileIdentifier = self.instanceProfileIdentifier {
+            try encodeContainer.encode(instanceProfileIdentifier, forKey: .instanceProfileIdentifier)
+        }
+        if let migrationProjectIdentifier = self.migrationProjectIdentifier {
+            try encodeContainer.encode(migrationProjectIdentifier, forKey: .migrationProjectIdentifier)
+        }
+        if let migrationProjectName = self.migrationProjectName {
+            try encodeContainer.encode(migrationProjectName, forKey: .migrationProjectName)
+        }
+        if let schemaConversionApplicationAttributes = self.schemaConversionApplicationAttributes {
+            try encodeContainer.encode(schemaConversionApplicationAttributes, forKey: .schemaConversionApplicationAttributes)
+        }
+        if let sourceDataProviderDescriptors = sourceDataProviderDescriptors {
+            var sourceDataProviderDescriptorsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .sourceDataProviderDescriptors)
+            for dataproviderdescriptordefinition0 in sourceDataProviderDescriptors {
+                try sourceDataProviderDescriptorsContainer.encode(dataproviderdescriptordefinition0)
+            }
+        }
+        if let targetDataProviderDescriptors = targetDataProviderDescriptors {
+            var targetDataProviderDescriptorsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .targetDataProviderDescriptors)
+            for dataproviderdescriptordefinition0 in targetDataProviderDescriptors {
+                try targetDataProviderDescriptorsContainer.encode(dataproviderdescriptordefinition0)
+            }
+        }
+        if let transformationRules = self.transformationRules {
+            try encodeContainer.encode(transformationRules, forKey: .transformationRules)
+        }
+    }
+}
+
+extension ModifyMigrationProjectInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct ModifyMigrationProjectInput: Swift.Equatable {
+    /// A user-friendly description of the migration project.
+    public var description: Swift.String?
+    /// The name or Amazon Resource Name (ARN) for the instance profile.
+    public var instanceProfileIdentifier: Swift.String?
+    /// The identifier of the migration project. Identifiers must begin with a letter and must contain only ASCII letters, digits, and hyphens. They can't end with a hyphen, or contain two consecutive hyphens.
+    /// This member is required.
+    public var migrationProjectIdentifier: Swift.String?
+    /// A user-friendly name for the migration project.
+    public var migrationProjectName: Swift.String?
+    /// The schema conversion application attributes, including the Amazon S3 bucket name and Amazon S3 role ARN.
+    public var schemaConversionApplicationAttributes: DatabaseMigrationClientTypes.SCApplicationAttributes?
+    /// Information about the source data provider, including the name, ARN, and Amazon Web Services Secrets Manager parameters.
+    public var sourceDataProviderDescriptors: [DatabaseMigrationClientTypes.DataProviderDescriptorDefinition]?
+    /// Information about the target data provider, including the name, ARN, and Amazon Web Services Secrets Manager parameters.
+    public var targetDataProviderDescriptors: [DatabaseMigrationClientTypes.DataProviderDescriptorDefinition]?
+    /// The settings in JSON format for migration rules. Migration rules make it possible for you to change the object names according to the rules that you specify. For example, you can change an object name to lowercase or uppercase, add or remove a prefix or suffix, or rename objects.
+    public var transformationRules: Swift.String?
+
+    public init(
+        description: Swift.String? = nil,
+        instanceProfileIdentifier: Swift.String? = nil,
+        migrationProjectIdentifier: Swift.String? = nil,
+        migrationProjectName: Swift.String? = nil,
+        schemaConversionApplicationAttributes: DatabaseMigrationClientTypes.SCApplicationAttributes? = nil,
+        sourceDataProviderDescriptors: [DatabaseMigrationClientTypes.DataProviderDescriptorDefinition]? = nil,
+        targetDataProviderDescriptors: [DatabaseMigrationClientTypes.DataProviderDescriptorDefinition]? = nil,
+        transformationRules: Swift.String? = nil
+    )
+    {
+        self.description = description
+        self.instanceProfileIdentifier = instanceProfileIdentifier
+        self.migrationProjectIdentifier = migrationProjectIdentifier
+        self.migrationProjectName = migrationProjectName
+        self.schemaConversionApplicationAttributes = schemaConversionApplicationAttributes
+        self.sourceDataProviderDescriptors = sourceDataProviderDescriptors
+        self.targetDataProviderDescriptors = targetDataProviderDescriptors
+        self.transformationRules = transformationRules
+    }
+}
+
+struct ModifyMigrationProjectInputBody: Swift.Equatable {
+    let migrationProjectIdentifier: Swift.String?
+    let migrationProjectName: Swift.String?
+    let sourceDataProviderDescriptors: [DatabaseMigrationClientTypes.DataProviderDescriptorDefinition]?
+    let targetDataProviderDescriptors: [DatabaseMigrationClientTypes.DataProviderDescriptorDefinition]?
+    let instanceProfileIdentifier: Swift.String?
+    let transformationRules: Swift.String?
+    let description: Swift.String?
+    let schemaConversionApplicationAttributes: DatabaseMigrationClientTypes.SCApplicationAttributes?
+}
+
+extension ModifyMigrationProjectInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case description = "Description"
+        case instanceProfileIdentifier = "InstanceProfileIdentifier"
+        case migrationProjectIdentifier = "MigrationProjectIdentifier"
+        case migrationProjectName = "MigrationProjectName"
+        case schemaConversionApplicationAttributes = "SchemaConversionApplicationAttributes"
+        case sourceDataProviderDescriptors = "SourceDataProviderDescriptors"
+        case targetDataProviderDescriptors = "TargetDataProviderDescriptors"
+        case transformationRules = "TransformationRules"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let migrationProjectIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .migrationProjectIdentifier)
+        migrationProjectIdentifier = migrationProjectIdentifierDecoded
+        let migrationProjectNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .migrationProjectName)
+        migrationProjectName = migrationProjectNameDecoded
+        let sourceDataProviderDescriptorsContainer = try containerValues.decodeIfPresent([DatabaseMigrationClientTypes.DataProviderDescriptorDefinition?].self, forKey: .sourceDataProviderDescriptors)
+        var sourceDataProviderDescriptorsDecoded0:[DatabaseMigrationClientTypes.DataProviderDescriptorDefinition]? = nil
+        if let sourceDataProviderDescriptorsContainer = sourceDataProviderDescriptorsContainer {
+            sourceDataProviderDescriptorsDecoded0 = [DatabaseMigrationClientTypes.DataProviderDescriptorDefinition]()
+            for structure0 in sourceDataProviderDescriptorsContainer {
+                if let structure0 = structure0 {
+                    sourceDataProviderDescriptorsDecoded0?.append(structure0)
+                }
+            }
+        }
+        sourceDataProviderDescriptors = sourceDataProviderDescriptorsDecoded0
+        let targetDataProviderDescriptorsContainer = try containerValues.decodeIfPresent([DatabaseMigrationClientTypes.DataProviderDescriptorDefinition?].self, forKey: .targetDataProviderDescriptors)
+        var targetDataProviderDescriptorsDecoded0:[DatabaseMigrationClientTypes.DataProviderDescriptorDefinition]? = nil
+        if let targetDataProviderDescriptorsContainer = targetDataProviderDescriptorsContainer {
+            targetDataProviderDescriptorsDecoded0 = [DatabaseMigrationClientTypes.DataProviderDescriptorDefinition]()
+            for structure0 in targetDataProviderDescriptorsContainer {
+                if let structure0 = structure0 {
+                    targetDataProviderDescriptorsDecoded0?.append(structure0)
+                }
+            }
+        }
+        targetDataProviderDescriptors = targetDataProviderDescriptorsDecoded0
+        let instanceProfileIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .instanceProfileIdentifier)
+        instanceProfileIdentifier = instanceProfileIdentifierDecoded
+        let transformationRulesDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .transformationRules)
+        transformationRules = transformationRulesDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let schemaConversionApplicationAttributesDecoded = try containerValues.decodeIfPresent(DatabaseMigrationClientTypes.SCApplicationAttributes.self, forKey: .schemaConversionApplicationAttributes)
+        schemaConversionApplicationAttributes = schemaConversionApplicationAttributesDecoded
+    }
+}
+
+public enum ModifyMigrationProjectOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedFault": return try await AccessDeniedFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidResourceStateFault": return try await InvalidResourceStateFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundFault": return try await ResourceNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "S3AccessDeniedFault": return try await S3AccessDeniedFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "S3ResourceNotFoundFault": return try await S3ResourceNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension ModifyMigrationProjectOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ModifyMigrationProjectOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.migrationProject = output.migrationProject
+        } else {
+            self.migrationProject = nil
+        }
+    }
+}
+
+public struct ModifyMigrationProjectOutputResponse: Swift.Equatable {
+    /// The migration project that was modified.
+    public var migrationProject: DatabaseMigrationClientTypes.MigrationProject?
+
+    public init(
+        migrationProject: DatabaseMigrationClientTypes.MigrationProject? = nil
+    )
+    {
+        self.migrationProject = migrationProject
+    }
+}
+
+struct ModifyMigrationProjectOutputResponseBody: Swift.Equatable {
+    let migrationProject: DatabaseMigrationClientTypes.MigrationProject?
+}
+
+extension ModifyMigrationProjectOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case migrationProject = "MigrationProject"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let migrationProjectDecoded = try containerValues.decodeIfPresent(DatabaseMigrationClientTypes.MigrationProject.self, forKey: .migrationProject)
+        migrationProject = migrationProjectDecoded
+    }
+}
+
 extension ModifyReplicationConfigInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case computeConfig = "ComputeConfig"
@@ -14723,10 +18892,10 @@ extension ModifyReplicationInstanceInput: Swift.Encodable {
         if let allocatedStorage = self.allocatedStorage {
             try encodeContainer.encode(allocatedStorage, forKey: .allocatedStorage)
         }
-        if allowMajorVersionUpgrade != false {
+        if let allowMajorVersionUpgrade = self.allowMajorVersionUpgrade {
             try encodeContainer.encode(allowMajorVersionUpgrade, forKey: .allowMajorVersionUpgrade)
         }
-        if applyImmediately != false {
+        if let applyImmediately = self.applyImmediately {
             try encodeContainer.encode(applyImmediately, forKey: .applyImmediately)
         }
         if let autoMinorVersionUpgrade = self.autoMinorVersionUpgrade {
@@ -14773,9 +18942,9 @@ public struct ModifyReplicationInstanceInput: Swift.Equatable {
     /// The amount of storage (in gigabytes) to be allocated for the replication instance.
     public var allocatedStorage: Swift.Int?
     /// Indicates that major version upgrades are allowed. Changing this parameter does not result in an outage, and the change is asynchronously applied as soon as possible. This parameter must be set to true when specifying a value for the EngineVersion parameter that is a different major version than the replication instance's current version.
-    public var allowMajorVersionUpgrade: Swift.Bool
+    public var allowMajorVersionUpgrade: Swift.Bool?
     /// Indicates whether the changes should be applied immediately or during the next maintenance window.
-    public var applyImmediately: Swift.Bool
+    public var applyImmediately: Swift.Bool?
     /// A value that indicates that minor version upgrades are applied automatically to the replication instance during the maintenance window. Changing this parameter doesn't result in an outage, except in the case described following. The change is asynchronously applied as soon as possible. An outage does result if these factors apply:
     ///
     /// * This parameter is set to true during the maintenance window.
@@ -14807,8 +18976,8 @@ public struct ModifyReplicationInstanceInput: Swift.Equatable {
 
     public init(
         allocatedStorage: Swift.Int? = nil,
-        allowMajorVersionUpgrade: Swift.Bool = false,
-        applyImmediately: Swift.Bool = false,
+        allowMajorVersionUpgrade: Swift.Bool? = nil,
+        applyImmediately: Swift.Bool? = nil,
         autoMinorVersionUpgrade: Swift.Bool? = nil,
         engineVersion: Swift.String? = nil,
         multiAZ: Swift.Bool? = nil,
@@ -14838,13 +19007,13 @@ public struct ModifyReplicationInstanceInput: Swift.Equatable {
 struct ModifyReplicationInstanceInputBody: Swift.Equatable {
     let replicationInstanceArn: Swift.String?
     let allocatedStorage: Swift.Int?
-    let applyImmediately: Swift.Bool
+    let applyImmediately: Swift.Bool?
     let replicationInstanceClass: Swift.String?
     let vpcSecurityGroupIds: [Swift.String]?
     let preferredMaintenanceWindow: Swift.String?
     let multiAZ: Swift.Bool?
     let engineVersion: Swift.String?
-    let allowMajorVersionUpgrade: Swift.Bool
+    let allowMajorVersionUpgrade: Swift.Bool?
     let autoMinorVersionUpgrade: Swift.Bool?
     let replicationInstanceIdentifier: Swift.String?
     let networkType: Swift.String?
@@ -14872,7 +19041,7 @@ extension ModifyReplicationInstanceInputBody: Swift.Decodable {
         replicationInstanceArn = replicationInstanceArnDecoded
         let allocatedStorageDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .allocatedStorage)
         allocatedStorage = allocatedStorageDecoded
-        let applyImmediatelyDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .applyImmediately) ?? false
+        let applyImmediatelyDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .applyImmediately)
         applyImmediately = applyImmediatelyDecoded
         let replicationInstanceClassDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .replicationInstanceClass)
         replicationInstanceClass = replicationInstanceClassDecoded
@@ -14893,7 +19062,7 @@ extension ModifyReplicationInstanceInputBody: Swift.Decodable {
         multiAZ = multiAZDecoded
         let engineVersionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .engineVersion)
         engineVersion = engineVersionDecoded
-        let allowMajorVersionUpgradeDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .allowMajorVersionUpgrade) ?? false
+        let allowMajorVersionUpgradeDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .allowMajorVersionUpgrade)
         allowMajorVersionUpgrade = allowMajorVersionUpgradeDecoded
         let autoMinorVersionUpgradeDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .autoMinorVersionUpgrade)
         autoMinorVersionUpgrade = autoMinorVersionUpgradeDecoded
@@ -15793,6 +19962,71 @@ extension DatabaseMigrationClientTypes {
 
 }
 
+extension DatabaseMigrationClientTypes.MySqlDataProviderSettings: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case certificateArn = "CertificateArn"
+        case port = "Port"
+        case serverName = "ServerName"
+        case sslMode = "SslMode"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let certificateArn = self.certificateArn {
+            try encodeContainer.encode(certificateArn, forKey: .certificateArn)
+        }
+        if let port = self.port {
+            try encodeContainer.encode(port, forKey: .port)
+        }
+        if let serverName = self.serverName {
+            try encodeContainer.encode(serverName, forKey: .serverName)
+        }
+        if let sslMode = self.sslMode {
+            try encodeContainer.encode(sslMode.rawValue, forKey: .sslMode)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let serverNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .serverName)
+        serverName = serverNameDecoded
+        let portDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .port)
+        port = portDecoded
+        let sslModeDecoded = try containerValues.decodeIfPresent(DatabaseMigrationClientTypes.DmsSslModeValue.self, forKey: .sslMode)
+        sslMode = sslModeDecoded
+        let certificateArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .certificateArn)
+        certificateArn = certificateArnDecoded
+    }
+}
+
+extension DatabaseMigrationClientTypes {
+    /// Provides information that defines a MySQL data provider.
+    public struct MySqlDataProviderSettings: Swift.Equatable {
+        /// The Amazon Resource Name (ARN) of the certificate used for SSL connection.
+        public var certificateArn: Swift.String?
+        /// The port value for the MySQL data provider.
+        public var port: Swift.Int?
+        /// The name of the MySQL server.
+        public var serverName: Swift.String?
+        /// The SSL mode used to connect to the MySQL data provider. The default value is none.
+        public var sslMode: DatabaseMigrationClientTypes.DmsSslModeValue?
+
+        public init(
+            certificateArn: Swift.String? = nil,
+            port: Swift.Int? = nil,
+            serverName: Swift.String? = nil,
+            sslMode: DatabaseMigrationClientTypes.DmsSslModeValue? = nil
+        )
+        {
+            self.certificateArn = certificateArn
+            self.port = port
+            self.serverName = serverName
+            self.sslMode = sslMode
+        }
+    }
+
+}
+
 extension DatabaseMigrationClientTypes.NeptuneSettings: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case errorRetryDuration = "ErrorRetryDuration"
@@ -15920,6 +20154,131 @@ extension DatabaseMigrationClientTypes {
             self = NestingLevelValue(rawValue: rawValue) ?? NestingLevelValue.sdkUnknown(rawValue)
         }
     }
+}
+
+extension DatabaseMigrationClientTypes.OracleDataProviderSettings: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case asmServer = "AsmServer"
+        case certificateArn = "CertificateArn"
+        case databaseName = "DatabaseName"
+        case port = "Port"
+        case secretsManagerOracleAsmAccessRoleArn = "SecretsManagerOracleAsmAccessRoleArn"
+        case secretsManagerOracleAsmSecretId = "SecretsManagerOracleAsmSecretId"
+        case secretsManagerSecurityDbEncryptionAccessRoleArn = "SecretsManagerSecurityDbEncryptionAccessRoleArn"
+        case secretsManagerSecurityDbEncryptionSecretId = "SecretsManagerSecurityDbEncryptionSecretId"
+        case serverName = "ServerName"
+        case sslMode = "SslMode"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let asmServer = self.asmServer {
+            try encodeContainer.encode(asmServer, forKey: .asmServer)
+        }
+        if let certificateArn = self.certificateArn {
+            try encodeContainer.encode(certificateArn, forKey: .certificateArn)
+        }
+        if let databaseName = self.databaseName {
+            try encodeContainer.encode(databaseName, forKey: .databaseName)
+        }
+        if let port = self.port {
+            try encodeContainer.encode(port, forKey: .port)
+        }
+        if let secretsManagerOracleAsmAccessRoleArn = self.secretsManagerOracleAsmAccessRoleArn {
+            try encodeContainer.encode(secretsManagerOracleAsmAccessRoleArn, forKey: .secretsManagerOracleAsmAccessRoleArn)
+        }
+        if let secretsManagerOracleAsmSecretId = self.secretsManagerOracleAsmSecretId {
+            try encodeContainer.encode(secretsManagerOracleAsmSecretId, forKey: .secretsManagerOracleAsmSecretId)
+        }
+        if let secretsManagerSecurityDbEncryptionAccessRoleArn = self.secretsManagerSecurityDbEncryptionAccessRoleArn {
+            try encodeContainer.encode(secretsManagerSecurityDbEncryptionAccessRoleArn, forKey: .secretsManagerSecurityDbEncryptionAccessRoleArn)
+        }
+        if let secretsManagerSecurityDbEncryptionSecretId = self.secretsManagerSecurityDbEncryptionSecretId {
+            try encodeContainer.encode(secretsManagerSecurityDbEncryptionSecretId, forKey: .secretsManagerSecurityDbEncryptionSecretId)
+        }
+        if let serverName = self.serverName {
+            try encodeContainer.encode(serverName, forKey: .serverName)
+        }
+        if let sslMode = self.sslMode {
+            try encodeContainer.encode(sslMode.rawValue, forKey: .sslMode)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let serverNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .serverName)
+        serverName = serverNameDecoded
+        let portDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .port)
+        port = portDecoded
+        let databaseNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .databaseName)
+        databaseName = databaseNameDecoded
+        let sslModeDecoded = try containerValues.decodeIfPresent(DatabaseMigrationClientTypes.DmsSslModeValue.self, forKey: .sslMode)
+        sslMode = sslModeDecoded
+        let certificateArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .certificateArn)
+        certificateArn = certificateArnDecoded
+        let asmServerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .asmServer)
+        asmServer = asmServerDecoded
+        let secretsManagerOracleAsmSecretIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .secretsManagerOracleAsmSecretId)
+        secretsManagerOracleAsmSecretId = secretsManagerOracleAsmSecretIdDecoded
+        let secretsManagerOracleAsmAccessRoleArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .secretsManagerOracleAsmAccessRoleArn)
+        secretsManagerOracleAsmAccessRoleArn = secretsManagerOracleAsmAccessRoleArnDecoded
+        let secretsManagerSecurityDbEncryptionSecretIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .secretsManagerSecurityDbEncryptionSecretId)
+        secretsManagerSecurityDbEncryptionSecretId = secretsManagerSecurityDbEncryptionSecretIdDecoded
+        let secretsManagerSecurityDbEncryptionAccessRoleArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .secretsManagerSecurityDbEncryptionAccessRoleArn)
+        secretsManagerSecurityDbEncryptionAccessRoleArn = secretsManagerSecurityDbEncryptionAccessRoleArnDecoded
+    }
+}
+
+extension DatabaseMigrationClientTypes {
+    /// Provides information that defines an Oracle data provider.
+    public struct OracleDataProviderSettings: Swift.Equatable {
+        /// The address of your Oracle Automatic Storage Management (ASM) server. You can set this value from the asm_server value. You set asm_server as part of the extra connection attribute string to access an Oracle server with Binary Reader that uses ASM. For more information, see [Configuration for change data capture (CDC) on an Oracle source database](https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Source.Oracle.html#dms/latest/userguide/CHAP_Source.Oracle.html#CHAP_Source.Oracle.CDC.Configuration).
+        public var asmServer: Swift.String?
+        /// The Amazon Resource Name (ARN) of the certificate used for SSL connection.
+        public var certificateArn: Swift.String?
+        /// The database name on the Oracle data provider.
+        public var databaseName: Swift.String?
+        /// The port value for the Oracle data provider.
+        public var port: Swift.Int?
+        /// The ARN of the IAM role that provides access to the secret in Secrets Manager that contains the Oracle ASM connection details.
+        public var secretsManagerOracleAsmAccessRoleArn: Swift.String?
+        /// The identifier of the secret in Secrets Manager that contains the Oracle ASM connection details. Required only if your data provider uses the Oracle ASM server.
+        public var secretsManagerOracleAsmSecretId: Swift.String?
+        /// The ARN of the IAM role that provides access to the secret in Secrets Manager that contains the TDE password.
+        public var secretsManagerSecurityDbEncryptionAccessRoleArn: Swift.String?
+        /// The identifier of the secret in Secrets Manager that contains the transparent data encryption (TDE) password. DMS requires this password to access Oracle redo logs encrypted by TDE using Binary Reader.
+        public var secretsManagerSecurityDbEncryptionSecretId: Swift.String?
+        /// The name of the Oracle server.
+        public var serverName: Swift.String?
+        /// The SSL mode used to connect to the Oracle data provider. The default value is none.
+        public var sslMode: DatabaseMigrationClientTypes.DmsSslModeValue?
+
+        public init(
+            asmServer: Swift.String? = nil,
+            certificateArn: Swift.String? = nil,
+            databaseName: Swift.String? = nil,
+            port: Swift.Int? = nil,
+            secretsManagerOracleAsmAccessRoleArn: Swift.String? = nil,
+            secretsManagerOracleAsmSecretId: Swift.String? = nil,
+            secretsManagerSecurityDbEncryptionAccessRoleArn: Swift.String? = nil,
+            secretsManagerSecurityDbEncryptionSecretId: Swift.String? = nil,
+            serverName: Swift.String? = nil,
+            sslMode: DatabaseMigrationClientTypes.DmsSslModeValue? = nil
+        )
+        {
+            self.asmServer = asmServer
+            self.certificateArn = certificateArn
+            self.databaseName = databaseName
+            self.port = port
+            self.secretsManagerOracleAsmAccessRoleArn = secretsManagerOracleAsmAccessRoleArn
+            self.secretsManagerOracleAsmSecretId = secretsManagerOracleAsmSecretId
+            self.secretsManagerSecurityDbEncryptionAccessRoleArn = secretsManagerSecurityDbEncryptionAccessRoleArn
+            self.secretsManagerSecurityDbEncryptionSecretId = secretsManagerSecurityDbEncryptionSecretId
+            self.serverName = serverName
+            self.sslMode = sslMode
+        }
+    }
+
 }
 
 extension DatabaseMigrationClientTypes.OracleSettings: Swift.Codable {
@@ -16522,6 +20881,38 @@ extension DatabaseMigrationClientTypes {
 }
 
 extension DatabaseMigrationClientTypes {
+    public enum OriginTypeValue: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case source
+        case target
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [OriginTypeValue] {
+            return [
+                .source,
+                .target,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .source: return "SOURCE"
+            case .target: return "TARGET"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = OriginTypeValue(rawValue: rawValue) ?? OriginTypeValue.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension DatabaseMigrationClientTypes {
     public enum ParquetVersionValue: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case parquet10
         case parquet20
@@ -16938,6 +21329,81 @@ extension DatabaseMigrationClientTypes {
             self.slotName = slotName
             self.trimSpaceInChar = trimSpaceInChar
             self.username = username
+        }
+    }
+
+}
+
+extension DatabaseMigrationClientTypes.PostgreSqlDataProviderSettings: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case certificateArn = "CertificateArn"
+        case databaseName = "DatabaseName"
+        case port = "Port"
+        case serverName = "ServerName"
+        case sslMode = "SslMode"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let certificateArn = self.certificateArn {
+            try encodeContainer.encode(certificateArn, forKey: .certificateArn)
+        }
+        if let databaseName = self.databaseName {
+            try encodeContainer.encode(databaseName, forKey: .databaseName)
+        }
+        if let port = self.port {
+            try encodeContainer.encode(port, forKey: .port)
+        }
+        if let serverName = self.serverName {
+            try encodeContainer.encode(serverName, forKey: .serverName)
+        }
+        if let sslMode = self.sslMode {
+            try encodeContainer.encode(sslMode.rawValue, forKey: .sslMode)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let serverNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .serverName)
+        serverName = serverNameDecoded
+        let portDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .port)
+        port = portDecoded
+        let databaseNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .databaseName)
+        databaseName = databaseNameDecoded
+        let sslModeDecoded = try containerValues.decodeIfPresent(DatabaseMigrationClientTypes.DmsSslModeValue.self, forKey: .sslMode)
+        sslMode = sslModeDecoded
+        let certificateArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .certificateArn)
+        certificateArn = certificateArnDecoded
+    }
+}
+
+extension DatabaseMigrationClientTypes {
+    /// Provides information that defines a PostgreSQL data provider.
+    public struct PostgreSqlDataProviderSettings: Swift.Equatable {
+        /// The Amazon Resource Name (ARN) of the certificate used for SSL connection.
+        public var certificateArn: Swift.String?
+        /// The database name on the PostgreSQL data provider.
+        public var databaseName: Swift.String?
+        /// The port value for the PostgreSQL data provider.
+        public var port: Swift.Int?
+        /// The name of the PostgreSQL server.
+        public var serverName: Swift.String?
+        /// The SSL mode used to connect to the PostgreSQL data provider. The default value is none.
+        public var sslMode: DatabaseMigrationClientTypes.DmsSslModeValue?
+
+        public init(
+            certificateArn: Swift.String? = nil,
+            databaseName: Swift.String? = nil,
+            port: Swift.Int? = nil,
+            serverName: Swift.String? = nil,
+            sslMode: DatabaseMigrationClientTypes.DmsSslModeValue? = nil
+        )
+        {
+            self.certificateArn = certificateArn
+            self.databaseName = databaseName
+            self.port = port
+            self.serverName = serverName
+            self.sslMode = sslMode
         }
     }
 
@@ -21628,6 +26094,51 @@ extension DatabaseMigrationClientTypes {
 
 }
 
+extension DatabaseMigrationClientTypes.SCApplicationAttributes: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case s3BucketPath = "S3BucketPath"
+        case s3BucketRoleArn = "S3BucketRoleArn"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let s3BucketPath = self.s3BucketPath {
+            try encodeContainer.encode(s3BucketPath, forKey: .s3BucketPath)
+        }
+        if let s3BucketRoleArn = self.s3BucketRoleArn {
+            try encodeContainer.encode(s3BucketRoleArn, forKey: .s3BucketRoleArn)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let s3BucketPathDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .s3BucketPath)
+        s3BucketPath = s3BucketPathDecoded
+        let s3BucketRoleArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .s3BucketRoleArn)
+        s3BucketRoleArn = s3BucketRoleArnDecoded
+    }
+}
+
+extension DatabaseMigrationClientTypes {
+    /// Provides information that defines a schema conversion application.
+    public struct SCApplicationAttributes: Swift.Equatable {
+        /// The path for the Amazon S3 bucket that the application uses for exporting assessment reports.
+        public var s3BucketPath: Swift.String?
+        /// The ARN for the role the application uses to access its Amazon S3 bucket.
+        public var s3BucketRoleArn: Swift.String?
+
+        public init(
+            s3BucketPath: Swift.String? = nil,
+            s3BucketRoleArn: Swift.String? = nil
+        )
+        {
+            self.s3BucketPath = s3BucketPath
+            self.s3BucketRoleArn = s3BucketRoleArn
+        }
+    }
+
+}
+
 extension SNSInvalidTopicFault {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -21773,6 +26284,81 @@ extension DatabaseMigrationClientTypes {
             self = SafeguardPolicy(rawValue: rawValue) ?? SafeguardPolicy.sdkUnknown(rawValue)
         }
     }
+}
+
+extension DatabaseMigrationClientTypes.SchemaConversionRequest: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case error = "Error"
+        case exportSqlDetails = "ExportSqlDetails"
+        case migrationProjectArn = "MigrationProjectArn"
+        case requestIdentifier = "RequestIdentifier"
+        case status = "Status"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let error = self.error {
+            try encodeContainer.encode(error, forKey: .error)
+        }
+        if let exportSqlDetails = self.exportSqlDetails {
+            try encodeContainer.encode(exportSqlDetails, forKey: .exportSqlDetails)
+        }
+        if let migrationProjectArn = self.migrationProjectArn {
+            try encodeContainer.encode(migrationProjectArn, forKey: .migrationProjectArn)
+        }
+        if let requestIdentifier = self.requestIdentifier {
+            try encodeContainer.encode(requestIdentifier, forKey: .requestIdentifier)
+        }
+        if let status = self.status {
+            try encodeContainer.encode(status, forKey: .status)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let statusDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .status)
+        status = statusDecoded
+        let requestIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .requestIdentifier)
+        requestIdentifier = requestIdentifierDecoded
+        let migrationProjectArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .migrationProjectArn)
+        migrationProjectArn = migrationProjectArnDecoded
+        let errorDecoded = try containerValues.decodeIfPresent(DatabaseMigrationClientTypes.ErrorDetails.self, forKey: .error)
+        error = errorDecoded
+        let exportSqlDetailsDecoded = try containerValues.decodeIfPresent(DatabaseMigrationClientTypes.ExportSqlDetails.self, forKey: .exportSqlDetails)
+        exportSqlDetails = exportSqlDetailsDecoded
+    }
+}
+
+extension DatabaseMigrationClientTypes {
+    /// Provides information about a schema conversion action.
+    public struct SchemaConversionRequest: Swift.Equatable {
+        /// Provides error information about a project.
+        public var error: DatabaseMigrationClientTypes.ErrorDetails?
+        /// Provides information about a metadata model assessment exported to SQL.
+        public var exportSqlDetails: DatabaseMigrationClientTypes.ExportSqlDetails?
+        /// The migration project ARN.
+        public var migrationProjectArn: Swift.String?
+        /// The identifier for the schema conversion action.
+        public var requestIdentifier: Swift.String?
+        /// The schema conversion action status.
+        public var status: Swift.String?
+
+        public init(
+            error: DatabaseMigrationClientTypes.ErrorDetails? = nil,
+            exportSqlDetails: DatabaseMigrationClientTypes.ExportSqlDetails? = nil,
+            migrationProjectArn: Swift.String? = nil,
+            requestIdentifier: Swift.String? = nil,
+            status: Swift.String? = nil
+        )
+        {
+            self.error = error
+            self.exportSqlDetails = exportSqlDetails
+            self.migrationProjectArn = migrationProjectArn
+            self.requestIdentifier = requestIdentifier
+            self.status = status
+        }
+    }
+
 }
 
 extension DatabaseMigrationClientTypes.SchemaResponse: Swift.Codable {
@@ -22078,6 +26664,769 @@ extension DatabaseMigrationClientTypes {
             let rawValue = try container.decode(RawValue.self)
             self = SslSecurityProtocolValue(rawValue: rawValue) ?? SslSecurityProtocolValue.sdkUnknown(rawValue)
         }
+    }
+}
+
+extension StartExtensionPackAssociationInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case migrationProjectIdentifier = "MigrationProjectIdentifier"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let migrationProjectIdentifier = self.migrationProjectIdentifier {
+            try encodeContainer.encode(migrationProjectIdentifier, forKey: .migrationProjectIdentifier)
+        }
+    }
+}
+
+extension StartExtensionPackAssociationInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct StartExtensionPackAssociationInput: Swift.Equatable {
+    /// The migration project name or Amazon Resource Name (ARN).
+    /// This member is required.
+    public var migrationProjectIdentifier: Swift.String?
+
+    public init(
+        migrationProjectIdentifier: Swift.String? = nil
+    )
+    {
+        self.migrationProjectIdentifier = migrationProjectIdentifier
+    }
+}
+
+struct StartExtensionPackAssociationInputBody: Swift.Equatable {
+    let migrationProjectIdentifier: Swift.String?
+}
+
+extension StartExtensionPackAssociationInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case migrationProjectIdentifier = "MigrationProjectIdentifier"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let migrationProjectIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .migrationProjectIdentifier)
+        migrationProjectIdentifier = migrationProjectIdentifierDecoded
+    }
+}
+
+public enum StartExtensionPackAssociationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedFault": return try await AccessDeniedFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidResourceStateFault": return try await InvalidResourceStateFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "KMSKeyNotAccessibleFault": return try await KMSKeyNotAccessibleFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceAlreadyExistsFault": return try await ResourceAlreadyExistsFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundFault": return try await ResourceNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceQuotaExceededFault": return try await ResourceQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "S3AccessDeniedFault": return try await S3AccessDeniedFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "S3ResourceNotFoundFault": return try await S3ResourceNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension StartExtensionPackAssociationOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: StartExtensionPackAssociationOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.requestIdentifier = output.requestIdentifier
+        } else {
+            self.requestIdentifier = nil
+        }
+    }
+}
+
+public struct StartExtensionPackAssociationOutputResponse: Swift.Equatable {
+    /// The identifier for the request operation.
+    public var requestIdentifier: Swift.String?
+
+    public init(
+        requestIdentifier: Swift.String? = nil
+    )
+    {
+        self.requestIdentifier = requestIdentifier
+    }
+}
+
+struct StartExtensionPackAssociationOutputResponseBody: Swift.Equatable {
+    let requestIdentifier: Swift.String?
+}
+
+extension StartExtensionPackAssociationOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case requestIdentifier = "RequestIdentifier"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let requestIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .requestIdentifier)
+        requestIdentifier = requestIdentifierDecoded
+    }
+}
+
+extension StartMetadataModelAssessmentInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case migrationProjectIdentifier = "MigrationProjectIdentifier"
+        case selectionRules = "SelectionRules"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let migrationProjectIdentifier = self.migrationProjectIdentifier {
+            try encodeContainer.encode(migrationProjectIdentifier, forKey: .migrationProjectIdentifier)
+        }
+        if let selectionRules = self.selectionRules {
+            try encodeContainer.encode(selectionRules, forKey: .selectionRules)
+        }
+    }
+}
+
+extension StartMetadataModelAssessmentInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct StartMetadataModelAssessmentInput: Swift.Equatable {
+    /// The migration project name or Amazon Resource Name (ARN).
+    /// This member is required.
+    public var migrationProjectIdentifier: Swift.String?
+    /// A value that specifies the database objects to assess.
+    /// This member is required.
+    public var selectionRules: Swift.String?
+
+    public init(
+        migrationProjectIdentifier: Swift.String? = nil,
+        selectionRules: Swift.String? = nil
+    )
+    {
+        self.migrationProjectIdentifier = migrationProjectIdentifier
+        self.selectionRules = selectionRules
+    }
+}
+
+struct StartMetadataModelAssessmentInputBody: Swift.Equatable {
+    let migrationProjectIdentifier: Swift.String?
+    let selectionRules: Swift.String?
+}
+
+extension StartMetadataModelAssessmentInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case migrationProjectIdentifier = "MigrationProjectIdentifier"
+        case selectionRules = "SelectionRules"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let migrationProjectIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .migrationProjectIdentifier)
+        migrationProjectIdentifier = migrationProjectIdentifierDecoded
+        let selectionRulesDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .selectionRules)
+        selectionRules = selectionRulesDecoded
+    }
+}
+
+public enum StartMetadataModelAssessmentOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedFault": return try await AccessDeniedFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidResourceStateFault": return try await InvalidResourceStateFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "KMSKeyNotAccessibleFault": return try await KMSKeyNotAccessibleFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceAlreadyExistsFault": return try await ResourceAlreadyExistsFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundFault": return try await ResourceNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceQuotaExceededFault": return try await ResourceQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "S3AccessDeniedFault": return try await S3AccessDeniedFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "S3ResourceNotFoundFault": return try await S3ResourceNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension StartMetadataModelAssessmentOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: StartMetadataModelAssessmentOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.requestIdentifier = output.requestIdentifier
+        } else {
+            self.requestIdentifier = nil
+        }
+    }
+}
+
+public struct StartMetadataModelAssessmentOutputResponse: Swift.Equatable {
+    /// The identifier for the assessment operation.
+    public var requestIdentifier: Swift.String?
+
+    public init(
+        requestIdentifier: Swift.String? = nil
+    )
+    {
+        self.requestIdentifier = requestIdentifier
+    }
+}
+
+struct StartMetadataModelAssessmentOutputResponseBody: Swift.Equatable {
+    let requestIdentifier: Swift.String?
+}
+
+extension StartMetadataModelAssessmentOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case requestIdentifier = "RequestIdentifier"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let requestIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .requestIdentifier)
+        requestIdentifier = requestIdentifierDecoded
+    }
+}
+
+extension StartMetadataModelConversionInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case migrationProjectIdentifier = "MigrationProjectIdentifier"
+        case selectionRules = "SelectionRules"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let migrationProjectIdentifier = self.migrationProjectIdentifier {
+            try encodeContainer.encode(migrationProjectIdentifier, forKey: .migrationProjectIdentifier)
+        }
+        if let selectionRules = self.selectionRules {
+            try encodeContainer.encode(selectionRules, forKey: .selectionRules)
+        }
+    }
+}
+
+extension StartMetadataModelConversionInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct StartMetadataModelConversionInput: Swift.Equatable {
+    /// The migration project name or Amazon Resource Name (ARN).
+    /// This member is required.
+    public var migrationProjectIdentifier: Swift.String?
+    /// A value that specifies the database objects to convert.
+    /// This member is required.
+    public var selectionRules: Swift.String?
+
+    public init(
+        migrationProjectIdentifier: Swift.String? = nil,
+        selectionRules: Swift.String? = nil
+    )
+    {
+        self.migrationProjectIdentifier = migrationProjectIdentifier
+        self.selectionRules = selectionRules
+    }
+}
+
+struct StartMetadataModelConversionInputBody: Swift.Equatable {
+    let migrationProjectIdentifier: Swift.String?
+    let selectionRules: Swift.String?
+}
+
+extension StartMetadataModelConversionInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case migrationProjectIdentifier = "MigrationProjectIdentifier"
+        case selectionRules = "SelectionRules"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let migrationProjectIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .migrationProjectIdentifier)
+        migrationProjectIdentifier = migrationProjectIdentifierDecoded
+        let selectionRulesDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .selectionRules)
+        selectionRules = selectionRulesDecoded
+    }
+}
+
+public enum StartMetadataModelConversionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedFault": return try await AccessDeniedFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidResourceStateFault": return try await InvalidResourceStateFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "KMSKeyNotAccessibleFault": return try await KMSKeyNotAccessibleFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceAlreadyExistsFault": return try await ResourceAlreadyExistsFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundFault": return try await ResourceNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceQuotaExceededFault": return try await ResourceQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "S3AccessDeniedFault": return try await S3AccessDeniedFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "S3ResourceNotFoundFault": return try await S3ResourceNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension StartMetadataModelConversionOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: StartMetadataModelConversionOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.requestIdentifier = output.requestIdentifier
+        } else {
+            self.requestIdentifier = nil
+        }
+    }
+}
+
+public struct StartMetadataModelConversionOutputResponse: Swift.Equatable {
+    /// The identifier for the conversion operation.
+    public var requestIdentifier: Swift.String?
+
+    public init(
+        requestIdentifier: Swift.String? = nil
+    )
+    {
+        self.requestIdentifier = requestIdentifier
+    }
+}
+
+struct StartMetadataModelConversionOutputResponseBody: Swift.Equatable {
+    let requestIdentifier: Swift.String?
+}
+
+extension StartMetadataModelConversionOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case requestIdentifier = "RequestIdentifier"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let requestIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .requestIdentifier)
+        requestIdentifier = requestIdentifierDecoded
+    }
+}
+
+extension StartMetadataModelExportAsScriptInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case fileName = "FileName"
+        case migrationProjectIdentifier = "MigrationProjectIdentifier"
+        case origin = "Origin"
+        case selectionRules = "SelectionRules"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let fileName = self.fileName {
+            try encodeContainer.encode(fileName, forKey: .fileName)
+        }
+        if let migrationProjectIdentifier = self.migrationProjectIdentifier {
+            try encodeContainer.encode(migrationProjectIdentifier, forKey: .migrationProjectIdentifier)
+        }
+        if let origin = self.origin {
+            try encodeContainer.encode(origin.rawValue, forKey: .origin)
+        }
+        if let selectionRules = self.selectionRules {
+            try encodeContainer.encode(selectionRules, forKey: .selectionRules)
+        }
+    }
+}
+
+extension StartMetadataModelExportAsScriptInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct StartMetadataModelExportAsScriptInput: Swift.Equatable {
+    /// The name of the model file to create in the Amazon S3 bucket.
+    public var fileName: Swift.String?
+    /// The migration project name or Amazon Resource Name (ARN).
+    /// This member is required.
+    public var migrationProjectIdentifier: Swift.String?
+    /// Whether to export the metadata model from the source or the target.
+    /// This member is required.
+    public var origin: DatabaseMigrationClientTypes.OriginTypeValue?
+    /// A value that specifies the database objects to export.
+    /// This member is required.
+    public var selectionRules: Swift.String?
+
+    public init(
+        fileName: Swift.String? = nil,
+        migrationProjectIdentifier: Swift.String? = nil,
+        origin: DatabaseMigrationClientTypes.OriginTypeValue? = nil,
+        selectionRules: Swift.String? = nil
+    )
+    {
+        self.fileName = fileName
+        self.migrationProjectIdentifier = migrationProjectIdentifier
+        self.origin = origin
+        self.selectionRules = selectionRules
+    }
+}
+
+struct StartMetadataModelExportAsScriptInputBody: Swift.Equatable {
+    let migrationProjectIdentifier: Swift.String?
+    let selectionRules: Swift.String?
+    let origin: DatabaseMigrationClientTypes.OriginTypeValue?
+    let fileName: Swift.String?
+}
+
+extension StartMetadataModelExportAsScriptInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case fileName = "FileName"
+        case migrationProjectIdentifier = "MigrationProjectIdentifier"
+        case origin = "Origin"
+        case selectionRules = "SelectionRules"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let migrationProjectIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .migrationProjectIdentifier)
+        migrationProjectIdentifier = migrationProjectIdentifierDecoded
+        let selectionRulesDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .selectionRules)
+        selectionRules = selectionRulesDecoded
+        let originDecoded = try containerValues.decodeIfPresent(DatabaseMigrationClientTypes.OriginTypeValue.self, forKey: .origin)
+        origin = originDecoded
+        let fileNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .fileName)
+        fileName = fileNameDecoded
+    }
+}
+
+public enum StartMetadataModelExportAsScriptOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedFault": return try await AccessDeniedFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidResourceStateFault": return try await InvalidResourceStateFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "KMSKeyNotAccessibleFault": return try await KMSKeyNotAccessibleFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceAlreadyExistsFault": return try await ResourceAlreadyExistsFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundFault": return try await ResourceNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceQuotaExceededFault": return try await ResourceQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "S3AccessDeniedFault": return try await S3AccessDeniedFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "S3ResourceNotFoundFault": return try await S3ResourceNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension StartMetadataModelExportAsScriptOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: StartMetadataModelExportAsScriptOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.requestIdentifier = output.requestIdentifier
+        } else {
+            self.requestIdentifier = nil
+        }
+    }
+}
+
+public struct StartMetadataModelExportAsScriptOutputResponse: Swift.Equatable {
+    /// The identifier for the export operation.
+    public var requestIdentifier: Swift.String?
+
+    public init(
+        requestIdentifier: Swift.String? = nil
+    )
+    {
+        self.requestIdentifier = requestIdentifier
+    }
+}
+
+struct StartMetadataModelExportAsScriptOutputResponseBody: Swift.Equatable {
+    let requestIdentifier: Swift.String?
+}
+
+extension StartMetadataModelExportAsScriptOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case requestIdentifier = "RequestIdentifier"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let requestIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .requestIdentifier)
+        requestIdentifier = requestIdentifierDecoded
+    }
+}
+
+extension StartMetadataModelExportToTargetInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case migrationProjectIdentifier = "MigrationProjectIdentifier"
+        case overwriteExtensionPack = "OverwriteExtensionPack"
+        case selectionRules = "SelectionRules"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let migrationProjectIdentifier = self.migrationProjectIdentifier {
+            try encodeContainer.encode(migrationProjectIdentifier, forKey: .migrationProjectIdentifier)
+        }
+        if let overwriteExtensionPack = self.overwriteExtensionPack {
+            try encodeContainer.encode(overwriteExtensionPack, forKey: .overwriteExtensionPack)
+        }
+        if let selectionRules = self.selectionRules {
+            try encodeContainer.encode(selectionRules, forKey: .selectionRules)
+        }
+    }
+}
+
+extension StartMetadataModelExportToTargetInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct StartMetadataModelExportToTargetInput: Swift.Equatable {
+    /// The migration project name or Amazon Resource Name (ARN).
+    /// This member is required.
+    public var migrationProjectIdentifier: Swift.String?
+    /// Whether to overwrite the migration project extension pack. An extension pack is an add-on module that emulates functions present in a source database that are required when converting objects to the target database.
+    public var overwriteExtensionPack: Swift.Bool?
+    /// A value that specifies the database objects to export.
+    /// This member is required.
+    public var selectionRules: Swift.String?
+
+    public init(
+        migrationProjectIdentifier: Swift.String? = nil,
+        overwriteExtensionPack: Swift.Bool? = nil,
+        selectionRules: Swift.String? = nil
+    )
+    {
+        self.migrationProjectIdentifier = migrationProjectIdentifier
+        self.overwriteExtensionPack = overwriteExtensionPack
+        self.selectionRules = selectionRules
+    }
+}
+
+struct StartMetadataModelExportToTargetInputBody: Swift.Equatable {
+    let migrationProjectIdentifier: Swift.String?
+    let selectionRules: Swift.String?
+    let overwriteExtensionPack: Swift.Bool?
+}
+
+extension StartMetadataModelExportToTargetInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case migrationProjectIdentifier = "MigrationProjectIdentifier"
+        case overwriteExtensionPack = "OverwriteExtensionPack"
+        case selectionRules = "SelectionRules"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let migrationProjectIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .migrationProjectIdentifier)
+        migrationProjectIdentifier = migrationProjectIdentifierDecoded
+        let selectionRulesDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .selectionRules)
+        selectionRules = selectionRulesDecoded
+        let overwriteExtensionPackDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .overwriteExtensionPack)
+        overwriteExtensionPack = overwriteExtensionPackDecoded
+    }
+}
+
+public enum StartMetadataModelExportToTargetOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedFault": return try await AccessDeniedFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidResourceStateFault": return try await InvalidResourceStateFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "KMSKeyNotAccessibleFault": return try await KMSKeyNotAccessibleFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceAlreadyExistsFault": return try await ResourceAlreadyExistsFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundFault": return try await ResourceNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceQuotaExceededFault": return try await ResourceQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "S3AccessDeniedFault": return try await S3AccessDeniedFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "S3ResourceNotFoundFault": return try await S3ResourceNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension StartMetadataModelExportToTargetOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: StartMetadataModelExportToTargetOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.requestIdentifier = output.requestIdentifier
+        } else {
+            self.requestIdentifier = nil
+        }
+    }
+}
+
+public struct StartMetadataModelExportToTargetOutputResponse: Swift.Equatable {
+    /// The identifier for the export operation.
+    public var requestIdentifier: Swift.String?
+
+    public init(
+        requestIdentifier: Swift.String? = nil
+    )
+    {
+        self.requestIdentifier = requestIdentifier
+    }
+}
+
+struct StartMetadataModelExportToTargetOutputResponseBody: Swift.Equatable {
+    let requestIdentifier: Swift.String?
+}
+
+extension StartMetadataModelExportToTargetOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case requestIdentifier = "RequestIdentifier"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let requestIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .requestIdentifier)
+        requestIdentifier = requestIdentifierDecoded
+    }
+}
+
+extension StartMetadataModelImportInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case migrationProjectIdentifier = "MigrationProjectIdentifier"
+        case origin = "Origin"
+        case refresh = "Refresh"
+        case selectionRules = "SelectionRules"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let migrationProjectIdentifier = self.migrationProjectIdentifier {
+            try encodeContainer.encode(migrationProjectIdentifier, forKey: .migrationProjectIdentifier)
+        }
+        if let origin = self.origin {
+            try encodeContainer.encode(origin.rawValue, forKey: .origin)
+        }
+        if let refresh = self.refresh {
+            try encodeContainer.encode(refresh, forKey: .refresh)
+        }
+        if let selectionRules = self.selectionRules {
+            try encodeContainer.encode(selectionRules, forKey: .selectionRules)
+        }
+    }
+}
+
+extension StartMetadataModelImportInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct StartMetadataModelImportInput: Swift.Equatable {
+    /// The migration project name or Amazon Resource Name (ARN).
+    /// This member is required.
+    public var migrationProjectIdentifier: Swift.String?
+    /// Whether to load metadata to the source or target database.
+    /// This member is required.
+    public var origin: DatabaseMigrationClientTypes.OriginTypeValue?
+    /// If true, DMS loads metadata for the specified objects from the source database.
+    public var refresh: Swift.Bool?
+    /// A value that specifies the database objects to import.
+    /// This member is required.
+    public var selectionRules: Swift.String?
+
+    public init(
+        migrationProjectIdentifier: Swift.String? = nil,
+        origin: DatabaseMigrationClientTypes.OriginTypeValue? = nil,
+        refresh: Swift.Bool? = nil,
+        selectionRules: Swift.String? = nil
+    )
+    {
+        self.migrationProjectIdentifier = migrationProjectIdentifier
+        self.origin = origin
+        self.refresh = refresh
+        self.selectionRules = selectionRules
+    }
+}
+
+struct StartMetadataModelImportInputBody: Swift.Equatable {
+    let migrationProjectIdentifier: Swift.String?
+    let selectionRules: Swift.String?
+    let origin: DatabaseMigrationClientTypes.OriginTypeValue?
+    let refresh: Swift.Bool?
+}
+
+extension StartMetadataModelImportInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case migrationProjectIdentifier = "MigrationProjectIdentifier"
+        case origin = "Origin"
+        case refresh = "Refresh"
+        case selectionRules = "SelectionRules"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let migrationProjectIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .migrationProjectIdentifier)
+        migrationProjectIdentifier = migrationProjectIdentifierDecoded
+        let selectionRulesDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .selectionRules)
+        selectionRules = selectionRulesDecoded
+        let originDecoded = try containerValues.decodeIfPresent(DatabaseMigrationClientTypes.OriginTypeValue.self, forKey: .origin)
+        origin = originDecoded
+        let refreshDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .refresh)
+        refresh = refreshDecoded
+    }
+}
+
+public enum StartMetadataModelImportOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedFault": return try await AccessDeniedFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidResourceStateFault": return try await InvalidResourceStateFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "KMSKeyNotAccessibleFault": return try await KMSKeyNotAccessibleFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceAlreadyExistsFault": return try await ResourceAlreadyExistsFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundFault": return try await ResourceNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceQuotaExceededFault": return try await ResourceQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "S3AccessDeniedFault": return try await S3AccessDeniedFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "S3ResourceNotFoundFault": return try await S3ResourceNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension StartMetadataModelImportOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: StartMetadataModelImportOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.requestIdentifier = output.requestIdentifier
+        } else {
+            self.requestIdentifier = nil
+        }
+    }
+}
+
+public struct StartMetadataModelImportOutputResponse: Swift.Equatable {
+    /// The identifier for the import operation.
+    public var requestIdentifier: Swift.String?
+
+    public init(
+        requestIdentifier: Swift.String? = nil
+    )
+    {
+        self.requestIdentifier = requestIdentifier
+    }
+}
+
+struct StartMetadataModelImportOutputResponseBody: Swift.Equatable {
+    let requestIdentifier: Swift.String?
+}
+
+extension StartMetadataModelImportOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case requestIdentifier = "RequestIdentifier"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let requestIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .requestIdentifier)
+        requestIdentifier = requestIdentifierDecoded
     }
 }
 

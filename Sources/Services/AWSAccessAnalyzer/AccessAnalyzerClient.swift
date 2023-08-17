@@ -68,6 +68,19 @@ public struct AccessAnalyzerClientLogHandlerFactory: ClientRuntime.SDKLogHandler
 
 extension AccessAnalyzerClient: AccessAnalyzerClientProtocol {
     /// Retroactively applies the archive rule to existing findings that meet the archive rule criteria.
+    ///
+    /// - Parameter ApplyArchiveRuleInput : Retroactively applies an archive rule.
+    ///
+    /// - Returns: `ApplyArchiveRuleOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : Internal server error.
+    /// - `ResourceNotFoundException` : The specified resource could not be found.
+    /// - `ThrottlingException` : Throttling limit exceeded error.
+    /// - `ValidationException` : Validation exception error.
     public func applyArchiveRule(input: ApplyArchiveRuleInput) async throws -> ApplyArchiveRuleOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -112,6 +125,18 @@ extension AccessAnalyzerClient: AccessAnalyzerClientProtocol {
     }
 
     /// Cancels the requested policy generation.
+    ///
+    /// - Parameter CancelPolicyGenerationInput : [no documentation found]
+    ///
+    /// - Returns: `CancelPolicyGenerationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : Internal server error.
+    /// - `ThrottlingException` : Throttling limit exceeded error.
+    /// - `ValidationException` : Validation exception error.
     public func cancelPolicyGeneration(input: CancelPolicyGenerationInput) async throws -> CancelPolicyGenerationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -145,6 +170,21 @@ extension AccessAnalyzerClient: AccessAnalyzerClientProtocol {
     }
 
     /// Creates an access preview that allows you to preview IAM Access Analyzer findings for your resource before deploying resource permissions.
+    ///
+    /// - Parameter CreateAccessPreviewInput : [no documentation found]
+    ///
+    /// - Returns: `CreateAccessPreviewOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : A conflict exception error.
+    /// - `InternalServerException` : Internal server error.
+    /// - `ResourceNotFoundException` : The specified resource could not be found.
+    /// - `ServiceQuotaExceededException` : Service quote met error.
+    /// - `ThrottlingException` : Throttling limit exceeded error.
+    /// - `ValidationException` : Validation exception error.
     public func createAccessPreview(input: CreateAccessPreviewInput) async throws -> CreateAccessPreviewOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -189,6 +229,20 @@ extension AccessAnalyzerClient: AccessAnalyzerClientProtocol {
     }
 
     /// Creates an analyzer for your account.
+    ///
+    /// - Parameter CreateAnalyzerInput : Creates an analyzer.
+    ///
+    /// - Returns: `CreateAnalyzerOutputResponse` : The response to the request to create an analyzer.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : A conflict exception error.
+    /// - `InternalServerException` : Internal server error.
+    /// - `ServiceQuotaExceededException` : Service quote met error.
+    /// - `ThrottlingException` : Throttling limit exceeded error.
+    /// - `ValidationException` : Validation exception error.
     public func createAnalyzer(input: CreateAnalyzerInput) async throws -> CreateAnalyzerOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -233,6 +287,21 @@ extension AccessAnalyzerClient: AccessAnalyzerClientProtocol {
     }
 
     /// Creates an archive rule for the specified analyzer. Archive rules automatically archive new findings that meet the criteria you define when you create the rule. To learn about filter keys that you can use to create an archive rule, see [IAM Access Analyzer filter keys](https://docs.aws.amazon.com/IAM/latest/UserGuide/access-analyzer-reference-filter-keys.html) in the IAM User Guide.
+    ///
+    /// - Parameter CreateArchiveRuleInput : Creates an archive rule.
+    ///
+    /// - Returns: `CreateArchiveRuleOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : A conflict exception error.
+    /// - `InternalServerException` : Internal server error.
+    /// - `ResourceNotFoundException` : The specified resource could not be found.
+    /// - `ServiceQuotaExceededException` : Service quote met error.
+    /// - `ThrottlingException` : Throttling limit exceeded error.
+    /// - `ValidationException` : Validation exception error.
     public func createArchiveRule(input: CreateArchiveRuleInput) async throws -> CreateArchiveRuleOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -277,6 +346,19 @@ extension AccessAnalyzerClient: AccessAnalyzerClientProtocol {
     }
 
     /// Deletes the specified analyzer. When you delete an analyzer, IAM Access Analyzer is disabled for the account or organization in the current or specific Region. All findings that were generated by the analyzer are deleted. You cannot undo this action.
+    ///
+    /// - Parameter DeleteAnalyzerInput : Deletes an analyzer.
+    ///
+    /// - Returns: `DeleteAnalyzerOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : Internal server error.
+    /// - `ResourceNotFoundException` : The specified resource could not be found.
+    /// - `ThrottlingException` : Throttling limit exceeded error.
+    /// - `ValidationException` : Validation exception error.
     public func deleteAnalyzer(input: DeleteAnalyzerInput) async throws -> DeleteAnalyzerOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -319,6 +401,19 @@ extension AccessAnalyzerClient: AccessAnalyzerClientProtocol {
     }
 
     /// Deletes the specified archive rule.
+    ///
+    /// - Parameter DeleteArchiveRuleInput : Deletes an archive rule.
+    ///
+    /// - Returns: `DeleteArchiveRuleOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : Internal server error.
+    /// - `ResourceNotFoundException` : The specified resource could not be found.
+    /// - `ThrottlingException` : Throttling limit exceeded error.
+    /// - `ValidationException` : Validation exception error.
     public func deleteArchiveRule(input: DeleteArchiveRuleInput) async throws -> DeleteArchiveRuleOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -361,6 +456,19 @@ extension AccessAnalyzerClient: AccessAnalyzerClientProtocol {
     }
 
     /// Retrieves information about an access preview for the specified analyzer.
+    ///
+    /// - Parameter GetAccessPreviewInput : [no documentation found]
+    ///
+    /// - Returns: `GetAccessPreviewOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : Internal server error.
+    /// - `ResourceNotFoundException` : The specified resource could not be found.
+    /// - `ThrottlingException` : Throttling limit exceeded error.
+    /// - `ValidationException` : Validation exception error.
     public func getAccessPreview(input: GetAccessPreviewInput) async throws -> GetAccessPreviewOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -395,6 +503,19 @@ extension AccessAnalyzerClient: AccessAnalyzerClientProtocol {
     }
 
     /// Retrieves information about a resource that was analyzed.
+    ///
+    /// - Parameter GetAnalyzedResourceInput : Retrieves an analyzed resource.
+    ///
+    /// - Returns: `GetAnalyzedResourceOutputResponse` : The response to the request.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : Internal server error.
+    /// - `ResourceNotFoundException` : The specified resource could not be found.
+    /// - `ThrottlingException` : Throttling limit exceeded error.
+    /// - `ValidationException` : Validation exception error.
     public func getAnalyzedResource(input: GetAnalyzedResourceInput) async throws -> GetAnalyzedResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -429,6 +550,19 @@ extension AccessAnalyzerClient: AccessAnalyzerClientProtocol {
     }
 
     /// Retrieves information about the specified analyzer.
+    ///
+    /// - Parameter GetAnalyzerInput : Retrieves an analyzer.
+    ///
+    /// - Returns: `GetAnalyzerOutputResponse` : The response to the request.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : Internal server error.
+    /// - `ResourceNotFoundException` : The specified resource could not be found.
+    /// - `ThrottlingException` : Throttling limit exceeded error.
+    /// - `ValidationException` : Validation exception error.
     public func getAnalyzer(input: GetAnalyzerInput) async throws -> GetAnalyzerOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -462,6 +596,19 @@ extension AccessAnalyzerClient: AccessAnalyzerClientProtocol {
     }
 
     /// Retrieves information about an archive rule. To learn about filter keys that you can use to create an archive rule, see [IAM Access Analyzer filter keys](https://docs.aws.amazon.com/IAM/latest/UserGuide/access-analyzer-reference-filter-keys.html) in the IAM User Guide.
+    ///
+    /// - Parameter GetArchiveRuleInput : Retrieves an archive rule.
+    ///
+    /// - Returns: `GetArchiveRuleOutputResponse` : The response to the request.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : Internal server error.
+    /// - `ResourceNotFoundException` : The specified resource could not be found.
+    /// - `ThrottlingException` : Throttling limit exceeded error.
+    /// - `ValidationException` : Validation exception error.
     public func getArchiveRule(input: GetArchiveRuleInput) async throws -> GetArchiveRuleOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -495,6 +642,19 @@ extension AccessAnalyzerClient: AccessAnalyzerClientProtocol {
     }
 
     /// Retrieves information about the specified finding.
+    ///
+    /// - Parameter GetFindingInput : Retrieves a finding.
+    ///
+    /// - Returns: `GetFindingOutputResponse` : The response to the request.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : Internal server error.
+    /// - `ResourceNotFoundException` : The specified resource could not be found.
+    /// - `ThrottlingException` : Throttling limit exceeded error.
+    /// - `ValidationException` : Validation exception error.
     public func getFinding(input: GetFindingInput) async throws -> GetFindingOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -529,6 +689,18 @@ extension AccessAnalyzerClient: AccessAnalyzerClientProtocol {
     }
 
     /// Retrieves the policy that was generated using StartPolicyGeneration.
+    ///
+    /// - Parameter GetGeneratedPolicyInput : [no documentation found]
+    ///
+    /// - Returns: `GetGeneratedPolicyOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : Internal server error.
+    /// - `ThrottlingException` : Throttling limit exceeded error.
+    /// - `ValidationException` : Validation exception error.
     public func getGeneratedPolicy(input: GetGeneratedPolicyInput) async throws -> GetGeneratedPolicyOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -563,6 +735,20 @@ extension AccessAnalyzerClient: AccessAnalyzerClientProtocol {
     }
 
     /// Retrieves a list of access preview findings generated by the specified access preview.
+    ///
+    /// - Parameter ListAccessPreviewFindingsInput : [no documentation found]
+    ///
+    /// - Returns: `ListAccessPreviewFindingsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : A conflict exception error.
+    /// - `InternalServerException` : Internal server error.
+    /// - `ResourceNotFoundException` : The specified resource could not be found.
+    /// - `ThrottlingException` : Throttling limit exceeded error.
+    /// - `ValidationException` : Validation exception error.
     public func listAccessPreviewFindings(input: ListAccessPreviewFindingsInput) async throws -> ListAccessPreviewFindingsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -599,6 +785,19 @@ extension AccessAnalyzerClient: AccessAnalyzerClientProtocol {
     }
 
     /// Retrieves a list of access previews for the specified analyzer.
+    ///
+    /// - Parameter ListAccessPreviewsInput : [no documentation found]
+    ///
+    /// - Returns: `ListAccessPreviewsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : Internal server error.
+    /// - `ResourceNotFoundException` : The specified resource could not be found.
+    /// - `ThrottlingException` : Throttling limit exceeded error.
+    /// - `ValidationException` : Validation exception error.
     public func listAccessPreviews(input: ListAccessPreviewsInput) async throws -> ListAccessPreviewsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -633,6 +832,19 @@ extension AccessAnalyzerClient: AccessAnalyzerClientProtocol {
     }
 
     /// Retrieves a list of resources of the specified type that have been analyzed by the specified analyzer..
+    ///
+    /// - Parameter ListAnalyzedResourcesInput : Retrieves a list of resources that have been analyzed.
+    ///
+    /// - Returns: `ListAnalyzedResourcesOutputResponse` : The response to the request.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : Internal server error.
+    /// - `ResourceNotFoundException` : The specified resource could not be found.
+    /// - `ThrottlingException` : Throttling limit exceeded error.
+    /// - `ValidationException` : Validation exception error.
     public func listAnalyzedResources(input: ListAnalyzedResourcesInput) async throws -> ListAnalyzedResourcesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -669,6 +881,18 @@ extension AccessAnalyzerClient: AccessAnalyzerClientProtocol {
     }
 
     /// Retrieves a list of analyzers.
+    ///
+    /// - Parameter ListAnalyzersInput : Retrieves a list of analyzers.
+    ///
+    /// - Returns: `ListAnalyzersOutputResponse` : The response to the request.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : Internal server error.
+    /// - `ThrottlingException` : Throttling limit exceeded error.
+    /// - `ValidationException` : Validation exception error.
     public func listAnalyzers(input: ListAnalyzersInput) async throws -> ListAnalyzersOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -703,6 +927,18 @@ extension AccessAnalyzerClient: AccessAnalyzerClientProtocol {
     }
 
     /// Retrieves a list of archive rules created for the specified analyzer.
+    ///
+    /// - Parameter ListArchiveRulesInput : Retrieves a list of archive rules created for the specified analyzer.
+    ///
+    /// - Returns: `ListArchiveRulesOutputResponse` : The response to the request.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : Internal server error.
+    /// - `ThrottlingException` : Throttling limit exceeded error.
+    /// - `ValidationException` : Validation exception error.
     public func listArchiveRules(input: ListArchiveRulesInput) async throws -> ListArchiveRulesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -737,6 +973,19 @@ extension AccessAnalyzerClient: AccessAnalyzerClientProtocol {
     }
 
     /// Retrieves a list of findings generated by the specified analyzer. To learn about filter keys that you can use to retrieve a list of findings, see [IAM Access Analyzer filter keys](https://docs.aws.amazon.com/IAM/latest/UserGuide/access-analyzer-reference-filter-keys.html) in the IAM User Guide.
+    ///
+    /// - Parameter ListFindingsInput : Retrieves a list of findings generated by the specified analyzer.
+    ///
+    /// - Returns: `ListFindingsOutputResponse` : The response to the request.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : Internal server error.
+    /// - `ResourceNotFoundException` : The specified resource could not be found.
+    /// - `ThrottlingException` : Throttling limit exceeded error.
+    /// - `ValidationException` : Validation exception error.
     public func listFindings(input: ListFindingsInput) async throws -> ListFindingsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -773,6 +1022,18 @@ extension AccessAnalyzerClient: AccessAnalyzerClientProtocol {
     }
 
     /// Lists all of the policy generations requested in the last seven days.
+    ///
+    /// - Parameter ListPolicyGenerationsInput : [no documentation found]
+    ///
+    /// - Returns: `ListPolicyGenerationsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : Internal server error.
+    /// - `ThrottlingException` : Throttling limit exceeded error.
+    /// - `ValidationException` : Validation exception error.
     public func listPolicyGenerations(input: ListPolicyGenerationsInput) async throws -> ListPolicyGenerationsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -807,6 +1068,19 @@ extension AccessAnalyzerClient: AccessAnalyzerClientProtocol {
     }
 
     /// Retrieves a list of tags applied to the specified resource.
+    ///
+    /// - Parameter ListTagsForResourceInput : Retrieves a list of tags applied to the specified resource.
+    ///
+    /// - Returns: `ListTagsForResourceOutputResponse` : The response to the request.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : Internal server error.
+    /// - `ResourceNotFoundException` : The specified resource could not be found.
+    /// - `ThrottlingException` : Throttling limit exceeded error.
+    /// - `ValidationException` : Validation exception error.
     public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -840,6 +1114,20 @@ extension AccessAnalyzerClient: AccessAnalyzerClientProtocol {
     }
 
     /// Starts the policy generation request.
+    ///
+    /// - Parameter StartPolicyGenerationInput : [no documentation found]
+    ///
+    /// - Returns: `StartPolicyGenerationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : A conflict exception error.
+    /// - `InternalServerException` : Internal server error.
+    /// - `ServiceQuotaExceededException` : Service quote met error.
+    /// - `ThrottlingException` : Throttling limit exceeded error.
+    /// - `ValidationException` : Validation exception error.
     public func startPolicyGeneration(input: StartPolicyGenerationInput) async throws -> StartPolicyGenerationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -884,6 +1172,19 @@ extension AccessAnalyzerClient: AccessAnalyzerClientProtocol {
     }
 
     /// Immediately starts a scan of the policies applied to the specified resource.
+    ///
+    /// - Parameter StartResourceScanInput : Starts a scan of the policies applied to the specified resource.
+    ///
+    /// - Returns: `StartResourceScanOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : Internal server error.
+    /// - `ResourceNotFoundException` : The specified resource could not be found.
+    /// - `ThrottlingException` : Throttling limit exceeded error.
+    /// - `ValidationException` : Validation exception error.
     public func startResourceScan(input: StartResourceScanInput) async throws -> StartResourceScanOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -920,6 +1221,19 @@ extension AccessAnalyzerClient: AccessAnalyzerClientProtocol {
     }
 
     /// Adds a tag to the specified resource.
+    ///
+    /// - Parameter TagResourceInput : Adds a tag to the specified resource.
+    ///
+    /// - Returns: `TagResourceOutputResponse` : The response to the request.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : Internal server error.
+    /// - `ResourceNotFoundException` : The specified resource could not be found.
+    /// - `ThrottlingException` : Throttling limit exceeded error.
+    /// - `ValidationException` : Validation exception error.
     public func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -956,6 +1270,19 @@ extension AccessAnalyzerClient: AccessAnalyzerClientProtocol {
     }
 
     /// Removes a tag from the specified resource.
+    ///
+    /// - Parameter UntagResourceInput : Removes a tag from the specified resource.
+    ///
+    /// - Returns: `UntagResourceOutputResponse` : The response to the request.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : Internal server error.
+    /// - `ResourceNotFoundException` : The specified resource could not be found.
+    /// - `ThrottlingException` : Throttling limit exceeded error.
+    /// - `ValidationException` : Validation exception error.
     public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -990,6 +1317,19 @@ extension AccessAnalyzerClient: AccessAnalyzerClientProtocol {
     }
 
     /// Updates the criteria and values for the specified archive rule.
+    ///
+    /// - Parameter UpdateArchiveRuleInput : Updates the specified archive rule.
+    ///
+    /// - Returns: `UpdateArchiveRuleOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : Internal server error.
+    /// - `ResourceNotFoundException` : The specified resource could not be found.
+    /// - `ThrottlingException` : Throttling limit exceeded error.
+    /// - `ValidationException` : Validation exception error.
     public func updateArchiveRule(input: UpdateArchiveRuleInput) async throws -> UpdateArchiveRuleOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1034,6 +1374,19 @@ extension AccessAnalyzerClient: AccessAnalyzerClientProtocol {
     }
 
     /// Updates the status for the specified findings.
+    ///
+    /// - Parameter UpdateFindingsInput : Updates findings with the new values provided in the request.
+    ///
+    /// - Returns: `UpdateFindingsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : Internal server error.
+    /// - `ResourceNotFoundException` : The specified resource could not be found.
+    /// - `ThrottlingException` : Throttling limit exceeded error.
+    /// - `ValidationException` : Validation exception error.
     public func updateFindings(input: UpdateFindingsInput) async throws -> UpdateFindingsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1078,6 +1431,18 @@ extension AccessAnalyzerClient: AccessAnalyzerClientProtocol {
     }
 
     /// Requests the validation of a policy and returns a list of findings. The findings help you identify issues and provide actionable recommendations to resolve the issue and enable you to author functional policies that meet security best practices.
+    ///
+    /// - Parameter ValidatePolicyInput : [no documentation found]
+    ///
+    /// - Returns: `ValidatePolicyOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : Internal server error.
+    /// - `ThrottlingException` : Throttling limit exceeded error.
+    /// - `ValidationException` : Validation exception error.
     public func validatePolicy(input: ValidatePolicyInput) async throws -> ValidatePolicyOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()

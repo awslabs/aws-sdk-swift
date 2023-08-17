@@ -68,6 +68,17 @@ public struct SsmSapClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFactory 
 
 extension SsmSapClient: SsmSapClientProtocol {
     /// Removes permissions associated with the target database.
+    ///
+    /// - Parameter DeleteResourcePermissionInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteResourcePermissionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : An internal error has occurred.
+    /// - `ResourceNotFoundException` : The resource is not available.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func deleteResourcePermission(input: DeleteResourcePermissionInput) async throws -> DeleteResourcePermissionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -104,6 +115,16 @@ extension SsmSapClient: SsmSapClientProtocol {
     }
 
     /// Deregister an SAP application with AWS Systems Manager for SAP. This action does not aﬀect the existing setup of your SAP workloads on Amazon EC2.
+    ///
+    /// - Parameter DeregisterApplicationInput : [no documentation found]
+    ///
+    /// - Returns: `DeregisterApplicationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : An internal error has occurred.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func deregisterApplication(input: DeregisterApplicationInput) async throws -> DeregisterApplicationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -140,6 +161,16 @@ extension SsmSapClient: SsmSapClientProtocol {
     }
 
     /// Gets an application registered with AWS Systems Manager for SAP. It also returns the components of the application.
+    ///
+    /// - Parameter GetApplicationInput : [no documentation found]
+    ///
+    /// - Returns: `GetApplicationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : An internal error has occurred.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func getApplication(input: GetApplicationInput) async throws -> GetApplicationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -176,6 +207,16 @@ extension SsmSapClient: SsmSapClientProtocol {
     }
 
     /// Gets the component of an application registered with AWS Systems Manager for SAP.
+    ///
+    /// - Parameter GetComponentInput : [no documentation found]
+    ///
+    /// - Returns: `GetComponentOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : An internal error has occurred.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func getComponent(input: GetComponentInput) async throws -> GetComponentOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -212,6 +253,16 @@ extension SsmSapClient: SsmSapClientProtocol {
     }
 
     /// Gets the SAP HANA database of an application registered with AWS Systems Manager for SAP.
+    ///
+    /// - Parameter GetDatabaseInput : [no documentation found]
+    ///
+    /// - Returns: `GetDatabaseOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : An internal error has occurred.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func getDatabase(input: GetDatabaseInput) async throws -> GetDatabaseOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -248,6 +299,16 @@ extension SsmSapClient: SsmSapClientProtocol {
     }
 
     /// Gets the details of an operation by specifying the operation ID.
+    ///
+    /// - Parameter GetOperationInput : [no documentation found]
+    ///
+    /// - Returns: `GetOperationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : An internal error has occurred.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func getOperation(input: GetOperationInput) async throws -> GetOperationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -284,6 +345,17 @@ extension SsmSapClient: SsmSapClientProtocol {
     }
 
     /// Gets permissions associated with the target database.
+    ///
+    /// - Parameter GetResourcePermissionInput : [no documentation found]
+    ///
+    /// - Returns: `GetResourcePermissionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : An internal error has occurred.
+    /// - `ResourceNotFoundException` : The resource is not available.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func getResourcePermission(input: GetResourcePermissionInput) async throws -> GetResourcePermissionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -320,6 +392,17 @@ extension SsmSapClient: SsmSapClientProtocol {
     }
 
     /// Lists all the applications registered with AWS Systems Manager for SAP.
+    ///
+    /// - Parameter ListApplicationsInput : [no documentation found]
+    ///
+    /// - Returns: `ListApplicationsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : An internal error has occurred.
+    /// - `ResourceNotFoundException` : The resource is not available.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func listApplications(input: ListApplicationsInput) async throws -> ListApplicationsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -356,6 +439,17 @@ extension SsmSapClient: SsmSapClientProtocol {
     }
 
     /// Lists all the components registered with AWS Systems Manager for SAP.
+    ///
+    /// - Parameter ListComponentsInput : [no documentation found]
+    ///
+    /// - Returns: `ListComponentsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : An internal error has occurred.
+    /// - `ResourceNotFoundException` : The resource is not available.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func listComponents(input: ListComponentsInput) async throws -> ListComponentsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -392,6 +486,17 @@ extension SsmSapClient: SsmSapClientProtocol {
     }
 
     /// Lists the SAP HANA databases of an application registered with AWS Systems Manager for SAP.
+    ///
+    /// - Parameter ListDatabasesInput : [no documentation found]
+    ///
+    /// - Returns: `ListDatabasesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : An internal error has occurred.
+    /// - `ResourceNotFoundException` : The resource is not available.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func listDatabases(input: ListDatabasesInput) async throws -> ListDatabasesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -428,6 +533,16 @@ extension SsmSapClient: SsmSapClientProtocol {
     }
 
     /// Lists the operations performed by AWS Systems Manager for SAP.
+    ///
+    /// - Parameter ListOperationsInput : [no documentation found]
+    ///
+    /// - Returns: `ListOperationsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : An internal error has occurred.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func listOperations(input: ListOperationsInput) async throws -> ListOperationsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -464,6 +579,17 @@ extension SsmSapClient: SsmSapClientProtocol {
     }
 
     /// Lists all tags on an SAP HANA application and/or database registered with AWS Systems Manager for SAP.
+    ///
+    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    ///
+    /// - Returns: `ListTagsForResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictException` : A conflict has occurred.
+    /// - `ResourceNotFoundException` : The resource is not available.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -497,6 +623,17 @@ extension SsmSapClient: SsmSapClientProtocol {
     }
 
     /// Adds permissions to the target database.
+    ///
+    /// - Parameter PutResourcePermissionInput : [no documentation found]
+    ///
+    /// - Returns: `PutResourcePermissionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : An internal error has occurred.
+    /// - `ResourceNotFoundException` : The resource is not available.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func putResourcePermission(input: PutResourcePermissionInput) async throws -> PutResourcePermissionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -533,6 +670,17 @@ extension SsmSapClient: SsmSapClientProtocol {
     }
 
     /// Register an SAP application with AWS Systems Manager for SAP. You must meet the following requirements before registering. The SAP application you want to register with AWS Systems Manager for SAP is running on Amazon EC2. AWS Systems Manager Agent must be setup on an Amazon EC2 instance along with the required IAM permissions. Amazon EC2 instance(s) must have access to the secrets created in AWS Secrets Manager to manage SAP applications and components.
+    ///
+    /// - Parameter RegisterApplicationInput : [no documentation found]
+    ///
+    /// - Returns: `RegisterApplicationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictException` : A conflict has occurred.
+    /// - `InternalServerException` : An internal error has occurred.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func registerApplication(input: RegisterApplicationInput) async throws -> RegisterApplicationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -569,6 +717,18 @@ extension SsmSapClient: SsmSapClientProtocol {
     }
 
     /// Refreshes a registered application.
+    ///
+    /// - Parameter StartApplicationRefreshInput : [no documentation found]
+    ///
+    /// - Returns: `StartApplicationRefreshOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictException` : A conflict has occurred.
+    /// - `InternalServerException` : An internal error has occurred.
+    /// - `ResourceNotFoundException` : The resource is not available.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func startApplicationRefresh(input: StartApplicationRefreshInput) async throws -> StartApplicationRefreshOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -605,6 +765,17 @@ extension SsmSapClient: SsmSapClientProtocol {
     }
 
     /// Creates tag for a resource by specifying the ARN.
+    ///
+    /// - Parameter TagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `TagResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictException` : A conflict has occurred.
+    /// - `ResourceNotFoundException` : The resource is not available.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -641,6 +812,17 @@ extension SsmSapClient: SsmSapClientProtocol {
     }
 
     /// Delete the tags for a resource.
+    ///
+    /// - Parameter UntagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `UntagResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictException` : A conflict has occurred.
+    /// - `ResourceNotFoundException` : The resource is not available.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -675,6 +857,18 @@ extension SsmSapClient: SsmSapClientProtocol {
     }
 
     /// Updates the settings of an application registered with AWS Systems Manager for SAP.
+    ///
+    /// - Parameter UpdateApplicationSettingsInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateApplicationSettingsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictException` : A conflict has occurred.
+    /// - `InternalServerException` : An internal error has occurred.
+    /// - `ResourceNotFoundException` : The resource is not available.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func updateApplicationSettings(input: UpdateApplicationSettingsInput) async throws -> UpdateApplicationSettingsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()

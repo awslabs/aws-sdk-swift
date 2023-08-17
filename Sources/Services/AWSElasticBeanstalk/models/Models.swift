@@ -372,7 +372,7 @@ extension ElasticBeanstalkClientTypes.ApplicationMetrics: Swift.Codable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let durationDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .duration)
         duration = durationDecoded
-        let requestCountDecoded = try containerValues.decode(Swift.Int.self, forKey: .requestCount)
+        let requestCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .requestCount) ?? 0
         requestCount = requestCountDecoded
         let statusCodesDecoded = try containerValues.decodeIfPresent(ElasticBeanstalkClientTypes.StatusCodes.self, forKey: .statusCodes)
         statusCodes = statusCodesDecoded
@@ -8764,7 +8764,7 @@ extension ElasticBeanstalkClientTypes.Listener: Swift.Codable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let protocolDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .protocol)
         `protocol` = protocolDecoded
-        let portDecoded = try containerValues.decode(Swift.Int.self, forKey: .port)
+        let portDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .port) ?? 0
         port = portDecoded
     }
 }
@@ -9452,7 +9452,7 @@ extension ElasticBeanstalkClientTypes.PlatformBranchSummary: Swift.Codable {
         branchName = branchNameDecoded
         let lifecycleStateDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .lifecycleState)
         lifecycleState = lifecycleStateDecoded
-        let branchOrderDecoded = try containerValues.decode(Swift.Int.self, forKey: .branchOrder)
+        let branchOrderDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .branchOrder) ?? 0
         branchOrder = branchOrderDecoded
         if containerValues.contains(.supportedTierList) {
             struct KeyVal0{struct member{}}

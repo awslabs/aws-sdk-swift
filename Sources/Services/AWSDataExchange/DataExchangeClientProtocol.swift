@@ -5,62 +5,409 @@ import ClientRuntime
 /// AWS Data Exchange is a service that makes it easy for AWS customers to exchange data in the cloud. You can use the AWS Data Exchange APIs to create, update, manage, and access file-based data set in the AWS Cloud. As a subscriber, you can view and access the data sets that you have an entitlement to through a subscription. You can use the APIs to download or copy your entitled data sets to Amazon Simple Storage Service (Amazon S3) for use across a variety of AWS analytics and machine learning services. As a provider, you can create and manage your data sets that you would like to publish to a product. Being able to package and provide your data sets into products requires a few steps to determine eligibility. For more information, visit the AWS Data Exchange User Guide. A data set is a collection of data that can be changed or updated over time. Data sets can be updated using revisions, which represent a new version or incremental change to a data set. A revision contains one or more assets. An asset in AWS Data Exchange is a piece of data that can be stored as an Amazon S3 object, Redshift datashare, API Gateway API, AWS Lake Formation data permission, or Amazon S3 data access. The asset can be a structured data file, an image file, or some other data file. Jobs are asynchronous import or export operations used to create or copy assets.
 public protocol DataExchangeClientProtocol {
     /// This operation cancels a job. Jobs can be cancelled only when they are in the WAITING state.
+    ///
+    /// - Parameter CancelJobInput : [no documentation found]
+    ///
+    /// - Returns: `CancelJobOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictException` : The request couldn't be completed because it conflicted with the current state of the resource.
+    /// - `InternalServerException` : An exception occurred with the service.
+    /// - `ResourceNotFoundException` : The resource couldn't be found.
+    /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
+    /// - `ValidationException` : The request was invalid.
     func cancelJob(input: CancelJobInput) async throws -> CancelJobOutputResponse
     /// This operation creates a data set.
+    ///
+    /// - Parameter CreateDataSetInput : [no documentation found]
+    ///
+    /// - Returns: `CreateDataSetOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to the resource is denied.
+    /// - `InternalServerException` : An exception occurred with the service.
+    /// - `ServiceLimitExceededException` : The request has exceeded the quotas imposed by the service.
+    /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
+    /// - `ValidationException` : The request was invalid.
     func createDataSet(input: CreateDataSetInput) async throws -> CreateDataSetOutputResponse
     /// This operation creates an event action.
+    ///
+    /// - Parameter CreateEventActionInput : [no documentation found]
+    ///
+    /// - Returns: `CreateEventActionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to the resource is denied.
+    /// - `InternalServerException` : An exception occurred with the service.
+    /// - `ServiceLimitExceededException` : The request has exceeded the quotas imposed by the service.
+    /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
+    /// - `ValidationException` : The request was invalid.
     func createEventAction(input: CreateEventActionInput) async throws -> CreateEventActionOutputResponse
     /// This operation creates a job.
+    ///
+    /// - Parameter CreateJobInput : [no documentation found]
+    ///
+    /// - Returns: `CreateJobOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to the resource is denied.
+    /// - `ConflictException` : The request couldn't be completed because it conflicted with the current state of the resource.
+    /// - `InternalServerException` : An exception occurred with the service.
+    /// - `ResourceNotFoundException` : The resource couldn't be found.
+    /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
+    /// - `ValidationException` : The request was invalid.
     func createJob(input: CreateJobInput) async throws -> CreateJobOutputResponse
     /// This operation creates a revision for a data set.
+    ///
+    /// - Parameter CreateRevisionInput : [no documentation found]
+    ///
+    /// - Returns: `CreateRevisionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to the resource is denied.
+    /// - `InternalServerException` : An exception occurred with the service.
+    /// - `ResourceNotFoundException` : The resource couldn't be found.
+    /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
+    /// - `ValidationException` : The request was invalid.
     func createRevision(input: CreateRevisionInput) async throws -> CreateRevisionOutputResponse
     /// This operation deletes an asset.
+    ///
+    /// - Parameter DeleteAssetInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteAssetOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to the resource is denied.
+    /// - `ConflictException` : The request couldn't be completed because it conflicted with the current state of the resource.
+    /// - `InternalServerException` : An exception occurred with the service.
+    /// - `ResourceNotFoundException` : The resource couldn't be found.
+    /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
+    /// - `ValidationException` : The request was invalid.
     func deleteAsset(input: DeleteAssetInput) async throws -> DeleteAssetOutputResponse
     /// This operation deletes a data set.
+    ///
+    /// - Parameter DeleteDataSetInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteDataSetOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to the resource is denied.
+    /// - `ConflictException` : The request couldn't be completed because it conflicted with the current state of the resource.
+    /// - `InternalServerException` : An exception occurred with the service.
+    /// - `ResourceNotFoundException` : The resource couldn't be found.
+    /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
+    /// - `ValidationException` : The request was invalid.
     func deleteDataSet(input: DeleteDataSetInput) async throws -> DeleteDataSetOutputResponse
     /// This operation deletes the event action.
+    ///
+    /// - Parameter DeleteEventActionInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteEventActionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : An exception occurred with the service.
+    /// - `ResourceNotFoundException` : The resource couldn't be found.
+    /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
+    /// - `ValidationException` : The request was invalid.
     func deleteEventAction(input: DeleteEventActionInput) async throws -> DeleteEventActionOutputResponse
     /// This operation deletes a revision.
+    ///
+    /// - Parameter DeleteRevisionInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteRevisionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to the resource is denied.
+    /// - `ConflictException` : The request couldn't be completed because it conflicted with the current state of the resource.
+    /// - `InternalServerException` : An exception occurred with the service.
+    /// - `ResourceNotFoundException` : The resource couldn't be found.
+    /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
+    /// - `ValidationException` : The request was invalid.
     func deleteRevision(input: DeleteRevisionInput) async throws -> DeleteRevisionOutputResponse
     /// This operation returns information about an asset.
+    ///
+    /// - Parameter GetAssetInput : [no documentation found]
+    ///
+    /// - Returns: `GetAssetOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : An exception occurred with the service.
+    /// - `ResourceNotFoundException` : The resource couldn't be found.
+    /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
+    /// - `ValidationException` : The request was invalid.
     func getAsset(input: GetAssetInput) async throws -> GetAssetOutputResponse
     /// This operation returns information about a data set.
+    ///
+    /// - Parameter GetDataSetInput : [no documentation found]
+    ///
+    /// - Returns: `GetDataSetOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : An exception occurred with the service.
+    /// - `ResourceNotFoundException` : The resource couldn't be found.
+    /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
+    /// - `ValidationException` : The request was invalid.
     func getDataSet(input: GetDataSetInput) async throws -> GetDataSetOutputResponse
     /// This operation retrieves information about an event action.
+    ///
+    /// - Parameter GetEventActionInput : [no documentation found]
+    ///
+    /// - Returns: `GetEventActionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : An exception occurred with the service.
+    /// - `ResourceNotFoundException` : The resource couldn't be found.
+    /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
+    /// - `ValidationException` : The request was invalid.
     func getEventAction(input: GetEventActionInput) async throws -> GetEventActionOutputResponse
     /// This operation returns information about a job.
+    ///
+    /// - Parameter GetJobInput : [no documentation found]
+    ///
+    /// - Returns: `GetJobOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : An exception occurred with the service.
+    /// - `ResourceNotFoundException` : The resource couldn't be found.
+    /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
+    /// - `ValidationException` : The request was invalid.
     func getJob(input: GetJobInput) async throws -> GetJobOutputResponse
     /// This operation returns information about a revision.
+    ///
+    /// - Parameter GetRevisionInput : [no documentation found]
+    ///
+    /// - Returns: `GetRevisionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : An exception occurred with the service.
+    /// - `ResourceNotFoundException` : The resource couldn't be found.
+    /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
+    /// - `ValidationException` : The request was invalid.
     func getRevision(input: GetRevisionInput) async throws -> GetRevisionOutputResponse
     /// This operation lists a data set's revisions sorted by CreatedAt in descending order.
+    ///
+    /// - Parameter ListDataSetRevisionsInput : [no documentation found]
+    ///
+    /// - Returns: `ListDataSetRevisionsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : An exception occurred with the service.
+    /// - `ResourceNotFoundException` : The resource couldn't be found.
+    /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
+    /// - `ValidationException` : The request was invalid.
     func listDataSetRevisions(input: ListDataSetRevisionsInput) async throws -> ListDataSetRevisionsOutputResponse
     /// This operation lists your data sets. When listing by origin OWNED, results are sorted by CreatedAt in descending order. When listing by origin ENTITLED, there is no order and the maxResults parameter is ignored.
+    ///
+    /// - Parameter ListDataSetsInput : [no documentation found]
+    ///
+    /// - Returns: `ListDataSetsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : An exception occurred with the service.
+    /// - `ResourceNotFoundException` : The resource couldn't be found.
+    /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
+    /// - `ValidationException` : The request was invalid.
     func listDataSets(input: ListDataSetsInput) async throws -> ListDataSetsOutputResponse
     /// This operation lists your event actions.
+    ///
+    /// - Parameter ListEventActionsInput : [no documentation found]
+    ///
+    /// - Returns: `ListEventActionsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : An exception occurred with the service.
+    /// - `ResourceNotFoundException` : The resource couldn't be found.
+    /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
+    /// - `ValidationException` : The request was invalid.
     func listEventActions(input: ListEventActionsInput) async throws -> ListEventActionsOutputResponse
     /// This operation lists your jobs sorted by CreatedAt in descending order.
+    ///
+    /// - Parameter ListJobsInput : [no documentation found]
+    ///
+    /// - Returns: `ListJobsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : An exception occurred with the service.
+    /// - `ResourceNotFoundException` : The resource couldn't be found.
+    /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
+    /// - `ValidationException` : The request was invalid.
     func listJobs(input: ListJobsInput) async throws -> ListJobsOutputResponse
     /// This operation lists a revision's assets sorted alphabetically in descending order.
+    ///
+    /// - Parameter ListRevisionAssetsInput : [no documentation found]
+    ///
+    /// - Returns: `ListRevisionAssetsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : An exception occurred with the service.
+    /// - `ResourceNotFoundException` : The resource couldn't be found.
+    /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
+    /// - `ValidationException` : The request was invalid.
     func listRevisionAssets(input: ListRevisionAssetsInput) async throws -> ListRevisionAssetsOutputResponse
     /// This operation lists the tags on the resource.
+    ///
+    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    ///
+    /// - Returns: `ListTagsForResourceOutputResponse` : [no documentation found]
     func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
     /// This operation revokes subscribers' access to a revision.
+    ///
+    /// - Parameter RevokeRevisionInput : [no documentation found]
+    ///
+    /// - Returns: `RevokeRevisionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to the resource is denied.
+    /// - `ConflictException` : The request couldn't be completed because it conflicted with the current state of the resource.
+    /// - `InternalServerException` : An exception occurred with the service.
+    /// - `ResourceNotFoundException` : The resource couldn't be found.
+    /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
+    /// - `ValidationException` : The request was invalid.
     func revokeRevision(input: RevokeRevisionInput) async throws -> RevokeRevisionOutputResponse
     /// This operation invokes an API Gateway API asset. The request is proxied to the provider’s API Gateway API.
+    ///
+    /// - Parameter SendApiAssetInput : [no documentation found]
+    ///
+    /// - Returns: `SendApiAssetOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to the resource is denied.
+    /// - `InternalServerException` : An exception occurred with the service.
+    /// - `ResourceNotFoundException` : The resource couldn't be found.
+    /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
+    /// - `ValidationException` : The request was invalid.
     func sendApiAsset(input: SendApiAssetInput) async throws -> SendApiAssetOutputResponse
     /// This operation starts a job.
+    ///
+    /// - Parameter StartJobInput : [no documentation found]
+    ///
+    /// - Returns: `StartJobOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to the resource is denied.
+    /// - `ConflictException` : The request couldn't be completed because it conflicted with the current state of the resource.
+    /// - `InternalServerException` : An exception occurred with the service.
+    /// - `ResourceNotFoundException` : The resource couldn't be found.
+    /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
+    /// - `ValidationException` : The request was invalid.
     func startJob(input: StartJobInput) async throws -> StartJobOutputResponse
     /// This operation tags a resource.
+    ///
+    /// - Parameter TagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `TagResourceOutputResponse` : [no documentation found]
     func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
     /// This operation removes one or more tags from a resource.
+    ///
+    /// - Parameter UntagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `UntagResourceOutputResponse` : [no documentation found]
     func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
     /// This operation updates an asset.
+    ///
+    /// - Parameter UpdateAssetInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateAssetOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to the resource is denied.
+    /// - `ConflictException` : The request couldn't be completed because it conflicted with the current state of the resource.
+    /// - `InternalServerException` : An exception occurred with the service.
+    /// - `ResourceNotFoundException` : The resource couldn't be found.
+    /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
+    /// - `ValidationException` : The request was invalid.
     func updateAsset(input: UpdateAssetInput) async throws -> UpdateAssetOutputResponse
     /// This operation updates a data set.
+    ///
+    /// - Parameter UpdateDataSetInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateDataSetOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to the resource is denied.
+    /// - `InternalServerException` : An exception occurred with the service.
+    /// - `ResourceNotFoundException` : The resource couldn't be found.
+    /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
+    /// - `ValidationException` : The request was invalid.
     func updateDataSet(input: UpdateDataSetInput) async throws -> UpdateDataSetOutputResponse
     /// This operation updates the event action.
+    ///
+    /// - Parameter UpdateEventActionInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateEventActionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to the resource is denied.
+    /// - `InternalServerException` : An exception occurred with the service.
+    /// - `ResourceNotFoundException` : The resource couldn't be found.
+    /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
+    /// - `ValidationException` : The request was invalid.
     func updateEventAction(input: UpdateEventActionInput) async throws -> UpdateEventActionOutputResponse
     /// This operation updates a revision.
+    ///
+    /// - Parameter UpdateRevisionInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateRevisionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to the resource is denied.
+    /// - `ConflictException` : The request couldn't be completed because it conflicted with the current state of the resource.
+    /// - `InternalServerException` : An exception occurred with the service.
+    /// - `ResourceNotFoundException` : The resource couldn't be found.
+    /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
+    /// - `ValidationException` : The request was invalid.
     func updateRevision(input: UpdateRevisionInput) async throws -> UpdateRevisionOutputResponse
 }
 

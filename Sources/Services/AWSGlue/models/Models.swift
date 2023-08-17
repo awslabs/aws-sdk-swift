@@ -10346,6 +10346,7 @@ extension GlueClientTypes.CreateCsvClassifierRequest: Swift.Codable {
         case header = "Header"
         case name = "Name"
         case quoteSymbol = "QuoteSymbol"
+        case serde = "Serde"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -10382,6 +10383,9 @@ extension GlueClientTypes.CreateCsvClassifierRequest: Swift.Codable {
         }
         if let quoteSymbol = self.quoteSymbol {
             try encodeContainer.encode(quoteSymbol, forKey: .quoteSymbol)
+        }
+        if let serde = self.serde {
+            try encodeContainer.encode(serde.rawValue, forKey: .serde)
         }
     }
 
@@ -10423,6 +10427,8 @@ extension GlueClientTypes.CreateCsvClassifierRequest: Swift.Codable {
             }
         }
         customDatatypes = customDatatypesDecoded0
+        let serdeDecoded = try containerValues.decodeIfPresent(GlueClientTypes.CsvSerdeOption.self, forKey: .serde)
+        serde = serdeDecoded
     }
 }
 
@@ -10448,6 +10454,8 @@ extension GlueClientTypes {
         public var name: Swift.String?
         /// A custom symbol to denote what combines content into a single column value. Must be different from the column delimiter.
         public var quoteSymbol: Swift.String?
+        /// Sets the SerDe for processing CSV in the classifier, which will be applied in the Data Catalog. Valid values are OpenCSVSerDe, LazySimpleSerDe, and None. You can specify the None value when you want the crawler to do the detection.
+        public var serde: GlueClientTypes.CsvSerdeOption?
 
         public init(
             allowSingleColumn: Swift.Bool? = nil,
@@ -10458,7 +10466,8 @@ extension GlueClientTypes {
             disableValueTrimming: Swift.Bool? = nil,
             header: [Swift.String]? = nil,
             name: Swift.String? = nil,
-            quoteSymbol: Swift.String? = nil
+            quoteSymbol: Swift.String? = nil,
+            serde: GlueClientTypes.CsvSerdeOption? = nil
         )
         {
             self.allowSingleColumn = allowSingleColumn
@@ -10470,6 +10479,7 @@ extension GlueClientTypes {
             self.header = header
             self.name = name
             self.quoteSymbol = quoteSymbol
+            self.serde = serde
         }
     }
 
@@ -14397,6 +14407,7 @@ extension GlueClientTypes.CsvClassifier: Swift.Codable {
         case lastUpdated = "LastUpdated"
         case name = "Name"
         case quoteSymbol = "QuoteSymbol"
+        case serde = "Serde"
         case version = "Version"
     }
 
@@ -14440,6 +14451,9 @@ extension GlueClientTypes.CsvClassifier: Swift.Codable {
         }
         if let quoteSymbol = self.quoteSymbol {
             try encodeContainer.encode(quoteSymbol, forKey: .quoteSymbol)
+        }
+        if let serde = self.serde {
+            try encodeContainer.encode(serde.rawValue, forKey: .serde)
         }
         if version != 0 {
             try encodeContainer.encode(version, forKey: .version)
@@ -14490,6 +14504,8 @@ extension GlueClientTypes.CsvClassifier: Swift.Codable {
             }
         }
         customDatatypes = customDatatypesDecoded0
+        let serdeDecoded = try containerValues.decodeIfPresent(GlueClientTypes.CsvSerdeOption.self, forKey: .serde)
+        serde = serdeDecoded
     }
 }
 
@@ -14519,6 +14535,8 @@ extension GlueClientTypes {
         public var name: Swift.String?
         /// A custom symbol to denote what combines content into a single column value. It must be different from the column delimiter.
         public var quoteSymbol: Swift.String?
+        /// Sets the SerDe for processing CSV in the classifier, which will be applied in the Data Catalog. Valid values are OpenCSVSerDe, LazySimpleSerDe, and None. You can specify the None value when you want the crawler to do the detection.
+        public var serde: GlueClientTypes.CsvSerdeOption?
         /// The version of this classifier.
         public var version: Swift.Int
 
@@ -14534,6 +14552,7 @@ extension GlueClientTypes {
             lastUpdated: ClientRuntime.Date? = nil,
             name: Swift.String? = nil,
             quoteSymbol: Swift.String? = nil,
+            serde: GlueClientTypes.CsvSerdeOption? = nil,
             version: Swift.Int = 0
         )
         {
@@ -14548,6 +14567,7 @@ extension GlueClientTypes {
             self.lastUpdated = lastUpdated
             self.name = name
             self.quoteSymbol = quoteSymbol
+            self.serde = serde
             self.version = version
         }
     }
@@ -14585,6 +14605,41 @@ extension GlueClientTypes {
             let container = try decoder.singleValueContainer()
             let rawValue = try container.decode(RawValue.self)
             self = CsvHeaderOption(rawValue: rawValue) ?? CsvHeaderOption.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension GlueClientTypes {
+    public enum CsvSerdeOption: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case lazysimpleserde
+        case `none`
+        case opencsvserde
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CsvSerdeOption] {
+            return [
+                .lazysimpleserde,
+                .none,
+                .opencsvserde,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .lazysimpleserde: return "LazySimpleSerDe"
+            case .none: return "None"
+            case .opencsvserde: return "OpenCSVSerDe"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = CsvSerdeOption(rawValue: rawValue) ?? CsvSerdeOption.sdkUnknown(rawValue)
         }
     }
 }
@@ -57321,6 +57376,7 @@ extension GlueClientTypes.UpdateCsvClassifierRequest: Swift.Codable {
         case header = "Header"
         case name = "Name"
         case quoteSymbol = "QuoteSymbol"
+        case serde = "Serde"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -57357,6 +57413,9 @@ extension GlueClientTypes.UpdateCsvClassifierRequest: Swift.Codable {
         }
         if let quoteSymbol = self.quoteSymbol {
             try encodeContainer.encode(quoteSymbol, forKey: .quoteSymbol)
+        }
+        if let serde = self.serde {
+            try encodeContainer.encode(serde.rawValue, forKey: .serde)
         }
     }
 
@@ -57398,6 +57457,8 @@ extension GlueClientTypes.UpdateCsvClassifierRequest: Swift.Codable {
             }
         }
         customDatatypes = customDatatypesDecoded0
+        let serdeDecoded = try containerValues.decodeIfPresent(GlueClientTypes.CsvSerdeOption.self, forKey: .serde)
+        serde = serdeDecoded
     }
 }
 
@@ -57423,6 +57484,8 @@ extension GlueClientTypes {
         public var name: Swift.String?
         /// A custom symbol to denote what combines content into a single column value. It must be different from the column delimiter.
         public var quoteSymbol: Swift.String?
+        /// Sets the SerDe for processing CSV in the classifier, which will be applied in the Data Catalog. Valid values are OpenCSVSerDe, LazySimpleSerDe, and None. You can specify the None value when you want the crawler to do the detection.
+        public var serde: GlueClientTypes.CsvSerdeOption?
 
         public init(
             allowSingleColumn: Swift.Bool? = nil,
@@ -57433,7 +57496,8 @@ extension GlueClientTypes {
             disableValueTrimming: Swift.Bool? = nil,
             header: [Swift.String]? = nil,
             name: Swift.String? = nil,
-            quoteSymbol: Swift.String? = nil
+            quoteSymbol: Swift.String? = nil,
+            serde: GlueClientTypes.CsvSerdeOption? = nil
         )
         {
             self.allowSingleColumn = allowSingleColumn
@@ -57445,6 +57509,7 @@ extension GlueClientTypes {
             self.header = header
             self.name = name
             self.quoteSymbol = quoteSymbol
+            self.serde = serde
         }
     }
 

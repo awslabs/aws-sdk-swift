@@ -68,6 +68,21 @@ public struct ControlTowerClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFa
 
 extension ControlTowerClient: ControlTowerClientProtocol {
     /// This API call turns off a control. It starts an asynchronous operation that deletes AWS resources on the specified organizational unit and the accounts it contains. The resources will vary according to the control that you specify.
+    ///
+    /// - Parameter DisableControlInput : [no documentation found]
+    ///
+    /// - Returns: `DisableControlOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `ConflictException` : Updating or deleting a resource can cause an inconsistent state.
+    /// - `InternalServerException` : Unexpected error during processing of request.
+    /// - `ResourceNotFoundException` : Request references a resource which does not exist.
+    /// - `ServiceQuotaExceededException` : Request would cause a service quota to be exceeded. The limit is 10 concurrent operations.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func disableControl(input: DisableControlInput) async throws -> DisableControlOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -104,6 +119,21 @@ extension ControlTowerClient: ControlTowerClientProtocol {
     }
 
     /// This API call activates a control. It starts an asynchronous operation that creates AWS resources on the specified organizational unit and the accounts it contains. The resources created will vary according to the control that you specify.
+    ///
+    /// - Parameter EnableControlInput : [no documentation found]
+    ///
+    /// - Returns: `EnableControlOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `ConflictException` : Updating or deleting a resource can cause an inconsistent state.
+    /// - `InternalServerException` : Unexpected error during processing of request.
+    /// - `ResourceNotFoundException` : Request references a resource which does not exist.
+    /// - `ServiceQuotaExceededException` : Request would cause a service quota to be exceeded. The limit is 10 concurrent operations.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func enableControl(input: EnableControlInput) async throws -> EnableControlOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -140,6 +170,19 @@ extension ControlTowerClient: ControlTowerClientProtocol {
     }
 
     /// Returns the status of a particular EnableControl or DisableControl operation. Displays a message in case of error. Details for an operation are available for 90 days.
+    ///
+    /// - Parameter GetControlOperationInput : [no documentation found]
+    ///
+    /// - Returns: `GetControlOperationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `InternalServerException` : Unexpected error during processing of request.
+    /// - `ResourceNotFoundException` : Request references a resource which does not exist.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func getControlOperation(input: GetControlOperationInput) async throws -> GetControlOperationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -176,6 +219,19 @@ extension ControlTowerClient: ControlTowerClientProtocol {
     }
 
     /// Lists the controls enabled by AWS Control Tower on the specified organizational unit and the accounts it contains.
+    ///
+    /// - Parameter ListEnabledControlsInput : [no documentation found]
+    ///
+    /// - Returns: `ListEnabledControlsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `InternalServerException` : Unexpected error during processing of request.
+    /// - `ResourceNotFoundException` : Request references a resource which does not exist.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func listEnabledControls(input: ListEnabledControlsInput) async throws -> ListEnabledControlsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()

@@ -28,7 +28,7 @@ extension ElasticLoadBalancingClientTypes.AccessLog: Swift.Codable {
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let enabledDecoded = try containerValues.decode(Swift.Bool.self, forKey: .enabled)
+        let enabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enabled) ?? false
         enabled = enabledDecoded
         let s3BucketNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .s3BucketName)
         s3BucketName = s3BucketNameDecoded
@@ -688,7 +688,7 @@ extension ElasticLoadBalancingClientTypes.BackendServerDescription: Swift.Codabl
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let instancePortDecoded = try containerValues.decode(Swift.Int.self, forKey: .instancePort)
+        let instancePortDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .instancePort) ?? 0
         instancePort = instancePortDecoded
         if containerValues.contains(.policyNames) {
             struct KeyVal0{struct member{}}
@@ -915,7 +915,7 @@ extension ElasticLoadBalancingClientTypes.ConnectionDraining: Swift.Codable {
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let enabledDecoded = try containerValues.decode(Swift.Bool.self, forKey: .enabled)
+        let enabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enabled) ?? false
         enabled = enabledDecoded
         let timeoutDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .timeout)
         timeout = timeoutDecoded
@@ -1732,7 +1732,7 @@ extension ElasticLoadBalancingClientTypes.CrossZoneLoadBalancing: Swift.Codable 
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let enabledDecoded = try containerValues.decode(Swift.Bool.self, forKey: .enabled)
+        let enabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enabled) ?? false
         enabled = enabledDecoded
     }
 }
@@ -3926,13 +3926,13 @@ extension ElasticLoadBalancingClientTypes.HealthCheck: Swift.Codable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let targetDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .target)
         target = targetDecoded
-        let intervalDecoded = try containerValues.decode(Swift.Int.self, forKey: .interval)
+        let intervalDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .interval) ?? 0
         interval = intervalDecoded
-        let timeoutDecoded = try containerValues.decode(Swift.Int.self, forKey: .timeout)
+        let timeoutDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .timeout) ?? 0
         timeout = timeoutDecoded
-        let unhealthyThresholdDecoded = try containerValues.decode(Swift.Int.self, forKey: .unhealthyThreshold)
+        let unhealthyThresholdDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .unhealthyThreshold) ?? 0
         unhealthyThreshold = unhealthyThresholdDecoded
-        let healthyThresholdDecoded = try containerValues.decode(Swift.Int.self, forKey: .healthyThreshold)
+        let healthyThresholdDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .healthyThreshold) ?? 0
         healthyThreshold = healthyThresholdDecoded
     }
 }
@@ -4496,11 +4496,11 @@ extension ElasticLoadBalancingClientTypes.Listener: Swift.Codable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let protocolDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .protocol)
         `protocol` = protocolDecoded
-        let loadBalancerPortDecoded = try containerValues.decode(Swift.Int.self, forKey: .loadBalancerPort)
+        let loadBalancerPortDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .loadBalancerPort) ?? 0
         loadBalancerPort = loadBalancerPortDecoded
         let instanceProtocolDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .instanceProtocol)
         instanceProtocol = instanceProtocolDecoded
-        let instancePortDecoded = try containerValues.decode(Swift.Int.self, forKey: .instancePort)
+        let instancePortDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .instancePort) ?? 0
         instancePort = instancePortDecoded
         let sslCertificateIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sslCertificateId)
         sslCertificateId = sslCertificateIdDecoded
@@ -6267,7 +6267,7 @@ extension SetLoadBalancerListenerSSLCertificateInputBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let loadBalancerNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .loadBalancerName)
         loadBalancerName = loadBalancerNameDecoded
-        let loadBalancerPortDecoded = try containerValues.decode(Swift.Int.self, forKey: .loadBalancerPort)
+        let loadBalancerPortDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .loadBalancerPort) ?? 0
         loadBalancerPort = loadBalancerPortDecoded
         let sslCertificateIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sslCertificateId)
         sslCertificateId = sslCertificateIdDecoded
@@ -6492,7 +6492,7 @@ extension SetLoadBalancerPoliciesOfListenerInputBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let loadBalancerNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .loadBalancerName)
         loadBalancerName = loadBalancerNameDecoded
-        let loadBalancerPortDecoded = try containerValues.decode(Swift.Int.self, forKey: .loadBalancerPort)
+        let loadBalancerPortDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .loadBalancerPort) ?? 0
         loadBalancerPort = loadBalancerPortDecoded
         if containerValues.contains(.policyNames) {
             struct KeyVal0{struct member{}}

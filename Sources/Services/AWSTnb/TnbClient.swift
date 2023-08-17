@@ -68,6 +68,19 @@ public struct TnbClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFactory {
 
 extension TnbClient: TnbClientProtocol {
     /// Cancels a network operation. A network operation is any operation that is done to your network, such as network instance instantiation or termination.
+    ///
+    /// - Parameter CancelSolNetworkOperationInput : [no documentation found]
+    ///
+    /// - Returns: `CancelSolNetworkOperationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Insufficient permissions to make request.
+    /// - `InternalServerException` : Unexpected error occurred. Problem on the server.
+    /// - `ResourceNotFoundException` : Request references a resource that doesn't exist.
+    /// - `ThrottlingException` : Exception caused by throttling.
+    /// - `ValidationException` : Unable to process the request because the client provided input failed to satisfy request constraints.
     public func cancelSolNetworkOperation(input: CancelSolNetworkOperationInput) async throws -> CancelSolNetworkOperationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -101,6 +114,19 @@ extension TnbClient: TnbClientProtocol {
     }
 
     /// Creates a function package. A function package is a .zip file in CSAR (Cloud Service Archive) format that contains a network function (an ETSI standard telecommunication application) and function package descriptor that uses the TOSCA standard to describe how the network functions should run on your network. For more information, see [Function packages](https://docs.aws.amazon.com/tnb/latest/ug/function-packages.html) in the Amazon Web Services Telco Network Builder User Guide. Creating a function package is the first step for creating a network in AWS TNB. This request creates an empty container with an ID. The next step is to upload the actual CSAR zip file into that empty container. To upload function package content, see [PutSolFunctionPackageContent](https://docs.aws.amazon.com/tnb/latest/APIReference/API_PutSolFunctionPackageContent.html).
+    ///
+    /// - Parameter CreateSolFunctionPackageInput : [no documentation found]
+    ///
+    /// - Returns: `CreateSolFunctionPackageOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Insufficient permissions to make request.
+    /// - `InternalServerException` : Unexpected error occurred. Problem on the server.
+    /// - `ServiceQuotaExceededException` : Service quotas have been exceeded.
+    /// - `ThrottlingException` : Exception caused by throttling.
+    /// - `ValidationException` : Unable to process the request because the client provided input failed to satisfy request constraints.
     public func createSolFunctionPackage(input: CreateSolFunctionPackageInput) async throws -> CreateSolFunctionPackageOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -137,6 +163,20 @@ extension TnbClient: TnbClientProtocol {
     }
 
     /// Creates a network instance. A network instance is a single network created in Amazon Web Services TNB that can be deployed and on which life-cycle operations (like terminate, update, and delete) can be performed. Creating a network instance is the third step after creating a network package. For more information about network instances, [Network instances](https://docs.aws.amazon.com/tnb/latest/ug/network-instances.html) in the Amazon Web Services Telco Network Builder User Guide. Once you create a network instance, you can instantiate it. To instantiate a network, see [InstantiateSolNetworkInstance](https://docs.aws.amazon.com/tnb/latest/APIReference/API_InstantiateSolNetworkInstance.html).
+    ///
+    /// - Parameter CreateSolNetworkInstanceInput : [no documentation found]
+    ///
+    /// - Returns: `CreateSolNetworkInstanceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Insufficient permissions to make request.
+    /// - `InternalServerException` : Unexpected error occurred. Problem on the server.
+    /// - `ResourceNotFoundException` : Request references a resource that doesn't exist.
+    /// - `ServiceQuotaExceededException` : Service quotas have been exceeded.
+    /// - `ThrottlingException` : Exception caused by throttling.
+    /// - `ValidationException` : Unable to process the request because the client provided input failed to satisfy request constraints.
     public func createSolNetworkInstance(input: CreateSolNetworkInstanceInput) async throws -> CreateSolNetworkInstanceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -173,6 +213,19 @@ extension TnbClient: TnbClientProtocol {
     }
 
     /// Creates a network package. A network package is a .zip file in CSAR (Cloud Service Archive) format defines the function packages you want to deploy and the Amazon Web Services infrastructure you want to deploy them on. For more information, see [Network instances](https://docs.aws.amazon.com/tnb/latest/ug/network-instances.html) in the Amazon Web Services Telco Network Builder User Guide. A network package consists of a network service descriptor (NSD) file (required) and any additional files (optional), such as scripts specific to your needs. For example, if you have multiple function packages in your network package, you can use the NSD to define which network functions should run in certain VPCs, subnets, or EKS clusters. This request creates an empty network package container with an ID. Once you create a network package, you can upload the network package content using [PutSolNetworkPackageContent](https://docs.aws.amazon.com/tnb/latest/APIReference/API_PutSolNetworkPackageContent.html).
+    ///
+    /// - Parameter CreateSolNetworkPackageInput : [no documentation found]
+    ///
+    /// - Returns: `CreateSolNetworkPackageOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Insufficient permissions to make request.
+    /// - `InternalServerException` : Unexpected error occurred. Problem on the server.
+    /// - `ServiceQuotaExceededException` : Service quotas have been exceeded.
+    /// - `ThrottlingException` : Exception caused by throttling.
+    /// - `ValidationException` : Unable to process the request because the client provided input failed to satisfy request constraints.
     public func createSolNetworkPackage(input: CreateSolNetworkPackageInput) async throws -> CreateSolNetworkPackageOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -209,6 +262,19 @@ extension TnbClient: TnbClientProtocol {
     }
 
     /// Deletes a function package. A function package is a .zip file in CSAR (Cloud Service Archive) format that contains a network function (an ETSI standard telecommunication application) and function package descriptor that uses the TOSCA standard to describe how the network functions should run on your network. To delete a function package, the package must be in a disabled state. To disable a function package, see [UpdateSolFunctionPackage](https://docs.aws.amazon.com/tnb/latest/APIReference/API_UpdateSolFunctionPackage.html).
+    ///
+    /// - Parameter DeleteSolFunctionPackageInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteSolFunctionPackageOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Insufficient permissions to make request.
+    /// - `InternalServerException` : Unexpected error occurred. Problem on the server.
+    /// - `ResourceNotFoundException` : Request references a resource that doesn't exist.
+    /// - `ThrottlingException` : Exception caused by throttling.
+    /// - `ValidationException` : Unable to process the request because the client provided input failed to satisfy request constraints.
     public func deleteSolFunctionPackage(input: DeleteSolFunctionPackageInput) async throws -> DeleteSolFunctionPackageOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -242,6 +308,19 @@ extension TnbClient: TnbClientProtocol {
     }
 
     /// Deletes a network instance. A network instance is a single network created in Amazon Web Services TNB that can be deployed and on which life-cycle operations (like terminate, update, and delete) can be performed. To delete a network instance, the instance must be in a stopped or terminated state. To terminate a network instance, see [TerminateSolNetworkInstance](https://docs.aws.amazon.com/tnb/latest/APIReference/API_TerminateSolNetworkInstance.html).
+    ///
+    /// - Parameter DeleteSolNetworkInstanceInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteSolNetworkInstanceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Insufficient permissions to make request.
+    /// - `InternalServerException` : Unexpected error occurred. Problem on the server.
+    /// - `ResourceNotFoundException` : Request references a resource that doesn't exist.
+    /// - `ThrottlingException` : Exception caused by throttling.
+    /// - `ValidationException` : Unable to process the request because the client provided input failed to satisfy request constraints.
     public func deleteSolNetworkInstance(input: DeleteSolNetworkInstanceInput) async throws -> DeleteSolNetworkInstanceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -275,6 +354,19 @@ extension TnbClient: TnbClientProtocol {
     }
 
     /// Deletes network package. A network package is a .zip file in CSAR (Cloud Service Archive) format defines the function packages you want to deploy and the Amazon Web Services infrastructure you want to deploy them on. To delete a network package, the package must be in a disable state. To disable a network package, see [UpdateSolNetworkPackage](https://docs.aws.amazon.com/tnb/latest/APIReference/API_UpdateSolNetworkPackage.html).
+    ///
+    /// - Parameter DeleteSolNetworkPackageInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteSolNetworkPackageOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Insufficient permissions to make request.
+    /// - `InternalServerException` : Unexpected error occurred. Problem on the server.
+    /// - `ResourceNotFoundException` : Request references a resource that doesn't exist.
+    /// - `ThrottlingException` : Exception caused by throttling.
+    /// - `ValidationException` : Unable to process the request because the client provided input failed to satisfy request constraints.
     public func deleteSolNetworkPackage(input: DeleteSolNetworkPackageInput) async throws -> DeleteSolNetworkPackageOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -308,6 +400,19 @@ extension TnbClient: TnbClientProtocol {
     }
 
     /// Gets the details of a network function instance, including the instantation state and metadata from the function package descriptor in the network function package. A network function instance is a function in a function package .
+    ///
+    /// - Parameter GetSolFunctionInstanceInput : [no documentation found]
+    ///
+    /// - Returns: `GetSolFunctionInstanceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Insufficient permissions to make request.
+    /// - `InternalServerException` : Unexpected error occurred. Problem on the server.
+    /// - `ResourceNotFoundException` : Request references a resource that doesn't exist.
+    /// - `ThrottlingException` : Exception caused by throttling.
+    /// - `ValidationException` : Unable to process the request because the client provided input failed to satisfy request constraints.
     public func getSolFunctionInstance(input: GetSolFunctionInstanceInput) async throws -> GetSolFunctionInstanceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -341,6 +446,19 @@ extension TnbClient: TnbClientProtocol {
     }
 
     /// Gets the details of an individual function package, such as the operational state and whether the package is in use. A function package is a .zip file in CSAR (Cloud Service Archive) format that contains a network function (an ETSI standard telecommunication application) and function package descriptor that uses the TOSCA standard to describe how the network functions should run on your network..
+    ///
+    /// - Parameter GetSolFunctionPackageInput : [no documentation found]
+    ///
+    /// - Returns: `GetSolFunctionPackageOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Insufficient permissions to make request.
+    /// - `InternalServerException` : Unexpected error occurred. Problem on the server.
+    /// - `ResourceNotFoundException` : Request references a resource that doesn't exist.
+    /// - `ThrottlingException` : Exception caused by throttling.
+    /// - `ValidationException` : Unable to process the request because the client provided input failed to satisfy request constraints.
     public func getSolFunctionPackage(input: GetSolFunctionPackageInput) async throws -> GetSolFunctionPackageOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -374,6 +492,19 @@ extension TnbClient: TnbClientProtocol {
     }
 
     /// Gets the contents of a function package. A function package is a .zip file in CSAR (Cloud Service Archive) format that contains a network function (an ETSI standard telecommunication application) and function package descriptor that uses the TOSCA standard to describe how the network functions should run on your network.
+    ///
+    /// - Parameter GetSolFunctionPackageContentInput : [no documentation found]
+    ///
+    /// - Returns: `GetSolFunctionPackageContentOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Insufficient permissions to make request.
+    /// - `InternalServerException` : Unexpected error occurred. Problem on the server.
+    /// - `ResourceNotFoundException` : Request references a resource that doesn't exist.
+    /// - `ThrottlingException` : Exception caused by throttling.
+    /// - `ValidationException` : Unable to process the request because the client provided input failed to satisfy request constraints.
     public func getSolFunctionPackageContent(input: GetSolFunctionPackageContentInput) async throws -> GetSolFunctionPackageContentOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -408,6 +539,19 @@ extension TnbClient: TnbClientProtocol {
     }
 
     /// Gets a function package descriptor in a function package. A function package descriptor is a .yaml file in a function package that uses the TOSCA standard to describe how the network function in the function package should run on your network. A function package is a .zip file in CSAR (Cloud Service Archive) format that contains a network function (an ETSI standard telecommunication application) and function package descriptor that uses the TOSCA standard to describe how the network functions should run on your network.
+    ///
+    /// - Parameter GetSolFunctionPackageDescriptorInput : [no documentation found]
+    ///
+    /// - Returns: `GetSolFunctionPackageDescriptorOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Insufficient permissions to make request.
+    /// - `InternalServerException` : Unexpected error occurred. Problem on the server.
+    /// - `ResourceNotFoundException` : Request references a resource that doesn't exist.
+    /// - `ThrottlingException` : Exception caused by throttling.
+    /// - `ValidationException` : Unable to process the request because the client provided input failed to satisfy request constraints.
     public func getSolFunctionPackageDescriptor(input: GetSolFunctionPackageDescriptorInput) async throws -> GetSolFunctionPackageDescriptorOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -442,6 +586,19 @@ extension TnbClient: TnbClientProtocol {
     }
 
     /// Gets the details of the network instance. A network instance is a single network created in Amazon Web Services TNB that can be deployed and on which life-cycle operations (like terminate, update, and delete) can be performed.
+    ///
+    /// - Parameter GetSolNetworkInstanceInput : [no documentation found]
+    ///
+    /// - Returns: `GetSolNetworkInstanceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Insufficient permissions to make request.
+    /// - `InternalServerException` : Unexpected error occurred. Problem on the server.
+    /// - `ResourceNotFoundException` : Request references a resource that doesn't exist.
+    /// - `ThrottlingException` : Exception caused by throttling.
+    /// - `ValidationException` : Unable to process the request because the client provided input failed to satisfy request constraints.
     public func getSolNetworkInstance(input: GetSolNetworkInstanceInput) async throws -> GetSolNetworkInstanceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -475,6 +632,19 @@ extension TnbClient: TnbClientProtocol {
     }
 
     /// Gets the details of a network operation, including the tasks involved in the network operation and the status of the tasks. A network operation is any operation that is done to your network, such as network instance instantiation or termination.
+    ///
+    /// - Parameter GetSolNetworkOperationInput : [no documentation found]
+    ///
+    /// - Returns: `GetSolNetworkOperationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Insufficient permissions to make request.
+    /// - `InternalServerException` : Unexpected error occurred. Problem on the server.
+    /// - `ResourceNotFoundException` : Request references a resource that doesn't exist.
+    /// - `ThrottlingException` : Exception caused by throttling.
+    /// - `ValidationException` : Unable to process the request because the client provided input failed to satisfy request constraints.
     public func getSolNetworkOperation(input: GetSolNetworkOperationInput) async throws -> GetSolNetworkOperationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -508,6 +678,19 @@ extension TnbClient: TnbClientProtocol {
     }
 
     /// Gets the details of a network package. A network package is a .zip file in CSAR (Cloud Service Archive) format defines the function packages you want to deploy and the Amazon Web Services infrastructure you want to deploy them on.
+    ///
+    /// - Parameter GetSolNetworkPackageInput : [no documentation found]
+    ///
+    /// - Returns: `GetSolNetworkPackageOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Insufficient permissions to make request.
+    /// - `InternalServerException` : Unexpected error occurred. Problem on the server.
+    /// - `ResourceNotFoundException` : Request references a resource that doesn't exist.
+    /// - `ThrottlingException` : Exception caused by throttling.
+    /// - `ValidationException` : Unable to process the request because the client provided input failed to satisfy request constraints.
     public func getSolNetworkPackage(input: GetSolNetworkPackageInput) async throws -> GetSolNetworkPackageOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -541,6 +724,19 @@ extension TnbClient: TnbClientProtocol {
     }
 
     /// Gets the contents of a network package. A network package is a .zip file in CSAR (Cloud Service Archive) format defines the function packages you want to deploy and the Amazon Web Services infrastructure you want to deploy them on.
+    ///
+    /// - Parameter GetSolNetworkPackageContentInput : [no documentation found]
+    ///
+    /// - Returns: `GetSolNetworkPackageContentOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Insufficient permissions to make request.
+    /// - `InternalServerException` : Unexpected error occurred. Problem on the server.
+    /// - `ResourceNotFoundException` : Request references a resource that doesn't exist.
+    /// - `ThrottlingException` : Exception caused by throttling.
+    /// - `ValidationException` : Unable to process the request because the client provided input failed to satisfy request constraints.
     public func getSolNetworkPackageContent(input: GetSolNetworkPackageContentInput) async throws -> GetSolNetworkPackageContentOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -575,6 +771,19 @@ extension TnbClient: TnbClientProtocol {
     }
 
     /// Gets the content of the network service descriptor. A network service descriptor is a .yaml file in a network package that uses the TOSCA standard to describe the network functions you want to deploy and the Amazon Web Services infrastructure you want to deploy the network functions on.
+    ///
+    /// - Parameter GetSolNetworkPackageDescriptorInput : [no documentation found]
+    ///
+    /// - Returns: `GetSolNetworkPackageDescriptorOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Insufficient permissions to make request.
+    /// - `InternalServerException` : Unexpected error occurred. Problem on the server.
+    /// - `ResourceNotFoundException` : Request references a resource that doesn't exist.
+    /// - `ThrottlingException` : Exception caused by throttling.
+    /// - `ValidationException` : Unable to process the request because the client provided input failed to satisfy request constraints.
     public func getSolNetworkPackageDescriptor(input: GetSolNetworkPackageDescriptorInput) async throws -> GetSolNetworkPackageDescriptorOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -608,6 +817,20 @@ extension TnbClient: TnbClientProtocol {
     }
 
     /// Instantiates a network instance. A network instance is a single network created in Amazon Web Services TNB that can be deployed and on which life-cycle operations (like terminate, update, and delete) can be performed. Before you can instantiate a network instance, you have to create a network instance. For more information, see [CreateSolNetworkInstance](https://docs.aws.amazon.com/tnb/latest/APIReference/API_CreateSolNetworkInstance.html).
+    ///
+    /// - Parameter InstantiateSolNetworkInstanceInput : [no documentation found]
+    ///
+    /// - Returns: `InstantiateSolNetworkInstanceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Insufficient permissions to make request.
+    /// - `InternalServerException` : Unexpected error occurred. Problem on the server.
+    /// - `ResourceNotFoundException` : Request references a resource that doesn't exist.
+    /// - `ServiceQuotaExceededException` : Service quotas have been exceeded.
+    /// - `ThrottlingException` : Exception caused by throttling.
+    /// - `ValidationException` : Unable to process the request because the client provided input failed to satisfy request constraints.
     public func instantiateSolNetworkInstance(input: InstantiateSolNetworkInstanceInput) async throws -> InstantiateSolNetworkInstanceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -645,6 +868,18 @@ extension TnbClient: TnbClientProtocol {
     }
 
     /// Lists network function instances. A network function instance is a function in a function package .
+    ///
+    /// - Parameter ListSolFunctionInstancesInput : [no documentation found]
+    ///
+    /// - Returns: `ListSolFunctionInstancesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Insufficient permissions to make request.
+    /// - `InternalServerException` : Unexpected error occurred. Problem on the server.
+    /// - `ThrottlingException` : Exception caused by throttling.
+    /// - `ValidationException` : Unable to process the request because the client provided input failed to satisfy request constraints.
     public func listSolFunctionInstances(input: ListSolFunctionInstancesInput) async throws -> ListSolFunctionInstancesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -679,6 +914,18 @@ extension TnbClient: TnbClientProtocol {
     }
 
     /// Lists information about function packages. A function package is a .zip file in CSAR (Cloud Service Archive) format that contains a network function (an ETSI standard telecommunication application) and function package descriptor that uses the TOSCA standard to describe how the network functions should run on your network.
+    ///
+    /// - Parameter ListSolFunctionPackagesInput : [no documentation found]
+    ///
+    /// - Returns: `ListSolFunctionPackagesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Insufficient permissions to make request.
+    /// - `InternalServerException` : Unexpected error occurred. Problem on the server.
+    /// - `ThrottlingException` : Exception caused by throttling.
+    /// - `ValidationException` : Unable to process the request because the client provided input failed to satisfy request constraints.
     public func listSolFunctionPackages(input: ListSolFunctionPackagesInput) async throws -> ListSolFunctionPackagesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -713,6 +960,18 @@ extension TnbClient: TnbClientProtocol {
     }
 
     /// Lists your network instances. A network instance is a single network created in Amazon Web Services TNB that can be deployed and on which life-cycle operations (like terminate, update, and delete) can be performed.
+    ///
+    /// - Parameter ListSolNetworkInstancesInput : [no documentation found]
+    ///
+    /// - Returns: `ListSolNetworkInstancesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Insufficient permissions to make request.
+    /// - `InternalServerException` : Unexpected error occurred. Problem on the server.
+    /// - `ThrottlingException` : Exception caused by throttling.
+    /// - `ValidationException` : Unable to process the request because the client provided input failed to satisfy request constraints.
     public func listSolNetworkInstances(input: ListSolNetworkInstancesInput) async throws -> ListSolNetworkInstancesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -747,6 +1006,18 @@ extension TnbClient: TnbClientProtocol {
     }
 
     /// Lists details for a network operation, including when the operation started and the status of the operation. A network operation is any operation that is done to your network, such as network instance instantiation or termination.
+    ///
+    /// - Parameter ListSolNetworkOperationsInput : [no documentation found]
+    ///
+    /// - Returns: `ListSolNetworkOperationsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Insufficient permissions to make request.
+    /// - `InternalServerException` : Unexpected error occurred. Problem on the server.
+    /// - `ThrottlingException` : Exception caused by throttling.
+    /// - `ValidationException` : Unable to process the request because the client provided input failed to satisfy request constraints.
     public func listSolNetworkOperations(input: ListSolNetworkOperationsInput) async throws -> ListSolNetworkOperationsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -781,6 +1052,18 @@ extension TnbClient: TnbClientProtocol {
     }
 
     /// Lists network packages. A network package is a .zip file in CSAR (Cloud Service Archive) format defines the function packages you want to deploy and the Amazon Web Services infrastructure you want to deploy them on.
+    ///
+    /// - Parameter ListSolNetworkPackagesInput : [no documentation found]
+    ///
+    /// - Returns: `ListSolNetworkPackagesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Insufficient permissions to make request.
+    /// - `InternalServerException` : Unexpected error occurred. Problem on the server.
+    /// - `ThrottlingException` : Exception caused by throttling.
+    /// - `ValidationException` : Unable to process the request because the client provided input failed to satisfy request constraints.
     public func listSolNetworkPackages(input: ListSolNetworkPackagesInput) async throws -> ListSolNetworkPackagesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -815,6 +1098,19 @@ extension TnbClient: TnbClientProtocol {
     }
 
     /// Lists tags for AWS TNB resources.
+    ///
+    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    ///
+    /// - Returns: `ListTagsForResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Insufficient permissions to make request.
+    /// - `InternalServerException` : Unexpected error occurred. Problem on the server.
+    /// - `ResourceNotFoundException` : Request references a resource that doesn't exist.
+    /// - `ThrottlingException` : Exception caused by throttling.
+    /// - `ValidationException` : Unable to process the request because the client provided input failed to satisfy request constraints.
     public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -848,6 +1144,19 @@ extension TnbClient: TnbClientProtocol {
     }
 
     /// Uploads the contents of a function package. A function package is a .zip file in CSAR (Cloud Service Archive) format that contains a network function (an ETSI standard telecommunication application) and function package descriptor that uses the TOSCA standard to describe how the network functions should run on your network.
+    ///
+    /// - Parameter PutSolFunctionPackageContentInput : [no documentation found]
+    ///
+    /// - Returns: `PutSolFunctionPackageContentOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Insufficient permissions to make request.
+    /// - `InternalServerException` : Unexpected error occurred. Problem on the server.
+    /// - `ResourceNotFoundException` : Request references a resource that doesn't exist.
+    /// - `ThrottlingException` : Exception caused by throttling.
+    /// - `ValidationException` : Unable to process the request because the client provided input failed to satisfy request constraints.
     public func putSolFunctionPackageContent(input: PutSolFunctionPackageContentInput) async throws -> PutSolFunctionPackageContentOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -885,6 +1194,19 @@ extension TnbClient: TnbClientProtocol {
     }
 
     /// Uploads the contents of a network package. A network package is a .zip file in CSAR (Cloud Service Archive) format defines the function packages you want to deploy and the Amazon Web Services infrastructure you want to deploy them on.
+    ///
+    /// - Parameter PutSolNetworkPackageContentInput : [no documentation found]
+    ///
+    /// - Returns: `PutSolNetworkPackageContentOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Insufficient permissions to make request.
+    /// - `InternalServerException` : Unexpected error occurred. Problem on the server.
+    /// - `ResourceNotFoundException` : Request references a resource that doesn't exist.
+    /// - `ThrottlingException` : Exception caused by throttling.
+    /// - `ValidationException` : Unable to process the request because the client provided input failed to satisfy request constraints.
     public func putSolNetworkPackageContent(input: PutSolNetworkPackageContentInput) async throws -> PutSolNetworkPackageContentOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -922,6 +1244,19 @@ extension TnbClient: TnbClientProtocol {
     }
 
     /// Tags an AWS TNB resource. A tag is a label that you assign to an Amazon Web Services resource. Each tag consists of a key and an optional value. You can use tags to search and filter your resources or track your Amazon Web Services costs.
+    ///
+    /// - Parameter TagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `TagResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Insufficient permissions to make request.
+    /// - `InternalServerException` : Unexpected error occurred. Problem on the server.
+    /// - `ResourceNotFoundException` : Request references a resource that doesn't exist.
+    /// - `ThrottlingException` : Exception caused by throttling.
+    /// - `ValidationException` : Unable to process the request because the client provided input failed to satisfy request constraints.
     public func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -958,6 +1293,20 @@ extension TnbClient: TnbClientProtocol {
     }
 
     /// Terminates a network instance. A network instance is a single network created in Amazon Web Services TNB that can be deployed and on which life-cycle operations (like terminate, update, and delete) can be performed. You must terminate a network instance before you can delete it.
+    ///
+    /// - Parameter TerminateSolNetworkInstanceInput : [no documentation found]
+    ///
+    /// - Returns: `TerminateSolNetworkInstanceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Insufficient permissions to make request.
+    /// - `InternalServerException` : Unexpected error occurred. Problem on the server.
+    /// - `ResourceNotFoundException` : Request references a resource that doesn't exist.
+    /// - `ServiceQuotaExceededException` : Service quotas have been exceeded.
+    /// - `ThrottlingException` : Exception caused by throttling.
+    /// - `ValidationException` : Unable to process the request because the client provided input failed to satisfy request constraints.
     public func terminateSolNetworkInstance(input: TerminateSolNetworkInstanceInput) async throws -> TerminateSolNetworkInstanceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -994,6 +1343,19 @@ extension TnbClient: TnbClientProtocol {
     }
 
     /// Untags an AWS TNB resource. A tag is a label that you assign to an Amazon Web Services resource. Each tag consists of a key and an optional value. You can use tags to search and filter your resources or track your Amazon Web Services costs.
+    ///
+    /// - Parameter UntagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `UntagResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Insufficient permissions to make request.
+    /// - `InternalServerException` : Unexpected error occurred. Problem on the server.
+    /// - `ResourceNotFoundException` : Request references a resource that doesn't exist.
+    /// - `ThrottlingException` : Exception caused by throttling.
+    /// - `ValidationException` : Unable to process the request because the client provided input failed to satisfy request constraints.
     public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1028,6 +1390,19 @@ extension TnbClient: TnbClientProtocol {
     }
 
     /// Updates the operational state of function package. A function package is a .zip file in CSAR (Cloud Service Archive) format that contains a network function (an ETSI standard telecommunication application) and function package descriptor that uses the TOSCA standard to describe how the network functions should run on your network.
+    ///
+    /// - Parameter UpdateSolFunctionPackageInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateSolFunctionPackageOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Insufficient permissions to make request.
+    /// - `InternalServerException` : Unexpected error occurred. Problem on the server.
+    /// - `ResourceNotFoundException` : Request references a resource that doesn't exist.
+    /// - `ThrottlingException` : Exception caused by throttling.
+    /// - `ValidationException` : Unable to process the request because the client provided input failed to satisfy request constraints.
     public func updateSolFunctionPackage(input: UpdateSolFunctionPackageInput) async throws -> UpdateSolFunctionPackageOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1064,6 +1439,20 @@ extension TnbClient: TnbClientProtocol {
     }
 
     /// Update a network instance. A network instance is a single network created in Amazon Web Services TNB that can be deployed and on which life-cycle operations (like terminate, update, and delete) can be performed.
+    ///
+    /// - Parameter UpdateSolNetworkInstanceInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateSolNetworkInstanceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Insufficient permissions to make request.
+    /// - `InternalServerException` : Unexpected error occurred. Problem on the server.
+    /// - `ResourceNotFoundException` : Request references a resource that doesn't exist.
+    /// - `ServiceQuotaExceededException` : Service quotas have been exceeded.
+    /// - `ThrottlingException` : Exception caused by throttling.
+    /// - `ValidationException` : Unable to process the request because the client provided input failed to satisfy request constraints.
     public func updateSolNetworkInstance(input: UpdateSolNetworkInstanceInput) async throws -> UpdateSolNetworkInstanceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1100,6 +1489,19 @@ extension TnbClient: TnbClientProtocol {
     }
 
     /// Updates the operational state of a network package. A network package is a .zip file in CSAR (Cloud Service Archive) format defines the function packages you want to deploy and the Amazon Web Services infrastructure you want to deploy them on. A network service descriptor is a .yaml file in a network package that uses the TOSCA standard to describe the network functions you want to deploy and the Amazon Web Services infrastructure you want to deploy the network functions on.
+    ///
+    /// - Parameter UpdateSolNetworkPackageInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateSolNetworkPackageOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Insufficient permissions to make request.
+    /// - `InternalServerException` : Unexpected error occurred. Problem on the server.
+    /// - `ResourceNotFoundException` : Request references a resource that doesn't exist.
+    /// - `ThrottlingException` : Exception caused by throttling.
+    /// - `ValidationException` : Unable to process the request because the client provided input failed to satisfy request constraints.
     public func updateSolNetworkPackage(input: UpdateSolNetworkPackageInput) async throws -> UpdateSolNetworkPackageOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1136,6 +1538,19 @@ extension TnbClient: TnbClientProtocol {
     }
 
     /// Validates function package content. This can be used as a dry run before uploading function package content with [PutSolFunctionPackageContent](https://docs.aws.amazon.com/tnb/latest/APIReference/API_PutSolFunctionPackageContent.html). A function package is a .zip file in CSAR (Cloud Service Archive) format that contains a network function (an ETSI standard telecommunication application) and function package descriptor that uses the TOSCA standard to describe how the network functions should run on your network.
+    ///
+    /// - Parameter ValidateSolFunctionPackageContentInput : [no documentation found]
+    ///
+    /// - Returns: `ValidateSolFunctionPackageContentOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Insufficient permissions to make request.
+    /// - `InternalServerException` : Unexpected error occurred. Problem on the server.
+    /// - `ResourceNotFoundException` : Request references a resource that doesn't exist.
+    /// - `ThrottlingException` : Exception caused by throttling.
+    /// - `ValidationException` : Unable to process the request because the client provided input failed to satisfy request constraints.
     public func validateSolFunctionPackageContent(input: ValidateSolFunctionPackageContentInput) async throws -> ValidateSolFunctionPackageContentOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1173,6 +1588,19 @@ extension TnbClient: TnbClientProtocol {
     }
 
     /// Validates network package content. This can be used as a dry run before uploading network package content with [PutSolNetworkPackageContent](https://docs.aws.amazon.com/tnb/latest/APIReference/API_PutSolNetworkPackageContent.html). A network package is a .zip file in CSAR (Cloud Service Archive) format defines the function packages you want to deploy and the Amazon Web Services infrastructure you want to deploy them on.
+    ///
+    /// - Parameter ValidateSolNetworkPackageContentInput : [no documentation found]
+    ///
+    /// - Returns: `ValidateSolNetworkPackageContentOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Insufficient permissions to make request.
+    /// - `InternalServerException` : Unexpected error occurred. Problem on the server.
+    /// - `ResourceNotFoundException` : Request references a resource that doesn't exist.
+    /// - `ThrottlingException` : Exception caused by throttling.
+    /// - `ValidationException` : Unable to process the request because the client provided input failed to satisfy request constraints.
     public func validateSolNetworkPackageContent(input: ValidateSolNetworkPackageContentInput) async throws -> ValidateSolNetworkPackageContentOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()

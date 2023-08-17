@@ -13,6 +13,22 @@ public protocol PaymentCryptographyClientProtocol {
     /// * [ListAliases]
     ///
     /// * [UpdateAlias]
+    ///
+    /// - Parameter CreateAliasInput : [no documentation found]
+    ///
+    /// - Returns: `CreateAliasOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : This request can cause an inconsistent state for the resource.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure.
+    /// - `ResourceNotFoundException` : The request was denied due to an invalid resource error.
+    /// - `ServiceQuotaExceededException` : This request would cause a service quota to be exceeded.
+    /// - `ServiceUnavailableException` : The service cannot complete the request.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The request was denied due to an invalid request error.
     func createAlias(input: CreateAliasInput) async throws -> CreateAliasOutputResponse
     /// Creates an Amazon Web Services Payment Cryptography key, a logical representation of a cryptographic key, that is unique in your account and Amazon Web Services Region. You use keys for cryptographic functions such as encryption and decryption. In addition to the key material used in cryptographic operations, an Amazon Web Services Payment Cryptography key includes metadata such as the key ARN, key usage, key origin, creation date, description, and key state. When you create a key, you specify both immutable and mutable data about the key. The immutable data contains key attributes that defines the scope and cryptographic operations that you can perform using the key, for example key class (example: SYMMETRIC_KEY), key algorithm (example: TDES_2KEY), key usage (example: TR31_P0_PIN_ENCRYPTION_KEY) and key modes of use (example: Encrypt). For information about valid combinations of key attributes, see [Understanding key attributes](https://docs.aws.amazon.com/payment-cryptography/latest/userguide/keys-validattributes.html) in the Amazon Web Services Payment Cryptography User Guide. The mutable data contained within a key includes usage timestamp and key deletion timestamp and can be modified after creation. Amazon Web Services Payment Cryptography binds key attributes to keys using key blocks when you store or export them. Amazon Web Services Payment Cryptography stores the key contents wrapped and never stores or transmits them in the clear. Cross-account use: This operation can't be used across different Amazon Web Services accounts. Related operations:
     ///
@@ -21,6 +37,22 @@ public protocol PaymentCryptographyClientProtocol {
     /// * [GetKey]
     ///
     /// * [ListKeys]
+    ///
+    /// - Parameter CreateKeyInput : [no documentation found]
+    ///
+    /// - Returns: `CreateKeyOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : This request can cause an inconsistent state for the resource.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure.
+    /// - `ResourceNotFoundException` : The request was denied due to an invalid resource error.
+    /// - `ServiceQuotaExceededException` : This request would cause a service quota to be exceeded.
+    /// - `ServiceUnavailableException` : The service cannot complete the request.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The request was denied due to an invalid request error.
     func createKey(input: CreateKeyInput) async throws -> CreateKeyOutputResponse
     /// Deletes the alias, but doesn't affect the underlying key. Each key can have multiple aliases. To get the aliases of all keys, use the [ListAliases] operation. To change the alias of a key, first use [DeleteAlias] to delete the current alias and then use [CreateAlias] to create a new alias. To associate an existing alias with a different key, call [UpdateAlias]. Cross-account use: This operation can't be used across different Amazon Web Services accounts. Related operations:
     ///
@@ -31,6 +63,21 @@ public protocol PaymentCryptographyClientProtocol {
     /// * [ListAliases]
     ///
     /// * [UpdateAlias]
+    ///
+    /// - Parameter DeleteAliasInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteAliasOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : This request can cause an inconsistent state for the resource.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure.
+    /// - `ResourceNotFoundException` : The request was denied due to an invalid resource error.
+    /// - `ServiceUnavailableException` : The service cannot complete the request.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The request was denied due to an invalid request error.
     func deleteAlias(input: DeleteAliasInput) async throws -> DeleteAliasOutputResponse
     /// Deletes the key material and all metadata associated with Amazon Web Services Payment Cryptography key. Key deletion is irreversible. After a key is deleted, you can't perform cryptographic operations using the key. For example, you can't decrypt data that was encrypted by a deleted Amazon Web Services Payment Cryptography key, and the data may become unrecoverable. Because key deletion is destructive, Amazon Web Services Payment Cryptography has a safety mechanism to prevent accidental deletion of a key. When you call this operation, Amazon Web Services Payment Cryptography disables the specified key but doesn't delete it until after a waiting period. The default waiting period is 7 days. To set a different waiting period, set DeleteKeyInDays. During the waiting period, the KeyState is DELETE_PENDING. After the key is deleted, the KeyState is DELETE_COMPLETE. If you delete key material, you can use [ImportKey] to reimport the same key material into the Amazon Web Services Payment Cryptography key. You should delete a key only when you are sure that you don't need to use it anymore and no other parties are utilizing this key. If you aren't sure, consider deactivating it instead by calling [StopKeyUsage]. Cross-account use: This operation can't be used across different Amazon Web Services accounts. Related operations:
     ///
@@ -39,12 +86,42 @@ public protocol PaymentCryptographyClientProtocol {
     /// * [StartKeyUsage]
     ///
     /// * [StopKeyUsage]
+    ///
+    /// - Parameter DeleteKeyInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteKeyOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : This request can cause an inconsistent state for the resource.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure.
+    /// - `ResourceNotFoundException` : The request was denied due to an invalid resource error.
+    /// - `ServiceUnavailableException` : The service cannot complete the request.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The request was denied due to an invalid request error.
     func deleteKey(input: DeleteKeyInput) async throws -> DeleteKeyOutputResponse
     /// Exports a key from Amazon Web Services Payment Cryptography using either ANSI X9 TR-34 or TR-31 key export standard. Amazon Web Services Payment Cryptography simplifies main or root key exchange process by eliminating the need of a paper-based key exchange process. It takes a modern and secure approach based of the ANSI X9 TR-34 key exchange standard. You can use ExportKey to export main or root keys such as KEK (Key Encryption Key), using asymmetric key exchange technique following ANSI X9 TR-34 standard. The ANSI X9 TR-34 standard uses asymmetric keys to establishes bi-directional trust between the two parties exchanging keys. After which you can export working keys using the ANSI X9 TR-31 symmetric key exchange standard as mandated by PCI PIN. Using this operation, you can share your Amazon Web Services Payment Cryptography generated keys with other service partners to perform cryptographic operations outside of Amazon Web Services Payment Cryptography TR-34 key export Amazon Web Services Payment Cryptography uses TR-34 asymmetric key exchange standard to export main keys such as KEK. In TR-34 terminology, the sending party of the key is called Key Distribution Host (KDH) and the receiving party of the key is called Key Receiving Host (KRH). In key export process, KDH is Amazon Web Services Payment Cryptography which initiates key export. KRH is the user receiving the key. Before you initiate TR-34 key export, you must obtain an export token by calling [GetParametersForExport]. This operation also returns the signing key certificate that KDH uses to sign the wrapped key to generate a TR-34 wrapped key block. The export token expires after 7 days. Set the following parameters: CertificateAuthorityPublicKeyIdentifier The KeyARN of the certificate chain that will sign the wrapping key certificate. This must exist within Amazon Web Services Payment Cryptography before you initiate TR-34 key export. If it does not exist, you can import it by calling [ImportKey] for RootCertificatePublicKey. ExportToken Obtained from KDH by calling [GetParametersForExport]. WrappingKeyCertificate Amazon Web Services Payment Cryptography uses this to wrap the key under export. When this operation is successful, Amazon Web Services Payment Cryptography returns the TR-34 wrapped key block. TR-31 key export Amazon Web Services Payment Cryptography uses TR-31 symmetric key exchange standard to export working keys. In TR-31, you must use a main key such as KEK to encrypt or wrap the key under export. To establish a KEK, you can use [CreateKey] or [ImportKey]. When this operation is successful, Amazon Web Services Payment Cryptography returns a TR-31 wrapped key block. Cross-account use: This operation can't be used across different Amazon Web Services accounts. Related operations:
     ///
     /// * [GetParametersForExport]
     ///
     /// * [ImportKey]
+    ///
+    /// - Parameter ExportKeyInput : [no documentation found]
+    ///
+    /// - Returns: `ExportKeyOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : This request can cause an inconsistent state for the resource.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure.
+    /// - `ResourceNotFoundException` : The request was denied due to an invalid resource error.
+    /// - `ServiceUnavailableException` : The service cannot complete the request.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The request was denied due to an invalid request error.
     func exportKey(input: ExportKeyInput) async throws -> ExportKeyOutputResponse
     /// Gets the Amazon Web Services Payment Cryptography key associated with the alias. Cross-account use: This operation can't be used across different Amazon Web Services accounts. Related operations:
     ///
@@ -55,6 +132,20 @@ public protocol PaymentCryptographyClientProtocol {
     /// * [ListAliases]
     ///
     /// * [UpdateAlias]
+    ///
+    /// - Parameter GetAliasInput : [no documentation found]
+    ///
+    /// - Returns: `GetAliasOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure.
+    /// - `ResourceNotFoundException` : The request was denied due to an invalid resource error.
+    /// - `ServiceUnavailableException` : The service cannot complete the request.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The request was denied due to an invalid request error.
     func getAlias(input: GetAliasInput) async throws -> GetAliasOutputResponse
     /// Gets the key material for an Amazon Web Services Payment Cryptography key, including the immutable and mutable data specified when the key was created. Cross-account use: This operation can't be used across different Amazon Web Services accounts. Related operations:
     ///
@@ -63,20 +154,80 @@ public protocol PaymentCryptographyClientProtocol {
     /// * [DeleteKey]
     ///
     /// * [ListKeys]
+    ///
+    /// - Parameter GetKeyInput : [no documentation found]
+    ///
+    /// - Returns: `GetKeyOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure.
+    /// - `ResourceNotFoundException` : The request was denied due to an invalid resource error.
+    /// - `ServiceUnavailableException` : The service cannot complete the request.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The request was denied due to an invalid request error.
     func getKey(input: GetKeyInput) async throws -> GetKeyOutputResponse
     /// Gets the export token and the signing key certificate to initiate a TR-34 key export from Amazon Web Services Payment Cryptography. The signing key certificate signs the wrapped key under export within the TR-34 key payload. The export token and signing key certificate must be in place and operational before calling [ExportKey]. The export token expires in 7 days. You can use the same export token to export multiple keys from your service account. Cross-account use: This operation can't be used across different Amazon Web Services accounts. Related operations:
     ///
     /// * [ExportKey]
     ///
     /// * [GetParametersForImport]
+    ///
+    /// - Parameter GetParametersForExportInput : [no documentation found]
+    ///
+    /// - Returns: `GetParametersForExportOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : This request can cause an inconsistent state for the resource.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure.
+    /// - `ResourceNotFoundException` : The request was denied due to an invalid resource error.
+    /// - `ServiceQuotaExceededException` : This request would cause a service quota to be exceeded.
+    /// - `ServiceUnavailableException` : The service cannot complete the request.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The request was denied due to an invalid request error.
     func getParametersForExport(input: GetParametersForExportInput) async throws -> GetParametersForExportOutputResponse
     /// Gets the import token and the wrapping key certificate to initiate a TR-34 key import into Amazon Web Services Payment Cryptography. The wrapping key certificate wraps the key under import within the TR-34 key payload. The import token and wrapping key certificate must be in place and operational before calling [ImportKey]. The import token expires in 7 days. The same import token can be used to import multiple keys into your service account. Cross-account use: This operation can't be used across different Amazon Web Services accounts. Related operations:
     ///
     /// * [GetParametersForExport]
     ///
     /// * [ImportKey]
+    ///
+    /// - Parameter GetParametersForImportInput : [no documentation found]
+    ///
+    /// - Returns: `GetParametersForImportOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : This request can cause an inconsistent state for the resource.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure.
+    /// - `ResourceNotFoundException` : The request was denied due to an invalid resource error.
+    /// - `ServiceQuotaExceededException` : This request would cause a service quota to be exceeded.
+    /// - `ServiceUnavailableException` : The service cannot complete the request.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The request was denied due to an invalid request error.
     func getParametersForImport(input: GetParametersForImportInput) async throws -> GetParametersForImportOutputResponse
     /// Gets the public key certificate of the asymmetric key pair that exists within Amazon Web Services Payment Cryptography. Unlike the private key of an asymmetric key, which never leaves Amazon Web Services Payment Cryptography unencrypted, callers with GetPublicKeyCertificate permission can download the public key certificate of the asymmetric key. You can share the public key certificate to allow others to encrypt messages and verify signatures outside of Amazon Web Services Payment Cryptography Cross-account use: This operation can't be used across different Amazon Web Services accounts.
+    ///
+    /// - Parameter GetPublicKeyCertificateInput : [no documentation found]
+    ///
+    /// - Returns: `GetPublicKeyCertificateOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure.
+    /// - `ResourceNotFoundException` : The request was denied due to an invalid resource error.
+    /// - `ServiceUnavailableException` : The service cannot complete the request.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The request was denied due to an invalid request error.
     func getPublicKeyCertificate(input: GetPublicKeyCertificateInput) async throws -> GetPublicKeyCertificateOutputResponse
     /// Imports keys and public key certificates into Amazon Web Services Payment Cryptography. Amazon Web Services Payment Cryptography simplifies main or root key exchange process by eliminating the need of a paper-based key exchange process. It takes a modern and secure approach based of the ANSI X9 TR-34 key exchange standard. You can use ImportKey to import main or root keys such as KEK (Key Encryption Key) using asymmetric key exchange technique following the ANSI X9 TR-34 standard. The ANSI X9 TR-34 standard uses asymmetric keys to establishes bi-directional trust between the two parties exchanging keys. After you have imported a main or root key, you can import working keys to perform various cryptographic operations within Amazon Web Services Payment Cryptography using the ANSI X9 TR-31 symmetric key exchange standard as mandated by PCI PIN. You can also import a root public key certificate, a self-signed certificate used to sign other public key certificates, or a trusted public key certificate under an already established root public key certificate. To import a public root key certificate Using this operation, you can import the public component (in PEM cerificate format) of your private root key. You can use the imported public root key certificate for digital signatures, for example signing wrapping key or signing key in TR-34, within your Amazon Web Services Payment Cryptography account. Set the following parameters:
     ///
@@ -125,6 +276,22 @@ public protocol PaymentCryptographyClientProtocol {
     /// * [ExportKey]
     ///
     /// * [GetParametersForImport]
+    ///
+    /// - Parameter ImportKeyInput : [no documentation found]
+    ///
+    /// - Returns: `ImportKeyOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : This request can cause an inconsistent state for the resource.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure.
+    /// - `ResourceNotFoundException` : The request was denied due to an invalid resource error.
+    /// - `ServiceQuotaExceededException` : This request would cause a service quota to be exceeded.
+    /// - `ServiceUnavailableException` : The service cannot complete the request.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The request was denied due to an invalid request error.
     func importKey(input: ImportKeyInput) async throws -> ImportKeyOutputResponse
     /// Lists the aliases for all keys in the caller's Amazon Web Services account and Amazon Web Services Region. You can filter the list of aliases. For more information, see [Using aliases](https://docs.aws.amazon.com/payment-cryptography/latest/userguide/keys-managealias.html) in the Amazon Web Services Payment Cryptography User Guide. This is a paginated operation, which means that each response might contain only a subset of all the aliases. When the response contains only a subset of aliases, it includes a NextToken value. Use this value in a subsequent ListAliases request to get more aliases. When you receive a response with no NextToken (or an empty or null value), that means there are no more aliases to get. Cross-account use: This operation can't be used across different Amazon Web Services accounts. Related operations:
     ///
@@ -135,6 +302,20 @@ public protocol PaymentCryptographyClientProtocol {
     /// * [GetAlias]
     ///
     /// * [UpdateAlias]
+    ///
+    /// - Parameter ListAliasesInput : [no documentation found]
+    ///
+    /// - Returns: `ListAliasesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure.
+    /// - `ResourceNotFoundException` : The request was denied due to an invalid resource error.
+    /// - `ServiceUnavailableException` : The service cannot complete the request.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The request was denied due to an invalid request error.
     func listAliases(input: ListAliasesInput) async throws -> ListAliasesOutputResponse
     /// Lists the keys in the caller's Amazon Web Services account and Amazon Web Services Region. You can filter the list of keys. This is a paginated operation, which means that each response might contain only a subset of all the keys. When the response contains only a subset of keys, it includes a NextToken value. Use this value in a subsequent ListKeys request to get more keys. When you receive a response with no NextToken (or an empty or null value), that means there are no more keys to get. Cross-account use: This operation can't be used across different Amazon Web Services accounts. Related operations:
     ///
@@ -143,12 +324,40 @@ public protocol PaymentCryptographyClientProtocol {
     /// * [DeleteKey]
     ///
     /// * [GetKey]
+    ///
+    /// - Parameter ListKeysInput : [no documentation found]
+    ///
+    /// - Returns: `ListKeysOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure.
+    /// - `ResourceNotFoundException` : The request was denied due to an invalid resource error.
+    /// - `ServiceUnavailableException` : The service cannot complete the request.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The request was denied due to an invalid request error.
     func listKeys(input: ListKeysInput) async throws -> ListKeysOutputResponse
     /// Lists the tags for an Amazon Web Services resource. This is a paginated operation, which means that each response might contain only a subset of all the tags. When the response contains only a subset of tags, it includes a NextToken value. Use this value in a subsequent ListTagsForResource request to get more tags. When you receive a response with no NextToken (or an empty or null value), that means there are no more tags to get. Cross-account use: This operation can't be used across different Amazon Web Services accounts. Related operations:
     ///
     /// * [TagResource]
     ///
     /// * [UntagResource]
+    ///
+    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    ///
+    /// - Returns: `ListTagsForResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure.
+    /// - `ResourceNotFoundException` : The request was denied due to an invalid resource error.
+    /// - `ServiceUnavailableException` : The service cannot complete the request.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The request was denied due to an invalid request error.
     func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
     /// Cancels a scheduled key deletion during the waiting period. Use this operation to restore a Key that is scheduled for deletion. During the waiting period, the KeyState is DELETE_PENDING and deletePendingTimestamp contains the date and time after which the Key will be deleted. After Key is restored, the KeyState is CREATE_COMPLETE, and the value for deletePendingTimestamp is removed. Cross-account use: This operation can't be used across different Amazon Web Services accounts. Related operations:
     ///
@@ -157,28 +366,107 @@ public protocol PaymentCryptographyClientProtocol {
     /// * [StartKeyUsage]
     ///
     /// * [StopKeyUsage]
+    ///
+    /// - Parameter RestoreKeyInput : [no documentation found]
+    ///
+    /// - Returns: `RestoreKeyOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : This request can cause an inconsistent state for the resource.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure.
+    /// - `ResourceNotFoundException` : The request was denied due to an invalid resource error.
+    /// - `ServiceQuotaExceededException` : This request would cause a service quota to be exceeded.
+    /// - `ServiceUnavailableException` : The service cannot complete the request.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The request was denied due to an invalid request error.
     func restoreKey(input: RestoreKeyInput) async throws -> RestoreKeyOutputResponse
     /// Enables an Amazon Web Services Payment Cryptography key, which makes it active for cryptographic operations within Amazon Web Services Payment Cryptography Cross-account use: This operation can't be used across different Amazon Web Services accounts. Related operations:
     ///
     /// * [StopKeyUsage]
+    ///
+    /// - Parameter StartKeyUsageInput : [no documentation found]
+    ///
+    /// - Returns: `StartKeyUsageOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : This request can cause an inconsistent state for the resource.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure.
+    /// - `ResourceNotFoundException` : The request was denied due to an invalid resource error.
+    /// - `ServiceQuotaExceededException` : This request would cause a service quota to be exceeded.
+    /// - `ServiceUnavailableException` : The service cannot complete the request.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The request was denied due to an invalid request error.
     func startKeyUsage(input: StartKeyUsageInput) async throws -> StartKeyUsageOutputResponse
     /// Disables an Amazon Web Services Payment Cryptography key, which makes it inactive within Amazon Web Services Payment Cryptography. You can use this operation instead of [DeleteKey] to deactivate a key. You can enable the key in the future by calling [StartKeyUsage]. Cross-account use: This operation can't be used across different Amazon Web Services accounts. Related operations:
     ///
     /// * [DeleteKey]
     ///
     /// * [StartKeyUsage]
+    ///
+    /// - Parameter StopKeyUsageInput : [no documentation found]
+    ///
+    /// - Returns: `StopKeyUsageOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : This request can cause an inconsistent state for the resource.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure.
+    /// - `ResourceNotFoundException` : The request was denied due to an invalid resource error.
+    /// - `ServiceQuotaExceededException` : This request would cause a service quota to be exceeded.
+    /// - `ServiceUnavailableException` : The service cannot complete the request.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The request was denied due to an invalid request error.
     func stopKeyUsage(input: StopKeyUsageInput) async throws -> StopKeyUsageOutputResponse
     /// Adds or edits tags on an Amazon Web Services Payment Cryptography key. Tagging or untagging an Amazon Web Services Payment Cryptography key can allow or deny permission to the key. Each tag consists of a tag key and a tag value, both of which are case-sensitive strings. The tag value can be an empty (null) string. To add a tag, specify a new tag key and a tag value. To edit a tag, specify an existing tag key and a new tag value. You can also add tags to an Amazon Web Services Payment Cryptography key when you create it with [CreateKey]. Cross-account use: This operation can't be used across different Amazon Web Services accounts. Related operations:
     ///
     /// * [ListTagsForResource]
     ///
     /// * [UntagResource]
+    ///
+    /// - Parameter TagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `TagResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : This request can cause an inconsistent state for the resource.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure.
+    /// - `ResourceNotFoundException` : The request was denied due to an invalid resource error.
+    /// - `ServiceQuotaExceededException` : This request would cause a service quota to be exceeded.
+    /// - `ServiceUnavailableException` : The service cannot complete the request.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The request was denied due to an invalid request error.
     func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
     /// Deletes a tag from an Amazon Web Services Payment Cryptography key. Tagging or untagging an Amazon Web Services Payment Cryptography key can allow or deny permission to the key. Cross-account use: This operation can't be used across different Amazon Web Services accounts. Related operations:
     ///
     /// * [ListTagsForResource]
     ///
     /// * [TagResource]
+    ///
+    /// - Parameter UntagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `UntagResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : This request can cause an inconsistent state for the resource.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure.
+    /// - `ResourceNotFoundException` : The request was denied due to an invalid resource error.
+    /// - `ServiceUnavailableException` : The service cannot complete the request.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The request was denied due to an invalid request error.
     func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
     /// Associates an existing Amazon Web Services Payment Cryptography alias with a different key. Each alias is associated with only one Amazon Web Services Payment Cryptography key at a time, although a key can have multiple aliases. The alias and the Amazon Web Services Payment Cryptography key must be in the same Amazon Web Services account and Amazon Web Services Region Cross-account use: This operation can't be used across different Amazon Web Services accounts. Related operations:
     ///
@@ -189,6 +477,21 @@ public protocol PaymentCryptographyClientProtocol {
     /// * [GetAlias]
     ///
     /// * [ListAliases]
+    ///
+    /// - Parameter UpdateAliasInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateAliasOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : This request can cause an inconsistent state for the resource.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception, or failure.
+    /// - `ResourceNotFoundException` : The request was denied due to an invalid resource error.
+    /// - `ServiceUnavailableException` : The service cannot complete the request.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The request was denied due to an invalid request error.
     func updateAlias(input: UpdateAliasInput) async throws -> UpdateAliasOutputResponse
 }
 

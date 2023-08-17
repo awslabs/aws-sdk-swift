@@ -68,6 +68,20 @@ public struct FinspacedataClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFa
 
 extension FinspacedataClient: FinspacedataClientProtocol {
     /// Adds a user account to a permission group to grant permissions for actions a user can perform in FinSpace.
+    ///
+    /// - Parameter AssociateUserToPermissionGroupInput : [no documentation found]
+    ///
+    /// - Returns: `AssociateUserToPermissionGroupOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : The request conflicts with an existing resource.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
+    /// - `ResourceNotFoundException` : One or more resources can't be found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func associateUserToPermissionGroup(input: AssociateUserToPermissionGroupInput) async throws -> AssociateUserToPermissionGroupOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -112,6 +126,21 @@ extension FinspacedataClient: FinspacedataClientProtocol {
     }
 
     /// Creates a new Changeset in a FinSpace Dataset.
+    ///
+    /// - Parameter CreateChangesetInput : The request for a CreateChangeset operation.
+    ///
+    /// - Returns: `CreateChangesetOutputResponse` : The response from a CreateChangeset operation.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : The request conflicts with an existing resource.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
+    /// - `LimitExceededException` : A limit has exceeded.
+    /// - `ResourceNotFoundException` : One or more resources can't be found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func createChangeset(input: CreateChangesetInput) async throws -> CreateChangesetOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -156,6 +185,20 @@ extension FinspacedataClient: FinspacedataClientProtocol {
     }
 
     /// Creates a Dataview for a Dataset.
+    ///
+    /// - Parameter CreateDataViewInput : Request for creating a data view.
+    ///
+    /// - Returns: `CreateDataViewOutputResponse` : Response for creating a data view.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictException` : The request conflicts with an existing resource.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
+    /// - `LimitExceededException` : A limit has exceeded.
+    /// - `ResourceNotFoundException` : One or more resources can't be found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func createDataView(input: CreateDataViewInput) async throws -> CreateDataViewOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -200,6 +243,21 @@ extension FinspacedataClient: FinspacedataClientProtocol {
     }
 
     /// Creates a new FinSpace Dataset.
+    ///
+    /// - Parameter CreateDatasetInput : The request for a CreateDataset operation
+    ///
+    /// - Returns: `CreateDatasetOutputResponse` : The response from a CreateDataset operation
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : The request conflicts with an existing resource.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
+    /// - `LimitExceededException` : A limit has exceeded.
+    /// - `ResourceNotFoundException` : One or more resources can't be found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func createDataset(input: CreateDatasetInput) async throws -> CreateDatasetOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -244,6 +302,20 @@ extension FinspacedataClient: FinspacedataClientProtocol {
     }
 
     /// Creates a group of permissions for various actions that a user can perform in FinSpace.
+    ///
+    /// - Parameter CreatePermissionGroupInput : [no documentation found]
+    ///
+    /// - Returns: `CreatePermissionGroupOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : The request conflicts with an existing resource.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
+    /// - `LimitExceededException` : A limit has exceeded.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func createPermissionGroup(input: CreatePermissionGroupInput) async throws -> CreatePermissionGroupOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -288,6 +360,20 @@ extension FinspacedataClient: FinspacedataClientProtocol {
     }
 
     /// Creates a new user in FinSpace.
+    ///
+    /// - Parameter CreateUserInput : [no documentation found]
+    ///
+    /// - Returns: `CreateUserOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : The request conflicts with an existing resource.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
+    /// - `LimitExceededException` : A limit has exceeded.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func createUser(input: CreateUserInput) async throws -> CreateUserOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -332,6 +418,21 @@ extension FinspacedataClient: FinspacedataClientProtocol {
     }
 
     /// Deletes a FinSpace Dataset.
+    ///
+    /// - Parameter DeleteDatasetInput : The request for a DeleteDataset operation.
+    ///
+    /// - Returns: `DeleteDatasetOutputResponse` : The response from an DeleteDataset operation
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : The request conflicts with an existing resource.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
+    /// - `LimitExceededException` : A limit has exceeded.
+    /// - `ResourceNotFoundException` : One or more resources can't be found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func deleteDataset(input: DeleteDatasetInput) async throws -> DeleteDatasetOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -374,6 +475,21 @@ extension FinspacedataClient: FinspacedataClientProtocol {
     }
 
     /// Deletes a permission group. This action is irreversible.
+    ///
+    /// - Parameter DeletePermissionGroupInput : [no documentation found]
+    ///
+    /// - Returns: `DeletePermissionGroupOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : The request conflicts with an existing resource.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
+    /// - `LimitExceededException` : A limit has exceeded.
+    /// - `ResourceNotFoundException` : One or more resources can't be found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func deletePermissionGroup(input: DeletePermissionGroupInput) async throws -> DeletePermissionGroupOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -416,6 +532,20 @@ extension FinspacedataClient: FinspacedataClientProtocol {
     }
 
     /// Denies access to the FinSpace web application and API for the specified user.
+    ///
+    /// - Parameter DisableUserInput : [no documentation found]
+    ///
+    /// - Returns: `DisableUserOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : The request conflicts with an existing resource.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
+    /// - `ResourceNotFoundException` : One or more resources can't be found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func disableUser(input: DisableUserInput) async throws -> DisableUserOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -460,6 +590,20 @@ extension FinspacedataClient: FinspacedataClientProtocol {
     }
 
     /// Removes a user account from a permission group.
+    ///
+    /// - Parameter DisassociateUserFromPermissionGroupInput : [no documentation found]
+    ///
+    /// - Returns: `DisassociateUserFromPermissionGroupOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : The request conflicts with an existing resource.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
+    /// - `ResourceNotFoundException` : One or more resources can't be found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func disassociateUserFromPermissionGroup(input: DisassociateUserFromPermissionGroupInput) async throws -> DisassociateUserFromPermissionGroupOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -502,6 +646,21 @@ extension FinspacedataClient: FinspacedataClientProtocol {
     }
 
     /// Allows the specified user to access the FinSpace web application and API.
+    ///
+    /// - Parameter EnableUserInput : [no documentation found]
+    ///
+    /// - Returns: `EnableUserOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : The request conflicts with an existing resource.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
+    /// - `LimitExceededException` : A limit has exceeded.
+    /// - `ResourceNotFoundException` : One or more resources can't be found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func enableUser(input: EnableUserInput) async throws -> EnableUserOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -546,6 +705,20 @@ extension FinspacedataClient: FinspacedataClientProtocol {
     }
 
     /// Get information about a Changeset.
+    ///
+    /// - Parameter GetChangesetInput : Request to describe a changeset.
+    ///
+    /// - Returns: `GetChangesetOutputResponse` : The response from a describe changeset operation
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : The request conflicts with an existing resource.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
+    /// - `ResourceNotFoundException` : One or more resources can't be found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func getChangeset(input: GetChangesetInput) async throws -> GetChangesetOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -579,6 +752,19 @@ extension FinspacedataClient: FinspacedataClientProtocol {
     }
 
     /// Gets information about a Dataview.
+    ///
+    /// - Parameter GetDataViewInput : Request for retrieving a data view detail. Grouped / accessible within a dataset by its dataset id.
+    ///
+    /// - Returns: `GetDataViewOutputResponse` : Response from retrieving a dataview, which includes details on the target database and table name
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictException` : The request conflicts with an existing resource.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
+    /// - `ResourceNotFoundException` : One or more resources can't be found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func getDataView(input: GetDataViewInput) async throws -> GetDataViewOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -612,6 +798,20 @@ extension FinspacedataClient: FinspacedataClientProtocol {
     }
 
     /// Returns information about a Dataset.
+    ///
+    /// - Parameter GetDatasetInput : Request for the GetDataset operation.
+    ///
+    /// - Returns: `GetDatasetOutputResponse` : Response for the GetDataset operation
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : The request conflicts with an existing resource.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
+    /// - `ResourceNotFoundException` : One or more resources can't be found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func getDataset(input: GetDatasetInput) async throws -> GetDatasetOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -649,6 +849,19 @@ extension FinspacedataClient: FinspacedataClientProtocol {
     /// * You must retrieve the programmatic credentials.
     ///
     /// * You must be a member of a FinSpace user group, where the dataset that you want to access has Read Dataset Data permissions.
+    ///
+    /// - Parameter GetExternalDataViewAccessDetailsInput : [no documentation found]
+    ///
+    /// - Returns: `GetExternalDataViewAccessDetailsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
+    /// - `ResourceNotFoundException` : One or more resources can't be found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func getExternalDataViewAccessDetails(input: GetExternalDataViewAccessDetailsInput) async throws -> GetExternalDataViewAccessDetailsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -682,6 +895,19 @@ extension FinspacedataClient: FinspacedataClientProtocol {
     }
 
     /// Retrieves the details of a specific permission group.
+    ///
+    /// - Parameter GetPermissionGroupInput : [no documentation found]
+    ///
+    /// - Returns: `GetPermissionGroupOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
+    /// - `ResourceNotFoundException` : One or more resources can't be found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func getPermissionGroup(input: GetPermissionGroupInput) async throws -> GetPermissionGroupOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -715,6 +941,18 @@ extension FinspacedataClient: FinspacedataClientProtocol {
     }
 
     /// Request programmatic credentials to use with FinSpace SDK.
+    ///
+    /// - Parameter GetProgrammaticAccessCredentialsInput : Request for GetProgrammaticAccessCredentials operation
+    ///
+    /// - Returns: `GetProgrammaticAccessCredentialsOutputResponse` : Response for GetProgrammaticAccessCredentials operation
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func getProgrammaticAccessCredentials(input: GetProgrammaticAccessCredentialsInput) async throws -> GetProgrammaticAccessCredentialsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -749,6 +987,19 @@ extension FinspacedataClient: FinspacedataClientProtocol {
     }
 
     /// Retrieves details for a specific user.
+    ///
+    /// - Parameter GetUserInput : [no documentation found]
+    ///
+    /// - Returns: `GetUserOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
+    /// - `ResourceNotFoundException` : One or more resources can't be found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func getUser(input: GetUserInput) async throws -> GetUserOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -782,6 +1033,18 @@ extension FinspacedataClient: FinspacedataClientProtocol {
     }
 
     /// A temporary Amazon S3 location, where you can copy your files from a source location to stage or use as a scratch space in FinSpace notebook.
+    ///
+    /// - Parameter GetWorkingLocationInput : [no documentation found]
+    ///
+    /// - Returns: `GetWorkingLocationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func getWorkingLocation(input: GetWorkingLocationInput) async throws -> GetWorkingLocationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -818,6 +1081,20 @@ extension FinspacedataClient: FinspacedataClientProtocol {
     }
 
     /// Lists the FinSpace Changesets for a Dataset.
+    ///
+    /// - Parameter ListChangesetsInput : Request to ListChangesetsRequest. It exposes minimal query filters.
+    ///
+    /// - Returns: `ListChangesetsOutputResponse` : Response to ListChangesetsResponse. This returns a list of dataset changesets that match the query criteria.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : The request conflicts with an existing resource.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
+    /// - `ResourceNotFoundException` : One or more resources can't be found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func listChangesets(input: ListChangesetsInput) async throws -> ListChangesetsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -852,6 +1129,19 @@ extension FinspacedataClient: FinspacedataClientProtocol {
     }
 
     /// Lists all available Dataviews for a Dataset.
+    ///
+    /// - Parameter ListDataViewsInput : Request for a list data views.
+    ///
+    /// - Returns: `ListDataViewsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictException` : The request conflicts with an existing resource.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
+    /// - `ResourceNotFoundException` : One or more resources can't be found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func listDataViews(input: ListDataViewsInput) async throws -> ListDataViewsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -886,6 +1176,19 @@ extension FinspacedataClient: FinspacedataClientProtocol {
     }
 
     /// Lists all of the active Datasets that a user has access to.
+    ///
+    /// - Parameter ListDatasetsInput : Request for the ListDatasets operation.
+    ///
+    /// - Returns: `ListDatasetsOutputResponse` : Response for the ListDatasets operation
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictException` : The request conflicts with an existing resource.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
+    /// - `ResourceNotFoundException` : One or more resources can't be found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func listDatasets(input: ListDatasetsInput) async throws -> ListDatasetsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -920,6 +1223,18 @@ extension FinspacedataClient: FinspacedataClientProtocol {
     }
 
     /// Lists all available permission groups in FinSpace.
+    ///
+    /// - Parameter ListPermissionGroupsInput : [no documentation found]
+    ///
+    /// - Returns: `ListPermissionGroupsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func listPermissionGroups(input: ListPermissionGroupsInput) async throws -> ListPermissionGroupsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -954,6 +1269,19 @@ extension FinspacedataClient: FinspacedataClientProtocol {
     }
 
     /// Lists all the permission groups that are associated with a specific user account.
+    ///
+    /// - Parameter ListPermissionGroupsByUserInput : [no documentation found]
+    ///
+    /// - Returns: `ListPermissionGroupsByUserOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
+    /// - `ResourceNotFoundException` : One or more resources can't be found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func listPermissionGroupsByUser(input: ListPermissionGroupsByUserInput) async throws -> ListPermissionGroupsByUserOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -988,6 +1316,18 @@ extension FinspacedataClient: FinspacedataClientProtocol {
     }
 
     /// Lists all available user accounts in FinSpace.
+    ///
+    /// - Parameter ListUsersInput : [no documentation found]
+    ///
+    /// - Returns: `ListUsersOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func listUsers(input: ListUsersInput) async throws -> ListUsersOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1022,6 +1362,19 @@ extension FinspacedataClient: FinspacedataClientProtocol {
     }
 
     /// Lists details of all the users in a specific permission group.
+    ///
+    /// - Parameter ListUsersByPermissionGroupInput : [no documentation found]
+    ///
+    /// - Returns: `ListUsersByPermissionGroupOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
+    /// - `ResourceNotFoundException` : One or more resources can't be found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func listUsersByPermissionGroup(input: ListUsersByPermissionGroupInput) async throws -> ListUsersByPermissionGroupOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1056,6 +1409,20 @@ extension FinspacedataClient: FinspacedataClientProtocol {
     }
 
     /// Resets the password for a specified user ID and generates a temporary one. Only a superuser can reset password for other users. Resetting the password immediately invalidates the previous password associated with the user.
+    ///
+    /// - Parameter ResetUserPasswordInput : [no documentation found]
+    ///
+    /// - Returns: `ResetUserPasswordOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : The request conflicts with an existing resource.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
+    /// - `ResourceNotFoundException` : One or more resources can't be found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func resetUserPassword(input: ResetUserPasswordInput) async throws -> ResetUserPasswordOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1100,6 +1467,20 @@ extension FinspacedataClient: FinspacedataClientProtocol {
     }
 
     /// Updates a FinSpace Changeset.
+    ///
+    /// - Parameter UpdateChangesetInput : Request to update an existing changeset.
+    ///
+    /// - Returns: `UpdateChangesetOutputResponse` : The response from a update changeset operation.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : The request conflicts with an existing resource.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
+    /// - `ResourceNotFoundException` : One or more resources can't be found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func updateChangeset(input: UpdateChangesetInput) async throws -> UpdateChangesetOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1144,6 +1525,20 @@ extension FinspacedataClient: FinspacedataClientProtocol {
     }
 
     /// Updates a FinSpace Dataset.
+    ///
+    /// - Parameter UpdateDatasetInput : The request for an UpdateDataset operation
+    ///
+    /// - Returns: `UpdateDatasetOutputResponse` : The response from an UpdateDataset operation
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : The request conflicts with an existing resource.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
+    /// - `ResourceNotFoundException` : One or more resources can't be found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func updateDataset(input: UpdateDatasetInput) async throws -> UpdateDatasetOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1188,6 +1583,20 @@ extension FinspacedataClient: FinspacedataClientProtocol {
     }
 
     /// Modifies the details of a permission group. You cannot modify a permissionGroupID.
+    ///
+    /// - Parameter UpdatePermissionGroupInput : [no documentation found]
+    ///
+    /// - Returns: `UpdatePermissionGroupOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : The request conflicts with an existing resource.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
+    /// - `ResourceNotFoundException` : One or more resources can't be found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func updatePermissionGroup(input: UpdatePermissionGroupInput) async throws -> UpdatePermissionGroupOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1232,6 +1641,20 @@ extension FinspacedataClient: FinspacedataClientProtocol {
     }
 
     /// Modifies the details of the specified user account. You cannot update the userId for a user.
+    ///
+    /// - Parameter UpdateUserInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateUserOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : The request conflicts with an existing resource.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
+    /// - `ResourceNotFoundException` : One or more resources can't be found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func updateUser(input: UpdateUserInput) async throws -> UpdateUserOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()

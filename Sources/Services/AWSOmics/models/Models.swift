@@ -98,6 +98,94 @@ extension OmicsClientTypes {
     }
 }
 
+extension AcceptShareInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let shareId = shareId else {
+            return nil
+        }
+        return "/share/\(shareId.urlPercentEncoding())"
+    }
+}
+
+public struct AcceptShareInput: Swift.Equatable {
+    /// The ID for a share offer for analytics store data.
+    /// This member is required.
+    public var shareId: Swift.String?
+
+    public init(
+        shareId: Swift.String? = nil
+    )
+    {
+        self.shareId = shareId
+    }
+}
+
+struct AcceptShareInputBody: Swift.Equatable {
+}
+
+extension AcceptShareInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+public enum AcceptShareOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension AcceptShareOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: AcceptShareOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.status = output.status
+        } else {
+            self.status = nil
+        }
+    }
+}
+
+public struct AcceptShareOutputResponse: Swift.Equatable {
+    /// The status of an analytics store share.
+    public var status: OmicsClientTypes.ShareStatus?
+
+    public init(
+        status: OmicsClientTypes.ShareStatus? = nil
+    )
+    {
+        self.status = status
+    }
+}
+
+struct AcceptShareOutputResponseBody: Swift.Equatable {
+    let status: OmicsClientTypes.ShareStatus?
+}
+
+extension AcceptShareOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case status
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let statusDecoded = try containerValues.decodeIfPresent(OmicsClientTypes.ShareStatus.self, forKey: .status)
+        status = statusDecoded
+    }
+}
+
 extension AccessDeniedException {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -439,6 +527,7 @@ extension OmicsClientTypes.AnnotationImportJobItem: Swift.Codable {
         case runLeftNormalization
         case status
         case updateTime
+        case versionName
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -473,6 +562,9 @@ extension OmicsClientTypes.AnnotationImportJobItem: Swift.Codable {
         if let updateTime = self.updateTime {
             try encodeContainer.encodeTimestamp(updateTime, format: .dateTime, forKey: .updateTime)
         }
+        if let versionName = self.versionName {
+            try encodeContainer.encode(versionName, forKey: .versionName)
+        }
     }
 
     public init(from decoder: Swift.Decoder) throws {
@@ -481,6 +573,8 @@ extension OmicsClientTypes.AnnotationImportJobItem: Swift.Codable {
         id = idDecoded
         let destinationNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .destinationName)
         destinationName = destinationNameDecoded
+        let versionNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .versionName)
+        versionName = versionNameDecoded
         let roleArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .roleArn)
         roleArn = roleArnDecoded
         let statusDecoded = try containerValues.decodeIfPresent(OmicsClientTypes.JobStatus.self, forKey: .status)
@@ -534,6 +628,9 @@ extension OmicsClientTypes {
         /// When the job was updated.
         /// This member is required.
         public var updateTime: ClientRuntime.Date?
+        /// The name of the annotation store version.
+        /// This member is required.
+        public var versionName: Swift.String?
 
         public init(
             annotationFields: [Swift.String:Swift.String]? = nil,
@@ -544,7 +641,8 @@ extension OmicsClientTypes {
             roleArn: Swift.String? = nil,
             runLeftNormalization: Swift.Bool = false,
             status: OmicsClientTypes.JobStatus? = nil,
-            updateTime: ClientRuntime.Date? = nil
+            updateTime: ClientRuntime.Date? = nil,
+            versionName: Swift.String? = nil
         )
         {
             self.annotationFields = annotationFields
@@ -556,6 +654,7 @@ extension OmicsClientTypes {
             self.runLeftNormalization = runLeftNormalization
             self.status = status
             self.updateTime = updateTime
+            self.versionName = versionName
         }
     }
 
@@ -713,6 +812,152 @@ extension OmicsClientTypes {
             self.storeFormat = storeFormat
             self.storeSizeBytes = storeSizeBytes
             self.updateTime = updateTime
+        }
+    }
+
+}
+
+extension OmicsClientTypes.AnnotationStoreVersionItem: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case creationTime
+        case description
+        case id
+        case name
+        case status
+        case statusMessage
+        case storeId
+        case updateTime
+        case versionArn
+        case versionName
+        case versionSizeBytes
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let creationTime = self.creationTime {
+            try encodeContainer.encodeTimestamp(creationTime, format: .dateTime, forKey: .creationTime)
+        }
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
+        if let id = self.id {
+            try encodeContainer.encode(id, forKey: .id)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let status = self.status {
+            try encodeContainer.encode(status.rawValue, forKey: .status)
+        }
+        if let statusMessage = self.statusMessage {
+            try encodeContainer.encode(statusMessage, forKey: .statusMessage)
+        }
+        if let storeId = self.storeId {
+            try encodeContainer.encode(storeId, forKey: .storeId)
+        }
+        if let updateTime = self.updateTime {
+            try encodeContainer.encodeTimestamp(updateTime, format: .dateTime, forKey: .updateTime)
+        }
+        if let versionArn = self.versionArn {
+            try encodeContainer.encode(versionArn, forKey: .versionArn)
+        }
+        if let versionName = self.versionName {
+            try encodeContainer.encode(versionName, forKey: .versionName)
+        }
+        if let versionSizeBytes = self.versionSizeBytes {
+            try encodeContainer.encode(versionSizeBytes, forKey: .versionSizeBytes)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let storeIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .storeId)
+        storeId = storeIdDecoded
+        let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
+        id = idDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(OmicsClientTypes.VersionStatus.self, forKey: .status)
+        status = statusDecoded
+        let versionArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .versionArn)
+        versionArn = versionArnDecoded
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let versionNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .versionName)
+        versionName = versionNameDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let creationTimeDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .creationTime)
+        creationTime = creationTimeDecoded
+        let updateTimeDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .updateTime)
+        updateTime = updateTimeDecoded
+        let statusMessageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .statusMessage)
+        statusMessage = statusMessageDecoded
+        let versionSizeBytesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .versionSizeBytes)
+        versionSizeBytes = versionSizeBytesDecoded
+    }
+}
+
+extension OmicsClientTypes {
+    /// Annotation store versions.
+    public struct AnnotationStoreVersionItem: Swift.Equatable {
+        /// The time stamp for when an annotation store version was created.
+        /// This member is required.
+        public var creationTime: ClientRuntime.Date?
+        /// The description of an annotation store version.
+        /// This member is required.
+        public var description: Swift.String?
+        /// The annotation store version ID.
+        /// This member is required.
+        public var id: Swift.String?
+        /// A name given to an annotation store version to distinguish it from others.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The status of an annotation store version.
+        /// This member is required.
+        public var status: OmicsClientTypes.VersionStatus?
+        /// The status of an annotation store version.
+        /// This member is required.
+        public var statusMessage: Swift.String?
+        /// The store ID for an annotation store version.
+        /// This member is required.
+        public var storeId: Swift.String?
+        /// The time stamp for when an annotation store version was updated.
+        /// This member is required.
+        public var updateTime: ClientRuntime.Date?
+        /// The Arn for an annotation store version.
+        /// This member is required.
+        public var versionArn: Swift.String?
+        /// The name of an annotation store version.
+        /// This member is required.
+        public var versionName: Swift.String?
+        /// The size of an annotation store version in Bytes.
+        /// This member is required.
+        public var versionSizeBytes: Swift.Int?
+
+        public init(
+            creationTime: ClientRuntime.Date? = nil,
+            description: Swift.String? = nil,
+            id: Swift.String? = nil,
+            name: Swift.String? = nil,
+            status: OmicsClientTypes.VersionStatus? = nil,
+            statusMessage: Swift.String? = nil,
+            storeId: Swift.String? = nil,
+            updateTime: ClientRuntime.Date? = nil,
+            versionArn: Swift.String? = nil,
+            versionName: Swift.String? = nil,
+            versionSizeBytes: Swift.Int? = nil
+        )
+        {
+            self.creationTime = creationTime
+            self.description = description
+            self.id = id
+            self.name = name
+            self.status = status
+            self.statusMessage = statusMessage
+            self.storeId = storeId
+            self.updateTime = updateTime
+            self.versionArn = versionArn
+            self.versionName = versionName
+            self.versionSizeBytes = versionSizeBytes
         }
     }
 
@@ -1334,6 +1579,7 @@ extension CreateAnnotationStoreInput: Swift.Encodable {
         case storeFormat
         case storeOptions
         case tags
+        case versionName
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -1362,6 +1608,9 @@ extension CreateAnnotationStoreInput: Swift.Encodable {
                 try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
+        if let versionName = self.versionName {
+            try encodeContainer.encode(versionName, forKey: .versionName)
+        }
     }
 }
 
@@ -1387,6 +1636,8 @@ public struct CreateAnnotationStoreInput: Swift.Equatable {
     public var storeOptions: OmicsClientTypes.StoreOptions?
     /// Tags for the store.
     public var tags: [Swift.String:Swift.String]?
+    /// The name given to an annotation store version to distinguish it from other versions.
+    public var versionName: Swift.String?
 
     public init(
         description: Swift.String? = nil,
@@ -1395,7 +1646,8 @@ public struct CreateAnnotationStoreInput: Swift.Equatable {
         sseConfig: OmicsClientTypes.SseConfig? = nil,
         storeFormat: OmicsClientTypes.StoreFormat? = nil,
         storeOptions: OmicsClientTypes.StoreOptions? = nil,
-        tags: [Swift.String:Swift.String]? = nil
+        tags: [Swift.String:Swift.String]? = nil,
+        versionName: Swift.String? = nil
     )
     {
         self.description = description
@@ -1405,6 +1657,7 @@ public struct CreateAnnotationStoreInput: Swift.Equatable {
         self.storeFormat = storeFormat
         self.storeOptions = storeOptions
         self.tags = tags
+        self.versionName = versionName
     }
 }
 
@@ -1413,6 +1666,7 @@ struct CreateAnnotationStoreInputBody: Swift.Equatable {
     let name: Swift.String?
     let description: Swift.String?
     let tags: [Swift.String:Swift.String]?
+    let versionName: Swift.String?
     let sseConfig: OmicsClientTypes.SseConfig?
     let storeFormat: OmicsClientTypes.StoreFormat?
     let storeOptions: OmicsClientTypes.StoreOptions?
@@ -1427,6 +1681,7 @@ extension CreateAnnotationStoreInputBody: Swift.Decodable {
         case storeFormat
         case storeOptions
         case tags
+        case versionName
     }
 
     public init(from decoder: Swift.Decoder) throws {
@@ -1448,6 +1703,8 @@ extension CreateAnnotationStoreInputBody: Swift.Decodable {
             }
         }
         tags = tagsDecoded0
+        let versionNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .versionName)
+        versionName = versionNameDecoded
         let sseConfigDecoded = try containerValues.decodeIfPresent(OmicsClientTypes.SseConfig.self, forKey: .sseConfig)
         sseConfig = sseConfigDecoded
         let storeFormatDecoded = try containerValues.decodeIfPresent(OmicsClientTypes.StoreFormat.self, forKey: .storeFormat)
@@ -1486,6 +1743,7 @@ extension CreateAnnotationStoreOutputResponse: ClientRuntime.HttpResponseBinding
             self.status = output.status
             self.storeFormat = output.storeFormat
             self.storeOptions = output.storeOptions
+            self.versionName = output.versionName
         } else {
             self.creationTime = nil
             self.id = nil
@@ -1494,6 +1752,7 @@ extension CreateAnnotationStoreOutputResponse: ClientRuntime.HttpResponseBinding
             self.status = nil
             self.storeFormat = nil
             self.storeOptions = nil
+            self.versionName = nil
         }
     }
 }
@@ -1517,6 +1776,9 @@ public struct CreateAnnotationStoreOutputResponse: Swift.Equatable {
     public var storeFormat: OmicsClientTypes.StoreFormat?
     /// The store's file parsing options.
     public var storeOptions: OmicsClientTypes.StoreOptions?
+    /// The name given to an annotation store version to distinguish it from other versions.
+    /// This member is required.
+    public var versionName: Swift.String?
 
     public init(
         creationTime: ClientRuntime.Date? = nil,
@@ -1525,7 +1787,8 @@ public struct CreateAnnotationStoreOutputResponse: Swift.Equatable {
         reference: OmicsClientTypes.ReferenceItem? = nil,
         status: OmicsClientTypes.StoreStatus? = nil,
         storeFormat: OmicsClientTypes.StoreFormat? = nil,
-        storeOptions: OmicsClientTypes.StoreOptions? = nil
+        storeOptions: OmicsClientTypes.StoreOptions? = nil,
+        versionName: Swift.String? = nil
     )
     {
         self.creationTime = creationTime
@@ -1535,6 +1798,7 @@ public struct CreateAnnotationStoreOutputResponse: Swift.Equatable {
         self.status = status
         self.storeFormat = storeFormat
         self.storeOptions = storeOptions
+        self.versionName = versionName
     }
 }
 
@@ -1545,6 +1809,7 @@ struct CreateAnnotationStoreOutputResponseBody: Swift.Equatable {
     let storeOptions: OmicsClientTypes.StoreOptions?
     let status: OmicsClientTypes.StoreStatus?
     let name: Swift.String?
+    let versionName: Swift.String?
     let creationTime: ClientRuntime.Date?
 }
 
@@ -1557,6 +1822,7 @@ extension CreateAnnotationStoreOutputResponseBody: Swift.Decodable {
         case status
         case storeFormat
         case storeOptions
+        case versionName
     }
 
     public init(from decoder: Swift.Decoder) throws {
@@ -1573,6 +1839,235 @@ extension CreateAnnotationStoreOutputResponseBody: Swift.Decodable {
         status = statusDecoded
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
+        let versionNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .versionName)
+        versionName = versionNameDecoded
+        let creationTimeDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .creationTime)
+        creationTime = creationTimeDecoded
+    }
+}
+
+extension CreateAnnotationStoreVersionInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case description
+        case tags
+        case versionName
+        case versionOptions
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
+        if let tags = tags {
+            var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+        if let versionName = self.versionName {
+            try encodeContainer.encode(versionName, forKey: .versionName)
+        }
+        if let versionOptions = self.versionOptions {
+            try encodeContainer.encode(versionOptions, forKey: .versionOptions)
+        }
+    }
+}
+
+extension CreateAnnotationStoreVersionInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let name = name else {
+            return nil
+        }
+        return "/annotationStore/\(name.urlPercentEncoding())/version"
+    }
+}
+
+public struct CreateAnnotationStoreVersionInput: Swift.Equatable {
+    /// The description of an annotation store version.
+    public var description: Swift.String?
+    /// The name of an annotation store version from which versions are being created.
+    /// This member is required.
+    public var name: Swift.String?
+    /// Any tags added to annotation store version.
+    public var tags: [Swift.String:Swift.String]?
+    /// The name given to an annotation store version to distinguish it from other versions.
+    /// This member is required.
+    public var versionName: Swift.String?
+    /// The options for an annotation store version.
+    public var versionOptions: OmicsClientTypes.VersionOptions?
+
+    public init(
+        description: Swift.String? = nil,
+        name: Swift.String? = nil,
+        tags: [Swift.String:Swift.String]? = nil,
+        versionName: Swift.String? = nil,
+        versionOptions: OmicsClientTypes.VersionOptions? = nil
+    )
+    {
+        self.description = description
+        self.name = name
+        self.tags = tags
+        self.versionName = versionName
+        self.versionOptions = versionOptions
+    }
+}
+
+struct CreateAnnotationStoreVersionInputBody: Swift.Equatable {
+    let versionName: Swift.String?
+    let description: Swift.String?
+    let versionOptions: OmicsClientTypes.VersionOptions?
+    let tags: [Swift.String:Swift.String]?
+}
+
+extension CreateAnnotationStoreVersionInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case description
+        case tags
+        case versionName
+        case versionOptions
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let versionNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .versionName)
+        versionName = versionNameDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let versionOptionsDecoded = try containerValues.decodeIfPresent(OmicsClientTypes.VersionOptions.self, forKey: .versionOptions)
+        versionOptions = versionOptionsDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
+        var tagsDecoded0: [Swift.String:Swift.String]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, tagvalue0) in tagsContainer {
+                if let tagvalue0 = tagvalue0 {
+                    tagsDecoded0?[key0] = tagvalue0
+                }
+            }
+        }
+        tags = tagsDecoded0
+    }
+}
+
+public enum CreateAnnotationStoreVersionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension CreateAnnotationStoreVersionOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CreateAnnotationStoreVersionOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.creationTime = output.creationTime
+            self.id = output.id
+            self.name = output.name
+            self.status = output.status
+            self.storeId = output.storeId
+            self.versionName = output.versionName
+            self.versionOptions = output.versionOptions
+        } else {
+            self.creationTime = nil
+            self.id = nil
+            self.name = nil
+            self.status = nil
+            self.storeId = nil
+            self.versionName = nil
+            self.versionOptions = nil
+        }
+    }
+}
+
+public struct CreateAnnotationStoreVersionOutputResponse: Swift.Equatable {
+    /// The time stamp for the creation of an annotation store version.
+    /// This member is required.
+    public var creationTime: ClientRuntime.Date?
+    /// A generated ID for the annotation store
+    /// This member is required.
+    public var id: Swift.String?
+    /// The name given to an annotation store version to distinguish it from other versions.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The status of a annotation store version.
+    /// This member is required.
+    public var status: OmicsClientTypes.VersionStatus?
+    /// The ID for the annotation store from which new versions are being created.
+    /// This member is required.
+    public var storeId: Swift.String?
+    /// The name given to an annotation store version to distinguish it from other versions.
+    /// This member is required.
+    public var versionName: Swift.String?
+    /// The options for an annotation store version.
+    public var versionOptions: OmicsClientTypes.VersionOptions?
+
+    public init(
+        creationTime: ClientRuntime.Date? = nil,
+        id: Swift.String? = nil,
+        name: Swift.String? = nil,
+        status: OmicsClientTypes.VersionStatus? = nil,
+        storeId: Swift.String? = nil,
+        versionName: Swift.String? = nil,
+        versionOptions: OmicsClientTypes.VersionOptions? = nil
+    )
+    {
+        self.creationTime = creationTime
+        self.id = id
+        self.name = name
+        self.status = status
+        self.storeId = storeId
+        self.versionName = versionName
+        self.versionOptions = versionOptions
+    }
+}
+
+struct CreateAnnotationStoreVersionOutputResponseBody: Swift.Equatable {
+    let id: Swift.String?
+    let versionName: Swift.String?
+    let storeId: Swift.String?
+    let versionOptions: OmicsClientTypes.VersionOptions?
+    let name: Swift.String?
+    let status: OmicsClientTypes.VersionStatus?
+    let creationTime: ClientRuntime.Date?
+}
+
+extension CreateAnnotationStoreVersionOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case creationTime
+        case id
+        case name
+        case status
+        case storeId
+        case versionName
+        case versionOptions
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
+        id = idDecoded
+        let versionNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .versionName)
+        versionName = versionNameDecoded
+        let storeIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .storeId)
+        storeId = storeIdDecoded
+        let versionOptionsDecoded = try containerValues.decodeIfPresent(OmicsClientTypes.VersionOptions.self, forKey: .versionOptions)
+        versionOptions = versionOptionsDecoded
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(OmicsClientTypes.VersionStatus.self, forKey: .status)
+        status = statusDecoded
         let creationTimeDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .creationTime)
         creationTime = creationTimeDecoded
     }
@@ -2595,6 +3090,156 @@ extension CreateSequenceStoreOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension CreateShareInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case principalSubscriber
+        case resourceArn
+        case shareName
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let principalSubscriber = self.principalSubscriber {
+            try encodeContainer.encode(principalSubscriber, forKey: .principalSubscriber)
+        }
+        if let resourceArn = self.resourceArn {
+            try encodeContainer.encode(resourceArn, forKey: .resourceArn)
+        }
+        if let shareName = self.shareName {
+            try encodeContainer.encode(shareName, forKey: .shareName)
+        }
+    }
+}
+
+extension CreateShareInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/share"
+    }
+}
+
+public struct CreateShareInput: Swift.Equatable {
+    /// The principal subscriber is the account being given access to the analytics store data through the share offer.
+    /// This member is required.
+    public var principalSubscriber: Swift.String?
+    /// The resource ARN for the analytics store to be shared.
+    /// This member is required.
+    public var resourceArn: Swift.String?
+    /// A name given to the share.
+    public var shareName: Swift.String?
+
+    public init(
+        principalSubscriber: Swift.String? = nil,
+        resourceArn: Swift.String? = nil,
+        shareName: Swift.String? = nil
+    )
+    {
+        self.principalSubscriber = principalSubscriber
+        self.resourceArn = resourceArn
+        self.shareName = shareName
+    }
+}
+
+struct CreateShareInputBody: Swift.Equatable {
+    let resourceArn: Swift.String?
+    let principalSubscriber: Swift.String?
+    let shareName: Swift.String?
+}
+
+extension CreateShareInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case principalSubscriber
+        case resourceArn
+        case shareName
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let resourceArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceArn)
+        resourceArn = resourceArnDecoded
+        let principalSubscriberDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .principalSubscriber)
+        principalSubscriber = principalSubscriberDecoded
+        let shareNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .shareName)
+        shareName = shareNameDecoded
+    }
+}
+
+public enum CreateShareOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension CreateShareOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CreateShareOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.shareId = output.shareId
+            self.shareName = output.shareName
+            self.status = output.status
+        } else {
+            self.shareId = nil
+            self.shareName = nil
+            self.status = nil
+        }
+    }
+}
+
+public struct CreateShareOutputResponse: Swift.Equatable {
+    /// An ID generated for the share.
+    public var shareId: Swift.String?
+    /// A name given to the share.
+    public var shareName: Swift.String?
+    /// The status of a share.
+    public var status: OmicsClientTypes.ShareStatus?
+
+    public init(
+        shareId: Swift.String? = nil,
+        shareName: Swift.String? = nil,
+        status: OmicsClientTypes.ShareStatus? = nil
+    )
+    {
+        self.shareId = shareId
+        self.shareName = shareName
+        self.status = status
+    }
+}
+
+struct CreateShareOutputResponseBody: Swift.Equatable {
+    let shareId: Swift.String?
+    let status: OmicsClientTypes.ShareStatus?
+    let shareName: Swift.String?
+}
+
+extension CreateShareOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case shareId
+        case shareName
+        case status
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let shareIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .shareId)
+        shareId = shareIdDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(OmicsClientTypes.ShareStatus.self, forKey: .status)
+        status = statusDecoded
+        let shareNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .shareName)
+        shareName = shareNameDecoded
+    }
+}
+
 extension CreateVariantStoreInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case description
@@ -3230,6 +3875,156 @@ extension DeleteAnnotationStoreOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension DeleteAnnotationStoreVersionsInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case versions
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let versions = versions {
+            var versionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .versions)
+            for versionname0 in versions {
+                try versionsContainer.encode(versionname0)
+            }
+        }
+    }
+}
+
+extension DeleteAnnotationStoreVersionsInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let force = force {
+                let forceQueryItem = ClientRuntime.URLQueryItem(name: "force".urlPercentEncoding(), value: Swift.String(force).urlPercentEncoding())
+                items.append(forceQueryItem)
+            }
+            return items
+        }
+    }
+}
+
+extension DeleteAnnotationStoreVersionsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let name = name else {
+            return nil
+        }
+        return "/annotationStore/\(name.urlPercentEncoding())/versions/delete"
+    }
+}
+
+public struct DeleteAnnotationStoreVersionsInput: Swift.Equatable {
+    /// Forces the deletion of an annotation store version when imports are in-progress..
+    public var force: Swift.Bool?
+    /// The name of the annotation store from which versions are being deleted.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The versions of an annotation store to be deleted.
+    /// This member is required.
+    public var versions: [Swift.String]?
+
+    public init(
+        force: Swift.Bool? = nil,
+        name: Swift.String? = nil,
+        versions: [Swift.String]? = nil
+    )
+    {
+        self.force = force
+        self.name = name
+        self.versions = versions
+    }
+}
+
+struct DeleteAnnotationStoreVersionsInputBody: Swift.Equatable {
+    let versions: [Swift.String]?
+}
+
+extension DeleteAnnotationStoreVersionsInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case versions
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let versionsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .versions)
+        var versionsDecoded0:[Swift.String]? = nil
+        if let versionsContainer = versionsContainer {
+            versionsDecoded0 = [Swift.String]()
+            for string0 in versionsContainer {
+                if let string0 = string0 {
+                    versionsDecoded0?.append(string0)
+                }
+            }
+        }
+        versions = versionsDecoded0
+    }
+}
+
+public enum DeleteAnnotationStoreVersionsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension DeleteAnnotationStoreVersionsOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DeleteAnnotationStoreVersionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.errors = output.errors
+        } else {
+            self.errors = nil
+        }
+    }
+}
+
+public struct DeleteAnnotationStoreVersionsOutputResponse: Swift.Equatable {
+    /// Any errors that occur when attempting to delete an annotation store version.
+    public var errors: [OmicsClientTypes.VersionDeleteError]?
+
+    public init(
+        errors: [OmicsClientTypes.VersionDeleteError]? = nil
+    )
+    {
+        self.errors = errors
+    }
+}
+
+struct DeleteAnnotationStoreVersionsOutputResponseBody: Swift.Equatable {
+    let errors: [OmicsClientTypes.VersionDeleteError]?
+}
+
+extension DeleteAnnotationStoreVersionsOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case errors
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let errorsContainer = try containerValues.decodeIfPresent([OmicsClientTypes.VersionDeleteError?].self, forKey: .errors)
+        var errorsDecoded0:[OmicsClientTypes.VersionDeleteError]? = nil
+        if let errorsContainer = errorsContainer {
+            errorsDecoded0 = [OmicsClientTypes.VersionDeleteError]()
+            for structure0 in errorsContainer {
+                if let structure0 = structure0 {
+                    errorsDecoded0?.append(structure0)
+                }
+            }
+        }
+        errors = errorsDecoded0
+    }
+}
+
 extension DeleteReferenceInput: ClientRuntime.URLPathProvider {
     public var urlPath: Swift.String? {
         guard let referenceStoreId = referenceStoreId else {
@@ -3528,6 +4323,94 @@ extension DeleteSequenceStoreOutputResponse: ClientRuntime.HttpResponseBinding {
 public struct DeleteSequenceStoreOutputResponse: Swift.Equatable {
 
     public init() { }
+}
+
+extension DeleteShareInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let shareId = shareId else {
+            return nil
+        }
+        return "/share/\(shareId.urlPercentEncoding())"
+    }
+}
+
+public struct DeleteShareInput: Swift.Equatable {
+    /// The ID for the share request to be deleted.
+    /// This member is required.
+    public var shareId: Swift.String?
+
+    public init(
+        shareId: Swift.String? = nil
+    )
+    {
+        self.shareId = shareId
+    }
+}
+
+struct DeleteShareInputBody: Swift.Equatable {
+}
+
+extension DeleteShareInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+public enum DeleteShareOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension DeleteShareOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DeleteShareOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.status = output.status
+        } else {
+            self.status = nil
+        }
+    }
+}
+
+public struct DeleteShareOutputResponse: Swift.Equatable {
+    /// The status of the share being deleted.
+    public var status: OmicsClientTypes.ShareStatus?
+
+    public init(
+        status: OmicsClientTypes.ShareStatus? = nil
+    )
+    {
+        self.status = status
+    }
+}
+
+struct DeleteShareOutputResponseBody: Swift.Equatable {
+    let status: OmicsClientTypes.ShareStatus?
+}
+
+extension DeleteShareOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case status
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let statusDecoded = try containerValues.decodeIfPresent(OmicsClientTypes.ShareStatus.self, forKey: .status)
+        status = statusDecoded
+    }
 }
 
 extension DeleteVariantStoreInput: ClientRuntime.QueryItemProvider {
@@ -4052,6 +4935,75 @@ extension OmicsClientTypes {
     }
 }
 
+extension OmicsClientTypes.Filter: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case resourceArns
+        case status
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let resourceArns = resourceArns {
+            var resourceArnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .resourceArns)
+            for string0 in resourceArns {
+                try resourceArnsContainer.encode(string0)
+            }
+        }
+        if let status = status {
+            var statusContainer = encodeContainer.nestedUnkeyedContainer(forKey: .status)
+            for sharestatus0 in status {
+                try statusContainer.encode(sharestatus0.rawValue)
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let resourceArnsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .resourceArns)
+        var resourceArnsDecoded0:[Swift.String]? = nil
+        if let resourceArnsContainer = resourceArnsContainer {
+            resourceArnsDecoded0 = [Swift.String]()
+            for string0 in resourceArnsContainer {
+                if let string0 = string0 {
+                    resourceArnsDecoded0?.append(string0)
+                }
+            }
+        }
+        resourceArns = resourceArnsDecoded0
+        let statusContainer = try containerValues.decodeIfPresent([OmicsClientTypes.ShareStatus?].self, forKey: .status)
+        var statusDecoded0:[OmicsClientTypes.ShareStatus]? = nil
+        if let statusContainer = statusContainer {
+            statusDecoded0 = [OmicsClientTypes.ShareStatus]()
+            for string0 in statusContainer {
+                if let string0 = string0 {
+                    statusDecoded0?.append(string0)
+                }
+            }
+        }
+        status = statusDecoded0
+    }
+}
+
+extension OmicsClientTypes {
+    /// Use filters to focus the returned annotation store versions on a specific parameter, such as the status of the annotation store.
+    public struct Filter: Swift.Equatable {
+        /// The Amazon Resource Number (Arn) for an analytics store.
+        public var resourceArns: [Swift.String]?
+        /// The status of an annotation store version.
+        public var status: [OmicsClientTypes.ShareStatus]?
+
+        public init(
+            resourceArns: [Swift.String]? = nil,
+            status: [OmicsClientTypes.ShareStatus]? = nil
+        )
+        {
+            self.resourceArns = resourceArns
+            self.status = status
+        }
+    }
+
+}
+
 extension OmicsClientTypes.FormatOptions: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case sdkUnknown
@@ -4206,6 +5158,7 @@ extension GetAnnotationImportJobOutputResponse: ClientRuntime.HttpResponseBindin
             self.status = output.status
             self.statusMessage = output.statusMessage
             self.updateTime = output.updateTime
+            self.versionName = output.versionName
         } else {
             self.annotationFields = nil
             self.completionTime = nil
@@ -4219,6 +5172,7 @@ extension GetAnnotationImportJobOutputResponse: ClientRuntime.HttpResponseBindin
             self.status = nil
             self.statusMessage = nil
             self.updateTime = nil
+            self.versionName = nil
         }
     }
 }
@@ -4259,6 +5213,9 @@ public struct GetAnnotationImportJobOutputResponse: Swift.Equatable {
     /// When the job was updated.
     /// This member is required.
     public var updateTime: ClientRuntime.Date?
+    /// The name of the annotation store version.
+    /// This member is required.
+    public var versionName: Swift.String?
 
     public init(
         annotationFields: [Swift.String:Swift.String]? = nil,
@@ -4272,7 +5229,8 @@ public struct GetAnnotationImportJobOutputResponse: Swift.Equatable {
         runLeftNormalization: Swift.Bool = false,
         status: OmicsClientTypes.JobStatus? = nil,
         statusMessage: Swift.String? = nil,
-        updateTime: ClientRuntime.Date? = nil
+        updateTime: ClientRuntime.Date? = nil,
+        versionName: Swift.String? = nil
     )
     {
         self.annotationFields = annotationFields
@@ -4287,12 +5245,14 @@ public struct GetAnnotationImportJobOutputResponse: Swift.Equatable {
         self.status = status
         self.statusMessage = statusMessage
         self.updateTime = updateTime
+        self.versionName = versionName
     }
 }
 
 struct GetAnnotationImportJobOutputResponseBody: Swift.Equatable {
     let id: Swift.String?
     let destinationName: Swift.String?
+    let versionName: Swift.String?
     let roleArn: Swift.String?
     let status: OmicsClientTypes.JobStatus?
     let statusMessage: Swift.String?
@@ -4319,6 +5279,7 @@ extension GetAnnotationImportJobOutputResponseBody: Swift.Decodable {
         case status
         case statusMessage
         case updateTime
+        case versionName
     }
 
     public init(from decoder: Swift.Decoder) throws {
@@ -4327,6 +5288,8 @@ extension GetAnnotationImportJobOutputResponseBody: Swift.Decodable {
         id = idDecoded
         let destinationNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .destinationName)
         destinationName = destinationNameDecoded
+        let versionNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .versionName)
+        versionName = versionNameDecoded
         let roleArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .roleArn)
         roleArn = roleArnDecoded
         let statusDecoded = try containerValues.decodeIfPresent(OmicsClientTypes.JobStatus.self, forKey: .status)
@@ -4423,6 +5386,7 @@ extension GetAnnotationStoreOutputResponse: ClientRuntime.HttpResponseBinding {
             self.description = output.description
             self.id = output.id
             self.name = output.name
+            self.numVersions = output.numVersions
             self.reference = output.reference
             self.sseConfig = output.sseConfig
             self.status = output.status
@@ -4438,6 +5402,7 @@ extension GetAnnotationStoreOutputResponse: ClientRuntime.HttpResponseBinding {
             self.description = nil
             self.id = nil
             self.name = nil
+            self.numVersions = nil
             self.reference = nil
             self.sseConfig = nil
             self.status = nil
@@ -4465,6 +5430,9 @@ public struct GetAnnotationStoreOutputResponse: Swift.Equatable {
     /// The store's name.
     /// This member is required.
     public var name: Swift.String?
+    /// An integer indicating how many versions of an annotation store exist.
+    /// This member is required.
+    public var numVersions: Swift.Int?
     /// The store's genome reference.
     /// This member is required.
     public var reference: OmicsClientTypes.ReferenceItem?
@@ -4499,6 +5467,7 @@ public struct GetAnnotationStoreOutputResponse: Swift.Equatable {
         description: Swift.String? = nil,
         id: Swift.String? = nil,
         name: Swift.String? = nil,
+        numVersions: Swift.Int? = nil,
         reference: OmicsClientTypes.ReferenceItem? = nil,
         sseConfig: OmicsClientTypes.SseConfig? = nil,
         status: OmicsClientTypes.StoreStatus? = nil,
@@ -4515,6 +5484,7 @@ public struct GetAnnotationStoreOutputResponse: Swift.Equatable {
         self.description = description
         self.id = id
         self.name = name
+        self.numVersions = numVersions
         self.reference = reference
         self.sseConfig = sseConfig
         self.status = status
@@ -4543,6 +5513,7 @@ struct GetAnnotationStoreOutputResponseBody: Swift.Equatable {
     let storeFormat: OmicsClientTypes.StoreFormat?
     let statusMessage: Swift.String?
     let storeSizeBytes: Swift.Int?
+    let numVersions: Swift.Int?
 }
 
 extension GetAnnotationStoreOutputResponseBody: Swift.Decodable {
@@ -4551,6 +5522,7 @@ extension GetAnnotationStoreOutputResponseBody: Swift.Decodable {
         case description
         case id
         case name
+        case numVersions
         case reference
         case sseConfig
         case status
@@ -4602,6 +5574,243 @@ extension GetAnnotationStoreOutputResponseBody: Swift.Decodable {
         statusMessage = statusMessageDecoded
         let storeSizeBytesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .storeSizeBytes)
         storeSizeBytes = storeSizeBytesDecoded
+        let numVersionsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .numVersions)
+        numVersions = numVersionsDecoded
+    }
+}
+
+extension GetAnnotationStoreVersionInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let name = name else {
+            return nil
+        }
+        guard let versionName = versionName else {
+            return nil
+        }
+        return "/annotationStore/\(name.urlPercentEncoding())/version/\(versionName.urlPercentEncoding())"
+    }
+}
+
+public struct GetAnnotationStoreVersionInput: Swift.Equatable {
+    /// The name given to an annotation store version to distinguish it from others.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The name given to an annotation store version to distinguish it from others.
+    /// This member is required.
+    public var versionName: Swift.String?
+
+    public init(
+        name: Swift.String? = nil,
+        versionName: Swift.String? = nil
+    )
+    {
+        self.name = name
+        self.versionName = versionName
+    }
+}
+
+struct GetAnnotationStoreVersionInputBody: Swift.Equatable {
+}
+
+extension GetAnnotationStoreVersionInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+public enum GetAnnotationStoreVersionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension GetAnnotationStoreVersionOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetAnnotationStoreVersionOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.creationTime = output.creationTime
+            self.description = output.description
+            self.id = output.id
+            self.name = output.name
+            self.status = output.status
+            self.statusMessage = output.statusMessage
+            self.storeId = output.storeId
+            self.tags = output.tags
+            self.updateTime = output.updateTime
+            self.versionArn = output.versionArn
+            self.versionName = output.versionName
+            self.versionOptions = output.versionOptions
+            self.versionSizeBytes = output.versionSizeBytes
+        } else {
+            self.creationTime = nil
+            self.description = nil
+            self.id = nil
+            self.name = nil
+            self.status = nil
+            self.statusMessage = nil
+            self.storeId = nil
+            self.tags = nil
+            self.updateTime = nil
+            self.versionArn = nil
+            self.versionName = nil
+            self.versionOptions = nil
+            self.versionSizeBytes = nil
+        }
+    }
+}
+
+public struct GetAnnotationStoreVersionOutputResponse: Swift.Equatable {
+    /// The time stamp for when an annotation store version was created.
+    /// This member is required.
+    public var creationTime: ClientRuntime.Date?
+    /// The description for an annotation store version.
+    /// This member is required.
+    public var description: Swift.String?
+    /// The annotation store version ID.
+    /// This member is required.
+    public var id: Swift.String?
+    /// The name of the annotation store.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The status of an annotation store version.
+    /// This member is required.
+    public var status: OmicsClientTypes.VersionStatus?
+    /// The status of an annotation store version.
+    /// This member is required.
+    public var statusMessage: Swift.String?
+    /// The store ID for annotation store version.
+    /// This member is required.
+    public var storeId: Swift.String?
+    /// Any tags associated with an annotation store version.
+    /// This member is required.
+    public var tags: [Swift.String:Swift.String]?
+    /// The time stamp for when an annotation store version was updated.
+    /// This member is required.
+    public var updateTime: ClientRuntime.Date?
+    /// The Arn for the annotation store.
+    /// This member is required.
+    public var versionArn: Swift.String?
+    /// The name given to an annotation store version to distinguish it from others.
+    /// This member is required.
+    public var versionName: Swift.String?
+    /// The options for an annotation store version.
+    public var versionOptions: OmicsClientTypes.VersionOptions?
+    /// The size of the annotation store version in Bytes.
+    /// This member is required.
+    public var versionSizeBytes: Swift.Int?
+
+    public init(
+        creationTime: ClientRuntime.Date? = nil,
+        description: Swift.String? = nil,
+        id: Swift.String? = nil,
+        name: Swift.String? = nil,
+        status: OmicsClientTypes.VersionStatus? = nil,
+        statusMessage: Swift.String? = nil,
+        storeId: Swift.String? = nil,
+        tags: [Swift.String:Swift.String]? = nil,
+        updateTime: ClientRuntime.Date? = nil,
+        versionArn: Swift.String? = nil,
+        versionName: Swift.String? = nil,
+        versionOptions: OmicsClientTypes.VersionOptions? = nil,
+        versionSizeBytes: Swift.Int? = nil
+    )
+    {
+        self.creationTime = creationTime
+        self.description = description
+        self.id = id
+        self.name = name
+        self.status = status
+        self.statusMessage = statusMessage
+        self.storeId = storeId
+        self.tags = tags
+        self.updateTime = updateTime
+        self.versionArn = versionArn
+        self.versionName = versionName
+        self.versionOptions = versionOptions
+        self.versionSizeBytes = versionSizeBytes
+    }
+}
+
+struct GetAnnotationStoreVersionOutputResponseBody: Swift.Equatable {
+    let storeId: Swift.String?
+    let id: Swift.String?
+    let status: OmicsClientTypes.VersionStatus?
+    let versionArn: Swift.String?
+    let name: Swift.String?
+    let versionName: Swift.String?
+    let description: Swift.String?
+    let creationTime: ClientRuntime.Date?
+    let updateTime: ClientRuntime.Date?
+    let tags: [Swift.String:Swift.String]?
+    let versionOptions: OmicsClientTypes.VersionOptions?
+    let statusMessage: Swift.String?
+    let versionSizeBytes: Swift.Int?
+}
+
+extension GetAnnotationStoreVersionOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case creationTime
+        case description
+        case id
+        case name
+        case status
+        case statusMessage
+        case storeId
+        case tags
+        case updateTime
+        case versionArn
+        case versionName
+        case versionOptions
+        case versionSizeBytes
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let storeIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .storeId)
+        storeId = storeIdDecoded
+        let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
+        id = idDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(OmicsClientTypes.VersionStatus.self, forKey: .status)
+        status = statusDecoded
+        let versionArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .versionArn)
+        versionArn = versionArnDecoded
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let versionNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .versionName)
+        versionName = versionNameDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let creationTimeDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .creationTime)
+        creationTime = creationTimeDecoded
+        let updateTimeDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .updateTime)
+        updateTime = updateTimeDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
+        var tagsDecoded0: [Swift.String:Swift.String]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, tagvalue0) in tagsContainer {
+                if let tagvalue0 = tagvalue0 {
+                    tagsDecoded0?[key0] = tagvalue0
+                }
+            }
+        }
+        tags = tagsDecoded0
+        let versionOptionsDecoded = try containerValues.decodeIfPresent(OmicsClientTypes.VersionOptions.self, forKey: .versionOptions)
+        versionOptions = versionOptionsDecoded
+        let statusMessageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .statusMessage)
+        statusMessage = statusMessageDecoded
+        let versionSizeBytesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .versionSizeBytes)
+        versionSizeBytes = versionSizeBytesDecoded
     }
 }
 
@@ -6748,6 +7957,7 @@ extension GetRunTaskOutputResponse: ClientRuntime.HttpResponseBinding {
             self.cpus = output.cpus
             self.creationTime = output.creationTime
             self.gpus = output.gpus
+            self.instanceType = output.instanceType
             self.logStream = output.logStream
             self.memory = output.memory
             self.name = output.name
@@ -6760,6 +7970,7 @@ extension GetRunTaskOutputResponse: ClientRuntime.HttpResponseBinding {
             self.cpus = nil
             self.creationTime = nil
             self.gpus = nil
+            self.instanceType = nil
             self.logStream = nil
             self.memory = nil
             self.name = nil
@@ -6779,6 +7990,8 @@ public struct GetRunTaskOutputResponse: Swift.Equatable {
     public var creationTime: ClientRuntime.Date?
     /// The number of Graphics Processing Units (GPU) specified in the task.
     public var gpus: Swift.Int?
+    /// The instance type for a task.
+    public var instanceType: Swift.String?
     /// The task's log stream.
     public var logStream: Swift.String?
     /// The task's memory use in gigabytes.
@@ -6800,6 +8013,7 @@ public struct GetRunTaskOutputResponse: Swift.Equatable {
         cpus: Swift.Int? = nil,
         creationTime: ClientRuntime.Date? = nil,
         gpus: Swift.Int? = nil,
+        instanceType: Swift.String? = nil,
         logStream: Swift.String? = nil,
         memory: Swift.Int? = nil,
         name: Swift.String? = nil,
@@ -6813,6 +8027,7 @@ public struct GetRunTaskOutputResponse: Swift.Equatable {
         self.cpus = cpus
         self.creationTime = creationTime
         self.gpus = gpus
+        self.instanceType = instanceType
         self.logStream = logStream
         self.memory = memory
         self.name = name
@@ -6836,6 +8051,7 @@ struct GetRunTaskOutputResponseBody: Swift.Equatable {
     let statusMessage: Swift.String?
     let logStream: Swift.String?
     let gpus: Swift.Int?
+    let instanceType: Swift.String?
 }
 
 extension GetRunTaskOutputResponseBody: Swift.Decodable {
@@ -6843,6 +8059,7 @@ extension GetRunTaskOutputResponseBody: Swift.Decodable {
         case cpus
         case creationTime
         case gpus
+        case instanceType
         case logStream
         case memory
         case name
@@ -6877,6 +8094,8 @@ extension GetRunTaskOutputResponseBody: Swift.Decodable {
         logStream = logStreamDecoded
         let gpusDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .gpus)
         gpus = gpusDecoded
+        let instanceTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .instanceType)
+        instanceType = instanceTypeDecoded
     }
 }
 
@@ -7027,6 +8246,94 @@ extension GetSequenceStoreOutputResponseBody: Swift.Decodable {
         creationTime = creationTimeDecoded
         let fallbackLocationDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .fallbackLocation)
         fallbackLocation = fallbackLocationDecoded
+    }
+}
+
+extension GetShareInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let shareId = shareId else {
+            return nil
+        }
+        return "/share/\(shareId.urlPercentEncoding())"
+    }
+}
+
+public struct GetShareInput: Swift.Equatable {
+    /// The generated ID for a share.
+    /// This member is required.
+    public var shareId: Swift.String?
+
+    public init(
+        shareId: Swift.String? = nil
+    )
+    {
+        self.shareId = shareId
+    }
+}
+
+struct GetShareInputBody: Swift.Equatable {
+}
+
+extension GetShareInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+public enum GetShareOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension GetShareOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetShareOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.share = output.share
+        } else {
+            self.share = nil
+        }
+    }
+}
+
+public struct GetShareOutputResponse: Swift.Equatable {
+    /// An analytic store share details object. contains status, resourceArn, ownerId, etc.
+    public var share: OmicsClientTypes.ShareDetails?
+
+    public init(
+        share: OmicsClientTypes.ShareDetails? = nil
+    )
+    {
+        self.share = share
+    }
+}
+
+struct GetShareOutputResponseBody: Swift.Equatable {
+    let share: OmicsClientTypes.ShareDetails?
+}
+
+extension GetShareOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case share
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let shareDecoded = try containerValues.decodeIfPresent(OmicsClientTypes.ShareDetails.self, forKey: .share)
+        share = shareDecoded
     }
 }
 
@@ -8504,7 +9811,7 @@ public struct ListAnnotationImportJobsInput: Swift.Equatable {
     public var ids: [Swift.String]?
     /// The maximum number of jobs to return in one page of results.
     public var maxResults: Swift.Int?
-    /// Specify the pagination token from a previous request to retrieve the next page of results.
+    /// Specifies the pagination token from a previous request to retrieve the next page of results.
     public var nextToken: Swift.String?
 
     public init(
@@ -8582,7 +9889,7 @@ extension ListAnnotationImportJobsOutputResponse: ClientRuntime.HttpResponseBind
 public struct ListAnnotationImportJobsOutputResponse: Swift.Equatable {
     /// A list of jobs.
     public var annotationImportJobs: [OmicsClientTypes.AnnotationImportJobItem]?
-    /// A pagination token that's included if more results are available.
+    /// Specifies the pagination token from a previous request to retrieve the next page of results.
     public var nextToken: Swift.String?
 
     public init(
@@ -8619,6 +9926,195 @@ extension ListAnnotationImportJobsOutputResponseBody: Swift.Decodable {
             }
         }
         annotationImportJobs = annotationImportJobsDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+extension OmicsClientTypes.ListAnnotationStoreVersionsFilter: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case status
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let status = self.status {
+            try encodeContainer.encode(status.rawValue, forKey: .status)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let statusDecoded = try containerValues.decodeIfPresent(OmicsClientTypes.VersionStatus.self, forKey: .status)
+        status = statusDecoded
+    }
+}
+
+extension OmicsClientTypes {
+    /// Use filters to focus the returned annotation store versions on a specific parameter, such as the status of the annotation store.
+    public struct ListAnnotationStoreVersionsFilter: Swift.Equatable {
+        /// The status of an annotation store version.
+        public var status: OmicsClientTypes.VersionStatus?
+
+        public init(
+            status: OmicsClientTypes.VersionStatus? = nil
+        )
+        {
+            self.status = status
+        }
+    }
+
+}
+
+extension ListAnnotationStoreVersionsInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case filter
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let filter = self.filter {
+            try encodeContainer.encode(filter, forKey: .filter)
+        }
+    }
+}
+
+extension ListAnnotationStoreVersionsInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let maxResults = maxResults {
+                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+                items.append(maxResultsQueryItem)
+            }
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            return items
+        }
+    }
+}
+
+extension ListAnnotationStoreVersionsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let name = name else {
+            return nil
+        }
+        return "/annotationStore/\(name.urlPercentEncoding())/versions"
+    }
+}
+
+public struct ListAnnotationStoreVersionsInput: Swift.Equatable {
+    /// A filter to apply to the list of annotation store versions.
+    public var filter: OmicsClientTypes.ListAnnotationStoreVersionsFilter?
+    /// The maximum number of annotation store versions to return in one page of results.
+    public var maxResults: Swift.Int?
+    /// The name of an annotation store.
+    /// This member is required.
+    public var name: Swift.String?
+    /// Specifies the pagination token from a previous request to retrieve the next page of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        filter: OmicsClientTypes.ListAnnotationStoreVersionsFilter? = nil,
+        maxResults: Swift.Int? = nil,
+        name: Swift.String? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.filter = filter
+        self.maxResults = maxResults
+        self.name = name
+        self.nextToken = nextToken
+    }
+}
+
+struct ListAnnotationStoreVersionsInputBody: Swift.Equatable {
+    let filter: OmicsClientTypes.ListAnnotationStoreVersionsFilter?
+}
+
+extension ListAnnotationStoreVersionsInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case filter
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let filterDecoded = try containerValues.decodeIfPresent(OmicsClientTypes.ListAnnotationStoreVersionsFilter.self, forKey: .filter)
+        filter = filterDecoded
+    }
+}
+
+public enum ListAnnotationStoreVersionsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension ListAnnotationStoreVersionsOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ListAnnotationStoreVersionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.annotationStoreVersions = output.annotationStoreVersions
+            self.nextToken = output.nextToken
+        } else {
+            self.annotationStoreVersions = nil
+            self.nextToken = nil
+        }
+    }
+}
+
+public struct ListAnnotationStoreVersionsOutputResponse: Swift.Equatable {
+    /// Lists all versions of an annotation store.
+    public var annotationStoreVersions: [OmicsClientTypes.AnnotationStoreVersionItem]?
+    /// Specifies the pagination token from a previous request to retrieve the next page of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        annotationStoreVersions: [OmicsClientTypes.AnnotationStoreVersionItem]? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.annotationStoreVersions = annotationStoreVersions
+        self.nextToken = nextToken
+    }
+}
+
+struct ListAnnotationStoreVersionsOutputResponseBody: Swift.Equatable {
+    let annotationStoreVersions: [OmicsClientTypes.AnnotationStoreVersionItem]?
+    let nextToken: Swift.String?
+}
+
+extension ListAnnotationStoreVersionsOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case annotationStoreVersions
+        case nextToken
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let annotationStoreVersionsContainer = try containerValues.decodeIfPresent([OmicsClientTypes.AnnotationStoreVersionItem?].self, forKey: .annotationStoreVersions)
+        var annotationStoreVersionsDecoded0:[OmicsClientTypes.AnnotationStoreVersionItem]? = nil
+        if let annotationStoreVersionsContainer = annotationStoreVersionsContainer {
+            annotationStoreVersionsDecoded0 = [OmicsClientTypes.AnnotationStoreVersionItem]()
+            for structure0 in annotationStoreVersionsContainer {
+                if let structure0 = structure0 {
+                    annotationStoreVersionsDecoded0?.append(structure0)
+                }
+            }
+        }
+        annotationStoreVersions = annotationStoreVersionsDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
     }
@@ -10786,6 +12282,168 @@ extension ListSequenceStoresOutputResponseBody: Swift.Decodable {
             }
         }
         sequenceStores = sequenceStoresDecoded0
+    }
+}
+
+extension ListSharesInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case filter
+        case resourceOwner
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let filter = self.filter {
+            try encodeContainer.encode(filter, forKey: .filter)
+        }
+        if let resourceOwner = self.resourceOwner {
+            try encodeContainer.encode(resourceOwner.rawValue, forKey: .resourceOwner)
+        }
+    }
+}
+
+extension ListSharesInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            if let maxResults = maxResults {
+                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+                items.append(maxResultsQueryItem)
+            }
+            return items
+        }
+    }
+}
+
+extension ListSharesInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/shares"
+    }
+}
+
+public struct ListSharesInput: Swift.Equatable {
+    /// Attributes used to filter for a specific subset of shares.
+    public var filter: OmicsClientTypes.Filter?
+    /// The maximum number of shares to return in one page of results.
+    public var maxResults: Swift.Int?
+    /// Next token returned in the response of a previous ListReadSetUploadPartsRequest call. Used to get the next page of results.
+    public var nextToken: Swift.String?
+    /// The account that owns the analytics store shared.
+    /// This member is required.
+    public var resourceOwner: OmicsClientTypes.ResourceOwner?
+
+    public init(
+        filter: OmicsClientTypes.Filter? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        resourceOwner: OmicsClientTypes.ResourceOwner? = nil
+    )
+    {
+        self.filter = filter
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.resourceOwner = resourceOwner
+    }
+}
+
+struct ListSharesInputBody: Swift.Equatable {
+    let resourceOwner: OmicsClientTypes.ResourceOwner?
+    let filter: OmicsClientTypes.Filter?
+}
+
+extension ListSharesInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case filter
+        case resourceOwner
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let resourceOwnerDecoded = try containerValues.decodeIfPresent(OmicsClientTypes.ResourceOwner.self, forKey: .resourceOwner)
+        resourceOwner = resourceOwnerDecoded
+        let filterDecoded = try containerValues.decodeIfPresent(OmicsClientTypes.Filter.self, forKey: .filter)
+        filter = filterDecoded
+    }
+}
+
+public enum ListSharesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension ListSharesOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ListSharesOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.nextToken = output.nextToken
+            self.shares = output.shares
+        } else {
+            self.nextToken = nil
+            self.shares = nil
+        }
+    }
+}
+
+public struct ListSharesOutputResponse: Swift.Equatable {
+    /// Next token returned in the response of a previous ListSharesResponse call. Used to get the next page of results.
+    public var nextToken: Swift.String?
+    /// The shares available and their meta details.
+    /// This member is required.
+    public var shares: [OmicsClientTypes.ShareDetails]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        shares: [OmicsClientTypes.ShareDetails]? = nil
+    )
+    {
+        self.nextToken = nextToken
+        self.shares = shares
+    }
+}
+
+struct ListSharesOutputResponseBody: Swift.Equatable {
+    let shares: [OmicsClientTypes.ShareDetails]?
+    let nextToken: Swift.String?
+}
+
+extension ListSharesOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case nextToken
+        case shares
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let sharesContainer = try containerValues.decodeIfPresent([OmicsClientTypes.ShareDetails?].self, forKey: .shares)
+        var sharesDecoded0:[OmicsClientTypes.ShareDetails]? = nil
+        if let sharesContainer = sharesContainer {
+            sharesDecoded0 = [OmicsClientTypes.ShareDetails]()
+            for structure0 in sharesContainer {
+                if let structure0 = structure0 {
+                    sharesDecoded0?.append(structure0)
+                }
+            }
+        }
+        shares = sharesDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
     }
 }
 
@@ -13409,6 +15067,40 @@ extension ResourceNotFoundExceptionBody: Swift.Decodable {
 }
 
 extension OmicsClientTypes {
+    public enum ResourceOwner: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        /// The resource owner is an account other than the caller
+        case other
+        /// The resource owner is the calling account
+        case `self`
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ResourceOwner] {
+            return [
+                .other,
+                .self,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .other: return "OTHER"
+            case .self: return "SELF"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = ResourceOwner(rawValue: rawValue) ?? ResourceOwner.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension OmicsClientTypes {
     public enum RunExport: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case definition
         case sdkUnknown(Swift.String)
@@ -14079,6 +15771,171 @@ extension ServiceQuotaExceededExceptionBody: Swift.Decodable {
     }
 }
 
+extension OmicsClientTypes.ShareDetails: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case creationTime
+        case ownerId
+        case principalSubscriber
+        case resourceArn
+        case shareId
+        case shareName
+        case status
+        case statusMessage
+        case updateTime
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let creationTime = self.creationTime {
+            try encodeContainer.encodeTimestamp(creationTime, format: .dateTime, forKey: .creationTime)
+        }
+        if let ownerId = self.ownerId {
+            try encodeContainer.encode(ownerId, forKey: .ownerId)
+        }
+        if let principalSubscriber = self.principalSubscriber {
+            try encodeContainer.encode(principalSubscriber, forKey: .principalSubscriber)
+        }
+        if let resourceArn = self.resourceArn {
+            try encodeContainer.encode(resourceArn, forKey: .resourceArn)
+        }
+        if let shareId = self.shareId {
+            try encodeContainer.encode(shareId, forKey: .shareId)
+        }
+        if let shareName = self.shareName {
+            try encodeContainer.encode(shareName, forKey: .shareName)
+        }
+        if let status = self.status {
+            try encodeContainer.encode(status.rawValue, forKey: .status)
+        }
+        if let statusMessage = self.statusMessage {
+            try encodeContainer.encode(statusMessage, forKey: .statusMessage)
+        }
+        if let updateTime = self.updateTime {
+            try encodeContainer.encodeTimestamp(updateTime, format: .dateTime, forKey: .updateTime)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let shareIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .shareId)
+        shareId = shareIdDecoded
+        let resourceArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceArn)
+        resourceArn = resourceArnDecoded
+        let principalSubscriberDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .principalSubscriber)
+        principalSubscriber = principalSubscriberDecoded
+        let ownerIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .ownerId)
+        ownerId = ownerIdDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(OmicsClientTypes.ShareStatus.self, forKey: .status)
+        status = statusDecoded
+        let statusMessageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .statusMessage)
+        statusMessage = statusMessageDecoded
+        let shareNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .shareName)
+        shareName = shareNameDecoded
+        let creationTimeDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .creationTime)
+        creationTime = creationTimeDecoded
+        let updateTimeDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .updateTime)
+        updateTime = updateTimeDecoded
+    }
+}
+
+extension OmicsClientTypes {
+    /// The details of a share.
+    public struct ShareDetails: Swift.Equatable {
+        /// The timestamp for when the share was created.
+        public var creationTime: ClientRuntime.Date?
+        /// The account ID for the data owner. The owner creates the share offer.
+        public var ownerId: Swift.String?
+        /// The principal subscriber is the account the analytics store data is being shared with.
+        public var principalSubscriber: Swift.String?
+        /// The resource Arn of the analytics store being shared.
+        public var resourceArn: Swift.String?
+        /// The ID for a share offer for an analytics store .
+        public var shareId: Swift.String?
+        /// The name of the share.
+        public var shareName: Swift.String?
+        /// The status of a share.
+        public var status: OmicsClientTypes.ShareStatus?
+        /// The status message for a share. It provides more details on the status of the share.
+        public var statusMessage: Swift.String?
+        /// The timestamp of the share update.
+        public var updateTime: ClientRuntime.Date?
+
+        public init(
+            creationTime: ClientRuntime.Date? = nil,
+            ownerId: Swift.String? = nil,
+            principalSubscriber: Swift.String? = nil,
+            resourceArn: Swift.String? = nil,
+            shareId: Swift.String? = nil,
+            shareName: Swift.String? = nil,
+            status: OmicsClientTypes.ShareStatus? = nil,
+            statusMessage: Swift.String? = nil,
+            updateTime: ClientRuntime.Date? = nil
+        )
+        {
+            self.creationTime = creationTime
+            self.ownerId = ownerId
+            self.principalSubscriber = principalSubscriber
+            self.resourceArn = resourceArn
+            self.shareId = shareId
+            self.shareName = shareName
+            self.status = status
+            self.statusMessage = statusMessage
+            self.updateTime = updateTime
+        }
+    }
+
+}
+
+extension OmicsClientTypes {
+    public enum ShareStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        /// The share is activated
+        case activating
+        /// The share is active and can be used
+        case active
+        /// The share has been deleted
+        case deleted
+        /// The share is being deleted
+        case deleting
+        /// The share has failed to activate or delete
+        case failed
+        /// The share has been created but is not yet active
+        case pending
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ShareStatus] {
+            return [
+                .activating,
+                .active,
+                .deleted,
+                .deleting,
+                .failed,
+                .pending,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .activating: return "ACTIVATING"
+            case .active: return "ACTIVE"
+            case .deleted: return "DELETED"
+            case .deleting: return "DELETING"
+            case .failed: return "FAILED"
+            case .pending: return "PENDING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = ShareStatus(rawValue: rawValue) ?? ShareStatus.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension OmicsClientTypes.SourceFiles: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case source1
@@ -14179,6 +16036,7 @@ extension StartAnnotationImportJobInput: Swift.Encodable {
         case items
         case roleArn
         case runLeftNormalization
+        case versionName
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -14207,6 +16065,9 @@ extension StartAnnotationImportJobInput: Swift.Encodable {
         if let runLeftNormalization = self.runLeftNormalization {
             try encodeContainer.encode(runLeftNormalization, forKey: .runLeftNormalization)
         }
+        if let versionName = self.versionName {
+            try encodeContainer.encode(versionName, forKey: .versionName)
+        }
     }
 }
 
@@ -14232,6 +16093,8 @@ public struct StartAnnotationImportJobInput: Swift.Equatable {
     public var roleArn: Swift.String?
     /// The job's left normalization setting.
     public var runLeftNormalization: Swift.Bool?
+    /// The name of the annotation store version.
+    public var versionName: Swift.String?
 
     public init(
         annotationFields: [Swift.String:Swift.String]? = nil,
@@ -14239,7 +16102,8 @@ public struct StartAnnotationImportJobInput: Swift.Equatable {
         formatOptions: OmicsClientTypes.FormatOptions? = nil,
         items: [OmicsClientTypes.AnnotationImportItemSource]? = nil,
         roleArn: Swift.String? = nil,
-        runLeftNormalization: Swift.Bool? = nil
+        runLeftNormalization: Swift.Bool? = nil,
+        versionName: Swift.String? = nil
     )
     {
         self.annotationFields = annotationFields
@@ -14248,6 +16112,7 @@ public struct StartAnnotationImportJobInput: Swift.Equatable {
         self.items = items
         self.roleArn = roleArn
         self.runLeftNormalization = runLeftNormalization
+        self.versionName = versionName
     }
 }
 
@@ -14255,6 +16120,7 @@ struct StartAnnotationImportJobInputBody: Swift.Equatable {
     let destinationName: Swift.String?
     let roleArn: Swift.String?
     let items: [OmicsClientTypes.AnnotationImportItemSource]?
+    let versionName: Swift.String?
     let formatOptions: OmicsClientTypes.FormatOptions?
     let runLeftNormalization: Swift.Bool?
     let annotationFields: [Swift.String:Swift.String]?
@@ -14268,6 +16134,7 @@ extension StartAnnotationImportJobInputBody: Swift.Decodable {
         case items
         case roleArn
         case runLeftNormalization
+        case versionName
     }
 
     public init(from decoder: Swift.Decoder) throws {
@@ -14287,6 +16154,8 @@ extension StartAnnotationImportJobInputBody: Swift.Decodable {
             }
         }
         items = itemsDecoded0
+        let versionNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .versionName)
+        versionName = versionNameDecoded
         let formatOptionsDecoded = try containerValues.decodeIfPresent(OmicsClientTypes.FormatOptions.self, forKey: .formatOptions)
         formatOptions = formatOptionsDecoded
         let runLeftNormalizationDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .runLeftNormalization)
@@ -16081,6 +17950,7 @@ extension OmicsClientTypes.TaskListItem: Swift.Codable {
         case cpus
         case creationTime
         case gpus
+        case instanceType
         case memory
         case name
         case startTime
@@ -16099,6 +17969,9 @@ extension OmicsClientTypes.TaskListItem: Swift.Codable {
         }
         if let gpus = self.gpus {
             try encodeContainer.encode(gpus, forKey: .gpus)
+        }
+        if let instanceType = self.instanceType {
+            try encodeContainer.encode(instanceType, forKey: .instanceType)
         }
         if let memory = self.memory {
             try encodeContainer.encode(memory, forKey: .memory)
@@ -16140,6 +18013,8 @@ extension OmicsClientTypes.TaskListItem: Swift.Codable {
         stopTime = stopTimeDecoded
         let gpusDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .gpus)
         gpus = gpusDecoded
+        let instanceTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .instanceType)
+        instanceType = instanceTypeDecoded
     }
 }
 
@@ -16152,6 +18027,8 @@ extension OmicsClientTypes {
         public var creationTime: ClientRuntime.Date?
         /// The number of Graphics Processing Units (GPU) specified for the task.
         public var gpus: Swift.Int?
+        /// The instance type for a task.
+        public var instanceType: Swift.String?
         /// The task's memory use in gigabyes.
         public var memory: Swift.Int?
         /// The task's name.
@@ -16169,6 +18046,7 @@ extension OmicsClientTypes {
             cpus: Swift.Int? = nil,
             creationTime: ClientRuntime.Date? = nil,
             gpus: Swift.Int? = nil,
+            instanceType: Swift.String? = nil,
             memory: Swift.Int? = nil,
             name: Swift.String? = nil,
             startTime: ClientRuntime.Date? = nil,
@@ -16180,6 +18058,7 @@ extension OmicsClientTypes {
             self.cpus = cpus
             self.creationTime = creationTime
             self.gpus = gpus
+            self.instanceType = instanceType
             self.memory = memory
             self.name = name
             self.startTime = startTime
@@ -16404,6 +18283,97 @@ extension OmicsClientTypes {
         /// The store's header key to column name mapping.
         public var formatToHeader: [Swift.String:Swift.String]?
         /// The store's schema.
+        public var schema: [[Swift.String:OmicsClientTypes.SchemaValueType]]?
+
+        public init(
+            annotationType: OmicsClientTypes.AnnotationType? = nil,
+            formatToHeader: [Swift.String:Swift.String]? = nil,
+            schema: [[Swift.String:OmicsClientTypes.SchemaValueType]]? = nil
+        )
+        {
+            self.annotationType = annotationType
+            self.formatToHeader = formatToHeader
+            self.schema = schema
+        }
+    }
+
+}
+
+extension OmicsClientTypes.TsvVersionOptions: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case annotationType
+        case formatToHeader
+        case schema
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let annotationType = self.annotationType {
+            try encodeContainer.encode(annotationType.rawValue, forKey: .annotationType)
+        }
+        if let formatToHeader = formatToHeader {
+            var formatToHeaderContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .formatToHeader)
+            for (dictKey0, formatToHeader0) in formatToHeader {
+                try formatToHeaderContainer.encode(formatToHeader0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+        if let schema = schema {
+            var schemaContainer = encodeContainer.nestedUnkeyedContainer(forKey: .schema)
+            for schemaitem0 in schema {
+                var schemaitem0Container = schemaContainer.nestedContainer(keyedBy: ClientRuntime.Key.self)
+                for (dictKey1, schemaItem1) in schemaitem0 {
+                    try schemaitem0Container.encode(schemaItem1.rawValue, forKey: ClientRuntime.Key(stringValue: dictKey1))
+                }
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let annotationTypeDecoded = try containerValues.decodeIfPresent(OmicsClientTypes.AnnotationType.self, forKey: .annotationType)
+        annotationType = annotationTypeDecoded
+        let formatToHeaderContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .formatToHeader)
+        var formatToHeaderDecoded0: [Swift.String:Swift.String]? = nil
+        if let formatToHeaderContainer = formatToHeaderContainer {
+            formatToHeaderDecoded0 = [Swift.String:Swift.String]()
+            for (key0, string0) in formatToHeaderContainer {
+                if let string0 = string0 {
+                    formatToHeaderDecoded0?[key0] = string0
+                }
+            }
+        }
+        formatToHeader = formatToHeaderDecoded0
+        let schemaContainer = try containerValues.decodeIfPresent([[Swift.String: OmicsClientTypes.SchemaValueType?]?].self, forKey: .schema)
+        var schemaDecoded0:[[Swift.String:OmicsClientTypes.SchemaValueType]]? = nil
+        if let schemaContainer = schemaContainer {
+            schemaDecoded0 = [[Swift.String:OmicsClientTypes.SchemaValueType]]()
+            for map0 in schemaContainer {
+                var schemaContainerDecoded0: [Swift.String: OmicsClientTypes.SchemaValueType]? = nil
+                if let map0 = map0 {
+                    schemaContainerDecoded0 = [Swift.String: OmicsClientTypes.SchemaValueType]()
+                    for (key1, schemavaluetype1) in map0 {
+                        if let schemavaluetype1 = schemavaluetype1 {
+                            schemaContainerDecoded0?[key1] = schemavaluetype1
+                        }
+                    }
+                }
+                if let schemaContainerDecoded0 = schemaContainerDecoded0 {
+                    schemaDecoded0?.append(schemaContainerDecoded0)
+                }
+            }
+        }
+        schema = schemaDecoded0
+    }
+}
+
+extension OmicsClientTypes {
+    /// The options for a TSV file.
+    public struct TsvVersionOptions: Swift.Equatable {
+        /// The store version's annotation type.
+        public var annotationType: OmicsClientTypes.AnnotationType?
+        /// The annotation store version's header key to column name mapping.
+        public var formatToHeader: [Swift.String:Swift.String]?
+        /// The TSV schema for an annotation store version.
         public var schema: [[Swift.String:OmicsClientTypes.SchemaValueType]]?
 
         public init(
@@ -16695,6 +18665,202 @@ extension UpdateAnnotationStoreOutputResponseBody: Swift.Decodable {
         storeOptions = storeOptionsDecoded
         let storeFormatDecoded = try containerValues.decodeIfPresent(OmicsClientTypes.StoreFormat.self, forKey: .storeFormat)
         storeFormat = storeFormatDecoded
+    }
+}
+
+extension UpdateAnnotationStoreVersionInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case description
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
+    }
+}
+
+extension UpdateAnnotationStoreVersionInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let name = name else {
+            return nil
+        }
+        guard let versionName = versionName else {
+            return nil
+        }
+        return "/annotationStore/\(name.urlPercentEncoding())/version/\(versionName.urlPercentEncoding())"
+    }
+}
+
+public struct UpdateAnnotationStoreVersionInput: Swift.Equatable {
+    /// The description of an annotation store.
+    public var description: Swift.String?
+    /// The name of an annotation store.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The name of an annotation store version.
+    /// This member is required.
+    public var versionName: Swift.String?
+
+    public init(
+        description: Swift.String? = nil,
+        name: Swift.String? = nil,
+        versionName: Swift.String? = nil
+    )
+    {
+        self.description = description
+        self.name = name
+        self.versionName = versionName
+    }
+}
+
+struct UpdateAnnotationStoreVersionInputBody: Swift.Equatable {
+    let description: Swift.String?
+}
+
+extension UpdateAnnotationStoreVersionInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case description
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+    }
+}
+
+public enum UpdateAnnotationStoreVersionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension UpdateAnnotationStoreVersionOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: UpdateAnnotationStoreVersionOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.creationTime = output.creationTime
+            self.description = output.description
+            self.id = output.id
+            self.name = output.name
+            self.status = output.status
+            self.storeId = output.storeId
+            self.updateTime = output.updateTime
+            self.versionName = output.versionName
+        } else {
+            self.creationTime = nil
+            self.description = nil
+            self.id = nil
+            self.name = nil
+            self.status = nil
+            self.storeId = nil
+            self.updateTime = nil
+            self.versionName = nil
+        }
+    }
+}
+
+public struct UpdateAnnotationStoreVersionOutputResponse: Swift.Equatable {
+    /// The time stamp for when an annotation store version was created.
+    /// This member is required.
+    public var creationTime: ClientRuntime.Date?
+    /// The description of an annotation store version.
+    /// This member is required.
+    public var description: Swift.String?
+    /// The annotation store version ID.
+    /// This member is required.
+    public var id: Swift.String?
+    /// The name of an annotation store.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The status of an annotation store version.
+    /// This member is required.
+    public var status: OmicsClientTypes.VersionStatus?
+    /// The annotation store ID.
+    /// This member is required.
+    public var storeId: Swift.String?
+    /// The time stamp for when an annotation store version was updated.
+    /// This member is required.
+    public var updateTime: ClientRuntime.Date?
+    /// The name of an annotation store version.
+    /// This member is required.
+    public var versionName: Swift.String?
+
+    public init(
+        creationTime: ClientRuntime.Date? = nil,
+        description: Swift.String? = nil,
+        id: Swift.String? = nil,
+        name: Swift.String? = nil,
+        status: OmicsClientTypes.VersionStatus? = nil,
+        storeId: Swift.String? = nil,
+        updateTime: ClientRuntime.Date? = nil,
+        versionName: Swift.String? = nil
+    )
+    {
+        self.creationTime = creationTime
+        self.description = description
+        self.id = id
+        self.name = name
+        self.status = status
+        self.storeId = storeId
+        self.updateTime = updateTime
+        self.versionName = versionName
+    }
+}
+
+struct UpdateAnnotationStoreVersionOutputResponseBody: Swift.Equatable {
+    let storeId: Swift.String?
+    let id: Swift.String?
+    let status: OmicsClientTypes.VersionStatus?
+    let name: Swift.String?
+    let versionName: Swift.String?
+    let description: Swift.String?
+    let creationTime: ClientRuntime.Date?
+    let updateTime: ClientRuntime.Date?
+}
+
+extension UpdateAnnotationStoreVersionOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case creationTime
+        case description
+        case id
+        case name
+        case status
+        case storeId
+        case updateTime
+        case versionName
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let storeIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .storeId)
+        storeId = storeIdDecoded
+        let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
+        id = idDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(OmicsClientTypes.VersionStatus.self, forKey: .status)
+        status = statusDecoded
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let versionNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .versionName)
+        versionName = versionNameDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let creationTimeDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .creationTime)
+        creationTime = creationTimeDecoded
+        let updateTimeDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .updateTime)
+        updateTime = updateTimeDecoded
     }
 }
 
@@ -17751,6 +19917,136 @@ extension OmicsClientTypes {
         }
     }
 
+}
+
+extension OmicsClientTypes.VersionDeleteError: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message
+        case versionName
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let message = self.message {
+            try encodeContainer.encode(message, forKey: .message)
+        }
+        if let versionName = self.versionName {
+            try encodeContainer.encode(versionName, forKey: .versionName)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let versionNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .versionName)
+        versionName = versionNameDecoded
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
+}
+
+extension OmicsClientTypes {
+    /// The error preventing deletion of the annotation store version.
+    public struct VersionDeleteError: Swift.Equatable {
+        /// The message explaining the error in annotation store deletion.
+        /// This member is required.
+        public var message: Swift.String?
+        /// The name given to an annotation store version.
+        /// This member is required.
+        public var versionName: Swift.String?
+
+        public init(
+            message: Swift.String? = nil,
+            versionName: Swift.String? = nil
+        )
+        {
+            self.message = message
+            self.versionName = versionName
+        }
+    }
+
+}
+
+extension OmicsClientTypes.VersionOptions: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case sdkUnknown
+        case tsvversionoptions = "tsvVersionOptions"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        switch self {
+            case let .tsvversionoptions(tsvversionoptions):
+                try container.encode(tsvversionoptions, forKey: .tsvversionoptions)
+            case let .sdkUnknown(sdkUnknown):
+                try container.encode(sdkUnknown, forKey: .sdkUnknown)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        let tsvversionoptionsDecoded = try values.decodeIfPresent(OmicsClientTypes.TsvVersionOptions.self, forKey: .tsvversionoptions)
+        if let tsvversionoptions = tsvversionoptionsDecoded {
+            self = .tsvversionoptions(tsvversionoptions)
+            return
+        }
+        self = .sdkUnknown("")
+    }
+}
+
+extension OmicsClientTypes {
+    /// The options for an annotation store version.
+    public enum VersionOptions: Swift.Equatable {
+        /// File settings for a version of a TSV store.
+        case tsvversionoptions(OmicsClientTypes.TsvVersionOptions)
+        case sdkUnknown(Swift.String)
+    }
+
+}
+
+extension OmicsClientTypes {
+    public enum VersionStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        /// The Version is active
+        case active
+        /// The Version is being created
+        case creating
+        /// The Version is deleting
+        case deleting
+        /// The Version creation failed
+        case failed
+        /// The Version is updating
+        case updating
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [VersionStatus] {
+            return [
+                .active,
+                .creating,
+                .deleting,
+                .failed,
+                .updating,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "ACTIVE"
+            case .creating: return "CREATING"
+            case .deleting: return "DELETING"
+            case .failed: return "FAILED"
+            case .updating: return "UPDATING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = VersionStatus(rawValue: rawValue) ?? VersionStatus.sdkUnknown(rawValue)
+        }
+    }
 }
 
 extension OmicsClientTypes {

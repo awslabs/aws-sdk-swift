@@ -68,6 +68,19 @@ public struct IoTFleetWiseClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFa
 
 extension IoTFleetWiseClient: IoTFleetWiseClientProtocol {
     /// Adds, or associates, a vehicle with a fleet.
+    ///
+    /// - Parameter AssociateVehicleFleetInput : [no documentation found]
+    ///
+    /// - Returns: `AssociateVehicleFleetOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The request couldn't be completed because the server temporarily failed.
+    /// - `AccessDeniedException` : You don't have sufficient permission to perform this action.
+    /// - `ResourceNotFoundException` : The resource wasn't found.
+    /// - `ThrottlingException` : The request couldn't be completed due to throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public func associateVehicleFleet(input: AssociateVehicleFleetInput) async throws -> AssociateVehicleFleetOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -105,6 +118,19 @@ extension IoTFleetWiseClient: IoTFleetWiseClientProtocol {
     }
 
     /// Creates a group, or batch, of vehicles. You must specify a decoder manifest and a vehicle model (model manifest) for each vehicle. For more information, see [Create multiple vehicles (AWS CLI)](https://docs.aws.amazon.com/iot-fleetwise/latest/developerguide/create-vehicles-cli.html) in the Amazon Web Services IoT FleetWise Developer Guide.
+    ///
+    /// - Parameter BatchCreateVehicleInput : [no documentation found]
+    ///
+    /// - Returns: `BatchCreateVehicleOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The request couldn't be completed because the server temporarily failed.
+    /// - `AccessDeniedException` : You don't have sufficient permission to perform this action.
+    /// - `LimitExceededException` : A service quota was exceeded.
+    /// - `ThrottlingException` : The request couldn't be completed due to throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public func batchCreateVehicle(input: BatchCreateVehicleInput) async throws -> BatchCreateVehicleOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -142,6 +168,18 @@ extension IoTFleetWiseClient: IoTFleetWiseClientProtocol {
     }
 
     /// Updates a group, or batch, of vehicles. You must specify a decoder manifest and a vehicle model (model manifest) for each vehicle. For more information, see [Update multiple vehicles (AWS CLI)](https://docs.aws.amazon.com/iot-fleetwise/latest/developerguide/update-vehicles-cli.html) in the Amazon Web Services IoT FleetWise Developer Guide.
+    ///
+    /// - Parameter BatchUpdateVehicleInput : [no documentation found]
+    ///
+    /// - Returns: `BatchUpdateVehicleOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The request couldn't be completed because the server temporarily failed.
+    /// - `AccessDeniedException` : You don't have sufficient permission to perform this action.
+    /// - `ThrottlingException` : The request couldn't be completed due to throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public func batchUpdateVehicle(input: BatchUpdateVehicleInput) async throws -> BatchUpdateVehicleOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -179,6 +217,21 @@ extension IoTFleetWiseClient: IoTFleetWiseClientProtocol {
     }
 
     /// Creates an orchestration of data collection rules. The Amazon Web Services IoT FleetWise Edge Agent software running in vehicles uses campaigns to decide how to collect and transfer data to the cloud. You create campaigns in the cloud. After you or your team approve campaigns, Amazon Web Services IoT FleetWise automatically deploys them to vehicles. For more information, see [Collect and transfer data with campaigns](https://docs.aws.amazon.com/iot-fleetwise/latest/developerguide/campaigns.html) in the Amazon Web Services IoT FleetWise Developer Guide.
+    ///
+    /// - Parameter CreateCampaignInput : [no documentation found]
+    ///
+    /// - Returns: `CreateCampaignOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The request couldn't be completed because the server temporarily failed.
+    /// - `AccessDeniedException` : You don't have sufficient permission to perform this action.
+    /// - `ConflictException` : The request has conflicting operations. This can occur if you're trying to perform more than one operation on the same resource at the same time.
+    /// - `LimitExceededException` : A service quota was exceeded.
+    /// - `ResourceNotFoundException` : The resource wasn't found.
+    /// - `ThrottlingException` : The request couldn't be completed due to throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public func createCampaign(input: CreateCampaignInput) async throws -> CreateCampaignOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -224,6 +277,22 @@ extension IoTFleetWiseClient: IoTFleetWiseClientProtocol {
     /// * Each network interface has a unique ID.
     ///
     /// * The signal decoders are specified in the model manifest.
+    ///
+    /// - Parameter CreateDecoderManifestInput : [no documentation found]
+    ///
+    /// - Returns: `CreateDecoderManifestOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The request couldn't be completed because the server temporarily failed.
+    /// - `AccessDeniedException` : You don't have sufficient permission to perform this action.
+    /// - `ConflictException` : The request has conflicting operations. This can occur if you're trying to perform more than one operation on the same resource at the same time.
+    /// - `DecoderManifestValidationException` : The request couldn't be completed because it contains signal decoders with one or more validation errors.
+    /// - `LimitExceededException` : A service quota was exceeded.
+    /// - `ResourceNotFoundException` : The resource wasn't found.
+    /// - `ThrottlingException` : The request couldn't be completed due to throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public func createDecoderManifest(input: CreateDecoderManifestInput) async throws -> CreateDecoderManifestOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -261,6 +330,21 @@ extension IoTFleetWiseClient: IoTFleetWiseClientProtocol {
     }
 
     /// Creates a fleet that represents a group of vehicles. You must create both a signal catalog and vehicles before you can create a fleet. For more information, see [Fleets](https://docs.aws.amazon.com/iot-fleetwise/latest/developerguide/fleets.html) in the Amazon Web Services IoT FleetWise Developer Guide.
+    ///
+    /// - Parameter CreateFleetInput : [no documentation found]
+    ///
+    /// - Returns: `CreateFleetOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The request couldn't be completed because the server temporarily failed.
+    /// - `AccessDeniedException` : You don't have sufficient permission to perform this action.
+    /// - `ConflictException` : The request has conflicting operations. This can occur if you're trying to perform more than one operation on the same resource at the same time.
+    /// - `LimitExceededException` : A service quota was exceeded.
+    /// - `ResourceNotFoundException` : The resource wasn't found.
+    /// - `ThrottlingException` : The request couldn't be completed due to throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public func createFleet(input: CreateFleetInput) async throws -> CreateFleetOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -298,6 +382,22 @@ extension IoTFleetWiseClient: IoTFleetWiseClientProtocol {
     }
 
     /// Creates a vehicle model (model manifest) that specifies signals (attributes, branches, sensors, and actuators). For more information, see [Vehicle models](https://docs.aws.amazon.com/iot-fleetwise/latest/developerguide/vehicle-models.html) in the Amazon Web Services IoT FleetWise Developer Guide.
+    ///
+    /// - Parameter CreateModelManifestInput : [no documentation found]
+    ///
+    /// - Returns: `CreateModelManifestOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The request couldn't be completed because the server temporarily failed.
+    /// - `AccessDeniedException` : You don't have sufficient permission to perform this action.
+    /// - `ConflictException` : The request has conflicting operations. This can occur if you're trying to perform more than one operation on the same resource at the same time.
+    /// - `InvalidSignalsException` : The request couldn't be completed because it contains signals that aren't valid.
+    /// - `LimitExceededException` : A service quota was exceeded.
+    /// - `ResourceNotFoundException` : The resource wasn't found.
+    /// - `ThrottlingException` : The request couldn't be completed due to throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public func createModelManifest(input: CreateModelManifestInput) async throws -> CreateModelManifestOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -335,6 +435,22 @@ extension IoTFleetWiseClient: IoTFleetWiseClientProtocol {
     }
 
     /// Creates a collection of standardized signals that can be reused to create vehicle models.
+    ///
+    /// - Parameter CreateSignalCatalogInput : [no documentation found]
+    ///
+    /// - Returns: `CreateSignalCatalogOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The request couldn't be completed because the server temporarily failed.
+    /// - `AccessDeniedException` : You don't have sufficient permission to perform this action.
+    /// - `ConflictException` : The request has conflicting operations. This can occur if you're trying to perform more than one operation on the same resource at the same time.
+    /// - `InvalidNodeException` : The specified node type doesn't match the expected node type for a node. You can specify the node type as branch, sensor, actuator, or attribute.
+    /// - `InvalidSignalsException` : The request couldn't be completed because it contains signals that aren't valid.
+    /// - `LimitExceededException` : A service quota was exceeded.
+    /// - `ThrottlingException` : The request couldn't be completed due to throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public func createSignalCatalog(input: CreateSignalCatalogInput) async throws -> CreateSignalCatalogOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -372,6 +488,21 @@ extension IoTFleetWiseClient: IoTFleetWiseClientProtocol {
     }
 
     /// Creates a vehicle, which is an instance of a vehicle model (model manifest). Vehicles created from the same vehicle model consist of the same signals inherited from the vehicle model. If you have an existing Amazon Web Services IoT thing, you can use Amazon Web Services IoT FleetWise to create a vehicle and collect data from your thing. For more information, see [Create a vehicle (AWS CLI)](https://docs.aws.amazon.com/iot-fleetwise/latest/developerguide/create-vehicle-cli.html) in the Amazon Web Services IoT FleetWise Developer Guide.
+    ///
+    /// - Parameter CreateVehicleInput : [no documentation found]
+    ///
+    /// - Returns: `CreateVehicleOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The request couldn't be completed because the server temporarily failed.
+    /// - `AccessDeniedException` : You don't have sufficient permission to perform this action.
+    /// - `ConflictException` : The request has conflicting operations. This can occur if you're trying to perform more than one operation on the same resource at the same time.
+    /// - `LimitExceededException` : A service quota was exceeded.
+    /// - `ResourceNotFoundException` : The resource wasn't found.
+    /// - `ThrottlingException` : The request couldn't be completed due to throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public func createVehicle(input: CreateVehicleInput) async throws -> CreateVehicleOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -409,6 +540,19 @@ extension IoTFleetWiseClient: IoTFleetWiseClientProtocol {
     }
 
     /// Deletes a data collection campaign. Deleting a campaign suspends all data collection and removes it from any vehicles.
+    ///
+    /// - Parameter DeleteCampaignInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteCampaignOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The request couldn't be completed because the server temporarily failed.
+    /// - `AccessDeniedException` : You don't have sufficient permission to perform this action.
+    /// - `ResourceNotFoundException` : The resource wasn't found.
+    /// - `ThrottlingException` : The request couldn't be completed due to throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public func deleteCampaign(input: DeleteCampaignInput) async throws -> DeleteCampaignOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -446,6 +590,19 @@ extension IoTFleetWiseClient: IoTFleetWiseClientProtocol {
     }
 
     /// Deletes a decoder manifest. You can't delete a decoder manifest if it has vehicles associated with it. If the decoder manifest is successfully deleted, Amazon Web Services IoT FleetWise sends back an HTTP 200 response with an empty body.
+    ///
+    /// - Parameter DeleteDecoderManifestInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteDecoderManifestOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The request couldn't be completed because the server temporarily failed.
+    /// - `AccessDeniedException` : You don't have sufficient permission to perform this action.
+    /// - `ConflictException` : The request has conflicting operations. This can occur if you're trying to perform more than one operation on the same resource at the same time.
+    /// - `ThrottlingException` : The request couldn't be completed due to throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public func deleteDecoderManifest(input: DeleteDecoderManifestInput) async throws -> DeleteDecoderManifestOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -483,6 +640,18 @@ extension IoTFleetWiseClient: IoTFleetWiseClientProtocol {
     }
 
     /// Deletes a fleet. Before you delete a fleet, all vehicles must be dissociated from the fleet. For more information, see [Delete a fleet (AWS CLI)](https://docs.aws.amazon.com/iot-fleetwise/latest/developerguide/delete-fleet-cli.html) in the Amazon Web Services IoT FleetWise Developer Guide. If the fleet is successfully deleted, Amazon Web Services IoT FleetWise sends back an HTTP 200 response with an empty body.
+    ///
+    /// - Parameter DeleteFleetInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteFleetOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The request couldn't be completed because the server temporarily failed.
+    /// - `AccessDeniedException` : You don't have sufficient permission to perform this action.
+    /// - `ThrottlingException` : The request couldn't be completed due to throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public func deleteFleet(input: DeleteFleetInput) async throws -> DeleteFleetOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -520,6 +689,19 @@ extension IoTFleetWiseClient: IoTFleetWiseClientProtocol {
     }
 
     /// Deletes a vehicle model (model manifest). If the vehicle model is successfully deleted, Amazon Web Services IoT FleetWise sends back an HTTP 200 response with an empty body.
+    ///
+    /// - Parameter DeleteModelManifestInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteModelManifestOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The request couldn't be completed because the server temporarily failed.
+    /// - `AccessDeniedException` : You don't have sufficient permission to perform this action.
+    /// - `ConflictException` : The request has conflicting operations. This can occur if you're trying to perform more than one operation on the same resource at the same time.
+    /// - `ThrottlingException` : The request couldn't be completed due to throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public func deleteModelManifest(input: DeleteModelManifestInput) async throws -> DeleteModelManifestOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -557,6 +739,19 @@ extension IoTFleetWiseClient: IoTFleetWiseClientProtocol {
     }
 
     /// Deletes a signal catalog. If the signal catalog is successfully deleted, Amazon Web Services IoT FleetWise sends back an HTTP 200 response with an empty body.
+    ///
+    /// - Parameter DeleteSignalCatalogInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteSignalCatalogOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The request couldn't be completed because the server temporarily failed.
+    /// - `AccessDeniedException` : You don't have sufficient permission to perform this action.
+    /// - `ConflictException` : The request has conflicting operations. This can occur if you're trying to perform more than one operation on the same resource at the same time.
+    /// - `ThrottlingException` : The request couldn't be completed due to throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public func deleteSignalCatalog(input: DeleteSignalCatalogInput) async throws -> DeleteSignalCatalogOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -594,6 +789,18 @@ extension IoTFleetWiseClient: IoTFleetWiseClientProtocol {
     }
 
     /// Deletes a vehicle and removes it from any campaigns. If the vehicle is successfully deleted, Amazon Web Services IoT FleetWise sends back an HTTP 200 response with an empty body.
+    ///
+    /// - Parameter DeleteVehicleInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteVehicleOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The request couldn't be completed because the server temporarily failed.
+    /// - `AccessDeniedException` : You don't have sufficient permission to perform this action.
+    /// - `ThrottlingException` : The request couldn't be completed due to throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public func deleteVehicle(input: DeleteVehicleInput) async throws -> DeleteVehicleOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -631,6 +838,19 @@ extension IoTFleetWiseClient: IoTFleetWiseClientProtocol {
     }
 
     /// Removes, or disassociates, a vehicle from a fleet. Disassociating a vehicle from a fleet doesn't delete the vehicle. If the vehicle is successfully dissociated from a fleet, Amazon Web Services IoT FleetWise sends back an HTTP 200 response with an empty body.
+    ///
+    /// - Parameter DisassociateVehicleFleetInput : [no documentation found]
+    ///
+    /// - Returns: `DisassociateVehicleFleetOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The request couldn't be completed because the server temporarily failed.
+    /// - `AccessDeniedException` : You don't have sufficient permission to perform this action.
+    /// - `ResourceNotFoundException` : The resource wasn't found.
+    /// - `ThrottlingException` : The request couldn't be completed due to throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public func disassociateVehicleFleet(input: DisassociateVehicleFleetInput) async throws -> DisassociateVehicleFleetOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -668,6 +888,19 @@ extension IoTFleetWiseClient: IoTFleetWiseClientProtocol {
     }
 
     /// Retrieves information about a campaign.
+    ///
+    /// - Parameter GetCampaignInput : [no documentation found]
+    ///
+    /// - Returns: `GetCampaignOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The request couldn't be completed because the server temporarily failed.
+    /// - `AccessDeniedException` : You don't have sufficient permission to perform this action.
+    /// - `ResourceNotFoundException` : The resource wasn't found.
+    /// - `ThrottlingException` : The request couldn't be completed due to throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public func getCampaign(input: GetCampaignInput) async throws -> GetCampaignOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -705,6 +938,19 @@ extension IoTFleetWiseClient: IoTFleetWiseClientProtocol {
     }
 
     /// Retrieves information about a created decoder manifest.
+    ///
+    /// - Parameter GetDecoderManifestInput : [no documentation found]
+    ///
+    /// - Returns: `GetDecoderManifestOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The request couldn't be completed because the server temporarily failed.
+    /// - `AccessDeniedException` : You don't have sufficient permission to perform this action.
+    /// - `ResourceNotFoundException` : The resource wasn't found.
+    /// - `ThrottlingException` : The request couldn't be completed due to throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public func getDecoderManifest(input: GetDecoderManifestInput) async throws -> GetDecoderManifestOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -742,6 +988,19 @@ extension IoTFleetWiseClient: IoTFleetWiseClientProtocol {
     }
 
     /// Retrieves information about a fleet.
+    ///
+    /// - Parameter GetFleetInput : [no documentation found]
+    ///
+    /// - Returns: `GetFleetOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The request couldn't be completed because the server temporarily failed.
+    /// - `AccessDeniedException` : You don't have sufficient permission to perform this action.
+    /// - `ResourceNotFoundException` : The resource wasn't found.
+    /// - `ThrottlingException` : The request couldn't be completed due to throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public func getFleet(input: GetFleetInput) async throws -> GetFleetOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -779,6 +1038,17 @@ extension IoTFleetWiseClient: IoTFleetWiseClientProtocol {
     }
 
     /// Retrieves the logging options.
+    ///
+    /// - Parameter GetLoggingOptionsInput : [no documentation found]
+    ///
+    /// - Returns: `GetLoggingOptionsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The request couldn't be completed because the server temporarily failed.
+    /// - `AccessDeniedException` : You don't have sufficient permission to perform this action.
+    /// - `ThrottlingException` : The request couldn't be completed due to throttling.
     public func getLoggingOptions(input: GetLoggingOptionsInput) async throws -> GetLoggingOptionsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -816,6 +1086,19 @@ extension IoTFleetWiseClient: IoTFleetWiseClientProtocol {
     }
 
     /// Retrieves information about a vehicle model (model manifest).
+    ///
+    /// - Parameter GetModelManifestInput : [no documentation found]
+    ///
+    /// - Returns: `GetModelManifestOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The request couldn't be completed because the server temporarily failed.
+    /// - `AccessDeniedException` : You don't have sufficient permission to perform this action.
+    /// - `ResourceNotFoundException` : The resource wasn't found.
+    /// - `ThrottlingException` : The request couldn't be completed due to throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public func getModelManifest(input: GetModelManifestInput) async throws -> GetModelManifestOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -853,6 +1136,19 @@ extension IoTFleetWiseClient: IoTFleetWiseClientProtocol {
     }
 
     /// Retrieves information about the status of registering your Amazon Web Services account, IAM, and Amazon Timestream resources so that Amazon Web Services IoT FleetWise can transfer your vehicle data to the Amazon Web Services Cloud. For more information, including step-by-step procedures, see [Setting up Amazon Web Services IoT FleetWise](https://docs.aws.amazon.com/iot-fleetwise/latest/developerguide/setting-up.html). This API operation doesn't require input parameters.
+    ///
+    /// - Parameter GetRegisterAccountStatusInput : [no documentation found]
+    ///
+    /// - Returns: `GetRegisterAccountStatusOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The request couldn't be completed because the server temporarily failed.
+    /// - `AccessDeniedException` : You don't have sufficient permission to perform this action.
+    /// - `ResourceNotFoundException` : The resource wasn't found.
+    /// - `ThrottlingException` : The request couldn't be completed due to throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public func getRegisterAccountStatus(input: GetRegisterAccountStatusInput) async throws -> GetRegisterAccountStatusOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -890,6 +1186,19 @@ extension IoTFleetWiseClient: IoTFleetWiseClientProtocol {
     }
 
     /// Retrieves information about a signal catalog.
+    ///
+    /// - Parameter GetSignalCatalogInput : [no documentation found]
+    ///
+    /// - Returns: `GetSignalCatalogOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The request couldn't be completed because the server temporarily failed.
+    /// - `AccessDeniedException` : You don't have sufficient permission to perform this action.
+    /// - `ResourceNotFoundException` : The resource wasn't found.
+    /// - `ThrottlingException` : The request couldn't be completed due to throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public func getSignalCatalog(input: GetSignalCatalogInput) async throws -> GetSignalCatalogOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -927,6 +1236,19 @@ extension IoTFleetWiseClient: IoTFleetWiseClientProtocol {
     }
 
     /// Retrieves information about a vehicle.
+    ///
+    /// - Parameter GetVehicleInput : [no documentation found]
+    ///
+    /// - Returns: `GetVehicleOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The request couldn't be completed because the server temporarily failed.
+    /// - `AccessDeniedException` : You don't have sufficient permission to perform this action.
+    /// - `ResourceNotFoundException` : The resource wasn't found.
+    /// - `ThrottlingException` : The request couldn't be completed due to throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public func getVehicle(input: GetVehicleInput) async throws -> GetVehicleOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -964,6 +1286,19 @@ extension IoTFleetWiseClient: IoTFleetWiseClientProtocol {
     }
 
     /// Retrieves information about the status of a vehicle with any associated campaigns.
+    ///
+    /// - Parameter GetVehicleStatusInput : [no documentation found]
+    ///
+    /// - Returns: `GetVehicleStatusOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The request couldn't be completed because the server temporarily failed.
+    /// - `AccessDeniedException` : You don't have sufficient permission to perform this action.
+    /// - `ResourceNotFoundException` : The resource wasn't found.
+    /// - `ThrottlingException` : The request couldn't be completed due to throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public func getVehicleStatus(input: GetVehicleStatusInput) async throws -> GetVehicleStatusOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1002,6 +1337,22 @@ extension IoTFleetWiseClient: IoTFleetWiseClientProtocol {
     }
 
     /// Creates a decoder manifest using your existing CAN DBC file from your local device.
+    ///
+    /// - Parameter ImportDecoderManifestInput : [no documentation found]
+    ///
+    /// - Returns: `ImportDecoderManifestOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The request couldn't be completed because the server temporarily failed.
+    /// - `AccessDeniedException` : You don't have sufficient permission to perform this action.
+    /// - `ConflictException` : The request has conflicting operations. This can occur if you're trying to perform more than one operation on the same resource at the same time.
+    /// - `DecoderManifestValidationException` : The request couldn't be completed because it contains signal decoders with one or more validation errors.
+    /// - `InvalidSignalsException` : The request couldn't be completed because it contains signals that aren't valid.
+    /// - `ResourceNotFoundException` : The resource wasn't found.
+    /// - `ThrottlingException` : The request couldn't be completed due to throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public func importDecoderManifest(input: ImportDecoderManifestInput) async throws -> ImportDecoderManifestOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1039,6 +1390,22 @@ extension IoTFleetWiseClient: IoTFleetWiseClientProtocol {
     }
 
     /// Creates a signal catalog using your existing VSS formatted content from your local device.
+    ///
+    /// - Parameter ImportSignalCatalogInput : [no documentation found]
+    ///
+    /// - Returns: `ImportSignalCatalogOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The request couldn't be completed because the server temporarily failed.
+    /// - `AccessDeniedException` : You don't have sufficient permission to perform this action.
+    /// - `ConflictException` : The request has conflicting operations. This can occur if you're trying to perform more than one operation on the same resource at the same time.
+    /// - `InvalidSignalsException` : The request couldn't be completed because it contains signals that aren't valid.
+    /// - `LimitExceededException` : A service quota was exceeded.
+    /// - `ResourceNotFoundException` : The resource wasn't found.
+    /// - `ThrottlingException` : The request couldn't be completed due to throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public func importSignalCatalog(input: ImportSignalCatalogInput) async throws -> ImportSignalCatalogOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1076,6 +1443,18 @@ extension IoTFleetWiseClient: IoTFleetWiseClientProtocol {
     }
 
     /// Lists information about created campaigns. This API operation uses pagination. Specify the nextToken parameter in the request to return more results.
+    ///
+    /// - Parameter ListCampaignsInput : [no documentation found]
+    ///
+    /// - Returns: `ListCampaignsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The request couldn't be completed because the server temporarily failed.
+    /// - `AccessDeniedException` : You don't have sufficient permission to perform this action.
+    /// - `ThrottlingException` : The request couldn't be completed due to throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public func listCampaigns(input: ListCampaignsInput) async throws -> ListCampaignsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1114,6 +1493,19 @@ extension IoTFleetWiseClient: IoTFleetWiseClientProtocol {
     }
 
     /// Lists the network interfaces specified in a decoder manifest. This API operation uses pagination. Specify the nextToken parameter in the request to return more results.
+    ///
+    /// - Parameter ListDecoderManifestNetworkInterfacesInput : [no documentation found]
+    ///
+    /// - Returns: `ListDecoderManifestNetworkInterfacesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The request couldn't be completed because the server temporarily failed.
+    /// - `AccessDeniedException` : You don't have sufficient permission to perform this action.
+    /// - `ResourceNotFoundException` : The resource wasn't found.
+    /// - `ThrottlingException` : The request couldn't be completed due to throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public func listDecoderManifestNetworkInterfaces(input: ListDecoderManifestNetworkInterfacesInput) async throws -> ListDecoderManifestNetworkInterfacesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1152,6 +1544,19 @@ extension IoTFleetWiseClient: IoTFleetWiseClientProtocol {
     }
 
     /// A list of information about signal decoders specified in a decoder manifest. This API operation uses pagination. Specify the nextToken parameter in the request to return more results.
+    ///
+    /// - Parameter ListDecoderManifestSignalsInput : [no documentation found]
+    ///
+    /// - Returns: `ListDecoderManifestSignalsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The request couldn't be completed because the server temporarily failed.
+    /// - `AccessDeniedException` : You don't have sufficient permission to perform this action.
+    /// - `ResourceNotFoundException` : The resource wasn't found.
+    /// - `ThrottlingException` : The request couldn't be completed due to throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public func listDecoderManifestSignals(input: ListDecoderManifestSignalsInput) async throws -> ListDecoderManifestSignalsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1190,6 +1595,18 @@ extension IoTFleetWiseClient: IoTFleetWiseClientProtocol {
     }
 
     /// Lists decoder manifests. This API operation uses pagination. Specify the nextToken parameter in the request to return more results.
+    ///
+    /// - Parameter ListDecoderManifestsInput : [no documentation found]
+    ///
+    /// - Returns: `ListDecoderManifestsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The request couldn't be completed because the server temporarily failed.
+    /// - `AccessDeniedException` : You don't have sufficient permission to perform this action.
+    /// - `ThrottlingException` : The request couldn't be completed due to throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public func listDecoderManifests(input: ListDecoderManifestsInput) async throws -> ListDecoderManifestsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1228,6 +1645,19 @@ extension IoTFleetWiseClient: IoTFleetWiseClientProtocol {
     }
 
     /// Retrieves information for each created fleet in an Amazon Web Services account. This API operation uses pagination. Specify the nextToken parameter in the request to return more results.
+    ///
+    /// - Parameter ListFleetsInput : [no documentation found]
+    ///
+    /// - Returns: `ListFleetsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The request couldn't be completed because the server temporarily failed.
+    /// - `AccessDeniedException` : You don't have sufficient permission to perform this action.
+    /// - `ResourceNotFoundException` : The resource wasn't found.
+    /// - `ThrottlingException` : The request couldn't be completed due to throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public func listFleets(input: ListFleetsInput) async throws -> ListFleetsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1266,6 +1696,19 @@ extension IoTFleetWiseClient: IoTFleetWiseClientProtocol {
     }
 
     /// Retrieves a list of IDs for all fleets that the vehicle is associated with. This API operation uses pagination. Specify the nextToken parameter in the request to return more results.
+    ///
+    /// - Parameter ListFleetsForVehicleInput : [no documentation found]
+    ///
+    /// - Returns: `ListFleetsForVehicleOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The request couldn't be completed because the server temporarily failed.
+    /// - `AccessDeniedException` : You don't have sufficient permission to perform this action.
+    /// - `ResourceNotFoundException` : The resource wasn't found.
+    /// - `ThrottlingException` : The request couldn't be completed due to throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public func listFleetsForVehicle(input: ListFleetsForVehicleInput) async throws -> ListFleetsForVehicleOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1304,6 +1747,20 @@ extension IoTFleetWiseClient: IoTFleetWiseClientProtocol {
     }
 
     /// Lists information about nodes specified in a vehicle model (model manifest). This API operation uses pagination. Specify the nextToken parameter in the request to return more results.
+    ///
+    /// - Parameter ListModelManifestNodesInput : [no documentation found]
+    ///
+    /// - Returns: `ListModelManifestNodesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The request couldn't be completed because the server temporarily failed.
+    /// - `AccessDeniedException` : You don't have sufficient permission to perform this action.
+    /// - `LimitExceededException` : A service quota was exceeded.
+    /// - `ResourceNotFoundException` : The resource wasn't found.
+    /// - `ThrottlingException` : The request couldn't be completed due to throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public func listModelManifestNodes(input: ListModelManifestNodesInput) async throws -> ListModelManifestNodesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1342,6 +1799,18 @@ extension IoTFleetWiseClient: IoTFleetWiseClientProtocol {
     }
 
     /// Retrieves a list of vehicle models (model manifests). This API operation uses pagination. Specify the nextToken parameter in the request to return more results.
+    ///
+    /// - Parameter ListModelManifestsInput : [no documentation found]
+    ///
+    /// - Returns: `ListModelManifestsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The request couldn't be completed because the server temporarily failed.
+    /// - `AccessDeniedException` : You don't have sufficient permission to perform this action.
+    /// - `ThrottlingException` : The request couldn't be completed due to throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public func listModelManifests(input: ListModelManifestsInput) async throws -> ListModelManifestsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1380,6 +1849,20 @@ extension IoTFleetWiseClient: IoTFleetWiseClientProtocol {
     }
 
     /// Lists of information about the signals (nodes) specified in a signal catalog. This API operation uses pagination. Specify the nextToken parameter in the request to return more results.
+    ///
+    /// - Parameter ListSignalCatalogNodesInput : [no documentation found]
+    ///
+    /// - Returns: `ListSignalCatalogNodesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The request couldn't be completed because the server temporarily failed.
+    /// - `AccessDeniedException` : You don't have sufficient permission to perform this action.
+    /// - `LimitExceededException` : A service quota was exceeded.
+    /// - `ResourceNotFoundException` : The resource wasn't found.
+    /// - `ThrottlingException` : The request couldn't be completed due to throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public func listSignalCatalogNodes(input: ListSignalCatalogNodesInput) async throws -> ListSignalCatalogNodesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1418,6 +1901,18 @@ extension IoTFleetWiseClient: IoTFleetWiseClientProtocol {
     }
 
     /// Lists all the created signal catalogs in an Amazon Web Services account. You can use to list information about each signal (node) specified in a signal catalog. This API operation uses pagination. Specify the nextToken parameter in the request to return more results.
+    ///
+    /// - Parameter ListSignalCatalogsInput : [no documentation found]
+    ///
+    /// - Returns: `ListSignalCatalogsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The request couldn't be completed because the server temporarily failed.
+    /// - `AccessDeniedException` : You don't have sufficient permission to perform this action.
+    /// - `ThrottlingException` : The request couldn't be completed due to throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public func listSignalCatalogs(input: ListSignalCatalogsInput) async throws -> ListSignalCatalogsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1456,6 +1951,19 @@ extension IoTFleetWiseClient: IoTFleetWiseClientProtocol {
     }
 
     /// Lists the tags (metadata) you have assigned to the resource.
+    ///
+    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    ///
+    /// - Returns: `ListTagsForResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The request couldn't be completed because the server temporarily failed.
+    /// - `AccessDeniedException` : You don't have sufficient permission to perform this action.
+    /// - `ResourceNotFoundException` : The resource wasn't found.
+    /// - `ThrottlingException` : The request couldn't be completed due to throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1494,6 +2002,18 @@ extension IoTFleetWiseClient: IoTFleetWiseClientProtocol {
     }
 
     /// Retrieves a list of summaries of created vehicles. This API operation uses pagination. Specify the nextToken parameter in the request to return more results.
+    ///
+    /// - Parameter ListVehiclesInput : [no documentation found]
+    ///
+    /// - Returns: `ListVehiclesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The request couldn't be completed because the server temporarily failed.
+    /// - `AccessDeniedException` : You don't have sufficient permission to perform this action.
+    /// - `ThrottlingException` : The request couldn't be completed due to throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public func listVehicles(input: ListVehiclesInput) async throws -> ListVehiclesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1532,6 +2052,19 @@ extension IoTFleetWiseClient: IoTFleetWiseClientProtocol {
     }
 
     /// Retrieves a list of summaries of all vehicles associated with a fleet. This API operation uses pagination. Specify the nextToken parameter in the request to return more results.
+    ///
+    /// - Parameter ListVehiclesInFleetInput : [no documentation found]
+    ///
+    /// - Returns: `ListVehiclesInFleetOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The request couldn't be completed because the server temporarily failed.
+    /// - `AccessDeniedException` : You don't have sufficient permission to perform this action.
+    /// - `ResourceNotFoundException` : The resource wasn't found.
+    /// - `ThrottlingException` : The request couldn't be completed due to throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public func listVehiclesInFleet(input: ListVehiclesInFleetInput) async throws -> ListVehiclesInFleetOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1570,6 +2103,20 @@ extension IoTFleetWiseClient: IoTFleetWiseClientProtocol {
     }
 
     /// Creates or updates the logging option.
+    ///
+    /// - Parameter PutLoggingOptionsInput : [no documentation found]
+    ///
+    /// - Returns: `PutLoggingOptionsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The request couldn't be completed because the server temporarily failed.
+    /// - `AccessDeniedException` : You don't have sufficient permission to perform this action.
+    /// - `ConflictException` : The request has conflicting operations. This can occur if you're trying to perform more than one operation on the same resource at the same time.
+    /// - `ResourceNotFoundException` : The resource wasn't found.
+    /// - `ThrottlingException` : The request couldn't be completed due to throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public func putLoggingOptions(input: PutLoggingOptionsInput) async throws -> PutLoggingOptionsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1607,6 +2154,20 @@ extension IoTFleetWiseClient: IoTFleetWiseClientProtocol {
     }
 
     /// This API operation contains deprecated parameters. Register your account again without the Timestream resources parameter so that Amazon Web Services IoT FleetWise can remove the Timestream metadata stored. You should then pass the data destination into the [CreateCampaign](https://docs.aws.amazon.com/iot-fleetwise/latest/APIReference/API_CreateCampaign.html) API operation. You must delete any existing campaigns that include an empty data destination before you register your account again. For more information, see the [DeleteCampaign](https://docs.aws.amazon.com/iot-fleetwise/latest/APIReference/API_DeleteCampaign.html) API operation. If you want to delete the Timestream inline policy from the service-linked role, such as to mitigate an overly permissive policy, you must first delete any existing campaigns. Then delete the service-linked role and register your account again to enable CloudWatch metrics. For more information, see [DeleteServiceLinkedRole](https://docs.aws.amazon.com/IAM/latest/APIReference/API_DeleteServiceLinkedRole.html) in the Identity and Access Management API Reference. Registers your Amazon Web Services account, IAM, and Amazon Timestream resources so Amazon Web Services IoT FleetWise can transfer your vehicle data to the Amazon Web Services Cloud. For more information, including step-by-step procedures, see [Setting up Amazon Web Services IoT FleetWise](https://docs.aws.amazon.com/iot-fleetwise/latest/developerguide/setting-up.html). An Amazon Web Services account is not the same thing as a "user." An [Amazon Web Services user](https://docs.aws.amazon.com/IAM/latest/UserGuide/introduction_identity-management.html#intro-identity-users) is an identity that you create using Identity and Access Management (IAM) and takes the form of either an [IAM user](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_users.html) or an [IAM role, both with credentials](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles.html). A single Amazon Web Services account can, and typically does, contain many users and roles.
+    ///
+    /// - Parameter RegisterAccountInput : [no documentation found]
+    ///
+    /// - Returns: `RegisterAccountOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The request couldn't be completed because the server temporarily failed.
+    /// - `AccessDeniedException` : You don't have sufficient permission to perform this action.
+    /// - `ConflictException` : The request has conflicting operations. This can occur if you're trying to perform more than one operation on the same resource at the same time.
+    /// - `ResourceNotFoundException` : The resource wasn't found.
+    /// - `ThrottlingException` : The request couldn't be completed due to throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public func registerAccount(input: RegisterAccountInput) async throws -> RegisterAccountOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1644,6 +2205,19 @@ extension IoTFleetWiseClient: IoTFleetWiseClientProtocol {
     }
 
     /// Adds to or modifies the tags of the given resource. Tags are metadata which can be used to manage a resource.
+    ///
+    /// - Parameter TagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `TagResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The request couldn't be completed because the server temporarily failed.
+    /// - `AccessDeniedException` : You don't have sufficient permission to perform this action.
+    /// - `ResourceNotFoundException` : The resource wasn't found.
+    /// - `ThrottlingException` : The request couldn't be completed due to throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1682,6 +2256,19 @@ extension IoTFleetWiseClient: IoTFleetWiseClientProtocol {
     }
 
     /// Removes the given tags (metadata) from the resource.
+    ///
+    /// - Parameter UntagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `UntagResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The request couldn't be completed because the server temporarily failed.
+    /// - `AccessDeniedException` : You don't have sufficient permission to perform this action.
+    /// - `ResourceNotFoundException` : The resource wasn't found.
+    /// - `ThrottlingException` : The request couldn't be completed due to throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1720,6 +2307,20 @@ extension IoTFleetWiseClient: IoTFleetWiseClientProtocol {
     }
 
     /// Updates a campaign.
+    ///
+    /// - Parameter UpdateCampaignInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateCampaignOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The request couldn't be completed because the server temporarily failed.
+    /// - `AccessDeniedException` : You don't have sufficient permission to perform this action.
+    /// - `ConflictException` : The request has conflicting operations. This can occur if you're trying to perform more than one operation on the same resource at the same time.
+    /// - `ResourceNotFoundException` : The resource wasn't found.
+    /// - `ThrottlingException` : The request couldn't be completed due to throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public func updateCampaign(input: UpdateCampaignInput) async throws -> UpdateCampaignOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1757,6 +2358,22 @@ extension IoTFleetWiseClient: IoTFleetWiseClientProtocol {
     }
 
     /// Updates a decoder manifest. A decoder manifest can only be updated when the status is DRAFT. Only ACTIVE decoder manifests can be associated with vehicles.
+    ///
+    /// - Parameter UpdateDecoderManifestInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateDecoderManifestOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The request couldn't be completed because the server temporarily failed.
+    /// - `AccessDeniedException` : You don't have sufficient permission to perform this action.
+    /// - `ConflictException` : The request has conflicting operations. This can occur if you're trying to perform more than one operation on the same resource at the same time.
+    /// - `DecoderManifestValidationException` : The request couldn't be completed because it contains signal decoders with one or more validation errors.
+    /// - `LimitExceededException` : A service quota was exceeded.
+    /// - `ResourceNotFoundException` : The resource wasn't found.
+    /// - `ThrottlingException` : The request couldn't be completed due to throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public func updateDecoderManifest(input: UpdateDecoderManifestInput) async throws -> UpdateDecoderManifestOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1794,6 +2411,20 @@ extension IoTFleetWiseClient: IoTFleetWiseClientProtocol {
     }
 
     /// Updates the description of an existing fleet. If the fleet is successfully updated, Amazon Web Services IoT FleetWise sends back an HTTP 200 response with an empty HTTP body.
+    ///
+    /// - Parameter UpdateFleetInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateFleetOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The request couldn't be completed because the server temporarily failed.
+    /// - `AccessDeniedException` : You don't have sufficient permission to perform this action.
+    /// - `ConflictException` : The request has conflicting operations. This can occur if you're trying to perform more than one operation on the same resource at the same time.
+    /// - `ResourceNotFoundException` : The resource wasn't found.
+    /// - `ThrottlingException` : The request couldn't be completed due to throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public func updateFleet(input: UpdateFleetInput) async throws -> UpdateFleetOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1831,6 +2462,21 @@ extension IoTFleetWiseClient: IoTFleetWiseClientProtocol {
     }
 
     /// Updates a vehicle model (model manifest). If created vehicles are associated with a vehicle model, it can't be updated.
+    ///
+    /// - Parameter UpdateModelManifestInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateModelManifestOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The request couldn't be completed because the server temporarily failed.
+    /// - `AccessDeniedException` : You don't have sufficient permission to perform this action.
+    /// - `ConflictException` : The request has conflicting operations. This can occur if you're trying to perform more than one operation on the same resource at the same time.
+    /// - `InvalidSignalsException` : The request couldn't be completed because it contains signals that aren't valid.
+    /// - `ResourceNotFoundException` : The resource wasn't found.
+    /// - `ThrottlingException` : The request couldn't be completed due to throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public func updateModelManifest(input: UpdateModelManifestInput) async throws -> UpdateModelManifestOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1868,6 +2514,23 @@ extension IoTFleetWiseClient: IoTFleetWiseClientProtocol {
     }
 
     /// Updates a signal catalog.
+    ///
+    /// - Parameter UpdateSignalCatalogInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateSignalCatalogOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The request couldn't be completed because the server temporarily failed.
+    /// - `AccessDeniedException` : You don't have sufficient permission to perform this action.
+    /// - `ConflictException` : The request has conflicting operations. This can occur if you're trying to perform more than one operation on the same resource at the same time.
+    /// - `InvalidNodeException` : The specified node type doesn't match the expected node type for a node. You can specify the node type as branch, sensor, actuator, or attribute.
+    /// - `InvalidSignalsException` : The request couldn't be completed because it contains signals that aren't valid.
+    /// - `LimitExceededException` : A service quota was exceeded.
+    /// - `ResourceNotFoundException` : The resource wasn't found.
+    /// - `ThrottlingException` : The request couldn't be completed due to throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public func updateSignalCatalog(input: UpdateSignalCatalogInput) async throws -> UpdateSignalCatalogOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1905,6 +2568,20 @@ extension IoTFleetWiseClient: IoTFleetWiseClientProtocol {
     }
 
     /// Updates a vehicle.
+    ///
+    /// - Parameter UpdateVehicleInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateVehicleOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The request couldn't be completed because the server temporarily failed.
+    /// - `AccessDeniedException` : You don't have sufficient permission to perform this action.
+    /// - `ConflictException` : The request has conflicting operations. This can occur if you're trying to perform more than one operation on the same resource at the same time.
+    /// - `ResourceNotFoundException` : The resource wasn't found.
+    /// - `ThrottlingException` : The request couldn't be completed due to throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     public func updateVehicle(input: UpdateVehicleInput) async throws -> UpdateVehicleOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()

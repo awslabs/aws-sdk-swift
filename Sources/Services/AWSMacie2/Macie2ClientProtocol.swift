@@ -5,162 +5,1259 @@ import ClientRuntime
 /// Amazon Macie
 public protocol Macie2ClientProtocol {
     /// Accepts an Amazon Macie membership invitation that was received from a specific account.
+    ///
+    /// - Parameter AcceptInvitationInput : [no documentation found]
+    ///
+    /// - Returns: `AcceptInvitationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Provides information about an error that occurred due to insufficient access to a specified resource.
+    /// - `ConflictException` : Provides information about an error that occurred due to a versioning conflict for a specified resource.
+    /// - `InternalServerException` : Provides information about an error that occurred due to an unknown internal server error, exception, or failure.
+    /// - `ResourceNotFoundException` : Provides information about an error that occurred because a specified resource wasn't found.
+    /// - `ServiceQuotaExceededException` : Provides information about an error that occurred due to one or more service quotas for an account.
+    /// - `ThrottlingException` : Provides information about an error that occurred because too many requests were sent during a certain amount of time.
+    /// - `ValidationException` : Provides information about an error that occurred due to a syntax error in a request.
     func acceptInvitation(input: AcceptInvitationInput) async throws -> AcceptInvitationOutputResponse
     /// Retrieves information about one or more custom data identifiers.
+    ///
+    /// - Parameter BatchGetCustomDataIdentifiersInput : [no documentation found]
+    ///
+    /// - Returns: `BatchGetCustomDataIdentifiersOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Provides information about an error that occurred due to insufficient access to a specified resource.
+    /// - `ConflictException` : Provides information about an error that occurred due to a versioning conflict for a specified resource.
+    /// - `InternalServerException` : Provides information about an error that occurred due to an unknown internal server error, exception, or failure.
+    /// - `ResourceNotFoundException` : Provides information about an error that occurred because a specified resource wasn't found.
+    /// - `ServiceQuotaExceededException` : Provides information about an error that occurred due to one or more service quotas for an account.
+    /// - `ThrottlingException` : Provides information about an error that occurred because too many requests were sent during a certain amount of time.
+    /// - `ValidationException` : Provides information about an error that occurred due to a syntax error in a request.
     func batchGetCustomDataIdentifiers(input: BatchGetCustomDataIdentifiersInput) async throws -> BatchGetCustomDataIdentifiersOutputResponse
     /// Creates and defines the settings for an allow list.
+    ///
+    /// - Parameter CreateAllowListInput : [no documentation found]
+    ///
+    /// - Returns: `CreateAllowListOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Provides information about an error that occurred due to insufficient access to a specified resource.
+    /// - `ConflictException` : Provides information about an error that occurred due to a versioning conflict for a specified resource.
+    /// - `InternalServerException` : Provides information about an error that occurred due to an unknown internal server error, exception, or failure.
+    /// - `ResourceNotFoundException` : Provides information about an error that occurred because a specified resource wasn't found.
+    /// - `ServiceQuotaExceededException` : Provides information about an error that occurred due to one or more service quotas for an account.
+    /// - `ThrottlingException` : Provides information about an error that occurred because too many requests were sent during a certain amount of time.
+    /// - `ValidationException` : Provides information about an error that occurred due to a syntax error in a request.
     func createAllowList(input: CreateAllowListInput) async throws -> CreateAllowListOutputResponse
     /// Creates and defines the settings for a classification job.
+    ///
+    /// - Parameter CreateClassificationJobInput : [no documentation found]
+    ///
+    /// - Returns: `CreateClassificationJobOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Provides information about an error that occurred due to insufficient access to a specified resource.
+    /// - `ConflictException` : Provides information about an error that occurred due to a versioning conflict for a specified resource.
+    /// - `InternalServerException` : Provides information about an error that occurred due to an unknown internal server error, exception, or failure.
+    /// - `ResourceNotFoundException` : Provides information about an error that occurred because a specified resource wasn't found.
+    /// - `ServiceQuotaExceededException` : Provides information about an error that occurred due to one or more service quotas for an account.
+    /// - `ThrottlingException` : Provides information about an error that occurred because too many requests were sent during a certain amount of time.
+    /// - `ValidationException` : Provides information about an error that occurred due to a syntax error in a request.
     func createClassificationJob(input: CreateClassificationJobInput) async throws -> CreateClassificationJobOutputResponse
     /// Creates and defines the criteria and other settings for a custom data identifier.
+    ///
+    /// - Parameter CreateCustomDataIdentifierInput : [no documentation found]
+    ///
+    /// - Returns: `CreateCustomDataIdentifierOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Provides information about an error that occurred due to insufficient access to a specified resource.
+    /// - `ConflictException` : Provides information about an error that occurred due to a versioning conflict for a specified resource.
+    /// - `InternalServerException` : Provides information about an error that occurred due to an unknown internal server error, exception, or failure.
+    /// - `ResourceNotFoundException` : Provides information about an error that occurred because a specified resource wasn't found.
+    /// - `ServiceQuotaExceededException` : Provides information about an error that occurred due to one or more service quotas for an account.
+    /// - `ThrottlingException` : Provides information about an error that occurred because too many requests were sent during a certain amount of time.
+    /// - `ValidationException` : Provides information about an error that occurred due to a syntax error in a request.
     func createCustomDataIdentifier(input: CreateCustomDataIdentifierInput) async throws -> CreateCustomDataIdentifierOutputResponse
     /// Creates and defines the criteria and other settings for a findings filter.
+    ///
+    /// - Parameter CreateFindingsFilterInput : [no documentation found]
+    ///
+    /// - Returns: `CreateFindingsFilterOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Provides information about an error that occurred due to insufficient access to a specified resource.
+    /// - `ConflictException` : Provides information about an error that occurred due to a versioning conflict for a specified resource.
+    /// - `InternalServerException` : Provides information about an error that occurred due to an unknown internal server error, exception, or failure.
+    /// - `ResourceNotFoundException` : Provides information about an error that occurred because a specified resource wasn't found.
+    /// - `ServiceQuotaExceededException` : Provides information about an error that occurred due to one or more service quotas for an account.
+    /// - `ThrottlingException` : Provides information about an error that occurred because too many requests were sent during a certain amount of time.
+    /// - `ValidationException` : Provides information about an error that occurred due to a syntax error in a request.
     func createFindingsFilter(input: CreateFindingsFilterInput) async throws -> CreateFindingsFilterOutputResponse
     /// Sends an Amazon Macie membership invitation to one or more accounts.
+    ///
+    /// - Parameter CreateInvitationsInput : [no documentation found]
+    ///
+    /// - Returns: `CreateInvitationsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Provides information about an error that occurred due to insufficient access to a specified resource.
+    /// - `ConflictException` : Provides information about an error that occurred due to a versioning conflict for a specified resource.
+    /// - `InternalServerException` : Provides information about an error that occurred due to an unknown internal server error, exception, or failure.
+    /// - `ResourceNotFoundException` : Provides information about an error that occurred because a specified resource wasn't found.
+    /// - `ServiceQuotaExceededException` : Provides information about an error that occurred due to one or more service quotas for an account.
+    /// - `ThrottlingException` : Provides information about an error that occurred because too many requests were sent during a certain amount of time.
+    /// - `ValidationException` : Provides information about an error that occurred due to a syntax error in a request.
     func createInvitations(input: CreateInvitationsInput) async throws -> CreateInvitationsOutputResponse
     /// Associates an account with an Amazon Macie administrator account.
+    ///
+    /// - Parameter CreateMemberInput : [no documentation found]
+    ///
+    /// - Returns: `CreateMemberOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Provides information about an error that occurred due to insufficient access to a specified resource.
+    /// - `ConflictException` : Provides information about an error that occurred due to a versioning conflict for a specified resource.
+    /// - `InternalServerException` : Provides information about an error that occurred due to an unknown internal server error, exception, or failure.
+    /// - `ResourceNotFoundException` : Provides information about an error that occurred because a specified resource wasn't found.
+    /// - `ServiceQuotaExceededException` : Provides information about an error that occurred due to one or more service quotas for an account.
+    /// - `ThrottlingException` : Provides information about an error that occurred because too many requests were sent during a certain amount of time.
+    /// - `ValidationException` : Provides information about an error that occurred due to a syntax error in a request.
     func createMember(input: CreateMemberInput) async throws -> CreateMemberOutputResponse
     /// Creates sample findings.
+    ///
+    /// - Parameter CreateSampleFindingsInput : [no documentation found]
+    ///
+    /// - Returns: `CreateSampleFindingsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Provides information about an error that occurred due to insufficient access to a specified resource.
+    /// - `ConflictException` : Provides information about an error that occurred due to a versioning conflict for a specified resource.
+    /// - `InternalServerException` : Provides information about an error that occurred due to an unknown internal server error, exception, or failure.
+    /// - `ResourceNotFoundException` : Provides information about an error that occurred because a specified resource wasn't found.
+    /// - `ServiceQuotaExceededException` : Provides information about an error that occurred due to one or more service quotas for an account.
+    /// - `ThrottlingException` : Provides information about an error that occurred because too many requests were sent during a certain amount of time.
+    /// - `ValidationException` : Provides information about an error that occurred due to a syntax error in a request.
     func createSampleFindings(input: CreateSampleFindingsInput) async throws -> CreateSampleFindingsOutputResponse
     /// Declines Amazon Macie membership invitations that were received from specific accounts.
+    ///
+    /// - Parameter DeclineInvitationsInput : [no documentation found]
+    ///
+    /// - Returns: `DeclineInvitationsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Provides information about an error that occurred due to insufficient access to a specified resource.
+    /// - `ConflictException` : Provides information about an error that occurred due to a versioning conflict for a specified resource.
+    /// - `InternalServerException` : Provides information about an error that occurred due to an unknown internal server error, exception, or failure.
+    /// - `ResourceNotFoundException` : Provides information about an error that occurred because a specified resource wasn't found.
+    /// - `ServiceQuotaExceededException` : Provides information about an error that occurred due to one or more service quotas for an account.
+    /// - `ThrottlingException` : Provides information about an error that occurred because too many requests were sent during a certain amount of time.
+    /// - `ValidationException` : Provides information about an error that occurred due to a syntax error in a request.
     func declineInvitations(input: DeclineInvitationsInput) async throws -> DeclineInvitationsOutputResponse
     /// Deletes an allow list.
+    ///
+    /// - Parameter DeleteAllowListInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteAllowListOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Provides information about an error that occurred due to insufficient access to a specified resource.
+    /// - `InternalServerException` : Provides information about an error that occurred due to an unknown internal server error, exception, or failure.
+    /// - `ResourceNotFoundException` : Provides information about an error that occurred because a specified resource wasn't found.
+    /// - `ThrottlingException` : Provides information about an error that occurred because too many requests were sent during a certain amount of time.
+    /// - `ValidationException` : Provides information about an error that occurred due to a syntax error in a request.
     func deleteAllowList(input: DeleteAllowListInput) async throws -> DeleteAllowListOutputResponse
     /// Soft deletes a custom data identifier.
+    ///
+    /// - Parameter DeleteCustomDataIdentifierInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteCustomDataIdentifierOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Provides information about an error that occurred due to insufficient access to a specified resource.
+    /// - `ConflictException` : Provides information about an error that occurred due to a versioning conflict for a specified resource.
+    /// - `InternalServerException` : Provides information about an error that occurred due to an unknown internal server error, exception, or failure.
+    /// - `ResourceNotFoundException` : Provides information about an error that occurred because a specified resource wasn't found.
+    /// - `ServiceQuotaExceededException` : Provides information about an error that occurred due to one or more service quotas for an account.
+    /// - `ThrottlingException` : Provides information about an error that occurred because too many requests were sent during a certain amount of time.
+    /// - `ValidationException` : Provides information about an error that occurred due to a syntax error in a request.
     func deleteCustomDataIdentifier(input: DeleteCustomDataIdentifierInput) async throws -> DeleteCustomDataIdentifierOutputResponse
     /// Deletes a findings filter.
+    ///
+    /// - Parameter DeleteFindingsFilterInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteFindingsFilterOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Provides information about an error that occurred due to insufficient access to a specified resource.
+    /// - `ConflictException` : Provides information about an error that occurred due to a versioning conflict for a specified resource.
+    /// - `InternalServerException` : Provides information about an error that occurred due to an unknown internal server error, exception, or failure.
+    /// - `ResourceNotFoundException` : Provides information about an error that occurred because a specified resource wasn't found.
+    /// - `ServiceQuotaExceededException` : Provides information about an error that occurred due to one or more service quotas for an account.
+    /// - `ThrottlingException` : Provides information about an error that occurred because too many requests were sent during a certain amount of time.
+    /// - `ValidationException` : Provides information about an error that occurred due to a syntax error in a request.
     func deleteFindingsFilter(input: DeleteFindingsFilterInput) async throws -> DeleteFindingsFilterOutputResponse
     /// Deletes Amazon Macie membership invitations that were received from specific accounts.
+    ///
+    /// - Parameter DeleteInvitationsInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteInvitationsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Provides information about an error that occurred due to insufficient access to a specified resource.
+    /// - `ConflictException` : Provides information about an error that occurred due to a versioning conflict for a specified resource.
+    /// - `InternalServerException` : Provides information about an error that occurred due to an unknown internal server error, exception, or failure.
+    /// - `ResourceNotFoundException` : Provides information about an error that occurred because a specified resource wasn't found.
+    /// - `ServiceQuotaExceededException` : Provides information about an error that occurred due to one or more service quotas for an account.
+    /// - `ThrottlingException` : Provides information about an error that occurred because too many requests were sent during a certain amount of time.
+    /// - `ValidationException` : Provides information about an error that occurred due to a syntax error in a request.
     func deleteInvitations(input: DeleteInvitationsInput) async throws -> DeleteInvitationsOutputResponse
     /// Deletes the association between an Amazon Macie administrator account and an account.
+    ///
+    /// - Parameter DeleteMemberInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteMemberOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Provides information about an error that occurred due to insufficient access to a specified resource.
+    /// - `ConflictException` : Provides information about an error that occurred due to a versioning conflict for a specified resource.
+    /// - `InternalServerException` : Provides information about an error that occurred due to an unknown internal server error, exception, or failure.
+    /// - `ResourceNotFoundException` : Provides information about an error that occurred because a specified resource wasn't found.
+    /// - `ServiceQuotaExceededException` : Provides information about an error that occurred due to one or more service quotas for an account.
+    /// - `ThrottlingException` : Provides information about an error that occurred because too many requests were sent during a certain amount of time.
+    /// - `ValidationException` : Provides information about an error that occurred due to a syntax error in a request.
     func deleteMember(input: DeleteMemberInput) async throws -> DeleteMemberOutputResponse
     /// Retrieves (queries) statistical data and other information about one or more S3 buckets that Amazon Macie monitors and analyzes for an account.
+    ///
+    /// - Parameter DescribeBucketsInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeBucketsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Provides information about an error that occurred due to insufficient access to a specified resource.
+    /// - `ConflictException` : Provides information about an error that occurred due to a versioning conflict for a specified resource.
+    /// - `InternalServerException` : Provides information about an error that occurred due to an unknown internal server error, exception, or failure.
+    /// - `ResourceNotFoundException` : Provides information about an error that occurred because a specified resource wasn't found.
+    /// - `ServiceQuotaExceededException` : Provides information about an error that occurred due to one or more service quotas for an account.
+    /// - `ThrottlingException` : Provides information about an error that occurred because too many requests were sent during a certain amount of time.
+    /// - `ValidationException` : Provides information about an error that occurred due to a syntax error in a request.
     func describeBuckets(input: DescribeBucketsInput) async throws -> DescribeBucketsOutputResponse
     /// Retrieves the status and settings for a classification job.
+    ///
+    /// - Parameter DescribeClassificationJobInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeClassificationJobOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Provides information about an error that occurred due to insufficient access to a specified resource.
+    /// - `ConflictException` : Provides information about an error that occurred due to a versioning conflict for a specified resource.
+    /// - `InternalServerException` : Provides information about an error that occurred due to an unknown internal server error, exception, or failure.
+    /// - `ResourceNotFoundException` : Provides information about an error that occurred because a specified resource wasn't found.
+    /// - `ServiceQuotaExceededException` : Provides information about an error that occurred due to one or more service quotas for an account.
+    /// - `ThrottlingException` : Provides information about an error that occurred because too many requests were sent during a certain amount of time.
+    /// - `ValidationException` : Provides information about an error that occurred due to a syntax error in a request.
     func describeClassificationJob(input: DescribeClassificationJobInput) async throws -> DescribeClassificationJobOutputResponse
     /// Retrieves the Amazon Macie configuration settings for an organization in Organizations.
+    ///
+    /// - Parameter DescribeOrganizationConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeOrganizationConfigurationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Provides information about an error that occurred due to insufficient access to a specified resource.
+    /// - `ConflictException` : Provides information about an error that occurred due to a versioning conflict for a specified resource.
+    /// - `InternalServerException` : Provides information about an error that occurred due to an unknown internal server error, exception, or failure.
+    /// - `ResourceNotFoundException` : Provides information about an error that occurred because a specified resource wasn't found.
+    /// - `ServiceQuotaExceededException` : Provides information about an error that occurred due to one or more service quotas for an account.
+    /// - `ThrottlingException` : Provides information about an error that occurred because too many requests were sent during a certain amount of time.
+    /// - `ValidationException` : Provides information about an error that occurred due to a syntax error in a request.
     func describeOrganizationConfiguration(input: DescribeOrganizationConfigurationInput) async throws -> DescribeOrganizationConfigurationOutputResponse
     /// Disables Amazon Macie and deletes all settings and resources for a Macie account.
+    ///
+    /// - Parameter DisableMacieInput : [no documentation found]
+    ///
+    /// - Returns: `DisableMacieOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Provides information about an error that occurred due to insufficient access to a specified resource.
+    /// - `ConflictException` : Provides information about an error that occurred due to a versioning conflict for a specified resource.
+    /// - `InternalServerException` : Provides information about an error that occurred due to an unknown internal server error, exception, or failure.
+    /// - `ResourceNotFoundException` : Provides information about an error that occurred because a specified resource wasn't found.
+    /// - `ServiceQuotaExceededException` : Provides information about an error that occurred due to one or more service quotas for an account.
+    /// - `ThrottlingException` : Provides information about an error that occurred because too many requests were sent during a certain amount of time.
+    /// - `ValidationException` : Provides information about an error that occurred due to a syntax error in a request.
     func disableMacie(input: DisableMacieInput) async throws -> DisableMacieOutputResponse
     /// Disables an account as the delegated Amazon Macie administrator account for an organization in Organizations.
+    ///
+    /// - Parameter DisableOrganizationAdminAccountInput : [no documentation found]
+    ///
+    /// - Returns: `DisableOrganizationAdminAccountOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Provides information about an error that occurred due to insufficient access to a specified resource.
+    /// - `ConflictException` : Provides information about an error that occurred due to a versioning conflict for a specified resource.
+    /// - `InternalServerException` : Provides information about an error that occurred due to an unknown internal server error, exception, or failure.
+    /// - `ResourceNotFoundException` : Provides information about an error that occurred because a specified resource wasn't found.
+    /// - `ServiceQuotaExceededException` : Provides information about an error that occurred due to one or more service quotas for an account.
+    /// - `ThrottlingException` : Provides information about an error that occurred because too many requests were sent during a certain amount of time.
+    /// - `ValidationException` : Provides information about an error that occurred due to a syntax error in a request.
     func disableOrganizationAdminAccount(input: DisableOrganizationAdminAccountInput) async throws -> DisableOrganizationAdminAccountOutputResponse
     /// Disassociates a member account from its Amazon Macie administrator account.
+    ///
+    /// - Parameter DisassociateFromAdministratorAccountInput : [no documentation found]
+    ///
+    /// - Returns: `DisassociateFromAdministratorAccountOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Provides information about an error that occurred due to insufficient access to a specified resource.
+    /// - `ConflictException` : Provides information about an error that occurred due to a versioning conflict for a specified resource.
+    /// - `InternalServerException` : Provides information about an error that occurred due to an unknown internal server error, exception, or failure.
+    /// - `ResourceNotFoundException` : Provides information about an error that occurred because a specified resource wasn't found.
+    /// - `ServiceQuotaExceededException` : Provides information about an error that occurred due to one or more service quotas for an account.
+    /// - `ThrottlingException` : Provides information about an error that occurred because too many requests were sent during a certain amount of time.
+    /// - `ValidationException` : Provides information about an error that occurred due to a syntax error in a request.
     func disassociateFromAdministratorAccount(input: DisassociateFromAdministratorAccountInput) async throws -> DisassociateFromAdministratorAccountOutputResponse
     /// (Deprecated) Disassociates a member account from its Amazon Macie administrator account. This operation has been replaced by the DisassociateFromAdministratorAccount operation.
+    ///
+    /// - Parameter DisassociateFromMasterAccountInput : [no documentation found]
+    ///
+    /// - Returns: `DisassociateFromMasterAccountOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Provides information about an error that occurred due to insufficient access to a specified resource.
+    /// - `ConflictException` : Provides information about an error that occurred due to a versioning conflict for a specified resource.
+    /// - `InternalServerException` : Provides information about an error that occurred due to an unknown internal server error, exception, or failure.
+    /// - `ResourceNotFoundException` : Provides information about an error that occurred because a specified resource wasn't found.
+    /// - `ServiceQuotaExceededException` : Provides information about an error that occurred due to one or more service quotas for an account.
+    /// - `ThrottlingException` : Provides information about an error that occurred because too many requests were sent during a certain amount of time.
+    /// - `ValidationException` : Provides information about an error that occurred due to a syntax error in a request.
     func disassociateFromMasterAccount(input: DisassociateFromMasterAccountInput) async throws -> DisassociateFromMasterAccountOutputResponse
     /// Disassociates an Amazon Macie administrator account from a member account.
+    ///
+    /// - Parameter DisassociateMemberInput : [no documentation found]
+    ///
+    /// - Returns: `DisassociateMemberOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Provides information about an error that occurred due to insufficient access to a specified resource.
+    /// - `ConflictException` : Provides information about an error that occurred due to a versioning conflict for a specified resource.
+    /// - `InternalServerException` : Provides information about an error that occurred due to an unknown internal server error, exception, or failure.
+    /// - `ResourceNotFoundException` : Provides information about an error that occurred because a specified resource wasn't found.
+    /// - `ServiceQuotaExceededException` : Provides information about an error that occurred due to one or more service quotas for an account.
+    /// - `ThrottlingException` : Provides information about an error that occurred because too many requests were sent during a certain amount of time.
+    /// - `ValidationException` : Provides information about an error that occurred due to a syntax error in a request.
     func disassociateMember(input: DisassociateMemberInput) async throws -> DisassociateMemberOutputResponse
     /// Enables Amazon Macie and specifies the configuration settings for a Macie account.
+    ///
+    /// - Parameter EnableMacieInput : [no documentation found]
+    ///
+    /// - Returns: `EnableMacieOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Provides information about an error that occurred due to insufficient access to a specified resource.
+    /// - `ConflictException` : Provides information about an error that occurred due to a versioning conflict for a specified resource.
+    /// - `InternalServerException` : Provides information about an error that occurred due to an unknown internal server error, exception, or failure.
+    /// - `ResourceNotFoundException` : Provides information about an error that occurred because a specified resource wasn't found.
+    /// - `ServiceQuotaExceededException` : Provides information about an error that occurred due to one or more service quotas for an account.
+    /// - `ThrottlingException` : Provides information about an error that occurred because too many requests were sent during a certain amount of time.
+    /// - `ValidationException` : Provides information about an error that occurred due to a syntax error in a request.
     func enableMacie(input: EnableMacieInput) async throws -> EnableMacieOutputResponse
     /// Designates an account as the delegated Amazon Macie administrator account for an organization in Organizations.
+    ///
+    /// - Parameter EnableOrganizationAdminAccountInput : [no documentation found]
+    ///
+    /// - Returns: `EnableOrganizationAdminAccountOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Provides information about an error that occurred due to insufficient access to a specified resource.
+    /// - `ConflictException` : Provides information about an error that occurred due to a versioning conflict for a specified resource.
+    /// - `InternalServerException` : Provides information about an error that occurred due to an unknown internal server error, exception, or failure.
+    /// - `ResourceNotFoundException` : Provides information about an error that occurred because a specified resource wasn't found.
+    /// - `ServiceQuotaExceededException` : Provides information about an error that occurred due to one or more service quotas for an account.
+    /// - `ThrottlingException` : Provides information about an error that occurred because too many requests were sent during a certain amount of time.
+    /// - `ValidationException` : Provides information about an error that occurred due to a syntax error in a request.
     func enableOrganizationAdminAccount(input: EnableOrganizationAdminAccountInput) async throws -> EnableOrganizationAdminAccountOutputResponse
     /// Retrieves information about the Amazon Macie administrator account for an account.
+    ///
+    /// - Parameter GetAdministratorAccountInput : [no documentation found]
+    ///
+    /// - Returns: `GetAdministratorAccountOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Provides information about an error that occurred due to insufficient access to a specified resource.
+    /// - `ConflictException` : Provides information about an error that occurred due to a versioning conflict for a specified resource.
+    /// - `InternalServerException` : Provides information about an error that occurred due to an unknown internal server error, exception, or failure.
+    /// - `ResourceNotFoundException` : Provides information about an error that occurred because a specified resource wasn't found.
+    /// - `ServiceQuotaExceededException` : Provides information about an error that occurred due to one or more service quotas for an account.
+    /// - `ThrottlingException` : Provides information about an error that occurred because too many requests were sent during a certain amount of time.
+    /// - `ValidationException` : Provides information about an error that occurred due to a syntax error in a request.
     func getAdministratorAccount(input: GetAdministratorAccountInput) async throws -> GetAdministratorAccountOutputResponse
     /// Retrieves the settings and status of an allow list.
+    ///
+    /// - Parameter GetAllowListInput : [no documentation found]
+    ///
+    /// - Returns: `GetAllowListOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Provides information about an error that occurred due to insufficient access to a specified resource.
+    /// - `InternalServerException` : Provides information about an error that occurred due to an unknown internal server error, exception, or failure.
+    /// - `ResourceNotFoundException` : Provides information about an error that occurred because a specified resource wasn't found.
+    /// - `ThrottlingException` : Provides information about an error that occurred because too many requests were sent during a certain amount of time.
+    /// - `ValidationException` : Provides information about an error that occurred due to a syntax error in a request.
     func getAllowList(input: GetAllowListInput) async throws -> GetAllowListOutputResponse
     /// Retrieves the configuration settings and status of automated sensitive data discovery for an account.
+    ///
+    /// - Parameter GetAutomatedDiscoveryConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `GetAutomatedDiscoveryConfigurationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Provides information about an error that occurred due to insufficient access to a specified resource.
+    /// - `InternalServerException` : Provides information about an error that occurred due to an unknown internal server error, exception, or failure.
+    /// - `ThrottlingException` : Provides information about an error that occurred because too many requests were sent during a certain amount of time.
+    /// - `ValidationException` : Provides information about an error that occurred due to a syntax error in a request.
     func getAutomatedDiscoveryConfiguration(input: GetAutomatedDiscoveryConfigurationInput) async throws -> GetAutomatedDiscoveryConfigurationOutputResponse
     /// Retrieves (queries) aggregated statistical data about all the S3 buckets that Amazon Macie monitors and analyzes for an account.
+    ///
+    /// - Parameter GetBucketStatisticsInput : [no documentation found]
+    ///
+    /// - Returns: `GetBucketStatisticsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Provides information about an error that occurred due to insufficient access to a specified resource.
+    /// - `ConflictException` : Provides information about an error that occurred due to a versioning conflict for a specified resource.
+    /// - `InternalServerException` : Provides information about an error that occurred due to an unknown internal server error, exception, or failure.
+    /// - `ResourceNotFoundException` : Provides information about an error that occurred because a specified resource wasn't found.
+    /// - `ServiceQuotaExceededException` : Provides information about an error that occurred due to one or more service quotas for an account.
+    /// - `ThrottlingException` : Provides information about an error that occurred because too many requests were sent during a certain amount of time.
+    /// - `ValidationException` : Provides information about an error that occurred due to a syntax error in a request.
     func getBucketStatistics(input: GetBucketStatisticsInput) async throws -> GetBucketStatisticsOutputResponse
     /// Retrieves the configuration settings for storing data classification results.
+    ///
+    /// - Parameter GetClassificationExportConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `GetClassificationExportConfigurationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Provides information about an error that occurred due to insufficient access to a specified resource.
+    /// - `ConflictException` : Provides information about an error that occurred due to a versioning conflict for a specified resource.
+    /// - `InternalServerException` : Provides information about an error that occurred due to an unknown internal server error, exception, or failure.
+    /// - `ResourceNotFoundException` : Provides information about an error that occurred because a specified resource wasn't found.
+    /// - `ServiceQuotaExceededException` : Provides information about an error that occurred due to one or more service quotas for an account.
+    /// - `ThrottlingException` : Provides information about an error that occurred because too many requests were sent during a certain amount of time.
+    /// - `ValidationException` : Provides information about an error that occurred due to a syntax error in a request.
     func getClassificationExportConfiguration(input: GetClassificationExportConfigurationInput) async throws -> GetClassificationExportConfigurationOutputResponse
     /// Retrieves the classification scope settings for an account.
+    ///
+    /// - Parameter GetClassificationScopeInput : [no documentation found]
+    ///
+    /// - Returns: `GetClassificationScopeOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Provides information about an error that occurred due to insufficient access to a specified resource.
+    /// - `InternalServerException` : Provides information about an error that occurred due to an unknown internal server error, exception, or failure.
+    /// - `ResourceNotFoundException` : Provides information about an error that occurred because a specified resource wasn't found.
+    /// - `ThrottlingException` : Provides information about an error that occurred because too many requests were sent during a certain amount of time.
+    /// - `ValidationException` : Provides information about an error that occurred due to a syntax error in a request.
     func getClassificationScope(input: GetClassificationScopeInput) async throws -> GetClassificationScopeOutputResponse
     /// Retrieves the criteria and other settings for a custom data identifier.
+    ///
+    /// - Parameter GetCustomDataIdentifierInput : [no documentation found]
+    ///
+    /// - Returns: `GetCustomDataIdentifierOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Provides information about an error that occurred due to insufficient access to a specified resource.
+    /// - `ConflictException` : Provides information about an error that occurred due to a versioning conflict for a specified resource.
+    /// - `InternalServerException` : Provides information about an error that occurred due to an unknown internal server error, exception, or failure.
+    /// - `ResourceNotFoundException` : Provides information about an error that occurred because a specified resource wasn't found.
+    /// - `ServiceQuotaExceededException` : Provides information about an error that occurred due to one or more service quotas for an account.
+    /// - `ThrottlingException` : Provides information about an error that occurred because too many requests were sent during a certain amount of time.
+    /// - `ValidationException` : Provides information about an error that occurred due to a syntax error in a request.
     func getCustomDataIdentifier(input: GetCustomDataIdentifierInput) async throws -> GetCustomDataIdentifierOutputResponse
     /// Retrieves the details of one or more findings.
+    ///
+    /// - Parameter GetFindingsInput : [no documentation found]
+    ///
+    /// - Returns: `GetFindingsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Provides information about an error that occurred due to insufficient access to a specified resource.
+    /// - `ConflictException` : Provides information about an error that occurred due to a versioning conflict for a specified resource.
+    /// - `InternalServerException` : Provides information about an error that occurred due to an unknown internal server error, exception, or failure.
+    /// - `ResourceNotFoundException` : Provides information about an error that occurred because a specified resource wasn't found.
+    /// - `ServiceQuotaExceededException` : Provides information about an error that occurred due to one or more service quotas for an account.
+    /// - `ThrottlingException` : Provides information about an error that occurred because too many requests were sent during a certain amount of time.
+    /// - `ValidationException` : Provides information about an error that occurred due to a syntax error in a request.
     func getFindings(input: GetFindingsInput) async throws -> GetFindingsOutputResponse
     /// Retrieves the criteria and other settings for a findings filter.
+    ///
+    /// - Parameter GetFindingsFilterInput : [no documentation found]
+    ///
+    /// - Returns: `GetFindingsFilterOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Provides information about an error that occurred due to insufficient access to a specified resource.
+    /// - `ConflictException` : Provides information about an error that occurred due to a versioning conflict for a specified resource.
+    /// - `InternalServerException` : Provides information about an error that occurred due to an unknown internal server error, exception, or failure.
+    /// - `ResourceNotFoundException` : Provides information about an error that occurred because a specified resource wasn't found.
+    /// - `ServiceQuotaExceededException` : Provides information about an error that occurred due to one or more service quotas for an account.
+    /// - `ThrottlingException` : Provides information about an error that occurred because too many requests were sent during a certain amount of time.
+    /// - `ValidationException` : Provides information about an error that occurred due to a syntax error in a request.
     func getFindingsFilter(input: GetFindingsFilterInput) async throws -> GetFindingsFilterOutputResponse
     /// Retrieves the configuration settings for publishing findings to Security Hub.
+    ///
+    /// - Parameter GetFindingsPublicationConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `GetFindingsPublicationConfigurationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Provides information about an error that occurred due to insufficient access to a specified resource.
+    /// - `ConflictException` : Provides information about an error that occurred due to a versioning conflict for a specified resource.
+    /// - `InternalServerException` : Provides information about an error that occurred due to an unknown internal server error, exception, or failure.
+    /// - `ResourceNotFoundException` : Provides information about an error that occurred because a specified resource wasn't found.
+    /// - `ServiceQuotaExceededException` : Provides information about an error that occurred due to one or more service quotas for an account.
+    /// - `ThrottlingException` : Provides information about an error that occurred because too many requests were sent during a certain amount of time.
+    /// - `ValidationException` : Provides information about an error that occurred due to a syntax error in a request.
     func getFindingsPublicationConfiguration(input: GetFindingsPublicationConfigurationInput) async throws -> GetFindingsPublicationConfigurationOutputResponse
     /// Retrieves (queries) aggregated statistical data about findings.
+    ///
+    /// - Parameter GetFindingStatisticsInput : [no documentation found]
+    ///
+    /// - Returns: `GetFindingStatisticsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Provides information about an error that occurred due to insufficient access to a specified resource.
+    /// - `ConflictException` : Provides information about an error that occurred due to a versioning conflict for a specified resource.
+    /// - `InternalServerException` : Provides information about an error that occurred due to an unknown internal server error, exception, or failure.
+    /// - `ResourceNotFoundException` : Provides information about an error that occurred because a specified resource wasn't found.
+    /// - `ServiceQuotaExceededException` : Provides information about an error that occurred due to one or more service quotas for an account.
+    /// - `ThrottlingException` : Provides information about an error that occurred because too many requests were sent during a certain amount of time.
+    /// - `ValidationException` : Provides information about an error that occurred due to a syntax error in a request.
     func getFindingStatistics(input: GetFindingStatisticsInput) async throws -> GetFindingStatisticsOutputResponse
     /// Retrieves the count of Amazon Macie membership invitations that were received by an account.
+    ///
+    /// - Parameter GetInvitationsCountInput : [no documentation found]
+    ///
+    /// - Returns: `GetInvitationsCountOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Provides information about an error that occurred due to insufficient access to a specified resource.
+    /// - `ConflictException` : Provides information about an error that occurred due to a versioning conflict for a specified resource.
+    /// - `InternalServerException` : Provides information about an error that occurred due to an unknown internal server error, exception, or failure.
+    /// - `ResourceNotFoundException` : Provides information about an error that occurred because a specified resource wasn't found.
+    /// - `ServiceQuotaExceededException` : Provides information about an error that occurred due to one or more service quotas for an account.
+    /// - `ThrottlingException` : Provides information about an error that occurred because too many requests were sent during a certain amount of time.
+    /// - `ValidationException` : Provides information about an error that occurred due to a syntax error in a request.
     func getInvitationsCount(input: GetInvitationsCountInput) async throws -> GetInvitationsCountOutputResponse
     /// Retrieves the status and configuration settings for an Amazon Macie account.
+    ///
+    /// - Parameter GetMacieSessionInput : [no documentation found]
+    ///
+    /// - Returns: `GetMacieSessionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Provides information about an error that occurred due to insufficient access to a specified resource.
+    /// - `ConflictException` : Provides information about an error that occurred due to a versioning conflict for a specified resource.
+    /// - `InternalServerException` : Provides information about an error that occurred due to an unknown internal server error, exception, or failure.
+    /// - `ResourceNotFoundException` : Provides information about an error that occurred because a specified resource wasn't found.
+    /// - `ServiceQuotaExceededException` : Provides information about an error that occurred due to one or more service quotas for an account.
+    /// - `ThrottlingException` : Provides information about an error that occurred because too many requests were sent during a certain amount of time.
+    /// - `ValidationException` : Provides information about an error that occurred due to a syntax error in a request.
     func getMacieSession(input: GetMacieSessionInput) async throws -> GetMacieSessionOutputResponse
     /// (Deprecated) Retrieves information about the Amazon Macie administrator account for an account. This operation has been replaced by the GetAdministratorAccount operation.
+    ///
+    /// - Parameter GetMasterAccountInput : [no documentation found]
+    ///
+    /// - Returns: `GetMasterAccountOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Provides information about an error that occurred due to insufficient access to a specified resource.
+    /// - `ConflictException` : Provides information about an error that occurred due to a versioning conflict for a specified resource.
+    /// - `InternalServerException` : Provides information about an error that occurred due to an unknown internal server error, exception, or failure.
+    /// - `ResourceNotFoundException` : Provides information about an error that occurred because a specified resource wasn't found.
+    /// - `ServiceQuotaExceededException` : Provides information about an error that occurred due to one or more service quotas for an account.
+    /// - `ThrottlingException` : Provides information about an error that occurred because too many requests were sent during a certain amount of time.
+    /// - `ValidationException` : Provides information about an error that occurred due to a syntax error in a request.
     func getMasterAccount(input: GetMasterAccountInput) async throws -> GetMasterAccountOutputResponse
     /// Retrieves information about an account that's associated with an Amazon Macie administrator account.
+    ///
+    /// - Parameter GetMemberInput : [no documentation found]
+    ///
+    /// - Returns: `GetMemberOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Provides information about an error that occurred due to insufficient access to a specified resource.
+    /// - `ConflictException` : Provides information about an error that occurred due to a versioning conflict for a specified resource.
+    /// - `InternalServerException` : Provides information about an error that occurred due to an unknown internal server error, exception, or failure.
+    /// - `ResourceNotFoundException` : Provides information about an error that occurred because a specified resource wasn't found.
+    /// - `ServiceQuotaExceededException` : Provides information about an error that occurred due to one or more service quotas for an account.
+    /// - `ThrottlingException` : Provides information about an error that occurred because too many requests were sent during a certain amount of time.
+    /// - `ValidationException` : Provides information about an error that occurred due to a syntax error in a request.
     func getMember(input: GetMemberInput) async throws -> GetMemberOutputResponse
     /// Retrieves (queries) sensitive data discovery statistics and the sensitivity score for an S3 bucket.
+    ///
+    /// - Parameter GetResourceProfileInput : [no documentation found]
+    ///
+    /// - Returns: `GetResourceProfileOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Provides information about an error that occurred due to insufficient access to a specified resource.
+    /// - `InternalServerException` : Provides information about an error that occurred due to an unknown internal server error, exception, or failure.
+    /// - `ResourceNotFoundException` : Provides information about an error that occurred because a specified resource wasn't found.
+    /// - `ServiceQuotaExceededException` : Provides information about an error that occurred due to one or more service quotas for an account.
+    /// - `ThrottlingException` : Provides information about an error that occurred because too many requests were sent during a certain amount of time.
+    /// - `ValidationException` : Provides information about an error that occurred due to a syntax error in a request.
     func getResourceProfile(input: GetResourceProfileInput) async throws -> GetResourceProfileOutputResponse
     /// Retrieves the status and configuration settings for retrieving occurrences of sensitive data reported by findings.
+    ///
+    /// - Parameter GetRevealConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `GetRevealConfigurationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Provides information about an error that occurred due to insufficient access to a specified resource.
+    /// - `InternalServerException` : Provides information about an error that occurred due to an unknown internal server error, exception, or failure.
+    /// - `ThrottlingException` : Provides information about an error that occurred because too many requests were sent during a certain amount of time.
+    /// - `ValidationException` : Provides information about an error that occurred due to a syntax error in a request.
     func getRevealConfiguration(input: GetRevealConfigurationInput) async throws -> GetRevealConfigurationOutputResponse
     /// Retrieves occurrences of sensitive data reported by a finding.
+    ///
+    /// - Parameter GetSensitiveDataOccurrencesInput : [no documentation found]
+    ///
+    /// - Returns: `GetSensitiveDataOccurrencesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Provides information about an error that occurred due to insufficient access to a specified resource.
+    /// - `InternalServerException` : Provides information about an error that occurred due to an unknown internal server error, exception, or failure.
+    /// - `ResourceNotFoundException` : Provides information about an error that occurred because a specified resource wasn't found.
+    /// - `ServiceQuotaExceededException` : Provides information about an error that occurred due to one or more service quotas for an account.
+    /// - `ThrottlingException` : Provides information about an error that occurred because too many requests were sent during a certain amount of time.
+    /// - `UnprocessableEntityException` : Provides information about an error that occurred due to an unprocessable entity.
     func getSensitiveDataOccurrences(input: GetSensitiveDataOccurrencesInput) async throws -> GetSensitiveDataOccurrencesOutputResponse
     /// Checks whether occurrences of sensitive data can be retrieved for a finding.
+    ///
+    /// - Parameter GetSensitiveDataOccurrencesAvailabilityInput : [no documentation found]
+    ///
+    /// - Returns: `GetSensitiveDataOccurrencesAvailabilityOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Provides information about an error that occurred due to insufficient access to a specified resource.
+    /// - `InternalServerException` : Provides information about an error that occurred due to an unknown internal server error, exception, or failure.
+    /// - `ResourceNotFoundException` : Provides information about an error that occurred because a specified resource wasn't found.
+    /// - `ThrottlingException` : Provides information about an error that occurred because too many requests were sent during a certain amount of time.
     func getSensitiveDataOccurrencesAvailability(input: GetSensitiveDataOccurrencesAvailabilityInput) async throws -> GetSensitiveDataOccurrencesAvailabilityOutputResponse
     /// Retrieves the settings for the sensitivity inspection template for an account.
+    ///
+    /// - Parameter GetSensitivityInspectionTemplateInput : [no documentation found]
+    ///
+    /// - Returns: `GetSensitivityInspectionTemplateOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Provides information about an error that occurred due to insufficient access to a specified resource.
+    /// - `InternalServerException` : Provides information about an error that occurred due to an unknown internal server error, exception, or failure.
+    /// - `ResourceNotFoundException` : Provides information about an error that occurred because a specified resource wasn't found.
+    /// - `ThrottlingException` : Provides information about an error that occurred because too many requests were sent during a certain amount of time.
+    /// - `ValidationException` : Provides information about an error that occurred due to a syntax error in a request.
     func getSensitivityInspectionTemplate(input: GetSensitivityInspectionTemplateInput) async throws -> GetSensitivityInspectionTemplateOutputResponse
     /// Retrieves (queries) quotas and aggregated usage data for one or more accounts.
+    ///
+    /// - Parameter GetUsageStatisticsInput : [no documentation found]
+    ///
+    /// - Returns: `GetUsageStatisticsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Provides information about an error that occurred due to insufficient access to a specified resource.
+    /// - `ConflictException` : Provides information about an error that occurred due to a versioning conflict for a specified resource.
+    /// - `InternalServerException` : Provides information about an error that occurred due to an unknown internal server error, exception, or failure.
+    /// - `ResourceNotFoundException` : Provides information about an error that occurred because a specified resource wasn't found.
+    /// - `ServiceQuotaExceededException` : Provides information about an error that occurred due to one or more service quotas for an account.
+    /// - `ThrottlingException` : Provides information about an error that occurred because too many requests were sent during a certain amount of time.
+    /// - `ValidationException` : Provides information about an error that occurred due to a syntax error in a request.
     func getUsageStatistics(input: GetUsageStatisticsInput) async throws -> GetUsageStatisticsOutputResponse
     /// Retrieves (queries) aggregated usage data for an account.
+    ///
+    /// - Parameter GetUsageTotalsInput : [no documentation found]
+    ///
+    /// - Returns: `GetUsageTotalsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Provides information about an error that occurred due to insufficient access to a specified resource.
+    /// - `ConflictException` : Provides information about an error that occurred due to a versioning conflict for a specified resource.
+    /// - `InternalServerException` : Provides information about an error that occurred due to an unknown internal server error, exception, or failure.
+    /// - `ResourceNotFoundException` : Provides information about an error that occurred because a specified resource wasn't found.
+    /// - `ServiceQuotaExceededException` : Provides information about an error that occurred due to one or more service quotas for an account.
+    /// - `ThrottlingException` : Provides information about an error that occurred because too many requests were sent during a certain amount of time.
+    /// - `ValidationException` : Provides information about an error that occurred due to a syntax error in a request.
     func getUsageTotals(input: GetUsageTotalsInput) async throws -> GetUsageTotalsOutputResponse
     /// Retrieves a subset of information about all the allow lists for an account.
+    ///
+    /// - Parameter ListAllowListsInput : [no documentation found]
+    ///
+    /// - Returns: `ListAllowListsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Provides information about an error that occurred due to insufficient access to a specified resource.
+    /// - `InternalServerException` : Provides information about an error that occurred due to an unknown internal server error, exception, or failure.
+    /// - `ThrottlingException` : Provides information about an error that occurred because too many requests were sent during a certain amount of time.
+    /// - `ValidationException` : Provides information about an error that occurred due to a syntax error in a request.
     func listAllowLists(input: ListAllowListsInput) async throws -> ListAllowListsOutputResponse
     /// Retrieves a subset of information about one or more classification jobs.
+    ///
+    /// - Parameter ListClassificationJobsInput : [no documentation found]
+    ///
+    /// - Returns: `ListClassificationJobsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Provides information about an error that occurred due to insufficient access to a specified resource.
+    /// - `ConflictException` : Provides information about an error that occurred due to a versioning conflict for a specified resource.
+    /// - `InternalServerException` : Provides information about an error that occurred due to an unknown internal server error, exception, or failure.
+    /// - `ResourceNotFoundException` : Provides information about an error that occurred because a specified resource wasn't found.
+    /// - `ServiceQuotaExceededException` : Provides information about an error that occurred due to one or more service quotas for an account.
+    /// - `ThrottlingException` : Provides information about an error that occurred because too many requests were sent during a certain amount of time.
+    /// - `ValidationException` : Provides information about an error that occurred due to a syntax error in a request.
     func listClassificationJobs(input: ListClassificationJobsInput) async throws -> ListClassificationJobsOutputResponse
     /// Retrieves a subset of information about the classification scope for an account.
+    ///
+    /// - Parameter ListClassificationScopesInput : [no documentation found]
+    ///
+    /// - Returns: `ListClassificationScopesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Provides information about an error that occurred due to insufficient access to a specified resource.
+    /// - `InternalServerException` : Provides information about an error that occurred due to an unknown internal server error, exception, or failure.
+    /// - `ThrottlingException` : Provides information about an error that occurred because too many requests were sent during a certain amount of time.
+    /// - `ValidationException` : Provides information about an error that occurred due to a syntax error in a request.
     func listClassificationScopes(input: ListClassificationScopesInput) async throws -> ListClassificationScopesOutputResponse
     /// Retrieves a subset of information about all the custom data identifiers for an account.
+    ///
+    /// - Parameter ListCustomDataIdentifiersInput : [no documentation found]
+    ///
+    /// - Returns: `ListCustomDataIdentifiersOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Provides information about an error that occurred due to insufficient access to a specified resource.
+    /// - `ConflictException` : Provides information about an error that occurred due to a versioning conflict for a specified resource.
+    /// - `InternalServerException` : Provides information about an error that occurred due to an unknown internal server error, exception, or failure.
+    /// - `ResourceNotFoundException` : Provides information about an error that occurred because a specified resource wasn't found.
+    /// - `ServiceQuotaExceededException` : Provides information about an error that occurred due to one or more service quotas for an account.
+    /// - `ThrottlingException` : Provides information about an error that occurred because too many requests were sent during a certain amount of time.
+    /// - `ValidationException` : Provides information about an error that occurred due to a syntax error in a request.
     func listCustomDataIdentifiers(input: ListCustomDataIdentifiersInput) async throws -> ListCustomDataIdentifiersOutputResponse
     /// Retrieves a subset of information about one or more findings.
+    ///
+    /// - Parameter ListFindingsInput : [no documentation found]
+    ///
+    /// - Returns: `ListFindingsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Provides information about an error that occurred due to insufficient access to a specified resource.
+    /// - `ConflictException` : Provides information about an error that occurred due to a versioning conflict for a specified resource.
+    /// - `InternalServerException` : Provides information about an error that occurred due to an unknown internal server error, exception, or failure.
+    /// - `ResourceNotFoundException` : Provides information about an error that occurred because a specified resource wasn't found.
+    /// - `ServiceQuotaExceededException` : Provides information about an error that occurred due to one or more service quotas for an account.
+    /// - `ThrottlingException` : Provides information about an error that occurred because too many requests were sent during a certain amount of time.
+    /// - `ValidationException` : Provides information about an error that occurred due to a syntax error in a request.
     func listFindings(input: ListFindingsInput) async throws -> ListFindingsOutputResponse
     /// Retrieves a subset of information about all the findings filters for an account.
+    ///
+    /// - Parameter ListFindingsFiltersInput : [no documentation found]
+    ///
+    /// - Returns: `ListFindingsFiltersOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Provides information about an error that occurred due to insufficient access to a specified resource.
+    /// - `ConflictException` : Provides information about an error that occurred due to a versioning conflict for a specified resource.
+    /// - `InternalServerException` : Provides information about an error that occurred due to an unknown internal server error, exception, or failure.
+    /// - `ResourceNotFoundException` : Provides information about an error that occurred because a specified resource wasn't found.
+    /// - `ServiceQuotaExceededException` : Provides information about an error that occurred due to one or more service quotas for an account.
+    /// - `ThrottlingException` : Provides information about an error that occurred because too many requests were sent during a certain amount of time.
+    /// - `ValidationException` : Provides information about an error that occurred due to a syntax error in a request.
     func listFindingsFilters(input: ListFindingsFiltersInput) async throws -> ListFindingsFiltersOutputResponse
     /// Retrieves information about the Amazon Macie membership invitations that were received by an account.
+    ///
+    /// - Parameter ListInvitationsInput : [no documentation found]
+    ///
+    /// - Returns: `ListInvitationsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Provides information about an error that occurred due to insufficient access to a specified resource.
+    /// - `ConflictException` : Provides information about an error that occurred due to a versioning conflict for a specified resource.
+    /// - `InternalServerException` : Provides information about an error that occurred due to an unknown internal server error, exception, or failure.
+    /// - `ResourceNotFoundException` : Provides information about an error that occurred because a specified resource wasn't found.
+    /// - `ServiceQuotaExceededException` : Provides information about an error that occurred due to one or more service quotas for an account.
+    /// - `ThrottlingException` : Provides information about an error that occurred because too many requests were sent during a certain amount of time.
+    /// - `ValidationException` : Provides information about an error that occurred due to a syntax error in a request.
     func listInvitations(input: ListInvitationsInput) async throws -> ListInvitationsOutputResponse
     /// Retrieves information about all the managed data identifiers that Amazon Macie currently provides.
+    ///
+    /// - Parameter ListManagedDataIdentifiersInput : [no documentation found]
+    ///
+    /// - Returns: `ListManagedDataIdentifiersOutputResponse` : [no documentation found]
     func listManagedDataIdentifiers(input: ListManagedDataIdentifiersInput) async throws -> ListManagedDataIdentifiersOutputResponse
     /// Retrieves information about the accounts that are associated with an Amazon Macie administrator account.
+    ///
+    /// - Parameter ListMembersInput : [no documentation found]
+    ///
+    /// - Returns: `ListMembersOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Provides information about an error that occurred due to insufficient access to a specified resource.
+    /// - `ConflictException` : Provides information about an error that occurred due to a versioning conflict for a specified resource.
+    /// - `InternalServerException` : Provides information about an error that occurred due to an unknown internal server error, exception, or failure.
+    /// - `ResourceNotFoundException` : Provides information about an error that occurred because a specified resource wasn't found.
+    /// - `ServiceQuotaExceededException` : Provides information about an error that occurred due to one or more service quotas for an account.
+    /// - `ThrottlingException` : Provides information about an error that occurred because too many requests were sent during a certain amount of time.
+    /// - `ValidationException` : Provides information about an error that occurred due to a syntax error in a request.
     func listMembers(input: ListMembersInput) async throws -> ListMembersOutputResponse
     /// Retrieves information about the delegated Amazon Macie administrator account for an organization in Organizations.
+    ///
+    /// - Parameter ListOrganizationAdminAccountsInput : [no documentation found]
+    ///
+    /// - Returns: `ListOrganizationAdminAccountsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Provides information about an error that occurred due to insufficient access to a specified resource.
+    /// - `ConflictException` : Provides information about an error that occurred due to a versioning conflict for a specified resource.
+    /// - `InternalServerException` : Provides information about an error that occurred due to an unknown internal server error, exception, or failure.
+    /// - `ResourceNotFoundException` : Provides information about an error that occurred because a specified resource wasn't found.
+    /// - `ServiceQuotaExceededException` : Provides information about an error that occurred due to one or more service quotas for an account.
+    /// - `ThrottlingException` : Provides information about an error that occurred because too many requests were sent during a certain amount of time.
+    /// - `ValidationException` : Provides information about an error that occurred due to a syntax error in a request.
     func listOrganizationAdminAccounts(input: ListOrganizationAdminAccountsInput) async throws -> ListOrganizationAdminAccountsOutputResponse
     /// Retrieves information about objects that were selected from an S3 bucket for automated sensitive data discovery.
+    ///
+    /// - Parameter ListResourceProfileArtifactsInput : [no documentation found]
+    ///
+    /// - Returns: `ListResourceProfileArtifactsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Provides information about an error that occurred due to insufficient access to a specified resource.
+    /// - `InternalServerException` : Provides information about an error that occurred due to an unknown internal server error, exception, or failure.
+    /// - `ResourceNotFoundException` : Provides information about an error that occurred because a specified resource wasn't found.
+    /// - `ThrottlingException` : Provides information about an error that occurred because too many requests were sent during a certain amount of time.
+    /// - `ValidationException` : Provides information about an error that occurred due to a syntax error in a request.
     func listResourceProfileArtifacts(input: ListResourceProfileArtifactsInput) async throws -> ListResourceProfileArtifactsOutputResponse
     /// Retrieves information about the types and amount of sensitive data that Amazon Macie found in an S3 bucket.
+    ///
+    /// - Parameter ListResourceProfileDetectionsInput : [no documentation found]
+    ///
+    /// - Returns: `ListResourceProfileDetectionsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Provides information about an error that occurred due to insufficient access to a specified resource.
+    /// - `InternalServerException` : Provides information about an error that occurred due to an unknown internal server error, exception, or failure.
+    /// - `ResourceNotFoundException` : Provides information about an error that occurred because a specified resource wasn't found.
+    /// - `ServiceQuotaExceededException` : Provides information about an error that occurred due to one or more service quotas for an account.
+    /// - `ThrottlingException` : Provides information about an error that occurred because too many requests were sent during a certain amount of time.
+    /// - `ValidationException` : Provides information about an error that occurred due to a syntax error in a request.
     func listResourceProfileDetections(input: ListResourceProfileDetectionsInput) async throws -> ListResourceProfileDetectionsOutputResponse
     /// Retrieves a subset of information about the sensitivity inspection template for an account.
+    ///
+    /// - Parameter ListSensitivityInspectionTemplatesInput : [no documentation found]
+    ///
+    /// - Returns: `ListSensitivityInspectionTemplatesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Provides information about an error that occurred due to insufficient access to a specified resource.
+    /// - `InternalServerException` : Provides information about an error that occurred due to an unknown internal server error, exception, or failure.
+    /// - `ServiceQuotaExceededException` : Provides information about an error that occurred due to one or more service quotas for an account.
+    /// - `ThrottlingException` : Provides information about an error that occurred because too many requests were sent during a certain amount of time.
+    /// - `ValidationException` : Provides information about an error that occurred due to a syntax error in a request.
     func listSensitivityInspectionTemplates(input: ListSensitivityInspectionTemplatesInput) async throws -> ListSensitivityInspectionTemplatesOutputResponse
     /// Retrieves the tags (keys and values) that are associated with an Amazon Macie resource.
+    ///
+    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    ///
+    /// - Returns: `ListTagsForResourceOutputResponse` : [no documentation found]
     func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
     /// Creates or updates the configuration settings for storing data classification results.
+    ///
+    /// - Parameter PutClassificationExportConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `PutClassificationExportConfigurationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Provides information about an error that occurred due to insufficient access to a specified resource.
+    /// - `ConflictException` : Provides information about an error that occurred due to a versioning conflict for a specified resource.
+    /// - `InternalServerException` : Provides information about an error that occurred due to an unknown internal server error, exception, or failure.
+    /// - `ResourceNotFoundException` : Provides information about an error that occurred because a specified resource wasn't found.
+    /// - `ServiceQuotaExceededException` : Provides information about an error that occurred due to one or more service quotas for an account.
+    /// - `ThrottlingException` : Provides information about an error that occurred because too many requests were sent during a certain amount of time.
+    /// - `ValidationException` : Provides information about an error that occurred due to a syntax error in a request.
     func putClassificationExportConfiguration(input: PutClassificationExportConfigurationInput) async throws -> PutClassificationExportConfigurationOutputResponse
     /// Updates the configuration settings for publishing findings to Security Hub.
+    ///
+    /// - Parameter PutFindingsPublicationConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `PutFindingsPublicationConfigurationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Provides information about an error that occurred due to insufficient access to a specified resource.
+    /// - `ConflictException` : Provides information about an error that occurred due to a versioning conflict for a specified resource.
+    /// - `InternalServerException` : Provides information about an error that occurred due to an unknown internal server error, exception, or failure.
+    /// - `ResourceNotFoundException` : Provides information about an error that occurred because a specified resource wasn't found.
+    /// - `ServiceQuotaExceededException` : Provides information about an error that occurred due to one or more service quotas for an account.
+    /// - `ThrottlingException` : Provides information about an error that occurred because too many requests were sent during a certain amount of time.
+    /// - `ValidationException` : Provides information about an error that occurred due to a syntax error in a request.
     func putFindingsPublicationConfiguration(input: PutFindingsPublicationConfigurationInput) async throws -> PutFindingsPublicationConfigurationOutputResponse
     /// Retrieves (queries) statistical data and other information about Amazon Web Services resources that Amazon Macie monitors and analyzes.
+    ///
+    /// - Parameter SearchResourcesInput : [no documentation found]
+    ///
+    /// - Returns: `SearchResourcesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Provides information about an error that occurred due to insufficient access to a specified resource.
+    /// - `ConflictException` : Provides information about an error that occurred due to a versioning conflict for a specified resource.
+    /// - `InternalServerException` : Provides information about an error that occurred due to an unknown internal server error, exception, or failure.
+    /// - `ResourceNotFoundException` : Provides information about an error that occurred because a specified resource wasn't found.
+    /// - `ServiceQuotaExceededException` : Provides information about an error that occurred due to one or more service quotas for an account.
+    /// - `ThrottlingException` : Provides information about an error that occurred because too many requests were sent during a certain amount of time.
+    /// - `ValidationException` : Provides information about an error that occurred due to a syntax error in a request.
     func searchResources(input: SearchResourcesInput) async throws -> SearchResourcesOutputResponse
     /// Adds or updates one or more tags (keys and values) that are associated with an Amazon Macie resource.
+    ///
+    /// - Parameter TagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `TagResourceOutputResponse` : [no documentation found]
     func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
     /// Tests a custom data identifier.
+    ///
+    /// - Parameter TestCustomDataIdentifierInput : [no documentation found]
+    ///
+    /// - Returns: `TestCustomDataIdentifierOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Provides information about an error that occurred due to insufficient access to a specified resource.
+    /// - `ConflictException` : Provides information about an error that occurred due to a versioning conflict for a specified resource.
+    /// - `InternalServerException` : Provides information about an error that occurred due to an unknown internal server error, exception, or failure.
+    /// - `ResourceNotFoundException` : Provides information about an error that occurred because a specified resource wasn't found.
+    /// - `ServiceQuotaExceededException` : Provides information about an error that occurred due to one or more service quotas for an account.
+    /// - `ThrottlingException` : Provides information about an error that occurred because too many requests were sent during a certain amount of time.
+    /// - `ValidationException` : Provides information about an error that occurred due to a syntax error in a request.
     func testCustomDataIdentifier(input: TestCustomDataIdentifierInput) async throws -> TestCustomDataIdentifierOutputResponse
     /// Removes one or more tags (keys and values) from an Amazon Macie resource.
+    ///
+    /// - Parameter UntagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `UntagResourceOutputResponse` : [no documentation found]
     func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
     /// Updates the settings for an allow list.
+    ///
+    /// - Parameter UpdateAllowListInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateAllowListOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Provides information about an error that occurred due to insufficient access to a specified resource.
+    /// - `InternalServerException` : Provides information about an error that occurred due to an unknown internal server error, exception, or failure.
+    /// - `ResourceNotFoundException` : Provides information about an error that occurred because a specified resource wasn't found.
+    /// - `ThrottlingException` : Provides information about an error that occurred because too many requests were sent during a certain amount of time.
+    /// - `ValidationException` : Provides information about an error that occurred due to a syntax error in a request.
     func updateAllowList(input: UpdateAllowListInput) async throws -> UpdateAllowListOutputResponse
     /// Enables or disables automated sensitive data discovery for an account.
+    ///
+    /// - Parameter UpdateAutomatedDiscoveryConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateAutomatedDiscoveryConfigurationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Provides information about an error that occurred due to insufficient access to a specified resource.
+    /// - `InternalServerException` : Provides information about an error that occurred due to an unknown internal server error, exception, or failure.
+    /// - `ThrottlingException` : Provides information about an error that occurred because too many requests were sent during a certain amount of time.
+    /// - `ValidationException` : Provides information about an error that occurred due to a syntax error in a request.
     func updateAutomatedDiscoveryConfiguration(input: UpdateAutomatedDiscoveryConfigurationInput) async throws -> UpdateAutomatedDiscoveryConfigurationOutputResponse
     /// Changes the status of a classification job.
+    ///
+    /// - Parameter UpdateClassificationJobInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateClassificationJobOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Provides information about an error that occurred due to insufficient access to a specified resource.
+    /// - `ConflictException` : Provides information about an error that occurred due to a versioning conflict for a specified resource.
+    /// - `InternalServerException` : Provides information about an error that occurred due to an unknown internal server error, exception, or failure.
+    /// - `ResourceNotFoundException` : Provides information about an error that occurred because a specified resource wasn't found.
+    /// - `ServiceQuotaExceededException` : Provides information about an error that occurred due to one or more service quotas for an account.
+    /// - `ThrottlingException` : Provides information about an error that occurred because too many requests were sent during a certain amount of time.
+    /// - `ValidationException` : Provides information about an error that occurred due to a syntax error in a request.
     func updateClassificationJob(input: UpdateClassificationJobInput) async throws -> UpdateClassificationJobOutputResponse
     /// Updates the classification scope settings for an account.
+    ///
+    /// - Parameter UpdateClassificationScopeInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateClassificationScopeOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Provides information about an error that occurred due to insufficient access to a specified resource.
+    /// - `InternalServerException` : Provides information about an error that occurred due to an unknown internal server error, exception, or failure.
+    /// - `ResourceNotFoundException` : Provides information about an error that occurred because a specified resource wasn't found.
+    /// - `ThrottlingException` : Provides information about an error that occurred because too many requests were sent during a certain amount of time.
+    /// - `ValidationException` : Provides information about an error that occurred due to a syntax error in a request.
     func updateClassificationScope(input: UpdateClassificationScopeInput) async throws -> UpdateClassificationScopeOutputResponse
     /// Updates the criteria and other settings for a findings filter.
+    ///
+    /// - Parameter UpdateFindingsFilterInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateFindingsFilterOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Provides information about an error that occurred due to insufficient access to a specified resource.
+    /// - `ConflictException` : Provides information about an error that occurred due to a versioning conflict for a specified resource.
+    /// - `InternalServerException` : Provides information about an error that occurred due to an unknown internal server error, exception, or failure.
+    /// - `ResourceNotFoundException` : Provides information about an error that occurred because a specified resource wasn't found.
+    /// - `ServiceQuotaExceededException` : Provides information about an error that occurred due to one or more service quotas for an account.
+    /// - `ThrottlingException` : Provides information about an error that occurred because too many requests were sent during a certain amount of time.
+    /// - `ValidationException` : Provides information about an error that occurred due to a syntax error in a request.
     func updateFindingsFilter(input: UpdateFindingsFilterInput) async throws -> UpdateFindingsFilterOutputResponse
     /// Suspends or re-enables Amazon Macie, or updates the configuration settings for a Macie account.
+    ///
+    /// - Parameter UpdateMacieSessionInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateMacieSessionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Provides information about an error that occurred due to insufficient access to a specified resource.
+    /// - `ConflictException` : Provides information about an error that occurred due to a versioning conflict for a specified resource.
+    /// - `InternalServerException` : Provides information about an error that occurred due to an unknown internal server error, exception, or failure.
+    /// - `ResourceNotFoundException` : Provides information about an error that occurred because a specified resource wasn't found.
+    /// - `ServiceQuotaExceededException` : Provides information about an error that occurred due to one or more service quotas for an account.
+    /// - `ThrottlingException` : Provides information about an error that occurred because too many requests were sent during a certain amount of time.
+    /// - `ValidationException` : Provides information about an error that occurred due to a syntax error in a request.
     func updateMacieSession(input: UpdateMacieSessionInput) async throws -> UpdateMacieSessionOutputResponse
     /// Enables an Amazon Macie administrator to suspend or re-enable Macie for a member account.
+    ///
+    /// - Parameter UpdateMemberSessionInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateMemberSessionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Provides information about an error that occurred due to insufficient access to a specified resource.
+    /// - `ConflictException` : Provides information about an error that occurred due to a versioning conflict for a specified resource.
+    /// - `InternalServerException` : Provides information about an error that occurred due to an unknown internal server error, exception, or failure.
+    /// - `ResourceNotFoundException` : Provides information about an error that occurred because a specified resource wasn't found.
+    /// - `ServiceQuotaExceededException` : Provides information about an error that occurred due to one or more service quotas for an account.
+    /// - `ThrottlingException` : Provides information about an error that occurred because too many requests were sent during a certain amount of time.
+    /// - `ValidationException` : Provides information about an error that occurred due to a syntax error in a request.
     func updateMemberSession(input: UpdateMemberSessionInput) async throws -> UpdateMemberSessionOutputResponse
     /// Updates the Amazon Macie configuration settings for an organization in Organizations.
+    ///
+    /// - Parameter UpdateOrganizationConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateOrganizationConfigurationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Provides information about an error that occurred due to insufficient access to a specified resource.
+    /// - `ConflictException` : Provides information about an error that occurred due to a versioning conflict for a specified resource.
+    /// - `InternalServerException` : Provides information about an error that occurred due to an unknown internal server error, exception, or failure.
+    /// - `ResourceNotFoundException` : Provides information about an error that occurred because a specified resource wasn't found.
+    /// - `ServiceQuotaExceededException` : Provides information about an error that occurred due to one or more service quotas for an account.
+    /// - `ThrottlingException` : Provides information about an error that occurred because too many requests were sent during a certain amount of time.
+    /// - `ValidationException` : Provides information about an error that occurred due to a syntax error in a request.
     func updateOrganizationConfiguration(input: UpdateOrganizationConfigurationInput) async throws -> UpdateOrganizationConfigurationOutputResponse
     /// Updates the sensitivity score for an S3 bucket.
+    ///
+    /// - Parameter UpdateResourceProfileInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateResourceProfileOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Provides information about an error that occurred due to insufficient access to a specified resource.
+    /// - `InternalServerException` : Provides information about an error that occurred due to an unknown internal server error, exception, or failure.
+    /// - `ResourceNotFoundException` : Provides information about an error that occurred because a specified resource wasn't found.
+    /// - `ServiceQuotaExceededException` : Provides information about an error that occurred due to one or more service quotas for an account.
+    /// - `ThrottlingException` : Provides information about an error that occurred because too many requests were sent during a certain amount of time.
+    /// - `ValidationException` : Provides information about an error that occurred due to a syntax error in a request.
     func updateResourceProfile(input: UpdateResourceProfileInput) async throws -> UpdateResourceProfileOutputResponse
     /// Updates the sensitivity scoring settings for an S3 bucket.
+    ///
+    /// - Parameter UpdateResourceProfileDetectionsInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateResourceProfileDetectionsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Provides information about an error that occurred due to insufficient access to a specified resource.
+    /// - `InternalServerException` : Provides information about an error that occurred due to an unknown internal server error, exception, or failure.
+    /// - `ResourceNotFoundException` : Provides information about an error that occurred because a specified resource wasn't found.
+    /// - `ServiceQuotaExceededException` : Provides information about an error that occurred due to one or more service quotas for an account.
+    /// - `ThrottlingException` : Provides information about an error that occurred because too many requests were sent during a certain amount of time.
+    /// - `ValidationException` : Provides information about an error that occurred due to a syntax error in a request.
     func updateResourceProfileDetections(input: UpdateResourceProfileDetectionsInput) async throws -> UpdateResourceProfileDetectionsOutputResponse
     /// Updates the status and configuration settings for retrieving occurrences of sensitive data reported by findings.
+    ///
+    /// - Parameter UpdateRevealConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateRevealConfigurationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Provides information about an error that occurred due to insufficient access to a specified resource.
+    /// - `InternalServerException` : Provides information about an error that occurred due to an unknown internal server error, exception, or failure.
+    /// - `ThrottlingException` : Provides information about an error that occurred because too many requests were sent during a certain amount of time.
+    /// - `ValidationException` : Provides information about an error that occurred due to a syntax error in a request.
     func updateRevealConfiguration(input: UpdateRevealConfigurationInput) async throws -> UpdateRevealConfigurationOutputResponse
     /// Updates the settings for the sensitivity inspection template for an account.
+    ///
+    /// - Parameter UpdateSensitivityInspectionTemplateInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateSensitivityInspectionTemplateOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Provides information about an error that occurred due to insufficient access to a specified resource.
+    /// - `InternalServerException` : Provides information about an error that occurred due to an unknown internal server error, exception, or failure.
+    /// - `ResourceNotFoundException` : Provides information about an error that occurred because a specified resource wasn't found.
+    /// - `ThrottlingException` : Provides information about an error that occurred because too many requests were sent during a certain amount of time.
+    /// - `ValidationException` : Provides information about an error that occurred due to a syntax error in a request.
     func updateSensitivityInspectionTemplate(input: UpdateSensitivityInspectionTemplateInput) async throws -> UpdateSensitivityInspectionTemplateOutputResponse
 }
 

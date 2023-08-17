@@ -68,6 +68,20 @@ public struct WellArchitectedClientLogHandlerFactory: ClientRuntime.SDKLogHandle
 
 extension WellArchitectedClient: WellArchitectedClientProtocol {
     /// Associate a lens to a workload. Up to 10 lenses can be associated with a workload in a single API operation. A maximum of 20 lenses can be associated with a workload. Disclaimer By accessing and/or applying custom lenses created by another Amazon Web Services user or account, you acknowledge that custom lenses created by other users and shared with you are Third Party Content as defined in the Amazon Web Services Customer Agreement.
+    ///
+    /// - Parameter AssociateLensesInput : Input to associate lens reviews.
+    ///
+    /// - Returns: `AssociateLensesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `ConflictException` : The resource has already been processed, was deleted, or is too large.
+    /// - `InternalServerException` : There is a problem with the Well-Architected Tool API service.
+    /// - `ResourceNotFoundException` : The requested resource was not found.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The user input is not valid.
     public func associateLenses(input: AssociateLensesInput) async throws -> AssociateLensesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -104,6 +118,20 @@ extension WellArchitectedClient: WellArchitectedClientProtocol {
     }
 
     /// Associate a profile with a workload.
+    ///
+    /// - Parameter AssociateProfilesInput : [no documentation found]
+    ///
+    /// - Returns: `AssociateProfilesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `ConflictException` : The resource has already been processed, was deleted, or is too large.
+    /// - `InternalServerException` : There is a problem with the Well-Architected Tool API service.
+    /// - `ResourceNotFoundException` : The requested resource was not found.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The user input is not valid.
     public func associateProfiles(input: AssociateProfilesInput) async throws -> AssociateProfilesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -140,6 +168,21 @@ extension WellArchitectedClient: WellArchitectedClientProtocol {
     }
 
     /// Create a lens share. The owner of a lens can share it with other Amazon Web Services accounts, users, an organization, and organizational units (OUs) in the same Amazon Web Services Region. Lenses provided by Amazon Web Services (Amazon Web Services Official Content) cannot be shared. Shared access to a lens is not removed until the lens invitation is deleted. If you share a lens with an organization or OU, all accounts in the organization or OU are granted access to the lens. For more information, see [Sharing a custom lens](https://docs.aws.amazon.com/wellarchitected/latest/userguide/lenses-sharing.html) in the Well-Architected Tool User Guide. Disclaimer By sharing your custom lenses with other Amazon Web Services accounts, you acknowledge that Amazon Web Services will make your custom lenses available to those other accounts. Those other accounts may continue to access and use your shared custom lenses even if you delete the custom lenses from your own Amazon Web Services account or terminate your Amazon Web Services account.
+    ///
+    /// - Parameter CreateLensShareInput : [no documentation found]
+    ///
+    /// - Returns: `CreateLensShareOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `ConflictException` : The resource has already been processed, was deleted, or is too large.
+    /// - `InternalServerException` : There is a problem with the Well-Architected Tool API service.
+    /// - `ResourceNotFoundException` : The requested resource was not found.
+    /// - `ServiceQuotaExceededException` : The user has reached their resource quota.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The user input is not valid.
     public func createLensShare(input: CreateLensShareInput) async throws -> CreateLensShareOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -184,6 +227,21 @@ extension WellArchitectedClient: WellArchitectedClientProtocol {
     }
 
     /// Create a new lens version. A lens can have up to 100 versions. Use this operation to publish a new lens version after you have imported a lens. The LensAlias is used to identify the lens to be published. The owner of a lens can share the lens with other Amazon Web Services accounts and users in the same Amazon Web Services Region. Only the owner of a lens can delete it.
+    ///
+    /// - Parameter CreateLensVersionInput : [no documentation found]
+    ///
+    /// - Returns: `CreateLensVersionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `ConflictException` : The resource has already been processed, was deleted, or is too large.
+    /// - `InternalServerException` : There is a problem with the Well-Architected Tool API service.
+    /// - `ResourceNotFoundException` : The requested resource was not found.
+    /// - `ServiceQuotaExceededException` : The user has reached their resource quota.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The user input is not valid.
     public func createLensVersion(input: CreateLensVersionInput) async throws -> CreateLensVersionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -228,6 +286,21 @@ extension WellArchitectedClient: WellArchitectedClientProtocol {
     }
 
     /// Create a milestone for an existing workload.
+    ///
+    /// - Parameter CreateMilestoneInput : Input for milestone creation.
+    ///
+    /// - Returns: `CreateMilestoneOutputResponse` : Output of a create milestone call.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `ConflictException` : The resource has already been processed, was deleted, or is too large.
+    /// - `InternalServerException` : There is a problem with the Well-Architected Tool API service.
+    /// - `ResourceNotFoundException` : The requested resource was not found.
+    /// - `ServiceQuotaExceededException` : The user has reached their resource quota.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The user input is not valid.
     public func createMilestone(input: CreateMilestoneInput) async throws -> CreateMilestoneOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -272,6 +345,20 @@ extension WellArchitectedClient: WellArchitectedClientProtocol {
     }
 
     /// Create a profile.
+    ///
+    /// - Parameter CreateProfileInput : [no documentation found]
+    ///
+    /// - Returns: `CreateProfileOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `ConflictException` : The resource has already been processed, was deleted, or is too large.
+    /// - `InternalServerException` : There is a problem with the Well-Architected Tool API service.
+    /// - `ServiceQuotaExceededException` : The user has reached their resource quota.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The user input is not valid.
     public func createProfile(input: CreateProfileInput) async throws -> CreateProfileOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -316,6 +403,21 @@ extension WellArchitectedClient: WellArchitectedClientProtocol {
     }
 
     /// Create a profile share.
+    ///
+    /// - Parameter CreateProfileShareInput : [no documentation found]
+    ///
+    /// - Returns: `CreateProfileShareOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `ConflictException` : The resource has already been processed, was deleted, or is too large.
+    /// - `InternalServerException` : There is a problem with the Well-Architected Tool API service.
+    /// - `ResourceNotFoundException` : The requested resource was not found.
+    /// - `ServiceQuotaExceededException` : The user has reached their resource quota.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The user input is not valid.
     public func createProfileShare(input: CreateProfileShareInput) async throws -> CreateProfileShareOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -360,6 +462,21 @@ extension WellArchitectedClient: WellArchitectedClientProtocol {
     }
 
     /// Create a new workload. The owner of a workload can share the workload with other Amazon Web Services accounts, users, an organization, and organizational units (OUs) in the same Amazon Web Services Region. Only the owner of a workload can delete it. For more information, see [Defining a Workload](https://docs.aws.amazon.com/wellarchitected/latest/userguide/define-workload.html) in the Well-Architected Tool User Guide. Either AwsRegions, NonAwsRegions, or both must be specified when creating a workload. You also must specify ReviewOwner, even though the parameter is listed as not being required in the following section.
+    ///
+    /// - Parameter CreateWorkloadInput : Input for workload creation.
+    ///
+    /// - Returns: `CreateWorkloadOutputResponse` : Output of a create workload call.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `ConflictException` : The resource has already been processed, was deleted, or is too large.
+    /// - `InternalServerException` : There is a problem with the Well-Architected Tool API service.
+    /// - `ResourceNotFoundException` : The requested resource was not found.
+    /// - `ServiceQuotaExceededException` : The user has reached their resource quota.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The user input is not valid.
     public func createWorkload(input: CreateWorkloadInput) async throws -> CreateWorkloadOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -404,6 +521,21 @@ extension WellArchitectedClient: WellArchitectedClientProtocol {
     }
 
     /// Create a workload share. The owner of a workload can share it with other Amazon Web Services accounts and users in the same Amazon Web Services Region. Shared access to a workload is not removed until the workload invitation is deleted. If you share a workload with an organization or OU, all accounts in the organization or OU are granted access to the workload. For more information, see [Sharing a workload](https://docs.aws.amazon.com/wellarchitected/latest/userguide/workloads-sharing.html) in the Well-Architected Tool User Guide.
+    ///
+    /// - Parameter CreateWorkloadShareInput : Input for Create Workload Share
+    ///
+    /// - Returns: `CreateWorkloadShareOutputResponse` : Input for Create Workload Share
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `ConflictException` : The resource has already been processed, was deleted, or is too large.
+    /// - `InternalServerException` : There is a problem with the Well-Architected Tool API service.
+    /// - `ResourceNotFoundException` : The requested resource was not found.
+    /// - `ServiceQuotaExceededException` : The user has reached their resource quota.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The user input is not valid.
     public func createWorkloadShare(input: CreateWorkloadShareInput) async throws -> CreateWorkloadShareOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -448,6 +580,20 @@ extension WellArchitectedClient: WellArchitectedClientProtocol {
     }
 
     /// Delete an existing lens. Only the owner of a lens can delete it. After the lens is deleted, Amazon Web Services accounts and users that you shared the lens with can continue to use it, but they will no longer be able to apply it to new workloads. Disclaimer By sharing your custom lenses with other Amazon Web Services accounts, you acknowledge that Amazon Web Services will make your custom lenses available to those other accounts. Those other accounts may continue to access and use your shared custom lenses even if you delete the custom lenses from your own Amazon Web Services account or terminate your Amazon Web Services account.
+    ///
+    /// - Parameter DeleteLensInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteLensOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `ConflictException` : The resource has already been processed, was deleted, or is too large.
+    /// - `InternalServerException` : There is a problem with the Well-Architected Tool API service.
+    /// - `ResourceNotFoundException` : The requested resource was not found.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The user input is not valid.
     public func deleteLens(input: DeleteLensInput) async throws -> DeleteLensOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -490,6 +636,20 @@ extension WellArchitectedClient: WellArchitectedClientProtocol {
     }
 
     /// Delete a lens share. After the lens share is deleted, Amazon Web Services accounts, users, organizations, and organizational units (OUs) that you shared the lens with can continue to use it, but they will no longer be able to apply it to new workloads. Disclaimer By sharing your custom lenses with other Amazon Web Services accounts, you acknowledge that Amazon Web Services will make your custom lenses available to those other accounts. Those other accounts may continue to access and use your shared custom lenses even if you delete the custom lenses from your own Amazon Web Services account or terminate your Amazon Web Services account.
+    ///
+    /// - Parameter DeleteLensShareInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteLensShareOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `ConflictException` : The resource has already been processed, was deleted, or is too large.
+    /// - `InternalServerException` : There is a problem with the Well-Architected Tool API service.
+    /// - `ResourceNotFoundException` : The requested resource was not found.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The user input is not valid.
     public func deleteLensShare(input: DeleteLensShareInput) async throws -> DeleteLensShareOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -532,6 +692,20 @@ extension WellArchitectedClient: WellArchitectedClientProtocol {
     }
 
     /// Delete a profile. Disclaimer By sharing your profile with other Amazon Web Services accounts, you acknowledge that Amazon Web Services will make your profile available to those other accounts. Those other accounts may continue to access and use your shared profile even if you delete the profile from your own Amazon Web Services account or terminate your Amazon Web Services account.
+    ///
+    /// - Parameter DeleteProfileInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteProfileOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `ConflictException` : The resource has already been processed, was deleted, or is too large.
+    /// - `InternalServerException` : There is a problem with the Well-Architected Tool API service.
+    /// - `ResourceNotFoundException` : The requested resource was not found.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The user input is not valid.
     public func deleteProfile(input: DeleteProfileInput) async throws -> DeleteProfileOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -574,6 +748,20 @@ extension WellArchitectedClient: WellArchitectedClientProtocol {
     }
 
     /// Delete a profile share.
+    ///
+    /// - Parameter DeleteProfileShareInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteProfileShareOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `ConflictException` : The resource has already been processed, was deleted, or is too large.
+    /// - `InternalServerException` : There is a problem with the Well-Architected Tool API service.
+    /// - `ResourceNotFoundException` : The requested resource was not found.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The user input is not valid.
     public func deleteProfileShare(input: DeleteProfileShareInput) async throws -> DeleteProfileShareOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -616,6 +804,20 @@ extension WellArchitectedClient: WellArchitectedClientProtocol {
     }
 
     /// Delete an existing workload.
+    ///
+    /// - Parameter DeleteWorkloadInput : Input for workload deletion.
+    ///
+    /// - Returns: `DeleteWorkloadOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `ConflictException` : The resource has already been processed, was deleted, or is too large.
+    /// - `InternalServerException` : There is a problem with the Well-Architected Tool API service.
+    /// - `ResourceNotFoundException` : The requested resource was not found.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The user input is not valid.
     public func deleteWorkload(input: DeleteWorkloadInput) async throws -> DeleteWorkloadOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -658,6 +860,20 @@ extension WellArchitectedClient: WellArchitectedClientProtocol {
     }
 
     /// Delete a workload share.
+    ///
+    /// - Parameter DeleteWorkloadShareInput : Input for Delete Workload Share
+    ///
+    /// - Returns: `DeleteWorkloadShareOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `ConflictException` : The resource has already been processed, was deleted, or is too large.
+    /// - `InternalServerException` : There is a problem with the Well-Architected Tool API service.
+    /// - `ResourceNotFoundException` : The requested resource was not found.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The user input is not valid.
     public func deleteWorkloadShare(input: DeleteWorkloadShareInput) async throws -> DeleteWorkloadShareOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -700,6 +916,20 @@ extension WellArchitectedClient: WellArchitectedClientProtocol {
     }
 
     /// Disassociate a lens from a workload. Up to 10 lenses can be disassociated from a workload in a single API operation. The Amazon Web Services Well-Architected Framework lens (wellarchitected) cannot be removed from a workload.
+    ///
+    /// - Parameter DisassociateLensesInput : Input to disassociate lens reviews.
+    ///
+    /// - Returns: `DisassociateLensesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `ConflictException` : The resource has already been processed, was deleted, or is too large.
+    /// - `InternalServerException` : There is a problem with the Well-Architected Tool API service.
+    /// - `ResourceNotFoundException` : The requested resource was not found.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The user input is not valid.
     public func disassociateLenses(input: DisassociateLensesInput) async throws -> DisassociateLensesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -736,6 +966,20 @@ extension WellArchitectedClient: WellArchitectedClientProtocol {
     }
 
     /// Disassociate a profile from a workload.
+    ///
+    /// - Parameter DisassociateProfilesInput : [no documentation found]
+    ///
+    /// - Returns: `DisassociateProfilesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `ConflictException` : The resource has already been processed, was deleted, or is too large.
+    /// - `InternalServerException` : There is a problem with the Well-Architected Tool API service.
+    /// - `ResourceNotFoundException` : The requested resource was not found.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The user input is not valid.
     public func disassociateProfiles(input: DisassociateProfilesInput) async throws -> DisassociateProfilesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -772,6 +1016,19 @@ extension WellArchitectedClient: WellArchitectedClientProtocol {
     }
 
     /// Export an existing lens. Only the owner of a lens can export it. Lenses provided by Amazon Web Services (Amazon Web Services Official Content) cannot be exported. Lenses are defined in JSON. For more information, see [JSON format specification](https://docs.aws.amazon.com/wellarchitected/latest/userguide/lenses-format-specification.html) in the Well-Architected Tool User Guide. Disclaimer Do not include or gather personal identifiable information (PII) of end users or other identifiable individuals in or via your custom lenses. If your custom lens or those shared with you and used in your account do include or collect PII you are responsible for: ensuring that the included PII is processed in accordance with applicable law, providing adequate privacy notices, and obtaining necessary consents for processing such data.
+    ///
+    /// - Parameter ExportLensInput : [no documentation found]
+    ///
+    /// - Returns: `ExportLensOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `InternalServerException` : There is a problem with the Well-Architected Tool API service.
+    /// - `ResourceNotFoundException` : The requested resource was not found.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The user input is not valid.
     public func exportLens(input: ExportLensInput) async throws -> ExportLensOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -806,6 +1063,19 @@ extension WellArchitectedClient: WellArchitectedClientProtocol {
     }
 
     /// Get the answer to a specific question in a workload review.
+    ///
+    /// - Parameter GetAnswerInput : Input to get answer.
+    ///
+    /// - Returns: `GetAnswerOutputResponse` : Output of a get answer call.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `InternalServerException` : There is a problem with the Well-Architected Tool API service.
+    /// - `ResourceNotFoundException` : The requested resource was not found.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The user input is not valid.
     public func getAnswer(input: GetAnswerInput) async throws -> GetAnswerOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -840,6 +1110,19 @@ extension WellArchitectedClient: WellArchitectedClientProtocol {
     }
 
     /// Get a consolidated report of your workloads. You can optionally choose to include workloads that have been shared with you.
+    ///
+    /// - Parameter GetConsolidatedReportInput : [no documentation found]
+    ///
+    /// - Returns: `GetConsolidatedReportOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `ConflictException` : The resource has already been processed, was deleted, or is too large.
+    /// - `InternalServerException` : There is a problem with the Well-Architected Tool API service.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The user input is not valid.
     public func getConsolidatedReport(input: GetConsolidatedReportInput) async throws -> GetConsolidatedReportOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -874,6 +1157,19 @@ extension WellArchitectedClient: WellArchitectedClientProtocol {
     }
 
     /// Get an existing lens.
+    ///
+    /// - Parameter GetLensInput : [no documentation found]
+    ///
+    /// - Returns: `GetLensOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `InternalServerException` : There is a problem with the Well-Architected Tool API service.
+    /// - `ResourceNotFoundException` : The requested resource was not found.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The user input is not valid.
     public func getLens(input: GetLensInput) async throws -> GetLensOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -908,6 +1204,19 @@ extension WellArchitectedClient: WellArchitectedClientProtocol {
     }
 
     /// Get lens review.
+    ///
+    /// - Parameter GetLensReviewInput : Input to get lens review.
+    ///
+    /// - Returns: `GetLensReviewOutputResponse` : Output of a get lens review call.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `InternalServerException` : There is a problem with the Well-Architected Tool API service.
+    /// - `ResourceNotFoundException` : The requested resource was not found.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The user input is not valid.
     public func getLensReview(input: GetLensReviewInput) async throws -> GetLensReviewOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -942,6 +1251,19 @@ extension WellArchitectedClient: WellArchitectedClientProtocol {
     }
 
     /// Get lens review report.
+    ///
+    /// - Parameter GetLensReviewReportInput : Input to get lens review report.
+    ///
+    /// - Returns: `GetLensReviewReportOutputResponse` : Output of a get lens review report call.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `InternalServerException` : There is a problem with the Well-Architected Tool API service.
+    /// - `ResourceNotFoundException` : The requested resource was not found.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The user input is not valid.
     public func getLensReviewReport(input: GetLensReviewReportInput) async throws -> GetLensReviewReportOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -976,6 +1298,19 @@ extension WellArchitectedClient: WellArchitectedClientProtocol {
     }
 
     /// Get lens version differences.
+    ///
+    /// - Parameter GetLensVersionDifferenceInput : [no documentation found]
+    ///
+    /// - Returns: `GetLensVersionDifferenceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `InternalServerException` : There is a problem with the Well-Architected Tool API service.
+    /// - `ResourceNotFoundException` : The requested resource was not found.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The user input is not valid.
     public func getLensVersionDifference(input: GetLensVersionDifferenceInput) async throws -> GetLensVersionDifferenceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1010,6 +1345,19 @@ extension WellArchitectedClient: WellArchitectedClientProtocol {
     }
 
     /// Get a milestone for an existing workload.
+    ///
+    /// - Parameter GetMilestoneInput : Input to get a milestone.
+    ///
+    /// - Returns: `GetMilestoneOutputResponse` : Output of a get milestone call.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `InternalServerException` : There is a problem with the Well-Architected Tool API service.
+    /// - `ResourceNotFoundException` : The requested resource was not found.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The user input is not valid.
     public func getMilestone(input: GetMilestoneInput) async throws -> GetMilestoneOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1043,6 +1391,19 @@ extension WellArchitectedClient: WellArchitectedClientProtocol {
     }
 
     /// Get profile information.
+    ///
+    /// - Parameter GetProfileInput : [no documentation found]
+    ///
+    /// - Returns: `GetProfileOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `InternalServerException` : There is a problem with the Well-Architected Tool API service.
+    /// - `ResourceNotFoundException` : The requested resource was not found.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The user input is not valid.
     public func getProfile(input: GetProfileInput) async throws -> GetProfileOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1077,6 +1438,19 @@ extension WellArchitectedClient: WellArchitectedClientProtocol {
     }
 
     /// Get profile template.
+    ///
+    /// - Parameter GetProfileTemplateInput : [no documentation found]
+    ///
+    /// - Returns: `GetProfileTemplateOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `InternalServerException` : There is a problem with the Well-Architected Tool API service.
+    /// - `ResourceNotFoundException` : The requested resource was not found.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The user input is not valid.
     public func getProfileTemplate(input: GetProfileTemplateInput) async throws -> GetProfileTemplateOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1110,6 +1484,19 @@ extension WellArchitectedClient: WellArchitectedClientProtocol {
     }
 
     /// Get an existing workload.
+    ///
+    /// - Parameter GetWorkloadInput : Input to get a workload.
+    ///
+    /// - Returns: `GetWorkloadOutputResponse` : Output of a get workload call.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `InternalServerException` : There is a problem with the Well-Architected Tool API service.
+    /// - `ResourceNotFoundException` : The requested resource was not found.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The user input is not valid.
     public func getWorkload(input: GetWorkloadInput) async throws -> GetWorkloadOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1143,6 +1530,21 @@ extension WellArchitectedClient: WellArchitectedClientProtocol {
     }
 
     /// Import a new custom lens or update an existing custom lens. To update an existing custom lens, specify its ARN as the LensAlias. If no ARN is specified, a new custom lens is created. The new or updated lens will have a status of DRAFT. The lens cannot be applied to workloads or shared with other Amazon Web Services accounts until it's published with [CreateLensVersion]. Lenses are defined in JSON. For more information, see [JSON format specification](https://docs.aws.amazon.com/wellarchitected/latest/userguide/lenses-format-specification.html) in the Well-Architected Tool User Guide. A custom lens cannot exceed 500 KB in size. Disclaimer Do not include or gather personal identifiable information (PII) of end users or other identifiable individuals in or via your custom lenses. If your custom lens or those shared with you and used in your account do include or collect PII you are responsible for: ensuring that the included PII is processed in accordance with applicable law, providing adequate privacy notices, and obtaining necessary consents for processing such data.
+    ///
+    /// - Parameter ImportLensInput : [no documentation found]
+    ///
+    /// - Returns: `ImportLensOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `ConflictException` : The resource has already been processed, was deleted, or is too large.
+    /// - `InternalServerException` : There is a problem with the Well-Architected Tool API service.
+    /// - `ResourceNotFoundException` : The requested resource was not found.
+    /// - `ServiceQuotaExceededException` : The user has reached their resource quota.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The user input is not valid.
     public func importLens(input: ImportLensInput) async throws -> ImportLensOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1187,6 +1589,19 @@ extension WellArchitectedClient: WellArchitectedClientProtocol {
     }
 
     /// List of answers for a particular workload and lens.
+    ///
+    /// - Parameter ListAnswersInput : Input to list answers.
+    ///
+    /// - Returns: `ListAnswersOutputResponse` : Output of a list answers call.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `InternalServerException` : There is a problem with the Well-Architected Tool API service.
+    /// - `ResourceNotFoundException` : The requested resource was not found.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The user input is not valid.
     public func listAnswers(input: ListAnswersInput) async throws -> ListAnswersOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1221,6 +1636,19 @@ extension WellArchitectedClient: WellArchitectedClientProtocol {
     }
 
     /// List of Trusted Advisor check details by account related to the workload.
+    ///
+    /// - Parameter ListCheckDetailsInput : [no documentation found]
+    ///
+    /// - Returns: `ListCheckDetailsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `InternalServerException` : There is a problem with the Well-Architected Tool API service.
+    /// - `ResourceNotFoundException` : The requested resource was not found.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The user input is not valid.
     public func listCheckDetails(input: ListCheckDetailsInput) async throws -> ListCheckDetailsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1257,6 +1685,19 @@ extension WellArchitectedClient: WellArchitectedClientProtocol {
     }
 
     /// List of Trusted Advisor checks summarized for all accounts related to the workload.
+    ///
+    /// - Parameter ListCheckSummariesInput : [no documentation found]
+    ///
+    /// - Returns: `ListCheckSummariesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `InternalServerException` : There is a problem with the Well-Architected Tool API service.
+    /// - `ResourceNotFoundException` : The requested resource was not found.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The user input is not valid.
     public func listCheckSummaries(input: ListCheckSummariesInput) async throws -> ListCheckSummariesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1293,6 +1734,19 @@ extension WellArchitectedClient: WellArchitectedClientProtocol {
     }
 
     /// List lens review improvements.
+    ///
+    /// - Parameter ListLensReviewImprovementsInput : Input to list lens review improvements.
+    ///
+    /// - Returns: `ListLensReviewImprovementsOutputResponse` : Output of a list lens review improvements call.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `InternalServerException` : There is a problem with the Well-Architected Tool API service.
+    /// - `ResourceNotFoundException` : The requested resource was not found.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The user input is not valid.
     public func listLensReviewImprovements(input: ListLensReviewImprovementsInput) async throws -> ListLensReviewImprovementsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1327,6 +1781,19 @@ extension WellArchitectedClient: WellArchitectedClientProtocol {
     }
 
     /// List lens reviews for a particular workload.
+    ///
+    /// - Parameter ListLensReviewsInput : Input to list lens reviews.
+    ///
+    /// - Returns: `ListLensReviewsOutputResponse` : Output of a list lens reviews call.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `InternalServerException` : There is a problem with the Well-Architected Tool API service.
+    /// - `ResourceNotFoundException` : The requested resource was not found.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The user input is not valid.
     public func listLensReviews(input: ListLensReviewsInput) async throws -> ListLensReviewsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1361,6 +1828,19 @@ extension WellArchitectedClient: WellArchitectedClientProtocol {
     }
 
     /// List the lens shares associated with the lens.
+    ///
+    /// - Parameter ListLensSharesInput : [no documentation found]
+    ///
+    /// - Returns: `ListLensSharesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `InternalServerException` : There is a problem with the Well-Architected Tool API service.
+    /// - `ResourceNotFoundException` : The requested resource was not found.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The user input is not valid.
     public func listLensShares(input: ListLensSharesInput) async throws -> ListLensSharesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1395,6 +1875,18 @@ extension WellArchitectedClient: WellArchitectedClientProtocol {
     }
 
     /// List the available lenses.
+    ///
+    /// - Parameter ListLensesInput : Input to list lenses.
+    ///
+    /// - Returns: `ListLensesOutputResponse` : Output of a list lenses call.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `InternalServerException` : There is a problem with the Well-Architected Tool API service.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The user input is not valid.
     public func listLenses(input: ListLensesInput) async throws -> ListLensesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1429,6 +1921,19 @@ extension WellArchitectedClient: WellArchitectedClientProtocol {
     }
 
     /// List all milestones for an existing workload.
+    ///
+    /// - Parameter ListMilestonesInput : Input to list all milestones for a workload.
+    ///
+    /// - Returns: `ListMilestonesOutputResponse` : Output of a list milestones call.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `InternalServerException` : There is a problem with the Well-Architected Tool API service.
+    /// - `ResourceNotFoundException` : The requested resource was not found.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The user input is not valid.
     public func listMilestones(input: ListMilestonesInput) async throws -> ListMilestonesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1465,6 +1970,18 @@ extension WellArchitectedClient: WellArchitectedClientProtocol {
     }
 
     /// List lens notifications.
+    ///
+    /// - Parameter ListNotificationsInput : [no documentation found]
+    ///
+    /// - Returns: `ListNotificationsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `InternalServerException` : There is a problem with the Well-Architected Tool API service.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The user input is not valid.
     public func listNotifications(input: ListNotificationsInput) async throws -> ListNotificationsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1501,6 +2018,18 @@ extension WellArchitectedClient: WellArchitectedClientProtocol {
     }
 
     /// List profile notifications.
+    ///
+    /// - Parameter ListProfileNotificationsInput : [no documentation found]
+    ///
+    /// - Returns: `ListProfileNotificationsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `InternalServerException` : There is a problem with the Well-Architected Tool API service.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The user input is not valid.
     public func listProfileNotifications(input: ListProfileNotificationsInput) async throws -> ListProfileNotificationsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1535,6 +2064,19 @@ extension WellArchitectedClient: WellArchitectedClientProtocol {
     }
 
     /// List profile shares.
+    ///
+    /// - Parameter ListProfileSharesInput : [no documentation found]
+    ///
+    /// - Returns: `ListProfileSharesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `InternalServerException` : There is a problem with the Well-Architected Tool API service.
+    /// - `ResourceNotFoundException` : The requested resource was not found.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The user input is not valid.
     public func listProfileShares(input: ListProfileSharesInput) async throws -> ListProfileSharesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1569,6 +2111,18 @@ extension WellArchitectedClient: WellArchitectedClientProtocol {
     }
 
     /// List profiles.
+    ///
+    /// - Parameter ListProfilesInput : [no documentation found]
+    ///
+    /// - Returns: `ListProfilesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `InternalServerException` : There is a problem with the Well-Architected Tool API service.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The user input is not valid.
     public func listProfiles(input: ListProfilesInput) async throws -> ListProfilesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1603,6 +2157,18 @@ extension WellArchitectedClient: WellArchitectedClientProtocol {
     }
 
     /// List the workload invitations.
+    ///
+    /// - Parameter ListShareInvitationsInput : Input for List Share Invitations
+    ///
+    /// - Returns: `ListShareInvitationsOutputResponse` : Input for List Share Invitations
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `InternalServerException` : There is a problem with the Well-Architected Tool API service.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The user input is not valid.
     public func listShareInvitations(input: ListShareInvitationsInput) async throws -> ListShareInvitationsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1637,6 +2203,16 @@ extension WellArchitectedClient: WellArchitectedClientProtocol {
     }
 
     /// List the tags for a resource. The WorkloadArn parameter can be a workload ARN, a custom lens ARN, or a profile ARN.
+    ///
+    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    ///
+    /// - Returns: `ListTagsForResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : There is a problem with the Well-Architected Tool API service.
+    /// - `ResourceNotFoundException` : The requested resource was not found.
     public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1670,6 +2246,19 @@ extension WellArchitectedClient: WellArchitectedClientProtocol {
     }
 
     /// List the workload shares associated with the workload.
+    ///
+    /// - Parameter ListWorkloadSharesInput : Input for List Workload Share
+    ///
+    /// - Returns: `ListWorkloadSharesOutputResponse` : Input for List Workload Share
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `InternalServerException` : There is a problem with the Well-Architected Tool API service.
+    /// - `ResourceNotFoundException` : The requested resource was not found.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The user input is not valid.
     public func listWorkloadShares(input: ListWorkloadSharesInput) async throws -> ListWorkloadSharesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1704,6 +2293,18 @@ extension WellArchitectedClient: WellArchitectedClientProtocol {
     }
 
     /// Paginated list of workloads.
+    ///
+    /// - Parameter ListWorkloadsInput : Input to list all workloads.
+    ///
+    /// - Returns: `ListWorkloadsOutputResponse` : Output of a list workloads call.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `InternalServerException` : There is a problem with the Well-Architected Tool API service.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The user input is not valid.
     public func listWorkloads(input: ListWorkloadsInput) async throws -> ListWorkloadsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1740,6 +2341,16 @@ extension WellArchitectedClient: WellArchitectedClientProtocol {
     }
 
     /// Adds one or more tags to the specified resource. The WorkloadArn parameter can be a workload ARN, a custom lens ARN, or a profile ARN.
+    ///
+    /// - Parameter TagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `TagResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : There is a problem with the Well-Architected Tool API service.
+    /// - `ResourceNotFoundException` : The requested resource was not found.
     public func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1776,6 +2387,16 @@ extension WellArchitectedClient: WellArchitectedClientProtocol {
     }
 
     /// Deletes specified tags from a resource. The WorkloadArn parameter can be a workload ARN, a custom lens ARN, or a profile ARN. To specify multiple tags, use separate tagKeys parameters, for example: DELETE /tags/WorkloadArn?tagKeys=key1&tagKeys=key2
+    ///
+    /// - Parameter UntagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `UntagResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : There is a problem with the Well-Architected Tool API service.
+    /// - `ResourceNotFoundException` : The requested resource was not found.
     public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1810,6 +2431,20 @@ extension WellArchitectedClient: WellArchitectedClientProtocol {
     }
 
     /// Update the answer to a specific question in a workload review.
+    ///
+    /// - Parameter UpdateAnswerInput : Input to update answer.
+    ///
+    /// - Returns: `UpdateAnswerOutputResponse` : Output of a update answer call.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `ConflictException` : The resource has already been processed, was deleted, or is too large.
+    /// - `InternalServerException` : There is a problem with the Well-Architected Tool API service.
+    /// - `ResourceNotFoundException` : The requested resource was not found.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The user input is not valid.
     public func updateAnswer(input: UpdateAnswerInput) async throws -> UpdateAnswerOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1846,6 +2481,19 @@ extension WellArchitectedClient: WellArchitectedClientProtocol {
     }
 
     /// Updates whether the Amazon Web Services account is opted into organization sharing and discovery integration features.
+    ///
+    /// - Parameter UpdateGlobalSettingsInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateGlobalSettingsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `ConflictException` : The resource has already been processed, was deleted, or is too large.
+    /// - `InternalServerException` : There is a problem with the Well-Architected Tool API service.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The user input is not valid.
     public func updateGlobalSettings(input: UpdateGlobalSettingsInput) async throws -> UpdateGlobalSettingsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1882,6 +2530,20 @@ extension WellArchitectedClient: WellArchitectedClientProtocol {
     }
 
     /// Update lens review for a particular workload.
+    ///
+    /// - Parameter UpdateLensReviewInput : Input for update lens review.
+    ///
+    /// - Returns: `UpdateLensReviewOutputResponse` : Output of a update lens review call.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `ConflictException` : The resource has already been processed, was deleted, or is too large.
+    /// - `InternalServerException` : There is a problem with the Well-Architected Tool API service.
+    /// - `ResourceNotFoundException` : The requested resource was not found.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The user input is not valid.
     public func updateLensReview(input: UpdateLensReviewInput) async throws -> UpdateLensReviewOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1918,6 +2580,20 @@ extension WellArchitectedClient: WellArchitectedClientProtocol {
     }
 
     /// Update a profile.
+    ///
+    /// - Parameter UpdateProfileInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateProfileOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `ConflictException` : The resource has already been processed, was deleted, or is too large.
+    /// - `InternalServerException` : There is a problem with the Well-Architected Tool API service.
+    /// - `ResourceNotFoundException` : The requested resource was not found.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The user input is not valid.
     public func updateProfile(input: UpdateProfileInput) async throws -> UpdateProfileOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1954,6 +2630,20 @@ extension WellArchitectedClient: WellArchitectedClientProtocol {
     }
 
     /// Update a workload or custom lens share invitation. This API operation can be called independently of any resource. Previous documentation implied that a workload ARN must be specified.
+    ///
+    /// - Parameter UpdateShareInvitationInput : Input for Update Share Invitation
+    ///
+    /// - Returns: `UpdateShareInvitationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `ConflictException` : The resource has already been processed, was deleted, or is too large.
+    /// - `InternalServerException` : There is a problem with the Well-Architected Tool API service.
+    /// - `ResourceNotFoundException` : The requested resource was not found.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The user input is not valid.
     public func updateShareInvitation(input: UpdateShareInvitationInput) async throws -> UpdateShareInvitationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1990,6 +2680,20 @@ extension WellArchitectedClient: WellArchitectedClientProtocol {
     }
 
     /// Update an existing workload.
+    ///
+    /// - Parameter UpdateWorkloadInput : Input to update a workload.
+    ///
+    /// - Returns: `UpdateWorkloadOutputResponse` : Output of an update workload call.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `ConflictException` : The resource has already been processed, was deleted, or is too large.
+    /// - `InternalServerException` : There is a problem with the Well-Architected Tool API service.
+    /// - `ResourceNotFoundException` : The requested resource was not found.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The user input is not valid.
     public func updateWorkload(input: UpdateWorkloadInput) async throws -> UpdateWorkloadOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2026,6 +2730,20 @@ extension WellArchitectedClient: WellArchitectedClientProtocol {
     }
 
     /// Update a workload share.
+    ///
+    /// - Parameter UpdateWorkloadShareInput : Input for Update Workload Share
+    ///
+    /// - Returns: `UpdateWorkloadShareOutputResponse` : Input for Update Workload Share
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `ConflictException` : The resource has already been processed, was deleted, or is too large.
+    /// - `InternalServerException` : There is a problem with the Well-Architected Tool API service.
+    /// - `ResourceNotFoundException` : The requested resource was not found.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The user input is not valid.
     public func updateWorkloadShare(input: UpdateWorkloadShareInput) async throws -> UpdateWorkloadShareOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2062,6 +2780,20 @@ extension WellArchitectedClient: WellArchitectedClientProtocol {
     }
 
     /// Upgrade lens review for a particular workload.
+    ///
+    /// - Parameter UpgradeLensReviewInput : [no documentation found]
+    ///
+    /// - Returns: `UpgradeLensReviewOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `ConflictException` : The resource has already been processed, was deleted, or is too large.
+    /// - `InternalServerException` : There is a problem with the Well-Architected Tool API service.
+    /// - `ResourceNotFoundException` : The requested resource was not found.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The user input is not valid.
     public func upgradeLensReview(input: UpgradeLensReviewInput) async throws -> UpgradeLensReviewOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2098,6 +2830,20 @@ extension WellArchitectedClient: WellArchitectedClientProtocol {
     }
 
     /// Upgrade a profile.
+    ///
+    /// - Parameter UpgradeProfileVersionInput : [no documentation found]
+    ///
+    /// - Returns: `UpgradeProfileVersionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `ConflictException` : The resource has already been processed, was deleted, or is too large.
+    /// - `InternalServerException` : There is a problem with the Well-Architected Tool API service.
+    /// - `ResourceNotFoundException` : The requested resource was not found.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The user input is not valid.
     public func upgradeProfileVersion(input: UpgradeProfileVersionInput) async throws -> UpgradeProfileVersionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()

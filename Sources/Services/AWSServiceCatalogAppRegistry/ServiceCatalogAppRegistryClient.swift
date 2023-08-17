@@ -68,6 +68,19 @@ public struct ServiceCatalogAppRegistryClientLogHandlerFactory: ClientRuntime.SD
 
 extension ServiceCatalogAppRegistryClient: ServiceCatalogAppRegistryClientProtocol {
     /// Associates an attribute group with an application to augment the application's metadata with the group's attributes. This feature enables applications to be described with user-defined details that are machine-readable, such as third-party integrations.
+    ///
+    /// - Parameter AssociateAttributeGroupInput : [no documentation found]
+    ///
+    /// - Returns: `AssociateAttributeGroupOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictException` : There was a conflict when processing the request (for example, a resource with the given name already exists within the account).
+    /// - `InternalServerException` : The service is experiencing internal problems.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ServiceQuotaExceededException` : The maximum number of resources per account has been reached.
+    /// - `ValidationException` : The request has invalid or missing parameters.
     public func associateAttributeGroup(input: AssociateAttributeGroupInput) async throws -> AssociateAttributeGroupOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -101,6 +114,20 @@ extension ServiceCatalogAppRegistryClient: ServiceCatalogAppRegistryClientProtoc
     }
 
     /// Associates a resource with an application. The resource can be specified by its ARN or name. The application can be specified by ARN, ID, or name.
+    ///
+    /// - Parameter AssociateResourceInput : [no documentation found]
+    ///
+    /// - Returns: `AssociateResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictException` : There was a conflict when processing the request (for example, a resource with the given name already exists within the account).
+    /// - `InternalServerException` : The service is experiencing internal problems.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ServiceQuotaExceededException` : The maximum number of resources per account has been reached.
+    /// - `ThrottlingException` : The maximum number of API requests has been exceeded.
+    /// - `ValidationException` : The request has invalid or missing parameters.
     public func associateResource(input: AssociateResourceInput) async throws -> AssociateResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -134,6 +161,19 @@ extension ServiceCatalogAppRegistryClient: ServiceCatalogAppRegistryClientProtoc
     }
 
     /// Creates a new application that is the top-level node in a hierarchy of related cloud resource abstractions.
+    ///
+    /// - Parameter CreateApplicationInput : [no documentation found]
+    ///
+    /// - Returns: `CreateApplicationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictException` : There was a conflict when processing the request (for example, a resource with the given name already exists within the account).
+    /// - `InternalServerException` : The service is experiencing internal problems.
+    /// - `ServiceQuotaExceededException` : The maximum number of resources per account has been reached.
+    /// - `ThrottlingException` : The maximum number of API requests has been exceeded.
+    /// - `ValidationException` : The request has invalid or missing parameters.
     public func createApplication(input: CreateApplicationInput) async throws -> CreateApplicationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -178,6 +218,18 @@ extension ServiceCatalogAppRegistryClient: ServiceCatalogAppRegistryClientProtoc
     }
 
     /// Creates a new attribute group as a container for user-defined attributes. This feature enables users to have full control over their cloud application's metadata in a rich machine-readable format to facilitate integration with automated workflows and third-party tools.
+    ///
+    /// - Parameter CreateAttributeGroupInput : [no documentation found]
+    ///
+    /// - Returns: `CreateAttributeGroupOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictException` : There was a conflict when processing the request (for example, a resource with the given name already exists within the account).
+    /// - `InternalServerException` : The service is experiencing internal problems.
+    /// - `ServiceQuotaExceededException` : The maximum number of resources per account has been reached.
+    /// - `ValidationException` : The request has invalid or missing parameters.
     public func createAttributeGroup(input: CreateAttributeGroupInput) async throws -> CreateAttributeGroupOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -222,6 +274,17 @@ extension ServiceCatalogAppRegistryClient: ServiceCatalogAppRegistryClientProtoc
     }
 
     /// Deletes an application that is specified either by its application ID, name, or ARN. All associated attribute groups and resources must be disassociated from it before deleting an application.
+    ///
+    /// - Parameter DeleteApplicationInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteApplicationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The service is experiencing internal problems.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ValidationException` : The request has invalid or missing parameters.
     public func deleteApplication(input: DeleteApplicationInput) async throws -> DeleteApplicationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -255,6 +318,17 @@ extension ServiceCatalogAppRegistryClient: ServiceCatalogAppRegistryClientProtoc
     }
 
     /// Deletes an attribute group, specified either by its attribute group ID, name, or ARN.
+    ///
+    /// - Parameter DeleteAttributeGroupInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteAttributeGroupOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The service is experiencing internal problems.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ValidationException` : The request has invalid or missing parameters.
     public func deleteAttributeGroup(input: DeleteAttributeGroupInput) async throws -> DeleteAttributeGroupOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -288,6 +362,17 @@ extension ServiceCatalogAppRegistryClient: ServiceCatalogAppRegistryClientProtoc
     }
 
     /// Disassociates an attribute group from an application to remove the extra attributes contained in the attribute group from the application's metadata. This operation reverts AssociateAttributeGroup.
+    ///
+    /// - Parameter DisassociateAttributeGroupInput : [no documentation found]
+    ///
+    /// - Returns: `DisassociateAttributeGroupOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The service is experiencing internal problems.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ValidationException` : The request has invalid or missing parameters.
     public func disassociateAttributeGroup(input: DisassociateAttributeGroupInput) async throws -> DisassociateAttributeGroupOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -321,6 +406,18 @@ extension ServiceCatalogAppRegistryClient: ServiceCatalogAppRegistryClientProtoc
     }
 
     /// Disassociates a resource from application. Both the resource and the application can be specified either by ID or name.
+    ///
+    /// - Parameter DisassociateResourceInput : [no documentation found]
+    ///
+    /// - Returns: `DisassociateResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The service is experiencing internal problems.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ThrottlingException` : The maximum number of API requests has been exceeded.
+    /// - `ValidationException` : The request has invalid or missing parameters.
     public func disassociateResource(input: DisassociateResourceInput) async throws -> DisassociateResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -354,6 +451,18 @@ extension ServiceCatalogAppRegistryClient: ServiceCatalogAppRegistryClientProtoc
     }
 
     /// Retrieves metadata information about one of your applications. The application can be specified by its ARN, ID, or name (which is unique within one account in one region at a given point in time). Specify by ARN or ID in automated workflows if you want to make sure that the exact same application is returned or a ResourceNotFoundException is thrown, avoiding the ABA addressing problem.
+    ///
+    /// - Parameter GetApplicationInput : [no documentation found]
+    ///
+    /// - Returns: `GetApplicationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictException` : There was a conflict when processing the request (for example, a resource with the given name already exists within the account).
+    /// - `InternalServerException` : The service is experiencing internal problems.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ValidationException` : The request has invalid or missing parameters.
     public func getApplication(input: GetApplicationInput) async throws -> GetApplicationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -387,6 +496,17 @@ extension ServiceCatalogAppRegistryClient: ServiceCatalogAppRegistryClientProtoc
     }
 
     /// Gets the resource associated with the application.
+    ///
+    /// - Parameter GetAssociatedResourceInput : [no documentation found]
+    ///
+    /// - Returns: `GetAssociatedResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The service is experiencing internal problems.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ValidationException` : The request has invalid or missing parameters.
     public func getAssociatedResource(input: GetAssociatedResourceInput) async throws -> GetAssociatedResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -420,6 +540,18 @@ extension ServiceCatalogAppRegistryClient: ServiceCatalogAppRegistryClientProtoc
     }
 
     /// Retrieves an attribute group by its ARN, ID, or name. The attribute group can be specified by its ARN, ID, or name.
+    ///
+    /// - Parameter GetAttributeGroupInput : [no documentation found]
+    ///
+    /// - Returns: `GetAttributeGroupOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictException` : There was a conflict when processing the request (for example, a resource with the given name already exists within the account).
+    /// - `InternalServerException` : The service is experiencing internal problems.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ValidationException` : The request has invalid or missing parameters.
     public func getAttributeGroup(input: GetAttributeGroupInput) async throws -> GetAttributeGroupOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -453,6 +585,15 @@ extension ServiceCatalogAppRegistryClient: ServiceCatalogAppRegistryClientProtoc
     }
 
     /// Retrieves a TagKey configuration from an account.
+    ///
+    /// - Parameter GetConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `GetConfigurationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The service is experiencing internal problems.
     public func getConfiguration(input: GetConfigurationInput) async throws -> GetConfigurationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -486,6 +627,16 @@ extension ServiceCatalogAppRegistryClient: ServiceCatalogAppRegistryClientProtoc
     }
 
     /// Retrieves a list of all of your applications. Results are paginated.
+    ///
+    /// - Parameter ListApplicationsInput : [no documentation found]
+    ///
+    /// - Returns: `ListApplicationsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The service is experiencing internal problems.
+    /// - `ValidationException` : The request has invalid or missing parameters.
     public func listApplications(input: ListApplicationsInput) async throws -> ListApplicationsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -520,6 +671,17 @@ extension ServiceCatalogAppRegistryClient: ServiceCatalogAppRegistryClientProtoc
     }
 
     /// Lists all attribute groups that are associated with specified application. Results are paginated.
+    ///
+    /// - Parameter ListAssociatedAttributeGroupsInput : [no documentation found]
+    ///
+    /// - Returns: `ListAssociatedAttributeGroupsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The service is experiencing internal problems.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ValidationException` : The request has invalid or missing parameters.
     public func listAssociatedAttributeGroups(input: ListAssociatedAttributeGroupsInput) async throws -> ListAssociatedAttributeGroupsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -554,6 +716,17 @@ extension ServiceCatalogAppRegistryClient: ServiceCatalogAppRegistryClientProtoc
     }
 
     /// Lists all of the resources that are associated with the specified application. Results are paginated. If you share an application, and a consumer account associates a tag query to the application, all of the users who can access the application can also view the tag values in all accounts that are associated with it using this API.
+    ///
+    /// - Parameter ListAssociatedResourcesInput : [no documentation found]
+    ///
+    /// - Returns: `ListAssociatedResourcesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The service is experiencing internal problems.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ValidationException` : The request has invalid or missing parameters.
     public func listAssociatedResources(input: ListAssociatedResourcesInput) async throws -> ListAssociatedResourcesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -588,6 +761,16 @@ extension ServiceCatalogAppRegistryClient: ServiceCatalogAppRegistryClientProtoc
     }
 
     /// Lists all attribute groups which you have access to. Results are paginated.
+    ///
+    /// - Parameter ListAttributeGroupsInput : [no documentation found]
+    ///
+    /// - Returns: `ListAttributeGroupsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The service is experiencing internal problems.
+    /// - `ValidationException` : The request has invalid or missing parameters.
     public func listAttributeGroups(input: ListAttributeGroupsInput) async throws -> ListAttributeGroupsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -622,6 +805,17 @@ extension ServiceCatalogAppRegistryClient: ServiceCatalogAppRegistryClientProtoc
     }
 
     /// Lists the details of all attribute groups associated with a specific application. The results display in pages.
+    ///
+    /// - Parameter ListAttributeGroupsForApplicationInput : [no documentation found]
+    ///
+    /// - Returns: `ListAttributeGroupsForApplicationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The service is experiencing internal problems.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ValidationException` : The request has invalid or missing parameters.
     public func listAttributeGroupsForApplication(input: ListAttributeGroupsForApplicationInput) async throws -> ListAttributeGroupsForApplicationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -656,6 +850,17 @@ extension ServiceCatalogAppRegistryClient: ServiceCatalogAppRegistryClientProtoc
     }
 
     /// Lists all of the tags on the resource.
+    ///
+    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    ///
+    /// - Returns: `ListTagsForResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The service is experiencing internal problems.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ValidationException` : The request has invalid or missing parameters.
     public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -689,6 +894,17 @@ extension ServiceCatalogAppRegistryClient: ServiceCatalogAppRegistryClientProtoc
     }
 
     /// Associates a TagKey configuration to an account.
+    ///
+    /// - Parameter PutConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `PutConfigurationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictException` : There was a conflict when processing the request (for example, a resource with the given name already exists within the account).
+    /// - `InternalServerException` : The service is experiencing internal problems.
+    /// - `ValidationException` : The request has invalid or missing parameters.
     public func putConfiguration(input: PutConfigurationInput) async throws -> PutConfigurationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -725,6 +941,19 @@ extension ServiceCatalogAppRegistryClient: ServiceCatalogAppRegistryClientProtoc
     }
 
     /// Syncs the resource with current AppRegistry records. Specifically, the resource’s AppRegistry system tags sync with its associated application. We remove the resource's AppRegistry system tags if it does not associate with the application. The caller must have permissions to read and update the resource.
+    ///
+    /// - Parameter SyncResourceInput : [no documentation found]
+    ///
+    /// - Returns: `SyncResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictException` : There was a conflict when processing the request (for example, a resource with the given name already exists within the account).
+    /// - `InternalServerException` : The service is experiencing internal problems.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ThrottlingException` : The maximum number of API requests has been exceeded.
+    /// - `ValidationException` : The request has invalid or missing parameters.
     public func syncResource(input: SyncResourceInput) async throws -> SyncResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -758,6 +987,17 @@ extension ServiceCatalogAppRegistryClient: ServiceCatalogAppRegistryClientProtoc
     }
 
     /// Assigns one or more tags (key-value pairs) to the specified resource. Each tag consists of a key and an optional value. If a tag with the same key is already associated with the resource, this action updates its value. This operation returns an empty response if the call was successful.
+    ///
+    /// - Parameter TagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `TagResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The service is experiencing internal problems.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ValidationException` : The request has invalid or missing parameters.
     public func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -794,6 +1034,17 @@ extension ServiceCatalogAppRegistryClient: ServiceCatalogAppRegistryClientProtoc
     }
 
     /// Removes tags from a resource. This operation returns an empty response if the call was successful.
+    ///
+    /// - Parameter UntagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `UntagResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The service is experiencing internal problems.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ValidationException` : The request has invalid or missing parameters.
     public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -828,6 +1079,19 @@ extension ServiceCatalogAppRegistryClient: ServiceCatalogAppRegistryClientProtoc
     }
 
     /// Updates an existing application with new attributes.
+    ///
+    /// - Parameter UpdateApplicationInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateApplicationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictException` : There was a conflict when processing the request (for example, a resource with the given name already exists within the account).
+    /// - `InternalServerException` : The service is experiencing internal problems.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ThrottlingException` : The maximum number of API requests has been exceeded.
+    /// - `ValidationException` : The request has invalid or missing parameters.
     public func updateApplication(input: UpdateApplicationInput) async throws -> UpdateApplicationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -864,6 +1128,18 @@ extension ServiceCatalogAppRegistryClient: ServiceCatalogAppRegistryClientProtoc
     }
 
     /// Updates an existing attribute group with new details.
+    ///
+    /// - Parameter UpdateAttributeGroupInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateAttributeGroupOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictException` : There was a conflict when processing the request (for example, a resource with the given name already exists within the account).
+    /// - `InternalServerException` : The service is experiencing internal problems.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ValidationException` : The request has invalid or missing parameters.
     public func updateAttributeGroup(input: UpdateAttributeGroupInput) async throws -> UpdateAttributeGroupOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()

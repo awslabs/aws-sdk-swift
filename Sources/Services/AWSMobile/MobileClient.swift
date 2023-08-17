@@ -68,6 +68,21 @@ public struct MobileClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFactory 
 
 extension MobileClient: MobileClientProtocol {
     /// Creates an AWS Mobile Hub project.
+    ///
+    /// - Parameter CreateProjectInput : Request structure used to request a project be created.
+    ///
+    /// - Returns: `CreateProjectOutputResponse` : Result structure used in response to a request to create a project.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The request cannot be processed because some parameter is not valid or the project state prevents the operation from being performed.
+    /// - `InternalFailureException` : The service has encountered an unexpected error condition which prevents it from servicing the request.
+    /// - `LimitExceededException` : There are too many AWS Mobile Hub projects in the account or the account has exceeded the maximum number of resources in some AWS service. You should create another sub-account using AWS Organizations or remove some resources and retry your request.
+    /// - `NotFoundException` : No entity can be found with the specified identifier.
+    /// - `ServiceUnavailableException` : The service is temporarily unavailable. The request should be retried after some time delay.
+    /// - `TooManyRequestsException` : Too many requests have been received for this AWS account in too short a time. The request should be retried after some time delay.
+    /// - `UnauthorizedException` : Credentials of the caller are insufficient to authorize the request.
     public func createProject(input: CreateProjectInput) async throws -> CreateProjectOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -105,6 +120,19 @@ extension MobileClient: MobileClientProtocol {
     }
 
     /// Delets a project in AWS Mobile Hub.
+    ///
+    /// - Parameter DeleteProjectInput : Request structure used to request a project be deleted.
+    ///
+    /// - Returns: `DeleteProjectOutputResponse` : Result structure used in response to request to delete a project.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : The service has encountered an unexpected error condition which prevents it from servicing the request.
+    /// - `NotFoundException` : No entity can be found with the specified identifier.
+    /// - `ServiceUnavailableException` : The service is temporarily unavailable. The request should be retried after some time delay.
+    /// - `TooManyRequestsException` : Too many requests have been received for this AWS account in too short a time. The request should be retried after some time delay.
+    /// - `UnauthorizedException` : Credentials of the caller are insufficient to authorize the request.
     public func deleteProject(input: DeleteProjectInput) async throws -> DeleteProjectOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -138,6 +166,20 @@ extension MobileClient: MobileClientProtocol {
     }
 
     /// Get the bundle details for the requested bundle id.
+    ///
+    /// - Parameter DescribeBundleInput : Request structure to request the details of a specific bundle.
+    ///
+    /// - Returns: `DescribeBundleOutputResponse` : Result structure contains the details of the bundle.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The request cannot be processed because some parameter is not valid or the project state prevents the operation from being performed.
+    /// - `InternalFailureException` : The service has encountered an unexpected error condition which prevents it from servicing the request.
+    /// - `NotFoundException` : No entity can be found with the specified identifier.
+    /// - `ServiceUnavailableException` : The service is temporarily unavailable. The request should be retried after some time delay.
+    /// - `TooManyRequestsException` : Too many requests have been received for this AWS account in too short a time. The request should be retried after some time delay.
+    /// - `UnauthorizedException` : Credentials of the caller are insufficient to authorize the request.
     public func describeBundle(input: DescribeBundleInput) async throws -> DescribeBundleOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -171,6 +213,20 @@ extension MobileClient: MobileClientProtocol {
     }
 
     /// Gets details about a project in AWS Mobile Hub.
+    ///
+    /// - Parameter DescribeProjectInput : Request structure used to request details about a project.
+    ///
+    /// - Returns: `DescribeProjectOutputResponse` : Result structure used for requests of project details.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The request cannot be processed because some parameter is not valid or the project state prevents the operation from being performed.
+    /// - `InternalFailureException` : The service has encountered an unexpected error condition which prevents it from servicing the request.
+    /// - `NotFoundException` : No entity can be found with the specified identifier.
+    /// - `ServiceUnavailableException` : The service is temporarily unavailable. The request should be retried after some time delay.
+    /// - `TooManyRequestsException` : Too many requests have been received for this AWS account in too short a time. The request should be retried after some time delay.
+    /// - `UnauthorizedException` : Credentials of the caller are insufficient to authorize the request.
     public func describeProject(input: DescribeProjectInput) async throws -> DescribeProjectOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -205,6 +261,20 @@ extension MobileClient: MobileClientProtocol {
     }
 
     /// Generates customized software development kit (SDK) and or tool packages used to integrate mobile web or mobile app clients with backend AWS resources.
+    ///
+    /// - Parameter ExportBundleInput : Request structure used to request generation of custom SDK and tool packages required to integrate mobile web or app clients with backed AWS resources.
+    ///
+    /// - Returns: `ExportBundleOutputResponse` : Result structure which contains link to download custom-generated SDK and tool packages used to integrate mobile web or app clients with backed AWS resources.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The request cannot be processed because some parameter is not valid or the project state prevents the operation from being performed.
+    /// - `InternalFailureException` : The service has encountered an unexpected error condition which prevents it from servicing the request.
+    /// - `NotFoundException` : No entity can be found with the specified identifier.
+    /// - `ServiceUnavailableException` : The service is temporarily unavailable. The request should be retried after some time delay.
+    /// - `TooManyRequestsException` : Too many requests have been received for this AWS account in too short a time. The request should be retried after some time delay.
+    /// - `UnauthorizedException` : Credentials of the caller are insufficient to authorize the request.
     public func exportBundle(input: ExportBundleInput) async throws -> ExportBundleOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -239,6 +309,20 @@ extension MobileClient: MobileClientProtocol {
     }
 
     /// Exports project configuration to a snapshot which can be downloaded and shared. Note that mobile app push credentials are encrypted in exported projects, so they can only be shared successfully within the same AWS account.
+    ///
+    /// - Parameter ExportProjectInput : Request structure used in requests to export project configuration details.
+    ///
+    /// - Returns: `ExportProjectOutputResponse` : Result structure used for requests to export project configuration details.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The request cannot be processed because some parameter is not valid or the project state prevents the operation from being performed.
+    /// - `InternalFailureException` : The service has encountered an unexpected error condition which prevents it from servicing the request.
+    /// - `NotFoundException` : No entity can be found with the specified identifier.
+    /// - `ServiceUnavailableException` : The service is temporarily unavailable. The request should be retried after some time delay.
+    /// - `TooManyRequestsException` : Too many requests have been received for this AWS account in too short a time. The request should be retried after some time delay.
+    /// - `UnauthorizedException` : Credentials of the caller are insufficient to authorize the request.
     public func exportProject(input: ExportProjectInput) async throws -> ExportProjectOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -272,6 +356,19 @@ extension MobileClient: MobileClientProtocol {
     }
 
     /// List all available bundles.
+    ///
+    /// - Parameter ListBundlesInput : Request structure to request all available bundles.
+    ///
+    /// - Returns: `ListBundlesOutputResponse` : Result structure contains a list of all available bundles with details.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The request cannot be processed because some parameter is not valid or the project state prevents the operation from being performed.
+    /// - `InternalFailureException` : The service has encountered an unexpected error condition which prevents it from servicing the request.
+    /// - `ServiceUnavailableException` : The service is temporarily unavailable. The request should be retried after some time delay.
+    /// - `TooManyRequestsException` : Too many requests have been received for this AWS account in too short a time. The request should be retried after some time delay.
+    /// - `UnauthorizedException` : Credentials of the caller are insufficient to authorize the request.
     public func listBundles(input: ListBundlesInput) async throws -> ListBundlesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -306,6 +403,19 @@ extension MobileClient: MobileClientProtocol {
     }
 
     /// Lists projects in AWS Mobile Hub.
+    ///
+    /// - Parameter ListProjectsInput : Request structure used to request projects list in AWS Mobile Hub.
+    ///
+    /// - Returns: `ListProjectsOutputResponse` : Result structure used for requests to list projects in AWS Mobile Hub.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The request cannot be processed because some parameter is not valid or the project state prevents the operation from being performed.
+    /// - `InternalFailureException` : The service has encountered an unexpected error condition which prevents it from servicing the request.
+    /// - `ServiceUnavailableException` : The service is temporarily unavailable. The request should be retried after some time delay.
+    /// - `TooManyRequestsException` : Too many requests have been received for this AWS account in too short a time. The request should be retried after some time delay.
+    /// - `UnauthorizedException` : Credentials of the caller are insufficient to authorize the request.
     public func listProjects(input: ListProjectsInput) async throws -> ListProjectsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -340,6 +450,22 @@ extension MobileClient: MobileClientProtocol {
     }
 
     /// Update an existing project.
+    ///
+    /// - Parameter UpdateProjectInput : Request structure used for requests to update project configuration.
+    ///
+    /// - Returns: `UpdateProjectOutputResponse` : Result structure used for requests to updated project configuration.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccountActionRequiredException` : Account Action is required in order to continue the request.
+    /// - `BadRequestException` : The request cannot be processed because some parameter is not valid or the project state prevents the operation from being performed.
+    /// - `InternalFailureException` : The service has encountered an unexpected error condition which prevents it from servicing the request.
+    /// - `LimitExceededException` : There are too many AWS Mobile Hub projects in the account or the account has exceeded the maximum number of resources in some AWS service. You should create another sub-account using AWS Organizations or remove some resources and retry your request.
+    /// - `NotFoundException` : No entity can be found with the specified identifier.
+    /// - `ServiceUnavailableException` : The service is temporarily unavailable. The request should be retried after some time delay.
+    /// - `TooManyRequestsException` : Too many requests have been received for this AWS account in too short a time. The request should be retried after some time delay.
+    /// - `UnauthorizedException` : Credentials of the caller are insufficient to authorize the request.
     public func updateProject(input: UpdateProjectInput) async throws -> UpdateProjectOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()

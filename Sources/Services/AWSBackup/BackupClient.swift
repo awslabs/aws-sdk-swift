@@ -68,6 +68,19 @@ public struct BackupClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFactory 
 
 extension BackupClient: BackupClientProtocol {
     /// This action removes the specified legal hold on a recovery point. This action can only be performed by a user with sufficient permissions.
+    ///
+    /// - Parameter CancelLegalHoldInput : [no documentation found]
+    ///
+    /// - Returns: `CancelLegalHoldOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParameterValueException` : Indicates that something is wrong with a parameter's value. For example, the value is out of range.
+    /// - `InvalidResourceStateException` : Backup is already performing an action on this recovery point. It can't perform the action you requested until the first action finishes. Try again later.
+    /// - `MissingParameterValueException` : Indicates that a required parameter is missing.
+    /// - `ResourceNotFoundException` : A resource that is required for the action doesn't exist.
+    /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
     public func cancelLegalHold(input: CancelLegalHoldInput) async throws -> CancelLegalHoldOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -102,6 +115,19 @@ extension BackupClient: BackupClientProtocol {
     }
 
     /// Creates a backup plan using a backup plan name and backup rules. A backup plan is a document that contains information that Backup uses to schedule tasks that create recovery points for resources. If you call CreateBackupPlan with a plan that already exists, you receive an AlreadyExistsException exception.
+    ///
+    /// - Parameter CreateBackupPlanInput : [no documentation found]
+    ///
+    /// - Returns: `CreateBackupPlanOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AlreadyExistsException` : The required resource already exists.
+    /// - `InvalidParameterValueException` : Indicates that something is wrong with a parameter's value. For example, the value is out of range.
+    /// - `LimitExceededException` : A limit in the request has been exceeded; for example, a maximum number of items allowed in a request.
+    /// - `MissingParameterValueException` : Indicates that a required parameter is missing.
+    /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
     public func createBackupPlan(input: CreateBackupPlanInput) async throws -> CreateBackupPlanOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -138,6 +164,19 @@ extension BackupClient: BackupClientProtocol {
     }
 
     /// Creates a JSON document that specifies a set of resources to assign to a backup plan. For examples, see [Assigning resources programmatically](https://docs.aws.amazon.com/aws-backup/latest/devguide/assigning-resources.html#assigning-resources-json).
+    ///
+    /// - Parameter CreateBackupSelectionInput : [no documentation found]
+    ///
+    /// - Returns: `CreateBackupSelectionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AlreadyExistsException` : The required resource already exists.
+    /// - `InvalidParameterValueException` : Indicates that something is wrong with a parameter's value. For example, the value is out of range.
+    /// - `LimitExceededException` : A limit in the request has been exceeded; for example, a maximum number of items allowed in a request.
+    /// - `MissingParameterValueException` : Indicates that a required parameter is missing.
+    /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
     public func createBackupSelection(input: CreateBackupSelectionInput) async throws -> CreateBackupSelectionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -174,6 +213,19 @@ extension BackupClient: BackupClientProtocol {
     }
 
     /// Creates a logical container where backups are stored. A CreateBackupVault request includes a name, optionally one or more resource tags, an encryption key, and a request ID. Do not include sensitive data, such as passport numbers, in the name of a backup vault.
+    ///
+    /// - Parameter CreateBackupVaultInput : [no documentation found]
+    ///
+    /// - Returns: `CreateBackupVaultOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AlreadyExistsException` : The required resource already exists.
+    /// - `InvalidParameterValueException` : Indicates that something is wrong with a parameter's value. For example, the value is out of range.
+    /// - `LimitExceededException` : A limit in the request has been exceeded; for example, a maximum number of items allowed in a request.
+    /// - `MissingParameterValueException` : Indicates that a required parameter is missing.
+    /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
     public func createBackupVault(input: CreateBackupVaultInput) async throws -> CreateBackupVaultOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -210,6 +262,19 @@ extension BackupClient: BackupClientProtocol {
     }
 
     /// Creates a framework with one or more controls. A framework is a collection of controls that you can use to evaluate your backup practices. By using pre-built customizable controls to define your policies, you can evaluate whether your backup practices comply with your policies and which resources are not yet in compliance.
+    ///
+    /// - Parameter CreateFrameworkInput : [no documentation found]
+    ///
+    /// - Returns: `CreateFrameworkOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AlreadyExistsException` : The required resource already exists.
+    /// - `InvalidParameterValueException` : Indicates that something is wrong with a parameter's value. For example, the value is out of range.
+    /// - `LimitExceededException` : A limit in the request has been exceeded; for example, a maximum number of items allowed in a request.
+    /// - `MissingParameterValueException` : Indicates that a required parameter is missing.
+    /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
     public func createFramework(input: CreateFrameworkInput) async throws -> CreateFrameworkOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -254,6 +319,18 @@ extension BackupClient: BackupClientProtocol {
     }
 
     /// This action creates a legal hold on a recovery point (backup). A legal hold is a restraint on altering or deleting a backup until an authorized user cancels the legal hold. Any actions to delete or disassociate a recovery point will fail with an error if one or more active legal holds are on the recovery point.
+    ///
+    /// - Parameter CreateLegalHoldInput : [no documentation found]
+    ///
+    /// - Returns: `CreateLegalHoldOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParameterValueException` : Indicates that something is wrong with a parameter's value. For example, the value is out of range.
+    /// - `LimitExceededException` : A limit in the request has been exceeded; for example, a maximum number of items allowed in a request.
+    /// - `MissingParameterValueException` : Indicates that a required parameter is missing.
+    /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
     public func createLegalHold(input: CreateLegalHoldInput) async throws -> CreateLegalHoldOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -289,7 +366,70 @@ extension BackupClient: BackupClientProtocol {
         return result
     }
 
+    /// This request creates a logical container where backups are stored. This request includes a name, optionally one or more resource tags, an encryption key, and a request ID. Do not include sensitive data, such as passport numbers, in the name of a backup vault.
+    ///
+    /// - Parameter CreateLogicallyAirGappedBackupVaultInput : [no documentation found]
+    ///
+    /// - Returns: `CreateLogicallyAirGappedBackupVaultOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AlreadyExistsException` : The required resource already exists.
+    /// - `InvalidParameterValueException` : Indicates that something is wrong with a parameter's value. For example, the value is out of range.
+    /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a parameter is of the wrong type.
+    /// - `LimitExceededException` : A limit in the request has been exceeded; for example, a maximum number of items allowed in a request.
+    /// - `MissingParameterValueException` : Indicates that a required parameter is missing.
+    /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
+    public func createLogicallyAirGappedBackupVault(input: CreateLogicallyAirGappedBackupVaultInput) async throws -> CreateLogicallyAirGappedBackupVaultOutputResponse
+    {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .put)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "createLogicallyAirGappedBackupVault")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withCredentialsProvider(value: config.credentialsProvider)
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "backup")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<CreateLogicallyAirGappedBackupVaultInput, CreateLogicallyAirGappedBackupVaultOutputResponse, CreateLogicallyAirGappedBackupVaultOutputError>(id: "createLogicallyAirGappedBackupVault")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateLogicallyAirGappedBackupVaultInput, CreateLogicallyAirGappedBackupVaultOutputResponse, CreateLogicallyAirGappedBackupVaultOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateLogicallyAirGappedBackupVaultInput, CreateLogicallyAirGappedBackupVaultOutputResponse>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateLogicallyAirGappedBackupVaultOutputResponse, CreateLogicallyAirGappedBackupVaultOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateLogicallyAirGappedBackupVaultInput, CreateLogicallyAirGappedBackupVaultOutputResponse>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateLogicallyAirGappedBackupVaultInput, CreateLogicallyAirGappedBackupVaultOutputResponse>(xmlName: "CreateLogicallyAirGappedBackupVaultInput"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateLogicallyAirGappedBackupVaultOutputResponse, CreateLogicallyAirGappedBackupVaultOutputError>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateLogicallyAirGappedBackupVaultOutputResponse, CreateLogicallyAirGappedBackupVaultOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateLogicallyAirGappedBackupVaultOutputResponse, CreateLogicallyAirGappedBackupVaultOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateLogicallyAirGappedBackupVaultOutputResponse, CreateLogicallyAirGappedBackupVaultOutputError>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
     /// Creates a report plan. A report plan is a document that contains information about the contents of the report and where Backup will deliver it. If you call CreateReportPlan with a plan that already exists, you receive an AlreadyExistsException exception.
+    ///
+    /// - Parameter CreateReportPlanInput : [no documentation found]
+    ///
+    /// - Returns: `CreateReportPlanOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AlreadyExistsException` : The required resource already exists.
+    /// - `InvalidParameterValueException` : Indicates that something is wrong with a parameter's value. For example, the value is out of range.
+    /// - `LimitExceededException` : A limit in the request has been exceeded; for example, a maximum number of items allowed in a request.
+    /// - `MissingParameterValueException` : Indicates that a required parameter is missing.
+    /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
     public func createReportPlan(input: CreateReportPlanInput) async throws -> CreateReportPlanOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -334,6 +474,19 @@ extension BackupClient: BackupClientProtocol {
     }
 
     /// Deletes a backup plan. A backup plan can only be deleted after all associated selections of resources have been deleted. Deleting a backup plan deletes the current version of a backup plan. Previous versions, if any, will still exist.
+    ///
+    /// - Parameter DeleteBackupPlanInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteBackupPlanOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParameterValueException` : Indicates that something is wrong with a parameter's value. For example, the value is out of range.
+    /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a parameter is of the wrong type.
+    /// - `MissingParameterValueException` : Indicates that a required parameter is missing.
+    /// - `ResourceNotFoundException` : A resource that is required for the action doesn't exist.
+    /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
     public func deleteBackupPlan(input: DeleteBackupPlanInput) async throws -> DeleteBackupPlanOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -367,6 +520,18 @@ extension BackupClient: BackupClientProtocol {
     }
 
     /// Deletes the resource selection associated with a backup plan that is specified by the SelectionId.
+    ///
+    /// - Parameter DeleteBackupSelectionInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteBackupSelectionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParameterValueException` : Indicates that something is wrong with a parameter's value. For example, the value is out of range.
+    /// - `MissingParameterValueException` : Indicates that a required parameter is missing.
+    /// - `ResourceNotFoundException` : A resource that is required for the action doesn't exist.
+    /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
     public func deleteBackupSelection(input: DeleteBackupSelectionInput) async throws -> DeleteBackupSelectionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -400,6 +565,19 @@ extension BackupClient: BackupClientProtocol {
     }
 
     /// Deletes the backup vault identified by its name. A vault can be deleted only if it is empty.
+    ///
+    /// - Parameter DeleteBackupVaultInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteBackupVaultOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParameterValueException` : Indicates that something is wrong with a parameter's value. For example, the value is out of range.
+    /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a parameter is of the wrong type.
+    /// - `MissingParameterValueException` : Indicates that a required parameter is missing.
+    /// - `ResourceNotFoundException` : A resource that is required for the action doesn't exist.
+    /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
     public func deleteBackupVault(input: DeleteBackupVaultInput) async throws -> DeleteBackupVaultOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -433,6 +611,18 @@ extension BackupClient: BackupClientProtocol {
     }
 
     /// Deletes the policy document that manages permissions on a backup vault.
+    ///
+    /// - Parameter DeleteBackupVaultAccessPolicyInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteBackupVaultAccessPolicyOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParameterValueException` : Indicates that something is wrong with a parameter's value. For example, the value is out of range.
+    /// - `MissingParameterValueException` : Indicates that a required parameter is missing.
+    /// - `ResourceNotFoundException` : A resource that is required for the action doesn't exist.
+    /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
     public func deleteBackupVaultAccessPolicy(input: DeleteBackupVaultAccessPolicyInput) async throws -> DeleteBackupVaultAccessPolicyOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -466,6 +656,19 @@ extension BackupClient: BackupClientProtocol {
     }
 
     /// Deletes Backup Vault Lock from a backup vault specified by a backup vault name. If the Vault Lock configuration is immutable, then you cannot delete Vault Lock using API operations, and you will receive an InvalidRequestException if you attempt to do so. For more information, see [Vault Lock](https://docs.aws.amazon.com/aws-backup/latest/devguide/vault-lock.html) in the Backup Developer Guide.
+    ///
+    /// - Parameter DeleteBackupVaultLockConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteBackupVaultLockConfigurationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParameterValueException` : Indicates that something is wrong with a parameter's value. For example, the value is out of range.
+    /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a parameter is of the wrong type.
+    /// - `MissingParameterValueException` : Indicates that a required parameter is missing.
+    /// - `ResourceNotFoundException` : A resource that is required for the action doesn't exist.
+    /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
     public func deleteBackupVaultLockConfiguration(input: DeleteBackupVaultLockConfigurationInput) async throws -> DeleteBackupVaultLockConfigurationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -499,6 +702,18 @@ extension BackupClient: BackupClientProtocol {
     }
 
     /// Deletes event notifications for the specified backup vault.
+    ///
+    /// - Parameter DeleteBackupVaultNotificationsInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteBackupVaultNotificationsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParameterValueException` : Indicates that something is wrong with a parameter's value. For example, the value is out of range.
+    /// - `MissingParameterValueException` : Indicates that a required parameter is missing.
+    /// - `ResourceNotFoundException` : A resource that is required for the action doesn't exist.
+    /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
     public func deleteBackupVaultNotifications(input: DeleteBackupVaultNotificationsInput) async throws -> DeleteBackupVaultNotificationsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -532,6 +747,19 @@ extension BackupClient: BackupClientProtocol {
     }
 
     /// Deletes the framework specified by a framework name.
+    ///
+    /// - Parameter DeleteFrameworkInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteFrameworkOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictException` : Backup can't perform the action that you requested until it finishes performing a previous action. Try again later.
+    /// - `InvalidParameterValueException` : Indicates that something is wrong with a parameter's value. For example, the value is out of range.
+    /// - `MissingParameterValueException` : Indicates that a required parameter is missing.
+    /// - `ResourceNotFoundException` : A resource that is required for the action doesn't exist.
+    /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
     public func deleteFramework(input: DeleteFrameworkInput) async throws -> DeleteFrameworkOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -565,6 +793,20 @@ extension BackupClient: BackupClientProtocol {
     }
 
     /// Deletes the recovery point specified by a recovery point ID. If the recovery point ID belongs to a continuous backup, calling this endpoint deletes the existing continuous backup and stops future continuous backup. When an IAM role's permissions are insufficient to call this API, the service sends back an HTTP 200 response with an empty HTTP body, but the recovery point is not deleted. Instead, it enters an EXPIRED state. EXPIRED recovery points can be deleted with this API once the IAM role has the iam:CreateServiceLinkedRole action. To learn more about adding this role, see [ Troubleshooting manual deletions](https://docs.aws.amazon.com/aws-backup/latest/devguide/deleting-backups.html#deleting-backups-troubleshooting). If the user or role is deleted or the permission within the role is removed, the deletion will not be successful and will enter an EXPIRED state.
+    ///
+    /// - Parameter DeleteRecoveryPointInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteRecoveryPointOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParameterValueException` : Indicates that something is wrong with a parameter's value. For example, the value is out of range.
+    /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a parameter is of the wrong type.
+    /// - `InvalidResourceStateException` : Backup is already performing an action on this recovery point. It can't perform the action you requested until the first action finishes. Try again later.
+    /// - `MissingParameterValueException` : Indicates that a required parameter is missing.
+    /// - `ResourceNotFoundException` : A resource that is required for the action doesn't exist.
+    /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
     public func deleteRecoveryPoint(input: DeleteRecoveryPointInput) async throws -> DeleteRecoveryPointOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -598,6 +840,19 @@ extension BackupClient: BackupClientProtocol {
     }
 
     /// Deletes the report plan specified by a report plan name.
+    ///
+    /// - Parameter DeleteReportPlanInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteReportPlanOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictException` : Backup can't perform the action that you requested until it finishes performing a previous action. Try again later.
+    /// - `InvalidParameterValueException` : Indicates that something is wrong with a parameter's value. For example, the value is out of range.
+    /// - `MissingParameterValueException` : Indicates that a required parameter is missing.
+    /// - `ResourceNotFoundException` : A resource that is required for the action doesn't exist.
+    /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
     public func deleteReportPlan(input: DeleteReportPlanInput) async throws -> DeleteReportPlanOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -631,6 +886,19 @@ extension BackupClient: BackupClientProtocol {
     }
 
     /// Returns backup job details for the specified BackupJobId.
+    ///
+    /// - Parameter DescribeBackupJobInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeBackupJobOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DependencyFailureException` : A dependent Amazon Web Services service or resource returned an error to the Backup service, and the action cannot be completed.
+    /// - `InvalidParameterValueException` : Indicates that something is wrong with a parameter's value. For example, the value is out of range.
+    /// - `MissingParameterValueException` : Indicates that a required parameter is missing.
+    /// - `ResourceNotFoundException` : A resource that is required for the action doesn't exist.
+    /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
     public func describeBackupJob(input: DescribeBackupJobInput) async throws -> DescribeBackupJobOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -664,6 +932,18 @@ extension BackupClient: BackupClientProtocol {
     }
 
     /// Returns metadata about a backup vault specified by its name.
+    ///
+    /// - Parameter DescribeBackupVaultInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeBackupVaultOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParameterValueException` : Indicates that something is wrong with a parameter's value. For example, the value is out of range.
+    /// - `MissingParameterValueException` : Indicates that a required parameter is missing.
+    /// - `ResourceNotFoundException` : A resource that is required for the action doesn't exist.
+    /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
     public func describeBackupVault(input: DescribeBackupVaultInput) async throws -> DescribeBackupVaultOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -687,6 +967,7 @@ extension BackupClient: BackupClientProtocol {
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeBackupVaultOutputResponse, DescribeBackupVaultOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<DescribeBackupVaultInput, DescribeBackupVaultOutputResponse>())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeBackupVaultOutputResponse, DescribeBackupVaultOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeBackupVaultOutputResponse, DescribeBackupVaultOutputError>(config: sigv4Config))
@@ -697,6 +978,18 @@ extension BackupClient: BackupClientProtocol {
     }
 
     /// Returns metadata associated with creating a copy of a resource.
+    ///
+    /// - Parameter DescribeCopyJobInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeCopyJobOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParameterValueException` : Indicates that something is wrong with a parameter's value. For example, the value is out of range.
+    /// - `MissingParameterValueException` : Indicates that a required parameter is missing.
+    /// - `ResourceNotFoundException` : A resource that is required for the action doesn't exist.
+    /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
     public func describeCopyJob(input: DescribeCopyJobInput) async throws -> DescribeCopyJobOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -730,6 +1023,18 @@ extension BackupClient: BackupClientProtocol {
     }
 
     /// Returns the framework details for the specified FrameworkName.
+    ///
+    /// - Parameter DescribeFrameworkInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeFrameworkOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParameterValueException` : Indicates that something is wrong with a parameter's value. For example, the value is out of range.
+    /// - `MissingParameterValueException` : Indicates that a required parameter is missing.
+    /// - `ResourceNotFoundException` : A resource that is required for the action doesn't exist.
+    /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
     public func describeFramework(input: DescribeFrameworkInput) async throws -> DescribeFrameworkOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -763,6 +1068,16 @@ extension BackupClient: BackupClientProtocol {
     }
 
     /// Describes whether the Amazon Web Services account is opted in to cross-account backup. Returns an error if the account is not a member of an Organizations organization. Example: describe-global-settings --region us-west-2
+    ///
+    /// - Parameter DescribeGlobalSettingsInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeGlobalSettingsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a parameter is of the wrong type.
+    /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
     public func describeGlobalSettings(input: DescribeGlobalSettingsInput) async throws -> DescribeGlobalSettingsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -796,6 +1111,18 @@ extension BackupClient: BackupClientProtocol {
     }
 
     /// Returns information about a saved resource, including the last time it was backed up, its Amazon Resource Name (ARN), and the Amazon Web Services service type of the saved resource.
+    ///
+    /// - Parameter DescribeProtectedResourceInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeProtectedResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParameterValueException` : Indicates that something is wrong with a parameter's value. For example, the value is out of range.
+    /// - `MissingParameterValueException` : Indicates that a required parameter is missing.
+    /// - `ResourceNotFoundException` : A resource that is required for the action doesn't exist.
+    /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
     public func describeProtectedResource(input: DescribeProtectedResourceInput) async throws -> DescribeProtectedResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -829,6 +1156,18 @@ extension BackupClient: BackupClientProtocol {
     }
 
     /// Returns metadata associated with a recovery point, including ID, status, encryption, and lifecycle.
+    ///
+    /// - Parameter DescribeRecoveryPointInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeRecoveryPointOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParameterValueException` : Indicates that something is wrong with a parameter's value. For example, the value is out of range.
+    /// - `MissingParameterValueException` : Indicates that a required parameter is missing.
+    /// - `ResourceNotFoundException` : A resource that is required for the action doesn't exist.
+    /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
     public func describeRecoveryPoint(input: DescribeRecoveryPointInput) async throws -> DescribeRecoveryPointOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -852,6 +1191,7 @@ extension BackupClient: BackupClientProtocol {
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeRecoveryPointOutputResponse, DescribeRecoveryPointOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<DescribeRecoveryPointInput, DescribeRecoveryPointOutputResponse>())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeRecoveryPointOutputResponse, DescribeRecoveryPointOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeRecoveryPointOutputResponse, DescribeRecoveryPointOutputError>(config: sigv4Config))
@@ -862,6 +1202,15 @@ extension BackupClient: BackupClientProtocol {
     }
 
     /// Returns the current service opt-in settings for the Region. If service opt-in is enabled for a service, Backup tries to protect that service's resources in this Region, when the resource is included in an on-demand backup or scheduled backup plan. Otherwise, Backup does not try to protect that service's resources in this Region.
+    ///
+    /// - Parameter DescribeRegionSettingsInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeRegionSettingsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
     public func describeRegionSettings(input: DescribeRegionSettingsInput) async throws -> DescribeRegionSettingsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -895,6 +1244,17 @@ extension BackupClient: BackupClientProtocol {
     }
 
     /// Returns the details associated with creating a report as specified by its ReportJobId.
+    ///
+    /// - Parameter DescribeReportJobInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeReportJobOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `MissingParameterValueException` : Indicates that a required parameter is missing.
+    /// - `ResourceNotFoundException` : A resource that is required for the action doesn't exist.
+    /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
     public func describeReportJob(input: DescribeReportJobInput) async throws -> DescribeReportJobOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -928,6 +1288,18 @@ extension BackupClient: BackupClientProtocol {
     }
 
     /// Returns a list of all report plans for an Amazon Web Services account and Amazon Web Services Region.
+    ///
+    /// - Parameter DescribeReportPlanInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeReportPlanOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParameterValueException` : Indicates that something is wrong with a parameter's value. For example, the value is out of range.
+    /// - `MissingParameterValueException` : Indicates that a required parameter is missing.
+    /// - `ResourceNotFoundException` : A resource that is required for the action doesn't exist.
+    /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
     public func describeReportPlan(input: DescribeReportPlanInput) async throws -> DescribeReportPlanOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -961,6 +1333,19 @@ extension BackupClient: BackupClientProtocol {
     }
 
     /// Returns metadata associated with a restore job that is specified by a job ID.
+    ///
+    /// - Parameter DescribeRestoreJobInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeRestoreJobOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DependencyFailureException` : A dependent Amazon Web Services service or resource returned an error to the Backup service, and the action cannot be completed.
+    /// - `InvalidParameterValueException` : Indicates that something is wrong with a parameter's value. For example, the value is out of range.
+    /// - `MissingParameterValueException` : Indicates that a required parameter is missing.
+    /// - `ResourceNotFoundException` : A resource that is required for the action doesn't exist.
+    /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
     public func describeRestoreJob(input: DescribeRestoreJobInput) async throws -> DescribeRestoreJobOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -994,6 +1379,20 @@ extension BackupClient: BackupClientProtocol {
     }
 
     /// Deletes the specified continuous backup recovery point from Backup and releases control of that continuous backup to the source service, such as Amazon RDS. The source service will continue to create and retain continuous backups using the lifecycle that you specified in your original backup plan. Does not support snapshot backup recovery points.
+    ///
+    /// - Parameter DisassociateRecoveryPointInput : [no documentation found]
+    ///
+    /// - Returns: `DisassociateRecoveryPointOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParameterValueException` : Indicates that something is wrong with a parameter's value. For example, the value is out of range.
+    /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a parameter is of the wrong type.
+    /// - `InvalidResourceStateException` : Backup is already performing an action on this recovery point. It can't perform the action you requested until the first action finishes. Try again later.
+    /// - `MissingParameterValueException` : Indicates that a required parameter is missing.
+    /// - `ResourceNotFoundException` : A resource that is required for the action doesn't exist.
+    /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
     public func disassociateRecoveryPoint(input: DisassociateRecoveryPointInput) async throws -> DisassociateRecoveryPointOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1027,6 +1426,19 @@ extension BackupClient: BackupClientProtocol {
     }
 
     /// This action to a specific child (nested) recovery point removes the relationship between the specified recovery point and its parent (composite) recovery point.
+    ///
+    /// - Parameter DisassociateRecoveryPointFromParentInput : [no documentation found]
+    ///
+    /// - Returns: `DisassociateRecoveryPointFromParentOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParameterValueException` : Indicates that something is wrong with a parameter's value. For example, the value is out of range.
+    /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a parameter is of the wrong type.
+    /// - `MissingParameterValueException` : Indicates that a required parameter is missing.
+    /// - `ResourceNotFoundException` : A resource that is required for the action doesn't exist.
+    /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
     public func disassociateRecoveryPointFromParent(input: DisassociateRecoveryPointFromParentInput) async throws -> DisassociateRecoveryPointFromParentOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1060,6 +1472,18 @@ extension BackupClient: BackupClientProtocol {
     }
 
     /// Returns the backup plan that is specified by the plan ID as a backup template.
+    ///
+    /// - Parameter ExportBackupPlanTemplateInput : [no documentation found]
+    ///
+    /// - Returns: `ExportBackupPlanTemplateOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParameterValueException` : Indicates that something is wrong with a parameter's value. For example, the value is out of range.
+    /// - `MissingParameterValueException` : Indicates that a required parameter is missing.
+    /// - `ResourceNotFoundException` : A resource that is required for the action doesn't exist.
+    /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
     public func exportBackupPlanTemplate(input: ExportBackupPlanTemplateInput) async throws -> ExportBackupPlanTemplateOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1093,6 +1517,18 @@ extension BackupClient: BackupClientProtocol {
     }
 
     /// Returns BackupPlan details for the specified BackupPlanId. The details are the body of a backup plan in JSON format, in addition to plan metadata.
+    ///
+    /// - Parameter GetBackupPlanInput : [no documentation found]
+    ///
+    /// - Returns: `GetBackupPlanOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParameterValueException` : Indicates that something is wrong with a parameter's value. For example, the value is out of range.
+    /// - `MissingParameterValueException` : Indicates that a required parameter is missing.
+    /// - `ResourceNotFoundException` : A resource that is required for the action doesn't exist.
+    /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
     public func getBackupPlan(input: GetBackupPlanInput) async throws -> GetBackupPlanOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1127,6 +1563,19 @@ extension BackupClient: BackupClientProtocol {
     }
 
     /// Returns a valid JSON document specifying a backup plan or an error.
+    ///
+    /// - Parameter GetBackupPlanFromJSONInput : [no documentation found]
+    ///
+    /// - Returns: `GetBackupPlanFromJSONOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParameterValueException` : Indicates that something is wrong with a parameter's value. For example, the value is out of range.
+    /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a parameter is of the wrong type.
+    /// - `LimitExceededException` : A limit in the request has been exceeded; for example, a maximum number of items allowed in a request.
+    /// - `MissingParameterValueException` : Indicates that a required parameter is missing.
+    /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
     public func getBackupPlanFromJSON(input: GetBackupPlanFromJSONInput) async throws -> GetBackupPlanFromJSONOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1163,6 +1612,18 @@ extension BackupClient: BackupClientProtocol {
     }
 
     /// Returns the template specified by its templateId as a backup plan.
+    ///
+    /// - Parameter GetBackupPlanFromTemplateInput : [no documentation found]
+    ///
+    /// - Returns: `GetBackupPlanFromTemplateOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParameterValueException` : Indicates that something is wrong with a parameter's value. For example, the value is out of range.
+    /// - `MissingParameterValueException` : Indicates that a required parameter is missing.
+    /// - `ResourceNotFoundException` : A resource that is required for the action doesn't exist.
+    /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
     public func getBackupPlanFromTemplate(input: GetBackupPlanFromTemplateInput) async throws -> GetBackupPlanFromTemplateOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1196,6 +1657,18 @@ extension BackupClient: BackupClientProtocol {
     }
 
     /// Returns selection metadata and a document in JSON format that specifies a list of resources that are associated with a backup plan.
+    ///
+    /// - Parameter GetBackupSelectionInput : [no documentation found]
+    ///
+    /// - Returns: `GetBackupSelectionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParameterValueException` : Indicates that something is wrong with a parameter's value. For example, the value is out of range.
+    /// - `MissingParameterValueException` : Indicates that a required parameter is missing.
+    /// - `ResourceNotFoundException` : A resource that is required for the action doesn't exist.
+    /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
     public func getBackupSelection(input: GetBackupSelectionInput) async throws -> GetBackupSelectionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1229,6 +1702,18 @@ extension BackupClient: BackupClientProtocol {
     }
 
     /// Returns the access policy document that is associated with the named backup vault.
+    ///
+    /// - Parameter GetBackupVaultAccessPolicyInput : [no documentation found]
+    ///
+    /// - Returns: `GetBackupVaultAccessPolicyOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParameterValueException` : Indicates that something is wrong with a parameter's value. For example, the value is out of range.
+    /// - `MissingParameterValueException` : Indicates that a required parameter is missing.
+    /// - `ResourceNotFoundException` : A resource that is required for the action doesn't exist.
+    /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
     public func getBackupVaultAccessPolicy(input: GetBackupVaultAccessPolicyInput) async throws -> GetBackupVaultAccessPolicyOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1262,6 +1747,18 @@ extension BackupClient: BackupClientProtocol {
     }
 
     /// Returns event notifications for the specified backup vault.
+    ///
+    /// - Parameter GetBackupVaultNotificationsInput : [no documentation found]
+    ///
+    /// - Returns: `GetBackupVaultNotificationsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParameterValueException` : Indicates that something is wrong with a parameter's value. For example, the value is out of range.
+    /// - `MissingParameterValueException` : Indicates that a required parameter is missing.
+    /// - `ResourceNotFoundException` : A resource that is required for the action doesn't exist.
+    /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
     public func getBackupVaultNotifications(input: GetBackupVaultNotificationsInput) async throws -> GetBackupVaultNotificationsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1295,6 +1792,18 @@ extension BackupClient: BackupClientProtocol {
     }
 
     /// This action returns details for a specified legal hold. The details are the body of a legal hold in JSON format, in addition to metadata.
+    ///
+    /// - Parameter GetLegalHoldInput : [no documentation found]
+    ///
+    /// - Returns: `GetLegalHoldOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParameterValueException` : Indicates that something is wrong with a parameter's value. For example, the value is out of range.
+    /// - `MissingParameterValueException` : Indicates that a required parameter is missing.
+    /// - `ResourceNotFoundException` : A resource that is required for the action doesn't exist.
+    /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
     public func getLegalHold(input: GetLegalHoldInput) async throws -> GetLegalHoldOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1328,6 +1837,18 @@ extension BackupClient: BackupClientProtocol {
     }
 
     /// Returns a set of metadata key-value pairs that were used to create the backup.
+    ///
+    /// - Parameter GetRecoveryPointRestoreMetadataInput : [no documentation found]
+    ///
+    /// - Returns: `GetRecoveryPointRestoreMetadataOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParameterValueException` : Indicates that something is wrong with a parameter's value. For example, the value is out of range.
+    /// - `MissingParameterValueException` : Indicates that a required parameter is missing.
+    /// - `ResourceNotFoundException` : A resource that is required for the action doesn't exist.
+    /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
     public func getRecoveryPointRestoreMetadata(input: GetRecoveryPointRestoreMetadataInput) async throws -> GetRecoveryPointRestoreMetadataOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1351,6 +1872,7 @@ extension BackupClient: BackupClientProtocol {
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetRecoveryPointRestoreMetadataOutputResponse, GetRecoveryPointRestoreMetadataOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
         operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<GetRecoveryPointRestoreMetadataInput, GetRecoveryPointRestoreMetadataOutputResponse>())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetRecoveryPointRestoreMetadataOutputResponse, GetRecoveryPointRestoreMetadataOutputError>(options: config.retryStrategyOptions))
         let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetRecoveryPointRestoreMetadataOutputResponse, GetRecoveryPointRestoreMetadataOutputError>(config: sigv4Config))
@@ -1361,6 +1883,15 @@ extension BackupClient: BackupClientProtocol {
     }
 
     /// Returns the Amazon Web Services resource types supported by Backup.
+    ///
+    /// - Parameter GetSupportedResourceTypesInput : [no documentation found]
+    ///
+    /// - Returns: `GetSupportedResourceTypesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
     public func getSupportedResourceTypes(input: GetSupportedResourceTypesInput) async throws -> GetSupportedResourceTypesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1394,6 +1925,16 @@ extension BackupClient: BackupClientProtocol {
     }
 
     /// Returns a list of existing backup jobs for an authenticated account for the last 30 days. For a longer period of time, consider using these [monitoring tools](https://docs.aws.amazon.com/aws-backup/latest/devguide/monitoring.html).
+    ///
+    /// - Parameter ListBackupJobsInput : [no documentation found]
+    ///
+    /// - Returns: `ListBackupJobsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParameterValueException` : Indicates that something is wrong with a parameter's value. For example, the value is out of range.
+    /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
     public func listBackupJobs(input: ListBackupJobsInput) async throws -> ListBackupJobsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1428,6 +1969,18 @@ extension BackupClient: BackupClientProtocol {
     }
 
     /// Returns metadata of your saved backup plan templates, including the template ID, name, and the creation and deletion dates.
+    ///
+    /// - Parameter ListBackupPlanTemplatesInput : [no documentation found]
+    ///
+    /// - Returns: `ListBackupPlanTemplatesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParameterValueException` : Indicates that something is wrong with a parameter's value. For example, the value is out of range.
+    /// - `MissingParameterValueException` : Indicates that a required parameter is missing.
+    /// - `ResourceNotFoundException` : A resource that is required for the action doesn't exist.
+    /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
     public func listBackupPlanTemplates(input: ListBackupPlanTemplatesInput) async throws -> ListBackupPlanTemplatesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1462,6 +2015,18 @@ extension BackupClient: BackupClientProtocol {
     }
 
     /// Returns version metadata of your backup plans, including Amazon Resource Names (ARNs), backup plan IDs, creation and deletion dates, plan names, and version IDs.
+    ///
+    /// - Parameter ListBackupPlanVersionsInput : [no documentation found]
+    ///
+    /// - Returns: `ListBackupPlanVersionsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParameterValueException` : Indicates that something is wrong with a parameter's value. For example, the value is out of range.
+    /// - `MissingParameterValueException` : Indicates that a required parameter is missing.
+    /// - `ResourceNotFoundException` : A resource that is required for the action doesn't exist.
+    /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
     public func listBackupPlanVersions(input: ListBackupPlanVersionsInput) async throws -> ListBackupPlanVersionsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1496,6 +2061,18 @@ extension BackupClient: BackupClientProtocol {
     }
 
     /// Returns a list of all active backup plans for an authenticated account. The list contains information such as Amazon Resource Names (ARNs), plan IDs, creation and deletion dates, version IDs, plan names, and creator request IDs.
+    ///
+    /// - Parameter ListBackupPlansInput : [no documentation found]
+    ///
+    /// - Returns: `ListBackupPlansOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParameterValueException` : Indicates that something is wrong with a parameter's value. For example, the value is out of range.
+    /// - `MissingParameterValueException` : Indicates that a required parameter is missing.
+    /// - `ResourceNotFoundException` : A resource that is required for the action doesn't exist.
+    /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
     public func listBackupPlans(input: ListBackupPlansInput) async throws -> ListBackupPlansOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1530,6 +2107,18 @@ extension BackupClient: BackupClientProtocol {
     }
 
     /// Returns an array containing metadata of the resources associated with the target backup plan.
+    ///
+    /// - Parameter ListBackupSelectionsInput : [no documentation found]
+    ///
+    /// - Returns: `ListBackupSelectionsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParameterValueException` : Indicates that something is wrong with a parameter's value. For example, the value is out of range.
+    /// - `MissingParameterValueException` : Indicates that a required parameter is missing.
+    /// - `ResourceNotFoundException` : A resource that is required for the action doesn't exist.
+    /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
     public func listBackupSelections(input: ListBackupSelectionsInput) async throws -> ListBackupSelectionsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1564,6 +2153,18 @@ extension BackupClient: BackupClientProtocol {
     }
 
     /// Returns a list of recovery point storage containers along with information about them.
+    ///
+    /// - Parameter ListBackupVaultsInput : [no documentation found]
+    ///
+    /// - Returns: `ListBackupVaultsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParameterValueException` : Indicates that something is wrong with a parameter's value. For example, the value is out of range.
+    /// - `MissingParameterValueException` : Indicates that a required parameter is missing.
+    /// - `ResourceNotFoundException` : A resource that is required for the action doesn't exist.
+    /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
     public func listBackupVaults(input: ListBackupVaultsInput) async throws -> ListBackupVaultsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1598,6 +2199,16 @@ extension BackupClient: BackupClientProtocol {
     }
 
     /// Returns metadata about your copy jobs.
+    ///
+    /// - Parameter ListCopyJobsInput : [no documentation found]
+    ///
+    /// - Returns: `ListCopyJobsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParameterValueException` : Indicates that something is wrong with a parameter's value. For example, the value is out of range.
+    /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
     public func listCopyJobs(input: ListCopyJobsInput) async throws -> ListCopyJobsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1632,6 +2243,16 @@ extension BackupClient: BackupClientProtocol {
     }
 
     /// Returns a list of all frameworks for an Amazon Web Services account and Amazon Web Services Region.
+    ///
+    /// - Parameter ListFrameworksInput : [no documentation found]
+    ///
+    /// - Returns: `ListFrameworksOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParameterValueException` : Indicates that something is wrong with a parameter's value. For example, the value is out of range.
+    /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
     public func listFrameworks(input: ListFrameworksInput) async throws -> ListFrameworksOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1666,6 +2287,16 @@ extension BackupClient: BackupClientProtocol {
     }
 
     /// This action returns metadata about active and previous legal holds.
+    ///
+    /// - Parameter ListLegalHoldsInput : [no documentation found]
+    ///
+    /// - Returns: `ListLegalHoldsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParameterValueException` : Indicates that something is wrong with a parameter's value. For example, the value is out of range.
+    /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
     public func listLegalHolds(input: ListLegalHoldsInput) async throws -> ListLegalHoldsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1700,6 +2331,16 @@ extension BackupClient: BackupClientProtocol {
     }
 
     /// Returns an array of resources successfully backed up by Backup, including the time the resource was saved, an Amazon Resource Name (ARN) of the resource, and a resource type.
+    ///
+    /// - Parameter ListProtectedResourcesInput : [no documentation found]
+    ///
+    /// - Returns: `ListProtectedResourcesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParameterValueException` : Indicates that something is wrong with a parameter's value. For example, the value is out of range.
+    /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
     public func listProtectedResources(input: ListProtectedResourcesInput) async throws -> ListProtectedResourcesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1733,7 +2374,64 @@ extension BackupClient: BackupClientProtocol {
         return result
     }
 
+    /// This request lists the protected resources corresponding to each backup vault.
+    ///
+    /// - Parameter ListProtectedResourcesByBackupVaultInput : [no documentation found]
+    ///
+    /// - Returns: `ListProtectedResourcesByBackupVaultOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParameterValueException` : Indicates that something is wrong with a parameter's value. For example, the value is out of range.
+    /// - `ResourceNotFoundException` : A resource that is required for the action doesn't exist.
+    /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
+    public func listProtectedResourcesByBackupVault(input: ListProtectedResourcesByBackupVaultInput) async throws -> ListProtectedResourcesByBackupVaultOutputResponse
+    {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .get)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listProtectedResourcesByBackupVault")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withCredentialsProvider(value: config.credentialsProvider)
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "backup")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<ListProtectedResourcesByBackupVaultInput, ListProtectedResourcesByBackupVaultOutputResponse, ListProtectedResourcesByBackupVaultOutputError>(id: "listProtectedResourcesByBackupVault")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListProtectedResourcesByBackupVaultInput, ListProtectedResourcesByBackupVaultOutputResponse, ListProtectedResourcesByBackupVaultOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListProtectedResourcesByBackupVaultInput, ListProtectedResourcesByBackupVaultOutputResponse>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListProtectedResourcesByBackupVaultOutputResponse, ListProtectedResourcesByBackupVaultOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListProtectedResourcesByBackupVaultInput, ListProtectedResourcesByBackupVaultOutputResponse>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListProtectedResourcesByBackupVaultOutputResponse, ListProtectedResourcesByBackupVaultOutputError>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListProtectedResourcesByBackupVaultOutputResponse, ListProtectedResourcesByBackupVaultOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListProtectedResourcesByBackupVaultOutputResponse, ListProtectedResourcesByBackupVaultOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListProtectedResourcesByBackupVaultOutputResponse, ListProtectedResourcesByBackupVaultOutputError>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
     /// Returns detailed information about the recovery points stored in a backup vault.
+    ///
+    /// - Parameter ListRecoveryPointsByBackupVaultInput : [no documentation found]
+    ///
+    /// - Returns: `ListRecoveryPointsByBackupVaultOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParameterValueException` : Indicates that something is wrong with a parameter's value. For example, the value is out of range.
+    /// - `MissingParameterValueException` : Indicates that a required parameter is missing.
+    /// - `ResourceNotFoundException` : A resource that is required for the action doesn't exist.
+    /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
     public func listRecoveryPointsByBackupVault(input: ListRecoveryPointsByBackupVaultInput) async throws -> ListRecoveryPointsByBackupVaultOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1768,6 +2466,17 @@ extension BackupClient: BackupClientProtocol {
     }
 
     /// This action returns recovery point ARNs (Amazon Resource Names) of the specified legal hold.
+    ///
+    /// - Parameter ListRecoveryPointsByLegalHoldInput : [no documentation found]
+    ///
+    /// - Returns: `ListRecoveryPointsByLegalHoldOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParameterValueException` : Indicates that something is wrong with a parameter's value. For example, the value is out of range.
+    /// - `MissingParameterValueException` : Indicates that a required parameter is missing.
+    /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
     public func listRecoveryPointsByLegalHold(input: ListRecoveryPointsByLegalHoldInput) async throws -> ListRecoveryPointsByLegalHoldOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1802,6 +2511,18 @@ extension BackupClient: BackupClientProtocol {
     }
 
     /// Returns detailed information about all the recovery points of the type specified by a resource Amazon Resource Name (ARN). For Amazon EFS and Amazon EC2, this action only lists recovery points created by Backup.
+    ///
+    /// - Parameter ListRecoveryPointsByResourceInput : [no documentation found]
+    ///
+    /// - Returns: `ListRecoveryPointsByResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParameterValueException` : Indicates that something is wrong with a parameter's value. For example, the value is out of range.
+    /// - `MissingParameterValueException` : Indicates that a required parameter is missing.
+    /// - `ResourceNotFoundException` : A resource that is required for the action doesn't exist.
+    /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
     public func listRecoveryPointsByResource(input: ListRecoveryPointsByResourceInput) async throws -> ListRecoveryPointsByResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1836,6 +2557,17 @@ extension BackupClient: BackupClientProtocol {
     }
 
     /// Returns details about your report jobs.
+    ///
+    /// - Parameter ListReportJobsInput : [no documentation found]
+    ///
+    /// - Returns: `ListReportJobsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParameterValueException` : Indicates that something is wrong with a parameter's value. For example, the value is out of range.
+    /// - `ResourceNotFoundException` : A resource that is required for the action doesn't exist.
+    /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
     public func listReportJobs(input: ListReportJobsInput) async throws -> ListReportJobsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1870,6 +2602,16 @@ extension BackupClient: BackupClientProtocol {
     }
 
     /// Returns a list of your report plans. For detailed information about a single report plan, use DescribeReportPlan.
+    ///
+    /// - Parameter ListReportPlansInput : [no documentation found]
+    ///
+    /// - Returns: `ListReportPlansOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParameterValueException` : Indicates that something is wrong with a parameter's value. For example, the value is out of range.
+    /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
     public func listReportPlans(input: ListReportPlansInput) async throws -> ListReportPlansOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1904,6 +2646,18 @@ extension BackupClient: BackupClientProtocol {
     }
 
     /// Returns a list of jobs that Backup initiated to restore a saved resource, including details about the recovery process.
+    ///
+    /// - Parameter ListRestoreJobsInput : [no documentation found]
+    ///
+    /// - Returns: `ListRestoreJobsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParameterValueException` : Indicates that something is wrong with a parameter's value. For example, the value is out of range.
+    /// - `MissingParameterValueException` : Indicates that a required parameter is missing.
+    /// - `ResourceNotFoundException` : A resource that is required for the action doesn't exist.
+    /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
     public func listRestoreJobs(input: ListRestoreJobsInput) async throws -> ListRestoreJobsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1938,6 +2692,18 @@ extension BackupClient: BackupClientProtocol {
     }
 
     /// Returns a list of key-value pairs assigned to a target recovery point, backup plan, or backup vault. ListTags only works for resource types that support full Backup management of their backups. Those resource types are listed in the "Full Backup management" section of the [ Feature availability by resource](https://docs.aws.amazon.com/aws-backup/latest/devguide/whatisbackup.html#features-by-resource) table.
+    ///
+    /// - Parameter ListTagsInput : [no documentation found]
+    ///
+    /// - Returns: `ListTagsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParameterValueException` : Indicates that something is wrong with a parameter's value. For example, the value is out of range.
+    /// - `MissingParameterValueException` : Indicates that a required parameter is missing.
+    /// - `ResourceNotFoundException` : A resource that is required for the action doesn't exist.
+    /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
     public func listTags(input: ListTagsInput) async throws -> ListTagsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1972,6 +2738,18 @@ extension BackupClient: BackupClientProtocol {
     }
 
     /// Sets a resource-based policy that is used to manage access permissions on the target backup vault. Requires a backup vault name and an access policy document in JSON format.
+    ///
+    /// - Parameter PutBackupVaultAccessPolicyInput : [no documentation found]
+    ///
+    /// - Returns: `PutBackupVaultAccessPolicyOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParameterValueException` : Indicates that something is wrong with a parameter's value. For example, the value is out of range.
+    /// - `MissingParameterValueException` : Indicates that a required parameter is missing.
+    /// - `ResourceNotFoundException` : A resource that is required for the action doesn't exist.
+    /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
     public func putBackupVaultAccessPolicy(input: PutBackupVaultAccessPolicyInput) async throws -> PutBackupVaultAccessPolicyOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2008,6 +2786,19 @@ extension BackupClient: BackupClientProtocol {
     }
 
     /// Applies Backup Vault Lock to a backup vault, preventing attempts to delete any recovery point stored in or created in a backup vault. Vault Lock also prevents attempts to update the lifecycle policy that controls the retention period of any recovery point currently stored in a backup vault. If specified, Vault Lock enforces a minimum and maximum retention period for future backup and copy jobs that target a backup vault. Backup Vault Lock has been assessed by Cohasset Associates for use in environments that are subject to SEC 17a-4, CFTC, and FINRA regulations. For more information about how Backup Vault Lock relates to these regulations, see the [Cohasset Associates Compliance Assessment.]
+    ///
+    /// - Parameter PutBackupVaultLockConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `PutBackupVaultLockConfigurationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParameterValueException` : Indicates that something is wrong with a parameter's value. For example, the value is out of range.
+    /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a parameter is of the wrong type.
+    /// - `MissingParameterValueException` : Indicates that a required parameter is missing.
+    /// - `ResourceNotFoundException` : A resource that is required for the action doesn't exist.
+    /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
     public func putBackupVaultLockConfiguration(input: PutBackupVaultLockConfigurationInput) async throws -> PutBackupVaultLockConfigurationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2044,6 +2835,18 @@ extension BackupClient: BackupClientProtocol {
     }
 
     /// Turns on notifications on a backup vault for the specified topic and events.
+    ///
+    /// - Parameter PutBackupVaultNotificationsInput : [no documentation found]
+    ///
+    /// - Returns: `PutBackupVaultNotificationsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParameterValueException` : Indicates that something is wrong with a parameter's value. For example, the value is out of range.
+    /// - `MissingParameterValueException` : Indicates that a required parameter is missing.
+    /// - `ResourceNotFoundException` : A resource that is required for the action doesn't exist.
+    /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
     public func putBackupVaultNotifications(input: PutBackupVaultNotificationsInput) async throws -> PutBackupVaultNotificationsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2080,6 +2883,20 @@ extension BackupClient: BackupClientProtocol {
     }
 
     /// Starts an on-demand backup job for the specified resource.
+    ///
+    /// - Parameter StartBackupJobInput : [no documentation found]
+    ///
+    /// - Returns: `StartBackupJobOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParameterValueException` : Indicates that something is wrong with a parameter's value. For example, the value is out of range.
+    /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a parameter is of the wrong type.
+    /// - `LimitExceededException` : A limit in the request has been exceeded; for example, a maximum number of items allowed in a request.
+    /// - `MissingParameterValueException` : Indicates that a required parameter is missing.
+    /// - `ResourceNotFoundException` : A resource that is required for the action doesn't exist.
+    /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
     public func startBackupJob(input: StartBackupJobInput) async throws -> StartBackupJobOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2116,6 +2933,20 @@ extension BackupClient: BackupClientProtocol {
     }
 
     /// Starts a job to create a one-time copy of the specified resource. Does not support continuous backups.
+    ///
+    /// - Parameter StartCopyJobInput : [no documentation found]
+    ///
+    /// - Returns: `StartCopyJobOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParameterValueException` : Indicates that something is wrong with a parameter's value. For example, the value is out of range.
+    /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a parameter is of the wrong type.
+    /// - `LimitExceededException` : A limit in the request has been exceeded; for example, a maximum number of items allowed in a request.
+    /// - `MissingParameterValueException` : Indicates that a required parameter is missing.
+    /// - `ResourceNotFoundException` : A resource that is required for the action doesn't exist.
+    /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
     public func startCopyJob(input: StartCopyJobInput) async throws -> StartCopyJobOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2152,6 +2983,18 @@ extension BackupClient: BackupClientProtocol {
     }
 
     /// Starts an on-demand report job for the specified report plan.
+    ///
+    /// - Parameter StartReportJobInput : [no documentation found]
+    ///
+    /// - Returns: `StartReportJobOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParameterValueException` : Indicates that something is wrong with a parameter's value. For example, the value is out of range.
+    /// - `MissingParameterValueException` : Indicates that a required parameter is missing.
+    /// - `ResourceNotFoundException` : A resource that is required for the action doesn't exist.
+    /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
     public func startReportJob(input: StartReportJobInput) async throws -> StartReportJobOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2196,6 +3039,19 @@ extension BackupClient: BackupClientProtocol {
     }
 
     /// Recovers the saved resource identified by an Amazon Resource Name (ARN).
+    ///
+    /// - Parameter StartRestoreJobInput : [no documentation found]
+    ///
+    /// - Returns: `StartRestoreJobOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParameterValueException` : Indicates that something is wrong with a parameter's value. For example, the value is out of range.
+    /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a parameter is of the wrong type.
+    /// - `MissingParameterValueException` : Indicates that a required parameter is missing.
+    /// - `ResourceNotFoundException` : A resource that is required for the action doesn't exist.
+    /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
     public func startRestoreJob(input: StartRestoreJobInput) async throws -> StartRestoreJobOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2232,6 +3088,19 @@ extension BackupClient: BackupClientProtocol {
     }
 
     /// Attempts to cancel a job to create a one-time backup of a resource. This action is not supported for the following services: Amazon FSx for Windows File Server, Amazon FSx for Lustre, FSx for ONTAP , Amazon FSx for OpenZFS, Amazon DocumentDB (with MongoDB compatibility), Amazon RDS, Amazon Aurora, and Amazon Neptune.
+    ///
+    /// - Parameter StopBackupJobInput : [no documentation found]
+    ///
+    /// - Returns: `StopBackupJobOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParameterValueException` : Indicates that something is wrong with a parameter's value. For example, the value is out of range.
+    /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a parameter is of the wrong type.
+    /// - `MissingParameterValueException` : Indicates that a required parameter is missing.
+    /// - `ResourceNotFoundException` : A resource that is required for the action doesn't exist.
+    /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
     public func stopBackupJob(input: StopBackupJobInput) async throws -> StopBackupJobOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2265,6 +3134,19 @@ extension BackupClient: BackupClientProtocol {
     }
 
     /// Assigns a set of key-value pairs to a recovery point, backup plan, or backup vault identified by an Amazon Resource Name (ARN).
+    ///
+    /// - Parameter TagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `TagResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParameterValueException` : Indicates that something is wrong with a parameter's value. For example, the value is out of range.
+    /// - `LimitExceededException` : A limit in the request has been exceeded; for example, a maximum number of items allowed in a request.
+    /// - `MissingParameterValueException` : Indicates that a required parameter is missing.
+    /// - `ResourceNotFoundException` : A resource that is required for the action doesn't exist.
+    /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
     public func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2301,6 +3183,18 @@ extension BackupClient: BackupClientProtocol {
     }
 
     /// Removes a set of key-value pairs from a recovery point, backup plan, or backup vault identified by an Amazon Resource Name (ARN)
+    ///
+    /// - Parameter UntagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `UntagResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParameterValueException` : Indicates that something is wrong with a parameter's value. For example, the value is out of range.
+    /// - `MissingParameterValueException` : Indicates that a required parameter is missing.
+    /// - `ResourceNotFoundException` : A resource that is required for the action doesn't exist.
+    /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
     public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2337,6 +3231,18 @@ extension BackupClient: BackupClientProtocol {
     }
 
     /// Updates an existing backup plan identified by its backupPlanId with the input document in JSON format. The new version is uniquely identified by a VersionId.
+    ///
+    /// - Parameter UpdateBackupPlanInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateBackupPlanOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParameterValueException` : Indicates that something is wrong with a parameter's value. For example, the value is out of range.
+    /// - `MissingParameterValueException` : Indicates that a required parameter is missing.
+    /// - `ResourceNotFoundException` : A resource that is required for the action doesn't exist.
+    /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
     public func updateBackupPlan(input: UpdateBackupPlanInput) async throws -> UpdateBackupPlanOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2373,6 +3279,21 @@ extension BackupClient: BackupClientProtocol {
     }
 
     /// Updates an existing framework identified by its FrameworkName with the input document in JSON format.
+    ///
+    /// - Parameter UpdateFrameworkInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateFrameworkOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AlreadyExistsException` : The required resource already exists.
+    /// - `ConflictException` : Backup can't perform the action that you requested until it finishes performing a previous action. Try again later.
+    /// - `InvalidParameterValueException` : Indicates that something is wrong with a parameter's value. For example, the value is out of range.
+    /// - `LimitExceededException` : A limit in the request has been exceeded; for example, a maximum number of items allowed in a request.
+    /// - `MissingParameterValueException` : Indicates that a required parameter is missing.
+    /// - `ResourceNotFoundException` : A resource that is required for the action doesn't exist.
+    /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
     public func updateFramework(input: UpdateFrameworkInput) async throws -> UpdateFrameworkOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2417,6 +3338,18 @@ extension BackupClient: BackupClientProtocol {
     }
 
     /// Updates whether the Amazon Web Services account is opted in to cross-account backup. Returns an error if the account is not an Organizations management account. Use the DescribeGlobalSettings API to determine the current settings.
+    ///
+    /// - Parameter UpdateGlobalSettingsInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateGlobalSettingsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParameterValueException` : Indicates that something is wrong with a parameter's value. For example, the value is out of range.
+    /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a parameter is of the wrong type.
+    /// - `MissingParameterValueException` : Indicates that a required parameter is missing.
+    /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
     public func updateGlobalSettings(input: UpdateGlobalSettingsInput) async throws -> UpdateGlobalSettingsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2453,6 +3386,19 @@ extension BackupClient: BackupClientProtocol {
     }
 
     /// Sets the transition lifecycle of a recovery point. The lifecycle defines when a protected resource is transitioned to cold storage and when it expires. Backup transitions and expires backups automatically according to the lifecycle that you define. Backups transitioned to cold storage must be stored in cold storage for a minimum of 90 days. Therefore, the “retention” setting must be 90 days greater than the “transition to cold after days” setting. The “transition to cold after days” setting cannot be changed after a backup has been transitioned to cold. Resource types that are able to be transitioned to cold storage are listed in the "Lifecycle to cold storage" section of the [ Feature availability by resource](https://docs.aws.amazon.com/aws-backup/latest/devguide/whatisbackup.html#features-by-resource) table. Backup ignores this expression for other resource types. This operation does not support continuous backups.
+    ///
+    /// - Parameter UpdateRecoveryPointLifecycleInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateRecoveryPointLifecycleOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParameterValueException` : Indicates that something is wrong with a parameter's value. For example, the value is out of range.
+    /// - `InvalidRequestException` : Indicates that something is wrong with the input to the request. For example, a parameter is of the wrong type.
+    /// - `MissingParameterValueException` : Indicates that a required parameter is missing.
+    /// - `ResourceNotFoundException` : A resource that is required for the action doesn't exist.
+    /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
     public func updateRecoveryPointLifecycle(input: UpdateRecoveryPointLifecycleInput) async throws -> UpdateRecoveryPointLifecycleOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2489,6 +3435,17 @@ extension BackupClient: BackupClientProtocol {
     }
 
     /// Updates the current service opt-in settings for the Region. If service-opt-in is enabled for a service, Backup tries to protect that service's resources in this Region, when the resource is included in an on-demand backup or scheduled backup plan. Otherwise, Backup does not try to protect that service's resources in this Region. Use the DescribeRegionSettings API to determine the resource types that are supported.
+    ///
+    /// - Parameter UpdateRegionSettingsInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateRegionSettingsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParameterValueException` : Indicates that something is wrong with a parameter's value. For example, the value is out of range.
+    /// - `MissingParameterValueException` : Indicates that a required parameter is missing.
+    /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
     public func updateRegionSettings(input: UpdateRegionSettingsInput) async throws -> UpdateRegionSettingsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2525,6 +3482,19 @@ extension BackupClient: BackupClientProtocol {
     }
 
     /// Updates an existing report plan identified by its ReportPlanName with the input document in JSON format.
+    ///
+    /// - Parameter UpdateReportPlanInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateReportPlanOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictException` : Backup can't perform the action that you requested until it finishes performing a previous action. Try again later.
+    /// - `InvalidParameterValueException` : Indicates that something is wrong with a parameter's value. For example, the value is out of range.
+    /// - `MissingParameterValueException` : Indicates that a required parameter is missing.
+    /// - `ResourceNotFoundException` : A resource that is required for the action doesn't exist.
+    /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
     public func updateReportPlan(input: UpdateReportPlanInput) async throws -> UpdateReportPlanOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()

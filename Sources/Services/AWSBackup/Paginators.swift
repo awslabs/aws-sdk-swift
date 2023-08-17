@@ -182,6 +182,8 @@ extension BackupClient {
 extension ListBackupVaultsInput: ClientRuntime.PaginateToken {
     public func usingPaginationToken(_ token: Swift.String) -> ListBackupVaultsInput {
         return ListBackupVaultsInput(
+            byShared: self.byShared,
+            byVaultType: self.byVaultType,
             maxResults: self.maxResults,
             nextToken: token
         )}
@@ -317,6 +319,38 @@ extension PaginatorSequence where Input == ListProtectedResourcesInput, Output =
     }
 }
 extension BackupClient {
+    /// Paginate over `[ListProtectedResourcesByBackupVaultOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListProtectedResourcesByBackupVaultInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListProtectedResourcesByBackupVaultOutputResponse`
+    public func listProtectedResourcesByBackupVaultPaginated(input: ListProtectedResourcesByBackupVaultInput) -> ClientRuntime.PaginatorSequence<ListProtectedResourcesByBackupVaultInput, ListProtectedResourcesByBackupVaultOutputResponse> {
+        return ClientRuntime.PaginatorSequence<ListProtectedResourcesByBackupVaultInput, ListProtectedResourcesByBackupVaultOutputResponse>(input: input, inputKey: \ListProtectedResourcesByBackupVaultInput.nextToken, outputKey: \ListProtectedResourcesByBackupVaultOutputResponse.nextToken, paginationFunction: self.listProtectedResourcesByBackupVault(input:))
+    }
+}
+
+extension ListProtectedResourcesByBackupVaultInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListProtectedResourcesByBackupVaultInput {
+        return ListProtectedResourcesByBackupVaultInput(
+            backupVaultAccountId: self.backupVaultAccountId,
+            backupVaultName: self.backupVaultName,
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where Input == ListProtectedResourcesByBackupVaultInput, Output == ListProtectedResourcesByBackupVaultOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listProtectedResourcesByBackupVaultPaginated`
+    /// to access the nested member `[BackupClientTypes.ProtectedResource]`
+    /// - Returns: `[BackupClientTypes.ProtectedResource]`
+    public func results() async throws -> [BackupClientTypes.ProtectedResource] {
+        return try await self.asyncCompactMap { item in item.results }
+    }
+}
+extension BackupClient {
     /// Paginate over `[ListRecoveryPointsByBackupVaultOutputResponse]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
@@ -333,6 +367,7 @@ extension BackupClient {
 extension ListRecoveryPointsByBackupVaultInput: ClientRuntime.PaginateToken {
     public func usingPaginationToken(_ token: Swift.String) -> ListRecoveryPointsByBackupVaultInput {
         return ListRecoveryPointsByBackupVaultInput(
+            backupVaultAccountId: self.backupVaultAccountId,
             backupVaultName: self.backupVaultName,
             byBackupPlanId: self.byBackupPlanId,
             byCreatedAfter: self.byCreatedAfter,

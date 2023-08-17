@@ -5,120 +5,885 @@ import ClientRuntime
 /// WorkSpaces Web is a low cost, fully managed WorkSpace built specifically to facilitate secure, web-based workloads. WorkSpaces Web makes it easy for customers to safely provide their employees with access to internal websites and SaaS web applications without the administrative burden of appliances or specialized client software. WorkSpaces Web provides simple policy tools tailored for user interactions, while offloading common tasks like capacity management, scaling, and maintaining browser images.
 public protocol WorkSpacesWebClientProtocol {
     /// Associates a browser settings resource with a web portal.
+    ///
+    /// - Parameter AssociateBrowserSettingsInput : [no documentation found]
+    ///
+    /// - Returns: `AssociateBrowserSettingsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access is denied.
+    /// - `ConflictException` : There is a conflict.
+    /// - `InternalServerException` : There is an internal server error.
+    /// - `ResourceNotFoundException` : The resource cannot be found.
+    /// - `ThrottlingException` : There is a throttling error.
+    /// - `ValidationException` : There is a validation error.
     func associateBrowserSettings(input: AssociateBrowserSettingsInput) async throws -> AssociateBrowserSettingsOutputResponse
     /// Associates an IP access settings resource with a web portal.
+    ///
+    /// - Parameter AssociateIpAccessSettingsInput : [no documentation found]
+    ///
+    /// - Returns: `AssociateIpAccessSettingsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access is denied.
+    /// - `ConflictException` : There is a conflict.
+    /// - `InternalServerException` : There is an internal server error.
+    /// - `ResourceNotFoundException` : The resource cannot be found.
+    /// - `ThrottlingException` : There is a throttling error.
+    /// - `ValidationException` : There is a validation error.
     func associateIpAccessSettings(input: AssociateIpAccessSettingsInput) async throws -> AssociateIpAccessSettingsOutputResponse
     /// Associates a network settings resource with a web portal.
+    ///
+    /// - Parameter AssociateNetworkSettingsInput : [no documentation found]
+    ///
+    /// - Returns: `AssociateNetworkSettingsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access is denied.
+    /// - `ConflictException` : There is a conflict.
+    /// - `InternalServerException` : There is an internal server error.
+    /// - `ResourceNotFoundException` : The resource cannot be found.
+    /// - `ThrottlingException` : There is a throttling error.
+    /// - `ValidationException` : There is a validation error.
     func associateNetworkSettings(input: AssociateNetworkSettingsInput) async throws -> AssociateNetworkSettingsOutputResponse
     /// Associates a trust store with a web portal.
+    ///
+    /// - Parameter AssociateTrustStoreInput : [no documentation found]
+    ///
+    /// - Returns: `AssociateTrustStoreOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access is denied.
+    /// - `InternalServerException` : There is an internal server error.
+    /// - `ResourceNotFoundException` : The resource cannot be found.
+    /// - `ThrottlingException` : There is a throttling error.
+    /// - `ValidationException` : There is a validation error.
     func associateTrustStore(input: AssociateTrustStoreInput) async throws -> AssociateTrustStoreOutputResponse
     /// Associates a user access logging settings resource with a web portal.
+    ///
+    /// - Parameter AssociateUserAccessLoggingSettingsInput : [no documentation found]
+    ///
+    /// - Returns: `AssociateUserAccessLoggingSettingsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access is denied.
+    /// - `ConflictException` : There is a conflict.
+    /// - `InternalServerException` : There is an internal server error.
+    /// - `ResourceNotFoundException` : The resource cannot be found.
+    /// - `ThrottlingException` : There is a throttling error.
+    /// - `ValidationException` : There is a validation error.
     func associateUserAccessLoggingSettings(input: AssociateUserAccessLoggingSettingsInput) async throws -> AssociateUserAccessLoggingSettingsOutputResponse
     /// Associates a user settings resource with a web portal.
+    ///
+    /// - Parameter AssociateUserSettingsInput : [no documentation found]
+    ///
+    /// - Returns: `AssociateUserSettingsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access is denied.
+    /// - `ConflictException` : There is a conflict.
+    /// - `InternalServerException` : There is an internal server error.
+    /// - `ResourceNotFoundException` : The resource cannot be found.
+    /// - `ThrottlingException` : There is a throttling error.
+    /// - `ValidationException` : There is a validation error.
     func associateUserSettings(input: AssociateUserSettingsInput) async throws -> AssociateUserSettingsOutputResponse
     /// Creates a browser settings resource that can be associated with a web portal. Once associated with a web portal, browser settings control how the browser will behave once a user starts a streaming session for the web portal.
+    ///
+    /// - Parameter CreateBrowserSettingsInput : [no documentation found]
+    ///
+    /// - Returns: `CreateBrowserSettingsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access is denied.
+    /// - `ConflictException` : There is a conflict.
+    /// - `InternalServerException` : There is an internal server error.
+    /// - `ResourceNotFoundException` : The resource cannot be found.
+    /// - `ServiceQuotaExceededException` : The service quota has been exceeded.
+    /// - `ThrottlingException` : There is a throttling error.
+    /// - `ValidationException` : There is a validation error.
     func createBrowserSettings(input: CreateBrowserSettingsInput) async throws -> CreateBrowserSettingsOutputResponse
     /// Creates an identity provider resource that is then associated with a web portal.
+    ///
+    /// - Parameter CreateIdentityProviderInput : [no documentation found]
+    ///
+    /// - Returns: `CreateIdentityProviderOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access is denied.
+    /// - `ConflictException` : There is a conflict.
+    /// - `InternalServerException` : There is an internal server error.
+    /// - `ResourceNotFoundException` : The resource cannot be found.
+    /// - `ServiceQuotaExceededException` : The service quota has been exceeded.
+    /// - `ThrottlingException` : There is a throttling error.
+    /// - `ValidationException` : There is a validation error.
     func createIdentityProvider(input: CreateIdentityProviderInput) async throws -> CreateIdentityProviderOutputResponse
     /// Creates an IP access settings resource that can be associated with a web portal.
+    ///
+    /// - Parameter CreateIpAccessSettingsInput : [no documentation found]
+    ///
+    /// - Returns: `CreateIpAccessSettingsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access is denied.
+    /// - `ConflictException` : There is a conflict.
+    /// - `InternalServerException` : There is an internal server error.
+    /// - `ServiceQuotaExceededException` : The service quota has been exceeded.
+    /// - `ThrottlingException` : There is a throttling error.
+    /// - `ValidationException` : There is a validation error.
     func createIpAccessSettings(input: CreateIpAccessSettingsInput) async throws -> CreateIpAccessSettingsOutputResponse
     /// Creates a network settings resource that can be associated with a web portal. Once associated with a web portal, network settings define how streaming instances will connect with your specified VPC.
+    ///
+    /// - Parameter CreateNetworkSettingsInput : [no documentation found]
+    ///
+    /// - Returns: `CreateNetworkSettingsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access is denied.
+    /// - `ConflictException` : There is a conflict.
+    /// - `InternalServerException` : There is an internal server error.
+    /// - `ServiceQuotaExceededException` : The service quota has been exceeded.
+    /// - `ThrottlingException` : There is a throttling error.
+    /// - `ValidationException` : There is a validation error.
     func createNetworkSettings(input: CreateNetworkSettingsInput) async throws -> CreateNetworkSettingsOutputResponse
     /// Creates a web portal.
+    ///
+    /// - Parameter CreatePortalInput : [no documentation found]
+    ///
+    /// - Returns: `CreatePortalOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access is denied.
+    /// - `ConflictException` : There is a conflict.
+    /// - `InternalServerException` : There is an internal server error.
+    /// - `ResourceNotFoundException` : The resource cannot be found.
+    /// - `ServiceQuotaExceededException` : The service quota has been exceeded.
+    /// - `ThrottlingException` : There is a throttling error.
+    /// - `ValidationException` : There is a validation error.
     func createPortal(input: CreatePortalInput) async throws -> CreatePortalOutputResponse
     /// Creates a trust store that can be associated with a web portal. A trust store contains certificate authority (CA) certificates. Once associated with a web portal, the browser in a streaming session will recognize certificates that have been issued using any of the CAs in the trust store. If your organization has internal websites that use certificates issued by private CAs, you should add the private CA certificate to the trust store.
+    ///
+    /// - Parameter CreateTrustStoreInput : [no documentation found]
+    ///
+    /// - Returns: `CreateTrustStoreOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access is denied.
+    /// - `ConflictException` : There is a conflict.
+    /// - `InternalServerException` : There is an internal server error.
+    /// - `ServiceQuotaExceededException` : The service quota has been exceeded.
+    /// - `ThrottlingException` : There is a throttling error.
+    /// - `ValidationException` : There is a validation error.
     func createTrustStore(input: CreateTrustStoreInput) async throws -> CreateTrustStoreOutputResponse
     /// Creates a user access logging settings resource that can be associated with a web portal.
+    ///
+    /// - Parameter CreateUserAccessLoggingSettingsInput : [no documentation found]
+    ///
+    /// - Returns: `CreateUserAccessLoggingSettingsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access is denied.
+    /// - `ConflictException` : There is a conflict.
+    /// - `InternalServerException` : There is an internal server error.
+    /// - `ServiceQuotaExceededException` : The service quota has been exceeded.
+    /// - `ThrottlingException` : There is a throttling error.
+    /// - `ValidationException` : There is a validation error.
     func createUserAccessLoggingSettings(input: CreateUserAccessLoggingSettingsInput) async throws -> CreateUserAccessLoggingSettingsOutputResponse
     /// Creates a user settings resource that can be associated with a web portal. Once associated with a web portal, user settings control how users can transfer data between a streaming session and the their local devices.
+    ///
+    /// - Parameter CreateUserSettingsInput : [no documentation found]
+    ///
+    /// - Returns: `CreateUserSettingsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access is denied.
+    /// - `ConflictException` : There is a conflict.
+    /// - `InternalServerException` : There is an internal server error.
+    /// - `ServiceQuotaExceededException` : The service quota has been exceeded.
+    /// - `ThrottlingException` : There is a throttling error.
+    /// - `ValidationException` : There is a validation error.
     func createUserSettings(input: CreateUserSettingsInput) async throws -> CreateUserSettingsOutputResponse
     /// Deletes browser settings.
+    ///
+    /// - Parameter DeleteBrowserSettingsInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteBrowserSettingsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access is denied.
+    /// - `ConflictException` : There is a conflict.
+    /// - `InternalServerException` : There is an internal server error.
+    /// - `ThrottlingException` : There is a throttling error.
+    /// - `ValidationException` : There is a validation error.
     func deleteBrowserSettings(input: DeleteBrowserSettingsInput) async throws -> DeleteBrowserSettingsOutputResponse
     /// Deletes the identity provider.
+    ///
+    /// - Parameter DeleteIdentityProviderInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteIdentityProviderOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access is denied.
+    /// - `ConflictException` : There is a conflict.
+    /// - `InternalServerException` : There is an internal server error.
+    /// - `ThrottlingException` : There is a throttling error.
+    /// - `ValidationException` : There is a validation error.
     func deleteIdentityProvider(input: DeleteIdentityProviderInput) async throws -> DeleteIdentityProviderOutputResponse
     /// Deletes IP access settings.
+    ///
+    /// - Parameter DeleteIpAccessSettingsInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteIpAccessSettingsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access is denied.
+    /// - `ConflictException` : There is a conflict.
+    /// - `InternalServerException` : There is an internal server error.
+    /// - `ThrottlingException` : There is a throttling error.
+    /// - `ValidationException` : There is a validation error.
     func deleteIpAccessSettings(input: DeleteIpAccessSettingsInput) async throws -> DeleteIpAccessSettingsOutputResponse
     /// Deletes network settings.
+    ///
+    /// - Parameter DeleteNetworkSettingsInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteNetworkSettingsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access is denied.
+    /// - `ConflictException` : There is a conflict.
+    /// - `InternalServerException` : There is an internal server error.
+    /// - `ThrottlingException` : There is a throttling error.
+    /// - `ValidationException` : There is a validation error.
     func deleteNetworkSettings(input: DeleteNetworkSettingsInput) async throws -> DeleteNetworkSettingsOutputResponse
     /// Deletes a web portal.
+    ///
+    /// - Parameter DeletePortalInput : [no documentation found]
+    ///
+    /// - Returns: `DeletePortalOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access is denied.
+    /// - `ConflictException` : There is a conflict.
+    /// - `InternalServerException` : There is an internal server error.
+    /// - `ThrottlingException` : There is a throttling error.
+    /// - `ValidationException` : There is a validation error.
     func deletePortal(input: DeletePortalInput) async throws -> DeletePortalOutputResponse
     /// Deletes the trust store.
+    ///
+    /// - Parameter DeleteTrustStoreInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteTrustStoreOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access is denied.
+    /// - `ConflictException` : There is a conflict.
+    /// - `InternalServerException` : There is an internal server error.
+    /// - `ThrottlingException` : There is a throttling error.
+    /// - `ValidationException` : There is a validation error.
     func deleteTrustStore(input: DeleteTrustStoreInput) async throws -> DeleteTrustStoreOutputResponse
     /// Deletes user access logging settings.
+    ///
+    /// - Parameter DeleteUserAccessLoggingSettingsInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteUserAccessLoggingSettingsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access is denied.
+    /// - `ConflictException` : There is a conflict.
+    /// - `InternalServerException` : There is an internal server error.
+    /// - `ThrottlingException` : There is a throttling error.
+    /// - `ValidationException` : There is a validation error.
     func deleteUserAccessLoggingSettings(input: DeleteUserAccessLoggingSettingsInput) async throws -> DeleteUserAccessLoggingSettingsOutputResponse
     /// Deletes user settings.
+    ///
+    /// - Parameter DeleteUserSettingsInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteUserSettingsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access is denied.
+    /// - `ConflictException` : There is a conflict.
+    /// - `InternalServerException` : There is an internal server error.
+    /// - `ThrottlingException` : There is a throttling error.
+    /// - `ValidationException` : There is a validation error.
     func deleteUserSettings(input: DeleteUserSettingsInput) async throws -> DeleteUserSettingsOutputResponse
     /// Disassociates browser settings from a web portal.
+    ///
+    /// - Parameter DisassociateBrowserSettingsInput : [no documentation found]
+    ///
+    /// - Returns: `DisassociateBrowserSettingsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access is denied.
+    /// - `InternalServerException` : There is an internal server error.
+    /// - `ResourceNotFoundException` : The resource cannot be found.
+    /// - `ThrottlingException` : There is a throttling error.
+    /// - `ValidationException` : There is a validation error.
     func disassociateBrowserSettings(input: DisassociateBrowserSettingsInput) async throws -> DisassociateBrowserSettingsOutputResponse
     /// Disassociates IP access settings from a web portal.
+    ///
+    /// - Parameter DisassociateIpAccessSettingsInput : [no documentation found]
+    ///
+    /// - Returns: `DisassociateIpAccessSettingsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access is denied.
+    /// - `InternalServerException` : There is an internal server error.
+    /// - `ResourceNotFoundException` : The resource cannot be found.
+    /// - `ThrottlingException` : There is a throttling error.
+    /// - `ValidationException` : There is a validation error.
     func disassociateIpAccessSettings(input: DisassociateIpAccessSettingsInput) async throws -> DisassociateIpAccessSettingsOutputResponse
     /// Disassociates network settings from a web portal.
+    ///
+    /// - Parameter DisassociateNetworkSettingsInput : [no documentation found]
+    ///
+    /// - Returns: `DisassociateNetworkSettingsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access is denied.
+    /// - `InternalServerException` : There is an internal server error.
+    /// - `ResourceNotFoundException` : The resource cannot be found.
+    /// - `ThrottlingException` : There is a throttling error.
+    /// - `ValidationException` : There is a validation error.
     func disassociateNetworkSettings(input: DisassociateNetworkSettingsInput) async throws -> DisassociateNetworkSettingsOutputResponse
     /// Disassociates a trust store from a web portal.
+    ///
+    /// - Parameter DisassociateTrustStoreInput : [no documentation found]
+    ///
+    /// - Returns: `DisassociateTrustStoreOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access is denied.
+    /// - `InternalServerException` : There is an internal server error.
+    /// - `ResourceNotFoundException` : The resource cannot be found.
+    /// - `ThrottlingException` : There is a throttling error.
+    /// - `ValidationException` : There is a validation error.
     func disassociateTrustStore(input: DisassociateTrustStoreInput) async throws -> DisassociateTrustStoreOutputResponse
     /// Disassociates user access logging settings from a web portal.
+    ///
+    /// - Parameter DisassociateUserAccessLoggingSettingsInput : [no documentation found]
+    ///
+    /// - Returns: `DisassociateUserAccessLoggingSettingsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access is denied.
+    /// - `InternalServerException` : There is an internal server error.
+    /// - `ResourceNotFoundException` : The resource cannot be found.
+    /// - `ThrottlingException` : There is a throttling error.
+    /// - `ValidationException` : There is a validation error.
     func disassociateUserAccessLoggingSettings(input: DisassociateUserAccessLoggingSettingsInput) async throws -> DisassociateUserAccessLoggingSettingsOutputResponse
     /// Disassociates user settings from a web portal.
+    ///
+    /// - Parameter DisassociateUserSettingsInput : [no documentation found]
+    ///
+    /// - Returns: `DisassociateUserSettingsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access is denied.
+    /// - `InternalServerException` : There is an internal server error.
+    /// - `ResourceNotFoundException` : The resource cannot be found.
+    /// - `ThrottlingException` : There is a throttling error.
+    /// - `ValidationException` : There is a validation error.
     func disassociateUserSettings(input: DisassociateUserSettingsInput) async throws -> DisassociateUserSettingsOutputResponse
     /// Gets browser settings.
+    ///
+    /// - Parameter GetBrowserSettingsInput : [no documentation found]
+    ///
+    /// - Returns: `GetBrowserSettingsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access is denied.
+    /// - `InternalServerException` : There is an internal server error.
+    /// - `ResourceNotFoundException` : The resource cannot be found.
+    /// - `ThrottlingException` : There is a throttling error.
+    /// - `ValidationException` : There is a validation error.
     func getBrowserSettings(input: GetBrowserSettingsInput) async throws -> GetBrowserSettingsOutputResponse
     /// Gets the identity provider.
+    ///
+    /// - Parameter GetIdentityProviderInput : [no documentation found]
+    ///
+    /// - Returns: `GetIdentityProviderOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access is denied.
+    /// - `InternalServerException` : There is an internal server error.
+    /// - `ResourceNotFoundException` : The resource cannot be found.
+    /// - `ThrottlingException` : There is a throttling error.
+    /// - `ValidationException` : There is a validation error.
     func getIdentityProvider(input: GetIdentityProviderInput) async throws -> GetIdentityProviderOutputResponse
     /// Gets the IP access settings.
+    ///
+    /// - Parameter GetIpAccessSettingsInput : [no documentation found]
+    ///
+    /// - Returns: `GetIpAccessSettingsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access is denied.
+    /// - `InternalServerException` : There is an internal server error.
+    /// - `ResourceNotFoundException` : The resource cannot be found.
+    /// - `ThrottlingException` : There is a throttling error.
+    /// - `ValidationException` : There is a validation error.
     func getIpAccessSettings(input: GetIpAccessSettingsInput) async throws -> GetIpAccessSettingsOutputResponse
     /// Gets the network settings.
+    ///
+    /// - Parameter GetNetworkSettingsInput : [no documentation found]
+    ///
+    /// - Returns: `GetNetworkSettingsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access is denied.
+    /// - `InternalServerException` : There is an internal server error.
+    /// - `ResourceNotFoundException` : The resource cannot be found.
+    /// - `ThrottlingException` : There is a throttling error.
+    /// - `ValidationException` : There is a validation error.
     func getNetworkSettings(input: GetNetworkSettingsInput) async throws -> GetNetworkSettingsOutputResponse
     /// Gets the web portal.
+    ///
+    /// - Parameter GetPortalInput : [no documentation found]
+    ///
+    /// - Returns: `GetPortalOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access is denied.
+    /// - `InternalServerException` : There is an internal server error.
+    /// - `ResourceNotFoundException` : The resource cannot be found.
+    /// - `ThrottlingException` : There is a throttling error.
+    /// - `ValidationException` : There is a validation error.
     func getPortal(input: GetPortalInput) async throws -> GetPortalOutputResponse
     /// Gets the service provider metadata.
+    ///
+    /// - Parameter GetPortalServiceProviderMetadataInput : [no documentation found]
+    ///
+    /// - Returns: `GetPortalServiceProviderMetadataOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access is denied.
+    /// - `InternalServerException` : There is an internal server error.
+    /// - `ResourceNotFoundException` : The resource cannot be found.
+    /// - `ThrottlingException` : There is a throttling error.
+    /// - `ValidationException` : There is a validation error.
     func getPortalServiceProviderMetadata(input: GetPortalServiceProviderMetadataInput) async throws -> GetPortalServiceProviderMetadataOutputResponse
     /// Gets the trust store.
+    ///
+    /// - Parameter GetTrustStoreInput : [no documentation found]
+    ///
+    /// - Returns: `GetTrustStoreOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access is denied.
+    /// - `InternalServerException` : There is an internal server error.
+    /// - `ResourceNotFoundException` : The resource cannot be found.
+    /// - `ThrottlingException` : There is a throttling error.
+    /// - `ValidationException` : There is a validation error.
     func getTrustStore(input: GetTrustStoreInput) async throws -> GetTrustStoreOutputResponse
     /// Gets the trust store certificate.
+    ///
+    /// - Parameter GetTrustStoreCertificateInput : [no documentation found]
+    ///
+    /// - Returns: `GetTrustStoreCertificateOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access is denied.
+    /// - `InternalServerException` : There is an internal server error.
+    /// - `ResourceNotFoundException` : The resource cannot be found.
+    /// - `ThrottlingException` : There is a throttling error.
+    /// - `ValidationException` : There is a validation error.
     func getTrustStoreCertificate(input: GetTrustStoreCertificateInput) async throws -> GetTrustStoreCertificateOutputResponse
     /// Gets user access logging settings.
+    ///
+    /// - Parameter GetUserAccessLoggingSettingsInput : [no documentation found]
+    ///
+    /// - Returns: `GetUserAccessLoggingSettingsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access is denied.
+    /// - `InternalServerException` : There is an internal server error.
+    /// - `ResourceNotFoundException` : The resource cannot be found.
+    /// - `ThrottlingException` : There is a throttling error.
+    /// - `ValidationException` : There is a validation error.
     func getUserAccessLoggingSettings(input: GetUserAccessLoggingSettingsInput) async throws -> GetUserAccessLoggingSettingsOutputResponse
     /// Gets user settings.
+    ///
+    /// - Parameter GetUserSettingsInput : [no documentation found]
+    ///
+    /// - Returns: `GetUserSettingsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access is denied.
+    /// - `InternalServerException` : There is an internal server error.
+    /// - `ResourceNotFoundException` : The resource cannot be found.
+    /// - `ThrottlingException` : There is a throttling error.
+    /// - `ValidationException` : There is a validation error.
     func getUserSettings(input: GetUserSettingsInput) async throws -> GetUserSettingsOutputResponse
     /// Retrieves a list of browser settings.
+    ///
+    /// - Parameter ListBrowserSettingsInput : [no documentation found]
+    ///
+    /// - Returns: `ListBrowserSettingsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access is denied.
+    /// - `InternalServerException` : There is an internal server error.
+    /// - `ThrottlingException` : There is a throttling error.
+    /// - `ValidationException` : There is a validation error.
     func listBrowserSettings(input: ListBrowserSettingsInput) async throws -> ListBrowserSettingsOutputResponse
     /// Retrieves a list of identity providers for a specific web portal.
+    ///
+    /// - Parameter ListIdentityProvidersInput : [no documentation found]
+    ///
+    /// - Returns: `ListIdentityProvidersOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access is denied.
+    /// - `InternalServerException` : There is an internal server error.
+    /// - `ThrottlingException` : There is a throttling error.
+    /// - `ValidationException` : There is a validation error.
     func listIdentityProviders(input: ListIdentityProvidersInput) async throws -> ListIdentityProvidersOutputResponse
     /// Retrieves a list of IP access settings.
+    ///
+    /// - Parameter ListIpAccessSettingsInput : [no documentation found]
+    ///
+    /// - Returns: `ListIpAccessSettingsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access is denied.
+    /// - `InternalServerException` : There is an internal server error.
+    /// - `ThrottlingException` : There is a throttling error.
+    /// - `ValidationException` : There is a validation error.
     func listIpAccessSettings(input: ListIpAccessSettingsInput) async throws -> ListIpAccessSettingsOutputResponse
     /// Retrieves a list of network settings.
+    ///
+    /// - Parameter ListNetworkSettingsInput : [no documentation found]
+    ///
+    /// - Returns: `ListNetworkSettingsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access is denied.
+    /// - `InternalServerException` : There is an internal server error.
+    /// - `ThrottlingException` : There is a throttling error.
+    /// - `ValidationException` : There is a validation error.
     func listNetworkSettings(input: ListNetworkSettingsInput) async throws -> ListNetworkSettingsOutputResponse
     /// Retrieves a list or web portals.
+    ///
+    /// - Parameter ListPortalsInput : [no documentation found]
+    ///
+    /// - Returns: `ListPortalsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access is denied.
+    /// - `InternalServerException` : There is an internal server error.
+    /// - `ThrottlingException` : There is a throttling error.
+    /// - `ValidationException` : There is a validation error.
     func listPortals(input: ListPortalsInput) async throws -> ListPortalsOutputResponse
     /// Retrieves a list of tags for a resource.
+    ///
+    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    ///
+    /// - Returns: `ListTagsForResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access is denied.
+    /// - `InternalServerException` : There is an internal server error.
+    /// - `ResourceNotFoundException` : The resource cannot be found.
+    /// - `ThrottlingException` : There is a throttling error.
+    /// - `ValidationException` : There is a validation error.
     func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
     /// Retrieves a list of trust store certificates.
+    ///
+    /// - Parameter ListTrustStoreCertificatesInput : [no documentation found]
+    ///
+    /// - Returns: `ListTrustStoreCertificatesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access is denied.
+    /// - `InternalServerException` : There is an internal server error.
+    /// - `ResourceNotFoundException` : The resource cannot be found.
+    /// - `ThrottlingException` : There is a throttling error.
+    /// - `ValidationException` : There is a validation error.
     func listTrustStoreCertificates(input: ListTrustStoreCertificatesInput) async throws -> ListTrustStoreCertificatesOutputResponse
     /// Retrieves a list of trust stores.
+    ///
+    /// - Parameter ListTrustStoresInput : [no documentation found]
+    ///
+    /// - Returns: `ListTrustStoresOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access is denied.
+    /// - `InternalServerException` : There is an internal server error.
+    /// - `ThrottlingException` : There is a throttling error.
+    /// - `ValidationException` : There is a validation error.
     func listTrustStores(input: ListTrustStoresInput) async throws -> ListTrustStoresOutputResponse
     /// Retrieves a list of user access logging settings.
+    ///
+    /// - Parameter ListUserAccessLoggingSettingsInput : [no documentation found]
+    ///
+    /// - Returns: `ListUserAccessLoggingSettingsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access is denied.
+    /// - `InternalServerException` : There is an internal server error.
+    /// - `ThrottlingException` : There is a throttling error.
+    /// - `ValidationException` : There is a validation error.
     func listUserAccessLoggingSettings(input: ListUserAccessLoggingSettingsInput) async throws -> ListUserAccessLoggingSettingsOutputResponse
     /// Retrieves a list of user settings.
+    ///
+    /// - Parameter ListUserSettingsInput : [no documentation found]
+    ///
+    /// - Returns: `ListUserSettingsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access is denied.
+    /// - `InternalServerException` : There is an internal server error.
+    /// - `ThrottlingException` : There is a throttling error.
+    /// - `ValidationException` : There is a validation error.
     func listUserSettings(input: ListUserSettingsInput) async throws -> ListUserSettingsOutputResponse
     /// Adds or overwrites one or more tags for the specified resource.
+    ///
+    /// - Parameter TagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `TagResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access is denied.
+    /// - `InternalServerException` : There is an internal server error.
+    /// - `ResourceNotFoundException` : The resource cannot be found.
+    /// - `ThrottlingException` : There is a throttling error.
+    /// - `TooManyTagsException` : There are too many tags.
+    /// - `ValidationException` : There is a validation error.
     func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
     /// Removes one or more tags from the specified resource.
+    ///
+    /// - Parameter UntagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `UntagResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access is denied.
+    /// - `InternalServerException` : There is an internal server error.
+    /// - `ResourceNotFoundException` : The resource cannot be found.
+    /// - `ThrottlingException` : There is a throttling error.
+    /// - `ValidationException` : There is a validation error.
     func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
     /// Updates browser settings.
+    ///
+    /// - Parameter UpdateBrowserSettingsInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateBrowserSettingsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access is denied.
+    /// - `InternalServerException` : There is an internal server error.
+    /// - `ResourceNotFoundException` : The resource cannot be found.
+    /// - `ThrottlingException` : There is a throttling error.
+    /// - `ValidationException` : There is a validation error.
     func updateBrowserSettings(input: UpdateBrowserSettingsInput) async throws -> UpdateBrowserSettingsOutputResponse
     /// Updates the identity provider.
+    ///
+    /// - Parameter UpdateIdentityProviderInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateIdentityProviderOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access is denied.
+    /// - `InternalServerException` : There is an internal server error.
+    /// - `ResourceNotFoundException` : The resource cannot be found.
+    /// - `ThrottlingException` : There is a throttling error.
+    /// - `ValidationException` : There is a validation error.
     func updateIdentityProvider(input: UpdateIdentityProviderInput) async throws -> UpdateIdentityProviderOutputResponse
     /// Updates IP access settings.
+    ///
+    /// - Parameter UpdateIpAccessSettingsInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateIpAccessSettingsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access is denied.
+    /// - `InternalServerException` : There is an internal server error.
+    /// - `ResourceNotFoundException` : The resource cannot be found.
+    /// - `ThrottlingException` : There is a throttling error.
+    /// - `ValidationException` : There is a validation error.
     func updateIpAccessSettings(input: UpdateIpAccessSettingsInput) async throws -> UpdateIpAccessSettingsOutputResponse
     /// Updates network settings.
+    ///
+    /// - Parameter UpdateNetworkSettingsInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateNetworkSettingsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access is denied.
+    /// - `InternalServerException` : There is an internal server error.
+    /// - `ResourceNotFoundException` : The resource cannot be found.
+    /// - `ThrottlingException` : There is a throttling error.
+    /// - `ValidationException` : There is a validation error.
     func updateNetworkSettings(input: UpdateNetworkSettingsInput) async throws -> UpdateNetworkSettingsOutputResponse
     /// Updates a web portal.
+    ///
+    /// - Parameter UpdatePortalInput : [no documentation found]
+    ///
+    /// - Returns: `UpdatePortalOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access is denied.
+    /// - `ConflictException` : There is a conflict.
+    /// - `InternalServerException` : There is an internal server error.
+    /// - `ResourceNotFoundException` : The resource cannot be found.
+    /// - `ThrottlingException` : There is a throttling error.
+    /// - `ValidationException` : There is a validation error.
     func updatePortal(input: UpdatePortalInput) async throws -> UpdatePortalOutputResponse
     /// Updates the trust store.
+    ///
+    /// - Parameter UpdateTrustStoreInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateTrustStoreOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access is denied.
+    /// - `InternalServerException` : There is an internal server error.
+    /// - `ResourceNotFoundException` : The resource cannot be found.
+    /// - `ServiceQuotaExceededException` : The service quota has been exceeded.
+    /// - `ThrottlingException` : There is a throttling error.
+    /// - `ValidationException` : There is a validation error.
     func updateTrustStore(input: UpdateTrustStoreInput) async throws -> UpdateTrustStoreOutputResponse
     /// Updates the user access logging settings.
+    ///
+    /// - Parameter UpdateUserAccessLoggingSettingsInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateUserAccessLoggingSettingsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access is denied.
+    /// - `InternalServerException` : There is an internal server error.
+    /// - `ResourceNotFoundException` : The resource cannot be found.
+    /// - `ThrottlingException` : There is a throttling error.
+    /// - `ValidationException` : There is a validation error.
     func updateUserAccessLoggingSettings(input: UpdateUserAccessLoggingSettingsInput) async throws -> UpdateUserAccessLoggingSettingsOutputResponse
     /// Updates the user settings.
+    ///
+    /// - Parameter UpdateUserSettingsInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateUserSettingsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access is denied.
+    /// - `InternalServerException` : There is an internal server error.
+    /// - `ResourceNotFoundException` : The resource cannot be found.
+    /// - `ThrottlingException` : There is a throttling error.
+    /// - `ValidationException` : There is a validation error.
     func updateUserSettings(input: UpdateUserSettingsInput) async throws -> UpdateUserSettingsOutputResponse
 }
 

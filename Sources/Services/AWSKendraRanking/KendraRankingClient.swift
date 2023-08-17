@@ -68,6 +68,20 @@ public struct KendraRankingClientLogHandlerFactory: ClientRuntime.SDKLogHandlerF
 
 extension KendraRankingClient: KendraRankingClientProtocol {
     /// Creates a rescore execution plan. A rescore execution plan is an Amazon Kendra Intelligent Ranking resource used for provisioning the Rescore API. You set the number of capacity units that you require for Amazon Kendra Intelligent Ranking to rescore or re-rank a search service's results. For an example of using the CreateRescoreExecutionPlan API, including using the Python and Java SDKs, see [Semantically ranking a search service's results](https://docs.aws.amazon.com/kendra/latest/dg/search-service-rerank.html).
+    ///
+    /// - Parameter CreateRescoreExecutionPlanInput : [no documentation found]
+    ///
+    /// - Returns: `CreateRescoreExecutionPlanOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don’t have sufficient access to perform this action. Please ensure you have the required permission policies and user accounts and try again.
+    /// - `ConflictException` : A conflict occurred with the request. Please fix any inconsistencies with your resources and try again.
+    /// - `InternalServerException` : An issue occurred with the internal server used for your Amazon Kendra Intelligent Ranking service. Please wait a few minutes and try again, or contact [Support](http://aws.amazon.com/contact-us/) for help.
+    /// - `ServiceQuotaExceededException` : You have exceeded the set limits for your Amazon Kendra Intelligent Ranking service. Please see [Quotas](https://docs.aws.amazon.com/kendra/latest/dg/quotas.html) for more information, or contact [Support](http://aws.amazon.com/contact-us/) to inquire about an increase of limits.
+    /// - `ThrottlingException` : The request was denied due to request throttling. Please reduce the number of requests and try again.
+    /// - `ValidationException` : The input fails to satisfy the constraints set by the Amazon Kendra Intelligent Ranking service. Please provide the correct input and try again.
     public func createRescoreExecutionPlan(input: CreateRescoreExecutionPlanInput) async throws -> CreateRescoreExecutionPlanOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -113,6 +127,20 @@ extension KendraRankingClient: KendraRankingClientProtocol {
     }
 
     /// Deletes a rescore execution plan. A rescore execution plan is an Amazon Kendra Intelligent Ranking resource used for provisioning the Rescore API.
+    ///
+    /// - Parameter DeleteRescoreExecutionPlanInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteRescoreExecutionPlanOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don’t have sufficient access to perform this action. Please ensure you have the required permission policies and user accounts and try again.
+    /// - `ConflictException` : A conflict occurred with the request. Please fix any inconsistencies with your resources and try again.
+    /// - `InternalServerException` : An issue occurred with the internal server used for your Amazon Kendra Intelligent Ranking service. Please wait a few minutes and try again, or contact [Support](http://aws.amazon.com/contact-us/) for help.
+    /// - `ResourceNotFoundException` : The resource you want to use doesn't exist. Please check you have provided the correct resource and try again.
+    /// - `ThrottlingException` : The request was denied due to request throttling. Please reduce the number of requests and try again.
+    /// - `ValidationException` : The input fails to satisfy the constraints set by the Amazon Kendra Intelligent Ranking service. Please provide the correct input and try again.
     public func deleteRescoreExecutionPlan(input: DeleteRescoreExecutionPlanInput) async throws -> DeleteRescoreExecutionPlanOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -150,6 +178,19 @@ extension KendraRankingClient: KendraRankingClientProtocol {
     }
 
     /// Gets information about a rescore execution plan. A rescore execution plan is an Amazon Kendra Intelligent Ranking resource used for provisioning the Rescore API.
+    ///
+    /// - Parameter DescribeRescoreExecutionPlanInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeRescoreExecutionPlanOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don’t have sufficient access to perform this action. Please ensure you have the required permission policies and user accounts and try again.
+    /// - `InternalServerException` : An issue occurred with the internal server used for your Amazon Kendra Intelligent Ranking service. Please wait a few minutes and try again, or contact [Support](http://aws.amazon.com/contact-us/) for help.
+    /// - `ResourceNotFoundException` : The resource you want to use doesn't exist. Please check you have provided the correct resource and try again.
+    /// - `ThrottlingException` : The request was denied due to request throttling. Please reduce the number of requests and try again.
+    /// - `ValidationException` : The input fails to satisfy the constraints set by the Amazon Kendra Intelligent Ranking service. Please provide the correct input and try again.
     public func describeRescoreExecutionPlan(input: DescribeRescoreExecutionPlanInput) async throws -> DescribeRescoreExecutionPlanOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -187,6 +228,18 @@ extension KendraRankingClient: KendraRankingClientProtocol {
     }
 
     /// Lists your rescore execution plans. A rescore execution plan is an Amazon Kendra Intelligent Ranking resource used for provisioning the Rescore API.
+    ///
+    /// - Parameter ListRescoreExecutionPlansInput : [no documentation found]
+    ///
+    /// - Returns: `ListRescoreExecutionPlansOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don’t have sufficient access to perform this action. Please ensure you have the required permission policies and user accounts and try again.
+    /// - `InternalServerException` : An issue occurred with the internal server used for your Amazon Kendra Intelligent Ranking service. Please wait a few minutes and try again, or contact [Support](http://aws.amazon.com/contact-us/) for help.
+    /// - `ThrottlingException` : The request was denied due to request throttling. Please reduce the number of requests and try again.
+    /// - `ValidationException` : The input fails to satisfy the constraints set by the Amazon Kendra Intelligent Ranking service. Please provide the correct input and try again.
     public func listRescoreExecutionPlans(input: ListRescoreExecutionPlansInput) async throws -> ListRescoreExecutionPlansOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -225,6 +278,19 @@ extension KendraRankingClient: KendraRankingClientProtocol {
     }
 
     /// Gets a list of tags associated with a specified resource. A rescore execution plan is an example of a resource that can have tags associated with it.
+    ///
+    /// - Parameter ListTagsForResourceInput : The request information for listing tags associated with a rescore execution plan. A rescore execution plan is an Amazon Kendra Intelligent Ranking resource used for provisioning the Rescore API.
+    ///
+    /// - Returns: `ListTagsForResourceOutputResponse` : If the action is successful, the service sends back an HTTP 200 response.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don’t have sufficient access to perform this action. Please ensure you have the required permission policies and user accounts and try again.
+    /// - `InternalServerException` : An issue occurred with the internal server used for your Amazon Kendra Intelligent Ranking service. Please wait a few minutes and try again, or contact [Support](http://aws.amazon.com/contact-us/) for help.
+    /// - `ResourceUnavailableException` : The resource you want to use is unavailable. Please check you have provided the correct resource information and try again.
+    /// - `ThrottlingException` : The request was denied due to request throttling. Please reduce the number of requests and try again.
+    /// - `ValidationException` : The input fails to satisfy the constraints set by the Amazon Kendra Intelligent Ranking service. Please provide the correct input and try again.
     public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -262,6 +328,20 @@ extension KendraRankingClient: KendraRankingClientProtocol {
     }
 
     /// Rescores or re-ranks search results from a search service such as OpenSearch (self managed). You use the semantic search capabilities of Amazon Kendra Intelligent Ranking to improve the search service's results.
+    ///
+    /// - Parameter RescoreInput : [no documentation found]
+    ///
+    /// - Returns: `RescoreOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don’t have sufficient access to perform this action. Please ensure you have the required permission policies and user accounts and try again.
+    /// - `ConflictException` : A conflict occurred with the request. Please fix any inconsistencies with your resources and try again.
+    /// - `InternalServerException` : An issue occurred with the internal server used for your Amazon Kendra Intelligent Ranking service. Please wait a few minutes and try again, or contact [Support](http://aws.amazon.com/contact-us/) for help.
+    /// - `ResourceNotFoundException` : The resource you want to use doesn't exist. Please check you have provided the correct resource and try again.
+    /// - `ThrottlingException` : The request was denied due to request throttling. Please reduce the number of requests and try again.
+    /// - `ValidationException` : The input fails to satisfy the constraints set by the Amazon Kendra Intelligent Ranking service. Please provide the correct input and try again.
     public func rescore(input: RescoreInput) async throws -> RescoreOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -299,6 +379,19 @@ extension KendraRankingClient: KendraRankingClientProtocol {
     }
 
     /// Adds a specified tag to a specified rescore execution plan. A rescore execution plan is an Amazon Kendra Intelligent Ranking resource used for provisioning the Rescore API. If the tag already exists, the existing value is replaced with the new value.
+    ///
+    /// - Parameter TagResourceInput : The request information for tagging a rescore execution plan. A rescore execution plan is an Amazon Kendra Intelligent Ranking resource used for provisioning the Rescore API.
+    ///
+    /// - Returns: `TagResourceOutputResponse` : If the action is successful, the service sends back an HTTP 200 response with an empty HTTP body.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don’t have sufficient access to perform this action. Please ensure you have the required permission policies and user accounts and try again.
+    /// - `InternalServerException` : An issue occurred with the internal server used for your Amazon Kendra Intelligent Ranking service. Please wait a few minutes and try again, or contact [Support](http://aws.amazon.com/contact-us/) for help.
+    /// - `ResourceUnavailableException` : The resource you want to use is unavailable. Please check you have provided the correct resource information and try again.
+    /// - `ThrottlingException` : The request was denied due to request throttling. Please reduce the number of requests and try again.
+    /// - `ValidationException` : The input fails to satisfy the constraints set by the Amazon Kendra Intelligent Ranking service. Please provide the correct input and try again.
     public func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -336,6 +429,19 @@ extension KendraRankingClient: KendraRankingClientProtocol {
     }
 
     /// Removes a tag from a rescore execution plan. A rescore execution plan is an Amazon Kendra Intelligent Ranking resource used for provisioning the Rescore operation.
+    ///
+    /// - Parameter UntagResourceInput : The request information to remove a tag from a rescore execution plan. A rescore execution plan is an Amazon Kendra Intelligent Ranking resource used for provisioning the Rescore API.
+    ///
+    /// - Returns: `UntagResourceOutputResponse` : If the action is successful, the service sends back an HTTP 200 response with an empty HTTP body.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don’t have sufficient access to perform this action. Please ensure you have the required permission policies and user accounts and try again.
+    /// - `InternalServerException` : An issue occurred with the internal server used for your Amazon Kendra Intelligent Ranking service. Please wait a few minutes and try again, or contact [Support](http://aws.amazon.com/contact-us/) for help.
+    /// - `ResourceUnavailableException` : The resource you want to use is unavailable. Please check you have provided the correct resource information and try again.
+    /// - `ThrottlingException` : The request was denied due to request throttling. Please reduce the number of requests and try again.
+    /// - `ValidationException` : The input fails to satisfy the constraints set by the Amazon Kendra Intelligent Ranking service. Please provide the correct input and try again.
     public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -373,6 +479,21 @@ extension KendraRankingClient: KendraRankingClientProtocol {
     }
 
     /// Updates a rescore execution plan. A rescore execution plan is an Amazon Kendra Intelligent Ranking resource used for provisioning the Rescore API. You can update the number of capacity units you require for Amazon Kendra Intelligent Ranking to rescore or re-rank a search service's results.
+    ///
+    /// - Parameter UpdateRescoreExecutionPlanInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateRescoreExecutionPlanOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don’t have sufficient access to perform this action. Please ensure you have the required permission policies and user accounts and try again.
+    /// - `ConflictException` : A conflict occurred with the request. Please fix any inconsistencies with your resources and try again.
+    /// - `InternalServerException` : An issue occurred with the internal server used for your Amazon Kendra Intelligent Ranking service. Please wait a few minutes and try again, or contact [Support](http://aws.amazon.com/contact-us/) for help.
+    /// - `ResourceNotFoundException` : The resource you want to use doesn't exist. Please check you have provided the correct resource and try again.
+    /// - `ServiceQuotaExceededException` : You have exceeded the set limits for your Amazon Kendra Intelligent Ranking service. Please see [Quotas](https://docs.aws.amazon.com/kendra/latest/dg/quotas.html) for more information, or contact [Support](http://aws.amazon.com/contact-us/) to inquire about an increase of limits.
+    /// - `ThrottlingException` : The request was denied due to request throttling. Please reduce the number of requests and try again.
+    /// - `ValidationException` : The input fails to satisfy the constraints set by the Amazon Kendra Intelligent Ranking service. Please provide the correct input and try again.
     public func updateRescoreExecutionPlan(input: UpdateRescoreExecutionPlanInput) async throws -> UpdateRescoreExecutionPlanOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()

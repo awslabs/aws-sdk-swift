@@ -68,6 +68,21 @@ public struct VoiceIDClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFactory
 
 extension VoiceIDClient: VoiceIDClientProtocol {
     /// Associates the fraudsters with the watchlist specified in the same domain.
+    ///
+    /// - Parameter AssociateFraudsterInput : [no documentation found]
+    ///
+    /// - Returns: `AssociateFraudsterOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action. Check the error message and try again.
+    /// - `ConflictException` : The request failed due to a conflict. Check the ConflictType and error message for more details.
+    /// - `InternalServerException` : The request failed due to an unknown error on the server side.
+    /// - `ResourceNotFoundException` : The specified resource cannot be found. Check the ResourceType and error message for more details.
+    /// - `ServiceQuotaExceededException` : The request exceeded the service quota. Refer to [Voice ID Service Quotas](https://docs.aws.amazon.com/connect/latest/adminguide/amazon-connect-service-limits.html#voiceid-quotas) and try your request again.
+    /// - `ThrottlingException` : The request was denied due to request throttling. Please slow down your request rate. Refer to [ Amazon Connect Voice ID Service API throttling quotas ](https://docs.aws.amazon.com/connect/latest/adminguide/amazon-connect-service-limits.html##voiceid-api-quotas) and try your request again.
+    /// - `ValidationException` : The request failed one or more validations; check the error message for more details.
     public func associateFraudster(input: AssociateFraudsterInput) async throws -> AssociateFraudsterOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -105,6 +120,21 @@ extension VoiceIDClient: VoiceIDClientProtocol {
     }
 
     /// Creates a domain that contains all Amazon Connect Voice ID data, such as speakers, fraudsters, customer audio, and voiceprints. Every domain is created with a default watchlist that fraudsters can be a part of.
+    ///
+    /// - Parameter CreateDomainInput : [no documentation found]
+    ///
+    /// - Returns: `CreateDomainOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action. Check the error message and try again.
+    /// - `ConflictException` : The request failed due to a conflict. Check the ConflictType and error message for more details.
+    /// - `InternalServerException` : The request failed due to an unknown error on the server side.
+    /// - `ResourceNotFoundException` : The specified resource cannot be found. Check the ResourceType and error message for more details.
+    /// - `ServiceQuotaExceededException` : The request exceeded the service quota. Refer to [Voice ID Service Quotas](https://docs.aws.amazon.com/connect/latest/adminguide/amazon-connect-service-limits.html#voiceid-quotas) and try your request again.
+    /// - `ThrottlingException` : The request was denied due to request throttling. Please slow down your request rate. Refer to [ Amazon Connect Voice ID Service API throttling quotas ](https://docs.aws.amazon.com/connect/latest/adminguide/amazon-connect-service-limits.html##voiceid-api-quotas) and try your request again.
+    /// - `ValidationException` : The request failed one or more validations; check the error message for more details.
     public func createDomain(input: CreateDomainInput) async throws -> CreateDomainOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -150,6 +180,21 @@ extension VoiceIDClient: VoiceIDClientProtocol {
     }
 
     /// Creates a watchlist that fraudsters can be a part of.
+    ///
+    /// - Parameter CreateWatchlistInput : [no documentation found]
+    ///
+    /// - Returns: `CreateWatchlistOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action. Check the error message and try again.
+    /// - `ConflictException` : The request failed due to a conflict. Check the ConflictType and error message for more details.
+    /// - `InternalServerException` : The request failed due to an unknown error on the server side.
+    /// - `ResourceNotFoundException` : The specified resource cannot be found. Check the ResourceType and error message for more details.
+    /// - `ServiceQuotaExceededException` : The request exceeded the service quota. Refer to [Voice ID Service Quotas](https://docs.aws.amazon.com/connect/latest/adminguide/amazon-connect-service-limits.html#voiceid-quotas) and try your request again.
+    /// - `ThrottlingException` : The request was denied due to request throttling. Please slow down your request rate. Refer to [ Amazon Connect Voice ID Service API throttling quotas ](https://docs.aws.amazon.com/connect/latest/adminguide/amazon-connect-service-limits.html##voiceid-api-quotas) and try your request again.
+    /// - `ValidationException` : The request failed one or more validations; check the error message for more details.
     public func createWatchlist(input: CreateWatchlistInput) async throws -> CreateWatchlistOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -195,6 +240,20 @@ extension VoiceIDClient: VoiceIDClientProtocol {
     }
 
     /// Deletes the specified domain from Voice ID.
+    ///
+    /// - Parameter DeleteDomainInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteDomainOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action. Check the error message and try again.
+    /// - `ConflictException` : The request failed due to a conflict. Check the ConflictType and error message for more details.
+    /// - `InternalServerException` : The request failed due to an unknown error on the server side.
+    /// - `ResourceNotFoundException` : The specified resource cannot be found. Check the ResourceType and error message for more details.
+    /// - `ThrottlingException` : The request was denied due to request throttling. Please slow down your request rate. Refer to [ Amazon Connect Voice ID Service API throttling quotas ](https://docs.aws.amazon.com/connect/latest/adminguide/amazon-connect-service-limits.html##voiceid-api-quotas) and try your request again.
+    /// - `ValidationException` : The request failed one or more validations; check the error message for more details.
     public func deleteDomain(input: DeleteDomainInput) async throws -> DeleteDomainOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -232,6 +291,20 @@ extension VoiceIDClient: VoiceIDClientProtocol {
     }
 
     /// Deletes the specified fraudster from Voice ID. This action disassociates the fraudster from any watchlists it is a part of.
+    ///
+    /// - Parameter DeleteFraudsterInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteFraudsterOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action. Check the error message and try again.
+    /// - `ConflictException` : The request failed due to a conflict. Check the ConflictType and error message for more details.
+    /// - `InternalServerException` : The request failed due to an unknown error on the server side.
+    /// - `ResourceNotFoundException` : The specified resource cannot be found. Check the ResourceType and error message for more details.
+    /// - `ThrottlingException` : The request was denied due to request throttling. Please slow down your request rate. Refer to [ Amazon Connect Voice ID Service API throttling quotas ](https://docs.aws.amazon.com/connect/latest/adminguide/amazon-connect-service-limits.html##voiceid-api-quotas) and try your request again.
+    /// - `ValidationException` : The request failed one or more validations; check the error message for more details.
     public func deleteFraudster(input: DeleteFraudsterInput) async throws -> DeleteFraudsterOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -269,6 +342,20 @@ extension VoiceIDClient: VoiceIDClientProtocol {
     }
 
     /// Deletes the specified speaker from Voice ID.
+    ///
+    /// - Parameter DeleteSpeakerInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteSpeakerOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action. Check the error message and try again.
+    /// - `ConflictException` : The request failed due to a conflict. Check the ConflictType and error message for more details.
+    /// - `InternalServerException` : The request failed due to an unknown error on the server side.
+    /// - `ResourceNotFoundException` : The specified resource cannot be found. Check the ResourceType and error message for more details.
+    /// - `ThrottlingException` : The request was denied due to request throttling. Please slow down your request rate. Refer to [ Amazon Connect Voice ID Service API throttling quotas ](https://docs.aws.amazon.com/connect/latest/adminguide/amazon-connect-service-limits.html##voiceid-api-quotas) and try your request again.
+    /// - `ValidationException` : The request failed one or more validations; check the error message for more details.
     public func deleteSpeaker(input: DeleteSpeakerInput) async throws -> DeleteSpeakerOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -306,6 +393,20 @@ extension VoiceIDClient: VoiceIDClientProtocol {
     }
 
     /// Deletes the specified watchlist from Voice ID. This API throws an exception when there are fraudsters in the watchlist that you are trying to delete. You must delete the fraudsters, and then delete the watchlist. Every domain has a default watchlist which cannot be deleted.
+    ///
+    /// - Parameter DeleteWatchlistInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteWatchlistOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action. Check the error message and try again.
+    /// - `ConflictException` : The request failed due to a conflict. Check the ConflictType and error message for more details.
+    /// - `InternalServerException` : The request failed due to an unknown error on the server side.
+    /// - `ResourceNotFoundException` : The specified resource cannot be found. Check the ResourceType and error message for more details.
+    /// - `ThrottlingException` : The request was denied due to request throttling. Please slow down your request rate. Refer to [ Amazon Connect Voice ID Service API throttling quotas ](https://docs.aws.amazon.com/connect/latest/adminguide/amazon-connect-service-limits.html##voiceid-api-quotas) and try your request again.
+    /// - `ValidationException` : The request failed one or more validations; check the error message for more details.
     public func deleteWatchlist(input: DeleteWatchlistInput) async throws -> DeleteWatchlistOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -343,6 +444,19 @@ extension VoiceIDClient: VoiceIDClientProtocol {
     }
 
     /// Describes the specified domain.
+    ///
+    /// - Parameter DescribeDomainInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeDomainOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action. Check the error message and try again.
+    /// - `InternalServerException` : The request failed due to an unknown error on the server side.
+    /// - `ResourceNotFoundException` : The specified resource cannot be found. Check the ResourceType and error message for more details.
+    /// - `ThrottlingException` : The request was denied due to request throttling. Please slow down your request rate. Refer to [ Amazon Connect Voice ID Service API throttling quotas ](https://docs.aws.amazon.com/connect/latest/adminguide/amazon-connect-service-limits.html##voiceid-api-quotas) and try your request again.
+    /// - `ValidationException` : The request failed one or more validations; check the error message for more details.
     public func describeDomain(input: DescribeDomainInput) async throws -> DescribeDomainOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -380,6 +494,19 @@ extension VoiceIDClient: VoiceIDClientProtocol {
     }
 
     /// Describes the specified fraudster.
+    ///
+    /// - Parameter DescribeFraudsterInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeFraudsterOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action. Check the error message and try again.
+    /// - `InternalServerException` : The request failed due to an unknown error on the server side.
+    /// - `ResourceNotFoundException` : The specified resource cannot be found. Check the ResourceType and error message for more details.
+    /// - `ThrottlingException` : The request was denied due to request throttling. Please slow down your request rate. Refer to [ Amazon Connect Voice ID Service API throttling quotas ](https://docs.aws.amazon.com/connect/latest/adminguide/amazon-connect-service-limits.html##voiceid-api-quotas) and try your request again.
+    /// - `ValidationException` : The request failed one or more validations; check the error message for more details.
     public func describeFraudster(input: DescribeFraudsterInput) async throws -> DescribeFraudsterOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -417,6 +544,19 @@ extension VoiceIDClient: VoiceIDClientProtocol {
     }
 
     /// Describes the specified fraudster registration job.
+    ///
+    /// - Parameter DescribeFraudsterRegistrationJobInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeFraudsterRegistrationJobOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action. Check the error message and try again.
+    /// - `InternalServerException` : The request failed due to an unknown error on the server side.
+    /// - `ResourceNotFoundException` : The specified resource cannot be found. Check the ResourceType and error message for more details.
+    /// - `ThrottlingException` : The request was denied due to request throttling. Please slow down your request rate. Refer to [ Amazon Connect Voice ID Service API throttling quotas ](https://docs.aws.amazon.com/connect/latest/adminguide/amazon-connect-service-limits.html##voiceid-api-quotas) and try your request again.
+    /// - `ValidationException` : The request failed one or more validations; check the error message for more details.
     public func describeFraudsterRegistrationJob(input: DescribeFraudsterRegistrationJobInput) async throws -> DescribeFraudsterRegistrationJobOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -454,6 +594,19 @@ extension VoiceIDClient: VoiceIDClientProtocol {
     }
 
     /// Describes the specified speaker.
+    ///
+    /// - Parameter DescribeSpeakerInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeSpeakerOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action. Check the error message and try again.
+    /// - `InternalServerException` : The request failed due to an unknown error on the server side.
+    /// - `ResourceNotFoundException` : The specified resource cannot be found. Check the ResourceType and error message for more details.
+    /// - `ThrottlingException` : The request was denied due to request throttling. Please slow down your request rate. Refer to [ Amazon Connect Voice ID Service API throttling quotas ](https://docs.aws.amazon.com/connect/latest/adminguide/amazon-connect-service-limits.html##voiceid-api-quotas) and try your request again.
+    /// - `ValidationException` : The request failed one or more validations; check the error message for more details.
     public func describeSpeaker(input: DescribeSpeakerInput) async throws -> DescribeSpeakerOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -491,6 +644,19 @@ extension VoiceIDClient: VoiceIDClientProtocol {
     }
 
     /// Describes the specified speaker enrollment job.
+    ///
+    /// - Parameter DescribeSpeakerEnrollmentJobInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeSpeakerEnrollmentJobOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action. Check the error message and try again.
+    /// - `InternalServerException` : The request failed due to an unknown error on the server side.
+    /// - `ResourceNotFoundException` : The specified resource cannot be found. Check the ResourceType and error message for more details.
+    /// - `ThrottlingException` : The request was denied due to request throttling. Please slow down your request rate. Refer to [ Amazon Connect Voice ID Service API throttling quotas ](https://docs.aws.amazon.com/connect/latest/adminguide/amazon-connect-service-limits.html##voiceid-api-quotas) and try your request again.
+    /// - `ValidationException` : The request failed one or more validations; check the error message for more details.
     public func describeSpeakerEnrollmentJob(input: DescribeSpeakerEnrollmentJobInput) async throws -> DescribeSpeakerEnrollmentJobOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -528,6 +694,19 @@ extension VoiceIDClient: VoiceIDClientProtocol {
     }
 
     /// Describes the specified watchlist.
+    ///
+    /// - Parameter DescribeWatchlistInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeWatchlistOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action. Check the error message and try again.
+    /// - `InternalServerException` : The request failed due to an unknown error on the server side.
+    /// - `ResourceNotFoundException` : The specified resource cannot be found. Check the ResourceType and error message for more details.
+    /// - `ThrottlingException` : The request was denied due to request throttling. Please slow down your request rate. Refer to [ Amazon Connect Voice ID Service API throttling quotas ](https://docs.aws.amazon.com/connect/latest/adminguide/amazon-connect-service-limits.html##voiceid-api-quotas) and try your request again.
+    /// - `ValidationException` : The request failed one or more validations; check the error message for more details.
     public func describeWatchlist(input: DescribeWatchlistInput) async throws -> DescribeWatchlistOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -565,6 +744,20 @@ extension VoiceIDClient: VoiceIDClientProtocol {
     }
 
     /// Disassociates the fraudsters from the watchlist specified. Voice ID always expects a fraudster to be a part of at least one watchlist. If you try to disassociate a fraudster from its only watchlist, a ValidationException is thrown.
+    ///
+    /// - Parameter DisassociateFraudsterInput : [no documentation found]
+    ///
+    /// - Returns: `DisassociateFraudsterOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action. Check the error message and try again.
+    /// - `ConflictException` : The request failed due to a conflict. Check the ConflictType and error message for more details.
+    /// - `InternalServerException` : The request failed due to an unknown error on the server side.
+    /// - `ResourceNotFoundException` : The specified resource cannot be found. Check the ResourceType and error message for more details.
+    /// - `ThrottlingException` : The request was denied due to request throttling. Please slow down your request rate. Refer to [ Amazon Connect Voice ID Service API throttling quotas ](https://docs.aws.amazon.com/connect/latest/adminguide/amazon-connect-service-limits.html##voiceid-api-quotas) and try your request again.
+    /// - `ValidationException` : The request failed one or more validations; check the error message for more details.
     public func disassociateFraudster(input: DisassociateFraudsterInput) async throws -> DisassociateFraudsterOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -602,6 +795,20 @@ extension VoiceIDClient: VoiceIDClientProtocol {
     }
 
     /// Evaluates a specified session based on audio data accumulated during a streaming Amazon Connect Voice ID call.
+    ///
+    /// - Parameter EvaluateSessionInput : [no documentation found]
+    ///
+    /// - Returns: `EvaluateSessionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action. Check the error message and try again.
+    /// - `ConflictException` : The request failed due to a conflict. Check the ConflictType and error message for more details.
+    /// - `InternalServerException` : The request failed due to an unknown error on the server side.
+    /// - `ResourceNotFoundException` : The specified resource cannot be found. Check the ResourceType and error message for more details.
+    /// - `ThrottlingException` : The request was denied due to request throttling. Please slow down your request rate. Refer to [ Amazon Connect Voice ID Service API throttling quotas ](https://docs.aws.amazon.com/connect/latest/adminguide/amazon-connect-service-limits.html##voiceid-api-quotas) and try your request again.
+    /// - `ValidationException` : The request failed one or more validations; check the error message for more details.
     public func evaluateSession(input: EvaluateSessionInput) async throws -> EvaluateSessionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -639,6 +846,18 @@ extension VoiceIDClient: VoiceIDClientProtocol {
     }
 
     /// Lists all the domains in the Amazon Web Services account.
+    ///
+    /// - Parameter ListDomainsInput : [no documentation found]
+    ///
+    /// - Returns: `ListDomainsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action. Check the error message and try again.
+    /// - `InternalServerException` : The request failed due to an unknown error on the server side.
+    /// - `ThrottlingException` : The request was denied due to request throttling. Please slow down your request rate. Refer to [ Amazon Connect Voice ID Service API throttling quotas ](https://docs.aws.amazon.com/connect/latest/adminguide/amazon-connect-service-limits.html##voiceid-api-quotas) and try your request again.
+    /// - `ValidationException` : The request failed one or more validations; check the error message for more details.
     public func listDomains(input: ListDomainsInput) async throws -> ListDomainsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -676,6 +895,19 @@ extension VoiceIDClient: VoiceIDClientProtocol {
     }
 
     /// Lists all the fraudster registration jobs in the domain with the given JobStatus. If JobStatus is not provided, this lists all fraudster registration jobs in the given domain.
+    ///
+    /// - Parameter ListFraudsterRegistrationJobsInput : [no documentation found]
+    ///
+    /// - Returns: `ListFraudsterRegistrationJobsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action. Check the error message and try again.
+    /// - `InternalServerException` : The request failed due to an unknown error on the server side.
+    /// - `ResourceNotFoundException` : The specified resource cannot be found. Check the ResourceType and error message for more details.
+    /// - `ThrottlingException` : The request was denied due to request throttling. Please slow down your request rate. Refer to [ Amazon Connect Voice ID Service API throttling quotas ](https://docs.aws.amazon.com/connect/latest/adminguide/amazon-connect-service-limits.html##voiceid-api-quotas) and try your request again.
+    /// - `ValidationException` : The request failed one or more validations; check the error message for more details.
     public func listFraudsterRegistrationJobs(input: ListFraudsterRegistrationJobsInput) async throws -> ListFraudsterRegistrationJobsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -713,6 +945,19 @@ extension VoiceIDClient: VoiceIDClientProtocol {
     }
 
     /// Lists all fraudsters in a specified watchlist or domain.
+    ///
+    /// - Parameter ListFraudstersInput : [no documentation found]
+    ///
+    /// - Returns: `ListFraudstersOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action. Check the error message and try again.
+    /// - `InternalServerException` : The request failed due to an unknown error on the server side.
+    /// - `ResourceNotFoundException` : The specified resource cannot be found. Check the ResourceType and error message for more details.
+    /// - `ThrottlingException` : The request was denied due to request throttling. Please slow down your request rate. Refer to [ Amazon Connect Voice ID Service API throttling quotas ](https://docs.aws.amazon.com/connect/latest/adminguide/amazon-connect-service-limits.html##voiceid-api-quotas) and try your request again.
+    /// - `ValidationException` : The request failed one or more validations; check the error message for more details.
     public func listFraudsters(input: ListFraudstersInput) async throws -> ListFraudstersOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -750,6 +995,19 @@ extension VoiceIDClient: VoiceIDClientProtocol {
     }
 
     /// Lists all the speaker enrollment jobs in the domain with the specified JobStatus. If JobStatus is not provided, this lists all jobs with all possible speaker enrollment job statuses.
+    ///
+    /// - Parameter ListSpeakerEnrollmentJobsInput : [no documentation found]
+    ///
+    /// - Returns: `ListSpeakerEnrollmentJobsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action. Check the error message and try again.
+    /// - `InternalServerException` : The request failed due to an unknown error on the server side.
+    /// - `ResourceNotFoundException` : The specified resource cannot be found. Check the ResourceType and error message for more details.
+    /// - `ThrottlingException` : The request was denied due to request throttling. Please slow down your request rate. Refer to [ Amazon Connect Voice ID Service API throttling quotas ](https://docs.aws.amazon.com/connect/latest/adminguide/amazon-connect-service-limits.html##voiceid-api-quotas) and try your request again.
+    /// - `ValidationException` : The request failed one or more validations; check the error message for more details.
     public func listSpeakerEnrollmentJobs(input: ListSpeakerEnrollmentJobsInput) async throws -> ListSpeakerEnrollmentJobsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -787,6 +1045,19 @@ extension VoiceIDClient: VoiceIDClientProtocol {
     }
 
     /// Lists all speakers in a specified domain.
+    ///
+    /// - Parameter ListSpeakersInput : [no documentation found]
+    ///
+    /// - Returns: `ListSpeakersOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action. Check the error message and try again.
+    /// - `InternalServerException` : The request failed due to an unknown error on the server side.
+    /// - `ResourceNotFoundException` : The specified resource cannot be found. Check the ResourceType and error message for more details.
+    /// - `ThrottlingException` : The request was denied due to request throttling. Please slow down your request rate. Refer to [ Amazon Connect Voice ID Service API throttling quotas ](https://docs.aws.amazon.com/connect/latest/adminguide/amazon-connect-service-limits.html##voiceid-api-quotas) and try your request again.
+    /// - `ValidationException` : The request failed one or more validations; check the error message for more details.
     public func listSpeakers(input: ListSpeakersInput) async throws -> ListSpeakersOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -824,6 +1095,19 @@ extension VoiceIDClient: VoiceIDClientProtocol {
     }
 
     /// Lists all tags associated with a specified Voice ID resource.
+    ///
+    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    ///
+    /// - Returns: `ListTagsForResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action. Check the error message and try again.
+    /// - `InternalServerException` : The request failed due to an unknown error on the server side.
+    /// - `ResourceNotFoundException` : The specified resource cannot be found. Check the ResourceType and error message for more details.
+    /// - `ThrottlingException` : The request was denied due to request throttling. Please slow down your request rate. Refer to [ Amazon Connect Voice ID Service API throttling quotas ](https://docs.aws.amazon.com/connect/latest/adminguide/amazon-connect-service-limits.html##voiceid-api-quotas) and try your request again.
+    /// - `ValidationException` : The request failed one or more validations; check the error message for more details.
     public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -861,6 +1145,19 @@ extension VoiceIDClient: VoiceIDClientProtocol {
     }
 
     /// Lists all watchlists in a specified domain.
+    ///
+    /// - Parameter ListWatchlistsInput : [no documentation found]
+    ///
+    /// - Returns: `ListWatchlistsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action. Check the error message and try again.
+    /// - `InternalServerException` : The request failed due to an unknown error on the server side.
+    /// - `ResourceNotFoundException` : The specified resource cannot be found. Check the ResourceType and error message for more details.
+    /// - `ThrottlingException` : The request was denied due to request throttling. Please slow down your request rate. Refer to [ Amazon Connect Voice ID Service API throttling quotas ](https://docs.aws.amazon.com/connect/latest/adminguide/amazon-connect-service-limits.html##voiceid-api-quotas) and try your request again.
+    /// - `ValidationException` : The request failed one or more validations; check the error message for more details.
     public func listWatchlists(input: ListWatchlistsInput) async throws -> ListWatchlistsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -898,6 +1195,21 @@ extension VoiceIDClient: VoiceIDClientProtocol {
     }
 
     /// Opts out a speaker from Voice ID. A speaker can be opted out regardless of whether or not they already exist in Voice ID. If they don't yet exist, a new speaker is created in an opted out state. If they already exist, their existing status is overridden and they are opted out. Enrollment and evaluation authentication requests are rejected for opted out speakers, and opted out speakers have no voice embeddings stored in Voice ID.
+    ///
+    /// - Parameter OptOutSpeakerInput : [no documentation found]
+    ///
+    /// - Returns: `OptOutSpeakerOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action. Check the error message and try again.
+    /// - `ConflictException` : The request failed due to a conflict. Check the ConflictType and error message for more details.
+    /// - `InternalServerException` : The request failed due to an unknown error on the server side.
+    /// - `ResourceNotFoundException` : The specified resource cannot be found. Check the ResourceType and error message for more details.
+    /// - `ServiceQuotaExceededException` : The request exceeded the service quota. Refer to [Voice ID Service Quotas](https://docs.aws.amazon.com/connect/latest/adminguide/amazon-connect-service-limits.html#voiceid-quotas) and try your request again.
+    /// - `ThrottlingException` : The request was denied due to request throttling. Please slow down your request rate. Refer to [ Amazon Connect Voice ID Service API throttling quotas ](https://docs.aws.amazon.com/connect/latest/adminguide/amazon-connect-service-limits.html##voiceid-api-quotas) and try your request again.
+    /// - `ValidationException` : The request failed one or more validations; check the error message for more details.
     public func optOutSpeaker(input: OptOutSpeakerInput) async throws -> OptOutSpeakerOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -935,6 +1247,21 @@ extension VoiceIDClient: VoiceIDClientProtocol {
     }
 
     /// Starts a new batch fraudster registration job using provided details.
+    ///
+    /// - Parameter StartFraudsterRegistrationJobInput : [no documentation found]
+    ///
+    /// - Returns: `StartFraudsterRegistrationJobOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action. Check the error message and try again.
+    /// - `ConflictException` : The request failed due to a conflict. Check the ConflictType and error message for more details.
+    /// - `InternalServerException` : The request failed due to an unknown error on the server side.
+    /// - `ResourceNotFoundException` : The specified resource cannot be found. Check the ResourceType and error message for more details.
+    /// - `ServiceQuotaExceededException` : The request exceeded the service quota. Refer to [Voice ID Service Quotas](https://docs.aws.amazon.com/connect/latest/adminguide/amazon-connect-service-limits.html#voiceid-quotas) and try your request again.
+    /// - `ThrottlingException` : The request was denied due to request throttling. Please slow down your request rate. Refer to [ Amazon Connect Voice ID Service API throttling quotas ](https://docs.aws.amazon.com/connect/latest/adminguide/amazon-connect-service-limits.html##voiceid-api-quotas) and try your request again.
+    /// - `ValidationException` : The request failed one or more validations; check the error message for more details.
     public func startFraudsterRegistrationJob(input: StartFraudsterRegistrationJobInput) async throws -> StartFraudsterRegistrationJobOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -980,6 +1307,21 @@ extension VoiceIDClient: VoiceIDClientProtocol {
     }
 
     /// Starts a new batch speaker enrollment job using specified details.
+    ///
+    /// - Parameter StartSpeakerEnrollmentJobInput : [no documentation found]
+    ///
+    /// - Returns: `StartSpeakerEnrollmentJobOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action. Check the error message and try again.
+    /// - `ConflictException` : The request failed due to a conflict. Check the ConflictType and error message for more details.
+    /// - `InternalServerException` : The request failed due to an unknown error on the server side.
+    /// - `ResourceNotFoundException` : The specified resource cannot be found. Check the ResourceType and error message for more details.
+    /// - `ServiceQuotaExceededException` : The request exceeded the service quota. Refer to [Voice ID Service Quotas](https://docs.aws.amazon.com/connect/latest/adminguide/amazon-connect-service-limits.html#voiceid-quotas) and try your request again.
+    /// - `ThrottlingException` : The request was denied due to request throttling. Please slow down your request rate. Refer to [ Amazon Connect Voice ID Service API throttling quotas ](https://docs.aws.amazon.com/connect/latest/adminguide/amazon-connect-service-limits.html##voiceid-api-quotas) and try your request again.
+    /// - `ValidationException` : The request failed one or more validations; check the error message for more details.
     public func startSpeakerEnrollmentJob(input: StartSpeakerEnrollmentJobInput) async throws -> StartSpeakerEnrollmentJobOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1025,6 +1367,20 @@ extension VoiceIDClient: VoiceIDClientProtocol {
     }
 
     /// Tags a Voice ID resource with the provided list of tags.
+    ///
+    /// - Parameter TagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `TagResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action. Check the error message and try again.
+    /// - `ConflictException` : The request failed due to a conflict. Check the ConflictType and error message for more details.
+    /// - `InternalServerException` : The request failed due to an unknown error on the server side.
+    /// - `ResourceNotFoundException` : The specified resource cannot be found. Check the ResourceType and error message for more details.
+    /// - `ThrottlingException` : The request was denied due to request throttling. Please slow down your request rate. Refer to [ Amazon Connect Voice ID Service API throttling quotas ](https://docs.aws.amazon.com/connect/latest/adminguide/amazon-connect-service-limits.html##voiceid-api-quotas) and try your request again.
+    /// - `ValidationException` : The request failed one or more validations; check the error message for more details.
     public func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1062,6 +1418,20 @@ extension VoiceIDClient: VoiceIDClientProtocol {
     }
 
     /// Removes specified tags from a specified Amazon Connect Voice ID resource.
+    ///
+    /// - Parameter UntagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `UntagResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action. Check the error message and try again.
+    /// - `ConflictException` : The request failed due to a conflict. Check the ConflictType and error message for more details.
+    /// - `InternalServerException` : The request failed due to an unknown error on the server side.
+    /// - `ResourceNotFoundException` : The specified resource cannot be found. Check the ResourceType and error message for more details.
+    /// - `ThrottlingException` : The request was denied due to request throttling. Please slow down your request rate. Refer to [ Amazon Connect Voice ID Service API throttling quotas ](https://docs.aws.amazon.com/connect/latest/adminguide/amazon-connect-service-limits.html##voiceid-api-quotas) and try your request again.
+    /// - `ValidationException` : The request failed one or more validations; check the error message for more details.
     public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1099,6 +1469,20 @@ extension VoiceIDClient: VoiceIDClientProtocol {
     }
 
     /// Updates the specified domain. This API has clobber behavior, and clears and replaces all attributes. If an optional field, such as 'Description' is not provided, it is removed from the domain.
+    ///
+    /// - Parameter UpdateDomainInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateDomainOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action. Check the error message and try again.
+    /// - `ConflictException` : The request failed due to a conflict. Check the ConflictType and error message for more details.
+    /// - `InternalServerException` : The request failed due to an unknown error on the server side.
+    /// - `ResourceNotFoundException` : The specified resource cannot be found. Check the ResourceType and error message for more details.
+    /// - `ThrottlingException` : The request was denied due to request throttling. Please slow down your request rate. Refer to [ Amazon Connect Voice ID Service API throttling quotas ](https://docs.aws.amazon.com/connect/latest/adminguide/amazon-connect-service-limits.html##voiceid-api-quotas) and try your request again.
+    /// - `ValidationException` : The request failed one or more validations; check the error message for more details.
     public func updateDomain(input: UpdateDomainInput) async throws -> UpdateDomainOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1136,6 +1520,20 @@ extension VoiceIDClient: VoiceIDClientProtocol {
     }
 
     /// Updates the specified watchlist. Every domain has a default watchlist which cannot be updated.
+    ///
+    /// - Parameter UpdateWatchlistInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateWatchlistOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action. Check the error message and try again.
+    /// - `ConflictException` : The request failed due to a conflict. Check the ConflictType and error message for more details.
+    /// - `InternalServerException` : The request failed due to an unknown error on the server side.
+    /// - `ResourceNotFoundException` : The specified resource cannot be found. Check the ResourceType and error message for more details.
+    /// - `ThrottlingException` : The request was denied due to request throttling. Please slow down your request rate. Refer to [ Amazon Connect Voice ID Service API throttling quotas ](https://docs.aws.amazon.com/connect/latest/adminguide/amazon-connect-service-limits.html##voiceid-api-quotas) and try your request again.
+    /// - `ValidationException` : The request failed one or more validations; check the error message for more details.
     public func updateWatchlist(input: UpdateWatchlistInput) async throws -> UpdateWatchlistOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()

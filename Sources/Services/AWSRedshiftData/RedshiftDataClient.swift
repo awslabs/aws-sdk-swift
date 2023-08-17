@@ -84,6 +84,17 @@ extension RedshiftDataClient: RedshiftDataClientProtocol {
     ///
     ///
     /// For more information about the Amazon Redshift Data API and CLI usage examples, see [Using the Amazon Redshift Data API](https://docs.aws.amazon.com/redshift/latest/mgmt/data-api.html) in the Amazon Redshift Management Guide.
+    ///
+    /// - Parameter BatchExecuteStatementInput : [no documentation found]
+    ///
+    /// - Returns: `BatchExecuteStatementOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ActiveStatementsExceededException` : The number of active statements exceeds the limit.
+    /// - `BatchExecuteStatementException` : An SQL statement encountered an environmental error while running.
+    /// - `ValidationException` : The Amazon Redshift Data API operation failed due to invalid input.
     public func batchExecuteStatement(input: BatchExecuteStatementInput) async throws -> BatchExecuteStatementOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -129,6 +140,18 @@ extension RedshiftDataClient: RedshiftDataClientProtocol {
     }
 
     /// Cancels a running query. To be canceled, a query must be running. For more information about the Amazon Redshift Data API and CLI usage examples, see [Using the Amazon Redshift Data API](https://docs.aws.amazon.com/redshift/latest/mgmt/data-api.html) in the Amazon Redshift Management Guide.
+    ///
+    /// - Parameter CancelStatementInput : [no documentation found]
+    ///
+    /// - Returns: `CancelStatementOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DatabaseConnectionException` : Connection to a database failed.
+    /// - `InternalServerException` : The Amazon Redshift Data API operation failed due to invalid input.
+    /// - `ResourceNotFoundException` : The Amazon Redshift Data API operation failed due to a missing resource.
+    /// - `ValidationException` : The Amazon Redshift Data API operation failed due to invalid input.
     public func cancelStatement(input: CancelStatementInput) async throws -> CancelStatementOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -166,6 +189,17 @@ extension RedshiftDataClient: RedshiftDataClientProtocol {
     }
 
     /// Describes the details about a specific instance when a query was run by the Amazon Redshift Data API. The information includes when the query started, when it finished, the query status, the number of rows returned, and the SQL statement. For more information about the Amazon Redshift Data API and CLI usage examples, see [Using the Amazon Redshift Data API](https://docs.aws.amazon.com/redshift/latest/mgmt/data-api.html) in the Amazon Redshift Management Guide.
+    ///
+    /// - Parameter DescribeStatementInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeStatementOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The Amazon Redshift Data API operation failed due to invalid input.
+    /// - `ResourceNotFoundException` : The Amazon Redshift Data API operation failed due to a missing resource.
+    /// - `ValidationException` : The Amazon Redshift Data API operation failed due to invalid input.
     public func describeStatement(input: DescribeStatementInput) async throws -> DescribeStatementOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -219,6 +253,17 @@ extension RedshiftDataClient: RedshiftDataClientProtocol {
     ///
     ///
     /// For more information about the Amazon Redshift Data API and CLI usage examples, see [Using the Amazon Redshift Data API](https://docs.aws.amazon.com/redshift/latest/mgmt/data-api.html) in the Amazon Redshift Management Guide.
+    ///
+    /// - Parameter DescribeTableInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeTableOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DatabaseConnectionException` : Connection to a database failed.
+    /// - `InternalServerException` : The Amazon Redshift Data API operation failed due to invalid input.
+    /// - `ValidationException` : The Amazon Redshift Data API operation failed due to invalid input.
     public func describeTable(input: DescribeTableInput) async throws -> DescribeTableOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -272,6 +317,17 @@ extension RedshiftDataClient: RedshiftDataClientProtocol {
     ///
     ///
     /// For more information about the Amazon Redshift Data API and CLI usage examples, see [Using the Amazon Redshift Data API](https://docs.aws.amazon.com/redshift/latest/mgmt/data-api.html) in the Amazon Redshift Management Guide.
+    ///
+    /// - Parameter ExecuteStatementInput : [no documentation found]
+    ///
+    /// - Returns: `ExecuteStatementOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ActiveStatementsExceededException` : The number of active statements exceeds the limit.
+    /// - `ExecuteStatementException` : The SQL statement encountered an environmental error while running.
+    /// - `ValidationException` : The Amazon Redshift Data API operation failed due to invalid input.
     public func executeStatement(input: ExecuteStatementInput) async throws -> ExecuteStatementOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -317,6 +373,17 @@ extension RedshiftDataClient: RedshiftDataClientProtocol {
     }
 
     /// Fetches the temporarily cached result of an SQL statement. A token is returned to page through the statement results. For more information about the Amazon Redshift Data API and CLI usage examples, see [Using the Amazon Redshift Data API](https://docs.aws.amazon.com/redshift/latest/mgmt/data-api.html) in the Amazon Redshift Management Guide.
+    ///
+    /// - Parameter GetStatementResultInput : [no documentation found]
+    ///
+    /// - Returns: `GetStatementResultOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The Amazon Redshift Data API operation failed due to invalid input.
+    /// - `ResourceNotFoundException` : The Amazon Redshift Data API operation failed due to a missing resource.
+    /// - `ValidationException` : The Amazon Redshift Data API operation failed due to invalid input.
     public func getStatementResult(input: GetStatementResultInput) async throws -> GetStatementResultOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -370,6 +437,17 @@ extension RedshiftDataClient: RedshiftDataClientProtocol {
     ///
     ///
     /// For more information about the Amazon Redshift Data API and CLI usage examples, see [Using the Amazon Redshift Data API](https://docs.aws.amazon.com/redshift/latest/mgmt/data-api.html) in the Amazon Redshift Management Guide.
+    ///
+    /// - Parameter ListDatabasesInput : [no documentation found]
+    ///
+    /// - Returns: `ListDatabasesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DatabaseConnectionException` : Connection to a database failed.
+    /// - `InternalServerException` : The Amazon Redshift Data API operation failed due to invalid input.
+    /// - `ValidationException` : The Amazon Redshift Data API operation failed due to invalid input.
     public func listDatabases(input: ListDatabasesInput) async throws -> ListDatabasesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -423,6 +501,17 @@ extension RedshiftDataClient: RedshiftDataClientProtocol {
     ///
     ///
     /// For more information about the Amazon Redshift Data API and CLI usage examples, see [Using the Amazon Redshift Data API](https://docs.aws.amazon.com/redshift/latest/mgmt/data-api.html) in the Amazon Redshift Management Guide.
+    ///
+    /// - Parameter ListSchemasInput : [no documentation found]
+    ///
+    /// - Returns: `ListSchemasOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DatabaseConnectionException` : Connection to a database failed.
+    /// - `InternalServerException` : The Amazon Redshift Data API operation failed due to invalid input.
+    /// - `ValidationException` : The Amazon Redshift Data API operation failed due to invalid input.
     public func listSchemas(input: ListSchemasInput) async throws -> ListSchemasOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -460,6 +549,16 @@ extension RedshiftDataClient: RedshiftDataClientProtocol {
     }
 
     /// List of SQL statements. By default, only finished statements are shown. A token is returned to page through the statement list. For more information about the Amazon Redshift Data API and CLI usage examples, see [Using the Amazon Redshift Data API](https://docs.aws.amazon.com/redshift/latest/mgmt/data-api.html) in the Amazon Redshift Management Guide.
+    ///
+    /// - Parameter ListStatementsInput : [no documentation found]
+    ///
+    /// - Returns: `ListStatementsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The Amazon Redshift Data API operation failed due to invalid input.
+    /// - `ValidationException` : The Amazon Redshift Data API operation failed due to invalid input.
     public func listStatements(input: ListStatementsInput) async throws -> ListStatementsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -513,6 +612,17 @@ extension RedshiftDataClient: RedshiftDataClientProtocol {
     ///
     ///
     /// For more information about the Amazon Redshift Data API and CLI usage examples, see [Using the Amazon Redshift Data API](https://docs.aws.amazon.com/redshift/latest/mgmt/data-api.html) in the Amazon Redshift Management Guide.
+    ///
+    /// - Parameter ListTablesInput : [no documentation found]
+    ///
+    /// - Returns: `ListTablesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DatabaseConnectionException` : Connection to a database failed.
+    /// - `InternalServerException` : The Amazon Redshift Data API operation failed due to invalid input.
+    /// - `ValidationException` : The Amazon Redshift Data API operation failed due to invalid input.
     public func listTables(input: ListTablesInput) async throws -> ListTablesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()

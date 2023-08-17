@@ -68,6 +68,19 @@ public struct ECRPUBLICClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFacto
 
 extension ECRPUBLICClient: ECRPUBLICClientProtocol {
     /// Checks the availability of one or more image layers that are within a repository in a public registry. When an image is pushed to a repository, each image layer is checked to verify if it has been uploaded before. If it has been uploaded, then the image layer is skipped. This operation is used by the Amazon ECR proxy and is not generally used by customers for pulling and pushing images. In most cases, you should use the docker CLI to pull, tag, and push images.
+    ///
+    /// - Parameter BatchCheckLayerAvailabilityInput : [no documentation found]
+    ///
+    /// - Returns: `BatchCheckLayerAvailabilityOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParameterException` : The specified parameter is invalid. Review the available parameters for the API request.
+    /// - `RegistryNotFoundException` : The registry doesn't exist.
+    /// - `RepositoryNotFoundException` : The specified repository can't be found. Check the spelling of the specified repository and ensure that you're performing operations on the correct registry.
+    /// - `ServerException` : These errors are usually caused by a server-side issue.
+    /// - `UnsupportedCommandException` : The action isn't supported in this Region.
     public func batchCheckLayerAvailability(input: BatchCheckLayerAvailabilityInput) async throws -> BatchCheckLayerAvailabilityOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -105,6 +118,18 @@ extension ECRPUBLICClient: ECRPUBLICClientProtocol {
     }
 
     /// Deletes a list of specified images that are within a repository in a public registry. Images are specified with either an imageTag or imageDigest. You can remove a tag from an image by specifying the image's tag in your request. When you remove the last tag from an image, the image is deleted from your repository. You can completely delete an image (and all of its tags) by specifying the digest of the image in your request.
+    ///
+    /// - Parameter BatchDeleteImageInput : [no documentation found]
+    ///
+    /// - Returns: `BatchDeleteImageOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParameterException` : The specified parameter is invalid. Review the available parameters for the API request.
+    /// - `RepositoryNotFoundException` : The specified repository can't be found. Check the spelling of the specified repository and ensure that you're performing operations on the correct registry.
+    /// - `ServerException` : These errors are usually caused by a server-side issue.
+    /// - `UnsupportedCommandException` : The action isn't supported in this Region.
     public func batchDeleteImage(input: BatchDeleteImageInput) async throws -> BatchDeleteImageOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -142,6 +167,24 @@ extension ECRPUBLICClient: ECRPUBLICClientProtocol {
     }
 
     /// Informs Amazon ECR that the image layer upload is complete for a specified public registry, repository name, and upload ID. You can optionally provide a sha256 digest of the image layer for data validation purposes. When an image is pushed, the CompleteLayerUpload API is called once for each new image layer to verify that the upload is complete. This operation is used by the Amazon ECR proxy and is not generally used by customers for pulling and pushing images. In most cases, you should use the docker CLI to pull, tag, and push images.
+    ///
+    /// - Parameter CompleteLayerUploadInput : [no documentation found]
+    ///
+    /// - Returns: `CompleteLayerUploadOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `EmptyUploadException` : The specified layer upload doesn't contain any layer parts.
+    /// - `InvalidLayerException` : The layer digest calculation performed by Amazon ECR when the image layer doesn't match the digest specified.
+    /// - `InvalidParameterException` : The specified parameter is invalid. Review the available parameters for the API request.
+    /// - `LayerAlreadyExistsException` : The image layer already exists in the associated repository.
+    /// - `LayerPartTooSmallException` : Layer parts must be at least 5 MiB in size.
+    /// - `RegistryNotFoundException` : The registry doesn't exist.
+    /// - `RepositoryNotFoundException` : The specified repository can't be found. Check the spelling of the specified repository and ensure that you're performing operations on the correct registry.
+    /// - `ServerException` : These errors are usually caused by a server-side issue.
+    /// - `UnsupportedCommandException` : The action isn't supported in this Region.
+    /// - `UploadNotFoundException` : The upload can't be found, or the specified upload ID isn't valid for this repository.
     public func completeLayerUpload(input: CompleteLayerUploadInput) async throws -> CompleteLayerUploadOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -179,6 +222,21 @@ extension ECRPUBLICClient: ECRPUBLICClientProtocol {
     }
 
     /// Creates a repository in a public registry. For more information, see [Amazon ECR repositories](https://docs.aws.amazon.com/AmazonECR/latest/userguide/Repositories.html) in the Amazon Elastic Container Registry User Guide.
+    ///
+    /// - Parameter CreateRepositoryInput : [no documentation found]
+    ///
+    /// - Returns: `CreateRepositoryOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParameterException` : The specified parameter is invalid. Review the available parameters for the API request.
+    /// - `InvalidTagParameterException` : An invalid parameter has been specified. Tag keys can have a maximum character length of 128 characters, and tag values can have a maximum length of 256 characters.
+    /// - `LimitExceededException` : The operation didn't succeed because it would have exceeded a service limit for your account. For more information, see [Amazon ECR Service Quotas](https://docs.aws.amazon.com/AmazonECR/latest/userguide/service-quotas.html) in the Amazon Elastic Container Registry User Guide.
+    /// - `RepositoryAlreadyExistsException` : The specified repository already exists in the specified registry.
+    /// - `ServerException` : These errors are usually caused by a server-side issue.
+    /// - `TooManyTagsException` : The list of tags on the repository is over the limit. The maximum number of tags that can be applied to a repository is 50.
+    /// - `UnsupportedCommandException` : The action isn't supported in this Region.
     public func createRepository(input: CreateRepositoryInput) async throws -> CreateRepositoryOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -216,6 +274,19 @@ extension ECRPUBLICClient: ECRPUBLICClientProtocol {
     }
 
     /// Deletes a repository in a public registry. If the repository contains images, you must either manually delete all images in the repository or use the force option. This option deletes all images on your behalf before deleting the repository.
+    ///
+    /// - Parameter DeleteRepositoryInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteRepositoryOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParameterException` : The specified parameter is invalid. Review the available parameters for the API request.
+    /// - `RepositoryNotEmptyException` : The specified repository contains images. To delete a repository that contains images, you must force the deletion with the force parameter.
+    /// - `RepositoryNotFoundException` : The specified repository can't be found. Check the spelling of the specified repository and ensure that you're performing operations on the correct registry.
+    /// - `ServerException` : These errors are usually caused by a server-side issue.
+    /// - `UnsupportedCommandException` : The action isn't supported in this Region.
     public func deleteRepository(input: DeleteRepositoryInput) async throws -> DeleteRepositoryOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -253,6 +324,19 @@ extension ECRPUBLICClient: ECRPUBLICClientProtocol {
     }
 
     /// Deletes the repository policy that's associated with the specified repository.
+    ///
+    /// - Parameter DeleteRepositoryPolicyInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteRepositoryPolicyOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParameterException` : The specified parameter is invalid. Review the available parameters for the API request.
+    /// - `RepositoryNotFoundException` : The specified repository can't be found. Check the spelling of the specified repository and ensure that you're performing operations on the correct registry.
+    /// - `RepositoryPolicyNotFoundException` : The specified repository and registry combination doesn't have an associated repository policy.
+    /// - `ServerException` : These errors are usually caused by a server-side issue.
+    /// - `UnsupportedCommandException` : The action isn't supported in this Region.
     public func deleteRepositoryPolicy(input: DeleteRepositoryPolicyInput) async throws -> DeleteRepositoryPolicyOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -290,6 +374,18 @@ extension ECRPUBLICClient: ECRPUBLICClientProtocol {
     }
 
     /// Returns the image tag details for a repository in a public registry.
+    ///
+    /// - Parameter DescribeImageTagsInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeImageTagsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParameterException` : The specified parameter is invalid. Review the available parameters for the API request.
+    /// - `RepositoryNotFoundException` : The specified repository can't be found. Check the spelling of the specified repository and ensure that you're performing operations on the correct registry.
+    /// - `ServerException` : These errors are usually caused by a server-side issue.
+    /// - `UnsupportedCommandException` : The action isn't supported in this Region.
     public func describeImageTags(input: DescribeImageTagsInput) async throws -> DescribeImageTagsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -327,6 +423,19 @@ extension ECRPUBLICClient: ECRPUBLICClientProtocol {
     }
 
     /// Returns metadata that's related to the images in a repository in a public registry. Beginning with Docker version 1.9, the Docker client compresses image layers before pushing them to a V2 Docker registry. The output of the docker images command shows the uncompressed image size. Therefore, it might return a larger image size than the image sizes that are returned by [DescribeImages].
+    ///
+    /// - Parameter DescribeImagesInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeImagesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ImageNotFoundException` : The image requested doesn't exist in the specified repository.
+    /// - `InvalidParameterException` : The specified parameter is invalid. Review the available parameters for the API request.
+    /// - `RepositoryNotFoundException` : The specified repository can't be found. Check the spelling of the specified repository and ensure that you're performing operations on the correct registry.
+    /// - `ServerException` : These errors are usually caused by a server-side issue.
+    /// - `UnsupportedCommandException` : The action isn't supported in this Region.
     public func describeImages(input: DescribeImagesInput) async throws -> DescribeImagesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -364,6 +473,17 @@ extension ECRPUBLICClient: ECRPUBLICClientProtocol {
     }
 
     /// Returns details for a public registry.
+    ///
+    /// - Parameter DescribeRegistriesInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeRegistriesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParameterException` : The specified parameter is invalid. Review the available parameters for the API request.
+    /// - `ServerException` : These errors are usually caused by a server-side issue.
+    /// - `UnsupportedCommandException` : The action isn't supported in this Region.
     public func describeRegistries(input: DescribeRegistriesInput) async throws -> DescribeRegistriesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -401,6 +521,18 @@ extension ECRPUBLICClient: ECRPUBLICClientProtocol {
     }
 
     /// Describes repositories that are in a public registry.
+    ///
+    /// - Parameter DescribeRepositoriesInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeRepositoriesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParameterException` : The specified parameter is invalid. Review the available parameters for the API request.
+    /// - `RepositoryNotFoundException` : The specified repository can't be found. Check the spelling of the specified repository and ensure that you're performing operations on the correct registry.
+    /// - `ServerException` : These errors are usually caused by a server-side issue.
+    /// - `UnsupportedCommandException` : The action isn't supported in this Region.
     public func describeRepositories(input: DescribeRepositoriesInput) async throws -> DescribeRepositoriesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -438,6 +570,17 @@ extension ECRPUBLICClient: ECRPUBLICClientProtocol {
     }
 
     /// Retrieves an authorization token. An authorization token represents your IAM authentication credentials. You can use it to access any Amazon ECR registry that your IAM principal has access to. The authorization token is valid for 12 hours. This API requires the ecr-public:GetAuthorizationToken and sts:GetServiceBearerToken permissions.
+    ///
+    /// - Parameter GetAuthorizationTokenInput : [no documentation found]
+    ///
+    /// - Returns: `GetAuthorizationTokenOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParameterException` : The specified parameter is invalid. Review the available parameters for the API request.
+    /// - `ServerException` : These errors are usually caused by a server-side issue.
+    /// - `UnsupportedCommandException` : The action isn't supported in this Region.
     public func getAuthorizationToken(input: GetAuthorizationTokenInput) async throws -> GetAuthorizationTokenOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -475,6 +618,16 @@ extension ECRPUBLICClient: ECRPUBLICClientProtocol {
     }
 
     /// Retrieves catalog metadata for a public registry.
+    ///
+    /// - Parameter GetRegistryCatalogDataInput : [no documentation found]
+    ///
+    /// - Returns: `GetRegistryCatalogDataOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ServerException` : These errors are usually caused by a server-side issue.
+    /// - `UnsupportedCommandException` : The action isn't supported in this Region.
     public func getRegistryCatalogData(input: GetRegistryCatalogDataInput) async throws -> GetRegistryCatalogDataOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -512,6 +665,19 @@ extension ECRPUBLICClient: ECRPUBLICClientProtocol {
     }
 
     /// Retrieve catalog metadata for a repository in a public registry. This metadata is displayed publicly in the Amazon ECR Public Gallery.
+    ///
+    /// - Parameter GetRepositoryCatalogDataInput : [no documentation found]
+    ///
+    /// - Returns: `GetRepositoryCatalogDataOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParameterException` : The specified parameter is invalid. Review the available parameters for the API request.
+    /// - `RepositoryCatalogDataNotFoundException` : The repository catalog data doesn't exist.
+    /// - `RepositoryNotFoundException` : The specified repository can't be found. Check the spelling of the specified repository and ensure that you're performing operations on the correct registry.
+    /// - `ServerException` : These errors are usually caused by a server-side issue.
+    /// - `UnsupportedCommandException` : The action isn't supported in this Region.
     public func getRepositoryCatalogData(input: GetRepositoryCatalogDataInput) async throws -> GetRepositoryCatalogDataOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -549,6 +715,19 @@ extension ECRPUBLICClient: ECRPUBLICClientProtocol {
     }
 
     /// Retrieves the repository policy for the specified repository.
+    ///
+    /// - Parameter GetRepositoryPolicyInput : [no documentation found]
+    ///
+    /// - Returns: `GetRepositoryPolicyOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParameterException` : The specified parameter is invalid. Review the available parameters for the API request.
+    /// - `RepositoryNotFoundException` : The specified repository can't be found. Check the spelling of the specified repository and ensure that you're performing operations on the correct registry.
+    /// - `RepositoryPolicyNotFoundException` : The specified repository and registry combination doesn't have an associated repository policy.
+    /// - `ServerException` : These errors are usually caused by a server-side issue.
+    /// - `UnsupportedCommandException` : The action isn't supported in this Region.
     public func getRepositoryPolicy(input: GetRepositoryPolicyInput) async throws -> GetRepositoryPolicyOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -586,6 +765,19 @@ extension ECRPUBLICClient: ECRPUBLICClientProtocol {
     }
 
     /// Notifies Amazon ECR that you intend to upload an image layer. When an image is pushed, the InitiateLayerUpload API is called once for each image layer that hasn't already been uploaded. Whether an image layer uploads is determined by the BatchCheckLayerAvailability API action. This operation is used by the Amazon ECR proxy and is not generally used by customers for pulling and pushing images. In most cases, you should use the docker CLI to pull, tag, and push images.
+    ///
+    /// - Parameter InitiateLayerUploadInput : [no documentation found]
+    ///
+    /// - Returns: `InitiateLayerUploadOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParameterException` : The specified parameter is invalid. Review the available parameters for the API request.
+    /// - `RegistryNotFoundException` : The registry doesn't exist.
+    /// - `RepositoryNotFoundException` : The specified repository can't be found. Check the spelling of the specified repository and ensure that you're performing operations on the correct registry.
+    /// - `ServerException` : These errors are usually caused by a server-side issue.
+    /// - `UnsupportedCommandException` : The action isn't supported in this Region.
     public func initiateLayerUpload(input: InitiateLayerUploadInput) async throws -> InitiateLayerUploadOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -623,6 +815,18 @@ extension ECRPUBLICClient: ECRPUBLICClientProtocol {
     }
 
     /// List the tags for an Amazon ECR Public resource.
+    ///
+    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    ///
+    /// - Returns: `ListTagsForResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParameterException` : The specified parameter is invalid. Review the available parameters for the API request.
+    /// - `RepositoryNotFoundException` : The specified repository can't be found. Check the spelling of the specified repository and ensure that you're performing operations on the correct registry.
+    /// - `ServerException` : These errors are usually caused by a server-side issue.
+    /// - `UnsupportedCommandException` : The action isn't supported in this Region.
     public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -660,6 +864,25 @@ extension ECRPUBLICClient: ECRPUBLICClientProtocol {
     }
 
     /// Creates or updates the image manifest and tags that are associated with an image. When an image is pushed and all new image layers have been uploaded, the PutImage API is called once to create or update the image manifest and the tags that are associated with the image. This operation is used by the Amazon ECR proxy and is not generally used by customers for pulling and pushing images. In most cases, you should use the docker CLI to pull, tag, and push images.
+    ///
+    /// - Parameter PutImageInput : [no documentation found]
+    ///
+    /// - Returns: `PutImageOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ImageAlreadyExistsException` : The specified image has already been pushed, and there were no changes to the manifest or image tag after the last push.
+    /// - `ImageDigestDoesNotMatchException` : The specified image digest doesn't match the digest that Amazon ECR calculated for the image.
+    /// - `ImageTagAlreadyExistsException` : The specified image is tagged with a tag that already exists. The repository is configured for tag immutability.
+    /// - `InvalidParameterException` : The specified parameter is invalid. Review the available parameters for the API request.
+    /// - `LayersNotFoundException` : The specified layers can't be found, or the specified layer isn't valid for this repository.
+    /// - `LimitExceededException` : The operation didn't succeed because it would have exceeded a service limit for your account. For more information, see [Amazon ECR Service Quotas](https://docs.aws.amazon.com/AmazonECR/latest/userguide/service-quotas.html) in the Amazon Elastic Container Registry User Guide.
+    /// - `ReferencedImagesNotFoundException` : The manifest list is referencing an image that doesn't exist.
+    /// - `RegistryNotFoundException` : The registry doesn't exist.
+    /// - `RepositoryNotFoundException` : The specified repository can't be found. Check the spelling of the specified repository and ensure that you're performing operations on the correct registry.
+    /// - `ServerException` : These errors are usually caused by a server-side issue.
+    /// - `UnsupportedCommandException` : The action isn't supported in this Region.
     public func putImage(input: PutImageInput) async throws -> PutImageOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -697,6 +920,17 @@ extension ECRPUBLICClient: ECRPUBLICClientProtocol {
     }
 
     /// Create or update the catalog data for a public registry.
+    ///
+    /// - Parameter PutRegistryCatalogDataInput : [no documentation found]
+    ///
+    /// - Returns: `PutRegistryCatalogDataOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParameterException` : The specified parameter is invalid. Review the available parameters for the API request.
+    /// - `ServerException` : These errors are usually caused by a server-side issue.
+    /// - `UnsupportedCommandException` : The action isn't supported in this Region.
     public func putRegistryCatalogData(input: PutRegistryCatalogDataInput) async throws -> PutRegistryCatalogDataOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -734,6 +968,18 @@ extension ECRPUBLICClient: ECRPUBLICClientProtocol {
     }
 
     /// Creates or updates the catalog data for a repository in a public registry.
+    ///
+    /// - Parameter PutRepositoryCatalogDataInput : [no documentation found]
+    ///
+    /// - Returns: `PutRepositoryCatalogDataOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParameterException` : The specified parameter is invalid. Review the available parameters for the API request.
+    /// - `RepositoryNotFoundException` : The specified repository can't be found. Check the spelling of the specified repository and ensure that you're performing operations on the correct registry.
+    /// - `ServerException` : These errors are usually caused by a server-side issue.
+    /// - `UnsupportedCommandException` : The action isn't supported in this Region.
     public func putRepositoryCatalogData(input: PutRepositoryCatalogDataInput) async throws -> PutRepositoryCatalogDataOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -771,6 +1017,18 @@ extension ECRPUBLICClient: ECRPUBLICClientProtocol {
     }
 
     /// Applies a repository policy to the specified public repository to control access permissions. For more information, see [Amazon ECR Repository Policies](https://docs.aws.amazon.com/AmazonECR/latest/userguide/repository-policies.html) in the Amazon Elastic Container Registry User Guide.
+    ///
+    /// - Parameter SetRepositoryPolicyInput : [no documentation found]
+    ///
+    /// - Returns: `SetRepositoryPolicyOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParameterException` : The specified parameter is invalid. Review the available parameters for the API request.
+    /// - `RepositoryNotFoundException` : The specified repository can't be found. Check the spelling of the specified repository and ensure that you're performing operations on the correct registry.
+    /// - `ServerException` : These errors are usually caused by a server-side issue.
+    /// - `UnsupportedCommandException` : The action isn't supported in this Region.
     public func setRepositoryPolicy(input: SetRepositoryPolicyInput) async throws -> SetRepositoryPolicyOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -808,6 +1066,20 @@ extension ECRPUBLICClient: ECRPUBLICClientProtocol {
     }
 
     /// Associates the specified tags to a resource with the specified resourceArn. If existing tags on a resource aren't specified in the request parameters, they aren't changed. When a resource is deleted, the tags associated with that resource are also deleted.
+    ///
+    /// - Parameter TagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `TagResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParameterException` : The specified parameter is invalid. Review the available parameters for the API request.
+    /// - `InvalidTagParameterException` : An invalid parameter has been specified. Tag keys can have a maximum character length of 128 characters, and tag values can have a maximum length of 256 characters.
+    /// - `RepositoryNotFoundException` : The specified repository can't be found. Check the spelling of the specified repository and ensure that you're performing operations on the correct registry.
+    /// - `ServerException` : These errors are usually caused by a server-side issue.
+    /// - `TooManyTagsException` : The list of tags on the repository is over the limit. The maximum number of tags that can be applied to a repository is 50.
+    /// - `UnsupportedCommandException` : The action isn't supported in this Region.
     public func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -845,6 +1117,20 @@ extension ECRPUBLICClient: ECRPUBLICClientProtocol {
     }
 
     /// Deletes specified tags from a resource.
+    ///
+    /// - Parameter UntagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `UntagResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParameterException` : The specified parameter is invalid. Review the available parameters for the API request.
+    /// - `InvalidTagParameterException` : An invalid parameter has been specified. Tag keys can have a maximum character length of 128 characters, and tag values can have a maximum length of 256 characters.
+    /// - `RepositoryNotFoundException` : The specified repository can't be found. Check the spelling of the specified repository and ensure that you're performing operations on the correct registry.
+    /// - `ServerException` : These errors are usually caused by a server-side issue.
+    /// - `TooManyTagsException` : The list of tags on the repository is over the limit. The maximum number of tags that can be applied to a repository is 50.
+    /// - `UnsupportedCommandException` : The action isn't supported in this Region.
     public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -882,6 +1168,22 @@ extension ECRPUBLICClient: ECRPUBLICClientProtocol {
     }
 
     /// Uploads an image layer part to Amazon ECR. When an image is pushed, each new image layer is uploaded in parts. The maximum size of each image layer part can be 20971520 bytes (about 20MB). The UploadLayerPart API is called once for each new image layer part. This operation is used by the Amazon ECR proxy and is not generally used by customers for pulling and pushing images. In most cases, you should use the docker CLI to pull, tag, and push images.
+    ///
+    /// - Parameter UploadLayerPartInput : [no documentation found]
+    ///
+    /// - Returns: `UploadLayerPartOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidLayerPartException` : The layer part size isn't valid, or the first byte specified isn't consecutive to the last byte of a previous layer part upload.
+    /// - `InvalidParameterException` : The specified parameter is invalid. Review the available parameters for the API request.
+    /// - `LimitExceededException` : The operation didn't succeed because it would have exceeded a service limit for your account. For more information, see [Amazon ECR Service Quotas](https://docs.aws.amazon.com/AmazonECR/latest/userguide/service-quotas.html) in the Amazon Elastic Container Registry User Guide.
+    /// - `RegistryNotFoundException` : The registry doesn't exist.
+    /// - `RepositoryNotFoundException` : The specified repository can't be found. Check the spelling of the specified repository and ensure that you're performing operations on the correct registry.
+    /// - `ServerException` : These errors are usually caused by a server-side issue.
+    /// - `UnsupportedCommandException` : The action isn't supported in this Region.
+    /// - `UploadNotFoundException` : The upload can't be found, or the specified upload ID isn't valid for this repository.
     public func uploadLayerPart(input: UploadLayerPartInput) async throws -> UploadLayerPartOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()

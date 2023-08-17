@@ -86,6 +86,16 @@ extension SWFClient: SWFClientProtocol {
     ///
     ///
     /// If the caller doesn't have sufficient permissions to invoke the action, or the parameter values fall outside the specified constraints, the action fails. The associated event attribute's cause parameter is set to OPERATION_NOT_PERMITTED. For details and example IAM policies, see [Using IAM to Manage Access to Amazon SWF Workflows](https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html) in the Amazon SWF Developer Guide.
+    ///
+    /// - Parameter CountClosedWorkflowExecutionsInput : [no documentation found]
+    ///
+    /// - Returns: `CountClosedWorkflowExecutionsOutputResponse` : Contains the count of workflow executions returned from [CountOpenWorkflowExecutions] or [CountClosedWorkflowExecutions]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `OperationNotPermittedFault` : Returned when the caller doesn't have sufficient permissions to invoke the action.
+    /// - `UnknownResourceFault` : Returned when the named resource cannot be found with in the scope of this operation (region or domain). This could happen if the named resource was never created or is no longer available for this operation.
     public func countClosedWorkflowExecutions(input: CountClosedWorkflowExecutionsInput) async throws -> CountClosedWorkflowExecutionsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -141,6 +151,16 @@ extension SWFClient: SWFClientProtocol {
     ///
     ///
     /// If the caller doesn't have sufficient permissions to invoke the action, or the parameter values fall outside the specified constraints, the action fails. The associated event attribute's cause parameter is set to OPERATION_NOT_PERMITTED. For details and example IAM policies, see [Using IAM to Manage Access to Amazon SWF Workflows](https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html) in the Amazon SWF Developer Guide.
+    ///
+    /// - Parameter CountOpenWorkflowExecutionsInput : [no documentation found]
+    ///
+    /// - Returns: `CountOpenWorkflowExecutionsOutputResponse` : Contains the count of workflow executions returned from [CountOpenWorkflowExecutions] or [CountClosedWorkflowExecutions]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `OperationNotPermittedFault` : Returned when the caller doesn't have sufficient permissions to invoke the action.
+    /// - `UnknownResourceFault` : Returned when the named resource cannot be found with in the scope of this operation (region or domain). This could happen if the named resource was never created or is no longer available for this operation.
     public func countOpenWorkflowExecutions(input: CountOpenWorkflowExecutionsInput) async throws -> CountOpenWorkflowExecutionsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -187,6 +207,16 @@ extension SWFClient: SWFClientProtocol {
     ///
     ///
     /// If the caller doesn't have sufficient permissions to invoke the action, or the parameter values fall outside the specified constraints, the action fails. The associated event attribute's cause parameter is set to OPERATION_NOT_PERMITTED. For details and example IAM policies, see [Using IAM to Manage Access to Amazon SWF Workflows](https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html) in the Amazon SWF Developer Guide.
+    ///
+    /// - Parameter CountPendingActivityTasksInput : [no documentation found]
+    ///
+    /// - Returns: `CountPendingActivityTasksOutputResponse` : Contains the count of tasks in a task list.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `OperationNotPermittedFault` : Returned when the caller doesn't have sufficient permissions to invoke the action.
+    /// - `UnknownResourceFault` : Returned when the named resource cannot be found with in the scope of this operation (region or domain). This could happen if the named resource was never created or is no longer available for this operation.
     public func countPendingActivityTasks(input: CountPendingActivityTasksInput) async throws -> CountPendingActivityTasksOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -233,6 +263,16 @@ extension SWFClient: SWFClientProtocol {
     ///
     ///
     /// If the caller doesn't have sufficient permissions to invoke the action, or the parameter values fall outside the specified constraints, the action fails. The associated event attribute's cause parameter is set to OPERATION_NOT_PERMITTED. For details and example IAM policies, see [Using IAM to Manage Access to Amazon SWF Workflows](https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html) in the Amazon SWF Developer Guide.
+    ///
+    /// - Parameter CountPendingDecisionTasksInput : [no documentation found]
+    ///
+    /// - Returns: `CountPendingDecisionTasksOutputResponse` : Contains the count of tasks in a task list.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `OperationNotPermittedFault` : Returned when the caller doesn't have sufficient permissions to invoke the action.
+    /// - `UnknownResourceFault` : Returned when the named resource cannot be found with in the scope of this operation (region or domain). This could happen if the named resource was never created or is no longer available for this operation.
     public func countPendingDecisionTasks(input: CountPendingDecisionTasksInput) async throws -> CountPendingDecisionTasksOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -286,6 +326,17 @@ extension SWFClient: SWFClientProtocol {
     ///
     ///
     /// If the caller doesn't have sufficient permissions to invoke the action, or the parameter values fall outside the specified constraints, the action fails. The associated event attribute's cause parameter is set to OPERATION_NOT_PERMITTED. For details and example IAM policies, see [Using IAM to Manage Access to Amazon SWF Workflows](https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html) in the Amazon SWF Developer Guide.
+    ///
+    /// - Parameter DeprecateActivityTypeInput : [no documentation found]
+    ///
+    /// - Returns: `DeprecateActivityTypeOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `OperationNotPermittedFault` : Returned when the caller doesn't have sufficient permissions to invoke the action.
+    /// - `TypeDeprecatedFault` : Returned when the specified activity or workflow type was already deprecated.
+    /// - `UnknownResourceFault` : Returned when the named resource cannot be found with in the scope of this operation (region or domain). This could happen if the named resource was never created or is no longer available for this operation.
     public func deprecateActivityType(input: DeprecateActivityTypeInput) async throws -> DeprecateActivityTypeOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -332,6 +383,17 @@ extension SWFClient: SWFClientProtocol {
     ///
     ///
     /// If the caller doesn't have sufficient permissions to invoke the action, or the parameter values fall outside the specified constraints, the action fails. The associated event attribute's cause parameter is set to OPERATION_NOT_PERMITTED. For details and example IAM policies, see [Using IAM to Manage Access to Amazon SWF Workflows](https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html) in the Amazon SWF Developer Guide.
+    ///
+    /// - Parameter DeprecateDomainInput : [no documentation found]
+    ///
+    /// - Returns: `DeprecateDomainOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DomainDeprecatedFault` : Returned when the specified domain has been deprecated.
+    /// - `OperationNotPermittedFault` : Returned when the caller doesn't have sufficient permissions to invoke the action.
+    /// - `UnknownResourceFault` : Returned when the named resource cannot be found with in the scope of this operation (region or domain). This could happen if the named resource was never created or is no longer available for this operation.
     public func deprecateDomain(input: DeprecateDomainInput) async throws -> DeprecateDomainOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -385,6 +447,17 @@ extension SWFClient: SWFClientProtocol {
     ///
     ///
     /// If the caller doesn't have sufficient permissions to invoke the action, or the parameter values fall outside the specified constraints, the action fails. The associated event attribute's cause parameter is set to OPERATION_NOT_PERMITTED. For details and example IAM policies, see [Using IAM to Manage Access to Amazon SWF Workflows](https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html) in the Amazon SWF Developer Guide.
+    ///
+    /// - Parameter DeprecateWorkflowTypeInput : [no documentation found]
+    ///
+    /// - Returns: `DeprecateWorkflowTypeOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `OperationNotPermittedFault` : Returned when the caller doesn't have sufficient permissions to invoke the action.
+    /// - `TypeDeprecatedFault` : Returned when the specified activity or workflow type was already deprecated.
+    /// - `UnknownResourceFault` : Returned when the named resource cannot be found with in the scope of this operation (region or domain). This could happen if the named resource was never created or is no longer available for this operation.
     public func deprecateWorkflowType(input: DeprecateWorkflowTypeInput) async throws -> DeprecateWorkflowTypeOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -438,6 +511,16 @@ extension SWFClient: SWFClientProtocol {
     ///
     ///
     /// If the caller doesn't have sufficient permissions to invoke the action, or the parameter values fall outside the specified constraints, the action fails. The associated event attribute's cause parameter is set to OPERATION_NOT_PERMITTED. For details and example IAM policies, see [Using IAM to Manage Access to Amazon SWF Workflows](https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html) in the Amazon SWF Developer Guide.
+    ///
+    /// - Parameter DescribeActivityTypeInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeActivityTypeOutputResponse` : Detailed information about an activity type.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `OperationNotPermittedFault` : Returned when the caller doesn't have sufficient permissions to invoke the action.
+    /// - `UnknownResourceFault` : Returned when the named resource cannot be found with in the scope of this operation (region or domain). This could happen if the named resource was never created or is no longer available for this operation.
     public func describeActivityType(input: DescribeActivityTypeInput) async throws -> DescribeActivityTypeOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -484,6 +567,16 @@ extension SWFClient: SWFClientProtocol {
     ///
     ///
     /// If the caller doesn't have sufficient permissions to invoke the action, or the parameter values fall outside the specified constraints, the action fails. The associated event attribute's cause parameter is set to OPERATION_NOT_PERMITTED. For details and example IAM policies, see [Using IAM to Manage Access to Amazon SWF Workflows](https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html) in the Amazon SWF Developer Guide.
+    ///
+    /// - Parameter DescribeDomainInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeDomainOutputResponse` : Contains details of a domain.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `OperationNotPermittedFault` : Returned when the caller doesn't have sufficient permissions to invoke the action.
+    /// - `UnknownResourceFault` : Returned when the named resource cannot be found with in the scope of this operation (region or domain). This could happen if the named resource was never created or is no longer available for this operation.
     public func describeDomain(input: DescribeDomainInput) async throws -> DescribeDomainOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -530,6 +623,16 @@ extension SWFClient: SWFClientProtocol {
     ///
     ///
     /// If the caller doesn't have sufficient permissions to invoke the action, or the parameter values fall outside the specified constraints, the action fails. The associated event attribute's cause parameter is set to OPERATION_NOT_PERMITTED. For details and example IAM policies, see [Using IAM to Manage Access to Amazon SWF Workflows](https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html) in the Amazon SWF Developer Guide.
+    ///
+    /// - Parameter DescribeWorkflowExecutionInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeWorkflowExecutionOutputResponse` : Contains details about a workflow execution.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `OperationNotPermittedFault` : Returned when the caller doesn't have sufficient permissions to invoke the action.
+    /// - `UnknownResourceFault` : Returned when the named resource cannot be found with in the scope of this operation (region or domain). This could happen if the named resource was never created or is no longer available for this operation.
     public func describeWorkflowExecution(input: DescribeWorkflowExecutionInput) async throws -> DescribeWorkflowExecutionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -583,6 +686,16 @@ extension SWFClient: SWFClientProtocol {
     ///
     ///
     /// If the caller doesn't have sufficient permissions to invoke the action, or the parameter values fall outside the specified constraints, the action fails. The associated event attribute's cause parameter is set to OPERATION_NOT_PERMITTED. For details and example IAM policies, see [Using IAM to Manage Access to Amazon SWF Workflows](https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html) in the Amazon SWF Developer Guide.
+    ///
+    /// - Parameter DescribeWorkflowTypeInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeWorkflowTypeOutputResponse` : Contains details about a workflow type.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `OperationNotPermittedFault` : Returned when the caller doesn't have sufficient permissions to invoke the action.
+    /// - `UnknownResourceFault` : Returned when the named resource cannot be found with in the scope of this operation (region or domain). This could happen if the named resource was never created or is no longer available for this operation.
     public func describeWorkflowType(input: DescribeWorkflowTypeInput) async throws -> DescribeWorkflowTypeOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -629,6 +742,16 @@ extension SWFClient: SWFClientProtocol {
     ///
     ///
     /// If the caller doesn't have sufficient permissions to invoke the action, or the parameter values fall outside the specified constraints, the action fails. The associated event attribute's cause parameter is set to OPERATION_NOT_PERMITTED. For details and example IAM policies, see [Using IAM to Manage Access to Amazon SWF Workflows](https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html) in the Amazon SWF Developer Guide.
+    ///
+    /// - Parameter GetWorkflowExecutionHistoryInput : [no documentation found]
+    ///
+    /// - Returns: `GetWorkflowExecutionHistoryOutputResponse` : Paginated representation of a workflow history for a workflow execution. This is the up to date, complete and authoritative record of the events related to all tasks and events in the life of the workflow execution.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `OperationNotPermittedFault` : Returned when the caller doesn't have sufficient permissions to invoke the action.
+    /// - `UnknownResourceFault` : Returned when the named resource cannot be found with in the scope of this operation (region or domain). This could happen if the named resource was never created or is no longer available for this operation.
     public func getWorkflowExecutionHistory(input: GetWorkflowExecutionHistoryInput) async throws -> GetWorkflowExecutionHistoryOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -675,6 +798,16 @@ extension SWFClient: SWFClientProtocol {
     ///
     ///
     /// If the caller doesn't have sufficient permissions to invoke the action, or the parameter values fall outside the specified constraints, the action fails. The associated event attribute's cause parameter is set to OPERATION_NOT_PERMITTED. For details and example IAM policies, see [Using IAM to Manage Access to Amazon SWF Workflows](https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html) in the Amazon SWF Developer Guide.
+    ///
+    /// - Parameter ListActivityTypesInput : [no documentation found]
+    ///
+    /// - Returns: `ListActivityTypesOutputResponse` : Contains a paginated list of activity type information structures.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `OperationNotPermittedFault` : Returned when the caller doesn't have sufficient permissions to invoke the action.
+    /// - `UnknownResourceFault` : Returned when the named resource cannot be found with in the scope of this operation (region or domain). This could happen if the named resource was never created or is no longer available for this operation.
     public func listActivityTypes(input: ListActivityTypesInput) async throws -> ListActivityTypesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -730,6 +863,16 @@ extension SWFClient: SWFClientProtocol {
     ///
     ///
     /// If the caller doesn't have sufficient permissions to invoke the action, or the parameter values fall outside the specified constraints, the action fails. The associated event attribute's cause parameter is set to OPERATION_NOT_PERMITTED. For details and example IAM policies, see [Using IAM to Manage Access to Amazon SWF Workflows](https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html) in the Amazon SWF Developer Guide.
+    ///
+    /// - Parameter ListClosedWorkflowExecutionsInput : [no documentation found]
+    ///
+    /// - Returns: `ListClosedWorkflowExecutionsOutputResponse` : Contains a paginated list of information about workflow executions.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `OperationNotPermittedFault` : Returned when the caller doesn't have sufficient permissions to invoke the action.
+    /// - `UnknownResourceFault` : Returned when the named resource cannot be found with in the scope of this operation (region or domain). This could happen if the named resource was never created or is no longer available for this operation.
     public func listClosedWorkflowExecutions(input: ListClosedWorkflowExecutionsInput) async throws -> ListClosedWorkflowExecutionsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -776,6 +919,15 @@ extension SWFClient: SWFClientProtocol {
     ///
     ///
     /// If the caller doesn't have sufficient permissions to invoke the action, or the parameter values fall outside the specified constraints, the action fails. The associated event attribute's cause parameter is set to OPERATION_NOT_PERMITTED. For details and example IAM policies, see [Using IAM to Manage Access to Amazon SWF Workflows](https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html) in the Amazon SWF Developer Guide.
+    ///
+    /// - Parameter ListDomainsInput : [no documentation found]
+    ///
+    /// - Returns: `ListDomainsOutputResponse` : Contains a paginated collection of DomainInfo structures.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `OperationNotPermittedFault` : Returned when the caller doesn't have sufficient permissions to invoke the action.
     public func listDomains(input: ListDomainsInput) async throws -> ListDomainsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -831,6 +983,16 @@ extension SWFClient: SWFClientProtocol {
     ///
     ///
     /// If the caller doesn't have sufficient permissions to invoke the action, or the parameter values fall outside the specified constraints, the action fails. The associated event attribute's cause parameter is set to OPERATION_NOT_PERMITTED. For details and example IAM policies, see [Using IAM to Manage Access to Amazon SWF Workflows](https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html) in the Amazon SWF Developer Guide.
+    ///
+    /// - Parameter ListOpenWorkflowExecutionsInput : [no documentation found]
+    ///
+    /// - Returns: `ListOpenWorkflowExecutionsOutputResponse` : Contains a paginated list of information about workflow executions.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `OperationNotPermittedFault` : Returned when the caller doesn't have sufficient permissions to invoke the action.
+    /// - `UnknownResourceFault` : Returned when the named resource cannot be found with in the scope of this operation (region or domain). This could happen if the named resource was never created or is no longer available for this operation.
     public func listOpenWorkflowExecutions(input: ListOpenWorkflowExecutionsInput) async throws -> ListOpenWorkflowExecutionsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -868,6 +1030,17 @@ extension SWFClient: SWFClientProtocol {
     }
 
     /// List tags for a given domain.
+    ///
+    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    ///
+    /// - Returns: `ListTagsForResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `LimitExceededFault` : Returned by any operation if a system imposed limitation has been reached. To address this fault you should either clean up unused resources or increase the limit by contacting AWS.
+    /// - `OperationNotPermittedFault` : Returned when the caller doesn't have sufficient permissions to invoke the action.
+    /// - `UnknownResourceFault` : Returned when the named resource cannot be found with in the scope of this operation (region or domain). This could happen if the named resource was never created or is no longer available for this operation.
     public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -914,6 +1087,16 @@ extension SWFClient: SWFClientProtocol {
     ///
     ///
     /// If the caller doesn't have sufficient permissions to invoke the action, or the parameter values fall outside the specified constraints, the action fails. The associated event attribute's cause parameter is set to OPERATION_NOT_PERMITTED. For details and example IAM policies, see [Using IAM to Manage Access to Amazon SWF Workflows](https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html) in the Amazon SWF Developer Guide.
+    ///
+    /// - Parameter ListWorkflowTypesInput : [no documentation found]
+    ///
+    /// - Returns: `ListWorkflowTypesOutputResponse` : Contains a paginated list of information structures about workflow types.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `OperationNotPermittedFault` : Returned when the caller doesn't have sufficient permissions to invoke the action.
+    /// - `UnknownResourceFault` : Returned when the named resource cannot be found with in the scope of this operation (region or domain). This could happen if the named resource was never created or is no longer available for this operation.
     public func listWorkflowTypes(input: ListWorkflowTypesInput) async throws -> ListWorkflowTypesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -960,6 +1143,17 @@ extension SWFClient: SWFClientProtocol {
     ///
     ///
     /// If the caller doesn't have sufficient permissions to invoke the action, or the parameter values fall outside the specified constraints, the action fails. The associated event attribute's cause parameter is set to OPERATION_NOT_PERMITTED. For details and example IAM policies, see [Using IAM to Manage Access to Amazon SWF Workflows](https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html) in the Amazon SWF Developer Guide.
+    ///
+    /// - Parameter PollForActivityTaskInput : [no documentation found]
+    ///
+    /// - Returns: `PollForActivityTaskOutputResponse` : Unit of work sent to an activity worker.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `LimitExceededFault` : Returned by any operation if a system imposed limitation has been reached. To address this fault you should either clean up unused resources or increase the limit by contacting AWS.
+    /// - `OperationNotPermittedFault` : Returned when the caller doesn't have sufficient permissions to invoke the action.
+    /// - `UnknownResourceFault` : Returned when the named resource cannot be found with in the scope of this operation (region or domain). This could happen if the named resource was never created or is no longer available for this operation.
     public func pollForActivityTask(input: PollForActivityTaskInput) async throws -> PollForActivityTaskOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1006,6 +1200,17 @@ extension SWFClient: SWFClientProtocol {
     ///
     ///
     /// If the caller doesn't have sufficient permissions to invoke the action, or the parameter values fall outside the specified constraints, the action fails. The associated event attribute's cause parameter is set to OPERATION_NOT_PERMITTED. For details and example IAM policies, see [Using IAM to Manage Access to Amazon SWF Workflows](https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html) in the Amazon SWF Developer Guide.
+    ///
+    /// - Parameter PollForDecisionTaskInput : [no documentation found]
+    ///
+    /// - Returns: `PollForDecisionTaskOutputResponse` : A structure that represents a decision task. Decision tasks are sent to deciders in order for them to make decisions.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `LimitExceededFault` : Returned by any operation if a system imposed limitation has been reached. To address this fault you should either clean up unused resources or increase the limit by contacting AWS.
+    /// - `OperationNotPermittedFault` : Returned when the caller doesn't have sufficient permissions to invoke the action.
+    /// - `UnknownResourceFault` : Returned when the named resource cannot be found with in the scope of this operation (region or domain). This could happen if the named resource was never created or is no longer available for this operation.
     public func pollForDecisionTask(input: PollForDecisionTaskInput) async throws -> PollForDecisionTaskOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1052,6 +1257,16 @@ extension SWFClient: SWFClientProtocol {
     ///
     ///
     /// If the caller doesn't have sufficient permissions to invoke the action, or the parameter values fall outside the specified constraints, the action fails. The associated event attribute's cause parameter is set to OPERATION_NOT_PERMITTED. For details and example IAM policies, see [Using IAM to Manage Access to Amazon SWF Workflows](https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html) in the Amazon SWF Developer Guide.
+    ///
+    /// - Parameter RecordActivityTaskHeartbeatInput : [no documentation found]
+    ///
+    /// - Returns: `RecordActivityTaskHeartbeatOutputResponse` : Status information about an activity task.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `OperationNotPermittedFault` : Returned when the caller doesn't have sufficient permissions to invoke the action.
+    /// - `UnknownResourceFault` : Returned when the named resource cannot be found with in the scope of this operation (region or domain). This could happen if the named resource was never created or is no longer available for this operation.
     public func recordActivityTaskHeartbeat(input: RecordActivityTaskHeartbeatInput) async throws -> RecordActivityTaskHeartbeatOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1107,6 +1322,18 @@ extension SWFClient: SWFClientProtocol {
     ///
     ///
     /// If the caller doesn't have sufficient permissions to invoke the action, or the parameter values fall outside the specified constraints, the action fails. The associated event attribute's cause parameter is set to OPERATION_NOT_PERMITTED. For details and example IAM policies, see [Using IAM to Manage Access to Amazon SWF Workflows](https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html) in the Amazon SWF Developer Guide.
+    ///
+    /// - Parameter RegisterActivityTypeInput : [no documentation found]
+    ///
+    /// - Returns: `RegisterActivityTypeOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `LimitExceededFault` : Returned by any operation if a system imposed limitation has been reached. To address this fault you should either clean up unused resources or increase the limit by contacting AWS.
+    /// - `OperationNotPermittedFault` : Returned when the caller doesn't have sufficient permissions to invoke the action.
+    /// - `TypeAlreadyExistsFault` : Returned if the type already exists in the specified domain. You may get this fault if you are registering a type that is either already registered or deprecated, or if you undeprecate a type that is currently registered.
+    /// - `UnknownResourceFault` : Returned when the named resource cannot be found with in the scope of this operation (region or domain). This could happen if the named resource was never created or is no longer available for this operation.
     public func registerActivityType(input: RegisterActivityTypeInput) async throws -> RegisterActivityTypeOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1153,6 +1380,18 @@ extension SWFClient: SWFClientProtocol {
     ///
     ///
     /// If the caller doesn't have sufficient permissions to invoke the action, or the parameter values fall outside the specified constraints, the action fails. The associated event attribute's cause parameter is set to OPERATION_NOT_PERMITTED. For details and example IAM policies, see [Using IAM to Manage Access to Amazon SWF Workflows](https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html) in the Amazon SWF Developer Guide.
+    ///
+    /// - Parameter RegisterDomainInput : [no documentation found]
+    ///
+    /// - Returns: `RegisterDomainOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DomainAlreadyExistsFault` : Returned if the domain already exists. You may get this fault if you are registering a domain that is either already registered or deprecated, or if you undeprecate a domain that is currently registered.
+    /// - `LimitExceededFault` : Returned by any operation if a system imposed limitation has been reached. To address this fault you should either clean up unused resources or increase the limit by contacting AWS.
+    /// - `OperationNotPermittedFault` : Returned when the caller doesn't have sufficient permissions to invoke the action.
+    /// - `TooManyTagsFault` : You've exceeded the number of tags allowed for a domain.
     public func registerDomain(input: RegisterDomainInput) async throws -> RegisterDomainOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1208,6 +1447,18 @@ extension SWFClient: SWFClientProtocol {
     ///
     ///
     /// If the caller doesn't have sufficient permissions to invoke the action, or the parameter values fall outside the specified constraints, the action fails. The associated event attribute's cause parameter is set to OPERATION_NOT_PERMITTED. For details and example IAM policies, see [Using IAM to Manage Access to Amazon SWF Workflows](https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html) in the Amazon SWF Developer Guide.
+    ///
+    /// - Parameter RegisterWorkflowTypeInput : [no documentation found]
+    ///
+    /// - Returns: `RegisterWorkflowTypeOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `LimitExceededFault` : Returned by any operation if a system imposed limitation has been reached. To address this fault you should either clean up unused resources or increase the limit by contacting AWS.
+    /// - `OperationNotPermittedFault` : Returned when the caller doesn't have sufficient permissions to invoke the action.
+    /// - `TypeAlreadyExistsFault` : Returned if the type already exists in the specified domain. You may get this fault if you are registering a type that is either already registered or deprecated, or if you undeprecate a type that is currently registered.
+    /// - `UnknownResourceFault` : Returned when the named resource cannot be found with in the scope of this operation (region or domain). This could happen if the named resource was never created or is no longer available for this operation.
     public func registerWorkflowType(input: RegisterWorkflowTypeInput) async throws -> RegisterWorkflowTypeOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1254,6 +1505,16 @@ extension SWFClient: SWFClientProtocol {
     ///
     ///
     /// If the caller doesn't have sufficient permissions to invoke the action, or the parameter values fall outside the specified constraints, the action fails. The associated event attribute's cause parameter is set to OPERATION_NOT_PERMITTED. For details and example IAM policies, see [Using IAM to Manage Access to Amazon SWF Workflows](https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html) in the Amazon SWF Developer Guide.
+    ///
+    /// - Parameter RequestCancelWorkflowExecutionInput : [no documentation found]
+    ///
+    /// - Returns: `RequestCancelWorkflowExecutionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `OperationNotPermittedFault` : Returned when the caller doesn't have sufficient permissions to invoke the action.
+    /// - `UnknownResourceFault` : Returned when the named resource cannot be found with in the scope of this operation (region or domain). This could happen if the named resource was never created or is no longer available for this operation.
     public func requestCancelWorkflowExecution(input: RequestCancelWorkflowExecutionInput) async throws -> RequestCancelWorkflowExecutionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1300,6 +1561,16 @@ extension SWFClient: SWFClientProtocol {
     ///
     ///
     /// If the caller doesn't have sufficient permissions to invoke the action, or the parameter values fall outside the specified constraints, the action fails. The associated event attribute's cause parameter is set to OPERATION_NOT_PERMITTED. For details and example IAM policies, see [Using IAM to Manage Access to Amazon SWF Workflows](https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html) in the Amazon SWF Developer Guide.
+    ///
+    /// - Parameter RespondActivityTaskCanceledInput : [no documentation found]
+    ///
+    /// - Returns: `RespondActivityTaskCanceledOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `OperationNotPermittedFault` : Returned when the caller doesn't have sufficient permissions to invoke the action.
+    /// - `UnknownResourceFault` : Returned when the named resource cannot be found with in the scope of this operation (region or domain). This could happen if the named resource was never created or is no longer available for this operation.
     public func respondActivityTaskCanceled(input: RespondActivityTaskCanceledInput) async throws -> RespondActivityTaskCanceledOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1346,6 +1617,16 @@ extension SWFClient: SWFClientProtocol {
     ///
     ///
     /// If the caller doesn't have sufficient permissions to invoke the action, or the parameter values fall outside the specified constraints, the action fails. The associated event attribute's cause parameter is set to OPERATION_NOT_PERMITTED. For details and example IAM policies, see [Using IAM to Manage Access to Amazon SWF Workflows](https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html) in the Amazon SWF Developer Guide.
+    ///
+    /// - Parameter RespondActivityTaskCompletedInput : [no documentation found]
+    ///
+    /// - Returns: `RespondActivityTaskCompletedOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `OperationNotPermittedFault` : Returned when the caller doesn't have sufficient permissions to invoke the action.
+    /// - `UnknownResourceFault` : Returned when the named resource cannot be found with in the scope of this operation (region or domain). This could happen if the named resource was never created or is no longer available for this operation.
     public func respondActivityTaskCompleted(input: RespondActivityTaskCompletedInput) async throws -> RespondActivityTaskCompletedOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1392,6 +1673,16 @@ extension SWFClient: SWFClientProtocol {
     ///
     ///
     /// If the caller doesn't have sufficient permissions to invoke the action, or the parameter values fall outside the specified constraints, the action fails. The associated event attribute's cause parameter is set to OPERATION_NOT_PERMITTED. For details and example IAM policies, see [Using IAM to Manage Access to Amazon SWF Workflows](https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html) in the Amazon SWF Developer Guide.
+    ///
+    /// - Parameter RespondActivityTaskFailedInput : [no documentation found]
+    ///
+    /// - Returns: `RespondActivityTaskFailedOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `OperationNotPermittedFault` : Returned when the caller doesn't have sufficient permissions to invoke the action.
+    /// - `UnknownResourceFault` : Returned when the named resource cannot be found with in the scope of this operation (region or domain). This could happen if the named resource was never created or is no longer available for this operation.
     public func respondActivityTaskFailed(input: RespondActivityTaskFailedInput) async throws -> RespondActivityTaskFailedOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1429,6 +1720,16 @@ extension SWFClient: SWFClientProtocol {
     }
 
     /// Used by deciders to tell the service that the [DecisionTask] identified by the taskToken has successfully completed. The decisions argument specifies the list of decisions made while processing the task. A DecisionTaskCompleted event is added to the workflow history. The executionContext specified is attached to the event in the workflow execution history. Access Control If an IAM policy grants permission to use RespondDecisionTaskCompleted, it can express permissions for the list of decisions in the decisions parameter. Each of the decisions has one or more parameters, much like a regular API call. To allow for policies to be as readable as possible, you can express permissions on decisions as if they were actual API calls, including applying conditions to some parameters. For more information, see [Using IAM to Manage Access to Amazon SWF Workflows](https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html) in the Amazon SWF Developer Guide.
+    ///
+    /// - Parameter RespondDecisionTaskCompletedInput : Input data for a TaskCompleted response to a decision task.
+    ///
+    /// - Returns: `RespondDecisionTaskCompletedOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `OperationNotPermittedFault` : Returned when the caller doesn't have sufficient permissions to invoke the action.
+    /// - `UnknownResourceFault` : Returned when the named resource cannot be found with in the scope of this operation (region or domain). This could happen if the named resource was never created or is no longer available for this operation.
     public func respondDecisionTaskCompleted(input: RespondDecisionTaskCompletedInput) async throws -> RespondDecisionTaskCompletedOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1475,6 +1776,16 @@ extension SWFClient: SWFClientProtocol {
     ///
     ///
     /// If the caller doesn't have sufficient permissions to invoke the action, or the parameter values fall outside the specified constraints, the action fails. The associated event attribute's cause parameter is set to OPERATION_NOT_PERMITTED. For details and example IAM policies, see [Using IAM to Manage Access to Amazon SWF Workflows](https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html) in the Amazon SWF Developer Guide.
+    ///
+    /// - Parameter SignalWorkflowExecutionInput : [no documentation found]
+    ///
+    /// - Returns: `SignalWorkflowExecutionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `OperationNotPermittedFault` : Returned when the caller doesn't have sufficient permissions to invoke the action.
+    /// - `UnknownResourceFault` : Returned when the named resource cannot be found with in the scope of this operation (region or domain). This could happen if the named resource was never created or is no longer available for this operation.
     public func signalWorkflowExecution(input: SignalWorkflowExecutionInput) async throws -> SignalWorkflowExecutionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1540,6 +1851,20 @@ extension SWFClient: SWFClientProtocol {
     ///
     ///
     /// If the caller doesn't have sufficient permissions to invoke the action, or the parameter values fall outside the specified constraints, the action fails. The associated event attribute's cause parameter is set to OPERATION_NOT_PERMITTED. For details and example IAM policies, see [Using IAM to Manage Access to Amazon SWF Workflows](https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html) in the Amazon SWF Developer Guide.
+    ///
+    /// - Parameter StartWorkflowExecutionInput : [no documentation found]
+    ///
+    /// - Returns: `StartWorkflowExecutionOutputResponse` : Specifies the runId of a workflow execution.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DefaultUndefinedFault` : The StartWorkflowExecution API action was called without the required parameters set. Some workflow execution parameters, such as the decision taskList, must be set to start the execution. However, these parameters might have been set as defaults when the workflow type was registered. In this case, you can omit these parameters from the StartWorkflowExecution call and Amazon SWF uses the values defined in the workflow type. If these parameters aren't set and no default parameters were defined in the workflow type, this error is displayed.
+    /// - `LimitExceededFault` : Returned by any operation if a system imposed limitation has been reached. To address this fault you should either clean up unused resources or increase the limit by contacting AWS.
+    /// - `OperationNotPermittedFault` : Returned when the caller doesn't have sufficient permissions to invoke the action.
+    /// - `TypeDeprecatedFault` : Returned when the specified activity or workflow type was already deprecated.
+    /// - `UnknownResourceFault` : Returned when the named resource cannot be found with in the scope of this operation (region or domain). This could happen if the named resource was never created or is no longer available for this operation.
+    /// - `WorkflowExecutionAlreadyStartedFault` : Returned by [StartWorkflowExecution] when an open execution with the same workflowId is already running in the specified domain.
     public func startWorkflowExecution(input: StartWorkflowExecutionInput) async throws -> StartWorkflowExecutionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1577,6 +1902,18 @@ extension SWFClient: SWFClientProtocol {
     }
 
     /// Add a tag to a Amazon SWF domain. Amazon SWF supports a maximum of 50 tags per resource.
+    ///
+    /// - Parameter TagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `TagResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `LimitExceededFault` : Returned by any operation if a system imposed limitation has been reached. To address this fault you should either clean up unused resources or increase the limit by contacting AWS.
+    /// - `OperationNotPermittedFault` : Returned when the caller doesn't have sufficient permissions to invoke the action.
+    /// - `TooManyTagsFault` : You've exceeded the number of tags allowed for a domain.
+    /// - `UnknownResourceFault` : Returned when the named resource cannot be found with in the scope of this operation (region or domain). This could happen if the named resource was never created or is no longer available for this operation.
     public func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1623,6 +1960,16 @@ extension SWFClient: SWFClientProtocol {
     ///
     ///
     /// If the caller doesn't have sufficient permissions to invoke the action, or the parameter values fall outside the specified constraints, the action fails. The associated event attribute's cause parameter is set to OPERATION_NOT_PERMITTED. For details and example IAM policies, see [Using IAM to Manage Access to Amazon SWF Workflows](https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html) in the Amazon SWF Developer Guide.
+    ///
+    /// - Parameter TerminateWorkflowExecutionInput : [no documentation found]
+    ///
+    /// - Returns: `TerminateWorkflowExecutionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `OperationNotPermittedFault` : Returned when the caller doesn't have sufficient permissions to invoke the action.
+    /// - `UnknownResourceFault` : Returned when the named resource cannot be found with in the scope of this operation (region or domain). This could happen if the named resource was never created or is no longer available for this operation.
     public func terminateWorkflowExecution(input: TerminateWorkflowExecutionInput) async throws -> TerminateWorkflowExecutionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1676,6 +2023,17 @@ extension SWFClient: SWFClientProtocol {
     ///
     ///
     /// If the caller doesn't have sufficient permissions to invoke the action, or the parameter values fall outside the specified constraints, the action fails. The associated event attribute's cause parameter is set to OPERATION_NOT_PERMITTED. For details and example IAM policies, see [Using IAM to Manage Access to Amazon SWF Workflows](https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html) in the Amazon SWF Developer Guide.
+    ///
+    /// - Parameter UndeprecateActivityTypeInput : [no documentation found]
+    ///
+    /// - Returns: `UndeprecateActivityTypeOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `OperationNotPermittedFault` : Returned when the caller doesn't have sufficient permissions to invoke the action.
+    /// - `TypeAlreadyExistsFault` : Returned if the type already exists in the specified domain. You may get this fault if you are registering a type that is either already registered or deprecated, or if you undeprecate a type that is currently registered.
+    /// - `UnknownResourceFault` : Returned when the named resource cannot be found with in the scope of this operation (region or domain). This could happen if the named resource was never created or is no longer available for this operation.
     public func undeprecateActivityType(input: UndeprecateActivityTypeInput) async throws -> UndeprecateActivityTypeOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1722,6 +2080,17 @@ extension SWFClient: SWFClientProtocol {
     ///
     ///
     /// If the caller doesn't have sufficient permissions to invoke the action, or the parameter values fall outside the specified constraints, the action fails. The associated event attribute's cause parameter is set to OPERATION_NOT_PERMITTED. For details and example IAM policies, see [Using IAM to Manage Access to Amazon SWF Workflows](https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html) in the Amazon SWF Developer Guide.
+    ///
+    /// - Parameter UndeprecateDomainInput : [no documentation found]
+    ///
+    /// - Returns: `UndeprecateDomainOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DomainAlreadyExistsFault` : Returned if the domain already exists. You may get this fault if you are registering a domain that is either already registered or deprecated, or if you undeprecate a domain that is currently registered.
+    /// - `OperationNotPermittedFault` : Returned when the caller doesn't have sufficient permissions to invoke the action.
+    /// - `UnknownResourceFault` : Returned when the named resource cannot be found with in the scope of this operation (region or domain). This could happen if the named resource was never created or is no longer available for this operation.
     public func undeprecateDomain(input: UndeprecateDomainInput) async throws -> UndeprecateDomainOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1775,6 +2144,17 @@ extension SWFClient: SWFClientProtocol {
     ///
     ///
     /// If the caller doesn't have sufficient permissions to invoke the action, or the parameter values fall outside the specified constraints, the action fails. The associated event attribute's cause parameter is set to OPERATION_NOT_PERMITTED. For details and example IAM policies, see [Using IAM to Manage Access to Amazon SWF Workflows](https://docs.aws.amazon.com/amazonswf/latest/developerguide/swf-dev-iam.html) in the Amazon SWF Developer Guide.
+    ///
+    /// - Parameter UndeprecateWorkflowTypeInput : [no documentation found]
+    ///
+    /// - Returns: `UndeprecateWorkflowTypeOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `OperationNotPermittedFault` : Returned when the caller doesn't have sufficient permissions to invoke the action.
+    /// - `TypeAlreadyExistsFault` : Returned if the type already exists in the specified domain. You may get this fault if you are registering a type that is either already registered or deprecated, or if you undeprecate a type that is currently registered.
+    /// - `UnknownResourceFault` : Returned when the named resource cannot be found with in the scope of this operation (region or domain). This could happen if the named resource was never created or is no longer available for this operation.
     public func undeprecateWorkflowType(input: UndeprecateWorkflowTypeInput) async throws -> UndeprecateWorkflowTypeOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1812,6 +2192,17 @@ extension SWFClient: SWFClientProtocol {
     }
 
     /// Remove a tag from a Amazon SWF domain.
+    ///
+    /// - Parameter UntagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `UntagResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `LimitExceededFault` : Returned by any operation if a system imposed limitation has been reached. To address this fault you should either clean up unused resources or increase the limit by contacting AWS.
+    /// - `OperationNotPermittedFault` : Returned when the caller doesn't have sufficient permissions to invoke the action.
+    /// - `UnknownResourceFault` : Returned when the named resource cannot be found with in the scope of this operation (region or domain). This could happen if the named resource was never created or is no longer available for this operation.
     public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()

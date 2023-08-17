@@ -68,6 +68,21 @@ public struct IoTEventsClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFacto
 
 extension IoTEventsClient: IoTEventsClientProtocol {
     /// Creates an alarm model to monitor an AWS IoT Events input attribute. You can use the alarm to get notified when the value is outside a specified range. For more information, see [Create an alarm model](https://docs.aws.amazon.com/iotevents/latest/developerguide/create-alarms.html) in the AWS IoT Events Developer Guide.
+    ///
+    /// - Parameter CreateAlarmModelInput : [no documentation found]
+    ///
+    /// - Returns: `CreateAlarmModelOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : An internal failure occurred.
+    /// - `InvalidRequestException` : The request was invalid.
+    /// - `LimitExceededException` : A limit was exceeded.
+    /// - `ResourceAlreadyExistsException` : The resource already exists.
+    /// - `ResourceInUseException` : The resource is in use.
+    /// - `ServiceUnavailableException` : The service is currently unavailable.
+    /// - `ThrottlingException` : The request could not be completed due to throttling.
     public func createAlarmModel(input: CreateAlarmModelInput) async throws -> CreateAlarmModelOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -104,6 +119,21 @@ extension IoTEventsClient: IoTEventsClientProtocol {
     }
 
     /// Creates a detector model.
+    ///
+    /// - Parameter CreateDetectorModelInput : [no documentation found]
+    ///
+    /// - Returns: `CreateDetectorModelOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : An internal failure occurred.
+    /// - `InvalidRequestException` : The request was invalid.
+    /// - `LimitExceededException` : A limit was exceeded.
+    /// - `ResourceAlreadyExistsException` : The resource already exists.
+    /// - `ResourceInUseException` : The resource is in use.
+    /// - `ServiceUnavailableException` : The service is currently unavailable.
+    /// - `ThrottlingException` : The request could not be completed due to throttling.
     public func createDetectorModel(input: CreateDetectorModelInput) async throws -> CreateDetectorModelOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -140,6 +170,19 @@ extension IoTEventsClient: IoTEventsClientProtocol {
     }
 
     /// Creates an input.
+    ///
+    /// - Parameter CreateInputInput : [no documentation found]
+    ///
+    /// - Returns: `CreateInputOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : An internal failure occurred.
+    /// - `InvalidRequestException` : The request was invalid.
+    /// - `ResourceAlreadyExistsException` : The resource already exists.
+    /// - `ServiceUnavailableException` : The service is currently unavailable.
+    /// - `ThrottlingException` : The request could not be completed due to throttling.
     public func createInput(input: CreateInputInput) async throws -> CreateInputOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -176,6 +219,20 @@ extension IoTEventsClient: IoTEventsClientProtocol {
     }
 
     /// Deletes an alarm model. Any alarm instances that were created based on this alarm model are also deleted. This action can't be undone.
+    ///
+    /// - Parameter DeleteAlarmModelInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteAlarmModelOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : An internal failure occurred.
+    /// - `InvalidRequestException` : The request was invalid.
+    /// - `ResourceInUseException` : The resource is in use.
+    /// - `ResourceNotFoundException` : The resource was not found.
+    /// - `ServiceUnavailableException` : The service is currently unavailable.
+    /// - `ThrottlingException` : The request could not be completed due to throttling.
     public func deleteAlarmModel(input: DeleteAlarmModelInput) async throws -> DeleteAlarmModelOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -209,6 +266,20 @@ extension IoTEventsClient: IoTEventsClientProtocol {
     }
 
     /// Deletes a detector model. Any active instances of the detector model are also deleted.
+    ///
+    /// - Parameter DeleteDetectorModelInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteDetectorModelOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : An internal failure occurred.
+    /// - `InvalidRequestException` : The request was invalid.
+    /// - `ResourceInUseException` : The resource is in use.
+    /// - `ResourceNotFoundException` : The resource was not found.
+    /// - `ServiceUnavailableException` : The service is currently unavailable.
+    /// - `ThrottlingException` : The request could not be completed due to throttling.
     public func deleteDetectorModel(input: DeleteDetectorModelInput) async throws -> DeleteDetectorModelOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -242,6 +313,20 @@ extension IoTEventsClient: IoTEventsClientProtocol {
     }
 
     /// Deletes an input.
+    ///
+    /// - Parameter DeleteInputInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteInputOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : An internal failure occurred.
+    /// - `InvalidRequestException` : The request was invalid.
+    /// - `ResourceInUseException` : The resource is in use.
+    /// - `ResourceNotFoundException` : The resource was not found.
+    /// - `ServiceUnavailableException` : The service is currently unavailable.
+    /// - `ThrottlingException` : The request could not be completed due to throttling.
     public func deleteInput(input: DeleteInputInput) async throws -> DeleteInputOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -275,6 +360,19 @@ extension IoTEventsClient: IoTEventsClientProtocol {
     }
 
     /// Retrieves information about an alarm model. If you don't specify a value for the alarmModelVersion parameter, the latest version is returned.
+    ///
+    /// - Parameter DescribeAlarmModelInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeAlarmModelOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : An internal failure occurred.
+    /// - `InvalidRequestException` : The request was invalid.
+    /// - `ResourceNotFoundException` : The resource was not found.
+    /// - `ServiceUnavailableException` : The service is currently unavailable.
+    /// - `ThrottlingException` : The request could not be completed due to throttling.
     public func describeAlarmModel(input: DescribeAlarmModelInput) async throws -> DescribeAlarmModelOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -309,6 +407,19 @@ extension IoTEventsClient: IoTEventsClientProtocol {
     }
 
     /// Describes a detector model. If the version parameter is not specified, information about the latest version is returned.
+    ///
+    /// - Parameter DescribeDetectorModelInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeDetectorModelOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : An internal failure occurred.
+    /// - `InvalidRequestException` : The request was invalid.
+    /// - `ResourceNotFoundException` : The resource was not found.
+    /// - `ServiceUnavailableException` : The service is currently unavailable.
+    /// - `ThrottlingException` : The request could not be completed due to throttling.
     public func describeDetectorModel(input: DescribeDetectorModelInput) async throws -> DescribeDetectorModelOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -343,6 +454,19 @@ extension IoTEventsClient: IoTEventsClientProtocol {
     }
 
     /// Retrieves runtime information about a detector model analysis. After AWS IoT Events starts analyzing your detector model, you have up to 24 hours to retrieve the analysis results.
+    ///
+    /// - Parameter DescribeDetectorModelAnalysisInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeDetectorModelAnalysisOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : An internal failure occurred.
+    /// - `InvalidRequestException` : The request was invalid.
+    /// - `ResourceNotFoundException` : The resource was not found.
+    /// - `ServiceUnavailableException` : The service is currently unavailable.
+    /// - `ThrottlingException` : The request could not be completed due to throttling.
     public func describeDetectorModelAnalysis(input: DescribeDetectorModelAnalysisInput) async throws -> DescribeDetectorModelAnalysisOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -376,6 +500,19 @@ extension IoTEventsClient: IoTEventsClientProtocol {
     }
 
     /// Describes an input.
+    ///
+    /// - Parameter DescribeInputInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeInputOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : An internal failure occurred.
+    /// - `InvalidRequestException` : The request was invalid.
+    /// - `ResourceNotFoundException` : The resource was not found.
+    /// - `ServiceUnavailableException` : The service is currently unavailable.
+    /// - `ThrottlingException` : The request could not be completed due to throttling.
     public func describeInput(input: DescribeInputInput) async throws -> DescribeInputOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -409,6 +546,20 @@ extension IoTEventsClient: IoTEventsClientProtocol {
     }
 
     /// Retrieves the current settings of the AWS IoT Events logging options.
+    ///
+    /// - Parameter DescribeLoggingOptionsInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeLoggingOptionsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : An internal failure occurred.
+    /// - `InvalidRequestException` : The request was invalid.
+    /// - `ResourceNotFoundException` : The resource was not found.
+    /// - `ServiceUnavailableException` : The service is currently unavailable.
+    /// - `ThrottlingException` : The request could not be completed due to throttling.
+    /// - `UnsupportedOperationException` : The requested operation is not supported.
     public func describeLoggingOptions(input: DescribeLoggingOptionsInput) async throws -> DescribeLoggingOptionsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -442,6 +593,19 @@ extension IoTEventsClient: IoTEventsClientProtocol {
     }
 
     /// Retrieves one or more analysis results of the detector model. After AWS IoT Events starts analyzing your detector model, you have up to 24 hours to retrieve the analysis results.
+    ///
+    /// - Parameter GetDetectorModelAnalysisResultsInput : [no documentation found]
+    ///
+    /// - Returns: `GetDetectorModelAnalysisResultsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : An internal failure occurred.
+    /// - `InvalidRequestException` : The request was invalid.
+    /// - `ResourceNotFoundException` : The resource was not found.
+    /// - `ServiceUnavailableException` : The service is currently unavailable.
+    /// - `ThrottlingException` : The request could not be completed due to throttling.
     public func getDetectorModelAnalysisResults(input: GetDetectorModelAnalysisResultsInput) async throws -> GetDetectorModelAnalysisResultsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -476,6 +640,19 @@ extension IoTEventsClient: IoTEventsClientProtocol {
     }
 
     /// Lists all the versions of an alarm model. The operation returns only the metadata associated with each alarm model version.
+    ///
+    /// - Parameter ListAlarmModelVersionsInput : [no documentation found]
+    ///
+    /// - Returns: `ListAlarmModelVersionsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : An internal failure occurred.
+    /// - `InvalidRequestException` : The request was invalid.
+    /// - `ResourceNotFoundException` : The resource was not found.
+    /// - `ServiceUnavailableException` : The service is currently unavailable.
+    /// - `ThrottlingException` : The request could not be completed due to throttling.
     public func listAlarmModelVersions(input: ListAlarmModelVersionsInput) async throws -> ListAlarmModelVersionsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -510,6 +687,18 @@ extension IoTEventsClient: IoTEventsClientProtocol {
     }
 
     /// Lists the alarm models that you created. The operation returns only the metadata associated with each alarm model.
+    ///
+    /// - Parameter ListAlarmModelsInput : [no documentation found]
+    ///
+    /// - Returns: `ListAlarmModelsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : An internal failure occurred.
+    /// - `InvalidRequestException` : The request was invalid.
+    /// - `ServiceUnavailableException` : The service is currently unavailable.
+    /// - `ThrottlingException` : The request could not be completed due to throttling.
     public func listAlarmModels(input: ListAlarmModelsInput) async throws -> ListAlarmModelsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -544,6 +733,19 @@ extension IoTEventsClient: IoTEventsClientProtocol {
     }
 
     /// Lists all the versions of a detector model. Only the metadata associated with each detector model version is returned.
+    ///
+    /// - Parameter ListDetectorModelVersionsInput : [no documentation found]
+    ///
+    /// - Returns: `ListDetectorModelVersionsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : An internal failure occurred.
+    /// - `InvalidRequestException` : The request was invalid.
+    /// - `ResourceNotFoundException` : The resource was not found.
+    /// - `ServiceUnavailableException` : The service is currently unavailable.
+    /// - `ThrottlingException` : The request could not be completed due to throttling.
     public func listDetectorModelVersions(input: ListDetectorModelVersionsInput) async throws -> ListDetectorModelVersionsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -578,6 +780,18 @@ extension IoTEventsClient: IoTEventsClientProtocol {
     }
 
     /// Lists the detector models you have created. Only the metadata associated with each detector model is returned.
+    ///
+    /// - Parameter ListDetectorModelsInput : [no documentation found]
+    ///
+    /// - Returns: `ListDetectorModelsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : An internal failure occurred.
+    /// - `InvalidRequestException` : The request was invalid.
+    /// - `ServiceUnavailableException` : The service is currently unavailable.
+    /// - `ThrottlingException` : The request could not be completed due to throttling.
     public func listDetectorModels(input: ListDetectorModelsInput) async throws -> ListDetectorModelsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -612,6 +826,19 @@ extension IoTEventsClient: IoTEventsClientProtocol {
     }
 
     /// Lists one or more input routings.
+    ///
+    /// - Parameter ListInputRoutingsInput : [no documentation found]
+    ///
+    /// - Returns: `ListInputRoutingsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : An internal failure occurred.
+    /// - `InvalidRequestException` : The request was invalid.
+    /// - `ResourceNotFoundException` : The resource was not found.
+    /// - `ServiceUnavailableException` : The service is currently unavailable.
+    /// - `ThrottlingException` : The request could not be completed due to throttling.
     public func listInputRoutings(input: ListInputRoutingsInput) async throws -> ListInputRoutingsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -648,6 +875,18 @@ extension IoTEventsClient: IoTEventsClientProtocol {
     }
 
     /// Lists the inputs you have created.
+    ///
+    /// - Parameter ListInputsInput : [no documentation found]
+    ///
+    /// - Returns: `ListInputsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : An internal failure occurred.
+    /// - `InvalidRequestException` : The request was invalid.
+    /// - `ServiceUnavailableException` : The service is currently unavailable.
+    /// - `ThrottlingException` : The request could not be completed due to throttling.
     public func listInputs(input: ListInputsInput) async throws -> ListInputsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -682,6 +921,19 @@ extension IoTEventsClient: IoTEventsClientProtocol {
     }
 
     /// Lists the tags (metadata) you have assigned to the resource.
+    ///
+    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    ///
+    /// - Returns: `ListTagsForResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : An internal failure occurred.
+    /// - `InvalidRequestException` : The request was invalid.
+    /// - `ResourceInUseException` : The resource is in use.
+    /// - `ResourceNotFoundException` : The resource was not found.
+    /// - `ThrottlingException` : The request could not be completed due to throttling.
     public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -716,6 +968,20 @@ extension IoTEventsClient: IoTEventsClientProtocol {
     }
 
     /// Sets or updates the AWS IoT Events logging options. If you update the value of any loggingOptions field, it takes up to one minute for the change to take effect. If you change the policy attached to the role you specified in the roleArn field (for example, to correct an invalid policy), it takes up to five minutes for that change to take effect.
+    ///
+    /// - Parameter PutLoggingOptionsInput : [no documentation found]
+    ///
+    /// - Returns: `PutLoggingOptionsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : An internal failure occurred.
+    /// - `InvalidRequestException` : The request was invalid.
+    /// - `ResourceInUseException` : The resource is in use.
+    /// - `ServiceUnavailableException` : The service is currently unavailable.
+    /// - `ThrottlingException` : The request could not be completed due to throttling.
+    /// - `UnsupportedOperationException` : The requested operation is not supported.
     public func putLoggingOptions(input: PutLoggingOptionsInput) async throws -> PutLoggingOptionsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -752,6 +1018,19 @@ extension IoTEventsClient: IoTEventsClientProtocol {
     }
 
     /// Performs an analysis of your detector model. For more information, see [Troubleshooting a detector model](https://docs.aws.amazon.com/iotevents/latest/developerguide/iotevents-analyze-api.html) in the AWS IoT Events Developer Guide.
+    ///
+    /// - Parameter StartDetectorModelAnalysisInput : [no documentation found]
+    ///
+    /// - Returns: `StartDetectorModelAnalysisOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : An internal failure occurred.
+    /// - `InvalidRequestException` : The request was invalid.
+    /// - `LimitExceededException` : A limit was exceeded.
+    /// - `ServiceUnavailableException` : The service is currently unavailable.
+    /// - `ThrottlingException` : The request could not be completed due to throttling.
     public func startDetectorModelAnalysis(input: StartDetectorModelAnalysisInput) async throws -> StartDetectorModelAnalysisOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -788,6 +1067,20 @@ extension IoTEventsClient: IoTEventsClientProtocol {
     }
 
     /// Adds to or modifies the tags of the given resource. Tags are metadata that can be used to manage a resource.
+    ///
+    /// - Parameter TagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `TagResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : An internal failure occurred.
+    /// - `InvalidRequestException` : The request was invalid.
+    /// - `LimitExceededException` : A limit was exceeded.
+    /// - `ResourceInUseException` : The resource is in use.
+    /// - `ResourceNotFoundException` : The resource was not found.
+    /// - `ThrottlingException` : The request could not be completed due to throttling.
     public func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -825,6 +1118,19 @@ extension IoTEventsClient: IoTEventsClientProtocol {
     }
 
     /// Removes the given tags (metadata) from the resource.
+    ///
+    /// - Parameter UntagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `UntagResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : An internal failure occurred.
+    /// - `InvalidRequestException` : The request was invalid.
+    /// - `ResourceInUseException` : The resource is in use.
+    /// - `ResourceNotFoundException` : The resource was not found.
+    /// - `ThrottlingException` : The request could not be completed due to throttling.
     public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -859,6 +1165,20 @@ extension IoTEventsClient: IoTEventsClientProtocol {
     }
 
     /// Updates an alarm model. Any alarms that were created based on the previous version are deleted and then created again as new data arrives.
+    ///
+    /// - Parameter UpdateAlarmModelInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateAlarmModelOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : An internal failure occurred.
+    /// - `InvalidRequestException` : The request was invalid.
+    /// - `ResourceInUseException` : The resource is in use.
+    /// - `ResourceNotFoundException` : The resource was not found.
+    /// - `ServiceUnavailableException` : The service is currently unavailable.
+    /// - `ThrottlingException` : The request could not be completed due to throttling.
     public func updateAlarmModel(input: UpdateAlarmModelInput) async throws -> UpdateAlarmModelOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -895,6 +1215,20 @@ extension IoTEventsClient: IoTEventsClientProtocol {
     }
 
     /// Updates a detector model. Detectors (instances) spawned by the previous version are deleted and then re-created as new inputs arrive.
+    ///
+    /// - Parameter UpdateDetectorModelInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateDetectorModelOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : An internal failure occurred.
+    /// - `InvalidRequestException` : The request was invalid.
+    /// - `ResourceInUseException` : The resource is in use.
+    /// - `ResourceNotFoundException` : The resource was not found.
+    /// - `ServiceUnavailableException` : The service is currently unavailable.
+    /// - `ThrottlingException` : The request could not be completed due to throttling.
     public func updateDetectorModel(input: UpdateDetectorModelInput) async throws -> UpdateDetectorModelOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -931,6 +1265,20 @@ extension IoTEventsClient: IoTEventsClientProtocol {
     }
 
     /// Updates an input.
+    ///
+    /// - Parameter UpdateInputInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateInputOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailureException` : An internal failure occurred.
+    /// - `InvalidRequestException` : The request was invalid.
+    /// - `ResourceInUseException` : The resource is in use.
+    /// - `ResourceNotFoundException` : The resource was not found.
+    /// - `ServiceUnavailableException` : The service is currently unavailable.
+    /// - `ThrottlingException` : The request could not be completed due to throttling.
     public func updateInput(input: UpdateInputInput) async throws -> UpdateInputOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()

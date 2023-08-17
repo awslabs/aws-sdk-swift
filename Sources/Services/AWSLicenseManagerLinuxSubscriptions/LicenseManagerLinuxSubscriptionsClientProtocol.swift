@@ -5,12 +5,56 @@ import ClientRuntime
 /// With License Manager, you can discover and track your commercial Linux subscriptions on running Amazon EC2 instances.
 public protocol LicenseManagerLinuxSubscriptionsClientProtocol {
     /// Lists the Linux subscriptions service settings.
+    ///
+    /// - Parameter GetServiceSettingsInput : [no documentation found]
+    ///
+    /// - Returns: `GetServiceSettingsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : An exception occurred with the service.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The provided input is not valid. Try your request again.
     func getServiceSettings(input: GetServiceSettingsInput) async throws -> GetServiceSettingsOutputResponse
     /// Lists the running Amazon EC2 instances that were discovered with commercial Linux subscriptions.
+    ///
+    /// - Parameter ListLinuxSubscriptionInstancesInput : NextToken length limit is half of ddb accepted limit. Increase this limit if parameters in request increases.
+    ///
+    /// - Returns: `ListLinuxSubscriptionInstancesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : An exception occurred with the service.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The provided input is not valid. Try your request again.
     func listLinuxSubscriptionInstances(input: ListLinuxSubscriptionInstancesInput) async throws -> ListLinuxSubscriptionInstancesOutputResponse
     /// Lists the Linux subscriptions that have been discovered. If you have linked your organization, the returned results will include data aggregated across your accounts in Organizations.
+    ///
+    /// - Parameter ListLinuxSubscriptionsInput : NextToken length limit is half of ddb accepted limit. Increase this limit if parameters in request increases.
+    ///
+    /// - Returns: `ListLinuxSubscriptionsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : An exception occurred with the service.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The provided input is not valid. Try your request again.
     func listLinuxSubscriptions(input: ListLinuxSubscriptionsInput) async throws -> ListLinuxSubscriptionsOutputResponse
     /// Updates the service settings for Linux subscriptions.
+    ///
+    /// - Parameter UpdateServiceSettingsInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateServiceSettingsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : An exception occurred with the service.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The provided input is not valid. Try your request again.
     func updateServiceSettings(input: UpdateServiceSettingsInput) async throws -> UpdateServiceSettingsOutputResponse
 }
 

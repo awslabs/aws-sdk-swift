@@ -68,6 +68,18 @@ public struct MigrationHubOrchestratorClientLogHandlerFactory: ClientRuntime.SDK
 
 extension MigrationHubOrchestratorClient: MigrationHubOrchestratorClientProtocol {
     /// Create a workflow to orchestrate your migrations.
+    ///
+    /// - Parameter CreateWorkflowInput : [no documentation found]
+    ///
+    /// - Returns: `CreateWorkflowOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : An internal error has occurred.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func createWorkflow(input: CreateWorkflowInput) async throws -> CreateWorkflowOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -104,6 +116,18 @@ extension MigrationHubOrchestratorClient: MigrationHubOrchestratorClientProtocol
     }
 
     /// Create a step in the migration workflow.
+    ///
+    /// - Parameter CreateWorkflowStepInput : [no documentation found]
+    ///
+    /// - Returns: `CreateWorkflowStepOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : An internal error has occurred.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func createWorkflowStep(input: CreateWorkflowStepInput) async throws -> CreateWorkflowStepOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -140,6 +164,18 @@ extension MigrationHubOrchestratorClient: MigrationHubOrchestratorClientProtocol
     }
 
     /// Create a step group in a migration workflow.
+    ///
+    /// - Parameter CreateWorkflowStepGroupInput : [no documentation found]
+    ///
+    /// - Returns: `CreateWorkflowStepGroupOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : An internal error has occurred.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func createWorkflowStepGroup(input: CreateWorkflowStepGroupInput) async throws -> CreateWorkflowStepGroupOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -176,6 +212,19 @@ extension MigrationHubOrchestratorClient: MigrationHubOrchestratorClientProtocol
     }
 
     /// Delete a migration workflow. You must pause a running workflow in Migration Hub Orchestrator console to delete it.
+    ///
+    /// - Parameter DeleteWorkflowInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteWorkflowOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : An internal error has occurred.
+    /// - `ResourceNotFoundException` : The resource is not available.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func deleteWorkflow(input: DeleteWorkflowInput) async throws -> DeleteWorkflowOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -209,6 +258,19 @@ extension MigrationHubOrchestratorClient: MigrationHubOrchestratorClientProtocol
     }
 
     /// Delete a step in a migration workflow. Pause the workflow to delete a running step.
+    ///
+    /// - Parameter DeleteWorkflowStepInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteWorkflowStepOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : An internal error has occurred.
+    /// - `ResourceNotFoundException` : The resource is not available.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func deleteWorkflowStep(input: DeleteWorkflowStepInput) async throws -> DeleteWorkflowStepOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -243,6 +305,19 @@ extension MigrationHubOrchestratorClient: MigrationHubOrchestratorClientProtocol
     }
 
     /// Delete a step group in a migration workflow.
+    ///
+    /// - Parameter DeleteWorkflowStepGroupInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteWorkflowStepGroupOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : An internal error has occurred.
+    /// - `ResourceNotFoundException` : The resource is not available.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func deleteWorkflowStepGroup(input: DeleteWorkflowStepGroupInput) async throws -> DeleteWorkflowStepGroupOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -277,6 +352,18 @@ extension MigrationHubOrchestratorClient: MigrationHubOrchestratorClientProtocol
     }
 
     /// Get the template you want to use for creating a migration workflow.
+    ///
+    /// - Parameter GetTemplateInput : [no documentation found]
+    ///
+    /// - Returns: `GetTemplateOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : An internal error has occurred.
+    /// - `ResourceNotFoundException` : The resource is not available.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
     public func getTemplate(input: GetTemplateInput) async throws -> GetTemplateOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -310,6 +397,19 @@ extension MigrationHubOrchestratorClient: MigrationHubOrchestratorClientProtocol
     }
 
     /// Get a specific step in a template.
+    ///
+    /// - Parameter GetTemplateStepInput : [no documentation found]
+    ///
+    /// - Returns: `GetTemplateStepOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : An internal error has occurred.
+    /// - `ResourceNotFoundException` : The resource is not available.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func getTemplateStep(input: GetTemplateStepInput) async throws -> GetTemplateStepOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -344,6 +444,19 @@ extension MigrationHubOrchestratorClient: MigrationHubOrchestratorClientProtocol
     }
 
     /// Get a step group in a template.
+    ///
+    /// - Parameter GetTemplateStepGroupInput : [no documentation found]
+    ///
+    /// - Returns: `GetTemplateStepGroupOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : An internal error has occurred.
+    /// - `ResourceNotFoundException` : The resource is not available.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func getTemplateStepGroup(input: GetTemplateStepGroupInput) async throws -> GetTemplateStepGroupOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -377,6 +490,19 @@ extension MigrationHubOrchestratorClient: MigrationHubOrchestratorClientProtocol
     }
 
     /// Get migration workflow.
+    ///
+    /// - Parameter GetWorkflowInput : [no documentation found]
+    ///
+    /// - Returns: `GetWorkflowOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : An internal error has occurred.
+    /// - `ResourceNotFoundException` : The resource is not available.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func getWorkflow(input: GetWorkflowInput) async throws -> GetWorkflowOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -410,6 +536,18 @@ extension MigrationHubOrchestratorClient: MigrationHubOrchestratorClientProtocol
     }
 
     /// Get a step in the migration workflow.
+    ///
+    /// - Parameter GetWorkflowStepInput : [no documentation found]
+    ///
+    /// - Returns: `GetWorkflowStepOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : An internal error has occurred.
+    /// - `ResourceNotFoundException` : The resource is not available.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
     public func getWorkflowStep(input: GetWorkflowStepInput) async throws -> GetWorkflowStepOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -444,6 +582,19 @@ extension MigrationHubOrchestratorClient: MigrationHubOrchestratorClientProtocol
     }
 
     /// Get the step group of a migration workflow.
+    ///
+    /// - Parameter GetWorkflowStepGroupInput : [no documentation found]
+    ///
+    /// - Returns: `GetWorkflowStepGroupOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : An internal error has occurred.
+    /// - `ResourceNotFoundException` : The resource is not available.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func getWorkflowStepGroup(input: GetWorkflowStepGroupInput) async throws -> GetWorkflowStepGroupOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -478,6 +629,17 @@ extension MigrationHubOrchestratorClient: MigrationHubOrchestratorClientProtocol
     }
 
     /// List AWS Migration Hub Orchestrator plugins.
+    ///
+    /// - Parameter ListPluginsInput : [no documentation found]
+    ///
+    /// - Returns: `ListPluginsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : An internal error has occurred.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func listPlugins(input: ListPluginsInput) async throws -> ListPluginsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -512,6 +674,16 @@ extension MigrationHubOrchestratorClient: MigrationHubOrchestratorClientProtocol
     }
 
     /// List the tags added to a resource.
+    ///
+    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    ///
+    /// - Returns: `ListTagsForResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ResourceNotFoundException` : The resource is not available.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -545,6 +717,18 @@ extension MigrationHubOrchestratorClient: MigrationHubOrchestratorClientProtocol
     }
 
     /// List the step groups in a template.
+    ///
+    /// - Parameter ListTemplateStepGroupsInput : [no documentation found]
+    ///
+    /// - Returns: `ListTemplateStepGroupsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : An internal error has occurred.
+    /// - `ResourceNotFoundException` : The resource is not available.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
     public func listTemplateStepGroups(input: ListTemplateStepGroupsInput) async throws -> ListTemplateStepGroupsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -579,6 +763,19 @@ extension MigrationHubOrchestratorClient: MigrationHubOrchestratorClientProtocol
     }
 
     /// List the steps in a template.
+    ///
+    /// - Parameter ListTemplateStepsInput : [no documentation found]
+    ///
+    /// - Returns: `ListTemplateStepsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : An internal error has occurred.
+    /// - `ResourceNotFoundException` : The resource is not available.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func listTemplateSteps(input: ListTemplateStepsInput) async throws -> ListTemplateStepsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -613,6 +810,17 @@ extension MigrationHubOrchestratorClient: MigrationHubOrchestratorClientProtocol
     }
 
     /// List the templates available in Migration Hub Orchestrator to create a migration workflow.
+    ///
+    /// - Parameter ListTemplatesInput : [no documentation found]
+    ///
+    /// - Returns: `ListTemplatesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : An internal error has occurred.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
     public func listTemplates(input: ListTemplatesInput) async throws -> ListTemplatesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -647,6 +855,19 @@ extension MigrationHubOrchestratorClient: MigrationHubOrchestratorClientProtocol
     }
 
     /// List the step groups in a migration workflow.
+    ///
+    /// - Parameter ListWorkflowStepGroupsInput : [no documentation found]
+    ///
+    /// - Returns: `ListWorkflowStepGroupsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : An internal error has occurred.
+    /// - `ResourceNotFoundException` : The resource is not available.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func listWorkflowStepGroups(input: ListWorkflowStepGroupsInput) async throws -> ListWorkflowStepGroupsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -681,6 +902,18 @@ extension MigrationHubOrchestratorClient: MigrationHubOrchestratorClientProtocol
     }
 
     /// List the steps in a workflow.
+    ///
+    /// - Parameter ListWorkflowStepsInput : [no documentation found]
+    ///
+    /// - Returns: `ListWorkflowStepsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : An internal error has occurred.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func listWorkflowSteps(input: ListWorkflowStepsInput) async throws -> ListWorkflowStepsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -715,6 +948,19 @@ extension MigrationHubOrchestratorClient: MigrationHubOrchestratorClientProtocol
     }
 
     /// List the migration workflows.
+    ///
+    /// - Parameter ListWorkflowsInput : [no documentation found]
+    ///
+    /// - Returns: `ListWorkflowsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : An internal error has occurred.
+    /// - `ResourceNotFoundException` : The resource is not available.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func listWorkflows(input: ListWorkflowsInput) async throws -> ListWorkflowsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -749,6 +995,18 @@ extension MigrationHubOrchestratorClient: MigrationHubOrchestratorClientProtocol
     }
 
     /// Retry a failed step in a migration workflow.
+    ///
+    /// - Parameter RetryWorkflowStepInput : [no documentation found]
+    ///
+    /// - Returns: `RetryWorkflowStepOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : An internal error has occurred.
+    /// - `ResourceNotFoundException` : The resource is not available.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
     public func retryWorkflowStep(input: RetryWorkflowStepInput) async throws -> RetryWorkflowStepOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -783,6 +1041,19 @@ extension MigrationHubOrchestratorClient: MigrationHubOrchestratorClientProtocol
     }
 
     /// Start a migration workflow.
+    ///
+    /// - Parameter StartWorkflowInput : [no documentation found]
+    ///
+    /// - Returns: `StartWorkflowOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : An internal error has occurred.
+    /// - `ResourceNotFoundException` : The resource is not available.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func startWorkflow(input: StartWorkflowInput) async throws -> StartWorkflowOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -816,6 +1087,19 @@ extension MigrationHubOrchestratorClient: MigrationHubOrchestratorClientProtocol
     }
 
     /// Stop an ongoing migration workflow.
+    ///
+    /// - Parameter StopWorkflowInput : [no documentation found]
+    ///
+    /// - Returns: `StopWorkflowOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : An internal error has occurred.
+    /// - `ResourceNotFoundException` : The resource is not available.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func stopWorkflow(input: StopWorkflowInput) async throws -> StopWorkflowOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -849,6 +1133,16 @@ extension MigrationHubOrchestratorClient: MigrationHubOrchestratorClientProtocol
     }
 
     /// Tag a resource by specifying its Amazon Resource Name (ARN).
+    ///
+    /// - Parameter TagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `TagResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ResourceNotFoundException` : The resource is not available.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -885,6 +1179,16 @@ extension MigrationHubOrchestratorClient: MigrationHubOrchestratorClientProtocol
     }
 
     /// Deletes the tags for a resource.
+    ///
+    /// - Parameter UntagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `UntagResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ResourceNotFoundException` : The resource is not available.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -919,6 +1223,19 @@ extension MigrationHubOrchestratorClient: MigrationHubOrchestratorClientProtocol
     }
 
     /// Update a migration workflow.
+    ///
+    /// - Parameter UpdateWorkflowInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateWorkflowOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : An internal error has occurred.
+    /// - `ResourceNotFoundException` : The resource is not available.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func updateWorkflow(input: UpdateWorkflowInput) async throws -> UpdateWorkflowOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -955,6 +1272,18 @@ extension MigrationHubOrchestratorClient: MigrationHubOrchestratorClientProtocol
     }
 
     /// Update a step in a migration workflow.
+    ///
+    /// - Parameter UpdateWorkflowStepInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateWorkflowStepOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : An internal error has occurred.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func updateWorkflowStep(input: UpdateWorkflowStepInput) async throws -> UpdateWorkflowStepOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -991,6 +1320,19 @@ extension MigrationHubOrchestratorClient: MigrationHubOrchestratorClientProtocol
     }
 
     /// Update the step group in a migration workflow.
+    ///
+    /// - Parameter UpdateWorkflowStepGroupInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateWorkflowStepGroupOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : An internal error has occurred.
+    /// - `ResourceNotFoundException` : The resource is not available.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     public func updateWorkflowStepGroup(input: UpdateWorkflowStepGroupInput) async throws -> UpdateWorkflowStepGroupOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()

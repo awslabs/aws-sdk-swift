@@ -64,6 +64,18 @@ public struct SNSClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFactory {
 
 extension SNSClient: SNSClientProtocol {
     /// Adds a statement to a topic's access control policy, granting access for the specified Amazon Web Services accounts to the specified actions. To remove the ability to change topic permissions, you must deny permissions to the AddPermission, RemovePermission, and SetTopicAttributes actions in your IAM policy.
+    ///
+    /// - Parameter AddPermissionInput : [no documentation found]
+    ///
+    /// - Returns: `AddPermissionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AuthorizationErrorException` : Indicates that the user has been denied access to the requested resource.
+    /// - `InternalErrorException` : Indicates an internal service error.
+    /// - `InvalidParameterException` : Indicates that a request parameter does not comply with the associated constraints.
+    /// - `NotFoundException` : Indicates that the requested resource does not exist.
     public func addPermission(input: AddPermissionInput) async throws -> AddPermissionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -100,6 +112,18 @@ extension SNSClient: SNSClientProtocol {
     }
 
     /// Accepts a phone number and indicates whether the phone holder has opted out of receiving SMS messages from your Amazon Web Services account. You cannot send SMS messages to a number that is opted out. To resume sending messages, you can opt in the number by using the OptInPhoneNumber action.
+    ///
+    /// - Parameter CheckIfPhoneNumberIsOptedOutInput : The input for the CheckIfPhoneNumberIsOptedOut action.
+    ///
+    /// - Returns: `CheckIfPhoneNumberIsOptedOutOutputResponse` : The response from the CheckIfPhoneNumberIsOptedOut action.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AuthorizationErrorException` : Indicates that the user has been denied access to the requested resource.
+    /// - `InternalErrorException` : Indicates an internal service error.
+    /// - `InvalidParameterException` : Indicates that a request parameter does not comply with the associated constraints.
+    /// - `ThrottledException` : Indicates that the rate at which requests have been submitted for this action exceeds the limit for your Amazon Web Services account.
     public func checkIfPhoneNumberIsOptedOut(input: CheckIfPhoneNumberIsOptedOutInput) async throws -> CheckIfPhoneNumberIsOptedOutOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -136,6 +160,20 @@ extension SNSClient: SNSClientProtocol {
     }
 
     /// Verifies an endpoint owner's intent to receive messages by validating the token sent to the endpoint by an earlier Subscribe action. If the token is valid, the action creates a new subscription and returns its Amazon Resource Name (ARN). This call requires an AWS signature only when the AuthenticateOnUnsubscribe flag is set to "true".
+    ///
+    /// - Parameter ConfirmSubscriptionInput : Input for ConfirmSubscription action.
+    ///
+    /// - Returns: `ConfirmSubscriptionOutputResponse` : Response for ConfirmSubscriptions action.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AuthorizationErrorException` : Indicates that the user has been denied access to the requested resource.
+    /// - `FilterPolicyLimitExceededException` : Indicates that the number of filter polices in your Amazon Web Services account exceeds the limit. To add more filter polices, submit an Amazon SNS Limit Increase case in the Amazon Web Services Support Center.
+    /// - `InternalErrorException` : Indicates an internal service error.
+    /// - `InvalidParameterException` : Indicates that a request parameter does not comply with the associated constraints.
+    /// - `NotFoundException` : Indicates that the requested resource does not exist.
+    /// - `SubscriptionLimitExceededException` : Indicates that the customer already owns the maximum allowed number of subscriptions.
     public func confirmSubscription(input: ConfirmSubscriptionInput) async throws -> ConfirmSubscriptionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -189,6 +227,17 @@ extension SNSClient: SNSClientProtocol {
     ///
     ///
     /// You can use the returned PlatformApplicationArn as an attribute for the CreatePlatformEndpoint action.
+    ///
+    /// - Parameter CreatePlatformApplicationInput : Input for CreatePlatformApplication action.
+    ///
+    /// - Returns: `CreatePlatformApplicationOutputResponse` : Response from CreatePlatformApplication action.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AuthorizationErrorException` : Indicates that the user has been denied access to the requested resource.
+    /// - `InternalErrorException` : Indicates an internal service error.
+    /// - `InvalidParameterException` : Indicates that a request parameter does not comply with the associated constraints.
     public func createPlatformApplication(input: CreatePlatformApplicationInput) async throws -> CreatePlatformApplicationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -225,6 +274,18 @@ extension SNSClient: SNSClientProtocol {
     }
 
     /// Creates an endpoint for a device and mobile app on one of the supported push notification services, such as GCM (Firebase Cloud Messaging) and APNS. CreatePlatformEndpoint requires the PlatformApplicationArn that is returned from CreatePlatformApplication. You can use the returned EndpointArn to send a message to a mobile app or by the Subscribe action for subscription to a topic. The CreatePlatformEndpoint action is idempotent, so if the requester already owns an endpoint with the same device token and attributes, that endpoint's ARN is returned without creating a new endpoint. For more information, see [Using Amazon SNS Mobile Push Notifications](https://docs.aws.amazon.com/sns/latest/dg/SNSMobilePush.html). When using CreatePlatformEndpoint with Baidu, two attributes must be provided: ChannelId and UserId. The token field must also contain the ChannelId. For more information, see [Creating an Amazon SNS Endpoint for Baidu](https://docs.aws.amazon.com/sns/latest/dg/SNSMobilePushBaiduEndpoint.html).
+    ///
+    /// - Parameter CreatePlatformEndpointInput : Input for CreatePlatformEndpoint action.
+    ///
+    /// - Returns: `CreatePlatformEndpointOutputResponse` : Response from CreateEndpoint action.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AuthorizationErrorException` : Indicates that the user has been denied access to the requested resource.
+    /// - `InternalErrorException` : Indicates an internal service error.
+    /// - `InvalidParameterException` : Indicates that a request parameter does not comply with the associated constraints.
+    /// - `NotFoundException` : Indicates that the requested resource does not exist.
     public func createPlatformEndpoint(input: CreatePlatformEndpointInput) async throws -> CreatePlatformEndpointOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -261,6 +322,20 @@ extension SNSClient: SNSClientProtocol {
     }
 
     /// Adds a destination phone number to an Amazon Web Services account in the SMS sandbox and sends a one-time password (OTP) to that phone number. When you start using Amazon SNS to send SMS messages, your Amazon Web Services account is in the SMS sandbox. The SMS sandbox provides a safe environment for you to try Amazon SNS features without risking your reputation as an SMS sender. While your Amazon Web Services account is in the SMS sandbox, you can use all of the features of Amazon SNS. However, you can send SMS messages only to verified destination phone numbers. For more information, including how to move out of the sandbox to send messages without restrictions, see [SMS sandbox](https://docs.aws.amazon.com/sns/latest/dg/sns-sms-sandbox.html) in the Amazon SNS Developer Guide.
+    ///
+    /// - Parameter CreateSMSSandboxPhoneNumberInput : [no documentation found]
+    ///
+    /// - Returns: `CreateSMSSandboxPhoneNumberOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AuthorizationErrorException` : Indicates that the user has been denied access to the requested resource.
+    /// - `InternalErrorException` : Indicates an internal service error.
+    /// - `InvalidParameterException` : Indicates that a request parameter does not comply with the associated constraints.
+    /// - `OptedOutException` : Indicates that the specified phone number opted out of receiving SMS messages from your Amazon Web Services account. You can't send SMS messages to phone numbers that opt out.
+    /// - `ThrottledException` : Indicates that the rate at which requests have been submitted for this action exceeds the limit for your Amazon Web Services account.
+    /// - `UserErrorException` : Indicates that a request parameter does not comply with the associated constraints.
     public func createSMSSandboxPhoneNumber(input: CreateSMSSandboxPhoneNumberInput) async throws -> CreateSMSSandboxPhoneNumberOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -297,6 +372,23 @@ extension SNSClient: SNSClientProtocol {
     }
 
     /// Creates a topic to which notifications can be published. Users can create at most 100,000 standard topics (at most 1,000 FIFO topics). For more information, see [Creating an Amazon SNS topic](https://docs.aws.amazon.com/sns/latest/dg/sns-create-topic.html) in the Amazon SNS Developer Guide. This action is idempotent, so if the requester already owns a topic with the specified name, that topic's ARN is returned without creating a new topic.
+    ///
+    /// - Parameter CreateTopicInput : Input for CreateTopic action.
+    ///
+    /// - Returns: `CreateTopicOutputResponse` : Response from CreateTopic action.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AuthorizationErrorException` : Indicates that the user has been denied access to the requested resource.
+    /// - `ConcurrentAccessException` : Can't perform multiple operations on a tag simultaneously. Perform the operations sequentially.
+    /// - `InternalErrorException` : Indicates an internal service error.
+    /// - `InvalidParameterException` : Indicates that a request parameter does not comply with the associated constraints.
+    /// - `InvalidSecurityException` : The credential signature isn't valid. You must use an HTTPS endpoint and sign your request using Signature Version 4.
+    /// - `StaleTagException` : A tag has been added to a resource with the same ARN as a deleted resource. Wait a short while and then retry the operation.
+    /// - `TagLimitExceededException` : Can't add more than 50 tags to a topic.
+    /// - `TagPolicyException` : The request doesn't comply with the IAM tag policy. Correct your request and then retry it.
+    /// - `TopicLimitExceededException` : Indicates that the customer already owns the maximum allowed number of topics.
     public func createTopic(input: CreateTopicInput) async throws -> CreateTopicOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -333,6 +425,17 @@ extension SNSClient: SNSClientProtocol {
     }
 
     /// Deletes the endpoint for a device and mobile app from Amazon SNS. This action is idempotent. For more information, see [Using Amazon SNS Mobile Push Notifications](https://docs.aws.amazon.com/sns/latest/dg/SNSMobilePush.html). When you delete an endpoint that is also subscribed to a topic, then you must also unsubscribe the endpoint from the topic.
+    ///
+    /// - Parameter DeleteEndpointInput : Input for DeleteEndpoint action.
+    ///
+    /// - Returns: `DeleteEndpointOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AuthorizationErrorException` : Indicates that the user has been denied access to the requested resource.
+    /// - `InternalErrorException` : Indicates an internal service error.
+    /// - `InvalidParameterException` : Indicates that a request parameter does not comply with the associated constraints.
     public func deleteEndpoint(input: DeleteEndpointInput) async throws -> DeleteEndpointOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -369,6 +472,17 @@ extension SNSClient: SNSClientProtocol {
     }
 
     /// Deletes a platform application object for one of the supported push notification services, such as APNS and GCM (Firebase Cloud Messaging). For more information, see [Using Amazon SNS Mobile Push Notifications](https://docs.aws.amazon.com/sns/latest/dg/SNSMobilePush.html).
+    ///
+    /// - Parameter DeletePlatformApplicationInput : Input for DeletePlatformApplication action.
+    ///
+    /// - Returns: `DeletePlatformApplicationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AuthorizationErrorException` : Indicates that the user has been denied access to the requested resource.
+    /// - `InternalErrorException` : Indicates an internal service error.
+    /// - `InvalidParameterException` : Indicates that a request parameter does not comply with the associated constraints.
     public func deletePlatformApplication(input: DeletePlatformApplicationInput) async throws -> DeletePlatformApplicationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -405,6 +519,20 @@ extension SNSClient: SNSClientProtocol {
     }
 
     /// Deletes an Amazon Web Services account's verified or pending phone number from the SMS sandbox. When you start using Amazon SNS to send SMS messages, your Amazon Web Services account is in the SMS sandbox. The SMS sandbox provides a safe environment for you to try Amazon SNS features without risking your reputation as an SMS sender. While your Amazon Web Services account is in the SMS sandbox, you can use all of the features of Amazon SNS. However, you can send SMS messages only to verified destination phone numbers. For more information, including how to move out of the sandbox to send messages without restrictions, see [SMS sandbox](https://docs.aws.amazon.com/sns/latest/dg/sns-sms-sandbox.html) in the Amazon SNS Developer Guide.
+    ///
+    /// - Parameter DeleteSMSSandboxPhoneNumberInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteSMSSandboxPhoneNumberOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AuthorizationErrorException` : Indicates that the user has been denied access to the requested resource.
+    /// - `InternalErrorException` : Indicates an internal service error.
+    /// - `InvalidParameterException` : Indicates that a request parameter does not comply with the associated constraints.
+    /// - `ResourceNotFoundException` : Can’t perform the action on the specified resource. Make sure that the resource exists.
+    /// - `ThrottledException` : Indicates that the rate at which requests have been submitted for this action exceeds the limit for your Amazon Web Services account.
+    /// - `UserErrorException` : Indicates that a request parameter does not comply with the associated constraints.
     public func deleteSMSSandboxPhoneNumber(input: DeleteSMSSandboxPhoneNumberInput) async throws -> DeleteSMSSandboxPhoneNumberOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -441,6 +569,21 @@ extension SNSClient: SNSClientProtocol {
     }
 
     /// Deletes a topic and all its subscriptions. Deleting a topic might prevent some messages previously sent to the topic from being delivered to subscribers. This action is idempotent, so deleting a topic that does not exist does not result in an error.
+    ///
+    /// - Parameter DeleteTopicInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteTopicOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AuthorizationErrorException` : Indicates that the user has been denied access to the requested resource.
+    /// - `ConcurrentAccessException` : Can't perform multiple operations on a tag simultaneously. Perform the operations sequentially.
+    /// - `InternalErrorException` : Indicates an internal service error.
+    /// - `InvalidParameterException` : Indicates that a request parameter does not comply with the associated constraints.
+    /// - `NotFoundException` : Indicates that the requested resource does not exist.
+    /// - `StaleTagException` : A tag has been added to a resource with the same ARN as a deleted resource. Wait a short while and then retry the operation.
+    /// - `TagPolicyException` : The request doesn't comply with the IAM tag policy. Correct your request and then retry it.
     public func deleteTopic(input: DeleteTopicInput) async throws -> DeleteTopicOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -477,6 +620,19 @@ extension SNSClient: SNSClientProtocol {
     }
 
     /// Retrieves the specified inline DataProtectionPolicy document that is stored in the specified Amazon SNS topic.
+    ///
+    /// - Parameter GetDataProtectionPolicyInput : [no documentation found]
+    ///
+    /// - Returns: `GetDataProtectionPolicyOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AuthorizationErrorException` : Indicates that the user has been denied access to the requested resource.
+    /// - `InternalErrorException` : Indicates an internal service error.
+    /// - `InvalidParameterException` : Indicates that a request parameter does not comply with the associated constraints.
+    /// - `InvalidSecurityException` : The credential signature isn't valid. You must use an HTTPS endpoint and sign your request using Signature Version 4.
+    /// - `NotFoundException` : Indicates that the requested resource does not exist.
     public func getDataProtectionPolicy(input: GetDataProtectionPolicyInput) async throws -> GetDataProtectionPolicyOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -513,6 +669,18 @@ extension SNSClient: SNSClientProtocol {
     }
 
     /// Retrieves the endpoint attributes for a device on one of the supported push notification services, such as GCM (Firebase Cloud Messaging) and APNS. For more information, see [Using Amazon SNS Mobile Push Notifications](https://docs.aws.amazon.com/sns/latest/dg/SNSMobilePush.html).
+    ///
+    /// - Parameter GetEndpointAttributesInput : Input for GetEndpointAttributes action.
+    ///
+    /// - Returns: `GetEndpointAttributesOutputResponse` : Response from GetEndpointAttributes of the EndpointArn.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AuthorizationErrorException` : Indicates that the user has been denied access to the requested resource.
+    /// - `InternalErrorException` : Indicates an internal service error.
+    /// - `InvalidParameterException` : Indicates that a request parameter does not comply with the associated constraints.
+    /// - `NotFoundException` : Indicates that the requested resource does not exist.
     public func getEndpointAttributes(input: GetEndpointAttributesInput) async throws -> GetEndpointAttributesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -549,6 +717,18 @@ extension SNSClient: SNSClientProtocol {
     }
 
     /// Retrieves the attributes of the platform application object for the supported push notification services, such as APNS and GCM (Firebase Cloud Messaging). For more information, see [Using Amazon SNS Mobile Push Notifications](https://docs.aws.amazon.com/sns/latest/dg/SNSMobilePush.html).
+    ///
+    /// - Parameter GetPlatformApplicationAttributesInput : Input for GetPlatformApplicationAttributes action.
+    ///
+    /// - Returns: `GetPlatformApplicationAttributesOutputResponse` : Response for GetPlatformApplicationAttributes action.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AuthorizationErrorException` : Indicates that the user has been denied access to the requested resource.
+    /// - `InternalErrorException` : Indicates an internal service error.
+    /// - `InvalidParameterException` : Indicates that a request parameter does not comply with the associated constraints.
+    /// - `NotFoundException` : Indicates that the requested resource does not exist.
     public func getPlatformApplicationAttributes(input: GetPlatformApplicationAttributesInput) async throws -> GetPlatformApplicationAttributesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -585,6 +765,18 @@ extension SNSClient: SNSClientProtocol {
     }
 
     /// Returns the settings for sending SMS messages from your Amazon Web Services account. These settings are set with the SetSMSAttributes action.
+    ///
+    /// - Parameter GetSMSAttributesInput : The input for the GetSMSAttributes request.
+    ///
+    /// - Returns: `GetSMSAttributesOutputResponse` : The response from the GetSMSAttributes request.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AuthorizationErrorException` : Indicates that the user has been denied access to the requested resource.
+    /// - `InternalErrorException` : Indicates an internal service error.
+    /// - `InvalidParameterException` : Indicates that a request parameter does not comply with the associated constraints.
+    /// - `ThrottledException` : Indicates that the rate at which requests have been submitted for this action exceeds the limit for your Amazon Web Services account.
     public func getSMSAttributes(input: GetSMSAttributesInput) async throws -> GetSMSAttributesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -621,6 +813,17 @@ extension SNSClient: SNSClientProtocol {
     }
 
     /// Retrieves the SMS sandbox status for the calling Amazon Web Services account in the target Amazon Web Services Region. When you start using Amazon SNS to send SMS messages, your Amazon Web Services account is in the SMS sandbox. The SMS sandbox provides a safe environment for you to try Amazon SNS features without risking your reputation as an SMS sender. While your Amazon Web Services account is in the SMS sandbox, you can use all of the features of Amazon SNS. However, you can send SMS messages only to verified destination phone numbers. For more information, including how to move out of the sandbox to send messages without restrictions, see [SMS sandbox](https://docs.aws.amazon.com/sns/latest/dg/sns-sms-sandbox.html) in the Amazon SNS Developer Guide.
+    ///
+    /// - Parameter GetSMSSandboxAccountStatusInput : [no documentation found]
+    ///
+    /// - Returns: `GetSMSSandboxAccountStatusOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AuthorizationErrorException` : Indicates that the user has been denied access to the requested resource.
+    /// - `InternalErrorException` : Indicates an internal service error.
+    /// - `ThrottledException` : Indicates that the rate at which requests have been submitted for this action exceeds the limit for your Amazon Web Services account.
     public func getSMSSandboxAccountStatus(input: GetSMSSandboxAccountStatusInput) async throws -> GetSMSSandboxAccountStatusOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -657,6 +860,18 @@ extension SNSClient: SNSClientProtocol {
     }
 
     /// Returns all of the properties of a subscription.
+    ///
+    /// - Parameter GetSubscriptionAttributesInput : Input for GetSubscriptionAttributes.
+    ///
+    /// - Returns: `GetSubscriptionAttributesOutputResponse` : Response for GetSubscriptionAttributes action.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AuthorizationErrorException` : Indicates that the user has been denied access to the requested resource.
+    /// - `InternalErrorException` : Indicates an internal service error.
+    /// - `InvalidParameterException` : Indicates that a request parameter does not comply with the associated constraints.
+    /// - `NotFoundException` : Indicates that the requested resource does not exist.
     public func getSubscriptionAttributes(input: GetSubscriptionAttributesInput) async throws -> GetSubscriptionAttributesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -693,6 +908,19 @@ extension SNSClient: SNSClientProtocol {
     }
 
     /// Returns all of the properties of a topic. Topic properties returned might differ based on the authorization of the user.
+    ///
+    /// - Parameter GetTopicAttributesInput : Input for GetTopicAttributes action.
+    ///
+    /// - Returns: `GetTopicAttributesOutputResponse` : Response for GetTopicAttributes action.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AuthorizationErrorException` : Indicates that the user has been denied access to the requested resource.
+    /// - `InternalErrorException` : Indicates an internal service error.
+    /// - `InvalidParameterException` : Indicates that a request parameter does not comply with the associated constraints.
+    /// - `InvalidSecurityException` : The credential signature isn't valid. You must use an HTTPS endpoint and sign your request using Signature Version 4.
+    /// - `NotFoundException` : Indicates that the requested resource does not exist.
     public func getTopicAttributes(input: GetTopicAttributesInput) async throws -> GetTopicAttributesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -729,6 +957,18 @@ extension SNSClient: SNSClientProtocol {
     }
 
     /// Lists the endpoints and endpoint attributes for devices in a supported push notification service, such as GCM (Firebase Cloud Messaging) and APNS. The results for ListEndpointsByPlatformApplication are paginated and return a limited list of endpoints, up to 100. If additional records are available after the first page results, then a NextToken string will be returned. To receive the next page, you call ListEndpointsByPlatformApplication again using the NextToken string received from the previous call. When there are no more records to return, NextToken will be null. For more information, see [Using Amazon SNS Mobile Push Notifications](https://docs.aws.amazon.com/sns/latest/dg/SNSMobilePush.html). This action is throttled at 30 transactions per second (TPS).
+    ///
+    /// - Parameter ListEndpointsByPlatformApplicationInput : Input for ListEndpointsByPlatformApplication action.
+    ///
+    /// - Returns: `ListEndpointsByPlatformApplicationOutputResponse` : Response for ListEndpointsByPlatformApplication action.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AuthorizationErrorException` : Indicates that the user has been denied access to the requested resource.
+    /// - `InternalErrorException` : Indicates an internal service error.
+    /// - `InvalidParameterException` : Indicates that a request parameter does not comply with the associated constraints.
+    /// - `NotFoundException` : Indicates that the requested resource does not exist.
     public func listEndpointsByPlatformApplication(input: ListEndpointsByPlatformApplicationInput) async throws -> ListEndpointsByPlatformApplicationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -765,6 +1005,19 @@ extension SNSClient: SNSClientProtocol {
     }
 
     /// Lists the calling Amazon Web Services account's dedicated origination numbers and their metadata. For more information about origination numbers, see [Origination numbers](https://docs.aws.amazon.com/sns/latest/dg/channels-sms-originating-identities-origination-numbers.html) in the Amazon SNS Developer Guide.
+    ///
+    /// - Parameter ListOriginationNumbersInput : [no documentation found]
+    ///
+    /// - Returns: `ListOriginationNumbersOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AuthorizationErrorException` : Indicates that the user has been denied access to the requested resource.
+    /// - `InternalErrorException` : Indicates an internal service error.
+    /// - `InvalidParameterException` : Indicates that a request parameter does not comply with the associated constraints.
+    /// - `ThrottledException` : Indicates that the rate at which requests have been submitted for this action exceeds the limit for your Amazon Web Services account.
+    /// - `ValidationException` : Indicates that a parameter in the request is invalid.
     public func listOriginationNumbers(input: ListOriginationNumbersInput) async throws -> ListOriginationNumbersOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -801,6 +1054,18 @@ extension SNSClient: SNSClientProtocol {
     }
 
     /// Returns a list of phone numbers that are opted out, meaning you cannot send SMS messages to them. The results for ListPhoneNumbersOptedOut are paginated, and each page returns up to 100 phone numbers. If additional phone numbers are available after the first page of results, then a NextToken string will be returned. To receive the next page, you call ListPhoneNumbersOptedOut again using the NextToken string received from the previous call. When there are no more records to return, NextToken will be null.
+    ///
+    /// - Parameter ListPhoneNumbersOptedOutInput : The input for the ListPhoneNumbersOptedOut action.
+    ///
+    /// - Returns: `ListPhoneNumbersOptedOutOutputResponse` : The response from the ListPhoneNumbersOptedOut action.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AuthorizationErrorException` : Indicates that the user has been denied access to the requested resource.
+    /// - `InternalErrorException` : Indicates an internal service error.
+    /// - `InvalidParameterException` : Indicates that a request parameter does not comply with the associated constraints.
+    /// - `ThrottledException` : Indicates that the rate at which requests have been submitted for this action exceeds the limit for your Amazon Web Services account.
     public func listPhoneNumbersOptedOut(input: ListPhoneNumbersOptedOutInput) async throws -> ListPhoneNumbersOptedOutOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -837,6 +1102,17 @@ extension SNSClient: SNSClientProtocol {
     }
 
     /// Lists the platform application objects for the supported push notification services, such as APNS and GCM (Firebase Cloud Messaging). The results for ListPlatformApplications are paginated and return a limited list of applications, up to 100. If additional records are available after the first page results, then a NextToken string will be returned. To receive the next page, you call ListPlatformApplications using the NextToken string received from the previous call. When there are no more records to return, NextToken will be null. For more information, see [Using Amazon SNS Mobile Push Notifications](https://docs.aws.amazon.com/sns/latest/dg/SNSMobilePush.html). This action is throttled at 15 transactions per second (TPS).
+    ///
+    /// - Parameter ListPlatformApplicationsInput : Input for ListPlatformApplications action.
+    ///
+    /// - Returns: `ListPlatformApplicationsOutputResponse` : Response for ListPlatformApplications action.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AuthorizationErrorException` : Indicates that the user has been denied access to the requested resource.
+    /// - `InternalErrorException` : Indicates an internal service error.
+    /// - `InvalidParameterException` : Indicates that a request parameter does not comply with the associated constraints.
     public func listPlatformApplications(input: ListPlatformApplicationsInput) async throws -> ListPlatformApplicationsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -873,6 +1149,19 @@ extension SNSClient: SNSClientProtocol {
     }
 
     /// Lists the calling Amazon Web Services account's current verified and pending destination phone numbers in the SMS sandbox. When you start using Amazon SNS to send SMS messages, your Amazon Web Services account is in the SMS sandbox. The SMS sandbox provides a safe environment for you to try Amazon SNS features without risking your reputation as an SMS sender. While your Amazon Web Services account is in the SMS sandbox, you can use all of the features of Amazon SNS. However, you can send SMS messages only to verified destination phone numbers. For more information, including how to move out of the sandbox to send messages without restrictions, see [SMS sandbox](https://docs.aws.amazon.com/sns/latest/dg/sns-sms-sandbox.html) in the Amazon SNS Developer Guide.
+    ///
+    /// - Parameter ListSMSSandboxPhoneNumbersInput : [no documentation found]
+    ///
+    /// - Returns: `ListSMSSandboxPhoneNumbersOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AuthorizationErrorException` : Indicates that the user has been denied access to the requested resource.
+    /// - `InternalErrorException` : Indicates an internal service error.
+    /// - `InvalidParameterException` : Indicates that a request parameter does not comply with the associated constraints.
+    /// - `ResourceNotFoundException` : Can’t perform the action on the specified resource. Make sure that the resource exists.
+    /// - `ThrottledException` : Indicates that the rate at which requests have been submitted for this action exceeds the limit for your Amazon Web Services account.
     public func listSMSSandboxPhoneNumbers(input: ListSMSSandboxPhoneNumbersInput) async throws -> ListSMSSandboxPhoneNumbersOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -909,6 +1198,17 @@ extension SNSClient: SNSClientProtocol {
     }
 
     /// Returns a list of the requester's subscriptions. Each call returns a limited list of subscriptions, up to 100. If there are more subscriptions, a NextToken is also returned. Use the NextToken parameter in a new ListSubscriptions call to get further results. This action is throttled at 30 transactions per second (TPS).
+    ///
+    /// - Parameter ListSubscriptionsInput : Input for ListSubscriptions action.
+    ///
+    /// - Returns: `ListSubscriptionsOutputResponse` : Response for ListSubscriptions action
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AuthorizationErrorException` : Indicates that the user has been denied access to the requested resource.
+    /// - `InternalErrorException` : Indicates an internal service error.
+    /// - `InvalidParameterException` : Indicates that a request parameter does not comply with the associated constraints.
     public func listSubscriptions(input: ListSubscriptionsInput) async throws -> ListSubscriptionsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -945,6 +1245,18 @@ extension SNSClient: SNSClientProtocol {
     }
 
     /// Returns a list of the subscriptions to a specific topic. Each call returns a limited list of subscriptions, up to 100. If there are more subscriptions, a NextToken is also returned. Use the NextToken parameter in a new ListSubscriptionsByTopic call to get further results. This action is throttled at 30 transactions per second (TPS).
+    ///
+    /// - Parameter ListSubscriptionsByTopicInput : Input for ListSubscriptionsByTopic action.
+    ///
+    /// - Returns: `ListSubscriptionsByTopicOutputResponse` : Response for ListSubscriptionsByTopic action.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AuthorizationErrorException` : Indicates that the user has been denied access to the requested resource.
+    /// - `InternalErrorException` : Indicates an internal service error.
+    /// - `InvalidParameterException` : Indicates that a request parameter does not comply with the associated constraints.
+    /// - `NotFoundException` : Indicates that the requested resource does not exist.
     public func listSubscriptionsByTopic(input: ListSubscriptionsByTopicInput) async throws -> ListSubscriptionsByTopicOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -981,6 +1293,19 @@ extension SNSClient: SNSClientProtocol {
     }
 
     /// List all tags added to the specified Amazon SNS topic. For an overview, see [Amazon SNS Tags](https://docs.aws.amazon.com/sns/latest/dg/sns-tags.html) in the Amazon Simple Notification Service Developer Guide.
+    ///
+    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    ///
+    /// - Returns: `ListTagsForResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AuthorizationErrorException` : Indicates that the user has been denied access to the requested resource.
+    /// - `ConcurrentAccessException` : Can't perform multiple operations on a tag simultaneously. Perform the operations sequentially.
+    /// - `InvalidParameterException` : Indicates that a request parameter does not comply with the associated constraints.
+    /// - `ResourceNotFoundException` : Can’t perform the action on the specified resource. Make sure that the resource exists.
+    /// - `TagPolicyException` : The request doesn't comply with the IAM tag policy. Correct your request and then retry it.
     public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1017,6 +1342,17 @@ extension SNSClient: SNSClientProtocol {
     }
 
     /// Returns a list of the requester's topics. Each call returns a limited list of topics, up to 100. If there are more topics, a NextToken is also returned. Use the NextToken parameter in a new ListTopics call to get further results. This action is throttled at 30 transactions per second (TPS).
+    ///
+    /// - Parameter ListTopicsInput : [no documentation found]
+    ///
+    /// - Returns: `ListTopicsOutputResponse` : Response for ListTopics action.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AuthorizationErrorException` : Indicates that the user has been denied access to the requested resource.
+    /// - `InternalErrorException` : Indicates an internal service error.
+    /// - `InvalidParameterException` : Indicates that a request parameter does not comply with the associated constraints.
     public func listTopics(input: ListTopicsInput) async throws -> ListTopicsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1053,6 +1389,18 @@ extension SNSClient: SNSClientProtocol {
     }
 
     /// Use this request to opt in a phone number that is opted out, which enables you to resume sending SMS messages to the number. You can opt in a phone number only once every 30 days.
+    ///
+    /// - Parameter OptInPhoneNumberInput : Input for the OptInPhoneNumber action.
+    ///
+    /// - Returns: `OptInPhoneNumberOutputResponse` : The response for the OptInPhoneNumber action.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AuthorizationErrorException` : Indicates that the user has been denied access to the requested resource.
+    /// - `InternalErrorException` : Indicates an internal service error.
+    /// - `InvalidParameterException` : Indicates that a request parameter does not comply with the associated constraints.
+    /// - `ThrottledException` : Indicates that the rate at which requests have been submitted for this action exceeds the limit for your Amazon Web Services account.
     public func optInPhoneNumber(input: OptInPhoneNumberInput) async throws -> OptInPhoneNumberOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1089,6 +1437,29 @@ extension SNSClient: SNSClientProtocol {
     }
 
     /// Sends a message to an Amazon SNS topic, a text message (SMS message) directly to a phone number, or a message to a mobile platform endpoint (when you specify the TargetArn). If you send a message to a topic, Amazon SNS delivers the message to each endpoint that is subscribed to the topic. The format of the message depends on the notification protocol for each subscribed endpoint. When a messageId is returned, the message is saved and Amazon SNS immediately delivers it to subscribers. To use the Publish action for publishing a message to a mobile endpoint, such as an app on a Kindle device or mobile phone, you must specify the EndpointArn for the TargetArn parameter. The EndpointArn is returned when making a call with the CreatePlatformEndpoint action. For more information about formatting messages, see [Send Custom Platform-Specific Payloads in Messages to Mobile Devices](https://docs.aws.amazon.com/sns/latest/dg/mobile-push-send-custommessage.html). You can publish messages only to topics and endpoints in the same Amazon Web Services Region.
+    ///
+    /// - Parameter PublishInput : Input for Publish action.
+    ///
+    /// - Returns: `PublishOutputResponse` : Response for Publish action.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AuthorizationErrorException` : Indicates that the user has been denied access to the requested resource.
+    /// - `EndpointDisabledException` : Exception error indicating endpoint disabled.
+    /// - `InternalErrorException` : Indicates an internal service error.
+    /// - `InvalidParameterException` : Indicates that a request parameter does not comply with the associated constraints.
+    /// - `InvalidParameterValueException` : Indicates that a request parameter does not comply with the associated constraints.
+    /// - `InvalidSecurityException` : The credential signature isn't valid. You must use an HTTPS endpoint and sign your request using Signature Version 4.
+    /// - `KMSAccessDeniedException` : The ciphertext references a key that doesn't exist or that you don't have access to.
+    /// - `KMSDisabledException` : The request was rejected because the specified customer master key (CMK) isn't enabled.
+    /// - `KMSInvalidStateException` : The request was rejected because the state of the specified resource isn't valid for this request. For more information, see [How Key State Affects Use of a Customer Master Key](https://docs.aws.amazon.com/kms/latest/developerguide/key-state.html) in the Key Management Service Developer Guide.
+    /// - `KMSNotFoundException` : The request was rejected because the specified entity or resource can't be found.
+    /// - `KMSOptInRequired` : The Amazon Web Services access key ID needs a subscription for the service.
+    /// - `KMSThrottlingException` : The request was denied due to request throttling. For more information about throttling, see [Limits](https://docs.aws.amazon.com/kms/latest/developerguide/limits.html#requests-per-second) in the Key Management Service Developer Guide.
+    /// - `NotFoundException` : Indicates that the requested resource does not exist.
+    /// - `PlatformApplicationDisabledException` : Exception error indicating platform application disabled.
+    /// - `ValidationException` : Indicates that a parameter in the request is invalid.
     public func publish(input: PublishInput) async throws -> PublishOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1125,6 +1496,34 @@ extension SNSClient: SNSClientProtocol {
     }
 
     /// Publishes up to ten messages to the specified topic. This is a batch version of Publish. For FIFO topics, multiple messages within a single batch are published in the order they are sent, and messages are deduplicated within the batch and across batches for 5 minutes. The result of publishing each message is reported individually in the response. Because the batch request can result in a combination of successful and unsuccessful actions, you should check for batch errors even when the call returns an HTTP status code of 200. The maximum allowed individual message size and the maximum total payload size (the sum of the individual lengths of all of the batched messages) are both 256 KB (262,144 bytes). Some actions take lists of parameters. These lists are specified using the param.n notation. Values of n are integers starting from 1. For example, a parameter list with two elements looks like this: &AttributeName.1=first &AttributeName.2=second If you send a batch message to a topic, Amazon SNS publishes the batch message to each endpoint that is subscribed to the topic. The format of the batch message depends on the notification protocol for each subscribed endpoint. When a messageId is returned, the batch message is saved and Amazon SNS immediately delivers the message to subscribers.
+    ///
+    /// - Parameter PublishBatchInput : [no documentation found]
+    ///
+    /// - Returns: `PublishBatchOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AuthorizationErrorException` : Indicates that the user has been denied access to the requested resource.
+    /// - `BatchEntryIdsNotDistinctException` : Two or more batch entries in the request have the same Id.
+    /// - `BatchRequestTooLongException` : The length of all the batch messages put together is more than the limit.
+    /// - `EmptyBatchRequestException` : The batch request doesn't contain any entries.
+    /// - `EndpointDisabledException` : Exception error indicating endpoint disabled.
+    /// - `InternalErrorException` : Indicates an internal service error.
+    /// - `InvalidBatchEntryIdException` : The Id of a batch entry in a batch request doesn't abide by the specification.
+    /// - `InvalidParameterException` : Indicates that a request parameter does not comply with the associated constraints.
+    /// - `InvalidParameterValueException` : Indicates that a request parameter does not comply with the associated constraints.
+    /// - `InvalidSecurityException` : The credential signature isn't valid. You must use an HTTPS endpoint and sign your request using Signature Version 4.
+    /// - `KMSAccessDeniedException` : The ciphertext references a key that doesn't exist or that you don't have access to.
+    /// - `KMSDisabledException` : The request was rejected because the specified customer master key (CMK) isn't enabled.
+    /// - `KMSInvalidStateException` : The request was rejected because the state of the specified resource isn't valid for this request. For more information, see [How Key State Affects Use of a Customer Master Key](https://docs.aws.amazon.com/kms/latest/developerguide/key-state.html) in the Key Management Service Developer Guide.
+    /// - `KMSNotFoundException` : The request was rejected because the specified entity or resource can't be found.
+    /// - `KMSOptInRequired` : The Amazon Web Services access key ID needs a subscription for the service.
+    /// - `KMSThrottlingException` : The request was denied due to request throttling. For more information about throttling, see [Limits](https://docs.aws.amazon.com/kms/latest/developerguide/limits.html#requests-per-second) in the Key Management Service Developer Guide.
+    /// - `NotFoundException` : Indicates that the requested resource does not exist.
+    /// - `PlatformApplicationDisabledException` : Exception error indicating platform application disabled.
+    /// - `TooManyEntriesInBatchRequestException` : The batch request contains more entries than permissible.
+    /// - `ValidationException` : Indicates that a parameter in the request is invalid.
     public func publishBatch(input: PublishBatchInput) async throws -> PublishBatchOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1161,6 +1560,19 @@ extension SNSClient: SNSClientProtocol {
     }
 
     /// Adds or updates an inline policy document that is stored in the specified Amazon SNS topic.
+    ///
+    /// - Parameter PutDataProtectionPolicyInput : [no documentation found]
+    ///
+    /// - Returns: `PutDataProtectionPolicyOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AuthorizationErrorException` : Indicates that the user has been denied access to the requested resource.
+    /// - `InternalErrorException` : Indicates an internal service error.
+    /// - `InvalidParameterException` : Indicates that a request parameter does not comply with the associated constraints.
+    /// - `InvalidSecurityException` : The credential signature isn't valid. You must use an HTTPS endpoint and sign your request using Signature Version 4.
+    /// - `NotFoundException` : Indicates that the requested resource does not exist.
     public func putDataProtectionPolicy(input: PutDataProtectionPolicyInput) async throws -> PutDataProtectionPolicyOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1197,6 +1609,18 @@ extension SNSClient: SNSClientProtocol {
     }
 
     /// Removes a statement from a topic's access control policy. To remove the ability to change topic permissions, you must deny permissions to the AddPermission, RemovePermission, and SetTopicAttributes actions in your IAM policy.
+    ///
+    /// - Parameter RemovePermissionInput : Input for RemovePermission action.
+    ///
+    /// - Returns: `RemovePermissionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AuthorizationErrorException` : Indicates that the user has been denied access to the requested resource.
+    /// - `InternalErrorException` : Indicates an internal service error.
+    /// - `InvalidParameterException` : Indicates that a request parameter does not comply with the associated constraints.
+    /// - `NotFoundException` : Indicates that the requested resource does not exist.
     public func removePermission(input: RemovePermissionInput) async throws -> RemovePermissionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1233,6 +1657,18 @@ extension SNSClient: SNSClientProtocol {
     }
 
     /// Sets the attributes for an endpoint for a device on one of the supported push notification services, such as GCM (Firebase Cloud Messaging) and APNS. For more information, see [Using Amazon SNS Mobile Push Notifications](https://docs.aws.amazon.com/sns/latest/dg/SNSMobilePush.html).
+    ///
+    /// - Parameter SetEndpointAttributesInput : Input for SetEndpointAttributes action.
+    ///
+    /// - Returns: `SetEndpointAttributesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AuthorizationErrorException` : Indicates that the user has been denied access to the requested resource.
+    /// - `InternalErrorException` : Indicates an internal service error.
+    /// - `InvalidParameterException` : Indicates that a request parameter does not comply with the associated constraints.
+    /// - `NotFoundException` : Indicates that the requested resource does not exist.
     public func setEndpointAttributes(input: SetEndpointAttributesInput) async throws -> SetEndpointAttributesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1269,6 +1705,18 @@ extension SNSClient: SNSClientProtocol {
     }
 
     /// Sets the attributes of the platform application object for the supported push notification services, such as APNS and GCM (Firebase Cloud Messaging). For more information, see [Using Amazon SNS Mobile Push Notifications](https://docs.aws.amazon.com/sns/latest/dg/SNSMobilePush.html). For information on configuring attributes for message delivery status, see [Using Amazon SNS Application Attributes for Message Delivery Status](https://docs.aws.amazon.com/sns/latest/dg/sns-msg-status.html).
+    ///
+    /// - Parameter SetPlatformApplicationAttributesInput : Input for SetPlatformApplicationAttributes action.
+    ///
+    /// - Returns: `SetPlatformApplicationAttributesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AuthorizationErrorException` : Indicates that the user has been denied access to the requested resource.
+    /// - `InternalErrorException` : Indicates an internal service error.
+    /// - `InvalidParameterException` : Indicates that a request parameter does not comply with the associated constraints.
+    /// - `NotFoundException` : Indicates that the requested resource does not exist.
     public func setPlatformApplicationAttributes(input: SetPlatformApplicationAttributesInput) async throws -> SetPlatformApplicationAttributesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1305,6 +1753,18 @@ extension SNSClient: SNSClientProtocol {
     }
 
     /// Use this request to set the default settings for sending SMS messages and receiving daily SMS usage reports. You can override some of these settings for a single message when you use the Publish action with the MessageAttributes.entry.N parameter. For more information, see [Publishing to a mobile phone](https://docs.aws.amazon.com/sns/latest/dg/sms_publish-to-phone.html) in the Amazon SNS Developer Guide. To use this operation, you must grant the Amazon SNS service principal (sns.amazonaws.com) permission to perform the s3:ListBucket action.
+    ///
+    /// - Parameter SetSMSAttributesInput : The input for the SetSMSAttributes action.
+    ///
+    /// - Returns: `SetSMSAttributesOutputResponse` : The response for the SetSMSAttributes action.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AuthorizationErrorException` : Indicates that the user has been denied access to the requested resource.
+    /// - `InternalErrorException` : Indicates an internal service error.
+    /// - `InvalidParameterException` : Indicates that a request parameter does not comply with the associated constraints.
+    /// - `ThrottledException` : Indicates that the rate at which requests have been submitted for this action exceeds the limit for your Amazon Web Services account.
     public func setSMSAttributes(input: SetSMSAttributesInput) async throws -> SetSMSAttributesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1341,6 +1801,19 @@ extension SNSClient: SNSClientProtocol {
     }
 
     /// Allows a subscription owner to set an attribute of the subscription to a new value.
+    ///
+    /// - Parameter SetSubscriptionAttributesInput : Input for SetSubscriptionAttributes action.
+    ///
+    /// - Returns: `SetSubscriptionAttributesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AuthorizationErrorException` : Indicates that the user has been denied access to the requested resource.
+    /// - `FilterPolicyLimitExceededException` : Indicates that the number of filter polices in your Amazon Web Services account exceeds the limit. To add more filter polices, submit an Amazon SNS Limit Increase case in the Amazon Web Services Support Center.
+    /// - `InternalErrorException` : Indicates an internal service error.
+    /// - `InvalidParameterException` : Indicates that a request parameter does not comply with the associated constraints.
+    /// - `NotFoundException` : Indicates that the requested resource does not exist.
     public func setSubscriptionAttributes(input: SetSubscriptionAttributesInput) async throws -> SetSubscriptionAttributesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1377,6 +1850,19 @@ extension SNSClient: SNSClientProtocol {
     }
 
     /// Allows a topic owner to set an attribute of the topic to a new value. To remove the ability to change topic permissions, you must deny permissions to the AddPermission, RemovePermission, and SetTopicAttributes actions in your IAM policy.
+    ///
+    /// - Parameter SetTopicAttributesInput : Input for SetTopicAttributes action.
+    ///
+    /// - Returns: `SetTopicAttributesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AuthorizationErrorException` : Indicates that the user has been denied access to the requested resource.
+    /// - `InternalErrorException` : Indicates an internal service error.
+    /// - `InvalidParameterException` : Indicates that a request parameter does not comply with the associated constraints.
+    /// - `InvalidSecurityException` : The credential signature isn't valid. You must use an HTTPS endpoint and sign your request using Signature Version 4.
+    /// - `NotFoundException` : Indicates that the requested resource does not exist.
     public func setTopicAttributes(input: SetTopicAttributesInput) async throws -> SetTopicAttributesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1413,6 +1899,21 @@ extension SNSClient: SNSClientProtocol {
     }
 
     /// Subscribes an endpoint to an Amazon SNS topic. If the endpoint type is HTTP/S or email, or if the endpoint and the topic are not in the same Amazon Web Services account, the endpoint owner must run the ConfirmSubscription action to confirm the subscription. You call the ConfirmSubscription action with the token from the subscription response. Confirmation tokens are valid for three days. This action is throttled at 100 transactions per second (TPS).
+    ///
+    /// - Parameter SubscribeInput : Input for Subscribe action.
+    ///
+    /// - Returns: `SubscribeOutputResponse` : Response for Subscribe action.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AuthorizationErrorException` : Indicates that the user has been denied access to the requested resource.
+    /// - `FilterPolicyLimitExceededException` : Indicates that the number of filter polices in your Amazon Web Services account exceeds the limit. To add more filter polices, submit an Amazon SNS Limit Increase case in the Amazon Web Services Support Center.
+    /// - `InternalErrorException` : Indicates an internal service error.
+    /// - `InvalidParameterException` : Indicates that a request parameter does not comply with the associated constraints.
+    /// - `InvalidSecurityException` : The credential signature isn't valid. You must use an HTTPS endpoint and sign your request using Signature Version 4.
+    /// - `NotFoundException` : Indicates that the requested resource does not exist.
+    /// - `SubscriptionLimitExceededException` : Indicates that the customer already owns the maximum allowed number of subscriptions.
     public func subscribe(input: SubscribeInput) async throws -> SubscribeOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1459,6 +1960,21 @@ extension SNSClient: SNSClientProtocol {
     /// * A new tag with a key identical to that of an existing tag overwrites the existing tag.
     ///
     /// * Tagging actions are limited to 10 TPS per Amazon Web Services account, per Amazon Web Services Region. If your application requires a higher throughput, file a [technical support request](https://console.aws.amazon.com/support/home#/case/create?issueType=technical).
+    ///
+    /// - Parameter TagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `TagResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AuthorizationErrorException` : Indicates that the user has been denied access to the requested resource.
+    /// - `ConcurrentAccessException` : Can't perform multiple operations on a tag simultaneously. Perform the operations sequentially.
+    /// - `InvalidParameterException` : Indicates that a request parameter does not comply with the associated constraints.
+    /// - `ResourceNotFoundException` : Can’t perform the action on the specified resource. Make sure that the resource exists.
+    /// - `StaleTagException` : A tag has been added to a resource with the same ARN as a deleted resource. Wait a short while and then retry the operation.
+    /// - `TagLimitExceededException` : Can't add more than 50 tags to a topic.
+    /// - `TagPolicyException` : The request doesn't comply with the IAM tag policy. Correct your request and then retry it.
     public func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1495,6 +2011,19 @@ extension SNSClient: SNSClientProtocol {
     }
 
     /// Deletes a subscription. If the subscription requires authentication for deletion, only the owner of the subscription or the topic's owner can unsubscribe, and an Amazon Web Services signature is required. If the Unsubscribe call does not require authentication and the requester is not the subscription owner, a final cancellation message is delivered to the endpoint, so that the endpoint owner can easily resubscribe to the topic if the Unsubscribe request was unintended. Amazon SQS queue subscriptions require authentication for deletion. Only the owner of the subscription, or the owner of the topic can unsubscribe using the required Amazon Web Services signature. This action is throttled at 100 transactions per second (TPS).
+    ///
+    /// - Parameter UnsubscribeInput : Input for Unsubscribe action.
+    ///
+    /// - Returns: `UnsubscribeOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AuthorizationErrorException` : Indicates that the user has been denied access to the requested resource.
+    /// - `InternalErrorException` : Indicates an internal service error.
+    /// - `InvalidParameterException` : Indicates that a request parameter does not comply with the associated constraints.
+    /// - `InvalidSecurityException` : The credential signature isn't valid. You must use an HTTPS endpoint and sign your request using Signature Version 4.
+    /// - `NotFoundException` : Indicates that the requested resource does not exist.
     public func unsubscribe(input: UnsubscribeInput) async throws -> UnsubscribeOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1531,6 +2060,21 @@ extension SNSClient: SNSClientProtocol {
     }
 
     /// Remove tags from the specified Amazon SNS topic. For an overview, see [Amazon SNS Tags](https://docs.aws.amazon.com/sns/latest/dg/sns-tags.html) in the Amazon SNS Developer Guide.
+    ///
+    /// - Parameter UntagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `UntagResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AuthorizationErrorException` : Indicates that the user has been denied access to the requested resource.
+    /// - `ConcurrentAccessException` : Can't perform multiple operations on a tag simultaneously. Perform the operations sequentially.
+    /// - `InvalidParameterException` : Indicates that a request parameter does not comply with the associated constraints.
+    /// - `ResourceNotFoundException` : Can’t perform the action on the specified resource. Make sure that the resource exists.
+    /// - `StaleTagException` : A tag has been added to a resource with the same ARN as a deleted resource. Wait a short while and then retry the operation.
+    /// - `TagLimitExceededException` : Can't add more than 50 tags to a topic.
+    /// - `TagPolicyException` : The request doesn't comply with the IAM tag policy. Correct your request and then retry it.
     public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1567,6 +2111,20 @@ extension SNSClient: SNSClientProtocol {
     }
 
     /// Verifies a destination phone number with a one-time password (OTP) for the calling Amazon Web Services account. When you start using Amazon SNS to send SMS messages, your Amazon Web Services account is in the SMS sandbox. The SMS sandbox provides a safe environment for you to try Amazon SNS features without risking your reputation as an SMS sender. While your Amazon Web Services account is in the SMS sandbox, you can use all of the features of Amazon SNS. However, you can send SMS messages only to verified destination phone numbers. For more information, including how to move out of the sandbox to send messages without restrictions, see [SMS sandbox](https://docs.aws.amazon.com/sns/latest/dg/sns-sms-sandbox.html) in the Amazon SNS Developer Guide.
+    ///
+    /// - Parameter VerifySMSSandboxPhoneNumberInput : [no documentation found]
+    ///
+    /// - Returns: `VerifySMSSandboxPhoneNumberOutputResponse` : The destination phone number's verification status.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AuthorizationErrorException` : Indicates that the user has been denied access to the requested resource.
+    /// - `InternalErrorException` : Indicates an internal service error.
+    /// - `InvalidParameterException` : Indicates that a request parameter does not comply with the associated constraints.
+    /// - `ResourceNotFoundException` : Can’t perform the action on the specified resource. Make sure that the resource exists.
+    /// - `ThrottledException` : Indicates that the rate at which requests have been submitted for this action exceeds the limit for your Amazon Web Services account.
+    /// - `VerificationException` : Indicates that the one-time password (OTP) used for verification is invalid.
     public func verifySMSSandboxPhoneNumber(input: VerifySMSSandboxPhoneNumberInput) async throws -> VerifySMSSandboxPhoneNumberOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()

@@ -1199,9 +1199,15 @@ extension ConflictExceptionBody: Swift.Decodable {
     }
 }
 
+extension CreatePhoneNumberOrderInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CreatePhoneNumberOrderInput(e164PhoneNumbers: \(Swift.String(describing: e164PhoneNumbers)), productType: \(Swift.String(describing: productType)), name: \"CONTENT_REDACTED\")"}
+}
+
 extension CreatePhoneNumberOrderInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case e164PhoneNumbers = "E164PhoneNumbers"
+        case name = "Name"
         case productType = "ProductType"
     }
 
@@ -1212,6 +1218,9 @@ extension CreatePhoneNumberOrderInput: Swift.Encodable {
             for e164phonenumber0 in e164PhoneNumbers {
                 try e164PhoneNumbersContainer.encode(e164phonenumber0)
             }
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
         }
         if let productType = self.productType {
             try encodeContainer.encode(productType.rawValue, forKey: .productType)
@@ -1229,16 +1238,20 @@ public struct CreatePhoneNumberOrderInput: Swift.Equatable {
     /// List of phone numbers, in E.164 format.
     /// This member is required.
     public var e164PhoneNumbers: [Swift.String]?
+    /// Specifies the name assigned to one or more phone numbers.
+    public var name: Swift.String?
     /// The phone number product type.
     /// This member is required.
     public var productType: ChimeSDKVoiceClientTypes.PhoneNumberProductType?
 
     public init(
         e164PhoneNumbers: [Swift.String]? = nil,
+        name: Swift.String? = nil,
         productType: ChimeSDKVoiceClientTypes.PhoneNumberProductType? = nil
     )
     {
         self.e164PhoneNumbers = e164PhoneNumbers
+        self.name = name
         self.productType = productType
     }
 }
@@ -1246,11 +1259,13 @@ public struct CreatePhoneNumberOrderInput: Swift.Equatable {
 struct CreatePhoneNumberOrderInputBody: Swift.Equatable {
     let productType: ChimeSDKVoiceClientTypes.PhoneNumberProductType?
     let e164PhoneNumbers: [Swift.String]?
+    let name: Swift.String?
 }
 
 extension CreatePhoneNumberOrderInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case e164PhoneNumbers = "E164PhoneNumbers"
+        case name = "Name"
         case productType = "ProductType"
     }
 
@@ -1269,6 +1284,8 @@ extension CreatePhoneNumberOrderInputBody: Swift.Decodable {
             }
         }
         e164PhoneNumbers = e164PhoneNumbersDecoded0
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
     }
 }
 
@@ -8361,6 +8378,7 @@ extension ChimeSDKVoiceClientTypes.PhoneNumber: Swift.Codable {
         case createdTimestamp = "CreatedTimestamp"
         case deletionTimestamp = "DeletionTimestamp"
         case e164PhoneNumber = "E164PhoneNumber"
+        case name = "Name"
         case orderId = "OrderId"
         case phoneNumberId = "PhoneNumberId"
         case productType = "ProductType"
@@ -8397,6 +8415,9 @@ extension ChimeSDKVoiceClientTypes.PhoneNumber: Swift.Codable {
         }
         if let e164PhoneNumber = self.e164PhoneNumber {
             try encodeContainer.encode(e164PhoneNumber, forKey: .e164PhoneNumber)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
         }
         if let orderId = self.orderId {
             try encodeContainer.encode(orderId, forKey: .orderId)
@@ -8457,12 +8478,14 @@ extension ChimeSDKVoiceClientTypes.PhoneNumber: Swift.Codable {
         deletionTimestamp = deletionTimestampDecoded
         let orderIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .orderId)
         orderId = orderIdDecoded
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
     }
 }
 
 extension ChimeSDKVoiceClientTypes.PhoneNumber: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "PhoneNumber(associations: \(Swift.String(describing: associations)), callingNameStatus: \(Swift.String(describing: callingNameStatus)), capabilities: \(Swift.String(describing: capabilities)), country: \(Swift.String(describing: country)), createdTimestamp: \(Swift.String(describing: createdTimestamp)), deletionTimestamp: \(Swift.String(describing: deletionTimestamp)), orderId: \(Swift.String(describing: orderId)), productType: \(Swift.String(describing: productType)), status: \(Swift.String(describing: status)), type: \(Swift.String(describing: type)), updatedTimestamp: \(Swift.String(describing: updatedTimestamp)), callingName: \"CONTENT_REDACTED\", e164PhoneNumber: \"CONTENT_REDACTED\", phoneNumberId: \"CONTENT_REDACTED\")"}
+        "PhoneNumber(associations: \(Swift.String(describing: associations)), callingNameStatus: \(Swift.String(describing: callingNameStatus)), capabilities: \(Swift.String(describing: capabilities)), country: \(Swift.String(describing: country)), createdTimestamp: \(Swift.String(describing: createdTimestamp)), deletionTimestamp: \(Swift.String(describing: deletionTimestamp)), orderId: \(Swift.String(describing: orderId)), productType: \(Swift.String(describing: productType)), status: \(Swift.String(describing: status)), type: \(Swift.String(describing: type)), updatedTimestamp: \(Swift.String(describing: updatedTimestamp)), callingName: \"CONTENT_REDACTED\", e164PhoneNumber: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\", phoneNumberId: \"CONTENT_REDACTED\")"}
 }
 
 extension ChimeSDKVoiceClientTypes {
@@ -8484,6 +8507,8 @@ extension ChimeSDKVoiceClientTypes {
         public var deletionTimestamp: ClientRuntime.Date?
         /// The phone number, in E.164 format.
         public var e164PhoneNumber: Swift.String?
+        /// The name of the phone number.
+        public var name: Swift.String?
         /// The phone number's order ID.
         public var orderId: Swift.String?
         /// The phone number's ID.
@@ -8506,6 +8531,7 @@ extension ChimeSDKVoiceClientTypes {
             createdTimestamp: ClientRuntime.Date? = nil,
             deletionTimestamp: ClientRuntime.Date? = nil,
             e164PhoneNumber: Swift.String? = nil,
+            name: Swift.String? = nil,
             orderId: Swift.String? = nil,
             phoneNumberId: Swift.String? = nil,
             productType: ChimeSDKVoiceClientTypes.PhoneNumberProductType? = nil,
@@ -8522,6 +8548,7 @@ extension ChimeSDKVoiceClientTypes {
             self.createdTimestamp = createdTimestamp
             self.deletionTimestamp = deletionTimestamp
             self.e164PhoneNumber = e164PhoneNumber
+            self.name = name
             self.orderId = orderId
             self.phoneNumberId = phoneNumberId
             self.productType = productType
@@ -12968,12 +12995,13 @@ public struct UpdateGlobalSettingsOutputResponse: Swift.Equatable {
 
 extension UpdatePhoneNumberInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UpdatePhoneNumberInput(productType: \(Swift.String(describing: productType)), callingName: \"CONTENT_REDACTED\", phoneNumberId: \"CONTENT_REDACTED\")"}
+        "UpdatePhoneNumberInput(productType: \(Swift.String(describing: productType)), callingName: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\", phoneNumberId: \"CONTENT_REDACTED\")"}
 }
 
 extension UpdatePhoneNumberInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case callingName = "CallingName"
+        case name = "Name"
         case productType = "ProductType"
     }
 
@@ -12981,6 +13009,9 @@ extension UpdatePhoneNumberInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let callingName = self.callingName {
             try encodeContainer.encode(callingName, forKey: .callingName)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
         }
         if let productType = self.productType {
             try encodeContainer.encode(productType.rawValue, forKey: .productType)
@@ -13000,6 +13031,8 @@ extension UpdatePhoneNumberInput: ClientRuntime.URLPathProvider {
 public struct UpdatePhoneNumberInput: Swift.Equatable {
     /// The outbound calling name associated with the phone number.
     public var callingName: Swift.String?
+    /// Specifies the name assigned to one or more phone numbers.
+    public var name: Swift.String?
     /// The phone number ID.
     /// This member is required.
     public var phoneNumberId: Swift.String?
@@ -13008,11 +13041,13 @@ public struct UpdatePhoneNumberInput: Swift.Equatable {
 
     public init(
         callingName: Swift.String? = nil,
+        name: Swift.String? = nil,
         phoneNumberId: Swift.String? = nil,
         productType: ChimeSDKVoiceClientTypes.PhoneNumberProductType? = nil
     )
     {
         self.callingName = callingName
+        self.name = name
         self.phoneNumberId = phoneNumberId
         self.productType = productType
     }
@@ -13021,11 +13056,13 @@ public struct UpdatePhoneNumberInput: Swift.Equatable {
 struct UpdatePhoneNumberInputBody: Swift.Equatable {
     let productType: ChimeSDKVoiceClientTypes.PhoneNumberProductType?
     let callingName: Swift.String?
+    let name: Swift.String?
 }
 
 extension UpdatePhoneNumberInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case callingName = "CallingName"
+        case name = "Name"
         case productType = "ProductType"
     }
 
@@ -13035,6 +13072,8 @@ extension UpdatePhoneNumberInputBody: Swift.Decodable {
         productType = productTypeDecoded
         let callingNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .callingName)
         callingName = callingNameDecoded
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
     }
 }
 
@@ -13099,6 +13138,7 @@ extension UpdatePhoneNumberOutputResponseBody: Swift.Decodable {
 extension ChimeSDKVoiceClientTypes.UpdatePhoneNumberRequestItem: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case callingName = "CallingName"
+        case name = "Name"
         case phoneNumberId = "PhoneNumberId"
         case productType = "ProductType"
     }
@@ -13107,6 +13147,9 @@ extension ChimeSDKVoiceClientTypes.UpdatePhoneNumberRequestItem: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let callingName = self.callingName {
             try encodeContainer.encode(callingName, forKey: .callingName)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
         }
         if let phoneNumberId = self.phoneNumberId {
             try encodeContainer.encode(phoneNumberId, forKey: .phoneNumberId)
@@ -13124,12 +13167,14 @@ extension ChimeSDKVoiceClientTypes.UpdatePhoneNumberRequestItem: Swift.Codable {
         productType = productTypeDecoded
         let callingNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .callingName)
         callingName = callingNameDecoded
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
     }
 }
 
 extension ChimeSDKVoiceClientTypes.UpdatePhoneNumberRequestItem: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UpdatePhoneNumberRequestItem(productType: \(Swift.String(describing: productType)), callingName: \"CONTENT_REDACTED\", phoneNumberId: \"CONTENT_REDACTED\")"}
+        "UpdatePhoneNumberRequestItem(productType: \(Swift.String(describing: productType)), callingName: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\", phoneNumberId: \"CONTENT_REDACTED\")"}
 }
 
 extension ChimeSDKVoiceClientTypes {
@@ -13137,6 +13182,8 @@ extension ChimeSDKVoiceClientTypes {
     public struct UpdatePhoneNumberRequestItem: Swift.Equatable {
         /// The outbound calling name to update.
         public var callingName: Swift.String?
+        /// The name of the phone number.
+        public var name: Swift.String?
         /// The phone number ID to update.
         /// This member is required.
         public var phoneNumberId: Swift.String?
@@ -13145,11 +13192,13 @@ extension ChimeSDKVoiceClientTypes {
 
         public init(
             callingName: Swift.String? = nil,
+            name: Swift.String? = nil,
             phoneNumberId: Swift.String? = nil,
             productType: ChimeSDKVoiceClientTypes.PhoneNumberProductType? = nil
         )
         {
             self.callingName = callingName
+            self.name = name
             self.phoneNumberId = phoneNumberId
             self.productType = productType
         }

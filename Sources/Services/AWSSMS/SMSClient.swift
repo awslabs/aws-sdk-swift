@@ -68,6 +68,19 @@ public struct SMSClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFactory {
 
 extension SMSClient: SMSClientProtocol {
     /// Creates an application. An application consists of one or more server groups. Each server group contain one or more servers.
+    ///
+    /// - Parameter CreateAppInput : [no documentation found]
+    ///
+    /// - Returns: `CreateAppOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalError` : An internal error occurred.
+    /// - `InvalidParameterException` : A specified parameter is not valid.
+    /// - `MissingRequiredParameterException` : A required parameter is missing.
+    /// - `OperationNotPermittedException` : This operation is not allowed.
+    /// - `UnauthorizedOperationException` : You lack permissions needed to perform this operation. Check your IAM policies, and ensure that you are using the correct access keys.
     public func createApp(input: CreateAppInput) async throws -> CreateAppOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -105,6 +118,23 @@ extension SMSClient: SMSClientProtocol {
     }
 
     /// Creates a replication job. The replication job schedules periodic replication runs to replicate your server to Amazon Web Services. Each replication run creates an Amazon Machine Image (AMI).
+    ///
+    /// - Parameter CreateReplicationJobInput : [no documentation found]
+    ///
+    /// - Returns: `CreateReplicationJobOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalError` : An internal error occurred.
+    /// - `InvalidParameterException` : A specified parameter is not valid.
+    /// - `MissingRequiredParameterException` : A required parameter is missing.
+    /// - `NoConnectorsAvailableException` : There are no connectors available.
+    /// - `OperationNotPermittedException` : This operation is not allowed.
+    /// - `ReplicationJobAlreadyExistsException` : The specified replication job already exists.
+    /// - `ServerCannotBeReplicatedException` : The specified server cannot be replicated.
+    /// - `TemporarilyUnavailableException` : The service is temporarily unavailable.
+    /// - `UnauthorizedOperationException` : You lack permissions needed to perform this operation. Check your IAM policies, and ensure that you are using the correct access keys.
     public func createReplicationJob(input: CreateReplicationJobInput) async throws -> CreateReplicationJobOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -142,6 +172,19 @@ extension SMSClient: SMSClientProtocol {
     }
 
     /// Deletes the specified application. Optionally deletes the launched stack associated with the application and all Server Migration Service replication jobs for servers in the application.
+    ///
+    /// - Parameter DeleteAppInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteAppOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalError` : An internal error occurred.
+    /// - `InvalidParameterException` : A specified parameter is not valid.
+    /// - `MissingRequiredParameterException` : A required parameter is missing.
+    /// - `OperationNotPermittedException` : This operation is not allowed.
+    /// - `UnauthorizedOperationException` : You lack permissions needed to perform this operation. Check your IAM policies, and ensure that you are using the correct access keys.
     public func deleteApp(input: DeleteAppInput) async throws -> DeleteAppOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -179,6 +222,19 @@ extension SMSClient: SMSClientProtocol {
     }
 
     /// Deletes the launch configuration for the specified application.
+    ///
+    /// - Parameter DeleteAppLaunchConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteAppLaunchConfigurationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalError` : An internal error occurred.
+    /// - `InvalidParameterException` : A specified parameter is not valid.
+    /// - `MissingRequiredParameterException` : A required parameter is missing.
+    /// - `OperationNotPermittedException` : This operation is not allowed.
+    /// - `UnauthorizedOperationException` : You lack permissions needed to perform this operation. Check your IAM policies, and ensure that you are using the correct access keys.
     public func deleteAppLaunchConfiguration(input: DeleteAppLaunchConfigurationInput) async throws -> DeleteAppLaunchConfigurationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -216,6 +272,19 @@ extension SMSClient: SMSClientProtocol {
     }
 
     /// Deletes the replication configuration for the specified application.
+    ///
+    /// - Parameter DeleteAppReplicationConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteAppReplicationConfigurationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalError` : An internal error occurred.
+    /// - `InvalidParameterException` : A specified parameter is not valid.
+    /// - `MissingRequiredParameterException` : A required parameter is missing.
+    /// - `OperationNotPermittedException` : This operation is not allowed.
+    /// - `UnauthorizedOperationException` : You lack permissions needed to perform this operation. Check your IAM policies, and ensure that you are using the correct access keys.
     public func deleteAppReplicationConfiguration(input: DeleteAppReplicationConfigurationInput) async throws -> DeleteAppReplicationConfigurationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -253,6 +322,19 @@ extension SMSClient: SMSClientProtocol {
     }
 
     /// Deletes the validation configuration for the specified application.
+    ///
+    /// - Parameter DeleteAppValidationConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteAppValidationConfigurationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalError` : An internal error occurred.
+    /// - `InvalidParameterException` : A specified parameter is not valid.
+    /// - `MissingRequiredParameterException` : A required parameter is missing.
+    /// - `OperationNotPermittedException` : This operation is not allowed.
+    /// - `UnauthorizedOperationException` : You lack permissions needed to perform this operation. Check your IAM policies, and ensure that you are using the correct access keys.
     public func deleteAppValidationConfiguration(input: DeleteAppValidationConfigurationInput) async throws -> DeleteAppValidationConfigurationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -290,6 +372,19 @@ extension SMSClient: SMSClientProtocol {
     }
 
     /// Deletes the specified replication job. After you delete a replication job, there are no further replication runs. Amazon Web Services deletes the contents of the Amazon S3 bucket used to store Server Migration Service artifacts. The AMIs created by the replication runs are not deleted.
+    ///
+    /// - Parameter DeleteReplicationJobInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteReplicationJobOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParameterException` : A specified parameter is not valid.
+    /// - `MissingRequiredParameterException` : A required parameter is missing.
+    /// - `OperationNotPermittedException` : This operation is not allowed.
+    /// - `ReplicationJobNotFoundException` : The specified replication job does not exist.
+    /// - `UnauthorizedOperationException` : You lack permissions needed to perform this operation. Check your IAM policies, and ensure that you are using the correct access keys.
     public func deleteReplicationJob(input: DeleteReplicationJobInput) async throws -> DeleteReplicationJobOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -327,6 +422,18 @@ extension SMSClient: SMSClientProtocol {
     }
 
     /// Deletes all servers from your server catalog.
+    ///
+    /// - Parameter DeleteServerCatalogInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteServerCatalogOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParameterException` : A specified parameter is not valid.
+    /// - `MissingRequiredParameterException` : A required parameter is missing.
+    /// - `OperationNotPermittedException` : This operation is not allowed.
+    /// - `UnauthorizedOperationException` : You lack permissions needed to perform this operation. Check your IAM policies, and ensure that you are using the correct access keys.
     public func deleteServerCatalog(input: DeleteServerCatalogInput) async throws -> DeleteServerCatalogOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -364,6 +471,18 @@ extension SMSClient: SMSClientProtocol {
     }
 
     /// Disassociates the specified connector from Server Migration Service. After you disassociate a connector, it is no longer available to support replication jobs.
+    ///
+    /// - Parameter DisassociateConnectorInput : [no documentation found]
+    ///
+    /// - Returns: `DisassociateConnectorOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParameterException` : A specified parameter is not valid.
+    /// - `MissingRequiredParameterException` : A required parameter is missing.
+    /// - `OperationNotPermittedException` : This operation is not allowed.
+    /// - `UnauthorizedOperationException` : You lack permissions needed to perform this operation. Check your IAM policies, and ensure that you are using the correct access keys.
     public func disassociateConnector(input: DisassociateConnectorInput) async throws -> DisassociateConnectorOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -401,6 +520,19 @@ extension SMSClient: SMSClientProtocol {
     }
 
     /// Generates a target change set for a currently launched stack and writes it to an Amazon S3 object in the customer’s Amazon S3 bucket.
+    ///
+    /// - Parameter GenerateChangeSetInput : [no documentation found]
+    ///
+    /// - Returns: `GenerateChangeSetOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalError` : An internal error occurred.
+    /// - `InvalidParameterException` : A specified parameter is not valid.
+    /// - `MissingRequiredParameterException` : A required parameter is missing.
+    /// - `OperationNotPermittedException` : This operation is not allowed.
+    /// - `UnauthorizedOperationException` : You lack permissions needed to perform this operation. Check your IAM policies, and ensure that you are using the correct access keys.
     public func generateChangeSet(input: GenerateChangeSetInput) async throws -> GenerateChangeSetOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -438,6 +570,19 @@ extension SMSClient: SMSClientProtocol {
     }
 
     /// Generates an CloudFormation template based on the current launch configuration and writes it to an Amazon S3 object in the customer’s Amazon S3 bucket.
+    ///
+    /// - Parameter GenerateTemplateInput : [no documentation found]
+    ///
+    /// - Returns: `GenerateTemplateOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalError` : An internal error occurred.
+    /// - `InvalidParameterException` : A specified parameter is not valid.
+    /// - `MissingRequiredParameterException` : A required parameter is missing.
+    /// - `OperationNotPermittedException` : This operation is not allowed.
+    /// - `UnauthorizedOperationException` : You lack permissions needed to perform this operation. Check your IAM policies, and ensure that you are using the correct access keys.
     public func generateTemplate(input: GenerateTemplateInput) async throws -> GenerateTemplateOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -475,6 +620,19 @@ extension SMSClient: SMSClientProtocol {
     }
 
     /// Retrieve information about the specified application.
+    ///
+    /// - Parameter GetAppInput : [no documentation found]
+    ///
+    /// - Returns: `GetAppOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalError` : An internal error occurred.
+    /// - `InvalidParameterException` : A specified parameter is not valid.
+    /// - `MissingRequiredParameterException` : A required parameter is missing.
+    /// - `OperationNotPermittedException` : This operation is not allowed.
+    /// - `UnauthorizedOperationException` : You lack permissions needed to perform this operation. Check your IAM policies, and ensure that you are using the correct access keys.
     public func getApp(input: GetAppInput) async throws -> GetAppOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -512,6 +670,19 @@ extension SMSClient: SMSClientProtocol {
     }
 
     /// Retrieves the application launch configuration associated with the specified application.
+    ///
+    /// - Parameter GetAppLaunchConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `GetAppLaunchConfigurationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalError` : An internal error occurred.
+    /// - `InvalidParameterException` : A specified parameter is not valid.
+    /// - `MissingRequiredParameterException` : A required parameter is missing.
+    /// - `OperationNotPermittedException` : This operation is not allowed.
+    /// - `UnauthorizedOperationException` : You lack permissions needed to perform this operation. Check your IAM policies, and ensure that you are using the correct access keys.
     public func getAppLaunchConfiguration(input: GetAppLaunchConfigurationInput) async throws -> GetAppLaunchConfigurationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -549,6 +720,19 @@ extension SMSClient: SMSClientProtocol {
     }
 
     /// Retrieves the application replication configuration associated with the specified application.
+    ///
+    /// - Parameter GetAppReplicationConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `GetAppReplicationConfigurationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalError` : An internal error occurred.
+    /// - `InvalidParameterException` : A specified parameter is not valid.
+    /// - `MissingRequiredParameterException` : A required parameter is missing.
+    /// - `OperationNotPermittedException` : This operation is not allowed.
+    /// - `UnauthorizedOperationException` : You lack permissions needed to perform this operation. Check your IAM policies, and ensure that you are using the correct access keys.
     public func getAppReplicationConfiguration(input: GetAppReplicationConfigurationInput) async throws -> GetAppReplicationConfigurationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -586,6 +770,19 @@ extension SMSClient: SMSClientProtocol {
     }
 
     /// Retrieves information about a configuration for validating an application.
+    ///
+    /// - Parameter GetAppValidationConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `GetAppValidationConfigurationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalError` : An internal error occurred.
+    /// - `InvalidParameterException` : A specified parameter is not valid.
+    /// - `MissingRequiredParameterException` : A required parameter is missing.
+    /// - `OperationNotPermittedException` : This operation is not allowed.
+    /// - `UnauthorizedOperationException` : You lack permissions needed to perform this operation. Check your IAM policies, and ensure that you are using the correct access keys.
     public func getAppValidationConfiguration(input: GetAppValidationConfigurationInput) async throws -> GetAppValidationConfigurationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -623,6 +820,19 @@ extension SMSClient: SMSClientProtocol {
     }
 
     /// Retrieves output from validating an application.
+    ///
+    /// - Parameter GetAppValidationOutputInput : [no documentation found]
+    ///
+    /// - Returns: `GetAppValidationOutputOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalError` : An internal error occurred.
+    /// - `InvalidParameterException` : A specified parameter is not valid.
+    /// - `MissingRequiredParameterException` : A required parameter is missing.
+    /// - `OperationNotPermittedException` : This operation is not allowed.
+    /// - `UnauthorizedOperationException` : You lack permissions needed to perform this operation. Check your IAM policies, and ensure that you are using the correct access keys.
     public func getAppValidationOutput(input: GetAppValidationOutputInput) async throws -> GetAppValidationOutputOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -660,6 +870,15 @@ extension SMSClient: SMSClientProtocol {
     }
 
     /// Describes the connectors registered with the Server Migration Service.
+    ///
+    /// - Parameter GetConnectorsInput : [no documentation found]
+    ///
+    /// - Returns: `GetConnectorsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `UnauthorizedOperationException` : You lack permissions needed to perform this operation. Check your IAM policies, and ensure that you are using the correct access keys.
     public func getConnectors(input: GetConnectorsInput) async throws -> GetConnectorsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -697,6 +916,17 @@ extension SMSClient: SMSClientProtocol {
     }
 
     /// Describes the specified replication job or all of your replication jobs.
+    ///
+    /// - Parameter GetReplicationJobsInput : [no documentation found]
+    ///
+    /// - Returns: `GetReplicationJobsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParameterException` : A specified parameter is not valid.
+    /// - `MissingRequiredParameterException` : A required parameter is missing.
+    /// - `UnauthorizedOperationException` : You lack permissions needed to perform this operation. Check your IAM policies, and ensure that you are using the correct access keys.
     public func getReplicationJobs(input: GetReplicationJobsInput) async throws -> GetReplicationJobsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -734,6 +964,17 @@ extension SMSClient: SMSClientProtocol {
     }
 
     /// Describes the replication runs for the specified replication job.
+    ///
+    /// - Parameter GetReplicationRunsInput : [no documentation found]
+    ///
+    /// - Returns: `GetReplicationRunsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParameterException` : A specified parameter is not valid.
+    /// - `MissingRequiredParameterException` : A required parameter is missing.
+    /// - `UnauthorizedOperationException` : You lack permissions needed to perform this operation. Check your IAM policies, and ensure that you are using the correct access keys.
     public func getReplicationRuns(input: GetReplicationRunsInput) async throws -> GetReplicationRunsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -771,6 +1012,18 @@ extension SMSClient: SMSClientProtocol {
     }
 
     /// Describes the servers in your server catalog. Before you can describe your servers, you must import them using [ImportServerCatalog].
+    ///
+    /// - Parameter GetServersInput : [no documentation found]
+    ///
+    /// - Returns: `GetServersOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalError` : An internal error occurred.
+    /// - `InvalidParameterException` : A specified parameter is not valid.
+    /// - `MissingRequiredParameterException` : A required parameter is missing.
+    /// - `UnauthorizedOperationException` : You lack permissions needed to perform this operation. Check your IAM policies, and ensure that you are using the correct access keys.
     public func getServers(input: GetServersInput) async throws -> GetServersOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -808,6 +1061,19 @@ extension SMSClient: SMSClientProtocol {
     }
 
     /// Allows application import from Migration Hub.
+    ///
+    /// - Parameter ImportAppCatalogInput : [no documentation found]
+    ///
+    /// - Returns: `ImportAppCatalogOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalError` : An internal error occurred.
+    /// - `InvalidParameterException` : A specified parameter is not valid.
+    /// - `MissingRequiredParameterException` : A required parameter is missing.
+    /// - `OperationNotPermittedException` : This operation is not allowed.
+    /// - `UnauthorizedOperationException` : You lack permissions needed to perform this operation. Check your IAM policies, and ensure that you are using the correct access keys.
     public func importAppCatalog(input: ImportAppCatalogInput) async throws -> ImportAppCatalogOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -845,6 +1111,19 @@ extension SMSClient: SMSClientProtocol {
     }
 
     /// Gathers a complete list of on-premises servers. Connectors must be installed and monitoring all servers to import. This call returns immediately, but might take additional time to retrieve all the servers.
+    ///
+    /// - Parameter ImportServerCatalogInput : [no documentation found]
+    ///
+    /// - Returns: `ImportServerCatalogOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParameterException` : A specified parameter is not valid.
+    /// - `MissingRequiredParameterException` : A required parameter is missing.
+    /// - `NoConnectorsAvailableException` : There are no connectors available.
+    /// - `OperationNotPermittedException` : This operation is not allowed.
+    /// - `UnauthorizedOperationException` : You lack permissions needed to perform this operation. Check your IAM policies, and ensure that you are using the correct access keys.
     public func importServerCatalog(input: ImportServerCatalogInput) async throws -> ImportServerCatalogOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -882,6 +1161,19 @@ extension SMSClient: SMSClientProtocol {
     }
 
     /// Launches the specified application as a stack in CloudFormation.
+    ///
+    /// - Parameter LaunchAppInput : [no documentation found]
+    ///
+    /// - Returns: `LaunchAppOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalError` : An internal error occurred.
+    /// - `InvalidParameterException` : A specified parameter is not valid.
+    /// - `MissingRequiredParameterException` : A required parameter is missing.
+    /// - `OperationNotPermittedException` : This operation is not allowed.
+    /// - `UnauthorizedOperationException` : You lack permissions needed to perform this operation. Check your IAM policies, and ensure that you are using the correct access keys.
     public func launchApp(input: LaunchAppInput) async throws -> LaunchAppOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -919,6 +1211,19 @@ extension SMSClient: SMSClientProtocol {
     }
 
     /// Retrieves summaries for all applications.
+    ///
+    /// - Parameter ListAppsInput : [no documentation found]
+    ///
+    /// - Returns: `ListAppsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalError` : An internal error occurred.
+    /// - `InvalidParameterException` : A specified parameter is not valid.
+    /// - `MissingRequiredParameterException` : A required parameter is missing.
+    /// - `OperationNotPermittedException` : This operation is not allowed.
+    /// - `UnauthorizedOperationException` : You lack permissions needed to perform this operation. Check your IAM policies, and ensure that you are using the correct access keys.
     public func listApps(input: ListAppsInput) async throws -> ListAppsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -956,6 +1261,19 @@ extension SMSClient: SMSClientProtocol {
     }
 
     /// Provides information to Server Migration Service about whether application validation is successful.
+    ///
+    /// - Parameter NotifyAppValidationOutputInput : [no documentation found]
+    ///
+    /// - Returns: `NotifyAppValidationOutputOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalError` : An internal error occurred.
+    /// - `InvalidParameterException` : A specified parameter is not valid.
+    /// - `MissingRequiredParameterException` : A required parameter is missing.
+    /// - `OperationNotPermittedException` : This operation is not allowed.
+    /// - `UnauthorizedOperationException` : You lack permissions needed to perform this operation. Check your IAM policies, and ensure that you are using the correct access keys.
     public func notifyAppValidationOutput(input: NotifyAppValidationOutputInput) async throws -> NotifyAppValidationOutputOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -993,6 +1311,19 @@ extension SMSClient: SMSClientProtocol {
     }
 
     /// Creates or updates the launch configuration for the specified application.
+    ///
+    /// - Parameter PutAppLaunchConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `PutAppLaunchConfigurationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalError` : An internal error occurred.
+    /// - `InvalidParameterException` : A specified parameter is not valid.
+    /// - `MissingRequiredParameterException` : A required parameter is missing.
+    /// - `OperationNotPermittedException` : This operation is not allowed.
+    /// - `UnauthorizedOperationException` : You lack permissions needed to perform this operation. Check your IAM policies, and ensure that you are using the correct access keys.
     public func putAppLaunchConfiguration(input: PutAppLaunchConfigurationInput) async throws -> PutAppLaunchConfigurationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1030,6 +1361,19 @@ extension SMSClient: SMSClientProtocol {
     }
 
     /// Creates or updates the replication configuration for the specified application.
+    ///
+    /// - Parameter PutAppReplicationConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `PutAppReplicationConfigurationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalError` : An internal error occurred.
+    /// - `InvalidParameterException` : A specified parameter is not valid.
+    /// - `MissingRequiredParameterException` : A required parameter is missing.
+    /// - `OperationNotPermittedException` : This operation is not allowed.
+    /// - `UnauthorizedOperationException` : You lack permissions needed to perform this operation. Check your IAM policies, and ensure that you are using the correct access keys.
     public func putAppReplicationConfiguration(input: PutAppReplicationConfigurationInput) async throws -> PutAppReplicationConfigurationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1067,6 +1411,19 @@ extension SMSClient: SMSClientProtocol {
     }
 
     /// Creates or updates a validation configuration for the specified application.
+    ///
+    /// - Parameter PutAppValidationConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `PutAppValidationConfigurationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalError` : An internal error occurred.
+    /// - `InvalidParameterException` : A specified parameter is not valid.
+    /// - `MissingRequiredParameterException` : A required parameter is missing.
+    /// - `OperationNotPermittedException` : This operation is not allowed.
+    /// - `UnauthorizedOperationException` : You lack permissions needed to perform this operation. Check your IAM policies, and ensure that you are using the correct access keys.
     public func putAppValidationConfiguration(input: PutAppValidationConfigurationInput) async throws -> PutAppValidationConfigurationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1104,6 +1461,19 @@ extension SMSClient: SMSClientProtocol {
     }
 
     /// Starts replicating the specified application by creating replication jobs for each server in the application.
+    ///
+    /// - Parameter StartAppReplicationInput : [no documentation found]
+    ///
+    /// - Returns: `StartAppReplicationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalError` : An internal error occurred.
+    /// - `InvalidParameterException` : A specified parameter is not valid.
+    /// - `MissingRequiredParameterException` : A required parameter is missing.
+    /// - `OperationNotPermittedException` : This operation is not allowed.
+    /// - `UnauthorizedOperationException` : You lack permissions needed to perform this operation. Check your IAM policies, and ensure that you are using the correct access keys.
     public func startAppReplication(input: StartAppReplicationInput) async throws -> StartAppReplicationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1141,6 +1511,19 @@ extension SMSClient: SMSClientProtocol {
     }
 
     /// Starts an on-demand replication run for the specified application.
+    ///
+    /// - Parameter StartOnDemandAppReplicationInput : [no documentation found]
+    ///
+    /// - Returns: `StartOnDemandAppReplicationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalError` : An internal error occurred.
+    /// - `InvalidParameterException` : A specified parameter is not valid.
+    /// - `MissingRequiredParameterException` : A required parameter is missing.
+    /// - `OperationNotPermittedException` : This operation is not allowed.
+    /// - `UnauthorizedOperationException` : You lack permissions needed to perform this operation. Check your IAM policies, and ensure that you are using the correct access keys.
     public func startOnDemandAppReplication(input: StartOnDemandAppReplicationInput) async throws -> StartOnDemandAppReplicationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1178,6 +1561,20 @@ extension SMSClient: SMSClientProtocol {
     }
 
     /// Starts an on-demand replication run for the specified replication job. This replication run starts immediately. This replication run is in addition to the ones already scheduled. There is a limit on the number of on-demand replications runs that you can request in a 24-hour period.
+    ///
+    /// - Parameter StartOnDemandReplicationRunInput : [no documentation found]
+    ///
+    /// - Returns: `StartOnDemandReplicationRunOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DryRunOperationException` : The user has the required permissions, so the request would have succeeded, but a dry run was performed.
+    /// - `InvalidParameterException` : A specified parameter is not valid.
+    /// - `MissingRequiredParameterException` : A required parameter is missing.
+    /// - `OperationNotPermittedException` : This operation is not allowed.
+    /// - `ReplicationRunLimitExceededException` : You have exceeded the number of on-demand replication runs you can request in a 24-hour period.
+    /// - `UnauthorizedOperationException` : You lack permissions needed to perform this operation. Check your IAM policies, and ensure that you are using the correct access keys.
     public func startOnDemandReplicationRun(input: StartOnDemandReplicationRunInput) async throws -> StartOnDemandReplicationRunOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1215,6 +1612,19 @@ extension SMSClient: SMSClientProtocol {
     }
 
     /// Stops replicating the specified application by deleting the replication job for each server in the application.
+    ///
+    /// - Parameter StopAppReplicationInput : [no documentation found]
+    ///
+    /// - Returns: `StopAppReplicationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalError` : An internal error occurred.
+    /// - `InvalidParameterException` : A specified parameter is not valid.
+    /// - `MissingRequiredParameterException` : A required parameter is missing.
+    /// - `OperationNotPermittedException` : This operation is not allowed.
+    /// - `UnauthorizedOperationException` : You lack permissions needed to perform this operation. Check your IAM policies, and ensure that you are using the correct access keys.
     public func stopAppReplication(input: StopAppReplicationInput) async throws -> StopAppReplicationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1252,6 +1662,19 @@ extension SMSClient: SMSClientProtocol {
     }
 
     /// Terminates the stack for the specified application.
+    ///
+    /// - Parameter TerminateAppInput : [no documentation found]
+    ///
+    /// - Returns: `TerminateAppOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalError` : An internal error occurred.
+    /// - `InvalidParameterException` : A specified parameter is not valid.
+    /// - `MissingRequiredParameterException` : A required parameter is missing.
+    /// - `OperationNotPermittedException` : This operation is not allowed.
+    /// - `UnauthorizedOperationException` : You lack permissions needed to perform this operation. Check your IAM policies, and ensure that you are using the correct access keys.
     public func terminateApp(input: TerminateAppInput) async throws -> TerminateAppOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1289,6 +1712,19 @@ extension SMSClient: SMSClientProtocol {
     }
 
     /// Updates the specified application.
+    ///
+    /// - Parameter UpdateAppInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateAppOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalError` : An internal error occurred.
+    /// - `InvalidParameterException` : A specified parameter is not valid.
+    /// - `MissingRequiredParameterException` : A required parameter is missing.
+    /// - `OperationNotPermittedException` : This operation is not allowed.
+    /// - `UnauthorizedOperationException` : You lack permissions needed to perform this operation. Check your IAM policies, and ensure that you are using the correct access keys.
     public func updateApp(input: UpdateAppInput) async throws -> UpdateAppOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1326,6 +1762,22 @@ extension SMSClient: SMSClientProtocol {
     }
 
     /// Updates the specified settings for the specified replication job.
+    ///
+    /// - Parameter UpdateReplicationJobInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateReplicationJobOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalError` : An internal error occurred.
+    /// - `InvalidParameterException` : A specified parameter is not valid.
+    /// - `MissingRequiredParameterException` : A required parameter is missing.
+    /// - `OperationNotPermittedException` : This operation is not allowed.
+    /// - `ReplicationJobNotFoundException` : The specified replication job does not exist.
+    /// - `ServerCannotBeReplicatedException` : The specified server cannot be replicated.
+    /// - `TemporarilyUnavailableException` : The service is temporarily unavailable.
+    /// - `UnauthorizedOperationException` : You lack permissions needed to perform this operation. Check your IAM policies, and ensure that you are using the correct access keys.
     public func updateReplicationJob(input: UpdateReplicationJobInput) async throws -> UpdateReplicationJobOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()

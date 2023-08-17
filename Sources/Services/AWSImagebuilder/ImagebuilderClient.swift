@@ -68,6 +68,22 @@ public struct ImagebuilderClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFa
 
 extension ImagebuilderClient: ImagebuilderClientProtocol {
     /// CancelImageCreation cancels the creation of Image. This operation can only be used on images in a non-terminal state.
+    ///
+    /// - Parameter CancelImageCreationInput : [no documentation found]
+    ///
+    /// - Returns: `CancelImageCreationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `CallRateLimitExceededException` : You have exceeded the permitted request rate for the specific operation.
+    /// - `ClientException` : These errors are usually caused by a client action, such as using an action or resource on behalf of a user that doesn't have permissions to use the action or resource, or specifying an invalid resource identifier.
+    /// - `ForbiddenException` : You are not authorized to perform the requested operation.
+    /// - `IdempotentParameterMismatchException` : You have specified a client token for an operation using parameter values that differ from a previous request that used the same client token.
+    /// - `InvalidRequestException` : You have requested an action that that the service doesn't support.
+    /// - `ResourceInUseException` : The resource that you are trying to operate on is currently in use. Review the message details and retry later.
+    /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
+    /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
     public func cancelImageCreation(input: CancelImageCreationInput) async throws -> CancelImageCreationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -116,6 +132,25 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
     /// * Inline, using the data property in the request body.
     ///
     /// * A URL that points to a YAML document file stored in Amazon S3, using the uri property in the request body.
+    ///
+    /// - Parameter CreateComponentInput : [no documentation found]
+    ///
+    /// - Returns: `CreateComponentOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `CallRateLimitExceededException` : You have exceeded the permitted request rate for the specific operation.
+    /// - `ClientException` : These errors are usually caused by a client action, such as using an action or resource on behalf of a user that doesn't have permissions to use the action or resource, or specifying an invalid resource identifier.
+    /// - `ForbiddenException` : You are not authorized to perform the requested operation.
+    /// - `IdempotentParameterMismatchException` : You have specified a client token for an operation using parameter values that differ from a previous request that used the same client token.
+    /// - `InvalidParameterCombinationException` : You have specified two or more mutually exclusive parameters. Review the error message for details.
+    /// - `InvalidRequestException` : You have requested an action that that the service doesn't support.
+    /// - `InvalidVersionNumberException` : Your version number is out of bounds or does not follow the required syntax.
+    /// - `ResourceInUseException` : The resource that you are trying to operate on is currently in use. Review the message details and retry later.
+    /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
+    /// - `ServiceQuotaExceededException` : You have exceeded the number of permitted resources or operations for this service. For service quotas, see [EC2 Image Builder endpoints and quotas](https://docs.aws.amazon.com/general/latest/gr/imagebuilder.html#limits_imagebuilder).
+    /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
     public func createComponent(input: CreateComponentInput) async throws -> CreateComponentOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -160,6 +195,25 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
     }
 
     /// Creates a new container recipe. Container recipes define how images are configured, tested, and assessed.
+    ///
+    /// - Parameter CreateContainerRecipeInput : [no documentation found]
+    ///
+    /// - Returns: `CreateContainerRecipeOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `CallRateLimitExceededException` : You have exceeded the permitted request rate for the specific operation.
+    /// - `ClientException` : These errors are usually caused by a client action, such as using an action or resource on behalf of a user that doesn't have permissions to use the action or resource, or specifying an invalid resource identifier.
+    /// - `ForbiddenException` : You are not authorized to perform the requested operation.
+    /// - `IdempotentParameterMismatchException` : You have specified a client token for an operation using parameter values that differ from a previous request that used the same client token.
+    /// - `InvalidRequestException` : You have requested an action that that the service doesn't support.
+    /// - `InvalidVersionNumberException` : Your version number is out of bounds or does not follow the required syntax.
+    /// - `ResourceAlreadyExistsException` : The resource that you are trying to create already exists.
+    /// - `ResourceInUseException` : The resource that you are trying to operate on is currently in use. Review the message details and retry later.
+    /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
+    /// - `ServiceQuotaExceededException` : You have exceeded the number of permitted resources or operations for this service. For service quotas, see [EC2 Image Builder endpoints and quotas](https://docs.aws.amazon.com/general/latest/gr/imagebuilder.html#limits_imagebuilder).
+    /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
     public func createContainerRecipe(input: CreateContainerRecipeInput) async throws -> CreateContainerRecipeOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -204,6 +258,25 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
     }
 
     /// Creates a new distribution configuration. Distribution configurations define and configure the outputs of your pipeline.
+    ///
+    /// - Parameter CreateDistributionConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `CreateDistributionConfigurationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `CallRateLimitExceededException` : You have exceeded the permitted request rate for the specific operation.
+    /// - `ClientException` : These errors are usually caused by a client action, such as using an action or resource on behalf of a user that doesn't have permissions to use the action or resource, or specifying an invalid resource identifier.
+    /// - `ForbiddenException` : You are not authorized to perform the requested operation.
+    /// - `IdempotentParameterMismatchException` : You have specified a client token for an operation using parameter values that differ from a previous request that used the same client token.
+    /// - `InvalidParameterCombinationException` : You have specified two or more mutually exclusive parameters. Review the error message for details.
+    /// - `InvalidRequestException` : You have requested an action that that the service doesn't support.
+    /// - `ResourceAlreadyExistsException` : The resource that you are trying to create already exists.
+    /// - `ResourceInUseException` : The resource that you are trying to operate on is currently in use. Review the message details and retry later.
+    /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
+    /// - `ServiceQuotaExceededException` : You have exceeded the number of permitted resources or operations for this service. For service quotas, see [EC2 Image Builder endpoints and quotas](https://docs.aws.amazon.com/general/latest/gr/imagebuilder.html#limits_imagebuilder).
+    /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
     public func createDistributionConfiguration(input: CreateDistributionConfigurationInput) async throws -> CreateDistributionConfigurationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -248,6 +321,23 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
     }
 
     /// Creates a new image. This request will create a new image along with all of the configured output resources defined in the distribution configuration. You must specify exactly one recipe for your image, using either a ContainerRecipeArn or an ImageRecipeArn.
+    ///
+    /// - Parameter CreateImageInput : [no documentation found]
+    ///
+    /// - Returns: `CreateImageOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `CallRateLimitExceededException` : You have exceeded the permitted request rate for the specific operation.
+    /// - `ClientException` : These errors are usually caused by a client action, such as using an action or resource on behalf of a user that doesn't have permissions to use the action or resource, or specifying an invalid resource identifier.
+    /// - `ForbiddenException` : You are not authorized to perform the requested operation.
+    /// - `IdempotentParameterMismatchException` : You have specified a client token for an operation using parameter values that differ from a previous request that used the same client token.
+    /// - `InvalidRequestException` : You have requested an action that that the service doesn't support.
+    /// - `ResourceInUseException` : The resource that you are trying to operate on is currently in use. Review the message details and retry later.
+    /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
+    /// - `ServiceQuotaExceededException` : You have exceeded the number of permitted resources or operations for this service. For service quotas, see [EC2 Image Builder endpoints and quotas](https://docs.aws.amazon.com/general/latest/gr/imagebuilder.html#limits_imagebuilder).
+    /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
     public func createImage(input: CreateImageInput) async throws -> CreateImageOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -292,6 +382,24 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
     }
 
     /// Creates a new image pipeline. Image pipelines enable you to automate the creation and distribution of images.
+    ///
+    /// - Parameter CreateImagePipelineInput : [no documentation found]
+    ///
+    /// - Returns: `CreateImagePipelineOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `CallRateLimitExceededException` : You have exceeded the permitted request rate for the specific operation.
+    /// - `ClientException` : These errors are usually caused by a client action, such as using an action or resource on behalf of a user that doesn't have permissions to use the action or resource, or specifying an invalid resource identifier.
+    /// - `ForbiddenException` : You are not authorized to perform the requested operation.
+    /// - `IdempotentParameterMismatchException` : You have specified a client token for an operation using parameter values that differ from a previous request that used the same client token.
+    /// - `InvalidRequestException` : You have requested an action that that the service doesn't support.
+    /// - `ResourceAlreadyExistsException` : The resource that you are trying to create already exists.
+    /// - `ResourceInUseException` : The resource that you are trying to operate on is currently in use. Review the message details and retry later.
+    /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
+    /// - `ServiceQuotaExceededException` : You have exceeded the number of permitted resources or operations for this service. For service quotas, see [EC2 Image Builder endpoints and quotas](https://docs.aws.amazon.com/general/latest/gr/imagebuilder.html#limits_imagebuilder).
+    /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
     public func createImagePipeline(input: CreateImagePipelineInput) async throws -> CreateImagePipelineOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -336,6 +444,25 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
     }
 
     /// Creates a new image recipe. Image recipes define how images are configured, tested, and assessed.
+    ///
+    /// - Parameter CreateImageRecipeInput : [no documentation found]
+    ///
+    /// - Returns: `CreateImageRecipeOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `CallRateLimitExceededException` : You have exceeded the permitted request rate for the specific operation.
+    /// - `ClientException` : These errors are usually caused by a client action, such as using an action or resource on behalf of a user that doesn't have permissions to use the action or resource, or specifying an invalid resource identifier.
+    /// - `ForbiddenException` : You are not authorized to perform the requested operation.
+    /// - `IdempotentParameterMismatchException` : You have specified a client token for an operation using parameter values that differ from a previous request that used the same client token.
+    /// - `InvalidRequestException` : You have requested an action that that the service doesn't support.
+    /// - `InvalidVersionNumberException` : Your version number is out of bounds or does not follow the required syntax.
+    /// - `ResourceAlreadyExistsException` : The resource that you are trying to create already exists.
+    /// - `ResourceInUseException` : The resource that you are trying to operate on is currently in use. Review the message details and retry later.
+    /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
+    /// - `ServiceQuotaExceededException` : You have exceeded the number of permitted resources or operations for this service. For service quotas, see [EC2 Image Builder endpoints and quotas](https://docs.aws.amazon.com/general/latest/gr/imagebuilder.html#limits_imagebuilder).
+    /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
     public func createImageRecipe(input: CreateImageRecipeInput) async throws -> CreateImageRecipeOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -380,6 +507,24 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
     }
 
     /// Creates a new infrastructure configuration. An infrastructure configuration defines the environment in which your image will be built and tested.
+    ///
+    /// - Parameter CreateInfrastructureConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `CreateInfrastructureConfigurationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `CallRateLimitExceededException` : You have exceeded the permitted request rate for the specific operation.
+    /// - `ClientException` : These errors are usually caused by a client action, such as using an action or resource on behalf of a user that doesn't have permissions to use the action or resource, or specifying an invalid resource identifier.
+    /// - `ForbiddenException` : You are not authorized to perform the requested operation.
+    /// - `IdempotentParameterMismatchException` : You have specified a client token for an operation using parameter values that differ from a previous request that used the same client token.
+    /// - `InvalidRequestException` : You have requested an action that that the service doesn't support.
+    /// - `ResourceAlreadyExistsException` : The resource that you are trying to create already exists.
+    /// - `ResourceInUseException` : The resource that you are trying to operate on is currently in use. Review the message details and retry later.
+    /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
+    /// - `ServiceQuotaExceededException` : You have exceeded the number of permitted resources or operations for this service. For service quotas, see [EC2 Image Builder endpoints and quotas](https://docs.aws.amazon.com/general/latest/gr/imagebuilder.html#limits_imagebuilder).
+    /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
     public func createInfrastructureConfiguration(input: CreateInfrastructureConfigurationInput) async throws -> CreateInfrastructureConfigurationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -424,6 +569,21 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
     }
 
     /// Deletes a component build version.
+    ///
+    /// - Parameter DeleteComponentInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteComponentOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `CallRateLimitExceededException` : You have exceeded the permitted request rate for the specific operation.
+    /// - `ClientException` : These errors are usually caused by a client action, such as using an action or resource on behalf of a user that doesn't have permissions to use the action or resource, or specifying an invalid resource identifier.
+    /// - `ForbiddenException` : You are not authorized to perform the requested operation.
+    /// - `InvalidRequestException` : You have requested an action that that the service doesn't support.
+    /// - `ResourceDependencyException` : You have attempted to mutate or delete a resource with a dependency that prohibits this action. See the error message for more details.
+    /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
+    /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
     public func deleteComponent(input: DeleteComponentInput) async throws -> DeleteComponentOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -458,6 +618,21 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
     }
 
     /// Deletes a container recipe.
+    ///
+    /// - Parameter DeleteContainerRecipeInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteContainerRecipeOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `CallRateLimitExceededException` : You have exceeded the permitted request rate for the specific operation.
+    /// - `ClientException` : These errors are usually caused by a client action, such as using an action or resource on behalf of a user that doesn't have permissions to use the action or resource, or specifying an invalid resource identifier.
+    /// - `ForbiddenException` : You are not authorized to perform the requested operation.
+    /// - `InvalidRequestException` : You have requested an action that that the service doesn't support.
+    /// - `ResourceDependencyException` : You have attempted to mutate or delete a resource with a dependency that prohibits this action. See the error message for more details.
+    /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
+    /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
     public func deleteContainerRecipe(input: DeleteContainerRecipeInput) async throws -> DeleteContainerRecipeOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -492,6 +667,21 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
     }
 
     /// Deletes a distribution configuration.
+    ///
+    /// - Parameter DeleteDistributionConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteDistributionConfigurationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `CallRateLimitExceededException` : You have exceeded the permitted request rate for the specific operation.
+    /// - `ClientException` : These errors are usually caused by a client action, such as using an action or resource on behalf of a user that doesn't have permissions to use the action or resource, or specifying an invalid resource identifier.
+    /// - `ForbiddenException` : You are not authorized to perform the requested operation.
+    /// - `InvalidRequestException` : You have requested an action that that the service doesn't support.
+    /// - `ResourceDependencyException` : You have attempted to mutate or delete a resource with a dependency that prohibits this action. See the error message for more details.
+    /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
+    /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
     public func deleteDistributionConfiguration(input: DeleteDistributionConfigurationInput) async throws -> DeleteDistributionConfigurationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -532,6 +722,21 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
     /// * To deregister an EC2 Windows AMI, see [Deregister your Windows AMI](https://docs.aws.amazon.com/AWSEC2/latest/WindowsGuide/deregister-ami.html) in the Amazon EC2 Windows Guide .
     ///
     /// * To delete a container image from Amazon ECR, see [Deleting an image](https://docs.aws.amazon.com/AmazonECR/latest/userguide/delete_image.html) in the Amazon ECR User Guide.
+    ///
+    /// - Parameter DeleteImageInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteImageOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `CallRateLimitExceededException` : You have exceeded the permitted request rate for the specific operation.
+    /// - `ClientException` : These errors are usually caused by a client action, such as using an action or resource on behalf of a user that doesn't have permissions to use the action or resource, or specifying an invalid resource identifier.
+    /// - `ForbiddenException` : You are not authorized to perform the requested operation.
+    /// - `InvalidRequestException` : You have requested an action that that the service doesn't support.
+    /// - `ResourceDependencyException` : You have attempted to mutate or delete a resource with a dependency that prohibits this action. See the error message for more details.
+    /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
+    /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
     public func deleteImage(input: DeleteImageInput) async throws -> DeleteImageOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -566,6 +771,21 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
     }
 
     /// Deletes an image pipeline.
+    ///
+    /// - Parameter DeleteImagePipelineInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteImagePipelineOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `CallRateLimitExceededException` : You have exceeded the permitted request rate for the specific operation.
+    /// - `ClientException` : These errors are usually caused by a client action, such as using an action or resource on behalf of a user that doesn't have permissions to use the action or resource, or specifying an invalid resource identifier.
+    /// - `ForbiddenException` : You are not authorized to perform the requested operation.
+    /// - `InvalidRequestException` : You have requested an action that that the service doesn't support.
+    /// - `ResourceDependencyException` : You have attempted to mutate or delete a resource with a dependency that prohibits this action. See the error message for more details.
+    /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
+    /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
     public func deleteImagePipeline(input: DeleteImagePipelineInput) async throws -> DeleteImagePipelineOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -600,6 +820,21 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
     }
 
     /// Deletes an image recipe.
+    ///
+    /// - Parameter DeleteImageRecipeInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteImageRecipeOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `CallRateLimitExceededException` : You have exceeded the permitted request rate for the specific operation.
+    /// - `ClientException` : These errors are usually caused by a client action, such as using an action or resource on behalf of a user that doesn't have permissions to use the action or resource, or specifying an invalid resource identifier.
+    /// - `ForbiddenException` : You are not authorized to perform the requested operation.
+    /// - `InvalidRequestException` : You have requested an action that that the service doesn't support.
+    /// - `ResourceDependencyException` : You have attempted to mutate or delete a resource with a dependency that prohibits this action. See the error message for more details.
+    /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
+    /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
     public func deleteImageRecipe(input: DeleteImageRecipeInput) async throws -> DeleteImageRecipeOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -634,6 +869,21 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
     }
 
     /// Deletes an infrastructure configuration.
+    ///
+    /// - Parameter DeleteInfrastructureConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteInfrastructureConfigurationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `CallRateLimitExceededException` : You have exceeded the permitted request rate for the specific operation.
+    /// - `ClientException` : These errors are usually caused by a client action, such as using an action or resource on behalf of a user that doesn't have permissions to use the action or resource, or specifying an invalid resource identifier.
+    /// - `ForbiddenException` : You are not authorized to perform the requested operation.
+    /// - `InvalidRequestException` : You have requested an action that that the service doesn't support.
+    /// - `ResourceDependencyException` : You have attempted to mutate or delete a resource with a dependency that prohibits this action. See the error message for more details.
+    /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
+    /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
     public func deleteInfrastructureConfiguration(input: DeleteInfrastructureConfigurationInput) async throws -> DeleteInfrastructureConfigurationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -668,6 +918,20 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
     }
 
     /// Gets a component object.
+    ///
+    /// - Parameter GetComponentInput : [no documentation found]
+    ///
+    /// - Returns: `GetComponentOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `CallRateLimitExceededException` : You have exceeded the permitted request rate for the specific operation.
+    /// - `ClientException` : These errors are usually caused by a client action, such as using an action or resource on behalf of a user that doesn't have permissions to use the action or resource, or specifying an invalid resource identifier.
+    /// - `ForbiddenException` : You are not authorized to perform the requested operation.
+    /// - `InvalidRequestException` : You have requested an action that that the service doesn't support.
+    /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
+    /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
     public func getComponent(input: GetComponentInput) async throws -> GetComponentOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -702,6 +966,20 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
     }
 
     /// Gets a component policy.
+    ///
+    /// - Parameter GetComponentPolicyInput : [no documentation found]
+    ///
+    /// - Returns: `GetComponentPolicyOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `CallRateLimitExceededException` : You have exceeded the permitted request rate for the specific operation.
+    /// - `ForbiddenException` : You are not authorized to perform the requested operation.
+    /// - `InvalidRequestException` : You have requested an action that that the service doesn't support.
+    /// - `ResourceNotFoundException` : At least one of the resources referenced by your request does not exist.
+    /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
+    /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
     public func getComponentPolicy(input: GetComponentPolicyInput) async throws -> GetComponentPolicyOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -736,6 +1014,20 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
     }
 
     /// Retrieves a container recipe.
+    ///
+    /// - Parameter GetContainerRecipeInput : [no documentation found]
+    ///
+    /// - Returns: `GetContainerRecipeOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `CallRateLimitExceededException` : You have exceeded the permitted request rate for the specific operation.
+    /// - `ClientException` : These errors are usually caused by a client action, such as using an action or resource on behalf of a user that doesn't have permissions to use the action or resource, or specifying an invalid resource identifier.
+    /// - `ForbiddenException` : You are not authorized to perform the requested operation.
+    /// - `InvalidRequestException` : You have requested an action that that the service doesn't support.
+    /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
+    /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
     public func getContainerRecipe(input: GetContainerRecipeInput) async throws -> GetContainerRecipeOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -770,6 +1062,20 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
     }
 
     /// Retrieves the policy for a container recipe.
+    ///
+    /// - Parameter GetContainerRecipePolicyInput : [no documentation found]
+    ///
+    /// - Returns: `GetContainerRecipePolicyOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `CallRateLimitExceededException` : You have exceeded the permitted request rate for the specific operation.
+    /// - `ForbiddenException` : You are not authorized to perform the requested operation.
+    /// - `InvalidRequestException` : You have requested an action that that the service doesn't support.
+    /// - `ResourceNotFoundException` : At least one of the resources referenced by your request does not exist.
+    /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
+    /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
     public func getContainerRecipePolicy(input: GetContainerRecipePolicyInput) async throws -> GetContainerRecipePolicyOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -804,6 +1110,20 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
     }
 
     /// Gets a distribution configuration.
+    ///
+    /// - Parameter GetDistributionConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `GetDistributionConfigurationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `CallRateLimitExceededException` : You have exceeded the permitted request rate for the specific operation.
+    /// - `ClientException` : These errors are usually caused by a client action, such as using an action or resource on behalf of a user that doesn't have permissions to use the action or resource, or specifying an invalid resource identifier.
+    /// - `ForbiddenException` : You are not authorized to perform the requested operation.
+    /// - `InvalidRequestException` : You have requested an action that that the service doesn't support.
+    /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
+    /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
     public func getDistributionConfiguration(input: GetDistributionConfigurationInput) async throws -> GetDistributionConfigurationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -838,6 +1158,20 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
     }
 
     /// Gets an image.
+    ///
+    /// - Parameter GetImageInput : [no documentation found]
+    ///
+    /// - Returns: `GetImageOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `CallRateLimitExceededException` : You have exceeded the permitted request rate for the specific operation.
+    /// - `ClientException` : These errors are usually caused by a client action, such as using an action or resource on behalf of a user that doesn't have permissions to use the action or resource, or specifying an invalid resource identifier.
+    /// - `ForbiddenException` : You are not authorized to perform the requested operation.
+    /// - `InvalidRequestException` : You have requested an action that that the service doesn't support.
+    /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
+    /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
     public func getImage(input: GetImageInput) async throws -> GetImageOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -872,6 +1206,20 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
     }
 
     /// Gets an image pipeline.
+    ///
+    /// - Parameter GetImagePipelineInput : [no documentation found]
+    ///
+    /// - Returns: `GetImagePipelineOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `CallRateLimitExceededException` : You have exceeded the permitted request rate for the specific operation.
+    /// - `ClientException` : These errors are usually caused by a client action, such as using an action or resource on behalf of a user that doesn't have permissions to use the action or resource, or specifying an invalid resource identifier.
+    /// - `ForbiddenException` : You are not authorized to perform the requested operation.
+    /// - `InvalidRequestException` : You have requested an action that that the service doesn't support.
+    /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
+    /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
     public func getImagePipeline(input: GetImagePipelineInput) async throws -> GetImagePipelineOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -906,6 +1254,20 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
     }
 
     /// Gets an image policy.
+    ///
+    /// - Parameter GetImagePolicyInput : [no documentation found]
+    ///
+    /// - Returns: `GetImagePolicyOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `CallRateLimitExceededException` : You have exceeded the permitted request rate for the specific operation.
+    /// - `ForbiddenException` : You are not authorized to perform the requested operation.
+    /// - `InvalidRequestException` : You have requested an action that that the service doesn't support.
+    /// - `ResourceNotFoundException` : At least one of the resources referenced by your request does not exist.
+    /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
+    /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
     public func getImagePolicy(input: GetImagePolicyInput) async throws -> GetImagePolicyOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -940,6 +1302,20 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
     }
 
     /// Gets an image recipe.
+    ///
+    /// - Parameter GetImageRecipeInput : [no documentation found]
+    ///
+    /// - Returns: `GetImageRecipeOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `CallRateLimitExceededException` : You have exceeded the permitted request rate for the specific operation.
+    /// - `ClientException` : These errors are usually caused by a client action, such as using an action or resource on behalf of a user that doesn't have permissions to use the action or resource, or specifying an invalid resource identifier.
+    /// - `ForbiddenException` : You are not authorized to perform the requested operation.
+    /// - `InvalidRequestException` : You have requested an action that that the service doesn't support.
+    /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
+    /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
     public func getImageRecipe(input: GetImageRecipeInput) async throws -> GetImageRecipeOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -974,6 +1350,20 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
     }
 
     /// Gets an image recipe policy.
+    ///
+    /// - Parameter GetImageRecipePolicyInput : [no documentation found]
+    ///
+    /// - Returns: `GetImageRecipePolicyOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `CallRateLimitExceededException` : You have exceeded the permitted request rate for the specific operation.
+    /// - `ForbiddenException` : You are not authorized to perform the requested operation.
+    /// - `InvalidRequestException` : You have requested an action that that the service doesn't support.
+    /// - `ResourceNotFoundException` : At least one of the resources referenced by your request does not exist.
+    /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
+    /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
     public func getImageRecipePolicy(input: GetImageRecipePolicyInput) async throws -> GetImageRecipePolicyOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1008,6 +1398,20 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
     }
 
     /// Gets an infrastructure configuration.
+    ///
+    /// - Parameter GetInfrastructureConfigurationInput : GetInfrastructureConfiguration request object.
+    ///
+    /// - Returns: `GetInfrastructureConfigurationOutputResponse` : GetInfrastructureConfiguration response object.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `CallRateLimitExceededException` : You have exceeded the permitted request rate for the specific operation.
+    /// - `ClientException` : These errors are usually caused by a client action, such as using an action or resource on behalf of a user that doesn't have permissions to use the action or resource, or specifying an invalid resource identifier.
+    /// - `ForbiddenException` : You are not authorized to perform the requested operation.
+    /// - `InvalidRequestException` : You have requested an action that that the service doesn't support.
+    /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
+    /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
     public func getInfrastructureConfiguration(input: GetInfrastructureConfigurationInput) async throws -> GetInfrastructureConfigurationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1042,6 +1446,20 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
     }
 
     /// Get the runtime information that was logged for a specific runtime instance of the workflow.
+    ///
+    /// - Parameter GetWorkflowExecutionInput : [no documentation found]
+    ///
+    /// - Returns: `GetWorkflowExecutionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `CallRateLimitExceededException` : You have exceeded the permitted request rate for the specific operation.
+    /// - `ClientException` : These errors are usually caused by a client action, such as using an action or resource on behalf of a user that doesn't have permissions to use the action or resource, or specifying an invalid resource identifier.
+    /// - `ForbiddenException` : You are not authorized to perform the requested operation.
+    /// - `InvalidRequestException` : You have requested an action that that the service doesn't support.
+    /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
+    /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
     public func getWorkflowExecution(input: GetWorkflowExecutionInput) async throws -> GetWorkflowExecutionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1076,6 +1494,20 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
     }
 
     /// Get the runtime information that was logged for a specific runtime instance of the workflow step.
+    ///
+    /// - Parameter GetWorkflowStepExecutionInput : [no documentation found]
+    ///
+    /// - Returns: `GetWorkflowStepExecutionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `CallRateLimitExceededException` : You have exceeded the permitted request rate for the specific operation.
+    /// - `ClientException` : These errors are usually caused by a client action, such as using an action or resource on behalf of a user that doesn't have permissions to use the action or resource, or specifying an invalid resource identifier.
+    /// - `ForbiddenException` : You are not authorized to perform the requested operation.
+    /// - `InvalidRequestException` : You have requested an action that that the service doesn't support.
+    /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
+    /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
     public func getWorkflowStepExecution(input: GetWorkflowStepExecutionInput) async throws -> GetWorkflowStepExecutionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1110,6 +1542,24 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
     }
 
     /// Imports a component and transforms its data into a component document.
+    ///
+    /// - Parameter ImportComponentInput : [no documentation found]
+    ///
+    /// - Returns: `ImportComponentOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `CallRateLimitExceededException` : You have exceeded the permitted request rate for the specific operation.
+    /// - `ClientException` : These errors are usually caused by a client action, such as using an action or resource on behalf of a user that doesn't have permissions to use the action or resource, or specifying an invalid resource identifier.
+    /// - `ForbiddenException` : You are not authorized to perform the requested operation.
+    /// - `IdempotentParameterMismatchException` : You have specified a client token for an operation using parameter values that differ from a previous request that used the same client token.
+    /// - `InvalidParameterCombinationException` : You have specified two or more mutually exclusive parameters. Review the error message for details.
+    /// - `InvalidRequestException` : You have requested an action that that the service doesn't support.
+    /// - `InvalidVersionNumberException` : Your version number is out of bounds or does not follow the required syntax.
+    /// - `ResourceInUseException` : The resource that you are trying to operate on is currently in use. Review the message details and retry later.
+    /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
+    /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
     public func importComponent(input: ImportComponentInput) async throws -> ImportComponentOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1154,6 +1604,17 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
     }
 
     /// When you export your virtual machine (VM) from its virtualization environment, that process creates a set of one or more disk container files that act as snapshots of your VM’s environment, settings, and data. The Amazon EC2 API [ImportImage](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_ImportImage.html) action uses those files to import your VM and create an AMI. To import using the CLI command, see [import-image](https://docs.aws.amazon.com/cli/latest/reference/ec2/import-image.html) You can reference the task ID from the VM import to pull in the AMI that the import created as the base image for your Image Builder recipe.
+    ///
+    /// - Parameter ImportVmImageInput : [no documentation found]
+    ///
+    /// - Returns: `ImportVmImageOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ClientException` : These errors are usually caused by a client action, such as using an action or resource on behalf of a user that doesn't have permissions to use the action or resource, or specifying an invalid resource identifier.
+    /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
+    /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
     public func importVmImage(input: ImportVmImageInput) async throws -> ImportVmImageOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1198,6 +1659,21 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
     }
 
     /// Returns the list of component build versions for the specified semantic version. The semantic version has four nodes: ../. You can assign values for the first three, and can filter on all of them. Filtering: With semantic versioning, you have the flexibility to use wildcards (x) to specify the most recent versions or nodes when selecting the base image or components for your recipe. When you use a wildcard in any node, all nodes to the right of the first wildcard must also be wildcards.
+    ///
+    /// - Parameter ListComponentBuildVersionsInput : [no documentation found]
+    ///
+    /// - Returns: `ListComponentBuildVersionsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `CallRateLimitExceededException` : You have exceeded the permitted request rate for the specific operation.
+    /// - `ClientException` : These errors are usually caused by a client action, such as using an action or resource on behalf of a user that doesn't have permissions to use the action or resource, or specifying an invalid resource identifier.
+    /// - `ForbiddenException` : You are not authorized to perform the requested operation.
+    /// - `InvalidPaginationTokenException` : You have provided an invalid pagination token in your request.
+    /// - `InvalidRequestException` : You have requested an action that that the service doesn't support.
+    /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
+    /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
     public func listComponentBuildVersions(input: ListComponentBuildVersionsInput) async throws -> ListComponentBuildVersionsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1234,6 +1710,21 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
     }
 
     /// Returns the list of components that can be filtered by name, or by using the listed filters to streamline results. Newly created components can take up to two minutes to appear in the ListComponents API Results. The semantic version has four nodes: ../. You can assign values for the first three, and can filter on all of them. Filtering: With semantic versioning, you have the flexibility to use wildcards (x) to specify the most recent versions or nodes when selecting the base image or components for your recipe. When you use a wildcard in any node, all nodes to the right of the first wildcard must also be wildcards.
+    ///
+    /// - Parameter ListComponentsInput : [no documentation found]
+    ///
+    /// - Returns: `ListComponentsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `CallRateLimitExceededException` : You have exceeded the permitted request rate for the specific operation.
+    /// - `ClientException` : These errors are usually caused by a client action, such as using an action or resource on behalf of a user that doesn't have permissions to use the action or resource, or specifying an invalid resource identifier.
+    /// - `ForbiddenException` : You are not authorized to perform the requested operation.
+    /// - `InvalidPaginationTokenException` : You have provided an invalid pagination token in your request.
+    /// - `InvalidRequestException` : You have requested an action that that the service doesn't support.
+    /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
+    /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
     public func listComponents(input: ListComponentsInput) async throws -> ListComponentsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1270,6 +1761,21 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
     }
 
     /// Returns a list of container recipes.
+    ///
+    /// - Parameter ListContainerRecipesInput : [no documentation found]
+    ///
+    /// - Returns: `ListContainerRecipesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `CallRateLimitExceededException` : You have exceeded the permitted request rate for the specific operation.
+    /// - `ClientException` : These errors are usually caused by a client action, such as using an action or resource on behalf of a user that doesn't have permissions to use the action or resource, or specifying an invalid resource identifier.
+    /// - `ForbiddenException` : You are not authorized to perform the requested operation.
+    /// - `InvalidPaginationTokenException` : You have provided an invalid pagination token in your request.
+    /// - `InvalidRequestException` : You have requested an action that that the service doesn't support.
+    /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
+    /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
     public func listContainerRecipes(input: ListContainerRecipesInput) async throws -> ListContainerRecipesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1306,6 +1812,21 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
     }
 
     /// Returns a list of distribution configurations.
+    ///
+    /// - Parameter ListDistributionConfigurationsInput : [no documentation found]
+    ///
+    /// - Returns: `ListDistributionConfigurationsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `CallRateLimitExceededException` : You have exceeded the permitted request rate for the specific operation.
+    /// - `ClientException` : These errors are usually caused by a client action, such as using an action or resource on behalf of a user that doesn't have permissions to use the action or resource, or specifying an invalid resource identifier.
+    /// - `ForbiddenException` : You are not authorized to perform the requested operation.
+    /// - `InvalidPaginationTokenException` : You have provided an invalid pagination token in your request.
+    /// - `InvalidRequestException` : You have requested an action that that the service doesn't support.
+    /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
+    /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
     public func listDistributionConfigurations(input: ListDistributionConfigurationsInput) async throws -> ListDistributionConfigurationsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1342,6 +1863,21 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
     }
 
     /// Returns a list of image build versions.
+    ///
+    /// - Parameter ListImageBuildVersionsInput : [no documentation found]
+    ///
+    /// - Returns: `ListImageBuildVersionsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `CallRateLimitExceededException` : You have exceeded the permitted request rate for the specific operation.
+    /// - `ClientException` : These errors are usually caused by a client action, such as using an action or resource on behalf of a user that doesn't have permissions to use the action or resource, or specifying an invalid resource identifier.
+    /// - `ForbiddenException` : You are not authorized to perform the requested operation.
+    /// - `InvalidPaginationTokenException` : You have provided an invalid pagination token in your request.
+    /// - `InvalidRequestException` : You have requested an action that that the service doesn't support.
+    /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
+    /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
     public func listImageBuildVersions(input: ListImageBuildVersionsInput) async throws -> ListImageBuildVersionsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1378,6 +1914,22 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
     }
 
     /// List the Packages that are associated with an Image Build Version, as determined by Amazon Web Services Systems Manager Inventory at build time.
+    ///
+    /// - Parameter ListImagePackagesInput : [no documentation found]
+    ///
+    /// - Returns: `ListImagePackagesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `CallRateLimitExceededException` : You have exceeded the permitted request rate for the specific operation.
+    /// - `ClientException` : These errors are usually caused by a client action, such as using an action or resource on behalf of a user that doesn't have permissions to use the action or resource, or specifying an invalid resource identifier.
+    /// - `ForbiddenException` : You are not authorized to perform the requested operation.
+    /// - `InvalidPaginationTokenException` : You have provided an invalid pagination token in your request.
+    /// - `InvalidRequestException` : You have requested an action that that the service doesn't support.
+    /// - `ResourceNotFoundException` : At least one of the resources referenced by your request does not exist.
+    /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
+    /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
     public func listImagePackages(input: ListImagePackagesInput) async throws -> ListImagePackagesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1414,6 +1966,22 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
     }
 
     /// Returns a list of images created by the specified pipeline.
+    ///
+    /// - Parameter ListImagePipelineImagesInput : [no documentation found]
+    ///
+    /// - Returns: `ListImagePipelineImagesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `CallRateLimitExceededException` : You have exceeded the permitted request rate for the specific operation.
+    /// - `ClientException` : These errors are usually caused by a client action, such as using an action or resource on behalf of a user that doesn't have permissions to use the action or resource, or specifying an invalid resource identifier.
+    /// - `ForbiddenException` : You are not authorized to perform the requested operation.
+    /// - `InvalidPaginationTokenException` : You have provided an invalid pagination token in your request.
+    /// - `InvalidRequestException` : You have requested an action that that the service doesn't support.
+    /// - `ResourceNotFoundException` : At least one of the resources referenced by your request does not exist.
+    /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
+    /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
     public func listImagePipelineImages(input: ListImagePipelineImagesInput) async throws -> ListImagePipelineImagesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1450,6 +2018,21 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
     }
 
     /// Returns a list of image pipelines.
+    ///
+    /// - Parameter ListImagePipelinesInput : [no documentation found]
+    ///
+    /// - Returns: `ListImagePipelinesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `CallRateLimitExceededException` : You have exceeded the permitted request rate for the specific operation.
+    /// - `ClientException` : These errors are usually caused by a client action, such as using an action or resource on behalf of a user that doesn't have permissions to use the action or resource, or specifying an invalid resource identifier.
+    /// - `ForbiddenException` : You are not authorized to perform the requested operation.
+    /// - `InvalidPaginationTokenException` : You have provided an invalid pagination token in your request.
+    /// - `InvalidRequestException` : You have requested an action that that the service doesn't support.
+    /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
+    /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
     public func listImagePipelines(input: ListImagePipelinesInput) async throws -> ListImagePipelinesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1486,6 +2069,21 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
     }
 
     /// Returns a list of image recipes.
+    ///
+    /// - Parameter ListImageRecipesInput : [no documentation found]
+    ///
+    /// - Returns: `ListImageRecipesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `CallRateLimitExceededException` : You have exceeded the permitted request rate for the specific operation.
+    /// - `ClientException` : These errors are usually caused by a client action, such as using an action or resource on behalf of a user that doesn't have permissions to use the action or resource, or specifying an invalid resource identifier.
+    /// - `ForbiddenException` : You are not authorized to perform the requested operation.
+    /// - `InvalidPaginationTokenException` : You have provided an invalid pagination token in your request.
+    /// - `InvalidRequestException` : You have requested an action that that the service doesn't support.
+    /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
+    /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
     public func listImageRecipes(input: ListImageRecipesInput) async throws -> ListImageRecipesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1530,6 +2128,21 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
     /// * imagePipelineArn
     ///
     /// * vulnerabilityId
+    ///
+    /// - Parameter ListImageScanFindingAggregationsInput : [no documentation found]
+    ///
+    /// - Returns: `ListImageScanFindingAggregationsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `CallRateLimitExceededException` : You have exceeded the permitted request rate for the specific operation.
+    /// - `ClientException` : These errors are usually caused by a client action, such as using an action or resource on behalf of a user that doesn't have permissions to use the action or resource, or specifying an invalid resource identifier.
+    /// - `ForbiddenException` : You are not authorized to perform the requested operation.
+    /// - `InvalidPaginationTokenException` : You have provided an invalid pagination token in your request.
+    /// - `InvalidRequestException` : You have requested an action that that the service doesn't support.
+    /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
+    /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
     public func listImageScanFindingAggregations(input: ListImageScanFindingAggregationsInput) async throws -> ListImageScanFindingAggregationsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1566,6 +2179,21 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
     }
 
     /// Returns a list of image scan findings for your account.
+    ///
+    /// - Parameter ListImageScanFindingsInput : [no documentation found]
+    ///
+    /// - Returns: `ListImageScanFindingsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `CallRateLimitExceededException` : You have exceeded the permitted request rate for the specific operation.
+    /// - `ClientException` : These errors are usually caused by a client action, such as using an action or resource on behalf of a user that doesn't have permissions to use the action or resource, or specifying an invalid resource identifier.
+    /// - `ForbiddenException` : You are not authorized to perform the requested operation.
+    /// - `InvalidPaginationTokenException` : You have provided an invalid pagination token in your request.
+    /// - `InvalidRequestException` : You have requested an action that that the service doesn't support.
+    /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
+    /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
     public func listImageScanFindings(input: ListImageScanFindingsInput) async throws -> ListImageScanFindingsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1602,6 +2230,21 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
     }
 
     /// Returns the list of images that you have access to. Newly created images can take up to two minutes to appear in the ListImages API Results.
+    ///
+    /// - Parameter ListImagesInput : [no documentation found]
+    ///
+    /// - Returns: `ListImagesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `CallRateLimitExceededException` : You have exceeded the permitted request rate for the specific operation.
+    /// - `ClientException` : These errors are usually caused by a client action, such as using an action or resource on behalf of a user that doesn't have permissions to use the action or resource, or specifying an invalid resource identifier.
+    /// - `ForbiddenException` : You are not authorized to perform the requested operation.
+    /// - `InvalidPaginationTokenException` : You have provided an invalid pagination token in your request.
+    /// - `InvalidRequestException` : You have requested an action that that the service doesn't support.
+    /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
+    /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
     public func listImages(input: ListImagesInput) async throws -> ListImagesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1638,6 +2281,21 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
     }
 
     /// Returns a list of infrastructure configurations.
+    ///
+    /// - Parameter ListInfrastructureConfigurationsInput : [no documentation found]
+    ///
+    /// - Returns: `ListInfrastructureConfigurationsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `CallRateLimitExceededException` : You have exceeded the permitted request rate for the specific operation.
+    /// - `ClientException` : These errors are usually caused by a client action, such as using an action or resource on behalf of a user that doesn't have permissions to use the action or resource, or specifying an invalid resource identifier.
+    /// - `ForbiddenException` : You are not authorized to perform the requested operation.
+    /// - `InvalidPaginationTokenException` : You have provided an invalid pagination token in your request.
+    /// - `InvalidRequestException` : You have requested an action that that the service doesn't support.
+    /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
+    /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
     public func listInfrastructureConfigurations(input: ListInfrastructureConfigurationsInput) async throws -> ListInfrastructureConfigurationsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1674,6 +2332,17 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
     }
 
     /// Returns the list of tags for the specified resource.
+    ///
+    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    ///
+    /// - Returns: `ListTagsForResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParameterException` : The specified parameter is invalid. Review the available parameters for the API request.
+    /// - `ResourceNotFoundException` : At least one of the resources referenced by your request does not exist.
+    /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
     public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1707,6 +2376,21 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
     }
 
     /// Returns a list of workflow runtime instance metadata objects for a specific image build version.
+    ///
+    /// - Parameter ListWorkflowExecutionsInput : [no documentation found]
+    ///
+    /// - Returns: `ListWorkflowExecutionsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `CallRateLimitExceededException` : You have exceeded the permitted request rate for the specific operation.
+    /// - `ClientException` : These errors are usually caused by a client action, such as using an action or resource on behalf of a user that doesn't have permissions to use the action or resource, or specifying an invalid resource identifier.
+    /// - `ForbiddenException` : You are not authorized to perform the requested operation.
+    /// - `InvalidPaginationTokenException` : You have provided an invalid pagination token in your request.
+    /// - `InvalidRequestException` : You have requested an action that that the service doesn't support.
+    /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
+    /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
     public func listWorkflowExecutions(input: ListWorkflowExecutionsInput) async throws -> ListWorkflowExecutionsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1743,6 +2427,21 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
     }
 
     /// Shows runtime data for each step in a runtime instance of the workflow that you specify in the request.
+    ///
+    /// - Parameter ListWorkflowStepExecutionsInput : [no documentation found]
+    ///
+    /// - Returns: `ListWorkflowStepExecutionsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `CallRateLimitExceededException` : You have exceeded the permitted request rate for the specific operation.
+    /// - `ClientException` : These errors are usually caused by a client action, such as using an action or resource on behalf of a user that doesn't have permissions to use the action or resource, or specifying an invalid resource identifier.
+    /// - `ForbiddenException` : You are not authorized to perform the requested operation.
+    /// - `InvalidPaginationTokenException` : You have provided an invalid pagination token in your request.
+    /// - `InvalidRequestException` : You have requested an action that that the service doesn't support.
+    /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
+    /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
     public func listWorkflowStepExecutions(input: ListWorkflowStepExecutionsInput) async throws -> ListWorkflowStepExecutionsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1779,6 +2478,22 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
     }
 
     /// Applies a policy to a component. We recommend that you call the RAM API [CreateResourceShare](https://docs.aws.amazon.com/ram/latest/APIReference/API_CreateResourceShare.html) to share resources. If you call the Image Builder API PutComponentPolicy, you must also call the RAM API [PromoteResourceShareCreatedFromPolicy](https://docs.aws.amazon.com/ram/latest/APIReference/API_PromoteResourceShareCreatedFromPolicy.html) in order for the resource to be visible to all principals with whom the resource is shared.
+    ///
+    /// - Parameter PutComponentPolicyInput : [no documentation found]
+    ///
+    /// - Returns: `PutComponentPolicyOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `CallRateLimitExceededException` : You have exceeded the permitted request rate for the specific operation.
+    /// - `ClientException` : These errors are usually caused by a client action, such as using an action or resource on behalf of a user that doesn't have permissions to use the action or resource, or specifying an invalid resource identifier.
+    /// - `ForbiddenException` : You are not authorized to perform the requested operation.
+    /// - `InvalidParameterValueException` : The value that you provided for the specified parameter is invalid.
+    /// - `InvalidRequestException` : You have requested an action that that the service doesn't support.
+    /// - `ResourceNotFoundException` : At least one of the resources referenced by your request does not exist.
+    /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
+    /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
     public func putComponentPolicy(input: PutComponentPolicyInput) async throws -> PutComponentPolicyOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1815,6 +2530,22 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
     }
 
     /// Applies a policy to a container image. We recommend that you call the RAM API CreateResourceShare (https://docs.aws.amazon.com//ram/latest/APIReference/API_CreateResourceShare.html) to share resources. If you call the Image Builder API PutContainerImagePolicy, you must also call the RAM API PromoteResourceShareCreatedFromPolicy (https://docs.aws.amazon.com//ram/latest/APIReference/API_PromoteResourceShareCreatedFromPolicy.html) in order for the resource to be visible to all principals with whom the resource is shared.
+    ///
+    /// - Parameter PutContainerRecipePolicyInput : [no documentation found]
+    ///
+    /// - Returns: `PutContainerRecipePolicyOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `CallRateLimitExceededException` : You have exceeded the permitted request rate for the specific operation.
+    /// - `ClientException` : These errors are usually caused by a client action, such as using an action or resource on behalf of a user that doesn't have permissions to use the action or resource, or specifying an invalid resource identifier.
+    /// - `ForbiddenException` : You are not authorized to perform the requested operation.
+    /// - `InvalidParameterValueException` : The value that you provided for the specified parameter is invalid.
+    /// - `InvalidRequestException` : You have requested an action that that the service doesn't support.
+    /// - `ResourceNotFoundException` : At least one of the resources referenced by your request does not exist.
+    /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
+    /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
     public func putContainerRecipePolicy(input: PutContainerRecipePolicyInput) async throws -> PutContainerRecipePolicyOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1851,6 +2582,22 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
     }
 
     /// Applies a policy to an image. We recommend that you call the RAM API [CreateResourceShare](https://docs.aws.amazon.com/ram/latest/APIReference/API_CreateResourceShare.html) to share resources. If you call the Image Builder API PutImagePolicy, you must also call the RAM API [PromoteResourceShareCreatedFromPolicy](https://docs.aws.amazon.com/ram/latest/APIReference/API_PromoteResourceShareCreatedFromPolicy.html) in order for the resource to be visible to all principals with whom the resource is shared.
+    ///
+    /// - Parameter PutImagePolicyInput : [no documentation found]
+    ///
+    /// - Returns: `PutImagePolicyOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `CallRateLimitExceededException` : You have exceeded the permitted request rate for the specific operation.
+    /// - `ClientException` : These errors are usually caused by a client action, such as using an action or resource on behalf of a user that doesn't have permissions to use the action or resource, or specifying an invalid resource identifier.
+    /// - `ForbiddenException` : You are not authorized to perform the requested operation.
+    /// - `InvalidParameterValueException` : The value that you provided for the specified parameter is invalid.
+    /// - `InvalidRequestException` : You have requested an action that that the service doesn't support.
+    /// - `ResourceNotFoundException` : At least one of the resources referenced by your request does not exist.
+    /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
+    /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
     public func putImagePolicy(input: PutImagePolicyInput) async throws -> PutImagePolicyOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1887,6 +2634,22 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
     }
 
     /// Applies a policy to an image recipe. We recommend that you call the RAM API [CreateResourceShare](https://docs.aws.amazon.com/ram/latest/APIReference/API_CreateResourceShare.html) to share resources. If you call the Image Builder API PutImageRecipePolicy, you must also call the RAM API [PromoteResourceShareCreatedFromPolicy](https://docs.aws.amazon.com/ram/latest/APIReference/API_PromoteResourceShareCreatedFromPolicy.html) in order for the resource to be visible to all principals with whom the resource is shared.
+    ///
+    /// - Parameter PutImageRecipePolicyInput : [no documentation found]
+    ///
+    /// - Returns: `PutImageRecipePolicyOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `CallRateLimitExceededException` : You have exceeded the permitted request rate for the specific operation.
+    /// - `ClientException` : These errors are usually caused by a client action, such as using an action or resource on behalf of a user that doesn't have permissions to use the action or resource, or specifying an invalid resource identifier.
+    /// - `ForbiddenException` : You are not authorized to perform the requested operation.
+    /// - `InvalidParameterValueException` : The value that you provided for the specified parameter is invalid.
+    /// - `InvalidRequestException` : You have requested an action that that the service doesn't support.
+    /// - `ResourceNotFoundException` : At least one of the resources referenced by your request does not exist.
+    /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
+    /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
     public func putImageRecipePolicy(input: PutImageRecipePolicyInput) async throws -> PutImageRecipePolicyOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1923,6 +2686,23 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
     }
 
     /// Manually triggers a pipeline to create an image.
+    ///
+    /// - Parameter StartImagePipelineExecutionInput : [no documentation found]
+    ///
+    /// - Returns: `StartImagePipelineExecutionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `CallRateLimitExceededException` : You have exceeded the permitted request rate for the specific operation.
+    /// - `ClientException` : These errors are usually caused by a client action, such as using an action or resource on behalf of a user that doesn't have permissions to use the action or resource, or specifying an invalid resource identifier.
+    /// - `ForbiddenException` : You are not authorized to perform the requested operation.
+    /// - `IdempotentParameterMismatchException` : You have specified a client token for an operation using parameter values that differ from a previous request that used the same client token.
+    /// - `InvalidRequestException` : You have requested an action that that the service doesn't support.
+    /// - `ResourceInUseException` : The resource that you are trying to operate on is currently in use. Review the message details and retry later.
+    /// - `ResourceNotFoundException` : At least one of the resources referenced by your request does not exist.
+    /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
+    /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
     public func startImagePipelineExecution(input: StartImagePipelineExecutionInput) async throws -> StartImagePipelineExecutionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1967,6 +2747,17 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
     }
 
     /// Adds a tag to a resource.
+    ///
+    /// - Parameter TagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `TagResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParameterException` : The specified parameter is invalid. Review the available parameters for the API request.
+    /// - `ResourceNotFoundException` : At least one of the resources referenced by your request does not exist.
+    /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
     public func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2003,6 +2794,17 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
     }
 
     /// Removes a tag from a resource.
+    ///
+    /// - Parameter UntagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `UntagResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidParameterException` : The specified parameter is invalid. Review the available parameters for the API request.
+    /// - `ResourceNotFoundException` : At least one of the resources referenced by your request does not exist.
+    /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
     public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2037,6 +2839,23 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
     }
 
     /// Updates a new distribution configuration. Distribution configurations define and configure the outputs of your pipeline.
+    ///
+    /// - Parameter UpdateDistributionConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateDistributionConfigurationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `CallRateLimitExceededException` : You have exceeded the permitted request rate for the specific operation.
+    /// - `ClientException` : These errors are usually caused by a client action, such as using an action or resource on behalf of a user that doesn't have permissions to use the action or resource, or specifying an invalid resource identifier.
+    /// - `ForbiddenException` : You are not authorized to perform the requested operation.
+    /// - `IdempotentParameterMismatchException` : You have specified a client token for an operation using parameter values that differ from a previous request that used the same client token.
+    /// - `InvalidParameterCombinationException` : You have specified two or more mutually exclusive parameters. Review the error message for details.
+    /// - `InvalidRequestException` : You have requested an action that that the service doesn't support.
+    /// - `ResourceInUseException` : The resource that you are trying to operate on is currently in use. Review the message details and retry later.
+    /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
+    /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
     public func updateDistributionConfiguration(input: UpdateDistributionConfigurationInput) async throws -> UpdateDistributionConfigurationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2081,6 +2900,22 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
     }
 
     /// Updates an image pipeline. Image pipelines enable you to automate the creation and distribution of images. UpdateImagePipeline does not support selective updates for the pipeline. You must specify all of the required properties in the update request, not just the properties that have changed.
+    ///
+    /// - Parameter UpdateImagePipelineInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateImagePipelineOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `CallRateLimitExceededException` : You have exceeded the permitted request rate for the specific operation.
+    /// - `ClientException` : These errors are usually caused by a client action, such as using an action or resource on behalf of a user that doesn't have permissions to use the action or resource, or specifying an invalid resource identifier.
+    /// - `ForbiddenException` : You are not authorized to perform the requested operation.
+    /// - `IdempotentParameterMismatchException` : You have specified a client token for an operation using parameter values that differ from a previous request that used the same client token.
+    /// - `InvalidRequestException` : You have requested an action that that the service doesn't support.
+    /// - `ResourceInUseException` : The resource that you are trying to operate on is currently in use. Review the message details and retry later.
+    /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
+    /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
     public func updateImagePipeline(input: UpdateImagePipelineInput) async throws -> UpdateImagePipelineOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2125,6 +2960,22 @@ extension ImagebuilderClient: ImagebuilderClientProtocol {
     }
 
     /// Updates a new infrastructure configuration. An infrastructure configuration defines the environment in which your image will be built and tested.
+    ///
+    /// - Parameter UpdateInfrastructureConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateInfrastructureConfigurationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `CallRateLimitExceededException` : You have exceeded the permitted request rate for the specific operation.
+    /// - `ClientException` : These errors are usually caused by a client action, such as using an action or resource on behalf of a user that doesn't have permissions to use the action or resource, or specifying an invalid resource identifier.
+    /// - `ForbiddenException` : You are not authorized to perform the requested operation.
+    /// - `IdempotentParameterMismatchException` : You have specified a client token for an operation using parameter values that differ from a previous request that used the same client token.
+    /// - `InvalidRequestException` : You have requested an action that that the service doesn't support.
+    /// - `ResourceInUseException` : The resource that you are trying to operate on is currently in use. Review the message details and retry later.
+    /// - `ServiceException` : This exception is thrown when the service encounters an unrecoverable exception.
+    /// - `ServiceUnavailableException` : The service is unable to process your request at this time.
     public func updateInfrastructureConfiguration(input: UpdateInfrastructureConfigurationInput) async throws -> UpdateInfrastructureConfigurationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()

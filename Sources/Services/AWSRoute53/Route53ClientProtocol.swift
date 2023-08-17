@@ -11,6 +11,20 @@ import ClientRuntime
 /// * Check the health of your resources. For more information, see [How Route 53 checks the health of your resources](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/welcome-health-checks.html).
 public protocol Route53ClientProtocol {
     /// Activates a key-signing key (KSK) so that it can be used for signing by DNSSEC. This operation changes the KSK status to ACTIVE.
+    ///
+    /// - Parameter ActivateKeySigningKeyInput : [no documentation found]
+    ///
+    /// - Returns: `ActivateKeySigningKeyOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConcurrentModification` : Another user submitted a request to create, update, or delete the object at the same time that you did. Retry the request.
+    /// - `InvalidInput` : The input is not valid.
+    /// - `InvalidKeySigningKeyStatus` : The key-signing key (KSK) status isn't valid or another KSK has the status INTERNAL_FAILURE.
+    /// - `InvalidKMSArn` : The KeyManagementServiceArn that you specified isn't valid to use with DNSSEC signing.
+    /// - `InvalidSigningStatus` : Your hosted zone status isn't valid for this operation. In the hosted zone, change the status to enable DNSSEC or disable DNSSEC.
+    /// - `NoSuchKeySigningKey` : The specified key-signing key (KSK) doesn't exist.
     func activateKeySigningKey(input: ActivateKeySigningKeyInput) async throws -> ActivateKeySigningKeyOutputResponse
     /// Associates an Amazon VPC with a private hosted zone. To perform the association, the VPC and the private hosted zone must already exist. You can't convert a public hosted zone into a private hosted zone. If you want to associate a VPC that was created by using one Amazon Web Services account with a private hosted zone that was created by using a different account, the Amazon Web Services account that created the private hosted zone must first submit a CreateVPCAssociationAuthorization request. Then the account that created the VPC must submit an AssociateVPCWithHostedZone request. When granting access, the hosted zone and the Amazon VPC must belong to the same partition. A partition is a group of Amazon Web Services Regions. Each Amazon Web Services account is scoped to one partition. The following are the supported partitions:
     ///
@@ -22,12 +36,48 @@ public protocol Route53ClientProtocol {
     ///
     ///
     /// For more information, see [Access Management](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference.
+    ///
+    /// - Parameter AssociateVPCWithHostedZoneInput : A complex type that contains information about the request to associate a VPC with a private hosted zone.
+    ///
+    /// - Returns: `AssociateVPCWithHostedZoneOutputResponse` : A complex type that contains the response information for the AssociateVPCWithHostedZone request.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictingDomainExists` : The cause of this error depends on the operation that you're performing:
+    ///
+    /// * Create a public hosted zone: Two hosted zones that have the same name or that have a parent/child relationship (example.com and test.example.com) can't have any common name servers. You tried to create a hosted zone that has the same name as an existing hosted zone or that's the parent or child of an existing hosted zone, and you specified a delegation set that shares one or more name servers with the existing hosted zone. For more information, see [CreateReusableDelegationSet](https://docs.aws.amazon.com/Route53/latest/APIReference/API_CreateReusableDelegationSet.html).
+    ///
+    /// * Create a private hosted zone: A hosted zone with the specified name already exists and is already associated with the Amazon VPC that you specified.
+    ///
+    /// * Associate VPCs with a private hosted zone: The VPC that you specified is already associated with another hosted zone that has the same name.
+    /// - `InvalidInput` : The input is not valid.
+    /// - `InvalidVPCId` : The VPC ID that you specified either isn't a valid ID or the current account is not authorized to access this VPC.
+    /// - `LimitsExceeded` : This operation can't be completed because the current account has reached the limit on the resource you are trying to create. To request a higher limit, [create a case](http://aws.amazon.com/route53-request) with the Amazon Web Services Support Center.
+    /// - `NoSuchHostedZone` : No hosted zone exists with the ID that you specified.
+    /// - `NotAuthorizedException` : Associating the specified VPC with the specified hosted zone has not been authorized.
+    /// - `PriorRequestNotComplete` : If Amazon Route 53 can't process a request before the next request arrives, it will reject subsequent requests for the same hosted zone and return an HTTP 400 error (Bad request). If Route 53 returns this error repeatedly for the same request, we recommend that you wait, in intervals of increasing duration, before you try the request again.
+    /// - `PublicZoneVPCAssociation` : You're trying to associate a VPC with a public hosted zone. Amazon Route 53 doesn't support associating a VPC with a public hosted zone.
     func associateVPCWithHostedZone(input: AssociateVPCWithHostedZoneInput) async throws -> AssociateVPCWithHostedZoneOutputResponse
     /// Creates, changes, or deletes CIDR blocks within a collection. Contains authoritative IP information mapping blocks to one or multiple locations. A change request can update multiple locations in a collection at a time, which is helpful if you want to move one or more CIDR blocks from one location to another in one transaction, without downtime. Limits The max number of CIDR blocks included in the request is 1000. As a result, big updates require multiple API calls. PUT and DELETE_IF_EXISTS Use ChangeCidrCollection to perform the following actions:
     ///
     /// * PUT: Create a CIDR block within the specified collection.
     ///
     /// * DELETE_IF_EXISTS: Delete an existing CIDR block from the collection.
+    ///
+    /// - Parameter ChangeCidrCollectionInput : [no documentation found]
+    ///
+    /// - Returns: `ChangeCidrCollectionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `CidrBlockInUseException` : This CIDR block is already in use.
+    /// - `CidrCollectionVersionMismatchException` : The CIDR collection version you provided, doesn't match the one in the ListCidrCollections operation.
+    /// - `ConcurrentModification` : Another user submitted a request to create, update, or delete the object at the same time that you did. Retry the request.
+    /// - `InvalidInput` : The input is not valid.
+    /// - `LimitsExceeded` : This operation can't be completed because the current account has reached the limit on the resource you are trying to create. To request a higher limit, [create a case](http://aws.amazon.com/route53-request) with the Amazon Web Services Support Center.
+    /// - `NoSuchCidrCollectionException` : The CIDR collection you specified, doesn't exist.
     func changeCidrCollection(input: ChangeCidrCollectionInput) async throws -> ChangeCidrCollectionOutputResponse
     /// Creates, changes, or deletes a resource record set, which contains authoritative DNS information for a specified domain name or subdomain name. For example, you can use ChangeResourceRecordSets to create a resource record set that routes traffic for test.example.com to a web server that has an IP address of 192.0.2.44. Deleting Resource Record Sets To delete a resource record set, you must specify all the same values that you specified when you created it. Change Batches and Transactional Changes The request body must include a document with a ChangeResourceRecordSetsRequest element. The request body contains a list of change items, known as a change batch. Change batches are considered transactional changes. Route 53 validates the changes in the request and then either makes all or none of the changes in the change batch request. This ensures that DNS routing isn't adversely affected by partial changes to the resource record sets in a hosted zone. For example, suppose a change batch request contains two changes: it deletes the CNAME resource record set for www.example.com and creates an alias resource record set for www.example.com. If validation for both records succeeds, Route 53 deletes the first resource record set and creates the second resource record set in a single operation. If validation for either the DELETE or the CREATE action fails, then the request is canceled, and the original CNAME record continues to exist. If you try to delete the same resource record set more than once in a single change batch, Route 53 returns an InvalidChangeBatch error. Traffic Flow To create resource record sets for complex routing configurations, use either the traffic flow visual editor in the Route 53 console or the API actions for traffic policies and traffic policy instances. Save the configuration as a traffic policy, then associate the traffic policy with one or more domain names (such as example.com) or subdomain names (such as www.example.com), in the same hosted zone or in multiple hosted zones. You can roll back the updates if the new configuration isn't performing as expected. For more information, see [Using Traffic Flow to Route DNS Traffic](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/traffic-flow.html) in the Amazon Route 53 Developer Guide. Create, Delete, and Upsert Use ChangeResourceRecordsSetsRequest to perform the following actions:
     ///
@@ -39,10 +89,48 @@ public protocol Route53ClientProtocol {
     ///
     ///
     /// Syntaxes for Creating, Updating, and Deleting Resource Record Sets The syntax for a request depends on the type of resource record set that you want to create, delete, or update, such as weighted, alias, or failover. The XML elements in your request must appear in the order listed in the syntax. For an example for each type of resource record set, see "Examples." Don't refer to the syntax in the "Parameter Syntax" section, which includes all of the elements for every kind of resource record set that you can create, delete, or update by using ChangeResourceRecordSets. Change Propagation to Route 53 DNS Servers When you submit a ChangeResourceRecordSets request, Route 53 propagates your changes to all of the Route 53 authoritative DNS servers managing the hosted zone. While your changes are propagating, GetChange returns a status of PENDING. When propagation is complete, GetChange returns a status of INSYNC. Changes generally propagate to all Route 53 name servers managing the hosted zone within 60 seconds. For more information, see [GetChange](https://docs.aws.amazon.com/Route53/latest/APIReference/API_GetChange.html). Limits on ChangeResourceRecordSets Requests For information about the limits on a ChangeResourceRecordSets request, see [Limits](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/DNSLimitations.html) in the Amazon Route 53 Developer Guide.
+    ///
+    /// - Parameter ChangeResourceRecordSetsInput : A complex type that contains change information for the resource record set.
+    ///
+    /// - Returns: `ChangeResourceRecordSetsOutputResponse` : A complex type containing the response for the request.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidChangeBatch` : This exception contains a list of messages that might contain one or more error messages. Each error message indicates one error in the change batch.
+    /// - `InvalidInput` : The input is not valid.
+    /// - `NoSuchHealthCheck` : No health check exists with the specified ID.
+    /// - `NoSuchHostedZone` : No hosted zone exists with the ID that you specified.
+    /// - `PriorRequestNotComplete` : If Amazon Route 53 can't process a request before the next request arrives, it will reject subsequent requests for the same hosted zone and return an HTTP 400 error (Bad request). If Route 53 returns this error repeatedly for the same request, we recommend that you wait, in intervals of increasing duration, before you try the request again.
     func changeResourceRecordSets(input: ChangeResourceRecordSetsInput) async throws -> ChangeResourceRecordSetsOutputResponse
     /// Adds, edits, or deletes tags for a health check or a hosted zone. For information about using tags for cost allocation, see [Using Cost Allocation Tags](https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/cost-alloc-tags.html) in the Billing and Cost Management User Guide.
+    ///
+    /// - Parameter ChangeTagsForResourceInput : A complex type that contains information about the tags that you want to add, edit, or delete.
+    ///
+    /// - Returns: `ChangeTagsForResourceOutputResponse` : Empty response for the request.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidInput` : The input is not valid.
+    /// - `NoSuchHealthCheck` : No health check exists with the specified ID.
+    /// - `NoSuchHostedZone` : No hosted zone exists with the ID that you specified.
+    /// - `PriorRequestNotComplete` : If Amazon Route 53 can't process a request before the next request arrives, it will reject subsequent requests for the same hosted zone and return an HTTP 400 error (Bad request). If Route 53 returns this error repeatedly for the same request, we recommend that you wait, in intervals of increasing duration, before you try the request again.
+    /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     func changeTagsForResource(input: ChangeTagsForResourceInput) async throws -> ChangeTagsForResourceOutputResponse
     /// Creates a CIDR collection in the current Amazon Web Services account.
+    ///
+    /// - Parameter CreateCidrCollectionInput : [no documentation found]
+    ///
+    /// - Returns: `CreateCidrCollectionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `CidrCollectionAlreadyExistsException` : A CIDR collection with this name and a different caller reference already exists in this account.
+    /// - `ConcurrentModification` : Another user submitted a request to create, update, or delete the object at the same time that you did. Retry the request.
+    /// - `InvalidInput` : The input is not valid.
+    /// - `LimitsExceeded` : This operation can't be completed because the current account has reached the limit on the resource you are trying to create. To request a higher limit, [create a case](http://aws.amazon.com/route53-request) with the Amazon Web Services Support Center.
     func createCidrCollection(input: CreateCidrCollectionInput) async throws -> CreateCidrCollectionOutputResponse
     /// Creates a new health check. For information about adding health checks to resource record sets, see [HealthCheckId](https://docs.aws.amazon.com/Route53/latest/APIReference/API_ResourceRecordSet.html#Route53-Type-ResourceRecordSet-HealthCheckId) in [ChangeResourceRecordSets](https://docs.aws.amazon.com/Route53/latest/APIReference/API_ChangeResourceRecordSets.html). ELB Load Balancers If you're registering EC2 instances with an Elastic Load Balancing (ELB) load balancer, do not create Amazon Route 53 health checks for the EC2 instances. When you register an EC2 instance with a load balancer, you configure settings for an ELB health check, which performs a similar function to a Route 53 health check. Private Hosted Zones You can associate health checks with failover resource record sets in a private hosted zone. Note the following:
     ///
@@ -51,6 +139,21 @@ public protocol Route53ClientProtocol {
     /// * You can configure a health checker to check the health of an external resource that the instance relies on, such as a database server.
     ///
     /// * You can create a CloudWatch metric, associate an alarm with the metric, and then create a health check that is based on the state of the alarm. For example, you might create a CloudWatch metric that checks the status of the Amazon EC2 StatusCheckFailed metric, add an alarm to the metric, and then create a health check that is based on the state of the alarm. For information about creating CloudWatch metrics and alarms by using the CloudWatch console, see the [Amazon CloudWatch User Guide](https://docs.aws.amazon.com/AmazonCloudWatch/latest/DeveloperGuide/WhatIsCloudWatch.html).
+    ///
+    /// - Parameter CreateHealthCheckInput : A complex type that contains the health check request information.
+    ///
+    /// - Returns: `CreateHealthCheckOutputResponse` : A complex type containing the response information for the new health check.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `HealthCheckAlreadyExists` : The health check you're attempting to create already exists. Amazon Route 53 returns this error when you submit a request that has the following values:
+    ///
+    /// * The same value for CallerReference as an existing health check, and one or more values that differ from the existing health check that has the same caller reference.
+    ///
+    /// * The same value for CallerReference as a health check that you created and later deleted, regardless of the other settings in the request.
+    /// - `InvalidInput` : The input is not valid.
+    /// - `TooManyHealthChecks` : This health check can't be created because the current account has reached the limit on the number of active health checks. For information about default limits, see [Limits](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/DNSLimitations.html) in the Amazon Route 53 Developer Guide. For information about how to get the current limit for an account, see [GetAccountLimit](https://docs.aws.amazon.com/Route53/latest/APIReference/API_GetAccountLimit.html). To request a higher limit, [create a case](http://aws.amazon.com/route53-request) with the Amazon Web Services Support Center. You have reached the maximum number of active health checks for an Amazon Web Services account. To request a higher limit, [create a case](http://aws.amazon.com/route53-request) with the Amazon Web Services Support Center.
     func createHealthCheck(input: CreateHealthCheckInput) async throws -> CreateHealthCheckOutputResponse
     /// Creates a new public or private hosted zone. You create records in a public hosted zone to define how you want to route traffic on the internet for a domain, such as example.com, and its subdomains (apex.example.com, acme.example.com). You create records in a private hosted zone to define how you want to route traffic for a domain and its subdomains within one or more Amazon Virtual Private Clouds (Amazon VPCs). You can't convert a public hosted zone to a private hosted zone or vice versa. Instead, you must create a new hosted zone with the same name and create new resource record sets. For more information about charges for hosted zones, see [Amazon Route 53 Pricing](http://aws.amazon.com/route53/pricing/). Note the following:
     ///
@@ -71,8 +174,49 @@ public protocol Route53ClientProtocol {
     ///
     ///
     /// For more information, see [Access Management](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference.
+    ///
+    /// - Parameter CreateHostedZoneInput : A complex type that contains information about the request to create a public or private hosted zone.
+    ///
+    /// - Returns: `CreateHostedZoneOutputResponse` : A complex type containing the response information for the hosted zone.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictingDomainExists` : The cause of this error depends on the operation that you're performing:
+    ///
+    /// * Create a public hosted zone: Two hosted zones that have the same name or that have a parent/child relationship (example.com and test.example.com) can't have any common name servers. You tried to create a hosted zone that has the same name as an existing hosted zone or that's the parent or child of an existing hosted zone, and you specified a delegation set that shares one or more name servers with the existing hosted zone. For more information, see [CreateReusableDelegationSet](https://docs.aws.amazon.com/Route53/latest/APIReference/API_CreateReusableDelegationSet.html).
+    ///
+    /// * Create a private hosted zone: A hosted zone with the specified name already exists and is already associated with the Amazon VPC that you specified.
+    ///
+    /// * Associate VPCs with a private hosted zone: The VPC that you specified is already associated with another hosted zone that has the same name.
+    /// - `DelegationSetNotAvailable` : You can create a hosted zone that has the same name as an existing hosted zone (example.com is common), but there is a limit to the number of hosted zones that have the same name. If you get this error, Amazon Route 53 has reached that limit. If you own the domain name and Route 53 generates this error, contact Customer Support.
+    /// - `DelegationSetNotReusable` : A reusable delegation set with the specified ID does not exist.
+    /// - `HostedZoneAlreadyExists` : The hosted zone you're trying to create already exists. Amazon Route 53 returns this error when a hosted zone has already been created with the specified CallerReference.
+    /// - `InvalidDomainName` : The specified domain name is not valid.
+    /// - `InvalidInput` : The input is not valid.
+    /// - `InvalidVPCId` : The VPC ID that you specified either isn't a valid ID or the current account is not authorized to access this VPC.
+    /// - `NoSuchDelegationSet` : A reusable delegation set with the specified ID does not exist.
+    /// - `TooManyHostedZones` : This operation can't be completed either because the current account has reached the limit on the number of hosted zones or because you've reached the limit on the number of hosted zones that can be associated with a reusable delegation set. For information about default limits, see [Limits](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/DNSLimitations.html) in the Amazon Route 53 Developer Guide. To get the current limit on hosted zones that can be created by an account, see [GetAccountLimit](https://docs.aws.amazon.com/Route53/latest/APIReference/API_GetAccountLimit.html). To get the current limit on hosted zones that can be associated with a reusable delegation set, see [GetReusableDelegationSetLimit](https://docs.aws.amazon.com/Route53/latest/APIReference/API_GetReusableDelegationSetLimit.html). To request a higher limit, [create a case](http://aws.amazon.com/route53-request) with the Amazon Web Services Support Center.
     func createHostedZone(input: CreateHostedZoneInput) async throws -> CreateHostedZoneOutputResponse
     /// Creates a new key-signing key (KSK) associated with a hosted zone. You can only have two KSKs per hosted zone.
+    ///
+    /// - Parameter CreateKeySigningKeyInput : [no documentation found]
+    ///
+    /// - Returns: `CreateKeySigningKeyOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConcurrentModification` : Another user submitted a request to create, update, or delete the object at the same time that you did. Retry the request.
+    /// - `InvalidArgument` : Parameter name is not valid.
+    /// - `InvalidInput` : The input is not valid.
+    /// - `InvalidKeySigningKeyName` : The key-signing key (KSK) name that you specified isn't a valid name.
+    /// - `InvalidKeySigningKeyStatus` : The key-signing key (KSK) status isn't valid or another KSK has the status INTERNAL_FAILURE.
+    /// - `InvalidKMSArn` : The KeyManagementServiceArn that you specified isn't valid to use with DNSSEC signing.
+    /// - `InvalidSigningStatus` : Your hosted zone status isn't valid for this operation. In the hosted zone, change the status to enable DNSSEC or disable DNSSEC.
+    /// - `KeySigningKeyAlreadyExists` : You've already created a key-signing key (KSK) with this name or with the same customer managed key ARN.
+    /// - `NoSuchHostedZone` : No hosted zone exists with the ID that you specified.
+    /// - `TooManyKeySigningKeys` : You've reached the limit for the number of key-signing keys (KSKs). Remove at least one KSK, and then try again.
     func createKeySigningKey(input: CreateKeySigningKeyInput) async throws -> CreateKeySigningKeyOutputResponse
     /// Creates a configuration for DNS query logging. After you create a query logging configuration, Amazon Route 53 begins to publish log data to an Amazon CloudWatch Logs log group. DNS query logs contain information about the queries that Route 53 receives for a specified public hosted zone, such as the following:
     ///
@@ -116,6 +260,30 @@ public protocol Route53ClientProtocol {
     ///
     ///
     /// The name of each log stream is in the following format:  hosted zone ID/edge location code  The edge location code is a three-letter code and an arbitrarily assigned number, for example, DFW3. The three-letter code typically corresponds with the International Air Transport Association airport code for an airport near the edge location. (These abbreviations might change in the future.) For a list of edge locations, see "The Route 53 Global Network" on the [Route 53 Product Details](http://aws.amazon.com/route53/details/) page. Queries That Are Logged Query logs contain only the queries that DNS resolvers forward to Route 53. If a DNS resolver has already cached the response to a query (such as the IP address for a load balancer for example.com), the resolver will continue to return the cached response. It doesn't forward another query to Route 53 until the TTL for the corresponding resource record set expires. Depending on how many DNS queries are submitted for a resource record set, and depending on the TTL for that resource record set, query logs might contain information about only one query out of every several thousand queries that are submitted to DNS. For more information about how DNS works, see [Routing Internet Traffic to Your Website or Web Application](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/welcome-dns-service.html) in the Amazon Route 53 Developer Guide. Log File Format For a list of the values in each query log and the format of each value, see [Logging DNS Queries](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/query-logs.html) in the Amazon Route 53 Developer Guide. Pricing For information about charges for query logs, see [Amazon CloudWatch Pricing](http://aws.amazon.com/cloudwatch/pricing/). How to Stop Logging If you want Route 53 to stop sending query logs to CloudWatch Logs, delete the query logging configuration. For more information, see [DeleteQueryLoggingConfig](https://docs.aws.amazon.com/Route53/latest/APIReference/API_DeleteQueryLoggingConfig.html).
+    ///
+    /// - Parameter CreateQueryLoggingConfigInput : [no documentation found]
+    ///
+    /// - Returns: `CreateQueryLoggingConfigOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConcurrentModification` : Another user submitted a request to create, update, or delete the object at the same time that you did. Retry the request.
+    /// - `InsufficientCloudWatchLogsResourcePolicy` : Amazon Route 53 doesn't have the permissions required to create log streams and send query logs to log streams. Possible causes include the following:
+    ///
+    /// * There is no resource policy that specifies the log group ARN in the value for Resource.
+    ///
+    /// * The resource policy that includes the log group ARN in the value for Resource doesn't have the necessary permissions.
+    ///
+    /// * The resource policy hasn't finished propagating yet.
+    ///
+    /// * The Key management service (KMS) key you specified doesn’t exist or it can’t be used with the log group associated with query log. Update or provide a resource policy to grant permissions for the KMS key.
+    ///
+    /// * The Key management service (KMS) key you specified is marked as disabled for the log group associated with query log. Update or provide a resource policy to grant permissions for the KMS key.
+    /// - `InvalidInput` : The input is not valid.
+    /// - `NoSuchCloudWatchLogsLogGroup` : There is no CloudWatch Logs log group with the specified ARN.
+    /// - `NoSuchHostedZone` : No hosted zone exists with the ID that you specified.
+    /// - `QueryLoggingConfigAlreadyExists` : You can create only one query logging configuration for a hosted zone, and a query logging configuration already exists for this hosted zone.
     func createQueryLoggingConfig(input: CreateQueryLoggingConfigInput) async throws -> CreateQueryLoggingConfigOutputResponse
     /// Creates a delegation set (a group of four name servers) that can be reused by multiple hosted zones that were created by the same Amazon Web Services account. You can also create a reusable delegation set that uses the four name servers that are associated with an existing hosted zone. Specify the hosted zone ID in the CreateReusableDelegationSet request. You can't associate a reusable delegation set with a private hosted zone. For information about using a reusable delegation set to configure white label name servers, see [Configuring White Label Name Servers](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/white-label-name-servers.html). The process for migrating existing hosted zones to use a reusable delegation set is comparable to the process for configuring white label name servers. You need to perform the following steps:
     ///
@@ -139,32 +307,186 @@ public protocol Route53ClientProtocol {
     /// * For larger numbers of hosted zones, the easiest solution is to use more than one reusable delegation set.
     ///
     /// * For larger numbers of hosted zones, you can also migrate hosted zones that have overlapping name servers to hosted zones that don't have overlapping name servers, then migrate the hosted zones again to use the reusable delegation set.
+    ///
+    /// - Parameter CreateReusableDelegationSetInput : [no documentation found]
+    ///
+    /// - Returns: `CreateReusableDelegationSetOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DelegationSetAlreadyCreated` : A delegation set with the same owner and caller reference combination has already been created.
+    /// - `DelegationSetAlreadyReusable` : The specified delegation set has already been marked as reusable.
+    /// - `DelegationSetNotAvailable` : You can create a hosted zone that has the same name as an existing hosted zone (example.com is common), but there is a limit to the number of hosted zones that have the same name. If you get this error, Amazon Route 53 has reached that limit. If you own the domain name and Route 53 generates this error, contact Customer Support.
+    /// - `HostedZoneNotFound` : The specified HostedZone can't be found.
+    /// - `InvalidArgument` : Parameter name is not valid.
+    /// - `InvalidInput` : The input is not valid.
+    /// - `LimitsExceeded` : This operation can't be completed because the current account has reached the limit on the resource you are trying to create. To request a higher limit, [create a case](http://aws.amazon.com/route53-request) with the Amazon Web Services Support Center.
     func createReusableDelegationSet(input: CreateReusableDelegationSetInput) async throws -> CreateReusableDelegationSetOutputResponse
     /// Creates a traffic policy, which you use to create multiple DNS resource record sets for one domain name (such as example.com) or one subdomain name (such as www.example.com).
+    ///
+    /// - Parameter CreateTrafficPolicyInput : A complex type that contains information about the traffic policy that you want to create.
+    ///
+    /// - Returns: `CreateTrafficPolicyOutputResponse` : A complex type that contains the response information for the CreateTrafficPolicy request.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidInput` : The input is not valid.
+    /// - `InvalidTrafficPolicyDocument` : The format of the traffic policy document that you specified in the Document element is not valid.
+    /// - `TooManyTrafficPolicies` : This traffic policy can't be created because the current account has reached the limit on the number of traffic policies. For information about default limits, see [Limits](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/DNSLimitations.html) in the Amazon Route 53 Developer Guide. To get the current limit for an account, see [GetAccountLimit](https://docs.aws.amazon.com/Route53/latest/APIReference/API_GetAccountLimit.html). To request a higher limit, [create a case](http://aws.amazon.com/route53-request) with the Amazon Web Services Support Center.
+    /// - `TrafficPolicyAlreadyExists` : A traffic policy that has the same value for Name already exists.
     func createTrafficPolicy(input: CreateTrafficPolicyInput) async throws -> CreateTrafficPolicyOutputResponse
     /// Creates resource record sets in a specified hosted zone based on the settings in a specified traffic policy version. In addition, CreateTrafficPolicyInstance associates the resource record sets with a specified domain name (such as example.com) or subdomain name (such as www.example.com). Amazon Route 53 responds to DNS queries for the domain or subdomain name by using the resource record sets that CreateTrafficPolicyInstance created.
+    ///
+    /// - Parameter CreateTrafficPolicyInstanceInput : A complex type that contains information about the resource record sets that you want to create based on a specified traffic policy.
+    ///
+    /// - Returns: `CreateTrafficPolicyInstanceOutputResponse` : A complex type that contains the response information for the CreateTrafficPolicyInstance request.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidInput` : The input is not valid.
+    /// - `NoSuchHostedZone` : No hosted zone exists with the ID that you specified.
+    /// - `NoSuchTrafficPolicy` : No traffic policy exists with the specified ID.
+    /// - `TooManyTrafficPolicyInstances` : This traffic policy instance can't be created because the current account has reached the limit on the number of traffic policy instances. For information about default limits, see [Limits](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/DNSLimitations.html) in the Amazon Route 53 Developer Guide. For information about how to get the current limit for an account, see [GetAccountLimit](https://docs.aws.amazon.com/Route53/latest/APIReference/API_GetAccountLimit.html). To request a higher limit, [create a case](http://aws.amazon.com/route53-request) with the Amazon Web Services Support Center.
+    /// - `TrafficPolicyInstanceAlreadyExists` : There is already a traffic policy instance with the specified ID.
     func createTrafficPolicyInstance(input: CreateTrafficPolicyInstanceInput) async throws -> CreateTrafficPolicyInstanceOutputResponse
     /// Creates a new version of an existing traffic policy. When you create a new version of a traffic policy, you specify the ID of the traffic policy that you want to update and a JSON-formatted document that describes the new version. You use traffic policies to create multiple DNS resource record sets for one domain name (such as example.com) or one subdomain name (such as www.example.com). You can create a maximum of 1000 versions of a traffic policy. If you reach the limit and need to create another version, you'll need to start a new traffic policy.
+    ///
+    /// - Parameter CreateTrafficPolicyVersionInput : A complex type that contains information about the traffic policy that you want to create a new version for.
+    ///
+    /// - Returns: `CreateTrafficPolicyVersionOutputResponse` : A complex type that contains the response information for the CreateTrafficPolicyVersion request.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConcurrentModification` : Another user submitted a request to create, update, or delete the object at the same time that you did. Retry the request.
+    /// - `InvalidInput` : The input is not valid.
+    /// - `InvalidTrafficPolicyDocument` : The format of the traffic policy document that you specified in the Document element is not valid.
+    /// - `NoSuchTrafficPolicy` : No traffic policy exists with the specified ID.
+    /// - `TooManyTrafficPolicyVersionsForCurrentPolicy` : This traffic policy version can't be created because you've reached the limit of 1000 on the number of versions that you can create for the current traffic policy. To create more traffic policy versions, you can use [GetTrafficPolicy](https://docs.aws.amazon.com/Route53/latest/APIReference/API_GetTrafficPolicy.html) to get the traffic policy document for a specified traffic policy version, and then use [CreateTrafficPolicy](https://docs.aws.amazon.com/Route53/latest/APIReference/API_CreateTrafficPolicy.html) to create a new traffic policy using the traffic policy document.
     func createTrafficPolicyVersion(input: CreateTrafficPolicyVersionInput) async throws -> CreateTrafficPolicyVersionOutputResponse
     /// Authorizes the Amazon Web Services account that created a specified VPC to submit an AssociateVPCWithHostedZone request to associate the VPC with a specified hosted zone that was created by a different account. To submit a CreateVPCAssociationAuthorization request, you must use the account that created the hosted zone. After you authorize the association, use the account that created the VPC to submit an AssociateVPCWithHostedZone request. If you want to associate multiple VPCs that you created by using one account with a hosted zone that you created by using a different account, you must submit one authorization request for each VPC.
+    ///
+    /// - Parameter CreateVPCAssociationAuthorizationInput : A complex type that contains information about the request to authorize associating a VPC with your private hosted zone. Authorization is only required when a private hosted zone and a VPC were created by using different accounts.
+    ///
+    /// - Returns: `CreateVPCAssociationAuthorizationOutputResponse` : A complex type that contains the response information from a CreateVPCAssociationAuthorization request.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConcurrentModification` : Another user submitted a request to create, update, or delete the object at the same time that you did. Retry the request.
+    /// - `InvalidInput` : The input is not valid.
+    /// - `InvalidVPCId` : The VPC ID that you specified either isn't a valid ID or the current account is not authorized to access this VPC.
+    /// - `NoSuchHostedZone` : No hosted zone exists with the ID that you specified.
+    /// - `TooManyVPCAssociationAuthorizations` : You've created the maximum number of authorizations that can be created for the specified hosted zone. To authorize another VPC to be associated with the hosted zone, submit a DeleteVPCAssociationAuthorization request to remove an existing authorization. To get a list of existing authorizations, submit a ListVPCAssociationAuthorizations request.
     func createVPCAssociationAuthorization(input: CreateVPCAssociationAuthorizationInput) async throws -> CreateVPCAssociationAuthorizationOutputResponse
     /// Deactivates a key-signing key (KSK) so that it will not be used for signing by DNSSEC. This operation changes the KSK status to INACTIVE.
+    ///
+    /// - Parameter DeactivateKeySigningKeyInput : [no documentation found]
+    ///
+    /// - Returns: `DeactivateKeySigningKeyOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConcurrentModification` : Another user submitted a request to create, update, or delete the object at the same time that you did. Retry the request.
+    /// - `InvalidInput` : The input is not valid.
+    /// - `InvalidKeySigningKeyStatus` : The key-signing key (KSK) status isn't valid or another KSK has the status INTERNAL_FAILURE.
+    /// - `InvalidSigningStatus` : Your hosted zone status isn't valid for this operation. In the hosted zone, change the status to enable DNSSEC or disable DNSSEC.
+    /// - `KeySigningKeyInParentDSRecord` : The key-signing key (KSK) is specified in a parent DS record.
+    /// - `KeySigningKeyInUse` : The key-signing key (KSK) that you specified can't be deactivated because it's the only KSK for a currently-enabled DNSSEC. Disable DNSSEC signing, or add or enable another KSK.
+    /// - `NoSuchKeySigningKey` : The specified key-signing key (KSK) doesn't exist.
     func deactivateKeySigningKey(input: DeactivateKeySigningKeyInput) async throws -> DeactivateKeySigningKeyOutputResponse
     /// Deletes a CIDR collection in the current Amazon Web Services account. The collection must be empty before it can be deleted.
+    ///
+    /// - Parameter DeleteCidrCollectionInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteCidrCollectionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `CidrCollectionInUseException` : This CIDR collection is in use, and isn't empty.
+    /// - `ConcurrentModification` : Another user submitted a request to create, update, or delete the object at the same time that you did. Retry the request.
+    /// - `InvalidInput` : The input is not valid.
+    /// - `NoSuchCidrCollectionException` : The CIDR collection you specified, doesn't exist.
     func deleteCidrCollection(input: DeleteCidrCollectionInput) async throws -> DeleteCidrCollectionOutputResponse
     /// Deletes a health check. Amazon Route 53 does not prevent you from deleting a health check even if the health check is associated with one or more resource record sets. If you delete a health check and you don't update the associated resource record sets, the future status of the health check can't be predicted and may change. This will affect the routing of DNS queries for your DNS failover configuration. For more information, see [Replacing and Deleting Health Checks](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/health-checks-creating-deleting.html#health-checks-deleting.html) in the Amazon Route 53 Developer Guide. If you're using Cloud Map and you configured Cloud Map to create a Route 53 health check when you register an instance, you can't use the Route 53 DeleteHealthCheck command to delete the health check. The health check is deleted automatically when you deregister the instance; there can be a delay of several hours before the health check is deleted from Route 53.
+    ///
+    /// - Parameter DeleteHealthCheckInput : This action deletes a health check.
+    ///
+    /// - Returns: `DeleteHealthCheckOutputResponse` : An empty element.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `HealthCheckInUse` : This error code is not in use.
+    /// - `InvalidInput` : The input is not valid.
+    /// - `NoSuchHealthCheck` : No health check exists with the specified ID.
     func deleteHealthCheck(input: DeleteHealthCheckInput) async throws -> DeleteHealthCheckOutputResponse
     /// Deletes a hosted zone. If the hosted zone was created by another service, such as Cloud Map, see [Deleting Public Hosted Zones That Were Created by Another Service](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/DeleteHostedZone.html#delete-public-hosted-zone-created-by-another-service) in the Amazon Route 53 Developer Guide for information about how to delete it. (The process is the same for public and private hosted zones that were created by another service.) If you want to keep your domain registration but you want to stop routing internet traffic to your website or web application, we recommend that you delete resource record sets in the hosted zone instead of deleting the hosted zone. If you delete a hosted zone, you can't undelete it. You must create a new hosted zone and update the name servers for your domain registration, which can require up to 48 hours to take effect. (If you delegated responsibility for a subdomain to a hosted zone and you delete the child hosted zone, you must update the name servers in the parent hosted zone.) In addition, if you delete a hosted zone, someone could hijack the domain and route traffic to their own resources using your domain name. If you want to avoid the monthly charge for the hosted zone, you can transfer DNS service for the domain to a free DNS service. When you transfer DNS service, you have to update the name servers for the domain registration. If the domain is registered with Route 53, see [UpdateDomainNameservers](https://docs.aws.amazon.com/Route53/latest/APIReference/API_domains_UpdateDomainNameservers.html) for information about how to replace Route 53 name servers with name servers for the new DNS service. If the domain is registered with another registrar, use the method provided by the registrar to update name servers for the domain registration. For more information, perform an internet search on "free DNS service." You can delete a hosted zone only if it contains only the default SOA record and NS resource record sets. If the hosted zone contains other resource record sets, you must delete them before you can delete the hosted zone. If you try to delete a hosted zone that contains other resource record sets, the request fails, and Route 53 returns a HostedZoneNotEmpty error. For information about deleting records from your hosted zone, see [ChangeResourceRecordSets](https://docs.aws.amazon.com/Route53/latest/APIReference/API_ChangeResourceRecordSets.html). To verify that the hosted zone has been deleted, do one of the following:
     ///
     /// * Use the GetHostedZone action to request information about the hosted zone.
     ///
     /// * Use the ListHostedZones action to get a list of the hosted zones associated with the current Amazon Web Services account.
+    ///
+    /// - Parameter DeleteHostedZoneInput : A request to delete a hosted zone.
+    ///
+    /// - Returns: `DeleteHostedZoneOutputResponse` : A complex type that contains the response to a DeleteHostedZone request.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `HostedZoneNotEmpty` : The hosted zone contains resource records that are not SOA or NS records.
+    /// - `InvalidDomainName` : The specified domain name is not valid.
+    /// - `InvalidInput` : The input is not valid.
+    /// - `NoSuchHostedZone` : No hosted zone exists with the ID that you specified.
+    /// - `PriorRequestNotComplete` : If Amazon Route 53 can't process a request before the next request arrives, it will reject subsequent requests for the same hosted zone and return an HTTP 400 error (Bad request). If Route 53 returns this error repeatedly for the same request, we recommend that you wait, in intervals of increasing duration, before you try the request again.
     func deleteHostedZone(input: DeleteHostedZoneInput) async throws -> DeleteHostedZoneOutputResponse
     /// Deletes a key-signing key (KSK). Before you can delete a KSK, you must deactivate it. The KSK must be deactivated before you can delete it regardless of whether the hosted zone is enabled for DNSSEC signing. You can use [DeactivateKeySigningKey](https://docs.aws.amazon.com/Route53/latest/APIReference/API_DeactivateKeySigningKey.html) to deactivate the key before you delete it. Use [GetDNSSEC](https://docs.aws.amazon.com/Route53/latest/APIReference/API_GetDNSSEC.html) to verify that the KSK is in an INACTIVE status.
+    ///
+    /// - Parameter DeleteKeySigningKeyInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteKeySigningKeyOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConcurrentModification` : Another user submitted a request to create, update, or delete the object at the same time that you did. Retry the request.
+    /// - `InvalidInput` : The input is not valid.
+    /// - `InvalidKeySigningKeyStatus` : The key-signing key (KSK) status isn't valid or another KSK has the status INTERNAL_FAILURE.
+    /// - `InvalidKMSArn` : The KeyManagementServiceArn that you specified isn't valid to use with DNSSEC signing.
+    /// - `InvalidSigningStatus` : Your hosted zone status isn't valid for this operation. In the hosted zone, change the status to enable DNSSEC or disable DNSSEC.
+    /// - `NoSuchKeySigningKey` : The specified key-signing key (KSK) doesn't exist.
     func deleteKeySigningKey(input: DeleteKeySigningKeyInput) async throws -> DeleteKeySigningKeyOutputResponse
     /// Deletes a configuration for DNS query logging. If you delete a configuration, Amazon Route 53 stops sending query logs to CloudWatch Logs. Route 53 doesn't delete any logs that are already in CloudWatch Logs. For more information about DNS query logs, see [CreateQueryLoggingConfig](https://docs.aws.amazon.com/Route53/latest/APIReference/API_CreateQueryLoggingConfig.html).
+    ///
+    /// - Parameter DeleteQueryLoggingConfigInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteQueryLoggingConfigOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConcurrentModification` : Another user submitted a request to create, update, or delete the object at the same time that you did. Retry the request.
+    /// - `InvalidInput` : The input is not valid.
+    /// - `NoSuchQueryLoggingConfig` : There is no DNS query logging configuration with the specified ID.
     func deleteQueryLoggingConfig(input: DeleteQueryLoggingConfigInput) async throws -> DeleteQueryLoggingConfigOutputResponse
     /// Deletes a reusable delegation set. You can delete a reusable delegation set only if it isn't associated with any hosted zones. To verify that the reusable delegation set is not associated with any hosted zones, submit a [GetReusableDelegationSet](https://docs.aws.amazon.com/Route53/latest/APIReference/API_GetReusableDelegationSet.html) request and specify the ID of the reusable delegation set that you want to delete.
+    ///
+    /// - Parameter DeleteReusableDelegationSetInput : A request to delete a reusable delegation set.
+    ///
+    /// - Returns: `DeleteReusableDelegationSetOutputResponse` : An empty element.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DelegationSetInUse` : The specified delegation contains associated hosted zones which must be deleted before the reusable delegation set can be deleted.
+    /// - `DelegationSetNotReusable` : A reusable delegation set with the specified ID does not exist.
+    /// - `InvalidInput` : The input is not valid.
+    /// - `NoSuchDelegationSet` : A reusable delegation set with the specified ID does not exist.
     func deleteReusableDelegationSet(input: DeleteReusableDelegationSetInput) async throws -> DeleteReusableDelegationSetOutputResponse
     /// Deletes a traffic policy. When you delete a traffic policy, Route 53 sets a flag on the policy to indicate that it has been deleted. However, Route 53 never fully deletes the traffic policy. Note the following:
     ///
@@ -173,12 +495,64 @@ public protocol Route53ClientProtocol {
     /// * There's no way to get a list of deleted policies.
     ///
     /// * If you retain the ID of the policy, you can get information about the policy, including the traffic policy document, by running [GetTrafficPolicy](https://docs.aws.amazon.com/Route53/latest/APIReference/API_GetTrafficPolicy.html).
+    ///
+    /// - Parameter DeleteTrafficPolicyInput : A request to delete a specified traffic policy version.
+    ///
+    /// - Returns: `DeleteTrafficPolicyOutputResponse` : An empty element.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConcurrentModification` : Another user submitted a request to create, update, or delete the object at the same time that you did. Retry the request.
+    /// - `InvalidInput` : The input is not valid.
+    /// - `NoSuchTrafficPolicy` : No traffic policy exists with the specified ID.
+    /// - `TrafficPolicyInUse` : One or more traffic policy instances were created by using the specified traffic policy.
     func deleteTrafficPolicy(input: DeleteTrafficPolicyInput) async throws -> DeleteTrafficPolicyOutputResponse
     /// Deletes a traffic policy instance and all of the resource record sets that Amazon Route 53 created when you created the instance. In the Route 53 console, traffic policy instances are known as policy records.
+    ///
+    /// - Parameter DeleteTrafficPolicyInstanceInput : A request to delete a specified traffic policy instance.
+    ///
+    /// - Returns: `DeleteTrafficPolicyInstanceOutputResponse` : An empty element.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidInput` : The input is not valid.
+    /// - `NoSuchTrafficPolicyInstance` : No traffic policy instance exists with the specified ID.
+    /// - `PriorRequestNotComplete` : If Amazon Route 53 can't process a request before the next request arrives, it will reject subsequent requests for the same hosted zone and return an HTTP 400 error (Bad request). If Route 53 returns this error repeatedly for the same request, we recommend that you wait, in intervals of increasing duration, before you try the request again.
     func deleteTrafficPolicyInstance(input: DeleteTrafficPolicyInstanceInput) async throws -> DeleteTrafficPolicyInstanceOutputResponse
     /// Removes authorization to submit an AssociateVPCWithHostedZone request to associate a specified VPC with a hosted zone that was created by a different account. You must use the account that created the hosted zone to submit a DeleteVPCAssociationAuthorization request. Sending this request only prevents the Amazon Web Services account that created the VPC from associating the VPC with the Amazon Route 53 hosted zone in the future. If the VPC is already associated with the hosted zone, DeleteVPCAssociationAuthorization won't disassociate the VPC from the hosted zone. If you want to delete an existing association, use DisassociateVPCFromHostedZone.
+    ///
+    /// - Parameter DeleteVPCAssociationAuthorizationInput : A complex type that contains information about the request to remove authorization to associate a VPC that was created by one Amazon Web Services account with a hosted zone that was created with a different Amazon Web Services account.
+    ///
+    /// - Returns: `DeleteVPCAssociationAuthorizationOutputResponse` : Empty response for the request.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConcurrentModification` : Another user submitted a request to create, update, or delete the object at the same time that you did. Retry the request.
+    /// - `InvalidInput` : The input is not valid.
+    /// - `InvalidVPCId` : The VPC ID that you specified either isn't a valid ID or the current account is not authorized to access this VPC.
+    /// - `NoSuchHostedZone` : No hosted zone exists with the ID that you specified.
+    /// - `VPCAssociationAuthorizationNotFound` : The VPC that you specified is not authorized to be associated with the hosted zone.
     func deleteVPCAssociationAuthorization(input: DeleteVPCAssociationAuthorizationInput) async throws -> DeleteVPCAssociationAuthorizationOutputResponse
     /// Disables DNSSEC signing in a specific hosted zone. This action does not deactivate any key-signing keys (KSKs) that are active in the hosted zone.
+    ///
+    /// - Parameter DisableHostedZoneDNSSECInput : [no documentation found]
+    ///
+    /// - Returns: `DisableHostedZoneDNSSECOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConcurrentModification` : Another user submitted a request to create, update, or delete the object at the same time that you did. Retry the request.
+    /// - `DNSSECNotFound` : The hosted zone doesn't have any DNSSEC resources.
+    /// - `InvalidArgument` : Parameter name is not valid.
+    /// - `InvalidInput` : The input is not valid.
+    /// - `InvalidKeySigningKeyStatus` : The key-signing key (KSK) status isn't valid or another KSK has the status INTERNAL_FAILURE.
+    /// - `InvalidKMSArn` : The KeyManagementServiceArn that you specified isn't valid to use with DNSSEC signing.
+    /// - `KeySigningKeyInParentDSRecord` : The key-signing key (KSK) is specified in a parent DS record.
+    /// - `NoSuchHostedZone` : No hosted zone exists with the ID that you specified.
     func disableHostedZoneDNSSEC(input: DisableHostedZoneDNSSECInput) async throws -> DisableHostedZoneDNSSECOutputResponse
     /// Disassociates an Amazon Virtual Private Cloud (Amazon VPC) from an Amazon Route 53 private hosted zone. Note the following:
     ///
@@ -201,60 +575,314 @@ public protocol Route53ClientProtocol {
     ///
     ///
     /// For more information, see [Access Management](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference.
+    ///
+    /// - Parameter DisassociateVPCFromHostedZoneInput : A complex type that contains information about the VPC that you want to disassociate from a specified private hosted zone.
+    ///
+    /// - Returns: `DisassociateVPCFromHostedZoneOutputResponse` : A complex type that contains the response information for the disassociate request.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidInput` : The input is not valid.
+    /// - `InvalidVPCId` : The VPC ID that you specified either isn't a valid ID or the current account is not authorized to access this VPC.
+    /// - `LastVPCAssociation` : The VPC that you're trying to disassociate from the private hosted zone is the last VPC that is associated with the hosted zone. Amazon Route 53 doesn't support disassociating the last VPC from a hosted zone.
+    /// - `NoSuchHostedZone` : No hosted zone exists with the ID that you specified.
+    /// - `VPCAssociationNotFound` : The specified VPC and hosted zone are not currently associated.
     func disassociateVPCFromHostedZone(input: DisassociateVPCFromHostedZoneInput) async throws -> DisassociateVPCFromHostedZoneOutputResponse
     /// Enables DNSSEC signing in a specific hosted zone.
+    ///
+    /// - Parameter EnableHostedZoneDNSSECInput : [no documentation found]
+    ///
+    /// - Returns: `EnableHostedZoneDNSSECOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConcurrentModification` : Another user submitted a request to create, update, or delete the object at the same time that you did. Retry the request.
+    /// - `DNSSECNotFound` : The hosted zone doesn't have any DNSSEC resources.
+    /// - `HostedZonePartiallyDelegated` : The hosted zone nameservers don't match the parent nameservers. The hosted zone and parent must have the same nameservers.
+    /// - `InvalidArgument` : Parameter name is not valid.
+    /// - `InvalidInput` : The input is not valid.
+    /// - `InvalidKeySigningKeyStatus` : The key-signing key (KSK) status isn't valid or another KSK has the status INTERNAL_FAILURE.
+    /// - `InvalidKMSArn` : The KeyManagementServiceArn that you specified isn't valid to use with DNSSEC signing.
+    /// - `KeySigningKeyWithActiveStatusNotFound` : A key-signing key (KSK) with ACTIVE status wasn't found.
+    /// - `NoSuchHostedZone` : No hosted zone exists with the ID that you specified.
     func enableHostedZoneDNSSEC(input: EnableHostedZoneDNSSECInput) async throws -> EnableHostedZoneDNSSECOutputResponse
     /// Gets the specified limit for the current account, for example, the maximum number of health checks that you can create using the account. For the default limit, see [Limits](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/DNSLimitations.html) in the Amazon Route 53 Developer Guide. To request a higher limit, [open a case](https://console.aws.amazon.com/support/home#/case/create?issueType=service-limit-increase&limitType=service-code-route53). You can also view account limits in Amazon Web Services Trusted Advisor. Sign in to the Amazon Web Services Management Console and open the Trusted Advisor console at [https://console.aws.amazon.com/trustedadvisor/](https://console.aws.amazon.com/trustedadvisor). Then choose Service limits in the navigation pane.
+    ///
+    /// - Parameter GetAccountLimitInput : A complex type that contains information about the request to create a hosted zone.
+    ///
+    /// - Returns: `GetAccountLimitOutputResponse` : A complex type that contains the requested limit.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidInput` : The input is not valid.
     func getAccountLimit(input: GetAccountLimitInput) async throws -> GetAccountLimitOutputResponse
     /// Returns the current status of a change batch request. The status is one of the following values:
     ///
     /// * PENDING indicates that the changes in this request have not propagated to all Amazon Route 53 DNS servers managing the hosted zone. This is the initial status of all change batch requests.
     ///
     /// * INSYNC indicates that the changes have propagated to all Route 53 DNS servers managing the hosted zone.
+    ///
+    /// - Parameter GetChangeInput : The input for a GetChange request.
+    ///
+    /// - Returns: `GetChangeOutputResponse` : A complex type that contains the ChangeInfo element.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidInput` : The input is not valid.
+    /// - `NoSuchChange` : A change with the specified change ID does not exist.
     func getChange(input: GetChangeInput) async throws -> GetChangeOutputResponse
     /// Route 53 does not perform authorization for this API because it retrieves information that is already available to the public. GetCheckerIpRanges still works, but we recommend that you download ip-ranges.json, which includes IP address ranges for all Amazon Web Services services. For more information, see [IP Address Ranges of Amazon Route 53 Servers](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/route-53-ip-addresses.html) in the Amazon Route 53 Developer Guide.
+    ///
+    /// - Parameter GetCheckerIpRangesInput : Empty request.
+    ///
+    /// - Returns: `GetCheckerIpRangesOutputResponse` : A complex type that contains the CheckerIpRanges element.
     func getCheckerIpRanges(input: GetCheckerIpRangesInput) async throws -> GetCheckerIpRangesOutputResponse
     /// Returns information about DNSSEC for a specific hosted zone, including the key-signing keys (KSKs) in the hosted zone.
+    ///
+    /// - Parameter GetDNSSECInput : [no documentation found]
+    ///
+    /// - Returns: `GetDNSSECOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidArgument` : Parameter name is not valid.
+    /// - `InvalidInput` : The input is not valid.
+    /// - `NoSuchHostedZone` : No hosted zone exists with the ID that you specified.
     func getDNSSEC(input: GetDNSSECInput) async throws -> GetDNSSECOutputResponse
     /// Gets information about whether a specified geographic location is supported for Amazon Route 53 geolocation resource record sets. Route 53 does not perform authorization for this API because it retrieves information that is already available to the public. Use the following syntax to determine whether a continent is supported for geolocation: GET /2013-04-01/geolocation?continentcode=two-letter abbreviation for a continent  Use the following syntax to determine whether a country is supported for geolocation: GET /2013-04-01/geolocation?countrycode=two-character country code  Use the following syntax to determine whether a subdivision of a country is supported for geolocation: GET /2013-04-01/geolocation?countrycode=two-character country code&subdivisioncode=subdivision code
+    ///
+    /// - Parameter GetGeoLocationInput : A request for information about whether a specified geographic location is supported for Amazon Route 53 geolocation resource record sets.
+    ///
+    /// - Returns: `GetGeoLocationOutputResponse` : A complex type that contains the response information for the specified geolocation code.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidInput` : The input is not valid.
+    /// - `NoSuchGeoLocation` : Amazon Route 53 doesn't support the specified geographic location. For a list of supported geolocation codes, see the [GeoLocation](https://docs.aws.amazon.com/Route53/latest/APIReference/API_GeoLocation.html) data type.
     func getGeoLocation(input: GetGeoLocationInput) async throws -> GetGeoLocationOutputResponse
     /// Gets information about a specified health check.
+    ///
+    /// - Parameter GetHealthCheckInput : A request to get information about a specified health check.
+    ///
+    /// - Returns: `GetHealthCheckOutputResponse` : A complex type that contains the response to a GetHealthCheck request.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `IncompatibleVersion` : The resource you're trying to access is unsupported on this Amazon Route 53 endpoint.
+    /// - `InvalidInput` : The input is not valid.
+    /// - `NoSuchHealthCheck` : No health check exists with the specified ID.
     func getHealthCheck(input: GetHealthCheckInput) async throws -> GetHealthCheckOutputResponse
     /// Retrieves the number of health checks that are associated with the current Amazon Web Services account.
+    ///
+    /// - Parameter GetHealthCheckCountInput : A request for the number of health checks that are associated with the current Amazon Web Services account.
+    ///
+    /// - Returns: `GetHealthCheckCountOutputResponse` : A complex type that contains the response to a GetHealthCheckCount request.
     func getHealthCheckCount(input: GetHealthCheckCountInput) async throws -> GetHealthCheckCountOutputResponse
     /// Gets the reason that a specified health check failed most recently.
+    ///
+    /// - Parameter GetHealthCheckLastFailureReasonInput : A request for the reason that a health check failed most recently.
+    ///
+    /// - Returns: `GetHealthCheckLastFailureReasonOutputResponse` : A complex type that contains the response to a GetHealthCheckLastFailureReason request.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidInput` : The input is not valid.
+    /// - `NoSuchHealthCheck` : No health check exists with the specified ID.
     func getHealthCheckLastFailureReason(input: GetHealthCheckLastFailureReasonInput) async throws -> GetHealthCheckLastFailureReasonOutputResponse
     /// Gets status of a specified health check. This API is intended for use during development to diagnose behavior. It doesn’t support production use-cases with high query rates that require immediate and actionable responses.
+    ///
+    /// - Parameter GetHealthCheckStatusInput : A request to get the status for a health check.
+    ///
+    /// - Returns: `GetHealthCheckStatusOutputResponse` : A complex type that contains the response to a GetHealthCheck request.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidInput` : The input is not valid.
+    /// - `NoSuchHealthCheck` : No health check exists with the specified ID.
     func getHealthCheckStatus(input: GetHealthCheckStatusInput) async throws -> GetHealthCheckStatusOutputResponse
     /// Gets information about a specified hosted zone including the four name servers assigned to the hosted zone.
+    ///
+    /// - Parameter GetHostedZoneInput : A request to get information about a specified hosted zone.
+    ///
+    /// - Returns: `GetHostedZoneOutputResponse` : A complex type that contain the response to a GetHostedZone request.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidInput` : The input is not valid.
+    /// - `NoSuchHostedZone` : No hosted zone exists with the ID that you specified.
     func getHostedZone(input: GetHostedZoneInput) async throws -> GetHostedZoneOutputResponse
     /// Retrieves the number of hosted zones that are associated with the current Amazon Web Services account.
+    ///
+    /// - Parameter GetHostedZoneCountInput : A request to retrieve a count of all the hosted zones that are associated with the current Amazon Web Services account.
+    ///
+    /// - Returns: `GetHostedZoneCountOutputResponse` : A complex type that contains the response to a GetHostedZoneCount request.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidInput` : The input is not valid.
     func getHostedZoneCount(input: GetHostedZoneCountInput) async throws -> GetHostedZoneCountOutputResponse
     /// Gets the specified limit for a specified hosted zone, for example, the maximum number of records that you can create in the hosted zone. For the default limit, see [Limits](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/DNSLimitations.html) in the Amazon Route 53 Developer Guide. To request a higher limit, [open a case](https://console.aws.amazon.com/support/home#/case/create?issueType=service-limit-increase&limitType=service-code-route53).
+    ///
+    /// - Parameter GetHostedZoneLimitInput : A complex type that contains information about the request to create a hosted zone.
+    ///
+    /// - Returns: `GetHostedZoneLimitOutputResponse` : A complex type that contains the requested limit.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `HostedZoneNotPrivate` : The specified hosted zone is a public hosted zone, not a private hosted zone.
+    /// - `InvalidInput` : The input is not valid.
+    /// - `NoSuchHostedZone` : No hosted zone exists with the ID that you specified.
     func getHostedZoneLimit(input: GetHostedZoneLimitInput) async throws -> GetHostedZoneLimitOutputResponse
     /// Gets information about a specified configuration for DNS query logging. For more information about DNS query logs, see [CreateQueryLoggingConfig](https://docs.aws.amazon.com/Route53/latest/APIReference/API_CreateQueryLoggingConfig.html) and [Logging DNS Queries](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/query-logs.html).
+    ///
+    /// - Parameter GetQueryLoggingConfigInput : [no documentation found]
+    ///
+    /// - Returns: `GetQueryLoggingConfigOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidInput` : The input is not valid.
+    /// - `NoSuchQueryLoggingConfig` : There is no DNS query logging configuration with the specified ID.
     func getQueryLoggingConfig(input: GetQueryLoggingConfigInput) async throws -> GetQueryLoggingConfigOutputResponse
     /// Retrieves information about a specified reusable delegation set, including the four name servers that are assigned to the delegation set.
+    ///
+    /// - Parameter GetReusableDelegationSetInput : A request to get information about a specified reusable delegation set.
+    ///
+    /// - Returns: `GetReusableDelegationSetOutputResponse` : A complex type that contains the response to the GetReusableDelegationSet request.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DelegationSetNotReusable` : A reusable delegation set with the specified ID does not exist.
+    /// - `InvalidInput` : The input is not valid.
+    /// - `NoSuchDelegationSet` : A reusable delegation set with the specified ID does not exist.
     func getReusableDelegationSet(input: GetReusableDelegationSetInput) async throws -> GetReusableDelegationSetOutputResponse
     /// Gets the maximum number of hosted zones that you can associate with the specified reusable delegation set. For the default limit, see [Limits](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/DNSLimitations.html) in the Amazon Route 53 Developer Guide. To request a higher limit, [open a case](https://console.aws.amazon.com/support/home#/case/create?issueType=service-limit-increase&limitType=service-code-route53).
+    ///
+    /// - Parameter GetReusableDelegationSetLimitInput : A complex type that contains information about the request to create a hosted zone.
+    ///
+    /// - Returns: `GetReusableDelegationSetLimitOutputResponse` : A complex type that contains the requested limit.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidInput` : The input is not valid.
+    /// - `NoSuchDelegationSet` : A reusable delegation set with the specified ID does not exist.
     func getReusableDelegationSetLimit(input: GetReusableDelegationSetLimitInput) async throws -> GetReusableDelegationSetLimitOutputResponse
     /// Gets information about a specific traffic policy version. For information about how of deleting a traffic policy affects the response from GetTrafficPolicy, see [DeleteTrafficPolicy](https://docs.aws.amazon.com/Route53/latest/APIReference/API_DeleteTrafficPolicy.html).
+    ///
+    /// - Parameter GetTrafficPolicyInput : Gets information about a specific traffic policy version.
+    ///
+    /// - Returns: `GetTrafficPolicyOutputResponse` : A complex type that contains the response information for the request.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidInput` : The input is not valid.
+    /// - `NoSuchTrafficPolicy` : No traffic policy exists with the specified ID.
     func getTrafficPolicy(input: GetTrafficPolicyInput) async throws -> GetTrafficPolicyOutputResponse
     /// Gets information about a specified traffic policy instance. After you submit a CreateTrafficPolicyInstance or an UpdateTrafficPolicyInstance request, there's a brief delay while Amazon Route 53 creates the resource record sets that are specified in the traffic policy definition. For more information, see the State response element. In the Route 53 console, traffic policy instances are known as policy records.
+    ///
+    /// - Parameter GetTrafficPolicyInstanceInput : Gets information about a specified traffic policy instance.
+    ///
+    /// - Returns: `GetTrafficPolicyInstanceOutputResponse` : A complex type that contains information about the resource record sets that Amazon Route 53 created based on a specified traffic policy.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidInput` : The input is not valid.
+    /// - `NoSuchTrafficPolicyInstance` : No traffic policy instance exists with the specified ID.
     func getTrafficPolicyInstance(input: GetTrafficPolicyInstanceInput) async throws -> GetTrafficPolicyInstanceOutputResponse
     /// Gets the number of traffic policy instances that are associated with the current Amazon Web Services account.
+    ///
+    /// - Parameter GetTrafficPolicyInstanceCountInput : Request to get the number of traffic policy instances that are associated with the current Amazon Web Services account.
+    ///
+    /// - Returns: `GetTrafficPolicyInstanceCountOutputResponse` : A complex type that contains information about the resource record sets that Amazon Route 53 created based on a specified traffic policy.
     func getTrafficPolicyInstanceCount(input: GetTrafficPolicyInstanceCountInput) async throws -> GetTrafficPolicyInstanceCountOutputResponse
     /// Returns a paginated list of location objects and their CIDR blocks.
+    ///
+    /// - Parameter ListCidrBlocksInput : [no documentation found]
+    ///
+    /// - Returns: `ListCidrBlocksOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidInput` : The input is not valid.
+    /// - `NoSuchCidrCollectionException` : The CIDR collection you specified, doesn't exist.
+    /// - `NoSuchCidrLocationException` : The CIDR collection location doesn't match any locations in your account.
     func listCidrBlocks(input: ListCidrBlocksInput) async throws -> ListCidrBlocksOutputResponse
     /// Returns a paginated list of CIDR collections in the Amazon Web Services account (metadata only).
+    ///
+    /// - Parameter ListCidrCollectionsInput : [no documentation found]
+    ///
+    /// - Returns: `ListCidrCollectionsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidInput` : The input is not valid.
     func listCidrCollections(input: ListCidrCollectionsInput) async throws -> ListCidrCollectionsOutputResponse
     /// Returns a paginated list of CIDR locations for the given collection (metadata only, does not include CIDR blocks).
+    ///
+    /// - Parameter ListCidrLocationsInput : [no documentation found]
+    ///
+    /// - Returns: `ListCidrLocationsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidInput` : The input is not valid.
+    /// - `NoSuchCidrCollectionException` : The CIDR collection you specified, doesn't exist.
     func listCidrLocations(input: ListCidrLocationsInput) async throws -> ListCidrLocationsOutputResponse
     /// Retrieves a list of supported geographic locations. Countries are listed first, and continents are listed last. If Amazon Route 53 supports subdivisions for a country (for example, states or provinces), the subdivisions for that country are listed in alphabetical order immediately after the corresponding country. Route 53 does not perform authorization for this API because it retrieves information that is already available to the public. For a list of supported geolocation codes, see the [GeoLocation](https://docs.aws.amazon.com/Route53/latest/APIReference/API_GeoLocation.html) data type.
+    ///
+    /// - Parameter ListGeoLocationsInput : A request to get a list of geographic locations that Amazon Route 53 supports for geolocation resource record sets.
+    ///
+    /// - Returns: `ListGeoLocationsOutputResponse` : A complex type containing the response information for the request.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidInput` : The input is not valid.
     func listGeoLocations(input: ListGeoLocationsInput) async throws -> ListGeoLocationsOutputResponse
     /// Retrieve a list of the health checks that are associated with the current Amazon Web Services account.
+    ///
+    /// - Parameter ListHealthChecksInput : A request to retrieve a list of the health checks that are associated with the current Amazon Web Services account.
+    ///
+    /// - Returns: `ListHealthChecksOutputResponse` : A complex type that contains the response to a ListHealthChecks request.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `IncompatibleVersion` : The resource you're trying to access is unsupported on this Amazon Route 53 endpoint.
+    /// - `InvalidInput` : The input is not valid.
     func listHealthChecks(input: ListHealthChecksInput) async throws -> ListHealthChecksOutputResponse
     /// Retrieves a list of the public and private hosted zones that are associated with the current Amazon Web Services account. The response includes a HostedZones child element for each hosted zone. Amazon Route 53 returns a maximum of 100 items in each response. If you have a lot of hosted zones, you can use the maxitems parameter to list them in groups of up to 100.
+    ///
+    /// - Parameter ListHostedZonesInput : A request to retrieve a list of the public and private hosted zones that are associated with the current Amazon Web Services account.
+    ///
+    /// - Returns: `ListHostedZonesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `DelegationSetNotReusable` : A reusable delegation set with the specified ID does not exist.
+    /// - `InvalidInput` : The input is not valid.
+    /// - `NoSuchDelegationSet` : A reusable delegation set with the specified ID does not exist.
     func listHostedZones(input: ListHostedZonesInput) async throws -> ListHostedZonesOutputResponse
     /// Retrieves a list of your hosted zones in lexicographic order. The response includes a HostedZones child element for each hosted zone created by the current Amazon Web Services account. ListHostedZonesByName sorts hosted zones by name with the labels reversed. For example: com.example.www. Note the trailing dot, which can change the sort order in some circumstances. If the domain name includes escape characters or Punycode, ListHostedZonesByName alphabetizes the domain name using the escaped or Punycoded value, which is the format that Amazon Route 53 saves in its database. For example, to create a hosted zone for exämple.com, you specify ex\344mple.com for the domain name. ListHostedZonesByName alphabetizes it as: com.ex\344mple. The labels are reversed and alphabetized using the escaped value. For more information about valid domain name formats, including internationalized domain names, see [DNS Domain Name Format](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/DomainNameFormat.html) in the Amazon Route 53 Developer Guide. Route 53 returns up to 100 items in each response. If you have a lot of hosted zones, use the MaxItems parameter to list them in groups of up to 100. The response includes values that help navigate from one group of MaxItems hosted zones to the next:
     ///
@@ -265,6 +893,16 @@ public protocol Route53ClientProtocol {
     /// * If the value of IsTruncated in the response is true, there are more hosted zones associated with the current Amazon Web Services account. If IsTruncated is false, this response includes the last hosted zone that is associated with the current account. The NextDNSName element and NextHostedZoneId elements are omitted from the response.
     ///
     /// * The NextDNSName and NextHostedZoneId elements in the response contain the domain name and the hosted zone ID of the next hosted zone that is associated with the current Amazon Web Services account. If you want to list more hosted zones, make another call to ListHostedZonesByName, and specify the value of NextDNSName and NextHostedZoneId in the dnsname and hostedzoneid parameters, respectively.
+    ///
+    /// - Parameter ListHostedZonesByNameInput : Retrieves a list of the public and private hosted zones that are associated with the current Amazon Web Services account in ASCII order by domain name.
+    ///
+    /// - Returns: `ListHostedZonesByNameOutputResponse` : A complex type that contains the response information for the request.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidDomainName` : The specified domain name is not valid.
+    /// - `InvalidInput` : The input is not valid.
     func listHostedZonesByName(input: ListHostedZonesByNameInput) async throws -> ListHostedZonesByNameOutputResponse
     /// Lists all the private hosted zones that a specified VPC is associated with, regardless of which Amazon Web Services account or Amazon Web Services service owns the hosted zones. The HostedZoneOwner structure in the response contains one of the following values:
     ///
@@ -283,36 +921,207 @@ public protocol Route53ClientProtocol {
     ///
     ///
     /// For more information, see [Access Management](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference.
+    ///
+    /// - Parameter ListHostedZonesByVPCInput : Lists all the private hosted zones that a specified VPC is associated with, regardless of which Amazon Web Services account created the hosted zones.
+    ///
+    /// - Returns: `ListHostedZonesByVPCOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidInput` : The input is not valid.
+    /// - `InvalidPaginationToken` : The value that you specified to get the second or subsequent page of results is invalid.
     func listHostedZonesByVPC(input: ListHostedZonesByVPCInput) async throws -> ListHostedZonesByVPCOutputResponse
     /// Lists the configurations for DNS query logging that are associated with the current Amazon Web Services account or the configuration that is associated with a specified hosted zone. For more information about DNS query logs, see [CreateQueryLoggingConfig](https://docs.aws.amazon.com/Route53/latest/APIReference/API_CreateQueryLoggingConfig.html). Additional information, including the format of DNS query logs, appears in [Logging DNS Queries](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/query-logs.html) in the Amazon Route 53 Developer Guide.
+    ///
+    /// - Parameter ListQueryLoggingConfigsInput : [no documentation found]
+    ///
+    /// - Returns: `ListQueryLoggingConfigsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidInput` : The input is not valid.
+    /// - `InvalidPaginationToken` : The value that you specified to get the second or subsequent page of results is invalid.
+    /// - `NoSuchHostedZone` : No hosted zone exists with the ID that you specified.
     func listQueryLoggingConfigs(input: ListQueryLoggingConfigsInput) async throws -> ListQueryLoggingConfigsOutputResponse
     /// Lists the resource record sets in a specified hosted zone. ListResourceRecordSets returns up to 300 resource record sets at a time in ASCII order, beginning at a position specified by the name and type elements. Sort order ListResourceRecordSets sorts results first by DNS name with the labels reversed, for example: com.example.www. Note the trailing dot, which can change the sort order when the record name contains characters that appear before . (decimal 46) in the ASCII table. These characters include the following: ! " # $ % & ' ( ) * + , - When multiple records have the same DNS name, ListResourceRecordSets sorts results by the record type. Specifying where to start listing records You can use the name and type elements to specify the resource record set that the list begins with: If you do not specify Name or Type The results begin with the first resource record set that the hosted zone contains. If you specify Name but not Type The results begin with the first resource record set in the list whose name is greater than or equal to Name. If you specify Type but not Name Amazon Route 53 returns the InvalidInput error. If you specify both Name and Type The results begin with the first resource record set in the list whose name is greater than or equal to Name, and whose type is greater than or equal to Type. Resource record sets that are PENDING This action returns the most current version of the records. This includes records that are PENDING, and that are not yet available on all Route 53 DNS servers. Changing resource record sets To ensure that you get an accurate listing of the resource record sets for a hosted zone at a point in time, do not submit a ChangeResourceRecordSets request while you're paging through the results of a ListResourceRecordSets request. If you do, some pages may display results without the latest changes while other pages display results with the latest changes. Displaying the next page of results If a ListResourceRecordSets command returns more than one page of results, the value of IsTruncated is true. To display the next page of results, get the values of NextRecordName, NextRecordType, and NextRecordIdentifier (if any) from the response. Then submit another ListResourceRecordSets request, and specify those values for StartRecordName, StartRecordType, and StartRecordIdentifier.
+    ///
+    /// - Parameter ListResourceRecordSetsInput : A request for the resource record sets that are associated with a specified hosted zone.
+    ///
+    /// - Returns: `ListResourceRecordSetsOutputResponse` : A complex type that contains list information for the resource record set.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidInput` : The input is not valid.
+    /// - `NoSuchHostedZone` : No hosted zone exists with the ID that you specified.
     func listResourceRecordSets(input: ListResourceRecordSetsInput) async throws -> ListResourceRecordSetsOutputResponse
     /// Retrieves a list of the reusable delegation sets that are associated with the current Amazon Web Services account.
+    ///
+    /// - Parameter ListReusableDelegationSetsInput : A request to get a list of the reusable delegation sets that are associated with the current Amazon Web Services account.
+    ///
+    /// - Returns: `ListReusableDelegationSetsOutputResponse` : A complex type that contains information about the reusable delegation sets that are associated with the current Amazon Web Services account.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidInput` : The input is not valid.
     func listReusableDelegationSets(input: ListReusableDelegationSetsInput) async throws -> ListReusableDelegationSetsOutputResponse
     /// Lists tags for one health check or hosted zone. For information about using tags for cost allocation, see [Using Cost Allocation Tags](https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/cost-alloc-tags.html) in the Billing and Cost Management User Guide.
+    ///
+    /// - Parameter ListTagsForResourceInput : A complex type containing information about a request for a list of the tags that are associated with an individual resource.
+    ///
+    /// - Returns: `ListTagsForResourceOutputResponse` : A complex type that contains information about the health checks or hosted zones for which you want to list tags.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidInput` : The input is not valid.
+    /// - `NoSuchHealthCheck` : No health check exists with the specified ID.
+    /// - `NoSuchHostedZone` : No hosted zone exists with the ID that you specified.
+    /// - `PriorRequestNotComplete` : If Amazon Route 53 can't process a request before the next request arrives, it will reject subsequent requests for the same hosted zone and return an HTTP 400 error (Bad request). If Route 53 returns this error repeatedly for the same request, we recommend that you wait, in intervals of increasing duration, before you try the request again.
+    /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
     /// Lists tags for up to 10 health checks or hosted zones. For information about using tags for cost allocation, see [Using Cost Allocation Tags](https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/cost-alloc-tags.html) in the Billing and Cost Management User Guide.
+    ///
+    /// - Parameter ListTagsForResourcesInput : A complex type that contains information about the health checks or hosted zones for which you want to list tags.
+    ///
+    /// - Returns: `ListTagsForResourcesOutputResponse` : A complex type containing tags for the specified resources.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidInput` : The input is not valid.
+    /// - `NoSuchHealthCheck` : No health check exists with the specified ID.
+    /// - `NoSuchHostedZone` : No hosted zone exists with the ID that you specified.
+    /// - `PriorRequestNotComplete` : If Amazon Route 53 can't process a request before the next request arrives, it will reject subsequent requests for the same hosted zone and return an HTTP 400 error (Bad request). If Route 53 returns this error repeatedly for the same request, we recommend that you wait, in intervals of increasing duration, before you try the request again.
+    /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     func listTagsForResources(input: ListTagsForResourcesInput) async throws -> ListTagsForResourcesOutputResponse
     /// Gets information about the latest version for every traffic policy that is associated with the current Amazon Web Services account. Policies are listed in the order that they were created in. For information about how of deleting a traffic policy affects the response from ListTrafficPolicies, see [DeleteTrafficPolicy](https://docs.aws.amazon.com/Route53/latest/APIReference/API_DeleteTrafficPolicy.html).
+    ///
+    /// - Parameter ListTrafficPoliciesInput : A complex type that contains the information about the request to list the traffic policies that are associated with the current Amazon Web Services account.
+    ///
+    /// - Returns: `ListTrafficPoliciesOutputResponse` : A complex type that contains the response information for the request.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidInput` : The input is not valid.
     func listTrafficPolicies(input: ListTrafficPoliciesInput) async throws -> ListTrafficPoliciesOutputResponse
     /// Gets information about the traffic policy instances that you created by using the current Amazon Web Services account. After you submit an UpdateTrafficPolicyInstance request, there's a brief delay while Amazon Route 53 creates the resource record sets that are specified in the traffic policy definition. For more information, see the State response element. Route 53 returns a maximum of 100 items in each response. If you have a lot of traffic policy instances, you can use the MaxItems parameter to list them in groups of up to 100.
+    ///
+    /// - Parameter ListTrafficPolicyInstancesInput : A request to get information about the traffic policy instances that you created by using the current Amazon Web Services account.
+    ///
+    /// - Returns: `ListTrafficPolicyInstancesOutputResponse` : A complex type that contains the response information for the request.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidInput` : The input is not valid.
+    /// - `NoSuchTrafficPolicyInstance` : No traffic policy instance exists with the specified ID.
     func listTrafficPolicyInstances(input: ListTrafficPolicyInstancesInput) async throws -> ListTrafficPolicyInstancesOutputResponse
     /// Gets information about the traffic policy instances that you created in a specified hosted zone. After you submit a CreateTrafficPolicyInstance or an UpdateTrafficPolicyInstance request, there's a brief delay while Amazon Route 53 creates the resource record sets that are specified in the traffic policy definition. For more information, see the State response element. Route 53 returns a maximum of 100 items in each response. If you have a lot of traffic policy instances, you can use the MaxItems parameter to list them in groups of up to 100.
+    ///
+    /// - Parameter ListTrafficPolicyInstancesByHostedZoneInput : A request for the traffic policy instances that you created in a specified hosted zone.
+    ///
+    /// - Returns: `ListTrafficPolicyInstancesByHostedZoneOutputResponse` : A complex type that contains the response information for the request.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidInput` : The input is not valid.
+    /// - `NoSuchHostedZone` : No hosted zone exists with the ID that you specified.
+    /// - `NoSuchTrafficPolicyInstance` : No traffic policy instance exists with the specified ID.
     func listTrafficPolicyInstancesByHostedZone(input: ListTrafficPolicyInstancesByHostedZoneInput) async throws -> ListTrafficPolicyInstancesByHostedZoneOutputResponse
     /// Gets information about the traffic policy instances that you created by using a specify traffic policy version. After you submit a CreateTrafficPolicyInstance or an UpdateTrafficPolicyInstance request, there's a brief delay while Amazon Route 53 creates the resource record sets that are specified in the traffic policy definition. For more information, see the State response element. Route 53 returns a maximum of 100 items in each response. If you have a lot of traffic policy instances, you can use the MaxItems parameter to list them in groups of up to 100.
+    ///
+    /// - Parameter ListTrafficPolicyInstancesByPolicyInput : A complex type that contains the information about the request to list your traffic policy instances.
+    ///
+    /// - Returns: `ListTrafficPolicyInstancesByPolicyOutputResponse` : A complex type that contains the response information for the request.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidInput` : The input is not valid.
+    /// - `NoSuchTrafficPolicy` : No traffic policy exists with the specified ID.
+    /// - `NoSuchTrafficPolicyInstance` : No traffic policy instance exists with the specified ID.
     func listTrafficPolicyInstancesByPolicy(input: ListTrafficPolicyInstancesByPolicyInput) async throws -> ListTrafficPolicyInstancesByPolicyOutputResponse
     /// Gets information about all of the versions for a specified traffic policy. Traffic policy versions are listed in numerical order by VersionNumber.
+    ///
+    /// - Parameter ListTrafficPolicyVersionsInput : A complex type that contains the information about the request to list your traffic policies.
+    ///
+    /// - Returns: `ListTrafficPolicyVersionsOutputResponse` : A complex type that contains the response information for the request.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidInput` : The input is not valid.
+    /// - `NoSuchTrafficPolicy` : No traffic policy exists with the specified ID.
     func listTrafficPolicyVersions(input: ListTrafficPolicyVersionsInput) async throws -> ListTrafficPolicyVersionsOutputResponse
     /// Gets a list of the VPCs that were created by other accounts and that can be associated with a specified hosted zone because you've submitted one or more CreateVPCAssociationAuthorization requests. The response includes a VPCs element with a VPC child element for each VPC that can be associated with the hosted zone.
+    ///
+    /// - Parameter ListVPCAssociationAuthorizationsInput : A complex type that contains information about that can be associated with your hosted zone.
+    ///
+    /// - Returns: `ListVPCAssociationAuthorizationsOutputResponse` : A complex type that contains the response information for the request.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidInput` : The input is not valid.
+    /// - `InvalidPaginationToken` : The value that you specified to get the second or subsequent page of results is invalid.
+    /// - `NoSuchHostedZone` : No hosted zone exists with the ID that you specified.
     func listVPCAssociationAuthorizations(input: ListVPCAssociationAuthorizationsInput) async throws -> ListVPCAssociationAuthorizationsOutputResponse
     /// Gets the value that Amazon Route 53 returns in response to a DNS request for a specified record name and type. You can optionally specify the IP address of a DNS resolver, an EDNS0 client subnet IP address, and a subnet mask. This call only supports querying public hosted zones. The TestDnsAnswer  returns information similar to what you would expect from the answer section of the dig command. Therefore, if you query for the name servers of a subdomain that point to the parent name servers, those will not be returned.
+    ///
+    /// - Parameter TestDNSAnswerInput : Gets the value that Amazon Route 53 returns in response to a DNS request for a specified record name and type. You can optionally specify the IP address of a DNS resolver, an EDNS0 client subnet IP address, and a subnet mask.
+    ///
+    /// - Returns: `TestDNSAnswerOutputResponse` : A complex type that contains the response to a TestDNSAnswer request.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidInput` : The input is not valid.
+    /// - `NoSuchHostedZone` : No hosted zone exists with the ID that you specified.
     func testDNSAnswer(input: TestDNSAnswerInput) async throws -> TestDNSAnswerOutputResponse
     /// Updates an existing health check. Note that some values can't be updated. For more information about updating health checks, see [Creating, Updating, and Deleting Health Checks](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/health-checks-creating-deleting.html) in the Amazon Route 53 Developer Guide.
+    ///
+    /// - Parameter UpdateHealthCheckInput : A complex type that contains information about a request to update a health check.
+    ///
+    /// - Returns: `UpdateHealthCheckOutputResponse` : A complex type that contains the response to the UpdateHealthCheck request.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `HealthCheckVersionMismatch` : The value of HealthCheckVersion in the request doesn't match the value of HealthCheckVersion in the health check.
+    /// - `InvalidInput` : The input is not valid.
+    /// - `NoSuchHealthCheck` : No health check exists with the specified ID.
     func updateHealthCheck(input: UpdateHealthCheckInput) async throws -> UpdateHealthCheckOutputResponse
     /// Updates the comment for a specified hosted zone.
+    ///
+    /// - Parameter UpdateHostedZoneCommentInput : A request to update the comment for a hosted zone.
+    ///
+    /// - Returns: `UpdateHostedZoneCommentOutputResponse` : A complex type that contains the response to the UpdateHostedZoneComment request.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidInput` : The input is not valid.
+    /// - `NoSuchHostedZone` : No hosted zone exists with the ID that you specified.
+    /// - `PriorRequestNotComplete` : If Amazon Route 53 can't process a request before the next request arrives, it will reject subsequent requests for the same hosted zone and return an HTTP 400 error (Bad request). If Route 53 returns this error repeatedly for the same request, we recommend that you wait, in intervals of increasing duration, before you try the request again.
     func updateHostedZoneComment(input: UpdateHostedZoneCommentInput) async throws -> UpdateHostedZoneCommentOutputResponse
     /// Updates the comment for a specified traffic policy version.
+    ///
+    /// - Parameter UpdateTrafficPolicyCommentInput : A complex type that contains information about the traffic policy that you want to update the comment for.
+    ///
+    /// - Returns: `UpdateTrafficPolicyCommentOutputResponse` : A complex type that contains the response information for the traffic policy.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConcurrentModification` : Another user submitted a request to create, update, or delete the object at the same time that you did. Retry the request.
+    /// - `InvalidInput` : The input is not valid.
+    /// - `NoSuchTrafficPolicy` : No traffic policy exists with the specified ID.
     func updateTrafficPolicyComment(input: UpdateTrafficPolicyCommentInput) async throws -> UpdateTrafficPolicyCommentOutputResponse
     /// Updates the resource record sets in a specified hosted zone that were created based on the settings in a specified traffic policy version. When you update a traffic policy instance, Amazon Route 53 continues to respond to DNS queries for the root resource record set name (such as example.com) while it replaces one group of resource record sets with another. Route 53 performs the following operations:
     ///
@@ -321,6 +1130,19 @@ public protocol Route53ClientProtocol {
     /// * When all of the new resource record sets have been created, Route 53 starts to respond to DNS queries for the root resource record set name (such as example.com) by using the new resource record sets.
     ///
     /// * Route 53 deletes the old group of resource record sets that are associated with the root resource record set name.
+    ///
+    /// - Parameter UpdateTrafficPolicyInstanceInput : A complex type that contains information about the resource record sets that you want to update based on a specified traffic policy instance.
+    ///
+    /// - Returns: `UpdateTrafficPolicyInstanceOutputResponse` : A complex type that contains information about the resource record sets that Amazon Route 53 created based on a specified traffic policy.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictingTypes` : You tried to update a traffic policy instance by using a traffic policy version that has a different DNS type than the current type for the instance. You specified the type in the JSON document in the CreateTrafficPolicy or CreateTrafficPolicyVersionrequest.
+    /// - `InvalidInput` : The input is not valid.
+    /// - `NoSuchTrafficPolicy` : No traffic policy exists with the specified ID.
+    /// - `NoSuchTrafficPolicyInstance` : No traffic policy instance exists with the specified ID.
+    /// - `PriorRequestNotComplete` : If Amazon Route 53 can't process a request before the next request arrives, it will reject subsequent requests for the same hosted zone and return an HTTP 400 error (Bad request). If Route 53 returns this error repeatedly for the same request, we recommend that you wait, in intervals of increasing duration, before you try the request again.
     func updateTrafficPolicyInstance(input: UpdateTrafficPolicyInstanceInput) async throws -> UpdateTrafficPolicyInstanceOutputResponse
 }
 

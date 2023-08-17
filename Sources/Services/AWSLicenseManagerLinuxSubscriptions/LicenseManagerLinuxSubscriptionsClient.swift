@@ -68,6 +68,17 @@ public struct LicenseManagerLinuxSubscriptionsClientLogHandlerFactory: ClientRun
 
 extension LicenseManagerLinuxSubscriptionsClient: LicenseManagerLinuxSubscriptionsClientProtocol {
     /// Lists the Linux subscriptions service settings.
+    ///
+    /// - Parameter GetServiceSettingsInput : [no documentation found]
+    ///
+    /// - Returns: `GetServiceSettingsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : An exception occurred with the service.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The provided input is not valid. Try your request again.
     public func getServiceSettings(input: GetServiceSettingsInput) async throws -> GetServiceSettingsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -101,6 +112,17 @@ extension LicenseManagerLinuxSubscriptionsClient: LicenseManagerLinuxSubscriptio
     }
 
     /// Lists the running Amazon EC2 instances that were discovered with commercial Linux subscriptions.
+    ///
+    /// - Parameter ListLinuxSubscriptionInstancesInput : NextToken length limit is half of ddb accepted limit. Increase this limit if parameters in request increases.
+    ///
+    /// - Returns: `ListLinuxSubscriptionInstancesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : An exception occurred with the service.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The provided input is not valid. Try your request again.
     public func listLinuxSubscriptionInstances(input: ListLinuxSubscriptionInstancesInput) async throws -> ListLinuxSubscriptionInstancesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -137,6 +159,17 @@ extension LicenseManagerLinuxSubscriptionsClient: LicenseManagerLinuxSubscriptio
     }
 
     /// Lists the Linux subscriptions that have been discovered. If you have linked your organization, the returned results will include data aggregated across your accounts in Organizations.
+    ///
+    /// - Parameter ListLinuxSubscriptionsInput : NextToken length limit is half of ddb accepted limit. Increase this limit if parameters in request increases.
+    ///
+    /// - Returns: `ListLinuxSubscriptionsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : An exception occurred with the service.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The provided input is not valid. Try your request again.
     public func listLinuxSubscriptions(input: ListLinuxSubscriptionsInput) async throws -> ListLinuxSubscriptionsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -173,6 +206,17 @@ extension LicenseManagerLinuxSubscriptionsClient: LicenseManagerLinuxSubscriptio
     }
 
     /// Updates the service settings for Linux subscriptions.
+    ///
+    /// - Parameter UpdateServiceSettingsInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateServiceSettingsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : An exception occurred with the service.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The provided input is not valid. Try your request again.
     public func updateServiceSettings(input: UpdateServiceSettingsInput) async throws -> UpdateServiceSettingsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()

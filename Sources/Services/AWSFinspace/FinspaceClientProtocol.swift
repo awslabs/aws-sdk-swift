@@ -5,72 +5,527 @@ import ClientRuntime
 /// The FinSpace management service provides the APIs for managing FinSpace environments.
 public protocol FinspaceClientProtocol {
     /// Create a new FinSpace environment.
+    ///
+    /// - Parameter CreateEnvironmentInput : [no documentation found]
+    ///
+    /// - Returns: `CreateEnvironmentOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
+    /// - `LimitExceededException` : A service limit or quota is exceeded.
+    /// - `ServiceQuotaExceededException` : You have exceeded your service quota. To perform the requested action, remove some of the relevant resources, or use Service Quotas to request a service quota increase.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func createEnvironment(input: CreateEnvironmentInput) async throws -> CreateEnvironmentOutputResponse
     /// Creates a changeset for a kdb database. A changeset allows you to add and delete existing files by using an ordered list of change requests.
+    ///
+    /// - Parameter CreateKxChangesetInput : [no documentation found]
+    ///
+    /// - Returns: `CreateKxChangesetOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : There was a conflict with this action, and it could not be completed.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
+    /// - `LimitExceededException` : A service limit or quota is exceeded.
+    /// - `ResourceNotFoundException` : One or more resources can't be found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func createKxChangeset(input: CreateKxChangesetInput) async throws -> CreateKxChangesetOutputResponse
     /// Creates a new kdb cluster.
+    ///
+    /// - Parameter CreateKxClusterInput : [no documentation found]
+    ///
+    /// - Returns: `CreateKxClusterOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : There was a conflict with this action, and it could not be completed.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
+    /// - `LimitExceededException` : A service limit or quota is exceeded.
+    /// - `ResourceNotFoundException` : One or more resources can't be found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func createKxCluster(input: CreateKxClusterInput) async throws -> CreateKxClusterOutputResponse
     /// Creates a new kdb database in the environment.
+    ///
+    /// - Parameter CreateKxDatabaseInput : [no documentation found]
+    ///
+    /// - Returns: `CreateKxDatabaseOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : There was a conflict with this action, and it could not be completed.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
+    /// - `LimitExceededException` : A service limit or quota is exceeded.
+    /// - `ResourceAlreadyExistsException` : The specified resource group already exists.
+    /// - `ResourceNotFoundException` : One or more resources can't be found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func createKxDatabase(input: CreateKxDatabaseInput) async throws -> CreateKxDatabaseOutputResponse
     /// Creates a managed kdb environment for the account.
+    ///
+    /// - Parameter CreateKxEnvironmentInput : [no documentation found]
+    ///
+    /// - Returns: `CreateKxEnvironmentOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : There was a conflict with this action, and it could not be completed.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
+    /// - `LimitExceededException` : A service limit or quota is exceeded.
+    /// - `ServiceQuotaExceededException` : You have exceeded your service quota. To perform the requested action, remove some of the relevant resources, or use Service Quotas to request a service quota increase.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func createKxEnvironment(input: CreateKxEnvironmentInput) async throws -> CreateKxEnvironmentOutputResponse
     /// Creates a user in FinSpace kdb environment with an associated IAM role.
+    ///
+    /// - Parameter CreateKxUserInput : [no documentation found]
+    ///
+    /// - Returns: `CreateKxUserOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : There was a conflict with this action, and it could not be completed.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
+    /// - `LimitExceededException` : A service limit or quota is exceeded.
+    /// - `ResourceAlreadyExistsException` : The specified resource group already exists.
+    /// - `ResourceNotFoundException` : One or more resources can't be found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func createKxUser(input: CreateKxUserInput) async throws -> CreateKxUserOutputResponse
     /// Delete an FinSpace environment.
+    ///
+    /// - Parameter DeleteEnvironmentInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteEnvironmentOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
+    /// - `ResourceNotFoundException` : One or more resources can't be found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func deleteEnvironment(input: DeleteEnvironmentInput) async throws -> DeleteEnvironmentOutputResponse
     /// Deletes a kdb cluster.
+    ///
+    /// - Parameter DeleteKxClusterInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteKxClusterOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : There was a conflict with this action, and it could not be completed.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
+    /// - `LimitExceededException` : A service limit or quota is exceeded.
+    /// - `ResourceNotFoundException` : One or more resources can't be found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func deleteKxCluster(input: DeleteKxClusterInput) async throws -> DeleteKxClusterOutputResponse
     /// Deletes the specified database and all of its associated data. This action is irreversible. You must copy any data out of the database before deleting it if the data is to be retained.
+    ///
+    /// - Parameter DeleteKxDatabaseInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteKxDatabaseOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : There was a conflict with this action, and it could not be completed.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
+    /// - `ResourceNotFoundException` : One or more resources can't be found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func deleteKxDatabase(input: DeleteKxDatabaseInput) async throws -> DeleteKxDatabaseOutputResponse
     /// Deletes the kdb environment. This action is irreversible. Deleting a kdb environment will remove all the associated data and any services running in it.
+    ///
+    /// - Parameter DeleteKxEnvironmentInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteKxEnvironmentOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
+    /// - `ResourceNotFoundException` : One or more resources can't be found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func deleteKxEnvironment(input: DeleteKxEnvironmentInput) async throws -> DeleteKxEnvironmentOutputResponse
     /// Deletes a user in the specified kdb environment.
+    ///
+    /// - Parameter DeleteKxUserInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteKxUserOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
+    /// - `ResourceNotFoundException` : One or more resources can't be found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func deleteKxUser(input: DeleteKxUserInput) async throws -> DeleteKxUserOutputResponse
     /// Returns the FinSpace environment object.
+    ///
+    /// - Parameter GetEnvironmentInput : [no documentation found]
+    ///
+    /// - Returns: `GetEnvironmentOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
+    /// - `ResourceNotFoundException` : One or more resources can't be found.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func getEnvironment(input: GetEnvironmentInput) async throws -> GetEnvironmentOutputResponse
     /// Returns information about a kdb changeset.
+    ///
+    /// - Parameter GetKxChangesetInput : [no documentation found]
+    ///
+    /// - Returns: `GetKxChangesetOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
+    /// - `ResourceNotFoundException` : One or more resources can't be found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func getKxChangeset(input: GetKxChangesetInput) async throws -> GetKxChangesetOutputResponse
     /// Retrieves information about a kdb cluster.
+    ///
+    /// - Parameter GetKxClusterInput : [no documentation found]
+    ///
+    /// - Returns: `GetKxClusterOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : There was a conflict with this action, and it could not be completed.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
+    /// - `LimitExceededException` : A service limit or quota is exceeded.
+    /// - `ResourceNotFoundException` : One or more resources can't be found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func getKxCluster(input: GetKxClusterInput) async throws -> GetKxClusterOutputResponse
     /// Retrieves a connection string for a user to connect to a kdb cluster. You must call this API using the same role that you have defined while creating a user.
+    ///
+    /// - Parameter GetKxConnectionStringInput : [no documentation found]
+    ///
+    /// - Returns: `GetKxConnectionStringOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
+    /// - `ResourceNotFoundException` : One or more resources can't be found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func getKxConnectionString(input: GetKxConnectionStringInput) async throws -> GetKxConnectionStringOutputResponse
     /// Returns database information for the specified environment ID.
+    ///
+    /// - Parameter GetKxDatabaseInput : [no documentation found]
+    ///
+    /// - Returns: `GetKxDatabaseOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
+    /// - `ResourceNotFoundException` : One or more resources can't be found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func getKxDatabase(input: GetKxDatabaseInput) async throws -> GetKxDatabaseOutputResponse
     /// Retrieves all the information for the specified kdb environment.
+    ///
+    /// - Parameter GetKxEnvironmentInput : [no documentation found]
+    ///
+    /// - Returns: `GetKxEnvironmentOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
+    /// - `ResourceNotFoundException` : One or more resources can't be found.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func getKxEnvironment(input: GetKxEnvironmentInput) async throws -> GetKxEnvironmentOutputResponse
     /// Retrieves information about the specified kdb user.
+    ///
+    /// - Parameter GetKxUserInput : [no documentation found]
+    ///
+    /// - Returns: `GetKxUserOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
+    /// - `ResourceNotFoundException` : One or more resources can't be found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func getKxUser(input: GetKxUserInput) async throws -> GetKxUserOutputResponse
     /// A list of all of your FinSpace environments.
+    ///
+    /// - Parameter ListEnvironmentsInput : [no documentation found]
+    ///
+    /// - Returns: `ListEnvironmentsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func listEnvironments(input: ListEnvironmentsInput) async throws -> ListEnvironmentsOutputResponse
     /// Returns a list of all the changesets for a database.
+    ///
+    /// - Parameter ListKxChangesetsInput : [no documentation found]
+    ///
+    /// - Returns: `ListKxChangesetsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
+    /// - `ResourceNotFoundException` : One or more resources can't be found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func listKxChangesets(input: ListKxChangesetsInput) async throws -> ListKxChangesetsOutputResponse
     /// Lists all the nodes in a kdb cluster.
+    ///
+    /// - Parameter ListKxClusterNodesInput : [no documentation found]
+    ///
+    /// - Returns: `ListKxClusterNodesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
+    /// - `LimitExceededException` : A service limit or quota is exceeded.
+    /// - `ResourceNotFoundException` : One or more resources can't be found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func listKxClusterNodes(input: ListKxClusterNodesInput) async throws -> ListKxClusterNodesOutputResponse
     /// Returns a list of clusters.
+    ///
+    /// - Parameter ListKxClustersInput : [no documentation found]
+    ///
+    /// - Returns: `ListKxClustersOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : There was a conflict with this action, and it could not be completed.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
+    /// - `LimitExceededException` : A service limit or quota is exceeded.
+    /// - `ResourceNotFoundException` : One or more resources can't be found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func listKxClusters(input: ListKxClustersInput) async throws -> ListKxClustersOutputResponse
     /// Returns a list of all the databases in the kdb environment.
+    ///
+    /// - Parameter ListKxDatabasesInput : [no documentation found]
+    ///
+    /// - Returns: `ListKxDatabasesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
+    /// - `ResourceNotFoundException` : One or more resources can't be found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func listKxDatabases(input: ListKxDatabasesInput) async throws -> ListKxDatabasesOutputResponse
     /// Returns a list of kdb environments created in an account.
+    ///
+    /// - Parameter ListKxEnvironmentsInput : [no documentation found]
+    ///
+    /// - Returns: `ListKxEnvironmentsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func listKxEnvironments(input: ListKxEnvironmentsInput) async throws -> ListKxEnvironmentsOutputResponse
     /// Lists all the users in a kdb environment.
+    ///
+    /// - Parameter ListKxUsersInput : [no documentation found]
+    ///
+    /// - Returns: `ListKxUsersOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
+    /// - `ResourceNotFoundException` : One or more resources can't be found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func listKxUsers(input: ListKxUsersInput) async throws -> ListKxUsersOutputResponse
     /// A list of all tags for a resource.
+    ///
+    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    ///
+    /// - Returns: `ListTagsForResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
+    /// - `InvalidRequestException` : The request is invalid. Something is wrong with the input to the request.
+    /// - `ResourceNotFoundException` : One or more resources can't be found.
     func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
     /// Adds metadata tags to a FinSpace resource.
+    ///
+    /// - Parameter TagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `TagResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
+    /// - `InvalidRequestException` : The request is invalid. Something is wrong with the input to the request.
+    /// - `ResourceNotFoundException` : One or more resources can't be found.
     func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
     /// Removes metadata tags from a FinSpace resource.
+    ///
+    /// - Parameter UntagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `UntagResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
+    /// - `InvalidRequestException` : The request is invalid. Something is wrong with the input to the request.
+    /// - `ResourceNotFoundException` : One or more resources can't be found.
     func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
     /// Update your FinSpace environment.
+    ///
+    /// - Parameter UpdateEnvironmentInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateEnvironmentOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
+    /// - `ResourceNotFoundException` : One or more resources can't be found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func updateEnvironment(input: UpdateEnvironmentInput) async throws -> UpdateEnvironmentOutputResponse
     /// Updates the databases mounted on a kdb cluster, which includes the changesetId and all the dbPaths to be cached. This API does not allow you to change a database name or add a database if you created a cluster without one. Using this API you can point a cluster to a different changeset and modify a list of partitions being cached.
+    ///
+    /// - Parameter UpdateKxClusterDatabasesInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateKxClusterDatabasesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
+    /// - `LimitExceededException` : A service limit or quota is exceeded.
+    /// - `ResourceNotFoundException` : One or more resources can't be found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func updateKxClusterDatabases(input: UpdateKxClusterDatabasesInput) async throws -> UpdateKxClusterDatabasesOutputResponse
     /// Updates information for the given kdb database.
+    ///
+    /// - Parameter UpdateKxDatabaseInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateKxDatabaseOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : There was a conflict with this action, and it could not be completed.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
+    /// - `ResourceNotFoundException` : One or more resources can't be found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func updateKxDatabase(input: UpdateKxDatabaseInput) async throws -> UpdateKxDatabaseOutputResponse
     /// Updates information for the given kdb environment.
+    ///
+    /// - Parameter UpdateKxEnvironmentInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateKxEnvironmentOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : There was a conflict with this action, and it could not be completed.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
+    /// - `ResourceNotFoundException` : One or more resources can't be found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func updateKxEnvironment(input: UpdateKxEnvironmentInput) async throws -> UpdateKxEnvironmentOutputResponse
     /// Updates environment network to connect to your internal network by using a transit gateway. This API supports request to create a transit gateway attachment from FinSpace VPC to your transit gateway ID and create a custom Route-53 outbound resolvers. Once you send a request to update a network, you cannot change it again. Network update might require termination of any clusters that are running in the existing network.
+    ///
+    /// - Parameter UpdateKxEnvironmentNetworkInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateKxEnvironmentNetworkOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : There was a conflict with this action, and it could not be completed.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
+    /// - `ResourceNotFoundException` : One or more resources can't be found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func updateKxEnvironmentNetwork(input: UpdateKxEnvironmentNetworkInput) async throws -> UpdateKxEnvironmentNetworkOutputResponse
     /// Updates the user details. You can only update the IAM role associated with a user.
+    ///
+    /// - Parameter UpdateKxUserInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateKxUserOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : There was a conflict with this action, and it could not be completed.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
+    /// - `LimitExceededException` : A service limit or quota is exceeded.
+    /// - `ResourceNotFoundException` : One or more resources can't be found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func updateKxUser(input: UpdateKxUserInput) async throws -> UpdateKxUserOutputResponse
 }
 

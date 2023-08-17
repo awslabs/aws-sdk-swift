@@ -5,30 +5,185 @@ import ClientRuntime
 /// AWS HealthLake is a HIPAA eligibile service that allows customers to store, transform, query, and analyze their FHIR-formatted data in a consistent fashion in the cloud.
 public protocol HealthLakeClientProtocol {
     /// Creates a data store that can ingest and export FHIR formatted data.
+    ///
+    /// - Parameter CreateFHIRDatastoreInput : [no documentation found]
+    ///
+    /// - Returns: `CreateFHIRDatastoreOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access is denied. Your account is not authorized to perform this operation.
+    /// - `InternalServerException` : Unknown error occurs in the service.
+    /// - `ThrottlingException` : The user has exceeded their maximum number of allowed calls to the given API.
+    /// - `ValidationException` : The user input parameter was invalid.
     func createFHIRDatastore(input: CreateFHIRDatastoreInput) async throws -> CreateFHIRDatastoreOutputResponse
     /// Deletes a data store.
+    ///
+    /// - Parameter DeleteFHIRDatastoreInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteFHIRDatastoreOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access is denied. Your account is not authorized to perform this operation.
+    /// - `ConflictException` : The data store is in a transition state and the user requested action can not be performed.
+    /// - `InternalServerException` : Unknown error occurs in the service.
+    /// - `ResourceNotFoundException` : The requested data store was not found.
+    /// - `ThrottlingException` : The user has exceeded their maximum number of allowed calls to the given API.
+    /// - `ValidationException` : The user input parameter was invalid.
     func deleteFHIRDatastore(input: DeleteFHIRDatastoreInput) async throws -> DeleteFHIRDatastoreOutputResponse
     /// Gets the properties associated with the FHIR data store, including the data store ID, data store ARN, data store name, data store status, when the data store was created, data store type version, and the data store's endpoint.
+    ///
+    /// - Parameter DescribeFHIRDatastoreInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeFHIRDatastoreOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : Unknown error occurs in the service.
+    /// - `ResourceNotFoundException` : The requested data store was not found.
+    /// - `ThrottlingException` : The user has exceeded their maximum number of allowed calls to the given API.
+    /// - `ValidationException` : The user input parameter was invalid.
     func describeFHIRDatastore(input: DescribeFHIRDatastoreInput) async throws -> DescribeFHIRDatastoreOutputResponse
     /// Displays the properties of a FHIR export job, including the ID, ARN, name, and the status of the job.
+    ///
+    /// - Parameter DescribeFHIRExportJobInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeFHIRExportJobOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : Unknown error occurs in the service.
+    /// - `ResourceNotFoundException` : The requested data store was not found.
+    /// - `ThrottlingException` : The user has exceeded their maximum number of allowed calls to the given API.
+    /// - `ValidationException` : The user input parameter was invalid.
     func describeFHIRExportJob(input: DescribeFHIRExportJobInput) async throws -> DescribeFHIRExportJobOutputResponse
     /// Displays the properties of a FHIR import job, including the ID, ARN, name, and the status of the job.
+    ///
+    /// - Parameter DescribeFHIRImportJobInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeFHIRImportJobOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : Unknown error occurs in the service.
+    /// - `ResourceNotFoundException` : The requested data store was not found.
+    /// - `ThrottlingException` : The user has exceeded their maximum number of allowed calls to the given API.
+    /// - `ValidationException` : The user input parameter was invalid.
     func describeFHIRImportJob(input: DescribeFHIRImportJobInput) async throws -> DescribeFHIRImportJobOutputResponse
     /// Lists all FHIR data stores that are in the user’s account, regardless of data store status.
+    ///
+    /// - Parameter ListFHIRDatastoresInput : [no documentation found]
+    ///
+    /// - Returns: `ListFHIRDatastoresOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : Unknown error occurs in the service.
+    /// - `ThrottlingException` : The user has exceeded their maximum number of allowed calls to the given API.
+    /// - `ValidationException` : The user input parameter was invalid.
     func listFHIRDatastores(input: ListFHIRDatastoresInput) async throws -> ListFHIRDatastoresOutputResponse
     /// Lists all FHIR export jobs associated with an account and their statuses.
+    ///
+    /// - Parameter ListFHIRExportJobsInput : [no documentation found]
+    ///
+    /// - Returns: `ListFHIRExportJobsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access is denied. Your account is not authorized to perform this operation.
+    /// - `InternalServerException` : Unknown error occurs in the service.
+    /// - `ResourceNotFoundException` : The requested data store was not found.
+    /// - `ThrottlingException` : The user has exceeded their maximum number of allowed calls to the given API.
+    /// - `ValidationException` : The user input parameter was invalid.
     func listFHIRExportJobs(input: ListFHIRExportJobsInput) async throws -> ListFHIRExportJobsOutputResponse
     /// Lists all FHIR import jobs associated with an account and their statuses.
+    ///
+    /// - Parameter ListFHIRImportJobsInput : [no documentation found]
+    ///
+    /// - Returns: `ListFHIRImportJobsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access is denied. Your account is not authorized to perform this operation.
+    /// - `InternalServerException` : Unknown error occurs in the service.
+    /// - `ResourceNotFoundException` : The requested data store was not found.
+    /// - `ThrottlingException` : The user has exceeded their maximum number of allowed calls to the given API.
+    /// - `ValidationException` : The user input parameter was invalid.
     func listFHIRImportJobs(input: ListFHIRImportJobsInput) async throws -> ListFHIRImportJobsOutputResponse
     /// Returns a list of all existing tags associated with a data store.
+    ///
+    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    ///
+    /// - Returns: `ListTagsForResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ResourceNotFoundException` : The requested data store was not found.
+    /// - `ValidationException` : The user input parameter was invalid.
     func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
     /// Begins a FHIR export job.
+    ///
+    /// - Parameter StartFHIRExportJobInput : [no documentation found]
+    ///
+    /// - Returns: `StartFHIRExportJobOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access is denied. Your account is not authorized to perform this operation.
+    /// - `InternalServerException` : Unknown error occurs in the service.
+    /// - `ResourceNotFoundException` : The requested data store was not found.
+    /// - `ThrottlingException` : The user has exceeded their maximum number of allowed calls to the given API.
+    /// - `ValidationException` : The user input parameter was invalid.
     func startFHIRExportJob(input: StartFHIRExportJobInput) async throws -> StartFHIRExportJobOutputResponse
     /// Begins a FHIR Import job.
+    ///
+    /// - Parameter StartFHIRImportJobInput : [no documentation found]
+    ///
+    /// - Returns: `StartFHIRImportJobOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access is denied. Your account is not authorized to perform this operation.
+    /// - `InternalServerException` : Unknown error occurs in the service.
+    /// - `ResourceNotFoundException` : The requested data store was not found.
+    /// - `ThrottlingException` : The user has exceeded their maximum number of allowed calls to the given API.
+    /// - `ValidationException` : The user input parameter was invalid.
     func startFHIRImportJob(input: StartFHIRImportJobInput) async throws -> StartFHIRImportJobOutputResponse
     /// Adds a user specified key and value tag to a data store.
+    ///
+    /// - Parameter TagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `TagResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ResourceNotFoundException` : The requested data store was not found.
+    /// - `ValidationException` : The user input parameter was invalid.
     func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
     /// Removes tags from a data store.
+    ///
+    /// - Parameter UntagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `UntagResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ResourceNotFoundException` : The requested data store was not found.
+    /// - `ValidationException` : The user input parameter was invalid.
     func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
 }
 

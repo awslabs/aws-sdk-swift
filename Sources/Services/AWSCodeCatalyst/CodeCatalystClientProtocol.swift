@@ -85,70 +85,532 @@ import ClientRuntime
 /// If you are using the Amazon CodeCatalyst APIs with an SDK or the CLI, you must configure your computer to work with Amazon CodeCatalyst and single sign-on (SSO). For more information, see [Setting up to use the CLI with Amazon CodeCatalyst](https://docs.aws.amazon.com/codecatalyst/latest/userguide/set-up-cli.html) and the SSO documentation for your SDK.
 public protocol CodeCatalystClientProtocol {
     /// Creates a personal access token (PAT) for the current user. A personal access token (PAT) is similar to a password. It is associated with your user identity for use across all spaces and projects in Amazon CodeCatalyst. You use PATs to access CodeCatalyst from resources that include integrated development environments (IDEs) and Git-based source repositories. PATs represent you in Amazon CodeCatalyst and you can manage them in your user settings.For more information, see [Managing personal access tokens in Amazon CodeCatalyst](https://docs.aws.amazon.com/codecatalyst/latest/userguide/ipa-tokens-keys.html).
+    ///
+    /// - Parameter CreateAccessTokenInput : [no documentation found]
+    ///
+    /// - Returns: `CreateAccessTokenOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The request was denied because you don't have sufficient access to perform this action. Verify that you are a member of a role that allows this action.
+    /// - `ConflictException` : The request was denied because the requested operation would cause a conflict with the current state of a service resource associated with the request. Another user might have updated the resource. Reload, make sure you have the latest data, and then try again.
+    /// - `ResourceNotFoundException` : The request was denied because the specified resource was not found. Verify that the spelling is correct and that you have access to the resource.
+    /// - `ServiceQuotaExceededException` : The request was denied because one or more resources has reached its limits for the tier the space belongs to. Either reduce the number of resources, or change the tier if applicable.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The request was denied because an input failed to satisfy the constraints specified by the service. Check the spelling and input requirements, and then try again.
     func createAccessToken(input: CreateAccessTokenInput) async throws -> CreateAccessTokenOutputResponse
     /// Creates a Dev Environment in Amazon CodeCatalyst, a cloud-based development environment that you can use to quickly work on the code stored in the source repositories of your project. When created in the Amazon CodeCatalyst console, by default a Dev Environment is configured to have a 2 core processor, 4GB of RAM, and 16GB of persistent storage. None of these defaults apply to a Dev Environment created programmatically.
+    ///
+    /// - Parameter CreateDevEnvironmentInput : [no documentation found]
+    ///
+    /// - Returns: `CreateDevEnvironmentOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The request was denied because you don't have sufficient access to perform this action. Verify that you are a member of a role that allows this action.
+    /// - `ConflictException` : The request was denied because the requested operation would cause a conflict with the current state of a service resource associated with the request. Another user might have updated the resource. Reload, make sure you have the latest data, and then try again.
+    /// - `ResourceNotFoundException` : The request was denied because the specified resource was not found. Verify that the spelling is correct and that you have access to the resource.
+    /// - `ServiceQuotaExceededException` : The request was denied because one or more resources has reached its limits for the tier the space belongs to. Either reduce the number of resources, or change the tier if applicable.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The request was denied because an input failed to satisfy the constraints specified by the service. Check the spelling and input requirements, and then try again.
     func createDevEnvironment(input: CreateDevEnvironmentInput) async throws -> CreateDevEnvironmentOutputResponse
     /// Creates a project in a specified space.
+    ///
+    /// - Parameter CreateProjectInput : [no documentation found]
+    ///
+    /// - Returns: `CreateProjectOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The request was denied because you don't have sufficient access to perform this action. Verify that you are a member of a role that allows this action.
+    /// - `ConflictException` : The request was denied because the requested operation would cause a conflict with the current state of a service resource associated with the request. Another user might have updated the resource. Reload, make sure you have the latest data, and then try again.
+    /// - `ResourceNotFoundException` : The request was denied because the specified resource was not found. Verify that the spelling is correct and that you have access to the resource.
+    /// - `ServiceQuotaExceededException` : The request was denied because one or more resources has reached its limits for the tier the space belongs to. Either reduce the number of resources, or change the tier if applicable.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The request was denied because an input failed to satisfy the constraints specified by the service. Check the spelling and input requirements, and then try again.
     func createProject(input: CreateProjectInput) async throws -> CreateProjectOutputResponse
     /// Creates an empty Git-based source repository in a specified project. The repository is created with an initial empty commit with a default branch named main.
+    ///
+    /// - Parameter CreateSourceRepositoryInput : [no documentation found]
+    ///
+    /// - Returns: `CreateSourceRepositoryOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The request was denied because you don't have sufficient access to perform this action. Verify that you are a member of a role that allows this action.
+    /// - `ConflictException` : The request was denied because the requested operation would cause a conflict with the current state of a service resource associated with the request. Another user might have updated the resource. Reload, make sure you have the latest data, and then try again.
+    /// - `ResourceNotFoundException` : The request was denied because the specified resource was not found. Verify that the spelling is correct and that you have access to the resource.
+    /// - `ServiceQuotaExceededException` : The request was denied because one or more resources has reached its limits for the tier the space belongs to. Either reduce the number of resources, or change the tier if applicable.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The request was denied because an input failed to satisfy the constraints specified by the service. Check the spelling and input requirements, and then try again.
     func createSourceRepository(input: CreateSourceRepositoryInput) async throws -> CreateSourceRepositoryOutputResponse
     /// Creates a branch in a specified source repository in Amazon CodeCatalyst. This API only creates a branch in a source repository hosted in Amazon CodeCatalyst. You cannot use this API to create a branch in a linked repository.
+    ///
+    /// - Parameter CreateSourceRepositoryBranchInput : [no documentation found]
+    ///
+    /// - Returns: `CreateSourceRepositoryBranchOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The request was denied because you don't have sufficient access to perform this action. Verify that you are a member of a role that allows this action.
+    /// - `ConflictException` : The request was denied because the requested operation would cause a conflict with the current state of a service resource associated with the request. Another user might have updated the resource. Reload, make sure you have the latest data, and then try again.
+    /// - `ResourceNotFoundException` : The request was denied because the specified resource was not found. Verify that the spelling is correct and that you have access to the resource.
+    /// - `ServiceQuotaExceededException` : The request was denied because one or more resources has reached its limits for the tier the space belongs to. Either reduce the number of resources, or change the tier if applicable.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The request was denied because an input failed to satisfy the constraints specified by the service. Check the spelling and input requirements, and then try again.
     func createSourceRepositoryBranch(input: CreateSourceRepositoryBranchInput) async throws -> CreateSourceRepositoryBranchOutputResponse
     /// Deletes a specified personal access token (PAT). A personal access token can only be deleted by the user who created it.
+    ///
+    /// - Parameter DeleteAccessTokenInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteAccessTokenOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The request was denied because you don't have sufficient access to perform this action. Verify that you are a member of a role that allows this action.
+    /// - `ConflictException` : The request was denied because the requested operation would cause a conflict with the current state of a service resource associated with the request. Another user might have updated the resource. Reload, make sure you have the latest data, and then try again.
+    /// - `ResourceNotFoundException` : The request was denied because the specified resource was not found. Verify that the spelling is correct and that you have access to the resource.
+    /// - `ServiceQuotaExceededException` : The request was denied because one or more resources has reached its limits for the tier the space belongs to. Either reduce the number of resources, or change the tier if applicable.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The request was denied because an input failed to satisfy the constraints specified by the service. Check the spelling and input requirements, and then try again.
     func deleteAccessToken(input: DeleteAccessTokenInput) async throws -> DeleteAccessTokenOutputResponse
     /// Deletes a Dev Environment.
+    ///
+    /// - Parameter DeleteDevEnvironmentInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteDevEnvironmentOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The request was denied because you don't have sufficient access to perform this action. Verify that you are a member of a role that allows this action.
+    /// - `ConflictException` : The request was denied because the requested operation would cause a conflict with the current state of a service resource associated with the request. Another user might have updated the resource. Reload, make sure you have the latest data, and then try again.
+    /// - `ResourceNotFoundException` : The request was denied because the specified resource was not found. Verify that the spelling is correct and that you have access to the resource.
+    /// - `ServiceQuotaExceededException` : The request was denied because one or more resources has reached its limits for the tier the space belongs to. Either reduce the number of resources, or change the tier if applicable.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The request was denied because an input failed to satisfy the constraints specified by the service. Check the spelling and input requirements, and then try again.
     func deleteDevEnvironment(input: DeleteDevEnvironmentInput) async throws -> DeleteDevEnvironmentOutputResponse
     /// Deletes a project in a space.
+    ///
+    /// - Parameter DeleteProjectInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteProjectOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The request was denied because you don't have sufficient access to perform this action. Verify that you are a member of a role that allows this action.
+    /// - `ConflictException` : The request was denied because the requested operation would cause a conflict with the current state of a service resource associated with the request. Another user might have updated the resource. Reload, make sure you have the latest data, and then try again.
+    /// - `ResourceNotFoundException` : The request was denied because the specified resource was not found. Verify that the spelling is correct and that you have access to the resource.
+    /// - `ServiceQuotaExceededException` : The request was denied because one or more resources has reached its limits for the tier the space belongs to. Either reduce the number of resources, or change the tier if applicable.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The request was denied because an input failed to satisfy the constraints specified by the service. Check the spelling and input requirements, and then try again.
     func deleteProject(input: DeleteProjectInput) async throws -> DeleteProjectOutputResponse
     /// Deletes a source repository in Amazon CodeCatalyst. You cannot use this API to delete a linked repository. It can only be used to delete a Amazon CodeCatalyst source repository.
+    ///
+    /// - Parameter DeleteSourceRepositoryInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteSourceRepositoryOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The request was denied because you don't have sufficient access to perform this action. Verify that you are a member of a role that allows this action.
+    /// - `ConflictException` : The request was denied because the requested operation would cause a conflict with the current state of a service resource associated with the request. Another user might have updated the resource. Reload, make sure you have the latest data, and then try again.
+    /// - `ResourceNotFoundException` : The request was denied because the specified resource was not found. Verify that the spelling is correct and that you have access to the resource.
+    /// - `ServiceQuotaExceededException` : The request was denied because one or more resources has reached its limits for the tier the space belongs to. Either reduce the number of resources, or change the tier if applicable.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The request was denied because an input failed to satisfy the constraints specified by the service. Check the spelling and input requirements, and then try again.
     func deleteSourceRepository(input: DeleteSourceRepositoryInput) async throws -> DeleteSourceRepositoryOutputResponse
     /// Deletes a space. Deleting a space cannot be undone. Additionally, since space names must be unique across Amazon CodeCatalyst, you cannot reuse names of deleted spaces.
+    ///
+    /// - Parameter DeleteSpaceInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteSpaceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The request was denied because you don't have sufficient access to perform this action. Verify that you are a member of a role that allows this action.
+    /// - `ConflictException` : The request was denied because the requested operation would cause a conflict with the current state of a service resource associated with the request. Another user might have updated the resource. Reload, make sure you have the latest data, and then try again.
+    /// - `ResourceNotFoundException` : The request was denied because the specified resource was not found. Verify that the spelling is correct and that you have access to the resource.
+    /// - `ServiceQuotaExceededException` : The request was denied because one or more resources has reached its limits for the tier the space belongs to. Either reduce the number of resources, or change the tier if applicable.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The request was denied because an input failed to satisfy the constraints specified by the service. Check the spelling and input requirements, and then try again.
     func deleteSpace(input: DeleteSpaceInput) async throws -> DeleteSpaceOutputResponse
     /// Returns information about a Dev Environment for a source repository in a project. Dev Environments are specific to the user who creates them.
+    ///
+    /// - Parameter GetDevEnvironmentInput : [no documentation found]
+    ///
+    /// - Returns: `GetDevEnvironmentOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The request was denied because you don't have sufficient access to perform this action. Verify that you are a member of a role that allows this action.
+    /// - `ConflictException` : The request was denied because the requested operation would cause a conflict with the current state of a service resource associated with the request. Another user might have updated the resource. Reload, make sure you have the latest data, and then try again.
+    /// - `ResourceNotFoundException` : The request was denied because the specified resource was not found. Verify that the spelling is correct and that you have access to the resource.
+    /// - `ServiceQuotaExceededException` : The request was denied because one or more resources has reached its limits for the tier the space belongs to. Either reduce the number of resources, or change the tier if applicable.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The request was denied because an input failed to satisfy the constraints specified by the service. Check the spelling and input requirements, and then try again.
     func getDevEnvironment(input: GetDevEnvironmentInput) async throws -> GetDevEnvironmentOutputResponse
     /// Returns information about a project.
+    ///
+    /// - Parameter GetProjectInput : [no documentation found]
+    ///
+    /// - Returns: `GetProjectOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The request was denied because you don't have sufficient access to perform this action. Verify that you are a member of a role that allows this action.
+    /// - `ConflictException` : The request was denied because the requested operation would cause a conflict with the current state of a service resource associated with the request. Another user might have updated the resource. Reload, make sure you have the latest data, and then try again.
+    /// - `ResourceNotFoundException` : The request was denied because the specified resource was not found. Verify that the spelling is correct and that you have access to the resource.
+    /// - `ServiceQuotaExceededException` : The request was denied because one or more resources has reached its limits for the tier the space belongs to. Either reduce the number of resources, or change the tier if applicable.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The request was denied because an input failed to satisfy the constraints specified by the service. Check the spelling and input requirements, and then try again.
     func getProject(input: GetProjectInput) async throws -> GetProjectOutputResponse
     /// Returns information about a source repository.
+    ///
+    /// - Parameter GetSourceRepositoryInput : [no documentation found]
+    ///
+    /// - Returns: `GetSourceRepositoryOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The request was denied because you don't have sufficient access to perform this action. Verify that you are a member of a role that allows this action.
+    /// - `ConflictException` : The request was denied because the requested operation would cause a conflict with the current state of a service resource associated with the request. Another user might have updated the resource. Reload, make sure you have the latest data, and then try again.
+    /// - `ResourceNotFoundException` : The request was denied because the specified resource was not found. Verify that the spelling is correct and that you have access to the resource.
+    /// - `ServiceQuotaExceededException` : The request was denied because one or more resources has reached its limits for the tier the space belongs to. Either reduce the number of resources, or change the tier if applicable.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The request was denied because an input failed to satisfy the constraints specified by the service. Check the spelling and input requirements, and then try again.
     func getSourceRepository(input: GetSourceRepositoryInput) async throws -> GetSourceRepositoryOutputResponse
     /// Returns information about the URLs that can be used with a Git client to clone a source repository.
+    ///
+    /// - Parameter GetSourceRepositoryCloneUrlsInput : [no documentation found]
+    ///
+    /// - Returns: `GetSourceRepositoryCloneUrlsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The request was denied because you don't have sufficient access to perform this action. Verify that you are a member of a role that allows this action.
+    /// - `ConflictException` : The request was denied because the requested operation would cause a conflict with the current state of a service resource associated with the request. Another user might have updated the resource. Reload, make sure you have the latest data, and then try again.
+    /// - `ResourceNotFoundException` : The request was denied because the specified resource was not found. Verify that the spelling is correct and that you have access to the resource.
+    /// - `ServiceQuotaExceededException` : The request was denied because one or more resources has reached its limits for the tier the space belongs to. Either reduce the number of resources, or change the tier if applicable.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The request was denied because an input failed to satisfy the constraints specified by the service. Check the spelling and input requirements, and then try again.
     func getSourceRepositoryCloneUrls(input: GetSourceRepositoryCloneUrlsInput) async throws -> GetSourceRepositoryCloneUrlsOutputResponse
     /// Returns information about an space.
+    ///
+    /// - Parameter GetSpaceInput : [no documentation found]
+    ///
+    /// - Returns: `GetSpaceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The request was denied because you don't have sufficient access to perform this action. Verify that you are a member of a role that allows this action.
+    /// - `ConflictException` : The request was denied because the requested operation would cause a conflict with the current state of a service resource associated with the request. Another user might have updated the resource. Reload, make sure you have the latest data, and then try again.
+    /// - `ResourceNotFoundException` : The request was denied because the specified resource was not found. Verify that the spelling is correct and that you have access to the resource.
+    /// - `ServiceQuotaExceededException` : The request was denied because one or more resources has reached its limits for the tier the space belongs to. Either reduce the number of resources, or change the tier if applicable.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The request was denied because an input failed to satisfy the constraints specified by the service. Check the spelling and input requirements, and then try again.
     func getSpace(input: GetSpaceInput) async throws -> GetSpaceOutputResponse
     /// Returns information about the Amazon Web Services account used for billing purposes and the billing plan for the space.
+    ///
+    /// - Parameter GetSubscriptionInput : [no documentation found]
+    ///
+    /// - Returns: `GetSubscriptionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The request was denied because you don't have sufficient access to perform this action. Verify that you are a member of a role that allows this action.
+    /// - `ConflictException` : The request was denied because the requested operation would cause a conflict with the current state of a service resource associated with the request. Another user might have updated the resource. Reload, make sure you have the latest data, and then try again.
+    /// - `ResourceNotFoundException` : The request was denied because the specified resource was not found. Verify that the spelling is correct and that you have access to the resource.
+    /// - `ServiceQuotaExceededException` : The request was denied because one or more resources has reached its limits for the tier the space belongs to. Either reduce the number of resources, or change the tier if applicable.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The request was denied because an input failed to satisfy the constraints specified by the service. Check the spelling and input requirements, and then try again.
     func getSubscription(input: GetSubscriptionInput) async throws -> GetSubscriptionOutputResponse
     /// Returns information about a user.
+    ///
+    /// - Parameter GetUserDetailsInput : [no documentation found]
+    ///
+    /// - Returns: `GetUserDetailsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The request was denied because you don't have sufficient access to perform this action. Verify that you are a member of a role that allows this action.
+    /// - `ConflictException` : The request was denied because the requested operation would cause a conflict with the current state of a service resource associated with the request. Another user might have updated the resource. Reload, make sure you have the latest data, and then try again.
+    /// - `ResourceNotFoundException` : The request was denied because the specified resource was not found. Verify that the spelling is correct and that you have access to the resource.
+    /// - `ServiceQuotaExceededException` : The request was denied because one or more resources has reached its limits for the tier the space belongs to. Either reduce the number of resources, or change the tier if applicable.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The request was denied because an input failed to satisfy the constraints specified by the service. Check the spelling and input requirements, and then try again.
     func getUserDetails(input: GetUserDetailsInput) async throws -> GetUserDetailsOutputResponse
     /// Lists all personal access tokens (PATs) associated with the user who calls the API. You can only list PATs associated with your Amazon Web Services Builder ID.
+    ///
+    /// - Parameter ListAccessTokensInput : [no documentation found]
+    ///
+    /// - Returns: `ListAccessTokensOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The request was denied because you don't have sufficient access to perform this action. Verify that you are a member of a role that allows this action.
+    /// - `ConflictException` : The request was denied because the requested operation would cause a conflict with the current state of a service resource associated with the request. Another user might have updated the resource. Reload, make sure you have the latest data, and then try again.
+    /// - `ResourceNotFoundException` : The request was denied because the specified resource was not found. Verify that the spelling is correct and that you have access to the resource.
+    /// - `ServiceQuotaExceededException` : The request was denied because one or more resources has reached its limits for the tier the space belongs to. Either reduce the number of resources, or change the tier if applicable.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The request was denied because an input failed to satisfy the constraints specified by the service. Check the spelling and input requirements, and then try again.
     func listAccessTokens(input: ListAccessTokensInput) async throws -> ListAccessTokensOutputResponse
     /// Retrieves a list of Dev Environments in a project.
+    ///
+    /// - Parameter ListDevEnvironmentsInput : [no documentation found]
+    ///
+    /// - Returns: `ListDevEnvironmentsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The request was denied because you don't have sufficient access to perform this action. Verify that you are a member of a role that allows this action.
+    /// - `ConflictException` : The request was denied because the requested operation would cause a conflict with the current state of a service resource associated with the request. Another user might have updated the resource. Reload, make sure you have the latest data, and then try again.
+    /// - `ResourceNotFoundException` : The request was denied because the specified resource was not found. Verify that the spelling is correct and that you have access to the resource.
+    /// - `ServiceQuotaExceededException` : The request was denied because one or more resources has reached its limits for the tier the space belongs to. Either reduce the number of resources, or change the tier if applicable.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The request was denied because an input failed to satisfy the constraints specified by the service. Check the spelling and input requirements, and then try again.
     func listDevEnvironments(input: ListDevEnvironmentsInput) async throws -> ListDevEnvironmentsOutputResponse
     /// Retrieves a list of active sessions for a Dev Environment in a project.
+    ///
+    /// - Parameter ListDevEnvironmentSessionsInput : [no documentation found]
+    ///
+    /// - Returns: `ListDevEnvironmentSessionsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The request was denied because you don't have sufficient access to perform this action. Verify that you are a member of a role that allows this action.
+    /// - `ConflictException` : The request was denied because the requested operation would cause a conflict with the current state of a service resource associated with the request. Another user might have updated the resource. Reload, make sure you have the latest data, and then try again.
+    /// - `ResourceNotFoundException` : The request was denied because the specified resource was not found. Verify that the spelling is correct and that you have access to the resource.
+    /// - `ServiceQuotaExceededException` : The request was denied because one or more resources has reached its limits for the tier the space belongs to. Either reduce the number of resources, or change the tier if applicable.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The request was denied because an input failed to satisfy the constraints specified by the service. Check the spelling and input requirements, and then try again.
     func listDevEnvironmentSessions(input: ListDevEnvironmentSessionsInput) async throws -> ListDevEnvironmentSessionsOutputResponse
     /// Retrieves a list of events that occurred during a specified time period in a space. You can use these events to audit user and system activity in a space.
+    ///
+    /// - Parameter ListEventLogsInput : [no documentation found]
+    ///
+    /// - Returns: `ListEventLogsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The request was denied because you don't have sufficient access to perform this action. Verify that you are a member of a role that allows this action.
+    /// - `ConflictException` : The request was denied because the requested operation would cause a conflict with the current state of a service resource associated with the request. Another user might have updated the resource. Reload, make sure you have the latest data, and then try again.
+    /// - `ResourceNotFoundException` : The request was denied because the specified resource was not found. Verify that the spelling is correct and that you have access to the resource.
+    /// - `ServiceQuotaExceededException` : The request was denied because one or more resources has reached its limits for the tier the space belongs to. Either reduce the number of resources, or change the tier if applicable.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The request was denied because an input failed to satisfy the constraints specified by the service. Check the spelling and input requirements, and then try again.
     func listEventLogs(input: ListEventLogsInput) async throws -> ListEventLogsOutputResponse
     /// Retrieves a list of projects.
+    ///
+    /// - Parameter ListProjectsInput : [no documentation found]
+    ///
+    /// - Returns: `ListProjectsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The request was denied because you don't have sufficient access to perform this action. Verify that you are a member of a role that allows this action.
+    /// - `ConflictException` : The request was denied because the requested operation would cause a conflict with the current state of a service resource associated with the request. Another user might have updated the resource. Reload, make sure you have the latest data, and then try again.
+    /// - `ResourceNotFoundException` : The request was denied because the specified resource was not found. Verify that the spelling is correct and that you have access to the resource.
+    /// - `ServiceQuotaExceededException` : The request was denied because one or more resources has reached its limits for the tier the space belongs to. Either reduce the number of resources, or change the tier if applicable.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The request was denied because an input failed to satisfy the constraints specified by the service. Check the spelling and input requirements, and then try again.
     func listProjects(input: ListProjectsInput) async throws -> ListProjectsOutputResponse
     /// Retrieves a list of source repositories in a project.
+    ///
+    /// - Parameter ListSourceRepositoriesInput : [no documentation found]
+    ///
+    /// - Returns: `ListSourceRepositoriesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The request was denied because you don't have sufficient access to perform this action. Verify that you are a member of a role that allows this action.
+    /// - `ConflictException` : The request was denied because the requested operation would cause a conflict with the current state of a service resource associated with the request. Another user might have updated the resource. Reload, make sure you have the latest data, and then try again.
+    /// - `ResourceNotFoundException` : The request was denied because the specified resource was not found. Verify that the spelling is correct and that you have access to the resource.
+    /// - `ServiceQuotaExceededException` : The request was denied because one or more resources has reached its limits for the tier the space belongs to. Either reduce the number of resources, or change the tier if applicable.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The request was denied because an input failed to satisfy the constraints specified by the service. Check the spelling and input requirements, and then try again.
     func listSourceRepositories(input: ListSourceRepositoriesInput) async throws -> ListSourceRepositoriesOutputResponse
     /// Retrieves a list of branches in a specified source repository.
+    ///
+    /// - Parameter ListSourceRepositoryBranchesInput : [no documentation found]
+    ///
+    /// - Returns: `ListSourceRepositoryBranchesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The request was denied because you don't have sufficient access to perform this action. Verify that you are a member of a role that allows this action.
+    /// - `ConflictException` : The request was denied because the requested operation would cause a conflict with the current state of a service resource associated with the request. Another user might have updated the resource. Reload, make sure you have the latest data, and then try again.
+    /// - `ResourceNotFoundException` : The request was denied because the specified resource was not found. Verify that the spelling is correct and that you have access to the resource.
+    /// - `ServiceQuotaExceededException` : The request was denied because one or more resources has reached its limits for the tier the space belongs to. Either reduce the number of resources, or change the tier if applicable.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The request was denied because an input failed to satisfy the constraints specified by the service. Check the spelling and input requirements, and then try again.
     func listSourceRepositoryBranches(input: ListSourceRepositoryBranchesInput) async throws -> ListSourceRepositoryBranchesOutputResponse
     /// Retrieves a list of spaces.
+    ///
+    /// - Parameter ListSpacesInput : [no documentation found]
+    ///
+    /// - Returns: `ListSpacesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The request was denied because you don't have sufficient access to perform this action. Verify that you are a member of a role that allows this action.
+    /// - `ConflictException` : The request was denied because the requested operation would cause a conflict with the current state of a service resource associated with the request. Another user might have updated the resource. Reload, make sure you have the latest data, and then try again.
+    /// - `ResourceNotFoundException` : The request was denied because the specified resource was not found. Verify that the spelling is correct and that you have access to the resource.
+    /// - `ServiceQuotaExceededException` : The request was denied because one or more resources has reached its limits for the tier the space belongs to. Either reduce the number of resources, or change the tier if applicable.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The request was denied because an input failed to satisfy the constraints specified by the service. Check the spelling and input requirements, and then try again.
     func listSpaces(input: ListSpacesInput) async throws -> ListSpacesOutputResponse
     /// Starts a specified Dev Environment and puts it into an active state.
+    ///
+    /// - Parameter StartDevEnvironmentInput : [no documentation found]
+    ///
+    /// - Returns: `StartDevEnvironmentOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The request was denied because you don't have sufficient access to perform this action. Verify that you are a member of a role that allows this action.
+    /// - `ConflictException` : The request was denied because the requested operation would cause a conflict with the current state of a service resource associated with the request. Another user might have updated the resource. Reload, make sure you have the latest data, and then try again.
+    /// - `ResourceNotFoundException` : The request was denied because the specified resource was not found. Verify that the spelling is correct and that you have access to the resource.
+    /// - `ServiceQuotaExceededException` : The request was denied because one or more resources has reached its limits for the tier the space belongs to. Either reduce the number of resources, or change the tier if applicable.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The request was denied because an input failed to satisfy the constraints specified by the service. Check the spelling and input requirements, and then try again.
     func startDevEnvironment(input: StartDevEnvironmentInput) async throws -> StartDevEnvironmentOutputResponse
     /// Starts a session for a specified Dev Environment.
+    ///
+    /// - Parameter StartDevEnvironmentSessionInput : [no documentation found]
+    ///
+    /// - Returns: `StartDevEnvironmentSessionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The request was denied because you don't have sufficient access to perform this action. Verify that you are a member of a role that allows this action.
+    /// - `ConflictException` : The request was denied because the requested operation would cause a conflict with the current state of a service resource associated with the request. Another user might have updated the resource. Reload, make sure you have the latest data, and then try again.
+    /// - `ResourceNotFoundException` : The request was denied because the specified resource was not found. Verify that the spelling is correct and that you have access to the resource.
+    /// - `ServiceQuotaExceededException` : The request was denied because one or more resources has reached its limits for the tier the space belongs to. Either reduce the number of resources, or change the tier if applicable.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The request was denied because an input failed to satisfy the constraints specified by the service. Check the spelling and input requirements, and then try again.
     func startDevEnvironmentSession(input: StartDevEnvironmentSessionInput) async throws -> StartDevEnvironmentSessionOutputResponse
     /// Pauses a specified Dev Environment and places it in a non-running state. Stopped Dev Environments do not consume compute minutes.
+    ///
+    /// - Parameter StopDevEnvironmentInput : [no documentation found]
+    ///
+    /// - Returns: `StopDevEnvironmentOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The request was denied because you don't have sufficient access to perform this action. Verify that you are a member of a role that allows this action.
+    /// - `ConflictException` : The request was denied because the requested operation would cause a conflict with the current state of a service resource associated with the request. Another user might have updated the resource. Reload, make sure you have the latest data, and then try again.
+    /// - `ResourceNotFoundException` : The request was denied because the specified resource was not found. Verify that the spelling is correct and that you have access to the resource.
+    /// - `ServiceQuotaExceededException` : The request was denied because one or more resources has reached its limits for the tier the space belongs to. Either reduce the number of resources, or change the tier if applicable.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The request was denied because an input failed to satisfy the constraints specified by the service. Check the spelling and input requirements, and then try again.
     func stopDevEnvironment(input: StopDevEnvironmentInput) async throws -> StopDevEnvironmentOutputResponse
     /// Stops a session for a specified Dev Environment.
+    ///
+    /// - Parameter StopDevEnvironmentSessionInput : [no documentation found]
+    ///
+    /// - Returns: `StopDevEnvironmentSessionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The request was denied because you don't have sufficient access to perform this action. Verify that you are a member of a role that allows this action.
+    /// - `ConflictException` : The request was denied because the requested operation would cause a conflict with the current state of a service resource associated with the request. Another user might have updated the resource. Reload, make sure you have the latest data, and then try again.
+    /// - `ResourceNotFoundException` : The request was denied because the specified resource was not found. Verify that the spelling is correct and that you have access to the resource.
+    /// - `ServiceQuotaExceededException` : The request was denied because one or more resources has reached its limits for the tier the space belongs to. Either reduce the number of resources, or change the tier if applicable.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The request was denied because an input failed to satisfy the constraints specified by the service. Check the spelling and input requirements, and then try again.
     func stopDevEnvironmentSession(input: StopDevEnvironmentSessionInput) async throws -> StopDevEnvironmentSessionOutputResponse
     /// Changes one or more values for a Dev Environment. Updating certain values of the Dev Environment will cause a restart.
+    ///
+    /// - Parameter UpdateDevEnvironmentInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateDevEnvironmentOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The request was denied because you don't have sufficient access to perform this action. Verify that you are a member of a role that allows this action.
+    /// - `ConflictException` : The request was denied because the requested operation would cause a conflict with the current state of a service resource associated with the request. Another user might have updated the resource. Reload, make sure you have the latest data, and then try again.
+    /// - `ResourceNotFoundException` : The request was denied because the specified resource was not found. Verify that the spelling is correct and that you have access to the resource.
+    /// - `ServiceQuotaExceededException` : The request was denied because one or more resources has reached its limits for the tier the space belongs to. Either reduce the number of resources, or change the tier if applicable.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The request was denied because an input failed to satisfy the constraints specified by the service. Check the spelling and input requirements, and then try again.
     func updateDevEnvironment(input: UpdateDevEnvironmentInput) async throws -> UpdateDevEnvironmentOutputResponse
     /// Changes one or more values for a project.
+    ///
+    /// - Parameter UpdateProjectInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateProjectOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The request was denied because you don't have sufficient access to perform this action. Verify that you are a member of a role that allows this action.
+    /// - `ConflictException` : The request was denied because the requested operation would cause a conflict with the current state of a service resource associated with the request. Another user might have updated the resource. Reload, make sure you have the latest data, and then try again.
+    /// - `ResourceNotFoundException` : The request was denied because the specified resource was not found. Verify that the spelling is correct and that you have access to the resource.
+    /// - `ServiceQuotaExceededException` : The request was denied because one or more resources has reached its limits for the tier the space belongs to. Either reduce the number of resources, or change the tier if applicable.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The request was denied because an input failed to satisfy the constraints specified by the service. Check the spelling and input requirements, and then try again.
     func updateProject(input: UpdateProjectInput) async throws -> UpdateProjectOutputResponse
     /// Changes one or more values for a space.
+    ///
+    /// - Parameter UpdateSpaceInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateSpaceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The request was denied because you don't have sufficient access to perform this action. Verify that you are a member of a role that allows this action.
+    /// - `ConflictException` : The request was denied because the requested operation would cause a conflict with the current state of a service resource associated with the request. Another user might have updated the resource. Reload, make sure you have the latest data, and then try again.
+    /// - `ResourceNotFoundException` : The request was denied because the specified resource was not found. Verify that the spelling is correct and that you have access to the resource.
+    /// - `ServiceQuotaExceededException` : The request was denied because one or more resources has reached its limits for the tier the space belongs to. Either reduce the number of resources, or change the tier if applicable.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The request was denied because an input failed to satisfy the constraints specified by the service. Check the spelling and input requirements, and then try again.
     func updateSpace(input: UpdateSpaceInput) async throws -> UpdateSpaceOutputResponse
     /// Verifies whether the calling user has a valid Amazon CodeCatalyst login and session. If successful, this returns the ID of the user in Amazon CodeCatalyst.
+    ///
+    /// - Parameter VerifySessionInput : [no documentation found]
+    ///
+    /// - Returns: `VerifySessionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The request was denied because you don't have sufficient access to perform this action. Verify that you are a member of a role that allows this action.
+    /// - `ConflictException` : The request was denied because the requested operation would cause a conflict with the current state of a service resource associated with the request. Another user might have updated the resource. Reload, make sure you have the latest data, and then try again.
+    /// - `ResourceNotFoundException` : The request was denied because the specified resource was not found. Verify that the spelling is correct and that you have access to the resource.
+    /// - `ServiceQuotaExceededException` : The request was denied because one or more resources has reached its limits for the tier the space belongs to. Either reduce the number of resources, or change the tier if applicable.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The request was denied because an input failed to satisfy the constraints specified by the service. Check the spelling and input requirements, and then try again.
     func verifySession(input: VerifySessionInput) async throws -> VerifySessionOutputResponse
 }
 

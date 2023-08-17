@@ -68,6 +68,18 @@ public struct WisdomClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFactory 
 
 extension WisdomClient: WisdomClientProtocol {
     /// Creates an Amazon Connect Wisdom assistant.
+    ///
+    /// - Parameter CreateAssistantInput : [no documentation found]
+    ///
+    /// - Returns: `CreateAssistantOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : The request could not be processed because of conflict in the current state of the resource. For example, if you're using a Create API (such as CreateAssistant) that accepts name, a conflicting resource (usually with the same name) is being created or mutated.
+    /// - `ServiceQuotaExceededException` : You've exceeded your service quota. To perform the requested action, remove some of the relevant resources, or use service quotas to request a service quota increase.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by a service.
     public func createAssistant(input: CreateAssistantInput) async throws -> CreateAssistantOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -112,6 +124,19 @@ extension WisdomClient: WisdomClientProtocol {
     }
 
     /// Creates an association between an Amazon Connect Wisdom assistant and another resource. Currently, the only supported association is with a knowledge base. An assistant can have only a single association.
+    ///
+    /// - Parameter CreateAssistantAssociationInput : [no documentation found]
+    ///
+    /// - Returns: `CreateAssistantAssociationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : The request could not be processed because of conflict in the current state of the resource. For example, if you're using a Create API (such as CreateAssistant) that accepts name, a conflicting resource (usually with the same name) is being created or mutated.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ServiceQuotaExceededException` : You've exceeded your service quota. To perform the requested action, remove some of the relevant resources, or use service quotas to request a service quota increase.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by a service.
     public func createAssistantAssociation(input: CreateAssistantAssociationInput) async throws -> CreateAssistantAssociationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -156,6 +181,19 @@ extension WisdomClient: WisdomClientProtocol {
     }
 
     /// Creates Wisdom content. Before to calling this API, use [StartContentUpload](https://docs.aws.amazon.com/wisdom/latest/APIReference/API_StartContentUpload.html) to upload an asset.
+    ///
+    /// - Parameter CreateContentInput : [no documentation found]
+    ///
+    /// - Returns: `CreateContentOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : The request could not be processed because of conflict in the current state of the resource. For example, if you're using a Create API (such as CreateAssistant) that accepts name, a conflicting resource (usually with the same name) is being created or mutated.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ServiceQuotaExceededException` : You've exceeded your service quota. To perform the requested action, remove some of the relevant resources, or use service quotas to request a service quota increase.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by a service.
     public func createContent(input: CreateContentInput) async throws -> CreateContentOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -208,6 +246,18 @@ extension WisdomClient: WisdomClientProtocol {
     /// * Call [CreateDataIntegration](https://docs.aws.amazon.com/appintegrations/latest/APIReference/API_CreateDataIntegration.html) to recreate the DataIntegration or a create different one.
     ///
     /// * Call CreateKnowledgeBase.
+    ///
+    /// - Parameter CreateKnowledgeBaseInput : [no documentation found]
+    ///
+    /// - Returns: `CreateKnowledgeBaseOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : The request could not be processed because of conflict in the current state of the resource. For example, if you're using a Create API (such as CreateAssistant) that accepts name, a conflicting resource (usually with the same name) is being created or mutated.
+    /// - `ServiceQuotaExceededException` : You've exceeded your service quota. To perform the requested action, remove some of the relevant resources, or use service quotas to request a service quota increase.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by a service.
     public func createKnowledgeBase(input: CreateKnowledgeBaseInput) async throws -> CreateKnowledgeBaseOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -252,6 +302,17 @@ extension WisdomClient: WisdomClientProtocol {
     }
 
     /// Creates a session. A session is a contextual container used for generating recommendations. Amazon Connect creates a new Wisdom session for each contact on which Wisdom is enabled.
+    ///
+    /// - Parameter CreateSessionInput : [no documentation found]
+    ///
+    /// - Returns: `CreateSessionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictException` : The request could not be processed because of conflict in the current state of the resource. For example, if you're using a Create API (such as CreateAssistant) that accepts name, a conflicting resource (usually with the same name) is being created or mutated.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by a service.
     public func createSession(input: CreateSessionInput) async throws -> CreateSessionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -296,6 +357,17 @@ extension WisdomClient: WisdomClientProtocol {
     }
 
     /// Deletes an assistant.
+    ///
+    /// - Parameter DeleteAssistantInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteAssistantOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by a service.
     public func deleteAssistant(input: DeleteAssistantInput) async throws -> DeleteAssistantOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -329,6 +401,17 @@ extension WisdomClient: WisdomClientProtocol {
     }
 
     /// Deletes an assistant association.
+    ///
+    /// - Parameter DeleteAssistantAssociationInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteAssistantAssociationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by a service.
     public func deleteAssistantAssociation(input: DeleteAssistantAssociationInput) async throws -> DeleteAssistantAssociationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -362,6 +445,17 @@ extension WisdomClient: WisdomClientProtocol {
     }
 
     /// Deletes the content.
+    ///
+    /// - Parameter DeleteContentInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteContentOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by a service.
     public func deleteContent(input: DeleteContentInput) async throws -> DeleteContentOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -395,6 +489,18 @@ extension WisdomClient: WisdomClientProtocol {
     }
 
     /// Deletes the knowledge base. When you use this API to delete an external knowledge base such as Salesforce or ServiceNow, you must also delete the [Amazon AppIntegrations](https://docs.aws.amazon.com/appintegrations/latest/APIReference/Welcome.html) DataIntegration. This is because you can't reuse the DataIntegration after it's been associated with an external knowledge base. However, you can delete and recreate it. See [DeleteDataIntegration](https://docs.aws.amazon.com/appintegrations/latest/APIReference/API_DeleteDataIntegration.html) and [CreateDataIntegration](https://docs.aws.amazon.com/appintegrations/latest/APIReference/API_CreateDataIntegration.html) in the Amazon AppIntegrations API Reference.
+    ///
+    /// - Parameter DeleteKnowledgeBaseInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteKnowledgeBaseOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : The request could not be processed because of conflict in the current state of the resource. For example, if you're using a Create API (such as CreateAssistant) that accepts name, a conflicting resource (usually with the same name) is being created or mutated.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by a service.
     public func deleteKnowledgeBase(input: DeleteKnowledgeBaseInput) async throws -> DeleteKnowledgeBaseOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -428,6 +534,17 @@ extension WisdomClient: WisdomClientProtocol {
     }
 
     /// Retrieves information about an assistant.
+    ///
+    /// - Parameter GetAssistantInput : [no documentation found]
+    ///
+    /// - Returns: `GetAssistantOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by a service.
     public func getAssistant(input: GetAssistantInput) async throws -> GetAssistantOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -461,6 +578,17 @@ extension WisdomClient: WisdomClientProtocol {
     }
 
     /// Retrieves information about an assistant association.
+    ///
+    /// - Parameter GetAssistantAssociationInput : [no documentation found]
+    ///
+    /// - Returns: `GetAssistantAssociationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by a service.
     public func getAssistantAssociation(input: GetAssistantAssociationInput) async throws -> GetAssistantAssociationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -494,6 +622,17 @@ extension WisdomClient: WisdomClientProtocol {
     }
 
     /// Retrieves content, including a pre-signed URL to download the content.
+    ///
+    /// - Parameter GetContentInput : [no documentation found]
+    ///
+    /// - Returns: `GetContentOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by a service.
     public func getContent(input: GetContentInput) async throws -> GetContentOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -527,6 +666,17 @@ extension WisdomClient: WisdomClientProtocol {
     }
 
     /// Retrieves summary information about the content.
+    ///
+    /// - Parameter GetContentSummaryInput : [no documentation found]
+    ///
+    /// - Returns: `GetContentSummaryOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by a service.
     public func getContentSummary(input: GetContentSummaryInput) async throws -> GetContentSummaryOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -560,6 +710,17 @@ extension WisdomClient: WisdomClientProtocol {
     }
 
     /// Retrieves information about the knowledge base.
+    ///
+    /// - Parameter GetKnowledgeBaseInput : [no documentation found]
+    ///
+    /// - Returns: `GetKnowledgeBaseOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by a service.
     public func getKnowledgeBase(input: GetKnowledgeBaseInput) async throws -> GetKnowledgeBaseOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -593,6 +754,17 @@ extension WisdomClient: WisdomClientProtocol {
     }
 
     /// Retrieves recommendations for the specified session. To avoid retrieving the same recommendations in subsequent calls, use [NotifyRecommendationsReceived](https://docs.aws.amazon.com/wisdom/latest/APIReference/API_NotifyRecommendationsReceived.html). This API supports long-polling behavior with the waitTimeSeconds parameter. Short poll is the default behavior and only returns recommendations already available. To perform a manual query against an assistant, use [QueryAssistant](https://docs.aws.amazon.com/wisdom/latest/APIReference/API_QueryAssistant.html).
+    ///
+    /// - Parameter GetRecommendationsInput : [no documentation found]
+    ///
+    /// - Returns: `GetRecommendationsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by a service.
     public func getRecommendations(input: GetRecommendationsInput) async throws -> GetRecommendationsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -627,6 +799,17 @@ extension WisdomClient: WisdomClientProtocol {
     }
 
     /// Retrieves information for a specified session.
+    ///
+    /// - Parameter GetSessionInput : [no documentation found]
+    ///
+    /// - Returns: `GetSessionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by a service.
     public func getSession(input: GetSessionInput) async throws -> GetSessionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -660,6 +843,17 @@ extension WisdomClient: WisdomClientProtocol {
     }
 
     /// Lists information about assistant associations.
+    ///
+    /// - Parameter ListAssistantAssociationsInput : [no documentation found]
+    ///
+    /// - Returns: `ListAssistantAssociationsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by a service.
     public func listAssistantAssociations(input: ListAssistantAssociationsInput) async throws -> ListAssistantAssociationsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -694,6 +888,16 @@ extension WisdomClient: WisdomClientProtocol {
     }
 
     /// Lists information about assistants.
+    ///
+    /// - Parameter ListAssistantsInput : [no documentation found]
+    ///
+    /// - Returns: `ListAssistantsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by a service.
     public func listAssistants(input: ListAssistantsInput) async throws -> ListAssistantsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -728,6 +932,17 @@ extension WisdomClient: WisdomClientProtocol {
     }
 
     /// Lists the content.
+    ///
+    /// - Parameter ListContentsInput : [no documentation found]
+    ///
+    /// - Returns: `ListContentsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by a service.
     public func listContents(input: ListContentsInput) async throws -> ListContentsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -762,6 +977,16 @@ extension WisdomClient: WisdomClientProtocol {
     }
 
     /// Lists the knowledge bases.
+    ///
+    /// - Parameter ListKnowledgeBasesInput : [no documentation found]
+    ///
+    /// - Returns: `ListKnowledgeBasesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by a service.
     public func listKnowledgeBases(input: ListKnowledgeBasesInput) async throws -> ListKnowledgeBasesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -796,6 +1021,15 @@ extension WisdomClient: WisdomClientProtocol {
     }
 
     /// Lists the tags for the specified resource.
+    ///
+    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    ///
+    /// - Returns: `ListTagsForResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
     public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -829,6 +1063,17 @@ extension WisdomClient: WisdomClientProtocol {
     }
 
     /// Removes the specified recommendations from the specified assistant's queue of newly available recommendations. You can use this API in conjunction with [GetRecommendations](https://docs.aws.amazon.com/wisdom/latest/APIReference/API_GetRecommendations.html) and a waitTimeSeconds input for long-polling behavior and avoiding duplicate recommendations.
+    ///
+    /// - Parameter NotifyRecommendationsReceivedInput : [no documentation found]
+    ///
+    /// - Returns: `NotifyRecommendationsReceivedOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by a service.
     public func notifyRecommendationsReceived(input: NotifyRecommendationsReceivedInput) async throws -> NotifyRecommendationsReceivedOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -865,6 +1110,17 @@ extension WisdomClient: WisdomClientProtocol {
     }
 
     /// Performs a manual search against the specified assistant. To retrieve recommendations for an assistant, use [GetRecommendations](https://docs.aws.amazon.com/wisdom/latest/APIReference/API_GetRecommendations.html).
+    ///
+    /// - Parameter QueryAssistantInput : [no documentation found]
+    ///
+    /// - Returns: `QueryAssistantOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by a service.
     public func queryAssistant(input: QueryAssistantInput) async throws -> QueryAssistantOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -901,6 +1157,17 @@ extension WisdomClient: WisdomClientProtocol {
     }
 
     /// Removes a URI template from a knowledge base.
+    ///
+    /// - Parameter RemoveKnowledgeBaseTemplateUriInput : [no documentation found]
+    ///
+    /// - Returns: `RemoveKnowledgeBaseTemplateUriOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by a service.
     public func removeKnowledgeBaseTemplateUri(input: RemoveKnowledgeBaseTemplateUriInput) async throws -> RemoveKnowledgeBaseTemplateUriOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -934,6 +1201,17 @@ extension WisdomClient: WisdomClientProtocol {
     }
 
     /// Searches for content in a specified knowledge base. Can be used to get a specific content resource by its name.
+    ///
+    /// - Parameter SearchContentInput : [no documentation found]
+    ///
+    /// - Returns: `SearchContentOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by a service.
     public func searchContent(input: SearchContentInput) async throws -> SearchContentOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -971,6 +1249,17 @@ extension WisdomClient: WisdomClientProtocol {
     }
 
     /// Searches for sessions.
+    ///
+    /// - Parameter SearchSessionsInput : [no documentation found]
+    ///
+    /// - Returns: `SearchSessionsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by a service.
     public func searchSessions(input: SearchSessionsInput) async throws -> SearchSessionsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1008,6 +1297,17 @@ extension WisdomClient: WisdomClientProtocol {
     }
 
     /// Get a URL to upload content to a knowledge base. To upload content, first make a PUT request to the returned URL with your file, making sure to include the required headers. Then use [CreateContent](https://docs.aws.amazon.com/wisdom/latest/APIReference/API_CreateContent.html) to finalize the content creation process or [UpdateContent](https://docs.aws.amazon.com/wisdom/latest/APIReference/API_UpdateContent.html) to modify an existing resource. You can only upload content to a knowledge base of type CUSTOM.
+    ///
+    /// - Parameter StartContentUploadInput : [no documentation found]
+    ///
+    /// - Returns: `StartContentUploadOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by a service.
     public func startContentUpload(input: StartContentUploadInput) async throws -> StartContentUploadOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1044,6 +1344,16 @@ extension WisdomClient: WisdomClientProtocol {
     }
 
     /// Adds the specified tags to the specified resource.
+    ///
+    /// - Parameter TagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `TagResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `TooManyTagsException` : Amazon Connect Wisdom throws this exception if you have too many tags in your tag set.
     public func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1080,6 +1390,15 @@ extension WisdomClient: WisdomClientProtocol {
     }
 
     /// Removes the specified tags from the specified resource.
+    ///
+    /// - Parameter UntagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `UntagResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
     public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1114,6 +1433,18 @@ extension WisdomClient: WisdomClientProtocol {
     }
 
     /// Updates information about the content.
+    ///
+    /// - Parameter UpdateContentInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateContentOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `PreconditionFailedException` : The provided revisionId does not match, indicating the content has been modified since it was last read.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by a service.
     public func updateContent(input: UpdateContentInput) async throws -> UpdateContentOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1150,6 +1481,17 @@ extension WisdomClient: WisdomClientProtocol {
     }
 
     /// Updates the template URI of a knowledge base. This is only supported for knowledge bases of type EXTERNAL. Include a single variable in ${variable} format; this interpolated by Wisdom using ingested content. For example, if you ingest a Salesforce article, it has an Id value, and you can set the template URI to https://myInstanceName.lightning.force.com/lightning/r/Knowledge__kav/*${Id}*/view.
+    ///
+    /// - Parameter UpdateKnowledgeBaseTemplateUriInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateKnowledgeBaseTemplateUriOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by a service.
     public func updateKnowledgeBaseTemplateUri(input: UpdateKnowledgeBaseTemplateUriInput) async throws -> UpdateKnowledgeBaseTemplateUriOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()

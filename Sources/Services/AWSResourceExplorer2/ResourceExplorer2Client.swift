@@ -68,6 +68,19 @@ public struct ResourceExplorer2ClientLogHandlerFactory: ClientRuntime.SDKLogHand
 
 extension ResourceExplorer2Client: ResourceExplorer2ClientProtocol {
     /// Sets the specified view as the default for the Amazon Web Services Region in which you call this operation. When a user performs a [Search] that doesn't explicitly specify which view to use, then Amazon Web Services Resource Explorer automatically chooses this default view for searches performed in this Amazon Web Services Region. If an Amazon Web Services Region doesn't have a default view configured, then users must explicitly specify a view with every Search operation performed in that Region.
+    ///
+    /// - Parameter AssociateDefaultViewInput : [no documentation found]
+    ///
+    /// - Returns: `AssociateDefaultViewOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The credentials that you used to call this operation don't have the minimum required permissions.
+    /// - `InternalServerException` : The request failed because of internal service error. Try your request again later.
+    /// - `ResourceNotFoundException` : You specified a resource that doesn't exist. Check the ID or ARN that you used to identity the resource, and try again.
+    /// - `ThrottlingException` : The request failed because you exceeded a rate limit for this operation. For more information, see [Quotas for Resource Explorer](https://docs.aws.amazon.com/arexug/mainline/quotas.html).
+    /// - `ValidationException` : You provided an invalid value for one of the operation's parameters. Check the syntax for the operation, and try again.
     public func associateDefaultView(input: AssociateDefaultViewInput) async throws -> AssociateDefaultViewOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -104,6 +117,19 @@ extension ResourceExplorer2Client: ResourceExplorer2ClientProtocol {
     }
 
     /// Retrieves details about a list of views.
+    ///
+    /// - Parameter BatchGetViewInput : [no documentation found]
+    ///
+    /// - Returns: `BatchGetViewOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The credentials that you used to call this operation don't have the minimum required permissions.
+    /// - `InternalServerException` : The request failed because of internal service error. Try your request again later.
+    /// - `ThrottlingException` : The request failed because you exceeded a rate limit for this operation. For more information, see [Quotas for Resource Explorer](https://docs.aws.amazon.com/arexug/mainline/quotas.html).
+    /// - `UnauthorizedException` : The principal making the request isn't permitted to perform the operation.
+    /// - `ValidationException` : You provided an invalid value for one of the operation's parameters. Check the syntax for the operation, and try again.
     public func batchGetView(input: BatchGetViewInput) async throws -> BatchGetViewOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -144,6 +170,19 @@ extension ResourceExplorer2Client: ResourceExplorer2ClientProtocol {
     /// * Action: resource-explorer-2:CreateIndex Resource: The ARN of the index (as it will exist after the operation completes) in the Amazon Web Services Region and account in which you're trying to create the index. Use the wildcard character (*) at the end of the string to match the eventual UUID. For example, the following Resource element restricts the role or user to creating an index in only the us-east-2 Region of the specified account. "Resource": "arn:aws:resource-explorer-2:us-west-2:<account-id>:index/*" Alternatively, you can use "Resource": "*" to allow the role or user to create an index in any Region.
     ///
     /// * Action: iam:CreateServiceLinkedRole Resource: No specific resource (*). This permission is required only the first time you create an index to turn on Resource Explorer in the account. Resource Explorer uses this to create the [service-linked role needed to index the resources in your account](https://docs.aws.amazon.com/resource-explorer/latest/userguide/security_iam_service-linked-roles.html). Resource Explorer uses the same service-linked role for all additional indexes you create afterwards.
+    ///
+    /// - Parameter CreateIndexInput : [no documentation found]
+    ///
+    /// - Returns: `CreateIndexOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The credentials that you used to call this operation don't have the minimum required permissions.
+    /// - `ConflictException` : The request failed because either you specified parameters that didn’t match the original request, or you attempted to create a view with a name that already exists in this Amazon Web Services Region.
+    /// - `InternalServerException` : The request failed because of internal service error. Try your request again later.
+    /// - `ThrottlingException` : The request failed because you exceeded a rate limit for this operation. For more information, see [Quotas for Resource Explorer](https://docs.aws.amazon.com/arexug/mainline/quotas.html).
+    /// - `ValidationException` : You provided an invalid value for one of the operation's parameters. Check the syntax for the operation, and try again.
     public func createIndex(input: CreateIndexInput) async throws -> CreateIndexOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -188,6 +227,21 @@ extension ResourceExplorer2Client: ResourceExplorer2ClientProtocol {
     }
 
     /// Creates a view that users can query by using the [Search] operation. Results from queries that you make using this view include only resources that match the view's Filters. For more information about Amazon Web Services Resource Explorer views, see [Managing views](https://docs.aws.amazon.com/resource-explorer/latest/userguide/manage-views.html) in the Amazon Web Services Resource Explorer User Guide. Only the principals with an IAM identity-based policy that grants Allow to the Search action on a Resource with the [Amazon resource name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of this view can [Search] using views you create with this operation.
+    ///
+    /// - Parameter CreateViewInput : [no documentation found]
+    ///
+    /// - Returns: `CreateViewOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The credentials that you used to call this operation don't have the minimum required permissions.
+    /// - `ConflictException` : The request failed because either you specified parameters that didn’t match the original request, or you attempted to create a view with a name that already exists in this Amazon Web Services Region.
+    /// - `InternalServerException` : The request failed because of internal service error. Try your request again later.
+    /// - `ServiceQuotaExceededException` : The request failed because it exceeds a service quota.
+    /// - `ThrottlingException` : The request failed because you exceeded a rate limit for this operation. For more information, see [Quotas for Resource Explorer](https://docs.aws.amazon.com/arexug/mainline/quotas.html).
+    /// - `UnauthorizedException` : The principal making the request isn't permitted to perform the operation.
+    /// - `ValidationException` : You provided an invalid value for one of the operation's parameters. Check the syntax for the operation, and try again.
     public func createView(input: CreateViewInput) async throws -> CreateViewOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -232,6 +286,19 @@ extension ResourceExplorer2Client: ResourceExplorer2ClientProtocol {
     }
 
     /// Deletes the specified index and turns off Amazon Web Services Resource Explorer in the specified Amazon Web Services Region. When you delete an index, Resource Explorer stops discovering and indexing resources in that Region. Resource Explorer also deletes all views in that Region. These actions occur as asynchronous background tasks. You can check to see when the actions are complete by using the [GetIndex] operation and checking the Status response value. If the index you delete is the aggregator index for the Amazon Web Services account, you must wait 24 hours before you can promote another local index to be the aggregator index for the account. Users can't perform account-wide searches using Resource Explorer until another aggregator index is configured.
+    ///
+    /// - Parameter DeleteIndexInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteIndexOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The credentials that you used to call this operation don't have the minimum required permissions.
+    /// - `InternalServerException` : The request failed because of internal service error. Try your request again later.
+    /// - `ResourceNotFoundException` : You specified a resource that doesn't exist. Check the ID or ARN that you used to identity the resource, and try again.
+    /// - `ThrottlingException` : The request failed because you exceeded a rate limit for this operation. For more information, see [Quotas for Resource Explorer](https://docs.aws.amazon.com/arexug/mainline/quotas.html).
+    /// - `ValidationException` : You provided an invalid value for one of the operation's parameters. Check the syntax for the operation, and try again.
     public func deleteIndex(input: DeleteIndexInput) async throws -> DeleteIndexOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -268,6 +335,20 @@ extension ResourceExplorer2Client: ResourceExplorer2ClientProtocol {
     }
 
     /// Deletes the specified view. If the specified view is the default view for its Amazon Web Services Region, then all [Search] operations in that Region must explicitly specify the view to use until you configure a new default by calling the [AssociateDefaultView] operation.
+    ///
+    /// - Parameter DeleteViewInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteViewOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The credentials that you used to call this operation don't have the minimum required permissions.
+    /// - `InternalServerException` : The request failed because of internal service error. Try your request again later.
+    /// - `ResourceNotFoundException` : You specified a resource that doesn't exist. Check the ID or ARN that you used to identity the resource, and try again.
+    /// - `ThrottlingException` : The request failed because you exceeded a rate limit for this operation. For more information, see [Quotas for Resource Explorer](https://docs.aws.amazon.com/arexug/mainline/quotas.html).
+    /// - `UnauthorizedException` : The principal making the request isn't permitted to perform the operation.
+    /// - `ValidationException` : You provided an invalid value for one of the operation's parameters. Check the syntax for the operation, and try again.
     public func deleteView(input: DeleteViewInput) async throws -> DeleteViewOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -304,6 +385,18 @@ extension ResourceExplorer2Client: ResourceExplorer2ClientProtocol {
     }
 
     /// After you call this operation, the affected Amazon Web Services Region no longer has a default view. All [Search] operations in that Region must explicitly specify a view or the operation fails. You can configure a new default by calling the [AssociateDefaultView] operation. If an Amazon Web Services Region doesn't have a default view configured, then users must explicitly specify a view with every Search operation performed in that Region.
+    ///
+    /// - Parameter DisassociateDefaultViewInput : [no documentation found]
+    ///
+    /// - Returns: `DisassociateDefaultViewOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The credentials that you used to call this operation don't have the minimum required permissions.
+    /// - `InternalServerException` : The request failed because of internal service error. Try your request again later.
+    /// - `ThrottlingException` : The request failed because you exceeded a rate limit for this operation. For more information, see [Quotas for Resource Explorer](https://docs.aws.amazon.com/arexug/mainline/quotas.html).
+    /// - `ValidationException` : You provided an invalid value for one of the operation's parameters. Check the syntax for the operation, and try again.
     public func disassociateDefaultView(input: DisassociateDefaultViewInput) async throws -> DisassociateDefaultViewOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -337,6 +430,19 @@ extension ResourceExplorer2Client: ResourceExplorer2ClientProtocol {
     }
 
     /// Retrieves the Amazon Resource Name (ARN) of the view that is the default for the Amazon Web Services Region in which you call this operation. You can then call [GetView] to retrieve the details of that view.
+    ///
+    /// - Parameter GetDefaultViewInput : [no documentation found]
+    ///
+    /// - Returns: `GetDefaultViewOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The credentials that you used to call this operation don't have the minimum required permissions.
+    /// - `InternalServerException` : The request failed because of internal service error. Try your request again later.
+    /// - `ResourceNotFoundException` : You specified a resource that doesn't exist. Check the ID or ARN that you used to identity the resource, and try again.
+    /// - `ThrottlingException` : The request failed because you exceeded a rate limit for this operation. For more information, see [Quotas for Resource Explorer](https://docs.aws.amazon.com/arexug/mainline/quotas.html).
+    /// - `ValidationException` : You provided an invalid value for one of the operation's parameters. Check the syntax for the operation, and try again.
     public func getDefaultView(input: GetDefaultViewInput) async throws -> GetDefaultViewOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -370,6 +476,19 @@ extension ResourceExplorer2Client: ResourceExplorer2ClientProtocol {
     }
 
     /// Retrieves details about the Amazon Web Services Resource Explorer index in the Amazon Web Services Region in which you invoked the operation.
+    ///
+    /// - Parameter GetIndexInput : [no documentation found]
+    ///
+    /// - Returns: `GetIndexOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The credentials that you used to call this operation don't have the minimum required permissions.
+    /// - `InternalServerException` : The request failed because of internal service error. Try your request again later.
+    /// - `ResourceNotFoundException` : You specified a resource that doesn't exist. Check the ID or ARN that you used to identity the resource, and try again.
+    /// - `ThrottlingException` : The request failed because you exceeded a rate limit for this operation. For more information, see [Quotas for Resource Explorer](https://docs.aws.amazon.com/arexug/mainline/quotas.html).
+    /// - `ValidationException` : You provided an invalid value for one of the operation's parameters. Check the syntax for the operation, and try again.
     public func getIndex(input: GetIndexInput) async throws -> GetIndexOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -403,6 +522,20 @@ extension ResourceExplorer2Client: ResourceExplorer2ClientProtocol {
     }
 
     /// Retrieves details of the specified view.
+    ///
+    /// - Parameter GetViewInput : [no documentation found]
+    ///
+    /// - Returns: `GetViewOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The credentials that you used to call this operation don't have the minimum required permissions.
+    /// - `InternalServerException` : The request failed because of internal service error. Try your request again later.
+    /// - `ResourceNotFoundException` : You specified a resource that doesn't exist. Check the ID or ARN that you used to identity the resource, and try again.
+    /// - `ThrottlingException` : The request failed because you exceeded a rate limit for this operation. For more information, see [Quotas for Resource Explorer](https://docs.aws.amazon.com/arexug/mainline/quotas.html).
+    /// - `UnauthorizedException` : The principal making the request isn't permitted to perform the operation.
+    /// - `ValidationException` : You provided an invalid value for one of the operation's parameters. Check the syntax for the operation, and try again.
     public func getView(input: GetViewInput) async throws -> GetViewOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -439,6 +572,18 @@ extension ResourceExplorer2Client: ResourceExplorer2ClientProtocol {
     }
 
     /// Retrieves a list of all of the indexes in Amazon Web Services Regions that are currently collecting resource information for Amazon Web Services Resource Explorer.
+    ///
+    /// - Parameter ListIndexesInput : [no documentation found]
+    ///
+    /// - Returns: `ListIndexesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The credentials that you used to call this operation don't have the minimum required permissions.
+    /// - `InternalServerException` : The request failed because of internal service error. Try your request again later.
+    /// - `ThrottlingException` : The request failed because you exceeded a rate limit for this operation. For more information, see [Quotas for Resource Explorer](https://docs.aws.amazon.com/arexug/mainline/quotas.html).
+    /// - `ValidationException` : You provided an invalid value for one of the operation's parameters. Check the syntax for the operation, and try again.
     public func listIndexes(input: ListIndexesInput) async throws -> ListIndexesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -475,6 +620,18 @@ extension ResourceExplorer2Client: ResourceExplorer2ClientProtocol {
     }
 
     /// Retrieves a list of all resource types currently supported by Amazon Web Services Resource Explorer.
+    ///
+    /// - Parameter ListSupportedResourceTypesInput : [no documentation found]
+    ///
+    /// - Returns: `ListSupportedResourceTypesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The credentials that you used to call this operation don't have the minimum required permissions.
+    /// - `InternalServerException` : The request failed because of internal service error. Try your request again later.
+    /// - `ThrottlingException` : The request failed because you exceeded a rate limit for this operation. For more information, see [Quotas for Resource Explorer](https://docs.aws.amazon.com/arexug/mainline/quotas.html).
+    /// - `ValidationException` : You provided an invalid value for one of the operation's parameters. Check the syntax for the operation, and try again.
     public func listSupportedResourceTypes(input: ListSupportedResourceTypesInput) async throws -> ListSupportedResourceTypesOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -511,6 +668,20 @@ extension ResourceExplorer2Client: ResourceExplorer2ClientProtocol {
     }
 
     /// Lists the tags that are attached to the specified resource.
+    ///
+    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    ///
+    /// - Returns: `ListTagsForResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The credentials that you used to call this operation don't have the minimum required permissions.
+    /// - `InternalServerException` : The request failed because of internal service error. Try your request again later.
+    /// - `ResourceNotFoundException` : You specified a resource that doesn't exist. Check the ID or ARN that you used to identity the resource, and try again.
+    /// - `ThrottlingException` : The request failed because you exceeded a rate limit for this operation. For more information, see [Quotas for Resource Explorer](https://docs.aws.amazon.com/arexug/mainline/quotas.html).
+    /// - `UnauthorizedException` : The principal making the request isn't permitted to perform the operation.
+    /// - `ValidationException` : You provided an invalid value for one of the operation's parameters. Check the syntax for the operation, and try again.
     public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -544,6 +715,18 @@ extension ResourceExplorer2Client: ResourceExplorer2ClientProtocol {
     }
 
     /// Lists the [Amazon resource names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of the views available in the Amazon Web Services Region in which you call this operation. Always check the NextToken response parameter for a null value when calling a paginated operation. These operations can occasionally return an empty set of results even when there are more results available. The NextToken response parameter value is null only when there are no more results to display.
+    ///
+    /// - Parameter ListViewsInput : [no documentation found]
+    ///
+    /// - Returns: `ListViewsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The credentials that you used to call this operation don't have the minimum required permissions.
+    /// - `InternalServerException` : The request failed because of internal service error. Try your request again later.
+    /// - `ThrottlingException` : The request failed because you exceeded a rate limit for this operation. For more information, see [Quotas for Resource Explorer](https://docs.aws.amazon.com/arexug/mainline/quotas.html).
+    /// - `ValidationException` : You provided an invalid value for one of the operation's parameters. Check the syntax for the operation, and try again.
     public func listViews(input: ListViewsInput) async throws -> ListViewsOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -580,6 +763,20 @@ extension ResourceExplorer2Client: ResourceExplorer2ClientProtocol {
     }
 
     /// Searches for resources and displays details about all resources that match the specified criteria. You must specify a query string. All search queries must use a view. If you don't explicitly specify a view, then Amazon Web Services Resource Explorer uses the default view for the Amazon Web Services Region in which you call this operation. The results are the logical intersection of the results that match both the QueryString parameter supplied to this operation and the SearchFilter parameter attached to the view. For the complete syntax supported by the QueryString parameter, see [Search query syntax reference for Resource Explorer](https://docs.aws.amazon.com/resource-explorer/latest/APIReference/about-query-syntax.html). If your search results are empty, or are missing results that you think should be there, see [Troubleshooting Resource Explorer search](https://docs.aws.amazon.com/resource-explorer/latest/userguide/troubleshooting_search.html).
+    ///
+    /// - Parameter SearchInput : [no documentation found]
+    ///
+    /// - Returns: `SearchOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The credentials that you used to call this operation don't have the minimum required permissions.
+    /// - `InternalServerException` : The request failed because of internal service error. Try your request again later.
+    /// - `ResourceNotFoundException` : You specified a resource that doesn't exist. Check the ID or ARN that you used to identity the resource, and try again.
+    /// - `ThrottlingException` : The request failed because you exceeded a rate limit for this operation. For more information, see [Quotas for Resource Explorer](https://docs.aws.amazon.com/arexug/mainline/quotas.html).
+    /// - `UnauthorizedException` : The principal making the request isn't permitted to perform the operation.
+    /// - `ValidationException` : You provided an invalid value for one of the operation's parameters. Check the syntax for the operation, and try again.
     public func search(input: SearchInput) async throws -> SearchOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -616,6 +813,20 @@ extension ResourceExplorer2Client: ResourceExplorer2ClientProtocol {
     }
 
     /// Adds one or more tag key and value pairs to an Amazon Web Services Resource Explorer view or index.
+    ///
+    /// - Parameter TagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `TagResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The credentials that you used to call this operation don't have the minimum required permissions.
+    /// - `ConflictException` : The request failed because either you specified parameters that didn’t match the original request, or you attempted to create a view with a name that already exists in this Amazon Web Services Region.
+    /// - `InternalServerException` : The request failed because of internal service error. Try your request again later.
+    /// - `ThrottlingException` : The request failed because you exceeded a rate limit for this operation. For more information, see [Quotas for Resource Explorer](https://docs.aws.amazon.com/arexug/mainline/quotas.html).
+    /// - `UnauthorizedException` : The principal making the request isn't permitted to perform the operation.
+    /// - `ValidationException` : You provided an invalid value for one of the operation's parameters. Check the syntax for the operation, and try again.
     public func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -652,6 +863,20 @@ extension ResourceExplorer2Client: ResourceExplorer2ClientProtocol {
     }
 
     /// Removes one or more tag key and value pairs from an Amazon Web Services Resource Explorer view or index.
+    ///
+    /// - Parameter UntagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `UntagResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The credentials that you used to call this operation don't have the minimum required permissions.
+    /// - `InternalServerException` : The request failed because of internal service error. Try your request again later.
+    /// - `ResourceNotFoundException` : You specified a resource that doesn't exist. Check the ID or ARN that you used to identity the resource, and try again.
+    /// - `ThrottlingException` : The request failed because you exceeded a rate limit for this operation. For more information, see [Quotas for Resource Explorer](https://docs.aws.amazon.com/arexug/mainline/quotas.html).
+    /// - `UnauthorizedException` : The principal making the request isn't permitted to perform the operation.
+    /// - `ValidationException` : You provided an invalid value for one of the operation's parameters. Check the syntax for the operation, and try again.
     public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -690,6 +915,21 @@ extension ResourceExplorer2Client: ResourceExplorer2ClientProtocol {
     /// * AGGREGATOR index type The index contains information about resources from all Amazon Web Services Regions in the Amazon Web Services account in which you've created a Resource Explorer index. Resource information from all other Regions is replicated to this Region's index. When you change the index type to AGGREGATOR, Resource Explorer turns on replication of all discovered resource information from the other Amazon Web Services Regions in your account to this index. You can then, from this Region only, perform resource search queries that span all Amazon Web Services Regions in the Amazon Web Services account. Turning on replication from all other Regions is performed by asynchronous background tasks. You can check the status of the asynchronous tasks by using the [GetIndex] operation. When the asynchronous tasks complete, the Status response of that operation changes from UPDATING to ACTIVE. After that, you can start to see results from other Amazon Web Services Regions in query results. However, it can take several hours for replication from all other Regions to complete. You can have only one aggregator index per Amazon Web Services account. Before you can promote a different index to be the aggregator index for the account, you must first demote the existing aggregator index to type LOCAL.
     ///
     /// * LOCAL index type The index contains information about resources in only the Amazon Web Services Region in which the index exists. If an aggregator index in another Region exists, then information in this local index is replicated to the aggregator index. When you change the index type to LOCAL, Resource Explorer turns off the replication of resource information from all other Amazon Web Services Regions in the Amazon Web Services account to this Region. The aggregator index remains in the UPDATING state until all replication with other Regions successfully stops. You can check the status of the asynchronous task by using the [GetIndex] operation. When Resource Explorer successfully stops all replication with other Regions, the Status response of that operation changes from UPDATING to ACTIVE. Separately, the resource information from other Regions that was previously stored in the index is deleted within 30 days by another background task. Until that asynchronous task completes, some results from other Regions can continue to appear in search results. After you demote an aggregator index to a local index, you must wait 24 hours before you can promote another index to be the new aggregator index for the account.
+    ///
+    /// - Parameter UpdateIndexTypeInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateIndexTypeOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The credentials that you used to call this operation don't have the minimum required permissions.
+    /// - `ConflictException` : The request failed because either you specified parameters that didn’t match the original request, or you attempted to create a view with a name that already exists in this Amazon Web Services Region.
+    /// - `InternalServerException` : The request failed because of internal service error. Try your request again later.
+    /// - `ResourceNotFoundException` : You specified a resource that doesn't exist. Check the ID or ARN that you used to identity the resource, and try again.
+    /// - `ServiceQuotaExceededException` : The request failed because it exceeds a service quota.
+    /// - `ThrottlingException` : The request failed because you exceeded a rate limit for this operation. For more information, see [Quotas for Resource Explorer](https://docs.aws.amazon.com/arexug/mainline/quotas.html).
+    /// - `ValidationException` : You provided an invalid value for one of the operation's parameters. Check the syntax for the operation, and try again.
     public func updateIndexType(input: UpdateIndexTypeInput) async throws -> UpdateIndexTypeOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -726,6 +966,20 @@ extension ResourceExplorer2Client: ResourceExplorer2ClientProtocol {
     }
 
     /// Modifies some of the details of a view. You can change the filter string and the list of included properties. You can't change the name of the view.
+    ///
+    /// - Parameter UpdateViewInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateViewOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The credentials that you used to call this operation don't have the minimum required permissions.
+    /// - `InternalServerException` : The request failed because of internal service error. Try your request again later.
+    /// - `ServiceQuotaExceededException` : The request failed because it exceeds a service quota.
+    /// - `ThrottlingException` : The request failed because you exceeded a rate limit for this operation. For more information, see [Quotas for Resource Explorer](https://docs.aws.amazon.com/arexug/mainline/quotas.html).
+    /// - `UnauthorizedException` : The principal making the request isn't permitted to perform the operation.
+    /// - `ValidationException` : You provided an invalid value for one of the operation's parameters. Check the syntax for the operation, and try again.
     public func updateView(input: UpdateViewInput) async throws -> UpdateViewOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()

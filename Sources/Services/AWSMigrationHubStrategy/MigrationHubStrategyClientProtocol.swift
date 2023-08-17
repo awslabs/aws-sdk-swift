@@ -5,46 +5,302 @@ import ClientRuntime
 /// Migration Hub Strategy Recommendations This API reference provides descriptions, syntax, and other details about each of the actions and data types for Migration Hub Strategy Recommendations (Strategy Recommendations). The topic for each action shows the API request parameters and the response. Alternatively, you can use one of the AWS SDKs to access an API that is tailored to the programming language or platform that you're using. For more information, see [AWS SDKs](http://aws.amazon.com/tools/#SDKs).
 public protocol MigrationHubStrategyClientProtocol {
     /// Retrieves details about an application component.
+    ///
+    /// - Parameter GetApplicationComponentDetailsInput : [no documentation found]
+    ///
+    /// - Returns: `GetApplicationComponentDetailsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The server experienced an internal error. Try again.
+    /// - `ResourceNotFoundException` : The specified ID in the request is not found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
     func getApplicationComponentDetails(input: GetApplicationComponentDetailsInput) async throws -> GetApplicationComponentDetailsOutputResponse
     /// Retrieves a list of all the recommended strategies and tools for an application component running on a server.
+    ///
+    /// - Parameter GetApplicationComponentStrategiesInput : [no documentation found]
+    ///
+    /// - Returns: `GetApplicationComponentStrategiesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The server experienced an internal error. Try again.
+    /// - `ResourceNotFoundException` : The specified ID in the request is not found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
     func getApplicationComponentStrategies(input: GetApplicationComponentStrategiesInput) async throws -> GetApplicationComponentStrategiesOutputResponse
     /// Retrieves the status of an on-going assessment.
+    ///
+    /// - Parameter GetAssessmentInput : [no documentation found]
+    ///
+    /// - Returns: `GetAssessmentOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The user does not have permission to perform the action. Check the AWS Identity and Access Management (IAM) policy associated with this user.
+    /// - `InternalServerException` : The server experienced an internal error. Try again.
+    /// - `ResourceNotFoundException` : The specified ID in the request is not found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
     func getAssessment(input: GetAssessmentInput) async throws -> GetAssessmentOutputResponse
     /// Retrieves the details about a specific import task.
+    ///
+    /// - Parameter GetImportFileTaskInput : [no documentation found]
+    ///
+    /// - Returns: `GetImportFileTaskOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The user does not have permission to perform the action. Check the AWS Identity and Access Management (IAM) policy associated with this user.
+    /// - `InternalServerException` : The server experienced an internal error. Try again.
+    /// - `ResourceNotFoundException` : The specified ID in the request is not found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The request body isn't valid.
     func getImportFileTask(input: GetImportFileTaskInput) async throws -> GetImportFileTaskOutputResponse
     /// Retrieve the latest ID of a specific assessment task.
+    ///
+    /// - Parameter GetLatestAssessmentIdInput : [no documentation found]
+    ///
+    /// - Returns: `GetLatestAssessmentIdOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The user does not have permission to perform the action. Check the AWS Identity and Access Management (IAM) policy associated with this user.
+    /// - `DependencyException` : Dependency encountered an error.
+    /// - `InternalServerException` : The server experienced an internal error. Try again.
+    /// - `ValidationException` : The request body isn't valid.
     func getLatestAssessmentId(input: GetLatestAssessmentIdInput) async throws -> GetLatestAssessmentIdOutputResponse
     /// Retrieves your migration and modernization preferences.
+    ///
+    /// - Parameter GetPortfolioPreferencesInput : [no documentation found]
+    ///
+    /// - Returns: `GetPortfolioPreferencesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The user does not have permission to perform the action. Check the AWS Identity and Access Management (IAM) policy associated with this user.
+    /// - `InternalServerException` : The server experienced an internal error. Try again.
+    /// - `ResourceNotFoundException` : The specified ID in the request is not found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
     func getPortfolioPreferences(input: GetPortfolioPreferencesInput) async throws -> GetPortfolioPreferencesOutputResponse
     /// Retrieves overall summary including the number of servers to rehost and the overall number of anti-patterns.
+    ///
+    /// - Parameter GetPortfolioSummaryInput : [no documentation found]
+    ///
+    /// - Returns: `GetPortfolioSummaryOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The user does not have permission to perform the action. Check the AWS Identity and Access Management (IAM) policy associated with this user.
+    /// - `InternalServerException` : The server experienced an internal error. Try again.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
     func getPortfolioSummary(input: GetPortfolioSummaryInput) async throws -> GetPortfolioSummaryOutputResponse
     /// Retrieves detailed information about the specified recommendation report.
+    ///
+    /// - Parameter GetRecommendationReportDetailsInput : [no documentation found]
+    ///
+    /// - Returns: `GetRecommendationReportDetailsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The user does not have permission to perform the action. Check the AWS Identity and Access Management (IAM) policy associated with this user.
+    /// - `InternalServerException` : The server experienced an internal error. Try again.
+    /// - `ResourceNotFoundException` : The specified ID in the request is not found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The request body isn't valid.
     func getRecommendationReportDetails(input: GetRecommendationReportDetailsInput) async throws -> GetRecommendationReportDetailsOutputResponse
     /// Retrieves detailed information about a specified server.
+    ///
+    /// - Parameter GetServerDetailsInput : [no documentation found]
+    ///
+    /// - Returns: `GetServerDetailsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The user does not have permission to perform the action. Check the AWS Identity and Access Management (IAM) policy associated with this user.
+    /// - `InternalServerException` : The server experienced an internal error. Try again.
+    /// - `ResourceNotFoundException` : The specified ID in the request is not found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The request body isn't valid.
     func getServerDetails(input: GetServerDetailsInput) async throws -> GetServerDetailsOutputResponse
     /// Retrieves recommended strategies and tools for the specified server.
+    ///
+    /// - Parameter GetServerStrategiesInput : [no documentation found]
+    ///
+    /// - Returns: `GetServerStrategiesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The user does not have permission to perform the action. Check the AWS Identity and Access Management (IAM) policy associated with this user.
+    /// - `InternalServerException` : The server experienced an internal error. Try again.
+    /// - `ResourceNotFoundException` : The specified ID in the request is not found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The request body isn't valid.
     func getServerStrategies(input: GetServerStrategiesInput) async throws -> GetServerStrategiesOutputResponse
     /// Retrieves a list of all the application components (processes).
+    ///
+    /// - Parameter ListApplicationComponentsInput : [no documentation found]
+    ///
+    /// - Returns: `ListApplicationComponentsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The user does not have permission to perform the action. Check the AWS Identity and Access Management (IAM) policy associated with this user.
+    /// - `InternalServerException` : The server experienced an internal error. Try again.
+    /// - `ServiceLinkedRoleLockClientException` : Exception to indicate that the service-linked role (SLR) is locked.
+    /// - `ValidationException` : The request body isn't valid.
     func listApplicationComponents(input: ListApplicationComponentsInput) async throws -> ListApplicationComponentsOutputResponse
     /// Retrieves a list of all the installed collectors.
+    ///
+    /// - Parameter ListCollectorsInput : [no documentation found]
+    ///
+    /// - Returns: `ListCollectorsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The user does not have permission to perform the action. Check the AWS Identity and Access Management (IAM) policy associated with this user.
+    /// - `InternalServerException` : The server experienced an internal error. Try again.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The request body isn't valid.
     func listCollectors(input: ListCollectorsInput) async throws -> ListCollectorsOutputResponse
     /// Retrieves a list of all the imports performed.
+    ///
+    /// - Parameter ListImportFileTaskInput : [no documentation found]
+    ///
+    /// - Returns: `ListImportFileTaskOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The user does not have permission to perform the action. Check the AWS Identity and Access Management (IAM) policy associated with this user.
+    /// - `InternalServerException` : The server experienced an internal error. Try again.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The request body isn't valid.
     func listImportFileTask(input: ListImportFileTaskInput) async throws -> ListImportFileTaskOutputResponse
     /// Returns a list of all the servers.
+    ///
+    /// - Parameter ListServersInput : [no documentation found]
+    ///
+    /// - Returns: `ListServersOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The user does not have permission to perform the action. Check the AWS Identity and Access Management (IAM) policy associated with this user.
+    /// - `InternalServerException` : The server experienced an internal error. Try again.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The request body isn't valid.
     func listServers(input: ListServersInput) async throws -> ListServersOutputResponse
     /// Saves the specified migration and modernization preferences.
+    ///
+    /// - Parameter PutPortfolioPreferencesInput : [no documentation found]
+    ///
+    /// - Returns: `PutPortfolioPreferencesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The user does not have permission to perform the action. Check the AWS Identity and Access Management (IAM) policy associated with this user.
+    /// - `ConflictException` : Exception to indicate that there is an ongoing task when a new task is created. Return when once the existing tasks are complete.
+    /// - `InternalServerException` : The server experienced an internal error. Try again.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The request body isn't valid.
     func putPortfolioPreferences(input: PutPortfolioPreferencesInput) async throws -> PutPortfolioPreferencesOutputResponse
     /// Starts the assessment of an on-premises environment.
+    ///
+    /// - Parameter StartAssessmentInput : [no documentation found]
+    ///
+    /// - Returns: `StartAssessmentOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The user does not have permission to perform the action. Check the AWS Identity and Access Management (IAM) policy associated with this user.
+    /// - `InternalServerException` : The server experienced an internal error. Try again.
+    /// - `ServiceQuotaExceededException` : The AWS account has reached its quota of imports. Contact AWS Support to increase the quota for this account.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
     func startAssessment(input: StartAssessmentInput) async throws -> StartAssessmentOutputResponse
     /// Starts a file import.
+    ///
+    /// - Parameter StartImportFileTaskInput : [no documentation found]
+    ///
+    /// - Returns: `StartImportFileTaskOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The user does not have permission to perform the action. Check the AWS Identity and Access Management (IAM) policy associated with this user.
+    /// - `InternalServerException` : The server experienced an internal error. Try again.
+    /// - `ServiceQuotaExceededException` : The AWS account has reached its quota of imports. Contact AWS Support to increase the quota for this account.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The request body isn't valid.
     func startImportFileTask(input: StartImportFileTaskInput) async throws -> StartImportFileTaskOutputResponse
     /// Starts generating a recommendation report.
+    ///
+    /// - Parameter StartRecommendationReportGenerationInput : [no documentation found]
+    ///
+    /// - Returns: `StartRecommendationReportGenerationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The user does not have permission to perform the action. Check the AWS Identity and Access Management (IAM) policy associated with this user.
+    /// - `ConflictException` : Exception to indicate that there is an ongoing task when a new task is created. Return when once the existing tasks are complete.
+    /// - `InternalServerException` : The server experienced an internal error. Try again.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The request body isn't valid.
     func startRecommendationReportGeneration(input: StartRecommendationReportGenerationInput) async throws -> StartRecommendationReportGenerationOutputResponse
     /// Stops the assessment of an on-premises environment.
+    ///
+    /// - Parameter StopAssessmentInput : [no documentation found]
+    ///
+    /// - Returns: `StopAssessmentOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The user does not have permission to perform the action. Check the AWS Identity and Access Management (IAM) policy associated with this user.
+    /// - `InternalServerException` : The server experienced an internal error. Try again.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The request body isn't valid.
     func stopAssessment(input: StopAssessmentInput) async throws -> StopAssessmentOutputResponse
     /// Updates the configuration of an application component.
+    ///
+    /// - Parameter UpdateApplicationComponentConfigInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateApplicationComponentConfigOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The server experienced an internal error. Try again.
+    /// - `ResourceNotFoundException` : The specified ID in the request is not found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The request body isn't valid.
     func updateApplicationComponentConfig(input: UpdateApplicationComponentConfigInput) async throws -> UpdateApplicationComponentConfigOutputResponse
     /// Updates the configuration of the specified server.
+    ///
+    /// - Parameter UpdateServerConfigInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateServerConfigOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The server experienced an internal error. Try again.
+    /// - `ResourceNotFoundException` : The specified ID in the request is not found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The request body isn't valid.
     func updateServerConfig(input: UpdateServerConfigInput) async throws -> UpdateServerConfigOutputResponse
 }
 

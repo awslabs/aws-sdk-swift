@@ -114,64 +114,405 @@ import ClientRuntime
 /// * [ListTagsForResource] — Gets information about Amazon Web Services tags for the specified ARN.
 public protocol IvsClientProtocol {
     /// Performs [GetChannel] on multiple ARNs simultaneously.
+    ///
+    /// - Parameter BatchGetChannelInput : [no documentation found]
+    ///
+    /// - Returns: `BatchGetChannelOutputResponse` : [no documentation found]
     func batchGetChannel(input: BatchGetChannelInput) async throws -> BatchGetChannelOutputResponse
     /// Performs [GetStreamKey] on multiple ARNs simultaneously.
+    ///
+    /// - Parameter BatchGetStreamKeyInput : [no documentation found]
+    ///
+    /// - Returns: `BatchGetStreamKeyOutputResponse` : [no documentation found]
     func batchGetStreamKey(input: BatchGetStreamKeyInput) async throws -> BatchGetStreamKeyOutputResponse
     /// Performs [StartViewerSessionRevocation] on multiple channel ARN and viewer ID pairs simultaneously.
+    ///
+    /// - Parameter BatchStartViewerSessionRevocationInput : [no documentation found]
+    ///
+    /// - Returns: `BatchStartViewerSessionRevocationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` :
+    /// - `PendingVerification` :
+    /// - `ThrottlingException` :
+    /// - `ValidationException` :
     func batchStartViewerSessionRevocation(input: BatchStartViewerSessionRevocationInput) async throws -> BatchStartViewerSessionRevocationOutputResponse
     /// Creates a new channel and an associated stream key to start streaming.
+    ///
+    /// - Parameter CreateChannelInput : [no documentation found]
+    ///
+    /// - Returns: `CreateChannelOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` :
+    /// - `PendingVerification` :
+    /// - `ResourceNotFoundException` :
+    /// - `ServiceQuotaExceededException` :
+    /// - `ValidationException` :
     func createChannel(input: CreateChannelInput) async throws -> CreateChannelOutputResponse
     /// Creates a new recording configuration, used to enable recording to Amazon S3. Known issue: In the us-east-1 region, if you use the Amazon Web Services CLI to create a recording configuration, it returns success even if the S3 bucket is in a different region. In this case, the state of the recording configuration is CREATE_FAILED (instead of ACTIVE). (In other regions, the CLI correctly returns failure if the bucket is in a different region.) Workaround: Ensure that your S3 bucket is in the same region as the recording configuration. If you create a recording configuration in a different region as your S3 bucket, delete that recording configuration and create a new one with an S3 bucket from the correct region.
+    ///
+    /// - Parameter CreateRecordingConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `CreateRecordingConfigurationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` :
+    /// - `ConflictException` :
+    /// - `InternalServerException` :
+    /// - `PendingVerification` :
+    /// - `ServiceQuotaExceededException` :
+    /// - `ValidationException` :
     func createRecordingConfiguration(input: CreateRecordingConfigurationInput) async throws -> CreateRecordingConfigurationOutputResponse
     /// Creates a stream key, used to initiate a stream, for the specified channel ARN. Note that [CreateChannel] creates a stream key. If you subsequently use CreateStreamKey on the same channel, it will fail because a stream key already exists and there is a limit of 1 stream key per channel. To reset the stream key on a channel, use [DeleteStreamKey] and then CreateStreamKey.
+    ///
+    /// - Parameter CreateStreamKeyInput : [no documentation found]
+    ///
+    /// - Returns: `CreateStreamKeyOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` :
+    /// - `PendingVerification` :
+    /// - `ResourceNotFoundException` :
+    /// - `ServiceQuotaExceededException` :
+    /// - `ValidationException` :
     func createStreamKey(input: CreateStreamKeyInput) async throws -> CreateStreamKeyOutputResponse
     /// Deletes the specified channel and its associated stream keys. If you try to delete a live channel, you will get an error (409 ConflictException). To delete a channel that is live, call [StopStream], wait for the Amazon EventBridge "Stream End" event (to verify that the stream's state is no longer Live), then call DeleteChannel. (See [ Using EventBridge with Amazon IVS](https://docs.aws.amazon.com/ivs/latest/userguide/eventbridge.html).)
+    ///
+    /// - Parameter DeleteChannelInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteChannelOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` :
+    /// - `ConflictException` :
+    /// - `PendingVerification` :
+    /// - `ResourceNotFoundException` :
+    /// - `ValidationException` :
     func deleteChannel(input: DeleteChannelInput) async throws -> DeleteChannelOutputResponse
     /// Deletes a specified authorization key pair. This invalidates future viewer tokens generated using the key pair’s privateKey. For more information, see [Setting Up Private Channels](https://docs.aws.amazon.com/ivs/latest/userguide/private-channels.html) in the Amazon IVS User Guide.
+    ///
+    /// - Parameter DeletePlaybackKeyPairInput : [no documentation found]
+    ///
+    /// - Returns: `DeletePlaybackKeyPairOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` :
+    /// - `PendingVerification` :
+    /// - `ResourceNotFoundException` :
+    /// - `ValidationException` :
     func deletePlaybackKeyPair(input: DeletePlaybackKeyPairInput) async throws -> DeletePlaybackKeyPairOutputResponse
     /// Deletes the recording configuration for the specified ARN. If you try to delete a recording configuration that is associated with a channel, you will get an error (409 ConflictException). To avoid this, for all channels that reference the recording configuration, first use [UpdateChannel] to set the recordingConfigurationArn field to an empty string, then use DeleteRecordingConfiguration.
+    ///
+    /// - Parameter DeleteRecordingConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteRecordingConfigurationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` :
+    /// - `ConflictException` :
+    /// - `InternalServerException` :
+    /// - `ResourceNotFoundException` :
+    /// - `ValidationException` :
     func deleteRecordingConfiguration(input: DeleteRecordingConfigurationInput) async throws -> DeleteRecordingConfigurationOutputResponse
     /// Deletes the stream key for the specified ARN, so it can no longer be used to stream.
+    ///
+    /// - Parameter DeleteStreamKeyInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteStreamKeyOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` :
+    /// - `PendingVerification` :
+    /// - `ResourceNotFoundException` :
+    /// - `ValidationException` :
     func deleteStreamKey(input: DeleteStreamKeyInput) async throws -> DeleteStreamKeyOutputResponse
     /// Gets the channel configuration for the specified channel ARN. See also [BatchGetChannel].
+    ///
+    /// - Parameter GetChannelInput : [no documentation found]
+    ///
+    /// - Returns: `GetChannelOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` :
+    /// - `ResourceNotFoundException` :
+    /// - `ValidationException` :
     func getChannel(input: GetChannelInput) async throws -> GetChannelOutputResponse
     /// Gets a specified playback authorization key pair and returns the arn and fingerprint. The privateKey held by the caller can be used to generate viewer authorization tokens, to grant viewers access to private channels. For more information, see [Setting Up Private Channels](https://docs.aws.amazon.com/ivs/latest/userguide/private-channels.html) in the Amazon IVS User Guide.
+    ///
+    /// - Parameter GetPlaybackKeyPairInput : [no documentation found]
+    ///
+    /// - Returns: `GetPlaybackKeyPairOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` :
+    /// - `ResourceNotFoundException` :
+    /// - `ValidationException` :
     func getPlaybackKeyPair(input: GetPlaybackKeyPairInput) async throws -> GetPlaybackKeyPairOutputResponse
     /// Gets the recording configuration for the specified ARN.
+    ///
+    /// - Parameter GetRecordingConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `GetRecordingConfigurationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` :
+    /// - `InternalServerException` :
+    /// - `ResourceNotFoundException` :
+    /// - `ValidationException` :
     func getRecordingConfiguration(input: GetRecordingConfigurationInput) async throws -> GetRecordingConfigurationOutputResponse
     /// Gets information about the active (live) stream on a specified channel.
+    ///
+    /// - Parameter GetStreamInput : [no documentation found]
+    ///
+    /// - Returns: `GetStreamOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` :
+    /// - `ChannelNotBroadcasting` :
+    /// - `ResourceNotFoundException` :
+    /// - `ValidationException` :
     func getStream(input: GetStreamInput) async throws -> GetStreamOutputResponse
     /// Gets stream-key information for a specified ARN.
+    ///
+    /// - Parameter GetStreamKeyInput : [no documentation found]
+    ///
+    /// - Returns: `GetStreamKeyOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` :
+    /// - `ResourceNotFoundException` :
+    /// - `ValidationException` :
     func getStreamKey(input: GetStreamKeyInput) async throws -> GetStreamKeyOutputResponse
     /// Gets metadata on a specified stream.
+    ///
+    /// - Parameter GetStreamSessionInput : [no documentation found]
+    ///
+    /// - Returns: `GetStreamSessionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` :
+    /// - `ResourceNotFoundException` :
+    /// - `ValidationException` :
     func getStreamSession(input: GetStreamSessionInput) async throws -> GetStreamSessionOutputResponse
     /// Imports the public portion of a new key pair and returns its arn and fingerprint. The privateKey can then be used to generate viewer authorization tokens, to grant viewers access to private channels. For more information, see [Setting Up Private Channels](https://docs.aws.amazon.com/ivs/latest/userguide/private-channels.html) in the Amazon IVS User Guide.
+    ///
+    /// - Parameter ImportPlaybackKeyPairInput : [no documentation found]
+    ///
+    /// - Returns: `ImportPlaybackKeyPairOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` :
+    /// - `ConflictException` :
+    /// - `PendingVerification` :
+    /// - `ServiceQuotaExceededException` :
+    /// - `ValidationException` :
     func importPlaybackKeyPair(input: ImportPlaybackKeyPairInput) async throws -> ImportPlaybackKeyPairOutputResponse
     /// Gets summary information about all channels in your account, in the Amazon Web Services region where the API request is processed. This list can be filtered to match a specified name or recording-configuration ARN. Filters are mutually exclusive and cannot be used together. If you try to use both filters, you will get an error (409 ConflictException).
+    ///
+    /// - Parameter ListChannelsInput : [no documentation found]
+    ///
+    /// - Returns: `ListChannelsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` :
+    /// - `ConflictException` :
+    /// - `ValidationException` :
     func listChannels(input: ListChannelsInput) async throws -> ListChannelsOutputResponse
     /// Gets summary information about playback key pairs. For more information, see [Setting Up Private Channels](https://docs.aws.amazon.com/ivs/latest/userguide/private-channels.html) in the Amazon IVS User Guide.
+    ///
+    /// - Parameter ListPlaybackKeyPairsInput : [no documentation found]
+    ///
+    /// - Returns: `ListPlaybackKeyPairsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` :
+    /// - `ValidationException` :
     func listPlaybackKeyPairs(input: ListPlaybackKeyPairsInput) async throws -> ListPlaybackKeyPairsOutputResponse
     /// Gets summary information about all recording configurations in your account, in the Amazon Web Services region where the API request is processed.
+    ///
+    /// - Parameter ListRecordingConfigurationsInput : [no documentation found]
+    ///
+    /// - Returns: `ListRecordingConfigurationsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` :
+    /// - `InternalServerException` :
+    /// - `ValidationException` :
     func listRecordingConfigurations(input: ListRecordingConfigurationsInput) async throws -> ListRecordingConfigurationsOutputResponse
     /// Gets summary information about stream keys for the specified channel.
+    ///
+    /// - Parameter ListStreamKeysInput : [no documentation found]
+    ///
+    /// - Returns: `ListStreamKeysOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` :
+    /// - `ResourceNotFoundException` :
+    /// - `ValidationException` :
     func listStreamKeys(input: ListStreamKeysInput) async throws -> ListStreamKeysOutputResponse
     /// Gets summary information about live streams in your account, in the Amazon Web Services region where the API request is processed.
+    ///
+    /// - Parameter ListStreamsInput : [no documentation found]
+    ///
+    /// - Returns: `ListStreamsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` :
+    /// - `ValidationException` :
     func listStreams(input: ListStreamsInput) async throws -> ListStreamsOutputResponse
     /// Gets a summary of current and previous streams for a specified channel in your account, in the AWS region where the API request is processed.
+    ///
+    /// - Parameter ListStreamSessionsInput : [no documentation found]
+    ///
+    /// - Returns: `ListStreamSessionsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` :
+    /// - `ResourceNotFoundException` :
+    /// - `ValidationException` :
     func listStreamSessions(input: ListStreamSessionsInput) async throws -> ListStreamSessionsOutputResponse
     /// Gets information about Amazon Web Services tags for the specified ARN.
+    ///
+    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    ///
+    /// - Returns: `ListTagsForResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` :
+    /// - `ResourceNotFoundException` :
+    /// - `ValidationException` :
     func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
     /// Inserts metadata into the active stream of the specified channel. At most 5 requests per second per channel are allowed, each with a maximum 1 KB payload. (If 5 TPS is not sufficient for your needs, we recommend batching your data into a single PutMetadata call.) At most 155 requests per second per account are allowed. Also see [Embedding Metadata within a Video Stream](https://docs.aws.amazon.com/ivs/latest/userguide/metadata.html) in the Amazon IVS User Guide.
+    ///
+    /// - Parameter PutMetadataInput : [no documentation found]
+    ///
+    /// - Returns: `PutMetadataOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` :
+    /// - `ChannelNotBroadcasting` :
+    /// - `ResourceNotFoundException` :
+    /// - `ThrottlingException` :
+    /// - `ValidationException` :
     func putMetadata(input: PutMetadataInput) async throws -> PutMetadataOutputResponse
     /// Starts the process of revoking the viewer session associated with a specified channel ARN and viewer ID. Optionally, you can provide a version to revoke viewer sessions less than and including that version. For instructions on associating a viewer ID with a viewer session, see [Setting Up Private Channels](https://docs.aws.amazon.com/ivs/latest/userguide/private-channels.html).
+    ///
+    /// - Parameter StartViewerSessionRevocationInput : [no documentation found]
+    ///
+    /// - Returns: `StartViewerSessionRevocationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` :
+    /// - `InternalServerException` :
+    /// - `PendingVerification` :
+    /// - `ResourceNotFoundException` :
+    /// - `ThrottlingException` :
+    /// - `ValidationException` :
     func startViewerSessionRevocation(input: StartViewerSessionRevocationInput) async throws -> StartViewerSessionRevocationOutputResponse
     /// Disconnects the incoming RTMPS stream for the specified channel. Can be used in conjunction with [DeleteStreamKey] to prevent further streaming to a channel. Many streaming client-software libraries automatically reconnect a dropped RTMPS session, so to stop the stream permanently, you may want to first revoke the streamKey attached to the channel.
+    ///
+    /// - Parameter StopStreamInput : [no documentation found]
+    ///
+    /// - Returns: `StopStreamOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` :
+    /// - `ChannelNotBroadcasting` :
+    /// - `ResourceNotFoundException` :
+    /// - `StreamUnavailable` :
+    /// - `ValidationException` :
     func stopStream(input: StopStreamInput) async throws -> StopStreamOutputResponse
     /// Adds or updates tags for the Amazon Web Services resource with the specified ARN.
+    ///
+    /// - Parameter TagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `TagResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` :
+    /// - `ResourceNotFoundException` :
+    /// - `ValidationException` :
     func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
     /// Removes tags from the resource with the specified ARN.
+    ///
+    /// - Parameter UntagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `UntagResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` :
+    /// - `ResourceNotFoundException` :
+    /// - `ValidationException` :
     func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
     /// Updates a channel's configuration. Live channels cannot be updated. You must stop the ongoing stream, update the channel, and restart the stream for the changes to take effect.
+    ///
+    /// - Parameter UpdateChannelInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateChannelOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` :
+    /// - `ConflictException` :
+    /// - `PendingVerification` :
+    /// - `ResourceNotFoundException` :
+    /// - `ValidationException` :
     func updateChannel(input: UpdateChannelInput) async throws -> UpdateChannelOutputResponse
 }
 

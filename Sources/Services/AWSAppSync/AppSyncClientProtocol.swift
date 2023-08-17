@@ -5,124 +5,885 @@ import ClientRuntime
 /// AppSync provides API actions for creating and interacting with data sources using GraphQL from your application.
 public protocol AppSyncClientProtocol {
     /// Maps an endpoint to your custom domain.
+    ///
+    /// - Parameter AssociateApiInput : [no documentation found]
+    ///
+    /// - Returns: `AssociateApiOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have access to perform this operation on this resource.
+    /// - `BadRequestException` : The request is not well formed. For example, a value is invalid or a required field is missing. Check the field values, and then try again.
+    /// - `InternalFailureException` : An internal AppSync error occurred. Try your request again.
+    /// - `NotFoundException` : The resource specified in the request was not found. Check the resource, and then try again.
     func associateApi(input: AssociateApiInput) async throws -> AssociateApiOutputResponse
     /// Creates an association between a Merged API and source API using the source API's identifier.
+    ///
+    /// - Parameter AssociateMergedGraphqlApiInput : [no documentation found]
+    ///
+    /// - Returns: `AssociateMergedGraphqlApiOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The request is not well formed. For example, a value is invalid or a required field is missing. Check the field values, and then try again.
+    /// - `ConcurrentModificationException` : Another modification is in progress at this time and it must complete before you can make your change.
+    /// - `InternalFailureException` : An internal AppSync error occurred. Try your request again.
+    /// - `LimitExceededException` : The request exceeded a limit. Try your request again.
+    /// - `NotFoundException` : The resource specified in the request was not found. Check the resource, and then try again.
+    /// - `UnauthorizedException` : You aren't authorized to perform this operation.
     func associateMergedGraphqlApi(input: AssociateMergedGraphqlApiInput) async throws -> AssociateMergedGraphqlApiOutputResponse
     /// Creates an association between a Merged API and source API using the Merged API's identifier.
+    ///
+    /// - Parameter AssociateSourceGraphqlApiInput : [no documentation found]
+    ///
+    /// - Returns: `AssociateSourceGraphqlApiOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The request is not well formed. For example, a value is invalid or a required field is missing. Check the field values, and then try again.
+    /// - `ConcurrentModificationException` : Another modification is in progress at this time and it must complete before you can make your change.
+    /// - `InternalFailureException` : An internal AppSync error occurred. Try your request again.
+    /// - `LimitExceededException` : The request exceeded a limit. Try your request again.
+    /// - `NotFoundException` : The resource specified in the request was not found. Check the resource, and then try again.
+    /// - `UnauthorizedException` : You aren't authorized to perform this operation.
     func associateSourceGraphqlApi(input: AssociateSourceGraphqlApiInput) async throws -> AssociateSourceGraphqlApiOutputResponse
     /// Creates a cache for the GraphQL API.
+    ///
+    /// - Parameter CreateApiCacheInput : Represents the input of a CreateApiCache operation.
+    ///
+    /// - Returns: `CreateApiCacheOutputResponse` : Represents the output of a CreateApiCache operation.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The request is not well formed. For example, a value is invalid or a required field is missing. Check the field values, and then try again.
+    /// - `ConcurrentModificationException` : Another modification is in progress at this time and it must complete before you can make your change.
+    /// - `InternalFailureException` : An internal AppSync error occurred. Try your request again.
+    /// - `NotFoundException` : The resource specified in the request was not found. Check the resource, and then try again.
+    /// - `UnauthorizedException` : You aren't authorized to perform this operation.
     func createApiCache(input: CreateApiCacheInput) async throws -> CreateApiCacheOutputResponse
     /// Creates a unique key that you can distribute to clients who invoke your API.
+    ///
+    /// - Parameter CreateApiKeyInput : [no documentation found]
+    ///
+    /// - Returns: `CreateApiKeyOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ApiKeyLimitExceededException` : The API key exceeded a limit. Try your request again.
+    /// - `ApiKeyValidityOutOfBoundsException` : The API key expiration must be set to a value between 1 and 365 days from creation (for CreateApiKey) or from update (for UpdateApiKey).
+    /// - `BadRequestException` : The request is not well formed. For example, a value is invalid or a required field is missing. Check the field values, and then try again.
+    /// - `InternalFailureException` : An internal AppSync error occurred. Try your request again.
+    /// - `LimitExceededException` : The request exceeded a limit. Try your request again.
+    /// - `NotFoundException` : The resource specified in the request was not found. Check the resource, and then try again.
+    /// - `UnauthorizedException` : You aren't authorized to perform this operation.
     func createApiKey(input: CreateApiKeyInput) async throws -> CreateApiKeyOutputResponse
     /// Creates a DataSource object.
+    ///
+    /// - Parameter CreateDataSourceInput : [no documentation found]
+    ///
+    /// - Returns: `CreateDataSourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The request is not well formed. For example, a value is invalid or a required field is missing. Check the field values, and then try again.
+    /// - `ConcurrentModificationException` : Another modification is in progress at this time and it must complete before you can make your change.
+    /// - `InternalFailureException` : An internal AppSync error occurred. Try your request again.
+    /// - `NotFoundException` : The resource specified in the request was not found. Check the resource, and then try again.
+    /// - `UnauthorizedException` : You aren't authorized to perform this operation.
     func createDataSource(input: CreateDataSourceInput) async throws -> CreateDataSourceOutputResponse
     /// Creates a custom DomainName object.
+    ///
+    /// - Parameter CreateDomainNameInput : [no documentation found]
+    ///
+    /// - Returns: `CreateDomainNameOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have access to perform this operation on this resource.
+    /// - `BadRequestException` : The request is not well formed. For example, a value is invalid or a required field is missing. Check the field values, and then try again.
+    /// - `InternalFailureException` : An internal AppSync error occurred. Try your request again.
     func createDomainName(input: CreateDomainNameInput) async throws -> CreateDomainNameOutputResponse
     /// Creates a Function object. A function is a reusable entity. You can use multiple functions to compose the resolver logic.
+    ///
+    /// - Parameter CreateFunctionInput : [no documentation found]
+    ///
+    /// - Returns: `CreateFunctionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConcurrentModificationException` : Another modification is in progress at this time and it must complete before you can make your change.
+    /// - `InternalFailureException` : An internal AppSync error occurred. Try your request again.
+    /// - `NotFoundException` : The resource specified in the request was not found. Check the resource, and then try again.
+    /// - `UnauthorizedException` : You aren't authorized to perform this operation.
     func createFunction(input: CreateFunctionInput) async throws -> CreateFunctionOutputResponse
     /// Creates a GraphqlApi object.
+    ///
+    /// - Parameter CreateGraphqlApiInput : [no documentation found]
+    ///
+    /// - Returns: `CreateGraphqlApiOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ApiLimitExceededException` : The GraphQL API exceeded a limit. Try your request again.
+    /// - `BadRequestException` : The request is not well formed. For example, a value is invalid or a required field is missing. Check the field values, and then try again.
+    /// - `ConcurrentModificationException` : Another modification is in progress at this time and it must complete before you can make your change.
+    /// - `InternalFailureException` : An internal AppSync error occurred. Try your request again.
+    /// - `LimitExceededException` : The request exceeded a limit. Try your request again.
+    /// - `UnauthorizedException` : You aren't authorized to perform this operation.
     func createGraphqlApi(input: CreateGraphqlApiInput) async throws -> CreateGraphqlApiOutputResponse
     /// Creates a Resolver object. A resolver converts incoming requests into a format that a data source can understand, and converts the data source's responses into GraphQL.
+    ///
+    /// - Parameter CreateResolverInput : [no documentation found]
+    ///
+    /// - Returns: `CreateResolverOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The request is not well formed. For example, a value is invalid or a required field is missing. Check the field values, and then try again.
+    /// - `ConcurrentModificationException` : Another modification is in progress at this time and it must complete before you can make your change.
+    /// - `InternalFailureException` : An internal AppSync error occurred. Try your request again.
+    /// - `NotFoundException` : The resource specified in the request was not found. Check the resource, and then try again.
+    /// - `UnauthorizedException` : You aren't authorized to perform this operation.
     func createResolver(input: CreateResolverInput) async throws -> CreateResolverOutputResponse
     /// Creates a Type object.
+    ///
+    /// - Parameter CreateTypeInput : [no documentation found]
+    ///
+    /// - Returns: `CreateTypeOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The request is not well formed. For example, a value is invalid or a required field is missing. Check the field values, and then try again.
+    /// - `ConcurrentModificationException` : Another modification is in progress at this time and it must complete before you can make your change.
+    /// - `InternalFailureException` : An internal AppSync error occurred. Try your request again.
+    /// - `NotFoundException` : The resource specified in the request was not found. Check the resource, and then try again.
+    /// - `UnauthorizedException` : You aren't authorized to perform this operation.
     func createType(input: CreateTypeInput) async throws -> CreateTypeOutputResponse
     /// Deletes an ApiCache object.
+    ///
+    /// - Parameter DeleteApiCacheInput : Represents the input of a DeleteApiCache operation.
+    ///
+    /// - Returns: `DeleteApiCacheOutputResponse` : Represents the output of a DeleteApiCache operation.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The request is not well formed. For example, a value is invalid or a required field is missing. Check the field values, and then try again.
+    /// - `ConcurrentModificationException` : Another modification is in progress at this time and it must complete before you can make your change.
+    /// - `InternalFailureException` : An internal AppSync error occurred. Try your request again.
+    /// - `NotFoundException` : The resource specified in the request was not found. Check the resource, and then try again.
+    /// - `UnauthorizedException` : You aren't authorized to perform this operation.
     func deleteApiCache(input: DeleteApiCacheInput) async throws -> DeleteApiCacheOutputResponse
     /// Deletes an API key.
+    ///
+    /// - Parameter DeleteApiKeyInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteApiKeyOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The request is not well formed. For example, a value is invalid or a required field is missing. Check the field values, and then try again.
+    /// - `InternalFailureException` : An internal AppSync error occurred. Try your request again.
+    /// - `NotFoundException` : The resource specified in the request was not found. Check the resource, and then try again.
+    /// - `UnauthorizedException` : You aren't authorized to perform this operation.
     func deleteApiKey(input: DeleteApiKeyInput) async throws -> DeleteApiKeyOutputResponse
     /// Deletes a DataSource object.
+    ///
+    /// - Parameter DeleteDataSourceInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteDataSourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The request is not well formed. For example, a value is invalid or a required field is missing. Check the field values, and then try again.
+    /// - `ConcurrentModificationException` : Another modification is in progress at this time and it must complete before you can make your change.
+    /// - `InternalFailureException` : An internal AppSync error occurred. Try your request again.
+    /// - `NotFoundException` : The resource specified in the request was not found. Check the resource, and then try again.
+    /// - `UnauthorizedException` : You aren't authorized to perform this operation.
     func deleteDataSource(input: DeleteDataSourceInput) async throws -> DeleteDataSourceOutputResponse
     /// Deletes a custom DomainName object.
+    ///
+    /// - Parameter DeleteDomainNameInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteDomainNameOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have access to perform this operation on this resource.
+    /// - `BadRequestException` : The request is not well formed. For example, a value is invalid or a required field is missing. Check the field values, and then try again.
+    /// - `ConcurrentModificationException` : Another modification is in progress at this time and it must complete before you can make your change.
+    /// - `InternalFailureException` : An internal AppSync error occurred. Try your request again.
+    /// - `NotFoundException` : The resource specified in the request was not found. Check the resource, and then try again.
     func deleteDomainName(input: DeleteDomainNameInput) async throws -> DeleteDomainNameOutputResponse
     /// Deletes a Function.
+    ///
+    /// - Parameter DeleteFunctionInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteFunctionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConcurrentModificationException` : Another modification is in progress at this time and it must complete before you can make your change.
+    /// - `InternalFailureException` : An internal AppSync error occurred. Try your request again.
+    /// - `NotFoundException` : The resource specified in the request was not found. Check the resource, and then try again.
+    /// - `UnauthorizedException` : You aren't authorized to perform this operation.
     func deleteFunction(input: DeleteFunctionInput) async throws -> DeleteFunctionOutputResponse
     /// Deletes a GraphqlApi object.
+    ///
+    /// - Parameter DeleteGraphqlApiInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteGraphqlApiOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have access to perform this operation on this resource.
+    /// - `BadRequestException` : The request is not well formed. For example, a value is invalid or a required field is missing. Check the field values, and then try again.
+    /// - `ConcurrentModificationException` : Another modification is in progress at this time and it must complete before you can make your change.
+    /// - `InternalFailureException` : An internal AppSync error occurred. Try your request again.
+    /// - `NotFoundException` : The resource specified in the request was not found. Check the resource, and then try again.
+    /// - `UnauthorizedException` : You aren't authorized to perform this operation.
     func deleteGraphqlApi(input: DeleteGraphqlApiInput) async throws -> DeleteGraphqlApiOutputResponse
     /// Deletes a Resolver object.
+    ///
+    /// - Parameter DeleteResolverInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteResolverOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The request is not well formed. For example, a value is invalid or a required field is missing. Check the field values, and then try again.
+    /// - `ConcurrentModificationException` : Another modification is in progress at this time and it must complete before you can make your change.
+    /// - `InternalFailureException` : An internal AppSync error occurred. Try your request again.
+    /// - `NotFoundException` : The resource specified in the request was not found. Check the resource, and then try again.
+    /// - `UnauthorizedException` : You aren't authorized to perform this operation.
     func deleteResolver(input: DeleteResolverInput) async throws -> DeleteResolverOutputResponse
     /// Deletes a Type object.
+    ///
+    /// - Parameter DeleteTypeInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteTypeOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The request is not well formed. For example, a value is invalid or a required field is missing. Check the field values, and then try again.
+    /// - `ConcurrentModificationException` : Another modification is in progress at this time and it must complete before you can make your change.
+    /// - `InternalFailureException` : An internal AppSync error occurred. Try your request again.
+    /// - `NotFoundException` : The resource specified in the request was not found. Check the resource, and then try again.
+    /// - `UnauthorizedException` : You aren't authorized to perform this operation.
     func deleteType(input: DeleteTypeInput) async throws -> DeleteTypeOutputResponse
     /// Removes an ApiAssociation object from a custom domain.
+    ///
+    /// - Parameter DisassociateApiInput : [no documentation found]
+    ///
+    /// - Returns: `DisassociateApiOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have access to perform this operation on this resource.
+    /// - `BadRequestException` : The request is not well formed. For example, a value is invalid or a required field is missing. Check the field values, and then try again.
+    /// - `ConcurrentModificationException` : Another modification is in progress at this time and it must complete before you can make your change.
+    /// - `InternalFailureException` : An internal AppSync error occurred. Try your request again.
+    /// - `NotFoundException` : The resource specified in the request was not found. Check the resource, and then try again.
     func disassociateApi(input: DisassociateApiInput) async throws -> DisassociateApiOutputResponse
     /// Deletes an association between a Merged API and source API using the source API's identifier and the association ID.
+    ///
+    /// - Parameter DisassociateMergedGraphqlApiInput : [no documentation found]
+    ///
+    /// - Returns: `DisassociateMergedGraphqlApiOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The request is not well formed. For example, a value is invalid or a required field is missing. Check the field values, and then try again.
+    /// - `ConcurrentModificationException` : Another modification is in progress at this time and it must complete before you can make your change.
+    /// - `InternalFailureException` : An internal AppSync error occurred. Try your request again.
+    /// - `NotFoundException` : The resource specified in the request was not found. Check the resource, and then try again.
+    /// - `UnauthorizedException` : You aren't authorized to perform this operation.
     func disassociateMergedGraphqlApi(input: DisassociateMergedGraphqlApiInput) async throws -> DisassociateMergedGraphqlApiOutputResponse
     /// Deletes an association between a Merged API and source API using the Merged API's identifier and the association ID.
+    ///
+    /// - Parameter DisassociateSourceGraphqlApiInput : [no documentation found]
+    ///
+    /// - Returns: `DisassociateSourceGraphqlApiOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The request is not well formed. For example, a value is invalid or a required field is missing. Check the field values, and then try again.
+    /// - `ConcurrentModificationException` : Another modification is in progress at this time and it must complete before you can make your change.
+    /// - `InternalFailureException` : An internal AppSync error occurred. Try your request again.
+    /// - `NotFoundException` : The resource specified in the request was not found. Check the resource, and then try again.
+    /// - `UnauthorizedException` : You aren't authorized to perform this operation.
     func disassociateSourceGraphqlApi(input: DisassociateSourceGraphqlApiInput) async throws -> DisassociateSourceGraphqlApiOutputResponse
     /// Evaluates the given code and returns the response. The code definition requirements depend on the specified runtime. For APPSYNC_JS runtimes, the code defines the request and response functions. The request function takes the incoming request after a GraphQL operation is parsed and converts it into a request configuration for the selected data source operation. The response function interprets responses from the data source and maps it to the shape of the GraphQL field output type.
+    ///
+    /// - Parameter EvaluateCodeInput : [no documentation found]
+    ///
+    /// - Returns: `EvaluateCodeOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have access to perform this operation on this resource.
+    /// - `BadRequestException` : The request is not well formed. For example, a value is invalid or a required field is missing. Check the field values, and then try again.
+    /// - `InternalFailureException` : An internal AppSync error occurred. Try your request again.
     func evaluateCode(input: EvaluateCodeInput) async throws -> EvaluateCodeOutputResponse
     /// Evaluates a given template and returns the response. The mapping template can be a request or response template. Request templates take the incoming request after a GraphQL operation is parsed and convert it into a request configuration for the selected data source operation. Response templates interpret responses from the data source and map it to the shape of the GraphQL field output type. Mapping templates are written in the Apache Velocity Template Language (VTL).
+    ///
+    /// - Parameter EvaluateMappingTemplateInput : [no documentation found]
+    ///
+    /// - Returns: `EvaluateMappingTemplateOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have access to perform this operation on this resource.
+    /// - `BadRequestException` : The request is not well formed. For example, a value is invalid or a required field is missing. Check the field values, and then try again.
+    /// - `InternalFailureException` : An internal AppSync error occurred. Try your request again.
     func evaluateMappingTemplate(input: EvaluateMappingTemplateInput) async throws -> EvaluateMappingTemplateOutputResponse
     /// Flushes an ApiCache object.
+    ///
+    /// - Parameter FlushApiCacheInput : Represents the input of a FlushApiCache operation.
+    ///
+    /// - Returns: `FlushApiCacheOutputResponse` : Represents the output of a FlushApiCache operation.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The request is not well formed. For example, a value is invalid or a required field is missing. Check the field values, and then try again.
+    /// - `ConcurrentModificationException` : Another modification is in progress at this time and it must complete before you can make your change.
+    /// - `InternalFailureException` : An internal AppSync error occurred. Try your request again.
+    /// - `NotFoundException` : The resource specified in the request was not found. Check the resource, and then try again.
+    /// - `UnauthorizedException` : You aren't authorized to perform this operation.
     func flushApiCache(input: FlushApiCacheInput) async throws -> FlushApiCacheOutputResponse
     /// Retrieves an ApiAssociation object.
+    ///
+    /// - Parameter GetApiAssociationInput : [no documentation found]
+    ///
+    /// - Returns: `GetApiAssociationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have access to perform this operation on this resource.
+    /// - `BadRequestException` : The request is not well formed. For example, a value is invalid or a required field is missing. Check the field values, and then try again.
+    /// - `InternalFailureException` : An internal AppSync error occurred. Try your request again.
+    /// - `NotFoundException` : The resource specified in the request was not found. Check the resource, and then try again.
     func getApiAssociation(input: GetApiAssociationInput) async throws -> GetApiAssociationOutputResponse
     /// Retrieves an ApiCache object.
+    ///
+    /// - Parameter GetApiCacheInput : Represents the input of a GetApiCache operation.
+    ///
+    /// - Returns: `GetApiCacheOutputResponse` : Represents the output of a GetApiCache operation.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The request is not well formed. For example, a value is invalid or a required field is missing. Check the field values, and then try again.
+    /// - `ConcurrentModificationException` : Another modification is in progress at this time and it must complete before you can make your change.
+    /// - `InternalFailureException` : An internal AppSync error occurred. Try your request again.
+    /// - `NotFoundException` : The resource specified in the request was not found. Check the resource, and then try again.
+    /// - `UnauthorizedException` : You aren't authorized to perform this operation.
     func getApiCache(input: GetApiCacheInput) async throws -> GetApiCacheOutputResponse
     /// Retrieves a DataSource object.
+    ///
+    /// - Parameter GetDataSourceInput : [no documentation found]
+    ///
+    /// - Returns: `GetDataSourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The request is not well formed. For example, a value is invalid or a required field is missing. Check the field values, and then try again.
+    /// - `ConcurrentModificationException` : Another modification is in progress at this time and it must complete before you can make your change.
+    /// - `InternalFailureException` : An internal AppSync error occurred. Try your request again.
+    /// - `NotFoundException` : The resource specified in the request was not found. Check the resource, and then try again.
+    /// - `UnauthorizedException` : You aren't authorized to perform this operation.
     func getDataSource(input: GetDataSourceInput) async throws -> GetDataSourceOutputResponse
     /// Retrieves a custom DomainName object.
+    ///
+    /// - Parameter GetDomainNameInput : [no documentation found]
+    ///
+    /// - Returns: `GetDomainNameOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have access to perform this operation on this resource.
+    /// - `BadRequestException` : The request is not well formed. For example, a value is invalid or a required field is missing. Check the field values, and then try again.
+    /// - `InternalFailureException` : An internal AppSync error occurred. Try your request again.
+    /// - `NotFoundException` : The resource specified in the request was not found. Check the resource, and then try again.
     func getDomainName(input: GetDomainNameInput) async throws -> GetDomainNameOutputResponse
     /// Get a Function.
+    ///
+    /// - Parameter GetFunctionInput : [no documentation found]
+    ///
+    /// - Returns: `GetFunctionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConcurrentModificationException` : Another modification is in progress at this time and it must complete before you can make your change.
+    /// - `NotFoundException` : The resource specified in the request was not found. Check the resource, and then try again.
+    /// - `UnauthorizedException` : You aren't authorized to perform this operation.
     func getFunction(input: GetFunctionInput) async throws -> GetFunctionOutputResponse
     /// Retrieves a GraphqlApi object.
+    ///
+    /// - Parameter GetGraphqlApiInput : [no documentation found]
+    ///
+    /// - Returns: `GetGraphqlApiOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have access to perform this operation on this resource.
+    /// - `BadRequestException` : The request is not well formed. For example, a value is invalid or a required field is missing. Check the field values, and then try again.
+    /// - `InternalFailureException` : An internal AppSync error occurred. Try your request again.
+    /// - `NotFoundException` : The resource specified in the request was not found. Check the resource, and then try again.
+    /// - `UnauthorizedException` : You aren't authorized to perform this operation.
     func getGraphqlApi(input: GetGraphqlApiInput) async throws -> GetGraphqlApiOutputResponse
     /// Retrieves the introspection schema for a GraphQL API.
+    ///
+    /// - Parameter GetIntrospectionSchemaInput : [no documentation found]
+    ///
+    /// - Returns: `GetIntrospectionSchemaOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `GraphQLSchemaException` : The GraphQL schema is not valid.
+    /// - `InternalFailureException` : An internal AppSync error occurred. Try your request again.
+    /// - `NotFoundException` : The resource specified in the request was not found. Check the resource, and then try again.
+    /// - `UnauthorizedException` : You aren't authorized to perform this operation.
     func getIntrospectionSchema(input: GetIntrospectionSchemaInput) async throws -> GetIntrospectionSchemaOutputResponse
     /// Retrieves a Resolver object.
+    ///
+    /// - Parameter GetResolverInput : [no documentation found]
+    ///
+    /// - Returns: `GetResolverOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConcurrentModificationException` : Another modification is in progress at this time and it must complete before you can make your change.
+    /// - `NotFoundException` : The resource specified in the request was not found. Check the resource, and then try again.
+    /// - `UnauthorizedException` : You aren't authorized to perform this operation.
     func getResolver(input: GetResolverInput) async throws -> GetResolverOutputResponse
     /// Retrieves the current status of a schema creation operation.
+    ///
+    /// - Parameter GetSchemaCreationStatusInput : [no documentation found]
+    ///
+    /// - Returns: `GetSchemaCreationStatusOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The request is not well formed. For example, a value is invalid or a required field is missing. Check the field values, and then try again.
+    /// - `InternalFailureException` : An internal AppSync error occurred. Try your request again.
+    /// - `NotFoundException` : The resource specified in the request was not found. Check the resource, and then try again.
+    /// - `UnauthorizedException` : You aren't authorized to perform this operation.
     func getSchemaCreationStatus(input: GetSchemaCreationStatusInput) async throws -> GetSchemaCreationStatusOutputResponse
     /// Retrieves a SourceApiAssociation object.
+    ///
+    /// - Parameter GetSourceApiAssociationInput : [no documentation found]
+    ///
+    /// - Returns: `GetSourceApiAssociationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The request is not well formed. For example, a value is invalid or a required field is missing. Check the field values, and then try again.
+    /// - `InternalFailureException` : An internal AppSync error occurred. Try your request again.
+    /// - `NotFoundException` : The resource specified in the request was not found. Check the resource, and then try again.
+    /// - `UnauthorizedException` : You aren't authorized to perform this operation.
     func getSourceApiAssociation(input: GetSourceApiAssociationInput) async throws -> GetSourceApiAssociationOutputResponse
     /// Retrieves a Type object.
+    ///
+    /// - Parameter GetTypeInput : [no documentation found]
+    ///
+    /// - Returns: `GetTypeOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The request is not well formed. For example, a value is invalid or a required field is missing. Check the field values, and then try again.
+    /// - `ConcurrentModificationException` : Another modification is in progress at this time and it must complete before you can make your change.
+    /// - `InternalFailureException` : An internal AppSync error occurred. Try your request again.
+    /// - `NotFoundException` : The resource specified in the request was not found. Check the resource, and then try again.
+    /// - `UnauthorizedException` : You aren't authorized to perform this operation.
     func getType(input: GetTypeInput) async throws -> GetTypeOutputResponse
     /// Lists the API keys for a given API. API keys are deleted automatically 60 days after they expire. However, they may still be included in the response until they have actually been deleted. You can safely call DeleteApiKey to manually delete a key before it's automatically deleted.
+    ///
+    /// - Parameter ListApiKeysInput : [no documentation found]
+    ///
+    /// - Returns: `ListApiKeysOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The request is not well formed. For example, a value is invalid or a required field is missing. Check the field values, and then try again.
+    /// - `InternalFailureException` : An internal AppSync error occurred. Try your request again.
+    /// - `NotFoundException` : The resource specified in the request was not found. Check the resource, and then try again.
+    /// - `UnauthorizedException` : You aren't authorized to perform this operation.
     func listApiKeys(input: ListApiKeysInput) async throws -> ListApiKeysOutputResponse
     /// Lists the data sources for a given API.
+    ///
+    /// - Parameter ListDataSourcesInput : [no documentation found]
+    ///
+    /// - Returns: `ListDataSourcesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The request is not well formed. For example, a value is invalid or a required field is missing. Check the field values, and then try again.
+    /// - `InternalFailureException` : An internal AppSync error occurred. Try your request again.
+    /// - `NotFoundException` : The resource specified in the request was not found. Check the resource, and then try again.
+    /// - `UnauthorizedException` : You aren't authorized to perform this operation.
     func listDataSources(input: ListDataSourcesInput) async throws -> ListDataSourcesOutputResponse
     /// Lists multiple custom domain names.
+    ///
+    /// - Parameter ListDomainNamesInput : [no documentation found]
+    ///
+    /// - Returns: `ListDomainNamesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have access to perform this operation on this resource.
+    /// - `BadRequestException` : The request is not well formed. For example, a value is invalid or a required field is missing. Check the field values, and then try again.
+    /// - `InternalFailureException` : An internal AppSync error occurred. Try your request again.
     func listDomainNames(input: ListDomainNamesInput) async throws -> ListDomainNamesOutputResponse
     /// List multiple functions.
+    ///
+    /// - Parameter ListFunctionsInput : [no documentation found]
+    ///
+    /// - Returns: `ListFunctionsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The request is not well formed. For example, a value is invalid or a required field is missing. Check the field values, and then try again.
+    /// - `InternalFailureException` : An internal AppSync error occurred. Try your request again.
+    /// - `NotFoundException` : The resource specified in the request was not found. Check the resource, and then try again.
+    /// - `UnauthorizedException` : You aren't authorized to perform this operation.
     func listFunctions(input: ListFunctionsInput) async throws -> ListFunctionsOutputResponse
     /// Lists your GraphQL APIs.
+    ///
+    /// - Parameter ListGraphqlApisInput : [no documentation found]
+    ///
+    /// - Returns: `ListGraphqlApisOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The request is not well formed. For example, a value is invalid or a required field is missing. Check the field values, and then try again.
+    /// - `InternalFailureException` : An internal AppSync error occurred. Try your request again.
+    /// - `UnauthorizedException` : You aren't authorized to perform this operation.
     func listGraphqlApis(input: ListGraphqlApisInput) async throws -> ListGraphqlApisOutputResponse
     /// Lists the resolvers for a given API and type.
+    ///
+    /// - Parameter ListResolversInput : [no documentation found]
+    ///
+    /// - Returns: `ListResolversOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The request is not well formed. For example, a value is invalid or a required field is missing. Check the field values, and then try again.
+    /// - `InternalFailureException` : An internal AppSync error occurred. Try your request again.
+    /// - `NotFoundException` : The resource specified in the request was not found. Check the resource, and then try again.
+    /// - `UnauthorizedException` : You aren't authorized to perform this operation.
     func listResolvers(input: ListResolversInput) async throws -> ListResolversOutputResponse
     /// List the resolvers that are associated with a specific function.
+    ///
+    /// - Parameter ListResolversByFunctionInput : [no documentation found]
+    ///
+    /// - Returns: `ListResolversByFunctionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The request is not well formed. For example, a value is invalid or a required field is missing. Check the field values, and then try again.
+    /// - `InternalFailureException` : An internal AppSync error occurred. Try your request again.
+    /// - `NotFoundException` : The resource specified in the request was not found. Check the resource, and then try again.
+    /// - `UnauthorizedException` : You aren't authorized to perform this operation.
     func listResolversByFunction(input: ListResolversByFunctionInput) async throws -> ListResolversByFunctionOutputResponse
     /// Lists the SourceApiAssociationSummary data.
+    ///
+    /// - Parameter ListSourceApiAssociationsInput : [no documentation found]
+    ///
+    /// - Returns: `ListSourceApiAssociationsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The request is not well formed. For example, a value is invalid or a required field is missing. Check the field values, and then try again.
+    /// - `InternalFailureException` : An internal AppSync error occurred. Try your request again.
+    /// - `NotFoundException` : The resource specified in the request was not found. Check the resource, and then try again.
+    /// - `UnauthorizedException` : You aren't authorized to perform this operation.
     func listSourceApiAssociations(input: ListSourceApiAssociationsInput) async throws -> ListSourceApiAssociationsOutputResponse
     /// Lists the tags for a resource.
+    ///
+    /// - Parameter ListTagsForResourceInput : [no documentation found]
+    ///
+    /// - Returns: `ListTagsForResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have access to perform this operation on this resource.
+    /// - `BadRequestException` : The request is not well formed. For example, a value is invalid or a required field is missing. Check the field values, and then try again.
+    /// - `InternalFailureException` : An internal AppSync error occurred. Try your request again.
+    /// - `LimitExceededException` : The request exceeded a limit. Try your request again.
+    /// - `NotFoundException` : The resource specified in the request was not found. Check the resource, and then try again.
+    /// - `UnauthorizedException` : You aren't authorized to perform this operation.
     func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
     /// Lists the types for a given API.
+    ///
+    /// - Parameter ListTypesInput : [no documentation found]
+    ///
+    /// - Returns: `ListTypesOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The request is not well formed. For example, a value is invalid or a required field is missing. Check the field values, and then try again.
+    /// - `ConcurrentModificationException` : Another modification is in progress at this time and it must complete before you can make your change.
+    /// - `InternalFailureException` : An internal AppSync error occurred. Try your request again.
+    /// - `NotFoundException` : The resource specified in the request was not found. Check the resource, and then try again.
+    /// - `UnauthorizedException` : You aren't authorized to perform this operation.
     func listTypes(input: ListTypesInput) async throws -> ListTypesOutputResponse
     /// Lists Type objects by the source API association ID.
+    ///
+    /// - Parameter ListTypesByAssociationInput : [no documentation found]
+    ///
+    /// - Returns: `ListTypesByAssociationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The request is not well formed. For example, a value is invalid or a required field is missing. Check the field values, and then try again.
+    /// - `ConcurrentModificationException` : Another modification is in progress at this time and it must complete before you can make your change.
+    /// - `InternalFailureException` : An internal AppSync error occurred. Try your request again.
+    /// - `NotFoundException` : The resource specified in the request was not found. Check the resource, and then try again.
+    /// - `UnauthorizedException` : You aren't authorized to perform this operation.
     func listTypesByAssociation(input: ListTypesByAssociationInput) async throws -> ListTypesByAssociationOutputResponse
     /// Adds a new schema to your GraphQL API. This operation is asynchronous. Use to determine when it has completed.
+    ///
+    /// - Parameter StartSchemaCreationInput : [no documentation found]
+    ///
+    /// - Returns: `StartSchemaCreationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The request is not well formed. For example, a value is invalid or a required field is missing. Check the field values, and then try again.
+    /// - `ConcurrentModificationException` : Another modification is in progress at this time and it must complete before you can make your change.
+    /// - `InternalFailureException` : An internal AppSync error occurred. Try your request again.
+    /// - `NotFoundException` : The resource specified in the request was not found. Check the resource, and then try again.
+    /// - `UnauthorizedException` : You aren't authorized to perform this operation.
     func startSchemaCreation(input: StartSchemaCreationInput) async throws -> StartSchemaCreationOutputResponse
     /// Initiates a merge operation. Returns a status that shows the result of the merge operation.
+    ///
+    /// - Parameter StartSchemaMergeInput : [no documentation found]
+    ///
+    /// - Returns: `StartSchemaMergeOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The request is not well formed. For example, a value is invalid or a required field is missing. Check the field values, and then try again.
+    /// - `ConcurrentModificationException` : Another modification is in progress at this time and it must complete before you can make your change.
+    /// - `InternalFailureException` : An internal AppSync error occurred. Try your request again.
+    /// - `NotFoundException` : The resource specified in the request was not found. Check the resource, and then try again.
+    /// - `UnauthorizedException` : You aren't authorized to perform this operation.
     func startSchemaMerge(input: StartSchemaMergeInput) async throws -> StartSchemaMergeOutputResponse
     /// Tags a resource with user-supplied tags.
+    ///
+    /// - Parameter TagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `TagResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have access to perform this operation on this resource.
+    /// - `BadRequestException` : The request is not well formed. For example, a value is invalid or a required field is missing. Check the field values, and then try again.
+    /// - `InternalFailureException` : An internal AppSync error occurred. Try your request again.
+    /// - `LimitExceededException` : The request exceeded a limit. Try your request again.
+    /// - `NotFoundException` : The resource specified in the request was not found. Check the resource, and then try again.
+    /// - `UnauthorizedException` : You aren't authorized to perform this operation.
     func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
     /// Untags a resource.
+    ///
+    /// - Parameter UntagResourceInput : [no documentation found]
+    ///
+    /// - Returns: `UntagResourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have access to perform this operation on this resource.
+    /// - `BadRequestException` : The request is not well formed. For example, a value is invalid or a required field is missing. Check the field values, and then try again.
+    /// - `InternalFailureException` : An internal AppSync error occurred. Try your request again.
+    /// - `LimitExceededException` : The request exceeded a limit. Try your request again.
+    /// - `NotFoundException` : The resource specified in the request was not found. Check the resource, and then try again.
+    /// - `UnauthorizedException` : You aren't authorized to perform this operation.
     func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
     /// Updates the cache for the GraphQL API.
+    ///
+    /// - Parameter UpdateApiCacheInput : Represents the input of a UpdateApiCache operation.
+    ///
+    /// - Returns: `UpdateApiCacheOutputResponse` : Represents the output of a UpdateApiCache operation.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The request is not well formed. For example, a value is invalid or a required field is missing. Check the field values, and then try again.
+    /// - `ConcurrentModificationException` : Another modification is in progress at this time and it must complete before you can make your change.
+    /// - `InternalFailureException` : An internal AppSync error occurred. Try your request again.
+    /// - `NotFoundException` : The resource specified in the request was not found. Check the resource, and then try again.
+    /// - `UnauthorizedException` : You aren't authorized to perform this operation.
     func updateApiCache(input: UpdateApiCacheInput) async throws -> UpdateApiCacheOutputResponse
     /// Updates an API key. You can update the key as long as it's not deleted.
+    ///
+    /// - Parameter UpdateApiKeyInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateApiKeyOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ApiKeyValidityOutOfBoundsException` : The API key expiration must be set to a value between 1 and 365 days from creation (for CreateApiKey) or from update (for UpdateApiKey).
+    /// - `BadRequestException` : The request is not well formed. For example, a value is invalid or a required field is missing. Check the field values, and then try again.
+    /// - `InternalFailureException` : An internal AppSync error occurred. Try your request again.
+    /// - `LimitExceededException` : The request exceeded a limit. Try your request again.
+    /// - `NotFoundException` : The resource specified in the request was not found. Check the resource, and then try again.
+    /// - `UnauthorizedException` : You aren't authorized to perform this operation.
     func updateApiKey(input: UpdateApiKeyInput) async throws -> UpdateApiKeyOutputResponse
     /// Updates a DataSource object.
+    ///
+    /// - Parameter UpdateDataSourceInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateDataSourceOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The request is not well formed. For example, a value is invalid or a required field is missing. Check the field values, and then try again.
+    /// - `ConcurrentModificationException` : Another modification is in progress at this time and it must complete before you can make your change.
+    /// - `InternalFailureException` : An internal AppSync error occurred. Try your request again.
+    /// - `NotFoundException` : The resource specified in the request was not found. Check the resource, and then try again.
+    /// - `UnauthorizedException` : You aren't authorized to perform this operation.
     func updateDataSource(input: UpdateDataSourceInput) async throws -> UpdateDataSourceOutputResponse
     /// Updates a custom DomainName object.
+    ///
+    /// - Parameter UpdateDomainNameInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateDomainNameOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have access to perform this operation on this resource.
+    /// - `BadRequestException` : The request is not well formed. For example, a value is invalid or a required field is missing. Check the field values, and then try again.
+    /// - `ConcurrentModificationException` : Another modification is in progress at this time and it must complete before you can make your change.
+    /// - `InternalFailureException` : An internal AppSync error occurred. Try your request again.
+    /// - `NotFoundException` : The resource specified in the request was not found. Check the resource, and then try again.
     func updateDomainName(input: UpdateDomainNameInput) async throws -> UpdateDomainNameOutputResponse
     /// Updates a Function object.
+    ///
+    /// - Parameter UpdateFunctionInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateFunctionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConcurrentModificationException` : Another modification is in progress at this time and it must complete before you can make your change.
+    /// - `InternalFailureException` : An internal AppSync error occurred. Try your request again.
+    /// - `NotFoundException` : The resource specified in the request was not found. Check the resource, and then try again.
+    /// - `UnauthorizedException` : You aren't authorized to perform this operation.
     func updateFunction(input: UpdateFunctionInput) async throws -> UpdateFunctionOutputResponse
     /// Updates a GraphqlApi object.
+    ///
+    /// - Parameter UpdateGraphqlApiInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateGraphqlApiOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have access to perform this operation on this resource.
+    /// - `BadRequestException` : The request is not well formed. For example, a value is invalid or a required field is missing. Check the field values, and then try again.
+    /// - `ConcurrentModificationException` : Another modification is in progress at this time and it must complete before you can make your change.
+    /// - `InternalFailureException` : An internal AppSync error occurred. Try your request again.
+    /// - `NotFoundException` : The resource specified in the request was not found. Check the resource, and then try again.
+    /// - `UnauthorizedException` : You aren't authorized to perform this operation.
     func updateGraphqlApi(input: UpdateGraphqlApiInput) async throws -> UpdateGraphqlApiOutputResponse
     /// Updates a Resolver object.
+    ///
+    /// - Parameter UpdateResolverInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateResolverOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The request is not well formed. For example, a value is invalid or a required field is missing. Check the field values, and then try again.
+    /// - `ConcurrentModificationException` : Another modification is in progress at this time and it must complete before you can make your change.
+    /// - `InternalFailureException` : An internal AppSync error occurred. Try your request again.
+    /// - `NotFoundException` : The resource specified in the request was not found. Check the resource, and then try again.
+    /// - `UnauthorizedException` : You aren't authorized to perform this operation.
     func updateResolver(input: UpdateResolverInput) async throws -> UpdateResolverOutputResponse
     /// Updates some of the configuration choices of a particular source API association.
+    ///
+    /// - Parameter UpdateSourceApiAssociationInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateSourceApiAssociationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The request is not well formed. For example, a value is invalid or a required field is missing. Check the field values, and then try again.
+    /// - `ConcurrentModificationException` : Another modification is in progress at this time and it must complete before you can make your change.
+    /// - `InternalFailureException` : An internal AppSync error occurred. Try your request again.
+    /// - `NotFoundException` : The resource specified in the request was not found. Check the resource, and then try again.
+    /// - `UnauthorizedException` : You aren't authorized to perform this operation.
     func updateSourceApiAssociation(input: UpdateSourceApiAssociationInput) async throws -> UpdateSourceApiAssociationOutputResponse
     /// Updates a Type object.
+    ///
+    /// - Parameter UpdateTypeInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateTypeOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The request is not well formed. For example, a value is invalid or a required field is missing. Check the field values, and then try again.
+    /// - `ConcurrentModificationException` : Another modification is in progress at this time and it must complete before you can make your change.
+    /// - `InternalFailureException` : An internal AppSync error occurred. Try your request again.
+    /// - `NotFoundException` : The resource specified in the request was not found. Check the resource, and then try again.
+    /// - `UnauthorizedException` : You aren't authorized to perform this operation.
     func updateType(input: UpdateTypeInput) async throws -> UpdateTypeOutputResponse
 }
 
