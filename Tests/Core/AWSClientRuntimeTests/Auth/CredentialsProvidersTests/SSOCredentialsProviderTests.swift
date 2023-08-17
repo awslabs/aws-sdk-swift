@@ -26,4 +26,6 @@ class SSOCredentialsProviderTests: XCTestCase {
             _ = try? await provider.getCredentials()
         }
     }
+    
+    // End-to-end manual testing confirmed SSOCredentialsProvider works as of 081723.
 }
