@@ -116,6 +116,18 @@ func addIntegrationTestTarget(_ name: String) {
     ]
 }
 
+func addCustomIntegrationTestTarget(_ folder: String, _ name: String, dependsOn dependency: String) {
+    let integrationTestName = "\(name)IntegrationTests"
+    package.targets += [
+        .testTarget(
+            name: integrationTestName,
+            dependencies: [.crt, .clientRuntime, .awsClientRuntime, .byName(name: dependency), .smithyTestUtils],
+            path: "./IntegrationTests/\(folder)/\(integrationTestName)",
+            resources: [.process("Resources")]
+        )
+    ]
+}
+
 func addProtocolTests() {
 
     struct ProtocolTest {
@@ -531,9 +543,15 @@ let serviceTargets: [String] = [
 serviceTargets.forEach(addServiceTarget)
 
 let servicesWithIntegrationTests: [String] = [
+    "AWSKinesis",
+    "AWSMediaConvert",
+    "AWSS3",
+    "AWSTranscribeStreaming",
 ]
 
 servicesWithIntegrationTests.forEach(addIntegrationTestTarget)
+
+addCustomIntegrationTestTarget("CredentialsProviders", "ProcessCredentialsProvider", dependsOn: "AWSS3")
 
 // Uncomment this line to enable protocol tests
 // addProtocolTests()
