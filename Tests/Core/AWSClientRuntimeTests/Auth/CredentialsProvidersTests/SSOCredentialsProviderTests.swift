@@ -16,7 +16,7 @@ class SSOCredentialsProviderTests: XCTestCase {
     let credentialsPath = Bundle.module.path(forResource: "credentials", ofType: nil)!
     
     func testCreateCredentialsProviderSSOLegacyProfile() async throws {
-        let provider = try SSOCredentialsProvider(
+        _ = try SSOCredentialsProvider(
             profileName: "user",
             configFilePath: configPath,
             credentialsFilePath: credentialsPath
@@ -25,7 +25,7 @@ class SSOCredentialsProviderTests: XCTestCase {
     }
     
     func testCreateCredentialsProviderSSOTokenProviderProfile() async throws {
-        let provider = try SSOCredentialsProvider(
+        _ = try SSOCredentialsProvider(
             profileName: "dev",
             configFilePath: configPath,
             credentialsFilePath: credentialsPath
