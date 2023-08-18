@@ -16,28 +16,22 @@ class SSOCredentialsProviderTests: XCTestCase {
     let credentialsPath = Bundle.module.path(forResource: "credentials", ofType: nil)!
     
     func testCreateCredentialsProviderSSOLegacyProfile() async throws {
-        do {
-            let provider = try SSOCredentialsProvider(
-                profileName: "user",
-                configFilePath: configPath,
-                credentialsFilePath: credentialsPath)
-            XCTAssertNotNil(provider)
-            // get credentials will fail in CI due to expired token, so do not assert on credentials.
-            _ = try? await provider.getCredentials()
-        }
+        let provider = try SSOCredentialsProvider(
+            profileName: "user",
+            configFilePath: configPath,
+            credentialsFilePath: credentialsPath)
+        XCTAssertNotNil(provider)
     }
     
     func testCreateCredentialsProviderSSOTokenProviderProfile() async throws {
-        do {
-            let provider = try SSOCredentialsProvider(
-                profileName: "dev",
-                configFilePath: configPath,
-                credentialsFilePath: credentialsPath)
-            XCTAssertNotNil(provider)
-            // get credentials will fail in CI due to expired token, so do not assert on credentials.
-            _ = try? await provider.getCredentials()
-        }
+        let provider = try SSOCredentialsProvider(
+            profileName: "dev",
+            configFilePath: configPath,
+            credentialsFilePath: credentialsPath)
+        XCTAssertNotNil(provider)
     }
     
+    
+    // TODO: add integration tests that automatically test that SSO crednetials provider correctly exchanges SSO token for temporary AWS credentails.
     // End-to-end manual testing confirmed SSOCredentialsProvider works as of 081723.
 }
