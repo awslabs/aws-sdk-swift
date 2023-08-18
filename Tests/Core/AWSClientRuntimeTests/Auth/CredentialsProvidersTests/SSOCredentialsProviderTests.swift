@@ -19,19 +19,20 @@ class SSOCredentialsProviderTests: XCTestCase {
         let provider = try SSOCredentialsProvider(
             profileName: "user",
             configFilePath: configPath,
-            credentialsFilePath: credentialsPath)
-        XCTAssertNotNil(provider)
+            credentialsFilePath: credentialsPath
+        )
+        // SUCCESS: creation didn't throw error
     }
     
     func testCreateCredentialsProviderSSOTokenProviderProfile() async throws {
         let provider = try SSOCredentialsProvider(
             profileName: "dev",
             configFilePath: configPath,
-            credentialsFilePath: credentialsPath)
-        XCTAssertNotNil(provider)
+            credentialsFilePath: credentialsPath
+        )
+        // SUCCESS: creation didn't throw error
     }
     
-    
     // TODO: add integration tests that automatically test that SSO crednetials provider correctly exchanges SSO token for temporary AWS credentails.
-    // End-to-end manual testing confirmed SSOCredentialsProvider works as of 081723.
+    // Manual integration testing confirmed SSOCredentialsProvider works as of 081723.
 }
