@@ -27,7 +27,7 @@ public struct ECSCredentialsProvider: CredentialsSourcedByCRT {
         let relativeURI = ProcessEnvironment().environmentVariable(key: "AWS_CONTAINER_CREDENTIALS_RELATIVE_URI")
         let absoluteURI = ProcessEnvironment().environmentVariable(key: "AWS_CONTAINER_CREDENTIALS_FULL_URI")
 
-        guard relativeURI != nil || absoluteURI != nil else {
+        guard isValidURI(relativeURI) || isValidURI(absoluteURI) else {
             throw InitializationError.missingURIs("Please configure either the relative or absolute URI environment variable!")
         }
 
@@ -67,4 +67,30 @@ private func buildPathAndQuery(from url: URL) -> String {
     let fragment = url.fragment ?? ""
 
     return path + (query.isEmpty ? "" : "?\(query)") + (fragment.isEmpty ? "" : "#\(fragment)")
+}
+
+private func isValidURI(_ uri: String?) -> Bool {
+gi
+    // check for empty or nil
+    guard let uri = uri, !uri.isEmpty else {
+        return false
+    }
+
+    // ensure uri can be made into a URL object
+    guard let url = URL(string: uri) else {
+        return false
+    }
+
+    // sanity check URL scheme and host
+    guard url.scheme != nil, url.host != nil else {
+        return false
+    }
+
+    // url scheme should only be http (most common) or https (rare)
+    let allowedURLSchemes = ["http", "https"]
+    guard allowedURLSchemes.contains(url.scheme ?? "") else {
+        return false
+    }
+
+    return true
 }
