@@ -5,29 +5,15 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 
-import Foundation
+import struct Foundation.CharacterSet
+import struct Foundation.Data
 
-private let VALID_CHAR = Set(arrayLiteral: Character("!"),
-                                              Character("#"),
-                                              Character("$"),
-                                              Character("%"),
-                                              Character("&"),
-                                              Character("\\"),
-                                              Character("*"),
-                                              Character("+"),
-                                              Character("-"),
-                                              Character("."),
-                                              Character("^"),
-                                              Character("_"),
-                                              Character("`"),
-                                              Character("|"),
-                                              Character("~"))
+private let allowedCharacterSet = CharacterSet("!#$%'*+-.^_`|~".unicodeScalars).union(.alphanumerics)
 
 extension String {
-    func sanitizeForUserAgentToken() -> String {
-        return self.filter({ VALID_CHAR.contains($0)
-                            || $0.isNumber
-                            || $0.isLetter}).replacingOccurrences(of: " ", with: "_")
+
+    var sanitizedForUserAgentToken: String {
+        String(unicodeScalars.map { allowedCharacterSet.contains($0) ? Character($0) : Character("-") })
     }
 }
 

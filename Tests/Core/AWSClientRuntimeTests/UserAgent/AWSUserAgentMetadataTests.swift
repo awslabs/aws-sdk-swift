@@ -10,12 +10,12 @@ import ClientRuntime
 @testable import AWSClientRuntime
 
 class AWSUseragentMetadataTests: XCTestCase {
-    let sdkMetadata = SDKMetadata(name: "swift", version: "0.0.1")
+    let sdkMetadata = SDKMetadata(version: "0.0.1")
     let apiMetadata = APIMetadata(serviceId: "meow", version: "1.1")
     let osMetadata = OSMetadata(family: .iOS, version: "13.1")
     let languageMetadata = LanguageMetadata(version: "5.0")
     let executionEnvMetadata = ExecutionEnvMetadata(name: "e123")
-    let frameworkMetadata = FrameworkMetadata(name: "aws-amplify", version: "2.0.1")
+    let frameworkMetadata = [FrameworkMetadata(name: "aws-amplify", version: "2.0.1")]
 
     func testHappyPathMinimum() {
         let sut = AWSUserAgentMetadata(sdkMetadata: sdkMetadata,
@@ -23,7 +23,7 @@ class AWSUseragentMetadataTests: XCTestCase {
                                        osMetadata: osMetadata,
                                        languageMetadata: languageMetadata)
 
-        XCTAssertEqual("aws-sdk-swift/0.0.1 api/meow/1.1 os/iOS/13.1 lang/swift/5.0", sut.xAmzUserAgent)
+        XCTAssertEqual("aws-sdk-swift/0.0.1 ua/2.0 api/meow#1.1 os/ios#13.1 lang/swift#5.0", sut.userAgent)
     }
 
     func testWithLanguageMetadataExtras() {
@@ -33,7 +33,7 @@ class AWSUseragentMetadataTests: XCTestCase {
                                        osMetadata: osMetadata,
                                        languageMetadata: languageMetadataWithExtras)
 
-        XCTAssertEqual("aws-sdk-swift/0.0.1 api/meow/1.1 os/iOS/13.1 lang/swift/5.0 md/test1/1.2.3", sut.xAmzUserAgent)
+        XCTAssertEqual("aws-sdk-swift/0.0.1 ua/2.0 api/meow#1.1 os/ios#13.1 lang/swift#5.0 md/test1#1.2.3", sut.userAgent)
     }
 
     func testWithExecutionEnv() {
@@ -43,7 +43,7 @@ class AWSUseragentMetadataTests: XCTestCase {
                                        languageMetadata: languageMetadata,
                                        executionEnvMetadata: executionEnvMetadata)
 
-        XCTAssertEqual("aws-sdk-swift/0.0.1 api/meow/1.1 os/iOS/13.1 lang/swift/5.0 exec-env/e123", sut.xAmzUserAgent)
+        XCTAssertEqual("aws-sdk-swift/0.0.1 ua/2.0 api/meow#1.1 os/ios#13.1 lang/swift#5.0 exec-env/e123", sut.userAgent)
     }
 
     func testWithLanguageMetadataExtrasAndExecutionEnv() {
@@ -54,7 +54,7 @@ class AWSUseragentMetadataTests: XCTestCase {
                                        languageMetadata: languageMetadataWithExtras,
                                        executionEnvMetadata: executionEnvMetadata)
 
-        XCTAssertEqual("aws-sdk-swift/0.0.1 api/meow/1.1 os/iOS/13.1 lang/swift/5.0 md/test1/1.2.3 exec-env/e123", sut.xAmzUserAgent)
+        XCTAssertEqual("aws-sdk-swift/0.0.1 ua/2.0 api/meow#1.1 os/ios#13.1 lang/swift#5.0 md/test1#1.2.3 exec-env/e123", sut.userAgent)
     }
 
     func testWithLanguageMetadataExtrasAndExecutionEnvWithFramework() {
@@ -66,12 +66,12 @@ class AWSUseragentMetadataTests: XCTestCase {
                                        executionEnvMetadata: executionEnvMetadata,
                                        frameworkMetadata: frameworkMetadata)
 
-        XCTAssertEqual("aws-sdk-swift/0.0.1 api/meow/1.1 os/iOS/13.1 lang/swift/5.0 md/test1/1.2.3 exec-env/e123 lib/aws-amplify/2.0.1", sut.xAmzUserAgent)
+        XCTAssertEqual("aws-sdk-swift/0.0.1 ua/2.0 api/meow#1.1 os/ios#13.1 lang/swift#5.0 md/test1#1.2.3 exec-env/e123 lib/aws-amplify#2.0.1", sut.userAgent)
     }
 
     func testWithLanguageMetadataExtrasAndExecutionEnvWithFrameworkExtras() {
         let languageMetadataWithExtras = LanguageMetadata(version: "5.0", extras: ["test1": "1.2.3"])
-        let frameworkMetadataWithExtras = FrameworkMetadata(name: "aws-amplify", version: "2.0.1", extras: ["f1" : "c1"])
+        let frameworkMetadataWithExtras = [FrameworkMetadata(name: "aws-amplify", version: "2.0.1", extras: ["f1" : "c1"])]
 
         let sut = AWSUserAgentMetadata(sdkMetadata: sdkMetadata,
                                        apiMetadata: apiMetadata,
@@ -80,18 +80,19 @@ class AWSUseragentMetadataTests: XCTestCase {
                                        executionEnvMetadata: executionEnvMetadata,
                                        frameworkMetadata: frameworkMetadataWithExtras)
 
-        XCTAssertEqual("aws-sdk-swift/0.0.1 api/meow/1.1 os/iOS/13.1 lang/swift/5.0 md/test1/1.2.3 exec-env/e123 lib/aws-amplify/2.0.1 md/f1/c1", sut.xAmzUserAgent)
+        XCTAssertEqual("aws-sdk-swift/0.0.1 ua/2.0 api/meow#1.1 os/ios#13.1 lang/swift#5.0 md/test1#1.2.3 exec-env/e123 lib/aws-amplify#2.0.1 md/f1#c1", sut.userAgent)
     }
 
     func testUserAgent() {
-        let ua = AWSUserAgentMetadata.fromEnv(apiMetadata: APIMetadata(serviceId: "Test Service", version: "1.2.3"))
-        XCTAssert(ua.userAgent == "aws-sdk-swift/1.2.3")
+        let clientConfig = try! AWSClientConfiguration<TestAWSServiceSpecificConfiguration>(region: "us-west-2")
+        let ua = AWSUserAgentMetadata.fromEnv(apiMetadata: APIMetadata(serviceId: "Test Service", version: "1.2.3"), clientConfiguration: clientConfig)
+        XCTAssertEqual(ua.userAgent, "aws-sdk-swift/1.2.3 ua/2.0 api/test-service#1.2.3 os/macos#13.5.1 lang/swift#5.8")
     }
 
     func testXAmzUserAgent() {
         let currentOS = ClientRuntime.currentOS
         let apiMeta = APIMetadata(serviceId: "Test Service", version: "1.2.3")
-        let sdkMeta = SDKMetadata(name: "swift", version: apiMeta.version)
+        let sdkMeta = SDKMetadata(version: apiMeta.version)
         let osMeta = OSMetadata(family: currentOS, version: "11.4")
         let langMeta = LanguageMetadata(version: "9.9")
         let awsUserAgent = AWSUserAgentMetadata(sdkMetadata: sdkMeta,
@@ -101,16 +102,16 @@ class AWSUseragentMetadataTests: XCTestCase {
         var expected: String = ""
         switch currentOS {
         case .linux:
-            expected = "aws-sdk-swift/1.2.3 api/test-service/1.2.3 os/linux/11.4 lang/swift/9.9"
+            expected = "aws-sdk-swift/1.2.3 ua/2.0 api/test-service#1.2.3 os/linux#11.4 lang/swift#9.9"
         case .macOS:
-            expected = "aws-sdk-swift/1.2.3 api/test-service/1.2.3 os/macOS/11.4 lang/swift/9.9"
+            expected = "aws-sdk-swift/1.2.3 ua/2.0 api/test-service#1.2.3 os/macos#11.4 lang/swift#9.9"
         case .iOS:
-            expected = "aws-sdk-swift/1.2.3 api/test-service/1.2.3 os/iOS/11.4 lang/swift/9.9"
+            expected = "aws-sdk-swift/1.2.3 ua/2.0 api/test-service#1.2.3 os/ios#11.4 lang/swift#9.9"
         case .unknown:
-            expected = "aws-sdk-swift/1.2.3 api/test-service/1.2.3 os/unknown/11.4 lang/swift/9.9"
+            expected = "aws-sdk-swift/1.2.3 ua/2.0 api/test-service#1.2.3 os/unknown#11.4 lang/swift#9.9"
         default:
             XCTFail("Unexpected OS")
         }
-        XCTAssert(awsUserAgent.xAmzUserAgent == expected, awsUserAgent.xAmzUserAgent)
+        XCTAssert(awsUserAgent.userAgent == expected, awsUserAgent.userAgent)
     }
 }

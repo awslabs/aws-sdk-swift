@@ -16,7 +16,7 @@ public struct ExecutionEnvMetadata {
 
 extension ExecutionEnvMetadata: CustomStringConvertible {
     public var description: String {
-        return "exec-env/\(name.sanitizeForUserAgentToken())"
+        return "exec-env/\(name.sanitizedForUserAgentToken)"
     }
 
     static func detectExecEnv() -> ExecutionEnvMetadata? {

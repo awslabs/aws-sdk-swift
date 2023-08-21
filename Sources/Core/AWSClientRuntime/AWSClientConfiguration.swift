@@ -77,13 +77,20 @@ public class AWSClientConfiguration<ServiceSpecificConfiguration: AWSServiceSpec
     /// Framework Metadata for the client.
     ///
     /// If none is supplied, the SDK will supply default metadata.
-    public var frameworkMetadata: FrameworkMetadata?
+    public var frameworkMetadata: [FrameworkMetadata]
 
     /// Specifies whether FIPS endpoints should be used.
     public var useFIPS: Bool?
 
     /// Specifies whether dual-stack endpoints should be used.
     public var useDualStack: Bool?
+
+    /// An identifying string for the application being used with this SDK.
+    ///
+    /// The application ID is submitted as part of the `user-agent` and allows for better tracking and troubleshooting.
+    /// The application ID may also be retrieved from the environment variable `AWS_SDK_UA_APP_ID` or from the
+    /// configuration file field `sdk_ua_app_id` if it is not set here.
+    public var appID: String?
 
     /// A structure containing AWS service-specific properties.
     ///
@@ -97,12 +104,13 @@ public class AWSClientConfiguration<ServiceSpecificConfiguration: AWSServiceSpec
         _ credentialsProvider: AWSClientRuntime.CredentialsProviding,
         _ endpoint: Swift.String?,
         _ serviceSpecific: ServiceSpecificConfiguration?,
-        _ frameworkMetadata: AWSClientRuntime.FrameworkMetadata?,
+        _ frameworkMetadata: [AWSClientRuntime.FrameworkMetadata],
         _ region: Swift.String?,
         _ signingRegion: Swift.String?,
         _ useDualStack: Swift.Bool?,
         _ useFIPS: Swift.Bool?,
-        _ retryStrategyOptions: RetryStrategyOptions?
+        _ retryStrategyOptions: RetryStrategyOptions?,
+        _ appID: String?
     ) throws {
         typealias RuntimeConfigType =
             DefaultSDKRuntimeConfiguration<DefaultRetryStrategy, DefaultRetryErrorInfoProvider>
@@ -141,14 +149,15 @@ extension AWSClientConfiguration {
         credentialsProvider: AWSClientRuntime.CredentialsProviding? = nil,
         endpoint: Swift.String? = nil,
         serviceSpecific: ServiceSpecificConfiguration? = nil,
-        frameworkMetadata: AWSClientRuntime.FrameworkMetadata? = nil,
+        frameworkMetadata: [AWSClientRuntime.FrameworkMetadata] = [],
         region: Swift.String? = nil,
         regionResolver: AWSClientRuntime.RegionResolver? = nil,
         signingRegion: Swift.String? = nil,
         useDualStack: Swift.Bool? = nil,
         useFIPS: Swift.Bool? = nil,
         retryMode: AWSRetryMode? = nil,
-        maxAttempts: Int? = nil
+        maxAttempts: Int? = nil,
+        appID: String? = nil
     ) async throws {
         let fileBasedConfig = try await CRTFileBasedConfiguration.makeAsync()
         let resolvedRegionResolver = try regionResolver ?? DefaultRegionResolver { _, _ in fileBasedConfig }
@@ -170,6 +179,7 @@ extension AWSClientConfiguration {
             profileName: nil,
             fileBasedConfig: fileBasedConfig
         )
+        let appID = AWSAppIDConfig.appID(configValue: appID, profileName: nil, fileBasedConfig: fileBasedConfig)
         try self.init(
             resolvedCredentialsProvider,
             endpoint,
@@ -179,7 +189,8 @@ extension AWSClientConfiguration {
             signingRegion,
             useDualStack,
             useFIPS,
-            retryStrategyOptions
+            retryStrategyOptions,
+            appID
         )
     }
 
@@ -188,12 +199,13 @@ extension AWSClientConfiguration {
         credentialsProvider: AWSClientRuntime.CredentialsProviding? = nil,
         endpoint: Swift.String? = nil,
         serviceSpecific: ServiceSpecificConfiguration? = nil,
-        frameworkMetadata: AWSClientRuntime.FrameworkMetadata? = nil,
+        frameworkMetadata: [AWSClientRuntime.FrameworkMetadata] = [],
         signingRegion: Swift.String? = nil,
         useDualStack: Swift.Bool? = nil,
         useFIPS: Swift.Bool? = nil,
         retryMode: AWSRetryMode? = nil,
-        maxAttempts: Int? = nil
+        maxAttempts: Int? = nil,
+        appID: String? = nil
     ) throws {
         let fileBasedConfig = try CRTFileBasedConfiguration.make()
         let resolvedCredentialsProvider: CredentialsProviding
@@ -208,6 +220,7 @@ extension AWSClientConfiguration {
             profileName: nil,
             fileBasedConfig: fileBasedConfig
         )
+        let appID = AWSAppIDConfig.appID(configValue: appID, profileName: nil, fileBasedConfig: fileBasedConfig)
         try self.init(
             resolvedCredentialsProvider,
             endpoint,
@@ -217,7 +230,8 @@ extension AWSClientConfiguration {
             signingRegion,
             useDualStack,
             useFIPS,
-            retryStrategyOptions
+            retryStrategyOptions,
+            appID
         )
     }
 

@@ -6,17 +6,15 @@
 //
 
 public struct SDKMetadata {
-    let name: String
     let version: String
 
-    public init(name: String, version: String) {
-        self.name = name
+    public init(version: String) {
         self.version = version
     }
 }
 
 extension SDKMetadata: CustomStringConvertible {
     public var description: String {
-        return "aws-sdk-\(name)/\(version)"
+        return "aws-sdk-swift/\(version)"
     }
 }

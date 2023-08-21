@@ -13,10 +13,10 @@ public struct FrameworkMetadata {
     let extras: [String: String]
 
     var sanitizedName: String {
-        name.sanitizeForUserAgentToken()
+        name.sanitizedForUserAgentToken
     }
     var sanitizedVersion: String {
-        version.sanitizeForUserAgentToken()
+        version.sanitizedForUserAgentToken
     }
 
     public init(name: String, version: String, extras: [String: String] = [String: String]()) {
@@ -30,9 +30,9 @@ extension FrameworkMetadata: CustomStringConvertible {
     public var description: String {
         let extrasMetaData = !extras.isEmpty
             ? extras.map {
-                " md/\($0.key.sanitizeForUserAgentToken())/\($0.value.sanitizeForUserAgentToken())"
+                " md/\($0.key.sanitizedForUserAgentToken)#\($0.value.sanitizedForUserAgentToken)"
             }.joined()
             : ""
-        return "lib/\(sanitizedName)/\(sanitizedVersion)\(extrasMetaData)"
+        return "lib/\(sanitizedName)#\(sanitizedVersion)\(extrasMetaData)"
     }
 }
