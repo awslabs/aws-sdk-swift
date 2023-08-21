@@ -70,7 +70,7 @@ private func buildPathAndQuery(from url: URL) -> String {
 }
 
 private func isValidURI(_ uri: String?) -> Bool {
-gi
+
     // check for empty or nil
     guard let uri = uri, !uri.isEmpty else {
         return false
