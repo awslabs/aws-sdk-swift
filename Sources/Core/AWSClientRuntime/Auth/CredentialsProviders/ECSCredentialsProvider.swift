@@ -41,7 +41,7 @@ public struct ECSCredentialsProvider: CredentialsSourcedByCRT {
                 pathAndQuery = buildPathAndQuery(from: uriURL)
             }
         }
-g
+
         self.crtCredentialsProvider = try CRTCredentialsProvider(source: .ecs(
             bootstrap: SDKDefaultIO.shared.clientBootstrap,
             pathAndQuery: pathAndQuery,
