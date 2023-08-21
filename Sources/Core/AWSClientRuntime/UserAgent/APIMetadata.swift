@@ -23,7 +23,7 @@ extension APIMetadata: CustomStringConvertible {
     ///
     /// `api/service-id "#" version`
     public var description: String {
-        let formattedServiceId = serviceId.replacingOccurrences(of: " ", with: "-").lowercased()
+        let formattedServiceId = serviceId.replacingOccurrences(of: " ", with: "_").lowercased()
         return "api/\(formattedServiceId.sanitizedForUserAgentToken)#\(version.sanitizedForUserAgentToken)"
     }
 }

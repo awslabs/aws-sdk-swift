@@ -84,12 +84,6 @@ class AWSUseragentMetadataTests: XCTestCase {
     }
 
     func testUserAgent() {
-        let clientConfig = try! AWSClientConfiguration<TestAWSServiceSpecificConfiguration>(region: "us-west-2")
-        let ua = AWSUserAgentMetadata.fromEnv(apiMetadata: APIMetadata(serviceId: "Test Service", version: "1.2.3"), clientConfiguration: clientConfig)
-        XCTAssertEqual(ua.userAgent, "aws-sdk-swift/1.2.3 ua/2.0 api/test-service#1.2.3 os/macos#13.5.1 lang/swift#5.8")
-    }
-
-    func testXAmzUserAgent() {
         let currentOS = ClientRuntime.currentOS
         let apiMeta = APIMetadata(serviceId: "Test Service", version: "1.2.3")
         let sdkMeta = SDKMetadata(version: apiMeta.version)
@@ -102,16 +96,16 @@ class AWSUseragentMetadataTests: XCTestCase {
         var expected: String = ""
         switch currentOS {
         case .linux:
-            expected = "aws-sdk-swift/1.2.3 ua/2.0 api/test-service#1.2.3 os/linux#11.4 lang/swift#9.9"
+            expected = "aws-sdk-swift/1.2.3 ua/2.0 api/test_service#1.2.3 os/linux#11.4 lang/swift#9.9"
         case .macOS:
-            expected = "aws-sdk-swift/1.2.3 ua/2.0 api/test-service#1.2.3 os/macos#11.4 lang/swift#9.9"
+            expected = "aws-sdk-swift/1.2.3 ua/2.0 api/test_service#1.2.3 os/macos#11.4 lang/swift#9.9"
         case .iOS:
-            expected = "aws-sdk-swift/1.2.3 ua/2.0 api/test-service#1.2.3 os/ios#11.4 lang/swift#9.9"
+            expected = "aws-sdk-swift/1.2.3 ua/2.0 api/test_service#1.2.3 os/ios#11.4 lang/swift#9.9"
         case .unknown:
-            expected = "aws-sdk-swift/1.2.3 ua/2.0 api/test-service#1.2.3 os/unknown#11.4 lang/swift#9.9"
+            expected = "aws-sdk-swift/1.2.3 ua/2.0 api/test_service#1.2.3 os/unknown#11.4 lang/swift#9.9"
         default:
             XCTFail("Unexpected OS")
         }
-        XCTAssert(awsUserAgent.userAgent == expected, awsUserAgent.userAgent)
+        XCTAssertEqual(awsUserAgent.userAgent, expected)
     }
 }

@@ -4,6 +4,7 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 //
+
 import class Foundation.ProcessInfo
 
 public struct ExecutionEnvMetadata {
@@ -19,8 +20,8 @@ extension ExecutionEnvMetadata: CustomStringConvertible {
         return "exec-env/\(name.sanitizedForUserAgentToken)"
     }
 
-    static func detectExecEnv() -> ExecutionEnvMetadata? {
-        guard let execEnv = ProcessInfo.processInfo.environment["AWS_EXECUTION_ENV"] else {
+    public static func detectExecEnv() -> ExecutionEnvMetadata? {
+        guard let execEnv = ProcessInfo.processInfo.environment["AWS_EXECUTION_ENV"], !execEnv.isEmpty else {
             return nil
         }
         return ExecutionEnvMetadata(name: execEnv)

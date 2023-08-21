@@ -15,6 +15,6 @@ public struct SDKMetadata {
 
 extension SDKMetadata: CustomStringConvertible {
     public var description: String {
-        return "aws-sdk-swift/\(version)"
+        return "aws-sdk-swift/\(version.sanitizedForUserAgentToken)"
     }
 }
