@@ -5,16 +5,17 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 
-public struct SDKMetadata {
+struct SDKMetadata {
     let version: String
 
-    public init(version: String) {
+    init(version: String) {
         self.version = version
     }
 }
 
 extension SDKMetadata: CustomStringConvertible {
-    public var description: String {
+
+    var description: String {
         return "aws-sdk-swift/\(version.sanitizedForUserAgentToken)"
     }
 }

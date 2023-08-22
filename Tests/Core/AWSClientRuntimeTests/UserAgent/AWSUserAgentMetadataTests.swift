@@ -11,7 +11,7 @@ import ClientRuntime
 
 class AWSUseragentMetadataTests: XCTestCase {
     let sdkMetadata = SDKMetadata(version: "0.0.1")
-    let apiMetadata = APIMetadata(serviceId: "meow", version: "1.1")
+    let apiMetadata = APIMetadata(serviceID: "meow", version: "1.1")
     let osMetadata = OSMetadata(family: .iOS, version: "13.1")
     let languageMetadata = LanguageMetadata(version: "5.0")
     let executionEnvMetadata = ExecutionEnvMetadata(name: "e123")
@@ -85,7 +85,7 @@ class AWSUseragentMetadataTests: XCTestCase {
 
     func testUserAgent() {
         let currentOS = ClientRuntime.currentOS
-        let apiMeta = APIMetadata(serviceId: "Test Service", version: "1.2.3")
+        let apiMeta = APIMetadata(serviceID: "Test Service", version: "1.2.3")
         let sdkMeta = SDKMetadata(version: apiMeta.version)
         let osMeta = OSMetadata(family: currentOS, version: "11.4")
         let langMeta = LanguageMetadata(version: "9.9")

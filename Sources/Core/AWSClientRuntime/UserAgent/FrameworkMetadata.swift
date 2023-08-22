@@ -7,7 +7,7 @@
 
 import ClientRuntime
 
-public struct FrameworkMetadata {
+struct FrameworkMetadata {
     let name: String
     let version: String
     let extras: [String: String]
@@ -19,7 +19,7 @@ public struct FrameworkMetadata {
         version.sanitizedForUserAgentToken
     }
 
-    public init(name: String, version: String, extras: [String: String] = [String: String]()) {
+    init(name: String, version: String, extras: [String: String] = [String: String]()) {
         self.name = name
         self.version = version
         self.extras = extras
@@ -27,7 +27,8 @@ public struct FrameworkMetadata {
  }
 
 extension FrameworkMetadata: CustomStringConvertible {
-    public var description: String {
+
+    var description: String {
         let extrasMetaData = !extras.isEmpty
             ? extras.map {
                 " md/\($0.key.sanitizedForUserAgentToken)#\($0.value.sanitizedForUserAgentToken)"

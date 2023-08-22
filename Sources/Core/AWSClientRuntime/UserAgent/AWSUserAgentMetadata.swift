@@ -34,7 +34,6 @@ public struct AWSUserAgentMetadata {
     ///                       *(feat-metadata RWS)
     ///                       *(framework-metadata RWS)
     var userAgent: String {
-        // TODO: add feat-metadata, config-metadata, and appId
         return [
             [sdkMetadata.description],
             [internalMetadata?.description],
@@ -50,12 +49,7 @@ public struct AWSUserAgentMetadata {
         ].flatMap { $0 }.compactMap { $0 }.joined(separator: " ")
     }
 
-//    /// Legacy user agent header value for `UserAgent`
-//    var userAgent: String {
-//        return "\(sdkMetadata)"
-//    }
-//
-    public init(
+    init(
         sdkMetadata: SDKMetadata,
         internalMetadata: InternalMetadata? = nil,
         apiMetadata: APIMetadata,
@@ -79,18 +73,22 @@ public struct AWSUserAgentMetadata {
         self.frameworkMetadata = frameworkMetadata
     }
 
-    public static func fromEnv<ServiceSpecificConfiguration>(
-        apiMetadata: APIMetadata,
+    public static func fromConfig<ServiceSpecificConfiguration>(
+        serviceID: String,
+        version: String,
+        retryMode: AWSRetryMode,
         clientConfiguration: AWSClientConfiguration<ServiceSpecificConfiguration>
     ) -> AWSUserAgentMetadata {
+        let apiMetadata = APIMetadata(serviceID: serviceID, version: version)
         let sdkMetadata = SDKMetadata(version: apiMetadata.version)
         let internalMetadata: InternalMetadata? = nil  // This will need to be supplied once the SDK is distributed internally
         let osVersion = PlatformOperationSystemVersion.operatingSystemVersion()
         let osMetadata = OSMetadata(family: currentOS, version: osVersion)
         let languageMetadata = LanguageMetadata(version: swiftVersion)
-        #warning("Supply config and app ID metadata")
-        let configMetadata = [ConfigMetadata]()
-        let appIDMetadata: AppIDMetadata? = nil
+        let configMetadata = [ConfigMetadata(type: .retry(clientConfiguration.awsRetryMode))]
+        let appIDMetadata = AppIDMetadata(name: clientConfiguration.appID)
+        #warning("Supply framework metadata")
+        let frameworkMetadata = [FrameworkMetadata]()
         return AWSUserAgentMetadata(
             sdkMetadata: sdkMetadata,
             internalMetadata: internalMetadata,
@@ -101,7 +99,7 @@ public struct AWSUserAgentMetadata {
             configMetadata: configMetadata,
             appIDMetadata: appIDMetadata,
             featureMetadata: [],  // Feature metadata will be supplied when features are implemented
-            frameworkMetadata: clientConfiguration.frameworkMetadata
+            frameworkMetadata: frameworkMetadata
         )
     }
 }

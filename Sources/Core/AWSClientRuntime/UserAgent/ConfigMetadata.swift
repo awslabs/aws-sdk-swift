@@ -5,17 +5,17 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 
-public struct ConfigMetadata {
+struct ConfigMetadata {
     let type: ConfigMetadataType
 
-    public init(type: ConfigMetadataType) {
+    init(type: ConfigMetadataType) {
         self.type = type
     }
  }
 
 extension ConfigMetadata: CustomStringConvertible {
 
-    public var description: String {
+    var description: String {
         switch type {
         case .retry(let mode):
             return "cfg/retry-mode#\(mode.rawValue.sanitizedForUserAgentToken)"
@@ -23,6 +23,6 @@ extension ConfigMetadata: CustomStringConvertible {
     }
 }
 
-public enum ConfigMetadataType {
+enum ConfigMetadataType {
     case retry(AWSRetryMode)
 }

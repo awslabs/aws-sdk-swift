@@ -4,6 +4,7 @@
 //
 // SPDX-License-Identifier: Apache-2.0
 //
+
 import ClientRuntime
 
 public struct UserAgentMiddleware<OperationStackOutput: HttpResponseBinding>: Middleware {
@@ -25,9 +26,6 @@ public struct UserAgentMiddleware<OperationStackOutput: HttpResponseBinding>: Mi
           Self.MInput == H.Input,
           Self.MOutput == H.Output,
           Self.Context == H.Context {
-        // x-amz-user-agent and User-Agent is swapped here.  See top note in the
-        // sdk-user-agent-header SEP. More details here in the SEP about legacy issues with metrics
-//        input.withHeader(name: X_AMZ_USER_AGENT, value: metadata.userAgent)
         input.withHeader(name: USER_AGENT, value: metadata.userAgent)
 
         return try await next.handle(context: context, input: input)

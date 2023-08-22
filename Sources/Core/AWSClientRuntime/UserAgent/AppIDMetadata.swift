@@ -5,19 +5,18 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 
-import class Foundation.ProcessInfo
-
-public struct AppIDMetadata {
+struct AppIDMetadata {
     let name: String
 
-    public init(name: String) {
+    init?(name: String?) {
+        guard let name = name, !name.isEmpty else { return nil }
         self.name = name
     }
 }
 
 extension AppIDMetadata: CustomStringConvertible {
 
-    public var description: String {
+    var description: String {
         return "app/\(name.sanitizedForUserAgentToken)"
     }
 }

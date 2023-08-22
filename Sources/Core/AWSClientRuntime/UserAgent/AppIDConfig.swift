@@ -5,7 +5,7 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 
-enum AWSAppIDConfig {
+enum AppIDConfig {
 
     /// Determines the app ID to be used from the given config, if any.
     /// - Parameters:

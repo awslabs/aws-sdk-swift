@@ -5,26 +5,23 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 
-import AWSClientRuntime
+@testable import AWSClientRuntime
 import XCTest
 
 class OSMetadataTests: XCTestCase {
 
     func test_description_itIncludesSanitizedFamilyAndVersion() {
         let subject = OSMetadata(family: .iOS, version: "1.2.3🤡")
-
         XCTAssertEqual(subject.description, "os/ios#1.2.3-")
     }
 
     func test_description_itOmitsVersionIfItIsNil() {
         let subject = OSMetadata(family: .iOS, version: nil)
-
         XCTAssertEqual(subject.description, "os/ios")
     }
 
     func test_description_itOmitsVersionIfItIsAnEmptyString() {
         let subject = OSMetadata(family: .iOS, version: "")
-
         XCTAssertEqual(subject.description, "os/ios")
     }
 

@@ -7,11 +7,11 @@
 
 import ClientRuntime
 
-public struct LanguageMetadata {
+struct LanguageMetadata {
     let version: String
     let extras: [String: String]
 
-    public init(version: String = swiftVersion, extras: [String: String] = [:]) {
+    init(version: String = swiftVersion, extras: [String: String] = [:]) {
         self.version = version
         self.extras = extras
     }
@@ -19,7 +19,7 @@ public struct LanguageMetadata {
 
 extension LanguageMetadata: CustomStringConvertible {
 
-    public var description: String {
+    var description: String {
         let extrasMetadata = !extras.isEmpty
             ? extras.map {
                 " md/\($0.key.sanitizedForUserAgentToken)#\($0.value.sanitizedForUserAgentToken)"

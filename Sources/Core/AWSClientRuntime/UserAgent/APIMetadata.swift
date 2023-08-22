@@ -5,12 +5,12 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 
-public struct APIMetadata {
-    let serviceId: String
+struct APIMetadata {
+    let serviceID: String
     let version: String
 
-    public init(serviceId: String, version: String) {
-        self.serviceId = serviceId
+    init(serviceID: String, version: String) {
+        self.serviceID = serviceID
         self.version = version
     }
 }
@@ -22,8 +22,8 @@ extension APIMetadata: CustomStringConvertible {
     /// For modular service clients, API metadata MUST be included following this format:
     ///
     /// `api/service-id "#" version`
-    public var description: String {
-        let formattedServiceId = serviceId.replacingOccurrences(of: " ", with: "_").lowercased()
-        return "api/\(formattedServiceId.sanitizedForUserAgentToken)#\(version.sanitizedForUserAgentToken)"
+    var description: String {
+        let formattedServiceID = serviceID.replacingOccurrences(of: " ", with: "_").lowercased()
+        return "api/\(formattedServiceID.sanitizedForUserAgentToken)#\(version.sanitizedForUserAgentToken)"
     }
 }

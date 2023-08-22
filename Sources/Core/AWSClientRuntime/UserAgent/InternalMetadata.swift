@@ -5,14 +5,14 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 
-public struct InternalMetadata {
+struct InternalMetadata {
 
     public init() {}
  }
 
 extension InternalMetadata: CustomStringConvertible {
 
-    public var description: String {
+    var description: String {
         return "md/internal"
     }
 }

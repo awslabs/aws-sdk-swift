@@ -5,14 +5,13 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 
-import AWSClientRuntime
+@testable import AWSClientRuntime
 import XCTest
 
 class AppIDMetadataTests: XCTestCase {
 
-    func test_description_sanitizesTheAppID() {
-        let subject = AppIDMetadata(name: "Self Driving 🤡 Car")
-
+    func test_description_sanitizesTheAppID() throws {
+        let subject = try XCTUnwrap(AppIDMetadata(name: "Self Driving 🤡 Car"))
         XCTAssertEqual(subject.description, "app/Self-Driving---Car")
     }
 }

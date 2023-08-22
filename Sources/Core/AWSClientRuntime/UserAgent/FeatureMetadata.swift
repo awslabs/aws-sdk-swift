@@ -5,11 +5,11 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 
-public struct FeatureMetadata {
+struct FeatureMetadata {
     let feature: String
     let version: String?
 
-    public init(feature: String, version: String? = nil) {
+    init(feature: String, version: String? = nil) {
         self.feature = feature
         self.version = version
     }
@@ -17,7 +17,7 @@ public struct FeatureMetadata {
 
 extension FeatureMetadata: CustomStringConvertible {
 
-    public var description: String {
+    var description: String {
         if let version = version, !version.isEmpty {
             return "ft/\(feature.sanitizedForUserAgentToken)#\(version.sanitizedForUserAgentToken)"
         }

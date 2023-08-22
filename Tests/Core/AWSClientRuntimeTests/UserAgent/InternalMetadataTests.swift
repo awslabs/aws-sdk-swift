@@ -5,14 +5,13 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 
-import AWSClientRuntime
+@testable import AWSClientRuntime
 import XCTest
 
 class InternalMetadataTests: XCTestCase {
 
     func test_description_returnsMDInternal() {
         let subject = InternalMetadata()
-
         XCTAssertEqual(subject.description, "md/internal")
     }
 }

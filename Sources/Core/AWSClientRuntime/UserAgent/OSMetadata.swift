@@ -7,11 +7,11 @@
 
 import ClientRuntime
 
-public struct OSMetadata {
+struct OSMetadata {
     let family: PlatformOperatingSystem
     let version: String?
 
-    public init(family: PlatformOperatingSystem, version: String? = nil) {
+    init(family: PlatformOperatingSystem, version: String? = nil) {
         self.family = family
         self.version = version
     }
@@ -19,16 +19,11 @@ public struct OSMetadata {
 
 extension OSMetadata: CustomStringConvertible {
 
-    public var description: String {
-        guard let version = version else {
+    var description: String {
+        guard let version = version, !version.isEmpty else {
             return "os/\(family.userAgentName)"
         }
-        let versionSanitized = version.sanitizedForUserAgentToken
-        guard !versionSanitized.isEmpty else {
-            return "os/\(family.userAgentName)"
-        }
-
-        return "os/\(family.userAgentName)#\(versionSanitized)"
+        return "os/\(family.userAgentName)#\(version.sanitizedForUserAgentToken)"
     }
 }
 
