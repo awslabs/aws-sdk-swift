@@ -76,8 +76,7 @@ public struct AWSUserAgentMetadata {
     public static func fromConfig<ServiceSpecificConfiguration>(
         serviceID: String,
         version: String,
-        retryMode: AWSRetryMode,
-        clientConfiguration: AWSClientConfiguration<ServiceSpecificConfiguration>
+        config: AWSClientConfiguration<ServiceSpecificConfiguration>
     ) -> AWSUserAgentMetadata {
         let apiMetadata = APIMetadata(serviceID: serviceID, version: version)
         let sdkMetadata = SDKMetadata(version: apiMetadata.version)
@@ -85,9 +84,8 @@ public struct AWSUserAgentMetadata {
         let osVersion = PlatformOperationSystemVersion.operatingSystemVersion()
         let osMetadata = OSMetadata(family: currentOS, version: osVersion)
         let languageMetadata = LanguageMetadata(version: swiftVersion)
-        let configMetadata = [ConfigMetadata(type: .retry(clientConfiguration.awsRetryMode))]
-        let appIDMetadata = AppIDMetadata(name: clientConfiguration.appID)
-        #warning("Supply framework metadata")
+        let configMetadata = [ConfigMetadata(type: .retry(config.awsRetryMode))]
+        let appIDMetadata = AppIDMetadata(name: config.appID)
         let frameworkMetadata = [FrameworkMetadata]()
         return AWSUserAgentMetadata(
             sdkMetadata: sdkMetadata,
