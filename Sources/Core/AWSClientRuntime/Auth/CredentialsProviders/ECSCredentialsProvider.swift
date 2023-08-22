@@ -9,9 +9,9 @@ import AwsCommonRuntimeKit
 import ClientRuntime
 import Foundation
 
+/// A credentials provider that sources credentials from ECS container metadata
 public struct ECSCredentialsProvider: CredentialsSourcedByCRT {
     let crtCredentialsProvider: CRTCredentialsProvider
-
     /// Creates a credential provider that sources credentials from ECS container metadata
     /// ECS creds provider can be used to access creds via either relative uri to a fixed endpoint http://169.254.170.2,
     /// or via a full uri specified by environment variables:
@@ -23,11 +23,13 @@ public struct ECSCredentialsProvider: CredentialsSourcedByCRT {
     /// Token is used in auth header but only for absolute uri.
     /// - Returns: `CredentialsProvider`
     /// - Throws: CommonRuntimeError.crtError or InitializationError.missingURIs
-    public init() throws {
-        let relativeURI = ProcessEnvironment().environmentVariable(key: "AWS_CONTAINER_CREDENTIALS_RELATIVE_URI")
-        let absoluteURI = ProcessEnvironment().environmentVariable(key: "AWS_CONTAINER_CREDENTIALS_FULL_URI")
+    public init(
+        environment: Environment = ProcessEnvironment()
+    ) throws {
+        let relativeURI = environment.environmentVariable(key: "AWS_CONTAINER_CREDENTIALS_RELATIVE_URI")
+        let absoluteURI = environment.environmentVariable(key: "AWS_CONTAINER_CREDENTIALS_FULL_URI")
 
-        guard isValidURI(relativeURI) || isValidURI(absoluteURI) else {
+        guard relativeURI != nil || isValidAbsoluteURI(absoluteURI) else {
             throw InitializationError.missingURIs("Please configure either the relative or absolute URI environment variable!")
         }
 
@@ -66,10 +68,12 @@ private func buildPathAndQuery(from url: URL) -> String {
     let query = url.query ?? ""
     let fragment = url.fragment ?? ""
 
-    return path + (query.isEmpty ? "" : "?\(query)") + (fragment.isEmpty ? "" : "#\(fragment)")
+    return path
+        + (query.isEmpty ? "" : "?\(query)")
+        + (fragment.isEmpty ? "" : "#\(fragment)")
 }
 
-private func isValidURI(_ uri: String?) -> Bool {
+private func isValidAbsoluteURI(_ uri: String?) -> Bool {
 
     // check for empty or nil
     guard let uri = uri, !uri.isEmpty else {
