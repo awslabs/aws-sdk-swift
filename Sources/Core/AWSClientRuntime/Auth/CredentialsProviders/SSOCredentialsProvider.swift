@@ -7,7 +7,6 @@
 
 import AwsCommonRuntimeKit
 import ClientRuntime
-import Foundation
 
 /// A credentials provider that sources credentials using GetRoleCredentialsRequest to the AWS Single Sign-On Service to maintain short-lived sessions.
 /// [Details link](https://docs.aws.amazon.com/sdkref/latest/guide/feature-sso-credentials.html)
