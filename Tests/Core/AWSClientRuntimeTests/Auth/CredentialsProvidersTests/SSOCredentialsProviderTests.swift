@@ -17,12 +17,11 @@ class SSOCredentialsProviderTests: XCTestCase {
     
     func testCreateCredentialsProviderSSONonexistentProfile() async throws {
         XCTAssertThrowsError(try SSOCredentialsProvider(
-            profileName: "asdf",
+            profileName: "PROFILE_NOT_IN_SSO_TESTS_CONFIG_FILE",
             configFilePath: configPath,
             credentialsFilePath: credentialsPath
             )
         )
-        // SUCCESS: creation didn't throw error
     }
     
     func testCreateCredentialsProviderSSOLegacyProfile() async throws {
