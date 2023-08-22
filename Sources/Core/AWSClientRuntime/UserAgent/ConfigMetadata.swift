@@ -7,11 +7,7 @@
 
 struct ConfigMetadata {
     let type: ConfigMetadataType
-
-    init(type: ConfigMetadataType) {
-        self.type = type
-    }
- }
+}
 
 extension ConfigMetadata: CustomStringConvertible {
 

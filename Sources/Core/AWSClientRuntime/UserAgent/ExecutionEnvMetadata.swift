@@ -9,10 +9,6 @@ import class Foundation.ProcessInfo
 
 struct ExecutionEnvMetadata {
     let name: String
-
-    init(name: String) {
-        self.name = name
-    }
 }
 
 extension ExecutionEnvMetadata: CustomStringConvertible {

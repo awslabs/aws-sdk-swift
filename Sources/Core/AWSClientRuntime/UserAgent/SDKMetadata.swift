@@ -7,10 +7,6 @@
 
 struct SDKMetadata {
     let version: String
-
-    init(version: String) {
-        self.version = version
-    }
 }
 
 extension SDKMetadata: CustomStringConvertible {

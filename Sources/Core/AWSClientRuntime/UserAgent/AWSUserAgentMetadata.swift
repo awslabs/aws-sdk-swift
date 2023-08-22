@@ -80,7 +80,8 @@ public struct AWSUserAgentMetadata {
     ) -> AWSUserAgentMetadata {
         let apiMetadata = APIMetadata(serviceID: serviceID, version: version)
         let sdkMetadata = SDKMetadata(version: apiMetadata.version)
-        let internalMetadata: InternalMetadata? = nil  // This will need to be supplied once the SDK is distributed internally
+        // `InternalMetadata` will need to be supplied once the SDK is distributed internally
+        let internalMetadata: InternalMetadata? = nil
         let osVersion = PlatformOperationSystemVersion.operatingSystemVersion()
         let osMetadata = OSMetadata(family: currentOS, version: osVersion)
         let languageMetadata = LanguageMetadata(version: swiftVersion)
