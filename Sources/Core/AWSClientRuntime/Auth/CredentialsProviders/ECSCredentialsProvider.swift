@@ -33,7 +33,7 @@ public struct ECSCredentialsProvider: CredentialsSourcedByCRT {
             throw InitializationError.missingURIs("Please configure either the relative or absolute URI environment variable!")
         }
 
-        let defaultHost = "http://169.254.170.2"
+        let defaultHost = "169.254.170.2"
         var host = defaultHost
         var pathAndQuery = relativeURI ?? ""
 
@@ -85,14 +85,8 @@ private func isValidAbsoluteURI(_ uri: String?) -> Bool {
         return false
     }
 
-    // sanity check URL scheme and host
-    guard url.scheme != nil, url.host != nil else {
-        return false
-    }
-
-    // url scheme should only be http (most common) or https (rare)
-    let allowedURLSchemes = ["http", "https"]
-    guard allowedURLSchemes.contains(url.scheme ?? "") else {
+    // sanity check host
+    guard url.host != nil else {
         return false
     }
 

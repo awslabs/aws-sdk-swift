@@ -15,14 +15,12 @@ class ECSCredentialsProviderTests: XCTestCase {
     func testGetCredentialsWithRelativeURI() async throws {
         // relative uri is preferred over absolute uri so we shouldn't get thrown an error
         let mockEnvironment = MockEnvironment(relativeURI: "subfolder/test.txt", absoluteURI: "invalid absolute uri")
-        let ecsCredentialsProvider = try ECSCredentialsProvider(environment: mockEnvironment)
-        print(ecsCredentialsProvider)
-        print(try await ecsCredentialsProvider.getCredentials())
+        XCTAssertNoThrow(try ECSCredentialsProvider(environment: mockEnvironment))
     }
 
     func testGetCredentialsWithAbsoluteURI() async throws {
         let mockEnvironment = MockEnvironment(relativeURI: nil, absoluteURI: "http://www.example.com/subfolder/test.txt")
-        let ecsCredentialsProvider = try ECSCredentialsProvider(environment: mockEnvironment)
+        XCTAssertNoThrow(try ECSCredentialsProvider(environment: mockEnvironment))
     }
 
     func testGetCredentialsWithInvalidAbsoluteURI() async throws {
