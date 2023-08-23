@@ -30,7 +30,9 @@ public struct ECSCredentialsProvider: CredentialsSourcedByCRT {
         let absoluteURI = environment.environmentVariable(key: "AWS_CONTAINER_CREDENTIALS_FULL_URI")
 
         guard relativeURI != nil || isValidAbsoluteURI(absoluteURI) else {
-            throw InitializationError.missingURIs("Please configure either the relative or absolute URI environment variable!")
+            throw InitializationError.missingURIs(
+                "Please configure either the relative or absolute URI environment variable!"
+            )
         }
 
         let defaultHost = "169.254.170.2"
