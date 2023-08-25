@@ -135,6 +135,7 @@ func addProtocolTests() {
 
     let protocolTests: [ProtocolTest] = [
         .init(name: "AWSRestJsonTestSDK", sourcePath: "\(baseDir)/aws-restjson"),
+        .init(name: "AWSRestJsonValidationTestSDK", path: "\(baseDir)/aws-restjson-validation"),
         .init(name: "AWSJson1_0TestSDK", sourcePath: "\(baseDir)/aws-json-10"),
         .init(name: "AWSJson1_1TestSDK", sourcePath: "\(baseDir)/aws-json-11"),
         .init(name: "RestXmlTestSDK", sourcePath: "\(baseDir)/rest-xml"),
