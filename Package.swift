@@ -56,7 +56,7 @@ func addDependencies(clientRuntimeVersion: Version, crtVersion: Version) {
 }
 
 func addClientRuntimeDependency(_ version: Version) {
-    let smithySwiftURL = "https://github.com/awslabs/smithy-swift"
+    let smithySwiftURL = "https://github.com/smithy-lang/smithy-swift"
     let useLocalDeps = ProcessInfo.processInfo.environment["AWS_SWIFT_SDK_USE_LOCAL_DEPS"] != nil
     let useMainDeps = ProcessInfo.processInfo.environment["AWS_SWIFT_SDK_USE_MAIN_DEPS"] != nil
     switch (useLocalDeps, useMainDeps) {
@@ -109,7 +109,7 @@ func addIntegrationTestTarget(_ name: String) {
     package.targets += [
         .testTarget(
             name: integrationTestName,
-            dependencies: [.crt, .clientRuntime, .awsClientRuntime, .byName(name: name), .smithyTestUtils],
+            dependencies: [.crt, .clientRuntime, .awsClientRuntime, "AWSIAM", "AWSCloudWatchLogs", .byName(name: name), .smithyTestUtils],
             path: "./IntegrationTests/Services/\(integrationTestName)",
             resources: [.process("Resources")]
         )
@@ -531,6 +531,11 @@ let serviceTargets: [String] = [
 serviceTargets.forEach(addServiceTarget)
 
 let servicesWithIntegrationTests: [String] = [
+    "AWSECS",
+    "AWSKinesis",
+    "AWSMediaConvert",
+    "AWSS3",
+    "AWSTranscribeStreaming",
 ]
 
 servicesWithIntegrationTests.forEach(addIntegrationTestTarget)
