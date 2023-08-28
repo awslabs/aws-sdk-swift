@@ -22,11 +22,10 @@ class UserAgentMiddleware(val settings: SwiftSettings) : MiddlewareRenderable {
     override val position = MiddlewarePosition.BEFORE
 
     override fun render(writer: SwiftWriter, op: OperationShape, operationStackName: String) {
-        writer.write("let apiMetadata = \$N(serviceId: serviceName, version: \"${settings.moduleVersion}\")", AWSClientRuntimeTypes.Core.APIMetadata)
         writer.write("$operationStackName.${middlewareStep.stringValue()}.intercept(position: ${position.stringValue()}, middleware: \$N(${middlewareParamsString()}))", AWSClientRuntimeTypes.Core.UserAgentMiddleware)
     }
 
     private fun middlewareParamsString(): String {
-        return "metadata: ${AWSClientRuntimeTypes.Core.AWSUserAgentMetadata}.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)"
+        return "metadata: ${AWSClientRuntimeTypes.Core.AWSUserAgentMetadata}.fromConfig(serviceID: serviceName, version: \"${settings.moduleVersion}\", config: config)"
     }
 }

@@ -5,29 +5,21 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 
-import Foundation
+import struct Foundation.Data
 
-private let VALID_CHAR = Set(arrayLiteral: Character("!"),
-                                              Character("#"),
-                                              Character("$"),
-                                              Character("%"),
-                                              Character("&"),
-                                              Character("\\"),
-                                              Character("*"),
-                                              Character("+"),
-                                              Character("-"),
-                                              Character("."),
-                                              Character("^"),
-                                              Character("_"),
-                                              Character("`"),
-                                              Character("|"),
-                                              Character("~"))
+// Alphanumerics plus certain special characters defined in SEP
+private let tokenNoHashCharacterSet = Set("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!$%'*+-.^_`|~")
+private let tokenCharacterSet = tokenNoHashCharacterSet.union(Set("#"))
+private let substituteCharacter = Character("-")
 
 extension String {
-    func sanitizeForUserAgentToken() -> String {
-        return self.filter({ VALID_CHAR.contains($0)
-                            || $0.isNumber
-                            || $0.isLetter}).replacingOccurrences(of: " ", with: "_")
+
+    var userAgentToken: String {
+        String(map { tokenCharacterSet.contains($0) ? $0 : substituteCharacter })
+    }
+
+    var userAgentTokenNoHash: String {
+        String(map { tokenNoHashCharacterSet.contains($0) ? $0 : substituteCharacter })
     }
 }
 
