@@ -17,6 +17,6 @@ struct AppIDMetadata {
 extension AppIDMetadata: CustomStringConvertible {
 
     var description: String {
-        return "app/\(name.sanitizedForUserAgentToken)"
+        return "app/\(name.userAgentToken)"
     }
 }

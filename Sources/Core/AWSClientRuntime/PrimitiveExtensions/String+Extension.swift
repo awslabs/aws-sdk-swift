@@ -5,15 +5,21 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 
-import struct Foundation.CharacterSet
 import struct Foundation.Data
 
-private let allowedCharacterSet = CharacterSet("!#$%'*+-.^_`|~".unicodeScalars).union(.alphanumerics)
+// Alphanumerics plus certain special characters defined in SEP
+private let tokenNoHashCharacterSet = Set("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!$%'*+-.^_`|~")
+private let tokenCharacterSet = tokenNoHashCharacterSet.union(Set("#"))
+private let substituteCharacter = Character("-")
 
 extension String {
 
-    var sanitizedForUserAgentToken: String {
-        String(unicodeScalars.map { allowedCharacterSet.contains($0) ? Character($0) : Character("-") })
+    var userAgentToken: String {
+        String(map { tokenCharacterSet.contains($0) ? $0 : substituteCharacter })
+    }
+
+    var userAgentTokenNoHash: String {
+        String(map { tokenNoHashCharacterSet.contains($0) ? $0 : substituteCharacter })
     }
 }
 

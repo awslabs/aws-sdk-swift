@@ -9,22 +9,18 @@ import ClientRuntime
 
 struct LanguageMetadata {
     let version: String
-    let extras: [String: String]
+    let additionalMetadata: [AdditionalMetadata]
 
-    init(version: String = swiftVersion, extras: [String: String] = [:]) {
+    init(version: String = swiftVersion, additionalMetadata: [AdditionalMetadata] = []) {
         self.version = version
-        self.extras = extras
+        self.additionalMetadata = additionalMetadata
     }
  }
 
 extension LanguageMetadata: CustomStringConvertible {
 
     var description: String {
-        let extrasMetadata = !extras.isEmpty
-            ? extras.map {
-                " md/\($0.key.sanitizedForUserAgentToken)#\($0.value.sanitizedForUserAgentToken)"
-            }.joined()
-            : ""
-        return "lang/swift#\(version.sanitizedForUserAgentToken)\(extrasMetadata)"
+        let description = "lang/swift#\(version.userAgentToken)"
+        return ([description] + additionalMetadata.map(\.description)).joined(separator: " ")
     }
 }

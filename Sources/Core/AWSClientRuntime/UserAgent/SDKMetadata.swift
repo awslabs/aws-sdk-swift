@@ -7,11 +7,18 @@
 
 struct SDKMetadata {
     let version: String
+    let additionalMetadata: [AdditionalMetadata]
+
+    init(version: String, additionalMetadata: [AdditionalMetadata] = []) {
+        self.version = version
+        self.additionalMetadata = additionalMetadata
+    }
 }
 
 extension SDKMetadata: CustomStringConvertible {
 
     var description: String {
-        return "aws-sdk-swift/\(version.sanitizedForUserAgentToken)"
+        let description = "aws-sdk-swift/\(version.userAgentToken)"
+        return ([description] + additionalMetadata.map(\.description)).joined(separator: " ")
     }
 }

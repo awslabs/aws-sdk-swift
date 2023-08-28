@@ -27,7 +27,8 @@ class AWSUseragentMetadataTests: XCTestCase {
     }
 
     func testWithLanguageMetadataExtras() {
-        let languageMetadataWithExtras = LanguageMetadata(version: "5.0", extras: ["test1": "1.2.3"])
+        let additionalMetadata = [AdditionalMetadata(name: "test1", value: "1.2.3")]
+        let languageMetadataWithExtras = LanguageMetadata(version: "5.0", additionalMetadata: additionalMetadata)
         let sut = AWSUserAgentMetadata(sdkMetadata: sdkMetadata,
                                        apiMetadata: apiMetadata,
                                        osMetadata: osMetadata,
@@ -47,7 +48,8 @@ class AWSUseragentMetadataTests: XCTestCase {
     }
 
     func testWithLanguageMetadataExtrasAndExecutionEnv() {
-        let languageMetadataWithExtras = LanguageMetadata(version: "5.0", extras: ["test1": "1.2.3"])
+        let additionalMetadata = [AdditionalMetadata(name: "test1", value: "1.2.3")]
+        let languageMetadataWithExtras = LanguageMetadata(version: "5.0", additionalMetadata: additionalMetadata)
         let sut = AWSUserAgentMetadata(sdkMetadata: sdkMetadata,
                                        apiMetadata: apiMetadata,
                                        osMetadata: osMetadata,
@@ -58,7 +60,8 @@ class AWSUseragentMetadataTests: XCTestCase {
     }
 
     func testWithLanguageMetadataExtrasAndExecutionEnvWithFramework() {
-        let languageMetadataWithExtras = LanguageMetadata(version: "5.0", extras: ["test1": "1.2.3"])
+        let additionalMetadata = [AdditionalMetadata(name: "test1", value: "1.2.3")]
+        let languageMetadataWithExtras = LanguageMetadata(version: "5.0", additionalMetadata: additionalMetadata)
         let sut = AWSUserAgentMetadata(sdkMetadata: sdkMetadata,
                                        apiMetadata: apiMetadata,
                                        osMetadata: osMetadata,
@@ -70,8 +73,9 @@ class AWSUseragentMetadataTests: XCTestCase {
     }
 
     func testWithLanguageMetadataExtrasAndExecutionEnvWithFrameworkExtras() {
-        let languageMetadataWithExtras = LanguageMetadata(version: "5.0", extras: ["test1": "1.2.3"])
-        let frameworkMetadataWithExtras = [FrameworkMetadata(name: "aws-amplify", version: "2.0.1", extras: ["f1" : "c1"])]
+        let additionalMetadata = [AdditionalMetadata(name: "test1", value: "1.2.3")]
+        let languageMetadataWithExtras = LanguageMetadata(version: "5.0", additionalMetadata: additionalMetadata)
+        let frameworkMetadataWithExtras = [FrameworkMetadata(name: "aws-amplify", version: "2.0.1", additionalMetadata: [AdditionalMetadata(name: "f1", value: "c1")])]
 
         let sut = AWSUserAgentMetadata(sdkMetadata: sdkMetadata,
                                        apiMetadata: apiMetadata,

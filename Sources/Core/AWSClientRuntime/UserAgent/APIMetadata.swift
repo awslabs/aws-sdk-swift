@@ -14,6 +14,6 @@ extension APIMetadata: CustomStringConvertible {
 
     var description: String {
         let formattedServiceID = serviceID.replacingOccurrences(of: " ", with: "_").lowercased()
-        return "api/\(formattedServiceID.sanitizedForUserAgentToken)#\(version.sanitizedForUserAgentToken)"
+        return "api/\(formattedServiceID.userAgentToken)#\(version.userAgentToken)"
     }
 }

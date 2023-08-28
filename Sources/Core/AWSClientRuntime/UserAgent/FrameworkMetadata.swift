@@ -9,31 +9,23 @@ import ClientRuntime
 
 struct FrameworkMetadata {
     let name: String
-    let version: String
-    let extras: [String: String]
+    let version: String?
+    let additionalMetadata: [AdditionalMetadata]
 
-    var sanitizedName: String {
-        name.sanitizedForUserAgentToken
-    }
-    var sanitizedVersion: String {
-        version.sanitizedForUserAgentToken
-    }
-
-    init(name: String, version: String, extras: [String: String] = [String: String]()) {
+    init(name: String, version: String, additionalMetadata: [AdditionalMetadata] = []) {
         self.name = name
         self.version = version
-        self.extras = extras
+        self.additionalMetadata = additionalMetadata
     }
  }
 
 extension FrameworkMetadata: CustomStringConvertible {
 
     var description: String {
-        let extrasMetaData = !extras.isEmpty
-            ? extras.map {
-                " md/\($0.key.sanitizedForUserAgentToken)#\($0.value.sanitizedForUserAgentToken)"
-            }.joined()
-            : ""
-        return "lib/\(sanitizedName)#\(sanitizedVersion)\(extrasMetaData)"
+        var description = "lib/\(name.userAgentToken)"
+        if let version = version, !version.isEmpty {
+            description += "#\(version.userAgentToken)"
+        }
+        return ([description] + additionalMetadata.map(\.description)).joined(separator: " ")
     }
 }

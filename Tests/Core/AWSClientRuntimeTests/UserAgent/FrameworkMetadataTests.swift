@@ -21,22 +21,22 @@ class FrameworkMetadataTests: XCTestCase {
     }
 
     func testWithSingleMetadata() {
-        let extras = ["test": "1.0"]
-        let sut = FrameworkMetadata(name: "aws-amplify", version: "2.0.0", extras: extras)
+        let additionalMetadata = [AdditionalMetadata(name: "test", value: "1.0")]
+        let sut = FrameworkMetadata(name: "aws-amplify", version: "2.0.0", additionalMetadata: additionalMetadata)
         XCTAssertEqual("lib/aws-amplify#2.0.0 md/test#1.0", sut.description)
     }
 
     func testWithMultipleMetadata() {
-        let extras = ["test1": "1.0", "test2": "SomethingOtherThanANumber"]
-        let sut = FrameworkMetadata(name: "aws-amplify", version: "2.0.0", extras: extras)
+        let additionalMetadata = [AdditionalMetadata(name: "test1", value: "1.0"), AdditionalMetadata(name: "test2", value: "SomethingOtherThanANumber")]
+        let sut = FrameworkMetadata(name: "aws-amplify", version: "2.0.0", additionalMetadata: additionalMetadata)
         let option1 = "lib/aws-amplify#2.0.0 md/test1#1.0 md/test2#SomethingOtherThanANumber" == sut.description
         let option2 = "lib/aws-amplify#2.0.0 md/test2#SomethingOtherThanANumber md/test1#1.0" == sut.description
         XCTAssert(option1 || option2)
     }
 
     func testMetadataIsSanitized() {
-        let extras = ["tes🍷t3": "1.2.🙉🙈🙊7"]
-        let sut = FrameworkMetadata(name: "aws-nextProduct", version: "2.0.0", extras: extras)
+        let additionalMetadata = [AdditionalMetadata(name: "tes🍷t3", value: "1.2.🙉🙈🙊7")]
+        let sut = FrameworkMetadata(name: "aws-nextProduct", version: "2.0.0", additionalMetadata: additionalMetadata)
         XCTAssertEqual("lib/aws-nextProduct#2.0.0 md/tes-t3#1.2.---7", sut.description)
     }
 }

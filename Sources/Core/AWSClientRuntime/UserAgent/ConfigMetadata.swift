@@ -14,7 +14,7 @@ extension ConfigMetadata: CustomStringConvertible {
     var description: String {
         switch type {
         case .retry(let mode):
-            return "cfg/retry-mode#\(mode.rawValue.sanitizedForUserAgentToken)"
+            return "cfg/retry-mode#\(mode.rawValue.userAgentToken)"
         }
     }
 }
