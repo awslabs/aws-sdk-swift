@@ -27,11 +27,17 @@ public struct ECSCredentialsProvider: CredentialsSourcedByCRT {
         environment: Environment = ProcessEnvironment()
     ) throws {
         let relativeURI = environment.environmentVariable(key: "AWS_CONTAINER_CREDENTIALS_RELATIVE_URI")
+        print("AWS_CONTAINER_CREDENTIALS_RELATIVE_URI: \(relativeURI ?? "Not Set")")
         let absoluteURI = environment.environmentVariable(key: "AWS_CONTAINER_CREDENTIALS_FULL_URI")
+        print("AWS_CONTAINER_CREDENTIALS_FULL_URI: \(absoluteURI ?? "Not Set")")
+
 
         guard relativeURI != nil || isValidAbsoluteURI(absoluteURI) else {
+            let environmentVariables = ProcessInfo.processInfo.environment
+            let environmentString = environmentVariables.map { "\($0.key): \($0.value)" }.joined(separator: "\n")
+
             throw InitializationError.missingURIs(
-                "Please configure either the relative or absolute URI environment variable!"
+                "Please configure either the relative or absolute URI environment variable!\n All Environment Variables:\n \(environmentString)"
             )
         }
 
