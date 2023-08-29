@@ -4161,6 +4161,9 @@ extension CreateCustomDBEngineVersionInput: Swift.Encodable {
         if let manifest = manifest {
             try container.encode(manifest, forKey: ClientRuntime.Key("Manifest"))
         }
+        if let sourceCustomDbEngineVersionIdentifier = sourceCustomDbEngineVersionIdentifier {
+            try container.encode(sourceCustomDbEngineVersionIdentifier, forKey: ClientRuntime.Key("SourceCustomDbEngineVersionIdentifier"))
+        }
         if let tags = tags {
             if !tags.isEmpty {
                 var tagsContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("Tags"))
@@ -4172,6 +4175,9 @@ extension CreateCustomDBEngineVersionInput: Swift.Encodable {
                 var tagsContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("Tags"))
                 try tagsContainer.encode("", forKey: ClientRuntime.Key(""))
             }
+        }
+        if let useAwsProvidedLatestImage = useAwsProvidedLatestImage {
+            try container.encode(useAwsProvidedLatestImage, forKey: ClientRuntime.Key("UseAwsProvidedLatestImage"))
         }
         try container.encode("CreateCustomDBEngineVersion", forKey:ClientRuntime.Key("Action"))
         try container.encode("2014-10-31", forKey:ClientRuntime.Key("Version"))
@@ -4203,8 +4209,12 @@ public struct CreateCustomDBEngineVersionInput: Swift.Equatable {
     public var kmsKeyId: Swift.String?
     /// The CEV manifest, which is a JSON document that describes the installation .zip files stored in Amazon S3. Specify the name/value pairs in a file or a quoted string. RDS Custom applies the patches in the order in which they are listed. The following JSON fields are valid: MediaImportTemplateVersion Version of the CEV manifest. The date is in the format YYYY-MM-DD. databaseInstallationFileNames Ordered list of installation files for the CEV. opatchFileNames Ordered list of OPatch installers used for the Oracle DB engine. psuRuPatchFileNames The PSU and RU patches for this CEV. OtherPatchFileNames The patches that are not in the list of PSU and RU patches. Amazon RDS applies these patches after applying the PSU and RU patches. For more information, see [ Creating the CEV manifest](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/custom-cev.html#custom-cev.preparing.manifest) in the Amazon RDS User Guide.
     public var manifest: Swift.String?
+    /// Reserved for future use.
+    public var sourceCustomDbEngineVersionIdentifier: Swift.String?
     /// A list of tags. For more information, see [Tagging Amazon RDS Resources](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Tagging.html) in the Amazon RDS User Guide.
     public var tags: [RDSClientTypes.Tag]?
+    /// Reserved for future use.
+    public var useAwsProvidedLatestImage: Swift.Bool?
 
     public init(
         databaseInstallationFilesS3BucketName: Swift.String? = nil,
@@ -4215,7 +4225,9 @@ public struct CreateCustomDBEngineVersionInput: Swift.Equatable {
         imageId: Swift.String? = nil,
         kmsKeyId: Swift.String? = nil,
         manifest: Swift.String? = nil,
-        tags: [RDSClientTypes.Tag]? = nil
+        sourceCustomDbEngineVersionIdentifier: Swift.String? = nil,
+        tags: [RDSClientTypes.Tag]? = nil,
+        useAwsProvidedLatestImage: Swift.Bool? = nil
     )
     {
         self.databaseInstallationFilesS3BucketName = databaseInstallationFilesS3BucketName
@@ -4226,7 +4238,9 @@ public struct CreateCustomDBEngineVersionInput: Swift.Equatable {
         self.imageId = imageId
         self.kmsKeyId = kmsKeyId
         self.manifest = manifest
+        self.sourceCustomDbEngineVersionIdentifier = sourceCustomDbEngineVersionIdentifier
         self.tags = tags
+        self.useAwsProvidedLatestImage = useAwsProvidedLatestImage
     }
 }
 
@@ -4240,6 +4254,8 @@ struct CreateCustomDBEngineVersionInputBody: Swift.Equatable {
     let description: Swift.String?
     let manifest: Swift.String?
     let tags: [RDSClientTypes.Tag]?
+    let sourceCustomDbEngineVersionIdentifier: Swift.String?
+    let useAwsProvidedLatestImage: Swift.Bool?
 }
 
 extension CreateCustomDBEngineVersionInputBody: Swift.Decodable {
@@ -4252,7 +4268,9 @@ extension CreateCustomDBEngineVersionInputBody: Swift.Decodable {
         case imageId = "ImageId"
         case kmsKeyId = "KMSKeyId"
         case manifest = "Manifest"
+        case sourceCustomDbEngineVersionIdentifier = "SourceCustomDbEngineVersionIdentifier"
         case tags = "Tags"
+        case useAwsProvidedLatestImage = "UseAwsProvidedLatestImage"
     }
 
     public init(from decoder: Swift.Decoder) throws {
@@ -4292,6 +4310,10 @@ extension CreateCustomDBEngineVersionInputBody: Swift.Decodable {
         } else {
             tags = nil
         }
+        let sourceCustomDbEngineVersionIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sourceCustomDbEngineVersionIdentifier)
+        sourceCustomDbEngineVersionIdentifier = sourceCustomDbEngineVersionIdentifierDecoded
+        let useAwsProvidedLatestImageDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .useAwsProvidedLatestImage)
+        useAwsProvidedLatestImage = useAwsProvidedLatestImageDecoded
     }
 }
 
@@ -5620,6 +5642,9 @@ public struct CreateDBClusterInput: Swift.Equatable {
     /// * Aurora DB clusters - aurora
     ///
     /// * Multi-AZ DB clusters - io1
+    ///
+    ///
+    /// When you create an Aurora DB cluster with the storage type set to aurora-iopt1, the storage type is returned in the response. The storage type isn't returned when you set it to aurora.
     public var storageType: Swift.String?
     /// Tags to assign to the DB cluster. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters
     public var tags: [RDSClientTypes.Tag]?
@@ -31852,8 +31877,14 @@ extension FailoverDBClusterOutputResponseBody: Swift.Decodable {
 extension FailoverGlobalClusterInput: Swift.Encodable {
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if let allowDataLoss = allowDataLoss {
+            try container.encode(allowDataLoss, forKey: ClientRuntime.Key("AllowDataLoss"))
+        }
         if let globalClusterIdentifier = globalClusterIdentifier {
             try container.encode(globalClusterIdentifier, forKey: ClientRuntime.Key("GlobalClusterIdentifier"))
+        }
+        if let switchover = switchover {
+            try container.encode(switchover, forKey: ClientRuntime.Key("Switchover"))
         }
         if let targetDbClusterIdentifier = targetDbClusterIdentifier {
             try container.encode(targetDbClusterIdentifier, forKey: ClientRuntime.Key("TargetDbClusterIdentifier"))
@@ -31870,21 +31901,33 @@ extension FailoverGlobalClusterInput: ClientRuntime.URLPathProvider {
 }
 
 public struct FailoverGlobalClusterInput: Swift.Equatable {
-    /// Identifier of the Aurora global database ([GlobalCluster]) that should be failed over. The identifier is the unique key assigned by the user when the Aurora global database was created. In other words, it's the name of the Aurora global database that you want to fail over. Constraints:
+    /// Specifies whether to allow data loss for this global database cluster operation. Allowing data loss triggers a global failover operation. If you don't specify AllowDataLoss, the global database cluster operation defaults to a switchover. Constraints:
     ///
-    /// * Must match the identifier of an existing [GlobalCluster] (Aurora global database).
+    /// * Can't be specified together with the Switchover parameter.
+    public var allowDataLoss: Swift.Bool?
+    /// The identifier of the global database cluster (Aurora global database) this operation should apply to. The identifier is the unique key assigned by the user when the Aurora global database is created. In other words, it's the name of the Aurora global database. Constraints:
+    ///
+    /// * Must match the identifier of an existing global database cluster.
     /// This member is required.
     public var globalClusterIdentifier: Swift.String?
-    /// Identifier of the secondary Aurora DB cluster that you want to promote to primary for the Aurora global database ([GlobalCluster].) Use the Amazon Resource Name (ARN) for the identifier so that Aurora can locate the cluster in its Amazon Web Services Region.
+    /// Specifies whether to switch over this global database cluster. Constraints:
+    ///
+    /// * Can't be specified together with the AllowDataLoss parameter.
+    public var switchover: Swift.Bool?
+    /// The identifier of the secondary Aurora DB cluster that you want to promote to the primary for the global database cluster. Use the Amazon Resource Name (ARN) for the identifier so that Aurora can locate the cluster in its Amazon Web Services Region.
     /// This member is required.
     public var targetDbClusterIdentifier: Swift.String?
 
     public init(
+        allowDataLoss: Swift.Bool? = nil,
         globalClusterIdentifier: Swift.String? = nil,
+        switchover: Swift.Bool? = nil,
         targetDbClusterIdentifier: Swift.String? = nil
     )
     {
+        self.allowDataLoss = allowDataLoss
         self.globalClusterIdentifier = globalClusterIdentifier
+        self.switchover = switchover
         self.targetDbClusterIdentifier = targetDbClusterIdentifier
     }
 }
@@ -31892,11 +31935,15 @@ public struct FailoverGlobalClusterInput: Swift.Equatable {
 struct FailoverGlobalClusterInputBody: Swift.Equatable {
     let globalClusterIdentifier: Swift.String?
     let targetDbClusterIdentifier: Swift.String?
+    let allowDataLoss: Swift.Bool?
+    let switchover: Swift.Bool?
 }
 
 extension FailoverGlobalClusterInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case allowDataLoss = "AllowDataLoss"
         case globalClusterIdentifier = "GlobalClusterIdentifier"
+        case switchover = "Switchover"
         case targetDbClusterIdentifier = "TargetDbClusterIdentifier"
     }
 
@@ -31906,6 +31953,10 @@ extension FailoverGlobalClusterInputBody: Swift.Decodable {
         globalClusterIdentifier = globalClusterIdentifierDecoded
         let targetDbClusterIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .targetDbClusterIdentifier)
         targetDbClusterIdentifier = targetDbClusterIdentifierDecoded
+        let allowDataLossDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .allowDataLoss)
+        allowDataLoss = allowDataLossDecoded
+        let switchoverDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .switchover)
+        switchover = switchoverDecoded
     }
 }
 
@@ -31966,6 +32017,7 @@ extension FailoverGlobalClusterOutputResponseBody: Swift.Decodable {
 extension RDSClientTypes.FailoverState: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case fromDbClusterArn = "FromDbClusterArn"
+        case isDataLossAllowed = "IsDataLossAllowed"
         case status = "Status"
         case toDbClusterArn = "ToDbClusterArn"
     }
@@ -31974,6 +32026,9 @@ extension RDSClientTypes.FailoverState: Swift.Codable {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
         if let fromDbClusterArn = fromDbClusterArn {
             try container.encode(fromDbClusterArn, forKey: ClientRuntime.Key("FromDbClusterArn"))
+        }
+        if isDataLossAllowed != false {
+            try container.encode(isDataLossAllowed, forKey: ClientRuntime.Key("IsDataLossAllowed"))
         }
         if let status = status {
             try container.encode(status, forKey: ClientRuntime.Key("Status"))
@@ -31991,32 +32046,38 @@ extension RDSClientTypes.FailoverState: Swift.Codable {
         fromDbClusterArn = fromDbClusterArnDecoded
         let toDbClusterArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .toDbClusterArn)
         toDbClusterArn = toDbClusterArnDecoded
+        let isDataLossAllowedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isDataLossAllowed) ?? false
+        isDataLossAllowed = isDataLossAllowedDecoded
     }
 }
 
 extension RDSClientTypes {
-    /// Contains the state of scheduled or in-process failover operations on an Aurora global database ([GlobalCluster]). This Data type is empty unless a failover operation is scheduled or is currently underway on the Aurora global database.
+    /// Contains the state of scheduled or in-process operations on a global cluster (Aurora global database). This data type is empty unless a switchover or failover operation is scheduled or is in progress on the Aurora global database.
     public struct FailoverState: Swift.Equatable {
         /// The Amazon Resource Name (ARN) of the Aurora DB cluster that is currently being demoted, and which is associated with this state.
         public var fromDbClusterArn: Swift.String?
-        /// The current status of the Aurora global database ([GlobalCluster]). Possible values are as follows:
+        /// Indicates whether the operation is a global switchover or a global failover. If data loss is allowed, then the operation is a global failover. Otherwise, it's a switchover.
+        public var isDataLossAllowed: Swift.Bool
+        /// The current status of the global cluster. Possible values are as follows:
         ///
-        /// * pending  A request to fail over the Aurora global database ([GlobalCluster]) has been received by the service. The GlobalCluster's primary DB cluster and the specified secondary DB cluster are being verified before the failover process can start.
+        /// * pending  The service received a request to switch over or fail over the global cluster. The global cluster's primary DB cluster and the specified secondary DB cluster are being verified before the operation starts.
         ///
-        /// * failing-over  This status covers the range of Aurora internal operations that take place during the failover process, such as demoting the primary Aurora DB cluster, promoting the secondary Aurora DB, and synchronizing replicas.
+        /// * failing-over  This status covers the range of Aurora internal operations that take place during the switchover or failover process, such as demoting the primary Aurora DB cluster, promoting the secondary Aurora DB cluster, and synchronizing replicas.
         ///
-        /// * cancelling  The request to fail over the Aurora global database ([GlobalCluster]) was cancelled and the primary Aurora DB cluster and the selected secondary Aurora DB cluster are returning to their previous states.
+        /// * cancelling  The request to switch over or fail over the global cluster was cancelled and the primary Aurora DB cluster and the selected secondary Aurora DB cluster are returning to their previous states.
         public var status: RDSClientTypes.FailoverStatus?
         /// The Amazon Resource Name (ARN) of the Aurora DB cluster that is currently being promoted, and which is associated with this state.
         public var toDbClusterArn: Swift.String?
 
         public init(
             fromDbClusterArn: Swift.String? = nil,
+            isDataLossAllowed: Swift.Bool = false,
             status: RDSClientTypes.FailoverStatus? = nil,
             toDbClusterArn: Swift.String? = nil
         )
         {
             self.fromDbClusterArn = fromDbClusterArn
+            self.isDataLossAllowed = isDataLossAllowed
             self.status = status
             self.toDbClusterArn = toDbClusterArn
         }
@@ -32258,7 +32319,7 @@ extension RDSClientTypes {
         public var engine: Swift.String?
         /// Indicates the database engine version.
         public var engineVersion: Swift.String?
-        /// A data object containing all properties for the current state of an in-process or pending failover process for this Aurora global database. This object is empty unless the [FailoverGlobalCluster] API operation has been called on this Aurora global database ([GlobalCluster]).
+        /// A data object containing all properties for the current state of an in-process or pending switchover or failover process for this global cluster (Aurora global database). This object is empty unless the SwitchoverGlobalCluster or FailoverGlobalCluster operation was called on this global cluster.
         public var failoverState: RDSClientTypes.FailoverState?
         /// The Amazon Resource Name (ARN) for the global database cluster.
         public var globalClusterArn: Swift.String?
@@ -32363,6 +32424,7 @@ extension RDSClientTypes.GlobalClusterMember: Swift.Codable {
         case globalWriteForwardingStatus = "GlobalWriteForwardingStatus"
         case isWriter = "IsWriter"
         case readers = "Readers"
+        case synchronizationStatus = "SynchronizationStatus"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -32387,6 +32449,9 @@ extension RDSClientTypes.GlobalClusterMember: Swift.Codable {
                 var readersContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("Readers"))
                 try readersContainer.encode("", forKey: ClientRuntime.Key(""))
             }
+        }
+        if let synchronizationStatus = synchronizationStatus {
+            try container.encode(synchronizationStatus, forKey: ClientRuntime.Key("SynchronizationStatus"))
         }
     }
 
@@ -32417,35 +32482,73 @@ extension RDSClientTypes.GlobalClusterMember: Swift.Codable {
         isWriter = isWriterDecoded
         let globalWriteForwardingStatusDecoded = try containerValues.decodeIfPresent(RDSClientTypes.WriteForwardingStatus.self, forKey: .globalWriteForwardingStatus)
         globalWriteForwardingStatus = globalWriteForwardingStatusDecoded
+        let synchronizationStatusDecoded = try containerValues.decodeIfPresent(RDSClientTypes.GlobalClusterMemberSynchronizationStatus.self, forKey: .synchronizationStatus)
+        synchronizationStatus = synchronizationStatusDecoded
     }
 }
 
 extension RDSClientTypes {
-    /// A data structure with information about any primary and secondary clusters associated with an Aurora global database.
+    /// A data structure with information about any primary and secondary clusters associated with a global cluster (Aurora global database).
     public struct GlobalClusterMember: Swift.Equatable {
-        /// The Amazon Resource Name (ARN) for each Aurora cluster.
+        /// The Amazon Resource Name (ARN) for each Aurora DB cluster in the global cluster.
         public var dbClusterArn: Swift.String?
-        /// Specifies whether a secondary cluster in an Aurora global database has write forwarding enabled, not enabled, or is in the process of enabling it.
+        /// Specifies whether a secondary cluster in the global cluster has write forwarding enabled, not enabled, or is in the process of enabling it.
         public var globalWriteForwardingStatus: RDSClientTypes.WriteForwardingStatus?
-        /// Specifies whether the Aurora cluster is the primary cluster (that is, has read-write capability) for the Aurora global database with which it is associated.
+        /// Specifies whether the Aurora DB cluster is the primary cluster (that is, has read-write capability) for the global cluster with which it is associated.
         public var isWriter: Swift.Bool
-        /// The Amazon Resource Name (ARN) for each read-only secondary cluster associated with the Aurora global database.
+        /// The Amazon Resource Name (ARN) for each read-only secondary cluster associated with the global cluster.
         public var readers: [Swift.String]?
+        /// The status of synchronization of each Aurora DB cluster in the global cluster.
+        public var synchronizationStatus: RDSClientTypes.GlobalClusterMemberSynchronizationStatus?
 
         public init(
             dbClusterArn: Swift.String? = nil,
             globalWriteForwardingStatus: RDSClientTypes.WriteForwardingStatus? = nil,
             isWriter: Swift.Bool = false,
-            readers: [Swift.String]? = nil
+            readers: [Swift.String]? = nil,
+            synchronizationStatus: RDSClientTypes.GlobalClusterMemberSynchronizationStatus? = nil
         )
         {
             self.dbClusterArn = dbClusterArn
             self.globalWriteForwardingStatus = globalWriteForwardingStatus
             self.isWriter = isWriter
             self.readers = readers
+            self.synchronizationStatus = synchronizationStatus
         }
     }
 
+}
+
+extension RDSClientTypes {
+    public enum GlobalClusterMemberSynchronizationStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case connected
+        case pendingResync
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [GlobalClusterMemberSynchronizationStatus] {
+            return [
+                .connected,
+                .pendingResync,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .connected: return "connected"
+            case .pendingResync: return "pending-resync"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = GlobalClusterMemberSynchronizationStatus(rawValue: rawValue) ?? GlobalClusterMemberSynchronizationStatus.sdkUnknown(rawValue)
+        }
+    }
 }
 
 extension GlobalClusterNotFoundFault {
@@ -45237,7 +45340,7 @@ public struct RestoreDBClusterFromS3Input: Swift.Equatable {
     /// The name of the database engine to be used for this DB cluster. Valid Values: aurora-mysql (for Aurora MySQL)
     /// This member is required.
     public var engine: Swift.String?
-    /// The version number of the database engine to use. To list all of the available engine versions for aurora-mysql (Aurora MySQL), use the following command: aws rds describe-db-engine-versions --engine aurora-mysql --query "DBEngineVersions[].EngineVersion" Aurora MySQL Examples: 5.7.mysql_aurora.2.07.1, 8.0.mysql_aurora.3.02.0
+    /// The version number of the database engine to use. To list all of the available engine versions for aurora-mysql (Aurora MySQL), use the following command: aws rds describe-db-engine-versions --engine aurora-mysql --query "DBEngineVersions[].EngineVersion" Aurora MySQL Examples: 5.7.mysql_aurora.2.12.0, 8.0.mysql_aurora.3.04.0
     public var engineVersion: Swift.String?
     /// The Amazon Web Services KMS key identifier for an encrypted DB cluster. The Amazon Web Services KMS key identifier is the key ARN, key ID, alias ARN, or alias name for the KMS key. To use a KMS key in a different Amazon Web Services account, specify the key ARN or alias ARN. If the StorageEncrypted parameter is enabled, and you do not specify a value for the KmsKeyId parameter, then Amazon RDS will use your default KMS key. There is a default KMS key for your Amazon Web Services account. Your Amazon Web Services account has a different default KMS key for each Amazon Web Services Region.
     public var kmsKeyId: Swift.String?
@@ -45300,7 +45403,7 @@ public struct RestoreDBClusterFromS3Input: Swift.Equatable {
     /// The identifier for the database engine that was backed up to create the files stored in the Amazon S3 bucket. Valid values: mysql
     /// This member is required.
     public var sourceEngine: Swift.String?
-    /// The version of the database that the backup files were created from. MySQL versions 5.5, 5.6, and 5.7 are supported. Example: 5.6.40, 5.7.28
+    /// The version of the database that the backup files were created from. MySQL versions 5.7 and 8.0 are supported. Example: 5.7.40, 8.0.28
     /// This member is required.
     public var sourceEngineVersion: Swift.String?
     /// A value that indicates whether the restored DB cluster is encrypted.
@@ -52237,6 +52340,120 @@ extension RDSClientTypes {
         }
     }
 
+}
+
+extension SwitchoverGlobalClusterInput: Swift.Encodable {
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if let globalClusterIdentifier = globalClusterIdentifier {
+            try container.encode(globalClusterIdentifier, forKey: ClientRuntime.Key("GlobalClusterIdentifier"))
+        }
+        if let targetDbClusterIdentifier = targetDbClusterIdentifier {
+            try container.encode(targetDbClusterIdentifier, forKey: ClientRuntime.Key("TargetDbClusterIdentifier"))
+        }
+        try container.encode("SwitchoverGlobalCluster", forKey:ClientRuntime.Key("Action"))
+        try container.encode("2014-10-31", forKey:ClientRuntime.Key("Version"))
+    }
+}
+
+extension SwitchoverGlobalClusterInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct SwitchoverGlobalClusterInput: Swift.Equatable {
+    /// The identifier of the global database cluster to switch over. This parameter isn't case-sensitive. Constraints:
+    ///
+    /// * Must match the identifier of an existing global database cluster (Aurora global database).
+    /// This member is required.
+    public var globalClusterIdentifier: Swift.String?
+    /// The identifier of the secondary Aurora DB cluster to promote to the new primary for the global database cluster. Use the Amazon Resource Name (ARN) for the identifier so that Aurora can locate the cluster in its Amazon Web Services Region.
+    /// This member is required.
+    public var targetDbClusterIdentifier: Swift.String?
+
+    public init(
+        globalClusterIdentifier: Swift.String? = nil,
+        targetDbClusterIdentifier: Swift.String? = nil
+    )
+    {
+        self.globalClusterIdentifier = globalClusterIdentifier
+        self.targetDbClusterIdentifier = targetDbClusterIdentifier
+    }
+}
+
+struct SwitchoverGlobalClusterInputBody: Swift.Equatable {
+    let globalClusterIdentifier: Swift.String?
+    let targetDbClusterIdentifier: Swift.String?
+}
+
+extension SwitchoverGlobalClusterInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case globalClusterIdentifier = "GlobalClusterIdentifier"
+        case targetDbClusterIdentifier = "TargetDbClusterIdentifier"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let globalClusterIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .globalClusterIdentifier)
+        globalClusterIdentifier = globalClusterIdentifierDecoded
+        let targetDbClusterIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .targetDbClusterIdentifier)
+        targetDbClusterIdentifier = targetDbClusterIdentifierDecoded
+    }
+}
+
+public enum SwitchoverGlobalClusterOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+        switch restXMLError.errorCode {
+            case "DBClusterNotFoundFault": return try await DBClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "GlobalClusterNotFoundFault": return try await GlobalClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidDBClusterStateFault": return try await InvalidDBClusterStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "InvalidGlobalClusterStateFault": return try await InvalidGlobalClusterStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
+        }
+    }
+}
+
+extension SwitchoverGlobalClusterOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: SwitchoverGlobalClusterOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.globalCluster = output.globalCluster
+        } else {
+            self.globalCluster = nil
+        }
+    }
+}
+
+public struct SwitchoverGlobalClusterOutputResponse: Swift.Equatable {
+    /// A data type representing an Aurora global database.
+    public var globalCluster: RDSClientTypes.GlobalCluster?
+
+    public init(
+        globalCluster: RDSClientTypes.GlobalCluster? = nil
+    )
+    {
+        self.globalCluster = globalCluster
+    }
+}
+
+struct SwitchoverGlobalClusterOutputResponseBody: Swift.Equatable {
+    let globalCluster: RDSClientTypes.GlobalCluster?
+}
+
+extension SwitchoverGlobalClusterOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case globalCluster = "GlobalCluster"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let topLevelContainer = try decoder.container(keyedBy: ClientRuntime.Key.self)
+        let containerValues = try topLevelContainer.nestedContainer(keyedBy: CodingKeys.self, forKey: ClientRuntime.Key("SwitchoverGlobalClusterResult"))
+        let globalClusterDecoded = try containerValues.decodeIfPresent(RDSClientTypes.GlobalCluster.self, forKey: .globalCluster)
+        globalCluster = globalClusterDecoded
+    }
 }
 
 extension SwitchoverReadReplicaInput: Swift.Encodable {

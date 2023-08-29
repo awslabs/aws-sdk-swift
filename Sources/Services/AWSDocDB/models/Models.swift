@@ -5616,7 +5616,7 @@ extension DeleteDBClusterInput: Swift.Encodable {
         if let finalDBSnapshotIdentifier = finalDBSnapshotIdentifier {
             try container.encode(finalDBSnapshotIdentifier, forKey: ClientRuntime.Key("FinalDBSnapshotIdentifier"))
         }
-        if skipFinalSnapshot != false {
+        if let skipFinalSnapshot = skipFinalSnapshot {
             try container.encode(skipFinalSnapshot, forKey: ClientRuntime.Key("SkipFinalSnapshot"))
         }
         try container.encode("DeleteDBCluster", forKey:ClientRuntime.Key("Action"))
@@ -5646,12 +5646,12 @@ public struct DeleteDBClusterInput: Swift.Equatable {
     /// * Cannot end with a hyphen or contain two consecutive hyphens.
     public var finalDBSnapshotIdentifier: Swift.String?
     /// Determines whether a final cluster snapshot is created before the cluster is deleted. If true is specified, no cluster snapshot is created. If false is specified, a cluster snapshot is created before the DB cluster is deleted. If SkipFinalSnapshot is false, you must specify a FinalDBSnapshotIdentifier parameter. Default: false
-    public var skipFinalSnapshot: Swift.Bool
+    public var skipFinalSnapshot: Swift.Bool?
 
     public init(
         dbClusterIdentifier: Swift.String? = nil,
         finalDBSnapshotIdentifier: Swift.String? = nil,
-        skipFinalSnapshot: Swift.Bool = false
+        skipFinalSnapshot: Swift.Bool? = nil
     )
     {
         self.dbClusterIdentifier = dbClusterIdentifier
@@ -5662,7 +5662,7 @@ public struct DeleteDBClusterInput: Swift.Equatable {
 
 struct DeleteDBClusterInputBody: Swift.Equatable {
     let dbClusterIdentifier: Swift.String?
-    let skipFinalSnapshot: Swift.Bool
+    let skipFinalSnapshot: Swift.Bool?
     let finalDBSnapshotIdentifier: Swift.String?
 }
 
@@ -6974,10 +6974,10 @@ extension DescribeDBClusterSnapshotsInput: Swift.Encodable {
                 try filtersContainer.encode("", forKey: ClientRuntime.Key(""))
             }
         }
-        if includePublic != false {
+        if let includePublic = includePublic {
             try container.encode(includePublic, forKey: ClientRuntime.Key("IncludePublic"))
         }
-        if includeShared != false {
+        if let includeShared = includeShared {
             try container.encode(includeShared, forKey: ClientRuntime.Key("IncludeShared"))
         }
         if let marker = marker {
@@ -7015,9 +7015,9 @@ public struct DescribeDBClusterSnapshotsInput: Swift.Equatable {
     /// This parameter is not currently supported.
     public var filters: [DocDBClientTypes.Filter]?
     /// Set to true to include manual cluster snapshots that are public and can be copied or restored by any Amazon Web Services account, and otherwise false. The default is false.
-    public var includePublic: Swift.Bool
+    public var includePublic: Swift.Bool?
     /// Set to true to include shared manual cluster snapshots from other Amazon Web Services accounts that this Amazon Web Services account has been given permission to copy or restore, and otherwise false. The default is false.
-    public var includeShared: Swift.Bool
+    public var includeShared: Swift.Bool?
     /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
     public var marker: Swift.String?
     /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token (marker) is included in the response so that the remaining results can be retrieved. Default: 100 Constraints: Minimum 20, maximum 100.
@@ -7040,8 +7040,8 @@ public struct DescribeDBClusterSnapshotsInput: Swift.Equatable {
         dbClusterIdentifier: Swift.String? = nil,
         dbClusterSnapshotIdentifier: Swift.String? = nil,
         filters: [DocDBClientTypes.Filter]? = nil,
-        includePublic: Swift.Bool = false,
-        includeShared: Swift.Bool = false,
+        includePublic: Swift.Bool? = nil,
+        includeShared: Swift.Bool? = nil,
         marker: Swift.String? = nil,
         maxRecords: Swift.Int? = nil,
         snapshotType: Swift.String? = nil
@@ -7065,8 +7065,8 @@ struct DescribeDBClusterSnapshotsInputBody: Swift.Equatable {
     let filters: [DocDBClientTypes.Filter]?
     let maxRecords: Swift.Int?
     let marker: Swift.String?
-    let includeShared: Swift.Bool
-    let includePublic: Swift.Bool
+    let includeShared: Swift.Bool?
+    let includePublic: Swift.Bool?
 }
 
 extension DescribeDBClusterSnapshotsInputBody: Swift.Decodable {
@@ -7392,7 +7392,7 @@ extension DescribeDBEngineVersionsInput: Swift.Encodable {
         if let dbParameterGroupFamily = dbParameterGroupFamily {
             try container.encode(dbParameterGroupFamily, forKey: ClientRuntime.Key("DBParameterGroupFamily"))
         }
-        if defaultOnly != false {
+        if let defaultOnly = defaultOnly {
             try container.encode(defaultOnly, forKey: ClientRuntime.Key("DefaultOnly"))
         }
         if let engine = engine {
@@ -7443,7 +7443,7 @@ public struct DescribeDBEngineVersionsInput: Swift.Equatable {
     /// * If provided, must match an existing DBParameterGroupFamily.
     public var dbParameterGroupFamily: Swift.String?
     /// Indicates that only the default version of the specified engine or engine and major version combination is returned.
-    public var defaultOnly: Swift.Bool
+    public var defaultOnly: Swift.Bool?
     /// The database engine to return.
     public var engine: Swift.String?
     /// The database engine version to return. Example: 3.6.0
@@ -7461,7 +7461,7 @@ public struct DescribeDBEngineVersionsInput: Swift.Equatable {
 
     public init(
         dbParameterGroupFamily: Swift.String? = nil,
-        defaultOnly: Swift.Bool = false,
+        defaultOnly: Swift.Bool? = nil,
         engine: Swift.String? = nil,
         engineVersion: Swift.String? = nil,
         filters: [DocDBClientTypes.Filter]? = nil,
@@ -7490,7 +7490,7 @@ struct DescribeDBEngineVersionsInputBody: Swift.Equatable {
     let filters: [DocDBClientTypes.Filter]?
     let maxRecords: Swift.Int?
     let marker: Swift.String?
-    let defaultOnly: Swift.Bool
+    let defaultOnly: Swift.Bool?
     let listSupportedCharacterSets: Swift.Bool?
     let listSupportedTimezones: Swift.Bool?
 }
@@ -11623,10 +11623,10 @@ extension ListTagsForResourceOutputResponseBody: Swift.Decodable {
 extension ModifyDBClusterInput: Swift.Encodable {
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
-        if allowMajorVersionUpgrade != false {
+        if let allowMajorVersionUpgrade = allowMajorVersionUpgrade {
             try container.encode(allowMajorVersionUpgrade, forKey: ClientRuntime.Key("AllowMajorVersionUpgrade"))
         }
-        if applyImmediately != false {
+        if let applyImmediately = applyImmediately {
             try container.encode(applyImmediately, forKey: ClientRuntime.Key("ApplyImmediately"))
         }
         if let backupRetentionPeriod = backupRetentionPeriod {
@@ -11688,9 +11688,9 @@ extension ModifyDBClusterInput: ClientRuntime.URLPathProvider {
 /// Represents the input to [ModifyDBCluster].
 public struct ModifyDBClusterInput: Swift.Equatable {
     /// A value that indicates whether major version upgrades are allowed. Constraints: You must allow major version upgrades when specifying a value for the EngineVersion parameter that is a different major version than the DB cluster's current version.
-    public var allowMajorVersionUpgrade: Swift.Bool
+    public var allowMajorVersionUpgrade: Swift.Bool?
     /// A value that specifies whether the changes in this request and any pending changes are asynchronously applied as soon as possible, regardless of the PreferredMaintenanceWindow setting for the cluster. If this parameter is set to false, changes to the cluster are applied during the next maintenance window. The ApplyImmediately parameter affects only the NewDBClusterIdentifier and MasterUserPassword values. If you set this parameter value to false, the changes to the NewDBClusterIdentifier and MasterUserPassword values are applied during the next maintenance window. All other changes are applied immediately, regardless of the value of the ApplyImmediately parameter. Default: false
-    public var applyImmediately: Swift.Bool
+    public var applyImmediately: Swift.Bool?
     /// The number of days for which automated backups are retained. You must specify a minimum value of 1. Default: 1 Constraints:
     ///
     /// * Must be a value from 1 to 35.
@@ -11739,8 +11739,8 @@ public struct ModifyDBClusterInput: Swift.Equatable {
     public var vpcSecurityGroupIds: [Swift.String]?
 
     public init(
-        allowMajorVersionUpgrade: Swift.Bool = false,
-        applyImmediately: Swift.Bool = false,
+        allowMajorVersionUpgrade: Swift.Bool? = nil,
+        applyImmediately: Swift.Bool? = nil,
         backupRetentionPeriod: Swift.Int? = nil,
         cloudwatchLogsExportConfiguration: DocDBClientTypes.CloudwatchLogsExportConfiguration? = nil,
         dbClusterIdentifier: Swift.String? = nil,
@@ -11775,7 +11775,7 @@ public struct ModifyDBClusterInput: Swift.Equatable {
 struct ModifyDBClusterInputBody: Swift.Equatable {
     let dbClusterIdentifier: Swift.String?
     let newDBClusterIdentifier: Swift.String?
-    let applyImmediately: Swift.Bool
+    let applyImmediately: Swift.Bool?
     let backupRetentionPeriod: Swift.Int?
     let dbClusterParameterGroupName: Swift.String?
     let vpcSecurityGroupIds: [Swift.String]?
@@ -11785,7 +11785,7 @@ struct ModifyDBClusterInputBody: Swift.Equatable {
     let preferredMaintenanceWindow: Swift.String?
     let cloudwatchLogsExportConfiguration: DocDBClientTypes.CloudwatchLogsExportConfiguration?
     let engineVersion: Swift.String?
-    let allowMajorVersionUpgrade: Swift.Bool
+    let allowMajorVersionUpgrade: Swift.Bool?
     let deletionProtection: Swift.Bool?
 }
 
@@ -12254,7 +12254,7 @@ extension ModifyDBClusterSnapshotAttributeOutputResponseBody: Swift.Decodable {
 extension ModifyDBInstanceInput: Swift.Encodable {
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
-        if applyImmediately != false {
+        if let applyImmediately = applyImmediately {
             try container.encode(applyImmediately, forKey: ClientRuntime.Key("ApplyImmediately"))
         }
         if let autoMinorVersionUpgrade = autoMinorVersionUpgrade {
@@ -12301,7 +12301,7 @@ extension ModifyDBInstanceInput: ClientRuntime.URLPathProvider {
 /// Represents the input to [ModifyDBInstance].
 public struct ModifyDBInstanceInput: Swift.Equatable {
     /// Specifies whether the modifications in this request and any pending modifications are asynchronously applied as soon as possible, regardless of the PreferredMaintenanceWindow setting for the instance. If this parameter is set to false, changes to the instance are applied during the next maintenance window. Some parameter changes can cause an outage and are applied on the next reboot. Default: false
-    public var applyImmediately: Swift.Bool
+    public var applyImmediately: Swift.Bool?
     /// This parameter does not apply to Amazon DocumentDB. Amazon DocumentDB does not perform minor version upgrades regardless of the value set.
     public var autoMinorVersionUpgrade: Swift.Bool?
     /// Indicates the certificate that needs to be associated with the instance.
@@ -12336,7 +12336,7 @@ public struct ModifyDBInstanceInput: Swift.Equatable {
     public var promotionTier: Swift.Int?
 
     public init(
-        applyImmediately: Swift.Bool = false,
+        applyImmediately: Swift.Bool? = nil,
         autoMinorVersionUpgrade: Swift.Bool? = nil,
         caCertificateIdentifier: Swift.String? = nil,
         copyTagsToSnapshot: Swift.Bool? = nil,
@@ -12366,7 +12366,7 @@ public struct ModifyDBInstanceInput: Swift.Equatable {
 struct ModifyDBInstanceInputBody: Swift.Equatable {
     let dbInstanceIdentifier: Swift.String?
     let dbInstanceClass: Swift.String?
-    let applyImmediately: Swift.Bool
+    let applyImmediately: Swift.Bool?
     let preferredMaintenanceWindow: Swift.String?
     let autoMinorVersionUpgrade: Swift.Bool?
     let newDBInstanceIdentifier: Swift.String?
@@ -13977,7 +13977,7 @@ extension ResetDBClusterParameterGroupInput: Swift.Encodable {
                 try parametersContainer.encode("", forKey: ClientRuntime.Key(""))
             }
         }
-        if resetAllParameters != false {
+        if let resetAllParameters = resetAllParameters {
             try container.encode(resetAllParameters, forKey: ClientRuntime.Key("ResetAllParameters"))
         }
         try container.encode("ResetDBClusterParameterGroup", forKey:ClientRuntime.Key("Action"))
@@ -13999,12 +13999,12 @@ public struct ResetDBClusterParameterGroupInput: Swift.Equatable {
     /// A list of parameter names in the cluster parameter group to reset to the default values. You can't use this parameter if the ResetAllParameters parameter is set to true.
     public var parameters: [DocDBClientTypes.Parameter]?
     /// A value that is set to true to reset all parameters in the cluster parameter group to their default values, and false otherwise. You can't use this parameter if there is a list of parameter names specified for the Parameters parameter.
-    public var resetAllParameters: Swift.Bool
+    public var resetAllParameters: Swift.Bool?
 
     public init(
         dbClusterParameterGroupName: Swift.String? = nil,
         parameters: [DocDBClientTypes.Parameter]? = nil,
-        resetAllParameters: Swift.Bool = false
+        resetAllParameters: Swift.Bool? = nil
     )
     {
         self.dbClusterParameterGroupName = dbClusterParameterGroupName
@@ -14015,7 +14015,7 @@ public struct ResetDBClusterParameterGroupInput: Swift.Equatable {
 
 struct ResetDBClusterParameterGroupInputBody: Swift.Equatable {
     let dbClusterParameterGroupName: Swift.String?
-    let resetAllParameters: Swift.Bool
+    let resetAllParameters: Swift.Bool?
     let parameters: [DocDBClientTypes.Parameter]?
 }
 
@@ -14656,7 +14656,7 @@ extension RestoreDBClusterToPointInTimeInput: Swift.Encodable {
                 try tagsContainer.encode("", forKey: ClientRuntime.Key(""))
             }
         }
-        if useLatestRestorableTime != false {
+        if let useLatestRestorableTime = useLatestRestorableTime {
             try container.encode(useLatestRestorableTime, forKey: ClientRuntime.Key("UseLatestRestorableTime"))
         }
         if let vpcSecurityGroupIds = vpcSecurityGroupIds {
@@ -14740,7 +14740,7 @@ public struct RestoreDBClusterToPointInTimeInput: Swift.Equatable {
     /// The tags to be assigned to the restored cluster.
     public var tags: [DocDBClientTypes.Tag]?
     /// A value that is set to true to restore the cluster to the latest restorable backup time, and false otherwise. Default: false Constraints: Cannot be specified if the RestoreToTime parameter is provided.
-    public var useLatestRestorableTime: Swift.Bool
+    public var useLatestRestorableTime: Swift.Bool?
     /// A list of VPC security groups that the new cluster belongs to.
     public var vpcSecurityGroupIds: [Swift.String]?
 
@@ -14755,7 +14755,7 @@ public struct RestoreDBClusterToPointInTimeInput: Swift.Equatable {
         restoreType: Swift.String? = nil,
         sourceDBClusterIdentifier: Swift.String? = nil,
         tags: [DocDBClientTypes.Tag]? = nil,
-        useLatestRestorableTime: Swift.Bool = false,
+        useLatestRestorableTime: Swift.Bool? = nil,
         vpcSecurityGroupIds: [Swift.String]? = nil
     )
     {
@@ -14779,7 +14779,7 @@ struct RestoreDBClusterToPointInTimeInputBody: Swift.Equatable {
     let restoreType: Swift.String?
     let sourceDBClusterIdentifier: Swift.String?
     let restoreToTime: ClientRuntime.Date?
-    let useLatestRestorableTime: Swift.Bool
+    let useLatestRestorableTime: Swift.Bool?
     let port: Swift.Int?
     let dbSubnetGroupName: Swift.String?
     let vpcSecurityGroupIds: [Swift.String]?

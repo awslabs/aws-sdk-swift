@@ -255,7 +255,7 @@ extension GetRecommendationsInput: Swift.Encodable {
         if let itemId = self.itemId {
             try encodeContainer.encode(itemId, forKey: .itemId)
         }
-        if numResults != 0 {
+        if let numResults = self.numResults {
             try encodeContainer.encode(numResults, forKey: .numResults)
         }
         if let promotions = promotions {
@@ -291,7 +291,7 @@ public struct GetRecommendationsInput: Swift.Equatable {
     /// The item ID to provide recommendations for. Required for RELATED_ITEMS recipe type.
     public var itemId: Swift.String?
     /// The number of results to return. The default is 25. The maximum is 500.
-    public var numResults: Swift.Int
+    public var numResults: Swift.Int?
     /// The promotions to apply to the recommendation request. A promotion defines additional business rules that apply to a configurable subset of recommended items.
     public var promotions: [PersonalizeRuntimeClientTypes.Promotion]?
     /// The Amazon Resource Name (ARN) of the recommender to use to get recommendations. Provide a recommender ARN if you created a Domain dataset group with a recommender for a domain use case.
@@ -305,7 +305,7 @@ public struct GetRecommendationsInput: Swift.Equatable {
         filterArn: Swift.String? = nil,
         filterValues: [Swift.String:Swift.String]? = nil,
         itemId: Swift.String? = nil,
-        numResults: Swift.Int = 0,
+        numResults: Swift.Int? = nil,
         promotions: [PersonalizeRuntimeClientTypes.Promotion]? = nil,
         recommenderArn: Swift.String? = nil,
         userId: Swift.String? = nil
@@ -327,7 +327,7 @@ struct GetRecommendationsInputBody: Swift.Equatable {
     let campaignArn: Swift.String?
     let itemId: Swift.String?
     let userId: Swift.String?
-    let numResults: Swift.Int
+    let numResults: Swift.Int?
     let context: [Swift.String:Swift.String]?
     let filterArn: Swift.String?
     let filterValues: [Swift.String:Swift.String]?
@@ -356,7 +356,7 @@ extension GetRecommendationsInputBody: Swift.Decodable {
         itemId = itemIdDecoded
         let userIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .userId)
         userId = userIdDecoded
-        let numResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .numResults) ?? 0
+        let numResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .numResults)
         numResults = numResultsDecoded
         let contextContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .context)
         var contextDecoded0: [Swift.String:Swift.String]? = nil

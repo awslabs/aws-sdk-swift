@@ -2755,7 +2755,7 @@ extension Route53DomainsClientTypes.DomainTransferability: Swift.Codable {
 extension Route53DomainsClientTypes {
     /// A complex type that contains information about whether the specified domain can be transferred to Route 53.
     public struct DomainTransferability: Swift.Equatable {
-        /// Whether the domain name can be transferred to Route 53. You can transfer only domains that have a value of TRANSFERABLE or Transferable. Valid values: TRANSFERABLE The domain name can be transferred to Route 53. UNTRANSFERRABLE The domain name can't be transferred to Route 53. DONT_KNOW Reserved for future use. DOMAIN_IN_OWN_ACCOUNT The domain already exists in the current Amazon Web Services account. DOMAIN_IN_ANOTHER_ACCOUNT The domain exists in another Amazon Web Services account. PREMIUM_DOMAIN Premium domain transfer is not supported.
+        /// Whether the domain name can be transferred to Route 53. You can transfer only domains that have a value of TRANSFERABLE or Transferable. Valid values: TRANSFERABLE The domain name can be transferred to Route 53. UNTRANSFERRABLE The domain name can't be transferred to Route 53. DONT_KNOW Reserved for future use. DOMAIN_IN_OWN_ACCOUNT The domain already exists in the current Amazon Web Services account. DOMAIN_IN_ANOTHER_ACCOUNT the domain exists in another Amazon Web Services account. PREMIUM_DOMAIN Premium domain transfer is not supported.
         public var transferable: Route53DomainsClientTypes.Transferable?
 
         public init(
@@ -4734,7 +4734,7 @@ public struct ListOperationsInput: Swift.Equatable {
     public var maxItems: Swift.Int?
     /// The sort type for returned values.
     public var sortBy: Route53DomainsClientTypes.ListOperationsSortAttributeName?
-    /// The sort order ofr returned values, either ascending or descending.
+    /// The sort order for returned values, either ascending or descending.
     public var sortOrder: Route53DomainsClientTypes.SortOrder?
     /// The status of the operations.
     public var status: [Route53DomainsClientTypes.OperationStatus]?
@@ -7114,7 +7114,7 @@ extension TransferDomainToAnotherAwsAccountOutputResponseBody: Swift.Decodable {
 }
 
 extension Route53DomainsClientTypes {
-    /// Whether the domain name can be transferred to Route 53. You can transfer only domains that have a value of TRANSFERABLE or Transferable. Valid values: TRANSFERABLE The domain name can be transferred to Route 53. UNTRANSFERRABLE The domain name can't be transferred to Route 53. DONT_KNOW Reserved for future use. DOMAIN_IN_OWN_ACCOUNT The domain already exists in the current Amazon Web Services account. DOMAIN_IN_ANOTHER_ACCOUNT The domain exists in another Amazon Web Services account. PREMIUM_DOMAIN Premium domain transfer is not supported.
+    /// Whether the domain name can be transferred to Route 53. You can transfer only domains that have a value of TRANSFERABLE or Transferable. Valid values: TRANSFERABLE The domain name can be transferred to Route 53. UNTRANSFERRABLE The domain name can't be transferred to Route 53. DONT_KNOW Reserved for future use. DOMAIN_IN_OWN_ACCOUNT The domain already exists in the current Amazon Web Services account. DOMAIN_IN_ANOTHER_ACCOUNT the domain exists in another Amazon Web Services account. PREMIUM_DOMAIN Premium domain transfer is not supported.
     public enum Transferable: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case domainInAnotherAccount
         case domainInOwnAccount

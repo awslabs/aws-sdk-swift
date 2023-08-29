@@ -898,6 +898,7 @@ extension WorkSpacesWebClientTypes {
     /// The summary for browser settings.
     public struct BrowserSettingsSummary: Swift.Equatable {
         /// The ARN of the browser settings.
+        /// This member is required.
         public var browserSettingsArn: Swift.String?
 
         public init(
@@ -1172,6 +1173,138 @@ extension ConflictExceptionBody: Swift.Decodable {
         let resourceTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceType)
         resourceType = resourceTypeDecoded
     }
+}
+
+extension WorkSpacesWebClientTypes.CookieSpecification: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case domain
+        case name
+        case path
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let domain = self.domain {
+            try encodeContainer.encode(domain, forKey: .domain)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let path = self.path {
+            try encodeContainer.encode(path, forKey: .path)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let domainDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .domain)
+        domain = domainDecoded
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let pathDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .path)
+        path = pathDecoded
+    }
+}
+
+extension WorkSpacesWebClientTypes {
+    /// Specifies a single cookie or set of cookies in an end user's browser.
+    public struct CookieSpecification: Swift.Equatable {
+        /// The domain of the cookie.
+        /// This member is required.
+        public var domain: Swift.String?
+        /// The name of the cookie.
+        public var name: Swift.String?
+        /// The path of the cookie.
+        public var path: Swift.String?
+
+        public init(
+            domain: Swift.String? = nil,
+            name: Swift.String? = nil,
+            path: Swift.String? = nil
+        )
+        {
+            self.domain = domain
+            self.name = name
+            self.path = path
+        }
+    }
+
+}
+
+extension WorkSpacesWebClientTypes.CookieSynchronizationConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case allowlist
+        case blocklist
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let allowlist = allowlist {
+            var allowlistContainer = encodeContainer.nestedUnkeyedContainer(forKey: .allowlist)
+            for cookiespecification0 in allowlist {
+                try allowlistContainer.encode(cookiespecification0)
+            }
+        }
+        if let blocklist = blocklist {
+            var blocklistContainer = encodeContainer.nestedUnkeyedContainer(forKey: .blocklist)
+            for cookiespecification0 in blocklist {
+                try blocklistContainer.encode(cookiespecification0)
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let allowlistContainer = try containerValues.decodeIfPresent([WorkSpacesWebClientTypes.CookieSpecification?].self, forKey: .allowlist)
+        var allowlistDecoded0:[WorkSpacesWebClientTypes.CookieSpecification]? = nil
+        if let allowlistContainer = allowlistContainer {
+            allowlistDecoded0 = [WorkSpacesWebClientTypes.CookieSpecification]()
+            for structure0 in allowlistContainer {
+                if let structure0 = structure0 {
+                    allowlistDecoded0?.append(structure0)
+                }
+            }
+        }
+        allowlist = allowlistDecoded0
+        let blocklistContainer = try containerValues.decodeIfPresent([WorkSpacesWebClientTypes.CookieSpecification?].self, forKey: .blocklist)
+        var blocklistDecoded0:[WorkSpacesWebClientTypes.CookieSpecification]? = nil
+        if let blocklistContainer = blocklistContainer {
+            blocklistDecoded0 = [WorkSpacesWebClientTypes.CookieSpecification]()
+            for structure0 in blocklistContainer {
+                if let structure0 = structure0 {
+                    blocklistDecoded0?.append(structure0)
+                }
+            }
+        }
+        blocklist = blocklistDecoded0
+    }
+}
+
+extension WorkSpacesWebClientTypes.CookieSynchronizationConfiguration: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CONTENT_REDACTED"
+    }
+}
+
+extension WorkSpacesWebClientTypes {
+    /// The configuration that specifies which cookies should be synchronized from the end user's local browser to the remote browser.
+    public struct CookieSynchronizationConfiguration: Swift.Equatable {
+        /// The list of cookie specifications that are allowed to be synchronized to the remote browser.
+        /// This member is required.
+        public var allowlist: [WorkSpacesWebClientTypes.CookieSpecification]?
+        /// The list of cookie specifications that are blocked from being synchronized to the remote browser.
+        public var blocklist: [WorkSpacesWebClientTypes.CookieSpecification]?
+
+        public init(
+            allowlist: [WorkSpacesWebClientTypes.CookieSpecification]? = nil,
+            blocklist: [WorkSpacesWebClientTypes.CookieSpecification]? = nil
+        )
+        {
+            self.allowlist = allowlist
+            self.blocklist = blocklist
+        }
+    }
+
 }
 
 extension CreateBrowserSettingsInput: Swift.CustomDebugStringConvertible {
@@ -2507,10 +2640,18 @@ extension CreateUserAccessLoggingSettingsOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension CreateUserSettingsInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CreateUserSettingsInput(additionalEncryptionContext: \(Swift.String(describing: additionalEncryptionContext)), clientToken: \(Swift.String(describing: clientToken)), copyAllowed: \(Swift.String(describing: copyAllowed)), customerManagedKey: \(Swift.String(describing: customerManagedKey)), disconnectTimeoutInMinutes: \(Swift.String(describing: disconnectTimeoutInMinutes)), downloadAllowed: \(Swift.String(describing: downloadAllowed)), idleDisconnectTimeoutInMinutes: \(Swift.String(describing: idleDisconnectTimeoutInMinutes)), pasteAllowed: \(Swift.String(describing: pasteAllowed)), printAllowed: \(Swift.String(describing: printAllowed)), tags: \(Swift.String(describing: tags)), uploadAllowed: \(Swift.String(describing: uploadAllowed)), cookieSynchronizationConfiguration: \"CONTENT_REDACTED\")"}
+}
+
 extension CreateUserSettingsInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case additionalEncryptionContext
         case clientToken
+        case cookieSynchronizationConfiguration
         case copyAllowed
+        case customerManagedKey
         case disconnectTimeoutInMinutes
         case downloadAllowed
         case idleDisconnectTimeoutInMinutes
@@ -2522,11 +2663,23 @@ extension CreateUserSettingsInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let additionalEncryptionContext = additionalEncryptionContext {
+            var additionalEncryptionContextContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .additionalEncryptionContext)
+            for (dictKey0, encryptionContextMap0) in additionalEncryptionContext {
+                try additionalEncryptionContextContainer.encode(encryptionContextMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
         if let clientToken = self.clientToken {
             try encodeContainer.encode(clientToken, forKey: .clientToken)
         }
+        if let cookieSynchronizationConfiguration = self.cookieSynchronizationConfiguration {
+            try encodeContainer.encode(cookieSynchronizationConfiguration, forKey: .cookieSynchronizationConfiguration)
+        }
         if let copyAllowed = self.copyAllowed {
             try encodeContainer.encode(copyAllowed.rawValue, forKey: .copyAllowed)
+        }
+        if let customerManagedKey = self.customerManagedKey {
+            try encodeContainer.encode(customerManagedKey, forKey: .customerManagedKey)
         }
         if let disconnectTimeoutInMinutes = self.disconnectTimeoutInMinutes {
             try encodeContainer.encode(disconnectTimeoutInMinutes, forKey: .disconnectTimeoutInMinutes)
@@ -2562,11 +2715,17 @@ extension CreateUserSettingsInput: ClientRuntime.URLPathProvider {
 }
 
 public struct CreateUserSettingsInput: Swift.Equatable {
+    /// The additional encryption context of the user settings.
+    public var additionalEncryptionContext: [Swift.String:Swift.String]?
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original request completes successfully, subsequent retries with the same client token returns the result from the original successful request. If you do not specify a client token, one is automatically generated by the AWS SDK.
     public var clientToken: Swift.String?
+    /// The configuration that specifies which cookies should be synchronized from the end user's local browser to the remote browser.
+    public var cookieSynchronizationConfiguration: WorkSpacesWebClientTypes.CookieSynchronizationConfiguration?
     /// Specifies whether the user can copy text from the streaming session to the local device.
     /// This member is required.
     public var copyAllowed: WorkSpacesWebClientTypes.EnabledType?
+    /// The customer managed key used to encrypt sensitive information in the user settings.
+    public var customerManagedKey: Swift.String?
     /// The amount of time that a streaming session remains active after users disconnect.
     public var disconnectTimeoutInMinutes: Swift.Int?
     /// Specifies whether the user can download files from the streaming session to the local device.
@@ -2587,8 +2746,11 @@ public struct CreateUserSettingsInput: Swift.Equatable {
     public var uploadAllowed: WorkSpacesWebClientTypes.EnabledType?
 
     public init(
+        additionalEncryptionContext: [Swift.String:Swift.String]? = nil,
         clientToken: Swift.String? = nil,
+        cookieSynchronizationConfiguration: WorkSpacesWebClientTypes.CookieSynchronizationConfiguration? = nil,
         copyAllowed: WorkSpacesWebClientTypes.EnabledType? = nil,
+        customerManagedKey: Swift.String? = nil,
         disconnectTimeoutInMinutes: Swift.Int? = nil,
         downloadAllowed: WorkSpacesWebClientTypes.EnabledType? = nil,
         idleDisconnectTimeoutInMinutes: Swift.Int? = nil,
@@ -2598,8 +2760,11 @@ public struct CreateUserSettingsInput: Swift.Equatable {
         uploadAllowed: WorkSpacesWebClientTypes.EnabledType? = nil
     )
     {
+        self.additionalEncryptionContext = additionalEncryptionContext
         self.clientToken = clientToken
+        self.cookieSynchronizationConfiguration = cookieSynchronizationConfiguration
         self.copyAllowed = copyAllowed
+        self.customerManagedKey = customerManagedKey
         self.disconnectTimeoutInMinutes = disconnectTimeoutInMinutes
         self.downloadAllowed = downloadAllowed
         self.idleDisconnectTimeoutInMinutes = idleDisconnectTimeoutInMinutes
@@ -2620,12 +2785,18 @@ struct CreateUserSettingsInputBody: Swift.Equatable {
     let disconnectTimeoutInMinutes: Swift.Int?
     let idleDisconnectTimeoutInMinutes: Swift.Int?
     let clientToken: Swift.String?
+    let cookieSynchronizationConfiguration: WorkSpacesWebClientTypes.CookieSynchronizationConfiguration?
+    let customerManagedKey: Swift.String?
+    let additionalEncryptionContext: [Swift.String:Swift.String]?
 }
 
 extension CreateUserSettingsInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case additionalEncryptionContext
         case clientToken
+        case cookieSynchronizationConfiguration
         case copyAllowed
+        case customerManagedKey
         case disconnectTimeoutInMinutes
         case downloadAllowed
         case idleDisconnectTimeoutInMinutes
@@ -2664,6 +2835,21 @@ extension CreateUserSettingsInputBody: Swift.Decodable {
         idleDisconnectTimeoutInMinutes = idleDisconnectTimeoutInMinutesDecoded
         let clientTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientToken)
         clientToken = clientTokenDecoded
+        let cookieSynchronizationConfigurationDecoded = try containerValues.decodeIfPresent(WorkSpacesWebClientTypes.CookieSynchronizationConfiguration.self, forKey: .cookieSynchronizationConfiguration)
+        cookieSynchronizationConfiguration = cookieSynchronizationConfigurationDecoded
+        let customerManagedKeyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .customerManagedKey)
+        customerManagedKey = customerManagedKeyDecoded
+        let additionalEncryptionContextContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .additionalEncryptionContext)
+        var additionalEncryptionContextDecoded0: [Swift.String:Swift.String]? = nil
+        if let additionalEncryptionContextContainer = additionalEncryptionContextContainer {
+            additionalEncryptionContextDecoded0 = [Swift.String:Swift.String]()
+            for (key0, stringtype0) in additionalEncryptionContextContainer {
+                if let stringtype0 = stringtype0 {
+                    additionalEncryptionContextDecoded0?[key0] = stringtype0
+                }
+            }
+        }
+        additionalEncryptionContext = additionalEncryptionContextDecoded0
     }
 }
 
@@ -4151,6 +4337,7 @@ public struct GetTrustStoreCertificateOutputResponse: Swift.Equatable {
     /// The certificate of the trust store certificate.
     public var certificate: WorkSpacesWebClientTypes.Certificate?
     /// The ARN of the trust store certificate.
+    /// This member is required.
     public var trustStoreArn: Swift.String?
 
     public init(
@@ -4632,6 +4819,7 @@ extension WorkSpacesWebClientTypes {
     /// The summary of the identity provider.
     public struct IdentityProviderSummary: Swift.Equatable {
         /// The ARN of the identity provider.
+        /// This member is required.
         public var identityProviderArn: Swift.String?
         /// The identity provider name.
         public var identityProviderName: Swift.String?
@@ -4927,6 +5115,7 @@ extension WorkSpacesWebClientTypes {
         /// The display name of the IP access settings.
         public var displayName: Swift.String?
         /// The ARN of IP access settings.
+        /// This member is required.
         public var ipAccessSettingsArn: Swift.String?
 
         public init(
@@ -5797,6 +5986,7 @@ public struct ListTrustStoreCertificatesOutputResponse: Swift.Equatable {
     /// The pagination token used to retrieve the next page of results for this operation.>
     public var nextToken: Swift.String?
     /// The ARN of the trust store.
+    /// This member is required.
     public var trustStoreArn: Swift.String?
 
     public init(
@@ -6348,6 +6538,7 @@ extension WorkSpacesWebClientTypes {
     /// The summary of network settings.
     public struct NetworkSettingsSummary: Swift.Equatable {
         /// The ARN of the network settings.
+        /// This member is required.
         public var networkSettingsArn: Swift.String?
         /// The VPC ID of the network settings.
         public var vpcId: Swift.String?
@@ -6490,6 +6681,7 @@ extension WorkSpacesWebClientTypes {
         /// The ARN of the network settings that is associated with the web portal.
         public var networkSettingsArn: Swift.String?
         /// The ARN of the web portal.
+        /// This member is required.
         public var portalArn: Swift.String?
         /// The endpoint URL of the web portal that users access in order to start streaming sessions.
         public var portalEndpoint: Swift.String?
@@ -6699,6 +6891,7 @@ extension WorkSpacesWebClientTypes {
         /// The ARN of the network settings that is associated with the web portal.
         public var networkSettingsArn: Swift.String?
         /// The ARN of the web portal.
+        /// This member is required.
         public var portalArn: Swift.String?
         /// The endpoint URL of the web portal that users access in order to start streaming sessions.
         public var portalEndpoint: Swift.String?
@@ -7299,6 +7492,7 @@ extension WorkSpacesWebClientTypes {
         /// A list of web portal ARNs that this trust store is associated with.
         public var associatedPortalArns: [Swift.String]?
         /// The ARN of the trust store.
+        /// This member is required.
         public var trustStoreArn: Swift.String?
 
         public init(
@@ -8532,9 +8726,15 @@ extension UpdateUserAccessLoggingSettingsOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension UpdateUserSettingsInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "UpdateUserSettingsInput(clientToken: \(Swift.String(describing: clientToken)), copyAllowed: \(Swift.String(describing: copyAllowed)), disconnectTimeoutInMinutes: \(Swift.String(describing: disconnectTimeoutInMinutes)), downloadAllowed: \(Swift.String(describing: downloadAllowed)), idleDisconnectTimeoutInMinutes: \(Swift.String(describing: idleDisconnectTimeoutInMinutes)), pasteAllowed: \(Swift.String(describing: pasteAllowed)), printAllowed: \(Swift.String(describing: printAllowed)), uploadAllowed: \(Swift.String(describing: uploadAllowed)), userSettingsArn: \(Swift.String(describing: userSettingsArn)), cookieSynchronizationConfiguration: \"CONTENT_REDACTED\")"}
+}
+
 extension UpdateUserSettingsInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case clientToken
+        case cookieSynchronizationConfiguration
         case copyAllowed
         case disconnectTimeoutInMinutes
         case downloadAllowed
@@ -8548,6 +8748,9 @@ extension UpdateUserSettingsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let clientToken = self.clientToken {
             try encodeContainer.encode(clientToken, forKey: .clientToken)
+        }
+        if let cookieSynchronizationConfiguration = self.cookieSynchronizationConfiguration {
+            try encodeContainer.encode(cookieSynchronizationConfiguration, forKey: .cookieSynchronizationConfiguration)
         }
         if let copyAllowed = self.copyAllowed {
             try encodeContainer.encode(copyAllowed.rawValue, forKey: .copyAllowed)
@@ -8585,6 +8788,8 @@ extension UpdateUserSettingsInput: ClientRuntime.URLPathProvider {
 public struct UpdateUserSettingsInput: Swift.Equatable {
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original request completes successfully, subsequent retries with the same client token return the result from the original successful request. If you do not specify a client token, one is automatically generated by the AWS SDK.
     public var clientToken: Swift.String?
+    /// The configuration that specifies which cookies should be synchronized from the end user's local browser to the remote browser. If the allowlist and blocklist are empty, the configuration becomes null.
+    public var cookieSynchronizationConfiguration: WorkSpacesWebClientTypes.CookieSynchronizationConfiguration?
     /// Specifies whether the user can copy text from the streaming session to the local device.
     public var copyAllowed: WorkSpacesWebClientTypes.EnabledType?
     /// The amount of time that a streaming session remains active after users disconnect.
@@ -8605,6 +8810,7 @@ public struct UpdateUserSettingsInput: Swift.Equatable {
 
     public init(
         clientToken: Swift.String? = nil,
+        cookieSynchronizationConfiguration: WorkSpacesWebClientTypes.CookieSynchronizationConfiguration? = nil,
         copyAllowed: WorkSpacesWebClientTypes.EnabledType? = nil,
         disconnectTimeoutInMinutes: Swift.Int? = nil,
         downloadAllowed: WorkSpacesWebClientTypes.EnabledType? = nil,
@@ -8616,6 +8822,7 @@ public struct UpdateUserSettingsInput: Swift.Equatable {
     )
     {
         self.clientToken = clientToken
+        self.cookieSynchronizationConfiguration = cookieSynchronizationConfiguration
         self.copyAllowed = copyAllowed
         self.disconnectTimeoutInMinutes = disconnectTimeoutInMinutes
         self.downloadAllowed = downloadAllowed
@@ -8636,11 +8843,13 @@ struct UpdateUserSettingsInputBody: Swift.Equatable {
     let disconnectTimeoutInMinutes: Swift.Int?
     let idleDisconnectTimeoutInMinutes: Swift.Int?
     let clientToken: Swift.String?
+    let cookieSynchronizationConfiguration: WorkSpacesWebClientTypes.CookieSynchronizationConfiguration?
 }
 
 extension UpdateUserSettingsInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case clientToken
+        case cookieSynchronizationConfiguration
         case copyAllowed
         case disconnectTimeoutInMinutes
         case downloadAllowed
@@ -8668,6 +8877,8 @@ extension UpdateUserSettingsInputBody: Swift.Decodable {
         idleDisconnectTimeoutInMinutes = idleDisconnectTimeoutInMinutesDecoded
         let clientTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientToken)
         clientToken = clientTokenDecoded
+        let cookieSynchronizationConfigurationDecoded = try containerValues.decodeIfPresent(WorkSpacesWebClientTypes.CookieSynchronizationConfiguration.self, forKey: .cookieSynchronizationConfiguration)
+        cookieSynchronizationConfiguration = cookieSynchronizationConfigurationDecoded
     }
 }
 
@@ -8826,6 +9037,7 @@ extension WorkSpacesWebClientTypes {
         /// The ARN of the Kinesis stream.
         public var kinesisStreamArn: Swift.String?
         /// The ARN of the user access logging settings.
+        /// This member is required.
         public var userAccessLoggingSettingsArn: Swift.String?
 
         public init(
@@ -8843,6 +9055,7 @@ extension WorkSpacesWebClientTypes {
 extension WorkSpacesWebClientTypes.UserSettings: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case associatedPortalArns
+        case cookieSynchronizationConfiguration
         case copyAllowed
         case disconnectTimeoutInMinutes
         case downloadAllowed
@@ -8860,6 +9073,9 @@ extension WorkSpacesWebClientTypes.UserSettings: Swift.Codable {
             for arn0 in associatedPortalArns {
                 try associatedPortalArnsContainer.encode(arn0)
             }
+        }
+        if let cookieSynchronizationConfiguration = self.cookieSynchronizationConfiguration {
+            try encodeContainer.encode(cookieSynchronizationConfiguration, forKey: .cookieSynchronizationConfiguration)
         }
         if let copyAllowed = self.copyAllowed {
             try encodeContainer.encode(copyAllowed.rawValue, forKey: .copyAllowed)
@@ -8916,7 +9132,14 @@ extension WorkSpacesWebClientTypes.UserSettings: Swift.Codable {
         disconnectTimeoutInMinutes = disconnectTimeoutInMinutesDecoded
         let idleDisconnectTimeoutInMinutesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .idleDisconnectTimeoutInMinutes)
         idleDisconnectTimeoutInMinutes = idleDisconnectTimeoutInMinutesDecoded
+        let cookieSynchronizationConfigurationDecoded = try containerValues.decodeIfPresent(WorkSpacesWebClientTypes.CookieSynchronizationConfiguration.self, forKey: .cookieSynchronizationConfiguration)
+        cookieSynchronizationConfiguration = cookieSynchronizationConfigurationDecoded
     }
+}
+
+extension WorkSpacesWebClientTypes.UserSettings: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "UserSettings(associatedPortalArns: \(Swift.String(describing: associatedPortalArns)), copyAllowed: \(Swift.String(describing: copyAllowed)), disconnectTimeoutInMinutes: \(Swift.String(describing: disconnectTimeoutInMinutes)), downloadAllowed: \(Swift.String(describing: downloadAllowed)), idleDisconnectTimeoutInMinutes: \(Swift.String(describing: idleDisconnectTimeoutInMinutes)), pasteAllowed: \(Swift.String(describing: pasteAllowed)), printAllowed: \(Swift.String(describing: printAllowed)), uploadAllowed: \(Swift.String(describing: uploadAllowed)), userSettingsArn: \(Swift.String(describing: userSettingsArn)), cookieSynchronizationConfiguration: \"CONTENT_REDACTED\")"}
 }
 
 extension WorkSpacesWebClientTypes {
@@ -8924,6 +9147,8 @@ extension WorkSpacesWebClientTypes {
     public struct UserSettings: Swift.Equatable {
         /// A list of web portal ARNs that this user settings is associated with.
         public var associatedPortalArns: [Swift.String]?
+        /// The configuration that specifies which cookies should be synchronized from the end user's local browser to the remote browser.
+        public var cookieSynchronizationConfiguration: WorkSpacesWebClientTypes.CookieSynchronizationConfiguration?
         /// Specifies whether the user can copy text from the streaming session to the local device.
         public var copyAllowed: WorkSpacesWebClientTypes.EnabledType?
         /// The amount of time that a streaming session remains active after users disconnect.
@@ -8944,6 +9169,7 @@ extension WorkSpacesWebClientTypes {
 
         public init(
             associatedPortalArns: [Swift.String]? = nil,
+            cookieSynchronizationConfiguration: WorkSpacesWebClientTypes.CookieSynchronizationConfiguration? = nil,
             copyAllowed: WorkSpacesWebClientTypes.EnabledType? = nil,
             disconnectTimeoutInMinutes: Swift.Int? = nil,
             downloadAllowed: WorkSpacesWebClientTypes.EnabledType? = nil,
@@ -8955,6 +9181,7 @@ extension WorkSpacesWebClientTypes {
         )
         {
             self.associatedPortalArns = associatedPortalArns
+            self.cookieSynchronizationConfiguration = cookieSynchronizationConfiguration
             self.copyAllowed = copyAllowed
             self.disconnectTimeoutInMinutes = disconnectTimeoutInMinutes
             self.downloadAllowed = downloadAllowed
@@ -8970,6 +9197,7 @@ extension WorkSpacesWebClientTypes {
 
 extension WorkSpacesWebClientTypes.UserSettingsSummary: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case cookieSynchronizationConfiguration
         case copyAllowed
         case disconnectTimeoutInMinutes
         case downloadAllowed
@@ -8982,6 +9210,9 @@ extension WorkSpacesWebClientTypes.UserSettingsSummary: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let cookieSynchronizationConfiguration = self.cookieSynchronizationConfiguration {
+            try encodeContainer.encode(cookieSynchronizationConfiguration, forKey: .cookieSynchronizationConfiguration)
+        }
         if let copyAllowed = self.copyAllowed {
             try encodeContainer.encode(copyAllowed.rawValue, forKey: .copyAllowed)
         }
@@ -9026,12 +9257,21 @@ extension WorkSpacesWebClientTypes.UserSettingsSummary: Swift.Codable {
         disconnectTimeoutInMinutes = disconnectTimeoutInMinutesDecoded
         let idleDisconnectTimeoutInMinutesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .idleDisconnectTimeoutInMinutes)
         idleDisconnectTimeoutInMinutes = idleDisconnectTimeoutInMinutesDecoded
+        let cookieSynchronizationConfigurationDecoded = try containerValues.decodeIfPresent(WorkSpacesWebClientTypes.CookieSynchronizationConfiguration.self, forKey: .cookieSynchronizationConfiguration)
+        cookieSynchronizationConfiguration = cookieSynchronizationConfigurationDecoded
     }
+}
+
+extension WorkSpacesWebClientTypes.UserSettingsSummary: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "UserSettingsSummary(copyAllowed: \(Swift.String(describing: copyAllowed)), disconnectTimeoutInMinutes: \(Swift.String(describing: disconnectTimeoutInMinutes)), downloadAllowed: \(Swift.String(describing: downloadAllowed)), idleDisconnectTimeoutInMinutes: \(Swift.String(describing: idleDisconnectTimeoutInMinutes)), pasteAllowed: \(Swift.String(describing: pasteAllowed)), printAllowed: \(Swift.String(describing: printAllowed)), uploadAllowed: \(Swift.String(describing: uploadAllowed)), userSettingsArn: \(Swift.String(describing: userSettingsArn)), cookieSynchronizationConfiguration: \"CONTENT_REDACTED\")"}
 }
 
 extension WorkSpacesWebClientTypes {
     /// The summary of user settings.
     public struct UserSettingsSummary: Swift.Equatable {
+        /// The configuration that specifies which cookies should be synchronized from the end user's local browser to the remote browser.
+        public var cookieSynchronizationConfiguration: WorkSpacesWebClientTypes.CookieSynchronizationConfiguration?
         /// Specifies whether the user can copy text from the streaming session to the local device.
         public var copyAllowed: WorkSpacesWebClientTypes.EnabledType?
         /// The amount of time that a streaming session remains active after users disconnect.
@@ -9047,9 +9287,11 @@ extension WorkSpacesWebClientTypes {
         /// Specifies whether the user can upload files from the local device to the streaming session.
         public var uploadAllowed: WorkSpacesWebClientTypes.EnabledType?
         /// The ARN of the user settings.
+        /// This member is required.
         public var userSettingsArn: Swift.String?
 
         public init(
+            cookieSynchronizationConfiguration: WorkSpacesWebClientTypes.CookieSynchronizationConfiguration? = nil,
             copyAllowed: WorkSpacesWebClientTypes.EnabledType? = nil,
             disconnectTimeoutInMinutes: Swift.Int? = nil,
             downloadAllowed: WorkSpacesWebClientTypes.EnabledType? = nil,
@@ -9060,6 +9302,7 @@ extension WorkSpacesWebClientTypes {
             userSettingsArn: Swift.String? = nil
         )
         {
+            self.cookieSynchronizationConfiguration = cookieSynchronizationConfiguration
             self.copyAllowed = copyAllowed
             self.disconnectTimeoutInMinutes = disconnectTimeoutInMinutes
             self.downloadAllowed = downloadAllowed

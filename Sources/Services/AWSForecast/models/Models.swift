@@ -1206,7 +1206,7 @@ extension CreateDatasetImportJobInput: Swift.Encodable {
         if let timestampFormat = self.timestampFormat {
             try encodeContainer.encode(timestampFormat, forKey: .timestampFormat)
         }
-        if useGeolocationForTimeZone != false {
+        if let useGeolocationForTimeZone = self.useGeolocationForTimeZone {
             try encodeContainer.encode(useGeolocationForTimeZone, forKey: .useGeolocationForTimeZone)
         }
     }
@@ -1266,7 +1266,7 @@ public struct CreateDatasetImportJobInput: Swift.Equatable {
     /// If the format isn't specified, Amazon Forecast expects the format to be "yyyy-MM-dd HH:mm:ss".
     public var timestampFormat: Swift.String?
     /// Automatically derive time zone information from the geolocation attribute. This option is ideal for datasets that contain timestamps in multiple time zones and those timestamps are expressed in local time.
-    public var useGeolocationForTimeZone: Swift.Bool
+    public var useGeolocationForTimeZone: Swift.Bool?
 
     public init(
         dataSource: ForecastClientTypes.DataSource? = nil,
@@ -1278,7 +1278,7 @@ public struct CreateDatasetImportJobInput: Swift.Equatable {
         tags: [ForecastClientTypes.Tag]? = nil,
         timeZone: Swift.String? = nil,
         timestampFormat: Swift.String? = nil,
-        useGeolocationForTimeZone: Swift.Bool = false
+        useGeolocationForTimeZone: Swift.Bool? = nil
     )
     {
         self.dataSource = dataSource
@@ -1300,7 +1300,7 @@ struct CreateDatasetImportJobInputBody: Swift.Equatable {
     let dataSource: ForecastClientTypes.DataSource?
     let timestampFormat: Swift.String?
     let timeZone: Swift.String?
-    let useGeolocationForTimeZone: Swift.Bool
+    let useGeolocationForTimeZone: Swift.Bool?
     let geolocationFormat: Swift.String?
     let tags: [ForecastClientTypes.Tag]?
     let format: Swift.String?
@@ -1333,7 +1333,7 @@ extension CreateDatasetImportJobInputBody: Swift.Decodable {
         timestampFormat = timestampFormatDecoded
         let timeZoneDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .timeZone)
         timeZone = timeZoneDecoded
-        let useGeolocationForTimeZoneDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .useGeolocationForTimeZone) ?? false
+        let useGeolocationForTimeZoneDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .useGeolocationForTimeZone)
         useGeolocationForTimeZone = useGeolocationForTimeZoneDecoded
         let geolocationFormatDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .geolocationFormat)
         geolocationFormat = geolocationFormatDecoded

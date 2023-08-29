@@ -93,7 +93,7 @@ public protocol BackupClientProtocol {
     /// - `MissingParameterValueException` : Indicates that a required parameter is missing.
     /// - `ServiceUnavailableException` : The request failed due to a temporary failure of the server.
     func createLegalHold(input: CreateLegalHoldInput) async throws -> CreateLegalHoldOutputResponse
-    /// This request creates a logical container where backups are stored. This request includes a name, optionally one or more resource tags, an encryption key, and a request ID. Do not include sensitive data, such as passport numbers, in the name of a backup vault.
+    /// This request creates a logical container to where backups may be copied. This request includes a name, the Region, the maximum number of retention days, the minimum number of retention days, and optionally can include tags and a creator request ID. Do not include sensitive data, such as passport numbers, in the name of a backup vault.
     ///
     /// - Parameter CreateLogicallyAirGappedBackupVaultInput : [no documentation found]
     ///

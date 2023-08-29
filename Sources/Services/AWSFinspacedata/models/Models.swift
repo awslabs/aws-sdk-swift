@@ -1014,7 +1014,7 @@ extension CreateDataViewInput: Swift.Encodable {
         if let asOfTimestamp = self.asOfTimestamp {
             try encodeContainer.encode(asOfTimestamp, forKey: .asOfTimestamp)
         }
-        if autoUpdate != false {
+        if let autoUpdate = self.autoUpdate {
             try encodeContainer.encode(autoUpdate, forKey: .autoUpdate)
         }
         if let clientToken = self.clientToken {
@@ -1052,7 +1052,7 @@ public struct CreateDataViewInput: Swift.Equatable {
     /// Beginning time to use for the Dataview. The value is determined as epoch time in milliseconds. For example, the value for Monday, November 1, 2021 12:00:00 PM UTC is specified as 1635768000000.
     public var asOfTimestamp: Swift.Int?
     /// Flag to indicate Dataview should be updated automatically.
-    public var autoUpdate: Swift.Bool
+    public var autoUpdate: Swift.Bool?
     /// A token that ensures idempotency. This token expires in 10 minutes.
     public var clientToken: Swift.String?
     /// The unique Dataset identifier that is used to create a Dataview.
@@ -1068,7 +1068,7 @@ public struct CreateDataViewInput: Swift.Equatable {
 
     public init(
         asOfTimestamp: Swift.Int? = nil,
-        autoUpdate: Swift.Bool = false,
+        autoUpdate: Swift.Bool? = nil,
         clientToken: Swift.String? = nil,
         datasetId: Swift.String? = nil,
         destinationTypeParams: FinspacedataClientTypes.DataViewDestinationTypeParams? = nil,
@@ -1088,7 +1088,7 @@ public struct CreateDataViewInput: Swift.Equatable {
 
 struct CreateDataViewInputBody: Swift.Equatable {
     let clientToken: Swift.String?
-    let autoUpdate: Swift.Bool
+    let autoUpdate: Swift.Bool?
     let sortColumns: [Swift.String]?
     let partitionColumns: [Swift.String]?
     let asOfTimestamp: Swift.Int?
@@ -1109,7 +1109,7 @@ extension CreateDataViewInputBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let clientTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientToken)
         clientToken = clientTokenDecoded
-        let autoUpdateDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .autoUpdate) ?? false
+        let autoUpdateDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .autoUpdate)
         autoUpdate = autoUpdateDecoded
         let sortColumnsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .sortColumns)
         var sortColumnsDecoded0:[Swift.String]? = nil
@@ -1508,9 +1508,9 @@ extension CreatePermissionGroupInputBody: Swift.Decodable {
         var applicationPermissionsDecoded0:[FinspacedataClientTypes.ApplicationPermission]? = nil
         if let applicationPermissionsContainer = applicationPermissionsContainer {
             applicationPermissionsDecoded0 = [FinspacedataClientTypes.ApplicationPermission]()
-            for string0 in applicationPermissionsContainer {
-                if let string0 = string0 {
-                    applicationPermissionsDecoded0?.append(string0)
+            for enum0 in applicationPermissionsContainer {
+                if let enum0 = enum0 {
+                    applicationPermissionsDecoded0?.append(enum0)
                 }
             }
         }
@@ -3953,7 +3953,7 @@ extension GetProgrammaticAccessCredentialsInput: ClientRuntime.QueryItemProvider
             }
             let environmentIdQueryItem = ClientRuntime.URLQueryItem(name: "environmentId".urlPercentEncoding(), value: Swift.String(environmentId).urlPercentEncoding())
             items.append(environmentIdQueryItem)
-            if durationInMinutes != 0 {
+            if let durationInMinutes = durationInMinutes {
                 let durationInMinutesQueryItem = ClientRuntime.URLQueryItem(name: "durationInMinutes".urlPercentEncoding(), value: Swift.String(durationInMinutes).urlPercentEncoding())
                 items.append(durationInMinutesQueryItem)
             }
@@ -3971,13 +3971,13 @@ extension GetProgrammaticAccessCredentialsInput: ClientRuntime.URLPathProvider {
 /// Request for GetProgrammaticAccessCredentials operation
 public struct GetProgrammaticAccessCredentialsInput: Swift.Equatable {
     /// The time duration in which the credentials remain valid.
-    public var durationInMinutes: Swift.Int
+    public var durationInMinutes: Swift.Int?
     /// The FinSpace environment identifier.
     /// This member is required.
     public var environmentId: Swift.String?
 
     public init(
-        durationInMinutes: Swift.Int = 0,
+        durationInMinutes: Swift.Int? = nil,
         environmentId: Swift.String? = nil
     )
     {
@@ -4961,6 +4961,10 @@ extension ListPermissionGroupsByUserInput: ClientRuntime.QueryItemProvider {
                 let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
                 items.append(nextTokenQueryItem)
             }
+            guard let maxResults = maxResults else {
+                let message = "Creating a URL Query Item failed. maxResults is required and must not be nil."
+                throw ClientRuntime.ClientError.unknownError(message)
+            }
             let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
             return items
@@ -4980,7 +4984,7 @@ extension ListPermissionGroupsByUserInput: ClientRuntime.URLPathProvider {
 public struct ListPermissionGroupsByUserInput: Swift.Equatable {
     /// The maximum number of results per page.
     /// This member is required.
-    public var maxResults: Swift.Int
+    public var maxResults: Swift.Int?
     /// A token that indicates where a results page should begin.
     public var nextToken: Swift.String?
     /// The unique identifier for the user.
@@ -4988,7 +4992,7 @@ public struct ListPermissionGroupsByUserInput: Swift.Equatable {
     public var userId: Swift.String?
 
     public init(
-        maxResults: Swift.Int = 0,
+        maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         userId: Swift.String? = nil
     )
@@ -5090,6 +5094,10 @@ extension ListPermissionGroupsInput: ClientRuntime.QueryItemProvider {
                 let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
                 items.append(nextTokenQueryItem)
             }
+            guard let maxResults = maxResults else {
+                let message = "Creating a URL Query Item failed. maxResults is required and must not be nil."
+                throw ClientRuntime.ClientError.unknownError(message)
+            }
             let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
             return items
@@ -5106,12 +5114,12 @@ extension ListPermissionGroupsInput: ClientRuntime.URLPathProvider {
 public struct ListPermissionGroupsInput: Swift.Equatable {
     /// The maximum number of results per page.
     /// This member is required.
-    public var maxResults: Swift.Int
+    public var maxResults: Swift.Int?
     /// A token that indicates where a results page should begin.
     public var nextToken: Swift.String?
 
     public init(
-        maxResults: Swift.Int = 0,
+        maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     )
     {
@@ -5210,6 +5218,10 @@ extension ListUsersByPermissionGroupInput: ClientRuntime.QueryItemProvider {
                 let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
                 items.append(nextTokenQueryItem)
             }
+            guard let maxResults = maxResults else {
+                let message = "Creating a URL Query Item failed. maxResults is required and must not be nil."
+                throw ClientRuntime.ClientError.unknownError(message)
+            }
             let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
             return items
@@ -5229,7 +5241,7 @@ extension ListUsersByPermissionGroupInput: ClientRuntime.URLPathProvider {
 public struct ListUsersByPermissionGroupInput: Swift.Equatable {
     /// The maximum number of results per page.
     /// This member is required.
-    public var maxResults: Swift.Int
+    public var maxResults: Swift.Int?
     /// A token that indicates where a results page should begin.
     public var nextToken: Swift.String?
     /// The unique identifier for the permission group.
@@ -5237,7 +5249,7 @@ public struct ListUsersByPermissionGroupInput: Swift.Equatable {
     public var permissionGroupId: Swift.String?
 
     public init(
-        maxResults: Swift.Int = 0,
+        maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         permissionGroupId: Swift.String? = nil
     )
@@ -5339,6 +5351,10 @@ extension ListUsersInput: ClientRuntime.QueryItemProvider {
                 let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
                 items.append(nextTokenQueryItem)
             }
+            guard let maxResults = maxResults else {
+                let message = "Creating a URL Query Item failed. maxResults is required and must not be nil."
+                throw ClientRuntime.ClientError.unknownError(message)
+            }
             let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
             return items
@@ -5355,12 +5371,12 @@ extension ListUsersInput: ClientRuntime.URLPathProvider {
 public struct ListUsersInput: Swift.Equatable {
     /// The maximum number of results per page.
     /// This member is required.
-    public var maxResults: Swift.Int
+    public var maxResults: Swift.Int?
     /// A token that indicates where a results page should begin.
     public var nextToken: Swift.String?
 
     public init(
-        maxResults: Swift.Int = 0,
+        maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     )
     {
@@ -5534,9 +5550,9 @@ extension FinspacedataClientTypes.PermissionGroup: Swift.Codable {
         var applicationPermissionsDecoded0:[FinspacedataClientTypes.ApplicationPermission]? = nil
         if let applicationPermissionsContainer = applicationPermissionsContainer {
             applicationPermissionsDecoded0 = [FinspacedataClientTypes.ApplicationPermission]()
-            for string0 in applicationPermissionsContainer {
-                if let string0 = string0 {
-                    applicationPermissionsDecoded0?.append(string0)
+            for enum0 in applicationPermissionsContainer {
+                if let enum0 = enum0 {
+                    applicationPermissionsDecoded0?.append(enum0)
                 }
             }
         }
@@ -6666,9 +6682,9 @@ extension UpdatePermissionGroupInputBody: Swift.Decodable {
         var applicationPermissionsDecoded0:[FinspacedataClientTypes.ApplicationPermission]? = nil
         if let applicationPermissionsContainer = applicationPermissionsContainer {
             applicationPermissionsDecoded0 = [FinspacedataClientTypes.ApplicationPermission]()
-            for string0 in applicationPermissionsContainer {
-                if let string0 = string0 {
-                    applicationPermissionsDecoded0?.append(string0)
+            for enum0 in applicationPermissionsContainer {
+                if let enum0 = enum0 {
+                    applicationPermissionsDecoded0?.append(enum0)
                 }
             }
         }

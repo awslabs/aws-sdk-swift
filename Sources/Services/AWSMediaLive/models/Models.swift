@@ -367,6 +367,39 @@ extension MediaLiveClientTypes {
 }
 
 extension MediaLiveClientTypes {
+    /// Ac3 Attenuation Control
+    public enum Ac3AttenuationControl: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case attenuate3Db
+        case `none`
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [Ac3AttenuationControl] {
+            return [
+                .attenuate3Db,
+                .none,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .attenuate3Db: return "ATTENUATE_3_DB"
+            case .none: return "NONE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = Ac3AttenuationControl(rawValue: rawValue) ?? Ac3AttenuationControl.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension MediaLiveClientTypes {
     /// Ac3 Bitstream Mode
     public enum Ac3BitstreamMode: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case commentary
@@ -557,6 +590,7 @@ extension MediaLiveClientTypes {
 
 extension MediaLiveClientTypes.Ac3Settings: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case attenuationControl = "attenuationControl"
         case bitrate = "bitrate"
         case bitstreamMode = "bitstreamMode"
         case codingMode = "codingMode"
@@ -568,6 +602,9 @@ extension MediaLiveClientTypes.Ac3Settings: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let attenuationControl = self.attenuationControl {
+            try encodeContainer.encode(attenuationControl.rawValue, forKey: .attenuationControl)
+        }
         if let bitrate = self.bitrate {
             try encodeContainer.encode(bitrate, forKey: .bitrate)
         }
@@ -607,12 +644,16 @@ extension MediaLiveClientTypes.Ac3Settings: Swift.Codable {
         lfeFilter = lfeFilterDecoded
         let metadataControlDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.Ac3MetadataControl.self, forKey: .metadataControl)
         metadataControl = metadataControlDecoded
+        let attenuationControlDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.Ac3AttenuationControl.self, forKey: .attenuationControl)
+        attenuationControl = attenuationControlDecoded
     }
 }
 
 extension MediaLiveClientTypes {
     /// Ac3 Settings
     public struct Ac3Settings: Swift.Equatable {
+        /// Applies a 3 dB attenuation to the surround channels. Applies only when the coding mode parameter is CODING_MODE_3_2_LFE.
+        public var attenuationControl: MediaLiveClientTypes.Ac3AttenuationControl?
         /// Average bitrate in bits/second. Valid bitrates depend on the coding mode.
         public var bitrate: Swift.Double?
         /// Specifies the bitstream mode (bsmod) for the emitted AC-3 stream. See ATSC A/52-2012 for background on these values.
@@ -629,6 +670,7 @@ extension MediaLiveClientTypes {
         public var metadataControl: MediaLiveClientTypes.Ac3MetadataControl?
 
         public init(
+            attenuationControl: MediaLiveClientTypes.Ac3AttenuationControl? = nil,
             bitrate: Swift.Double? = nil,
             bitstreamMode: MediaLiveClientTypes.Ac3BitstreamMode? = nil,
             codingMode: MediaLiveClientTypes.Ac3CodingMode? = nil,
@@ -638,6 +680,7 @@ extension MediaLiveClientTypes {
             metadataControl: MediaLiveClientTypes.Ac3MetadataControl? = nil
         )
         {
+            self.attenuationControl = attenuationControl
             self.bitrate = bitrate
             self.bitstreamMode = bitstreamMode
             self.codingMode = codingMode
@@ -18545,6 +18588,42 @@ extension MediaLiveClientTypes {
 
 }
 
+extension MediaLiveClientTypes {
+    /// Include Filler Nal Units
+    public enum IncludeFillerNalUnits: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case auto
+        case drop
+        case include
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [IncludeFillerNalUnits] {
+            return [
+                .auto,
+                .drop,
+                .include,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .auto: return "AUTO"
+            case .drop: return "DROP"
+            case .include: return "INCLUDE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = IncludeFillerNalUnits(rawValue: rawValue) ?? IncludeFillerNalUnits.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension MediaLiveClientTypes.Input: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn = "arn"
@@ -24299,6 +24378,39 @@ extension MediaLiveClientTypes {
 }
 
 extension MediaLiveClientTypes {
+    /// M3u8 Klv Behavior
+    public enum M3u8KlvBehavior: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case noPassthrough
+        case passthrough
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [M3u8KlvBehavior] {
+            return [
+                .noPassthrough,
+                .passthrough,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .noPassthrough: return "NO_PASSTHROUGH"
+            case .passthrough: return "PASSTHROUGH"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = M3u8KlvBehavior(rawValue: rawValue) ?? M3u8KlvBehavior.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension MediaLiveClientTypes {
     /// M3u8 Nielsen Id3 Behavior
     public enum M3u8NielsenId3Behavior: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case noPassthrough
@@ -24402,6 +24514,8 @@ extension MediaLiveClientTypes.M3u8Settings: Swift.Codable {
         case audioFramesPerPes = "audioFramesPerPes"
         case audioPids = "audioPids"
         case ecmPid = "ecmPid"
+        case klvBehavior = "klvBehavior"
+        case klvDataPids = "klvDataPids"
         case nielsenId3Behavior = "nielsenId3Behavior"
         case patInterval = "patInterval"
         case pcrControl = "pcrControl"
@@ -24428,6 +24542,12 @@ extension MediaLiveClientTypes.M3u8Settings: Swift.Codable {
         }
         if let ecmPid = self.ecmPid {
             try encodeContainer.encode(ecmPid, forKey: .ecmPid)
+        }
+        if let klvBehavior = self.klvBehavior {
+            try encodeContainer.encode(klvBehavior.rawValue, forKey: .klvBehavior)
+        }
+        if let klvDataPids = self.klvDataPids {
+            try encodeContainer.encode(klvDataPids, forKey: .klvDataPids)
         }
         if let nielsenId3Behavior = self.nielsenId3Behavior {
             try encodeContainer.encode(nielsenId3Behavior.rawValue, forKey: .nielsenId3Behavior)
@@ -24509,6 +24629,10 @@ extension MediaLiveClientTypes.M3u8Settings: Swift.Codable {
         transportStreamId = transportStreamIdDecoded
         let videoPidDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .videoPid)
         videoPid = videoPidDecoded
+        let klvBehaviorDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.M3u8KlvBehavior.self, forKey: .klvBehavior)
+        klvBehavior = klvBehaviorDecoded
+        let klvDataPidsDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .klvDataPids)
+        klvDataPids = klvDataPidsDecoded
     }
 }
 
@@ -24521,6 +24645,10 @@ extension MediaLiveClientTypes {
         public var audioPids: Swift.String?
         /// This parameter is unused and deprecated.
         public var ecmPid: Swift.String?
+        /// If set to passthrough, passes any KLV data from the input source to this output.
+        public var klvBehavior: MediaLiveClientTypes.M3u8KlvBehavior?
+        /// Packet Identifier (PID) for input source KLV data to this output. Multiple values are accepted, and can be entered in ranges and/or by comma separation. Can be entered as decimal or hexadecimal values. Each PID specified must be in the range of 32 (or 0x20)..8182 (or 0x1ff6).
+        public var klvDataPids: Swift.String?
         /// If set to passthrough, Nielsen inaudible tones for media tracking will be detected in the input audio and an equivalent ID3 tag will be inserted in the output.
         public var nielsenId3Behavior: MediaLiveClientTypes.M3u8NielsenId3Behavior?
         /// The number of milliseconds between instances of this table in the output transport stream. A value of "0" writes out the PMT once per segment file.
@@ -24554,6 +24682,8 @@ extension MediaLiveClientTypes {
             audioFramesPerPes: Swift.Int? = nil,
             audioPids: Swift.String? = nil,
             ecmPid: Swift.String? = nil,
+            klvBehavior: MediaLiveClientTypes.M3u8KlvBehavior? = nil,
+            klvDataPids: Swift.String? = nil,
             nielsenId3Behavior: MediaLiveClientTypes.M3u8NielsenId3Behavior? = nil,
             patInterval: Swift.Int? = nil,
             pcrControl: MediaLiveClientTypes.M3u8PcrControl? = nil,
@@ -24573,6 +24703,8 @@ extension MediaLiveClientTypes {
             self.audioFramesPerPes = audioFramesPerPes
             self.audioPids = audioPids
             self.ecmPid = ecmPid
+            self.klvBehavior = klvBehavior
+            self.klvDataPids = klvDataPids
             self.nielsenId3Behavior = nielsenId3Behavior
             self.patInterval = patInterval
             self.pcrControl = pcrControl
@@ -30178,6 +30310,7 @@ extension MediaLiveClientTypes.RtmpGroupSettings: Swift.Codable {
         case cacheFullBehavior = "cacheFullBehavior"
         case cacheLength = "cacheLength"
         case captionData = "captionData"
+        case includeFillerNalUnits = "includeFillerNalUnits"
         case inputLossAction = "inputLossAction"
         case restartDelay = "restartDelay"
     }
@@ -30201,6 +30334,9 @@ extension MediaLiveClientTypes.RtmpGroupSettings: Swift.Codable {
         }
         if let captionData = self.captionData {
             try encodeContainer.encode(captionData.rawValue, forKey: .captionData)
+        }
+        if let includeFillerNalUnits = self.includeFillerNalUnits {
+            try encodeContainer.encode(includeFillerNalUnits.rawValue, forKey: .includeFillerNalUnits)
         }
         if let inputLossAction = self.inputLossAction {
             try encodeContainer.encode(inputLossAction.rawValue, forKey: .inputLossAction)
@@ -30235,6 +30371,8 @@ extension MediaLiveClientTypes.RtmpGroupSettings: Swift.Codable {
         inputLossAction = inputLossActionDecoded
         let restartDelayDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .restartDelay)
         restartDelay = restartDelayDecoded
+        let includeFillerNalUnitsDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.IncludeFillerNalUnits.self, forKey: .includeFillerNalUnits)
+        includeFillerNalUnits = includeFillerNalUnitsDecoded
     }
 }
 
@@ -30251,6 +30389,8 @@ extension MediaLiveClientTypes {
         public var cacheLength: Swift.Int?
         /// Controls the types of data that passes to onCaptionInfo outputs. If set to 'all' then 608 and 708 carried DTVCC data will be passed. If set to 'field1AndField2608' then DTVCC data will be stripped out, but 608 data from both fields will be passed. If set to 'field1608' then only the data carried in 608 from field 1 video will be passed.
         public var captionData: MediaLiveClientTypes.RtmpCaptionData?
+        /// Applies only when the rate control mode (in the codec settings) is CBR (constant bit rate). Controls whether the RTMP output stream is padded (with FILL NAL units) in order to achieve a constant bit rate that is truly constant. When there is no padding, the bandwidth varies (up to the bitrate value in the codec settings). We recommend that you choose Auto.
+        public var includeFillerNalUnits: MediaLiveClientTypes.IncludeFillerNalUnits?
         /// Controls the behavior of this RTMP group if input becomes unavailable.
         ///
         /// * emitOutput: Emit a slate until input returns.
@@ -30266,6 +30406,7 @@ extension MediaLiveClientTypes {
             cacheFullBehavior: MediaLiveClientTypes.RtmpCacheFullBehavior? = nil,
             cacheLength: Swift.Int? = nil,
             captionData: MediaLiveClientTypes.RtmpCaptionData? = nil,
+            includeFillerNalUnits: MediaLiveClientTypes.IncludeFillerNalUnits? = nil,
             inputLossAction: MediaLiveClientTypes.InputLossActionForRtmpOut? = nil,
             restartDelay: Swift.Int? = nil
         )
@@ -30275,6 +30416,7 @@ extension MediaLiveClientTypes {
             self.cacheFullBehavior = cacheFullBehavior
             self.cacheLength = cacheLength
             self.captionData = captionData
+            self.includeFillerNalUnits = includeFillerNalUnits
             self.inputLossAction = inputLossAction
             self.restartDelay = restartDelay
         }

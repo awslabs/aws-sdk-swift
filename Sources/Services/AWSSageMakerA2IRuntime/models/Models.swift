@@ -325,9 +325,9 @@ extension SageMakerA2IRuntimeClientTypes.HumanLoopDataAttributes: Swift.Codable 
         var contentClassifiersDecoded0:[SageMakerA2IRuntimeClientTypes.ContentClassifier]? = nil
         if let contentClassifiersContainer = contentClassifiersContainer {
             contentClassifiersDecoded0 = [SageMakerA2IRuntimeClientTypes.ContentClassifier]()
-            for string0 in contentClassifiersContainer {
-                if let string0 = string0 {
-                    contentClassifiersDecoded0?.append(string0)
+            for enum0 in contentClassifiersContainer {
+                if let enum0 = enum0 {
+                    contentClassifiersDecoded0?.append(enum0)
                 }
             }
         }

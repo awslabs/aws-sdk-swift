@@ -17,7 +17,7 @@ extension ActorDoesNotExistException {
     }
 }
 
-/// The specified Amazon Resource Name (ARN) does not exist in the AWS account.
+/// The specified Amazon Resource Name (ARN) does not exist in the Amazon Web Services account.
 public struct ActorDoesNotExistException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
@@ -708,7 +708,7 @@ extension ApprovalRuleTemplateDoesNotExistException {
     }
 }
 
-/// The specified approval rule template does not exist. Verify that the name is correct and that you are signed in to the AWS Region where the template was created, and then try again.
+/// The specified approval rule template does not exist. Verify that the name is correct and that you are signed in to the Amazon Web Services Region where the template was created, and then try again.
 public struct ApprovalRuleTemplateDoesNotExistException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
@@ -820,7 +820,7 @@ extension ApprovalRuleTemplateNameAlreadyExistsException {
     }
 }
 
-/// You cannot create an approval rule template with that name because a template with that name already exists in this AWS Region for your AWS account. Approval rule template names must be unique.
+/// You cannot create an approval rule template with that name because a template with that name already exists in this Amazon Web Services Region for your Amazon Web Services account. Approval rule template names must be unique.
 public struct ApprovalRuleTemplateNameAlreadyExistsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
@@ -1158,7 +1158,7 @@ extension AuthorDoesNotExistException {
     }
 }
 
-/// The specified Amazon Resource Name (ARN) does not exist in the AWS account.
+/// The specified Amazon Resource Name (ARN) does not exist in the Amazon Web Services account.
 public struct AuthorDoesNotExistException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
@@ -3293,7 +3293,7 @@ extension CommentContentSizeLimitExceededException {
     }
 }
 
-/// The comment is too large. Comments are limited to 1,000 characters.
+/// The comment is too large. Comments are limited to 10,240 characters.
 public struct CommentContentSizeLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
@@ -4710,7 +4710,7 @@ extension CreateApprovalRuleTemplateInput: ClientRuntime.URLPathProvider {
 public struct CreateApprovalRuleTemplateInput: Swift.Equatable {
     /// The content of the approval rule that is created on pull requests in associated repositories. If you specify one or more destination references (branches), approval rules are created in an associated repository only if their destination references (branches) match those specified in the template. When you create the content of the approval rule template, you can specify approvers in an approval pool in one of two ways:
     ///
-    /// * CodeCommitApprovers: This option only requires an AWS account and a resource. It can be used for both IAM users and federated access users whose name matches the provided resource name. This is a very powerful option that offers a great deal of flexibility. For example, if you specify the AWS account 123456789012 and Mary_Major, all of the following are counted as approvals coming from that user:
+    /// * CodeCommitApprovers: This option only requires an Amazon Web Services account and a resource. It can be used for both IAM users and federated access users whose name matches the provided resource name. This is a very powerful option that offers a great deal of flexibility. For example, if you specify the Amazon Web Services account 123456789012 and Mary_Major, all of the following are counted as approvals coming from that user:
     ///
     /// * An IAM user in the account (arn:aws:iam::123456789012:user/Mary_Major)
     ///
@@ -4968,7 +4968,7 @@ extension CreateCommitInput: Swift.Encodable {
         if let email = self.email {
             try encodeContainer.encode(email, forKey: .email)
         }
-        if keepEmptyFolders != false {
+        if let keepEmptyFolders = self.keepEmptyFolders {
             try encodeContainer.encode(keepEmptyFolders, forKey: .keepEmptyFolders)
         }
         if let parentCommitId = self.parentCommitId {
@@ -5011,7 +5011,7 @@ public struct CreateCommitInput: Swift.Equatable {
     /// The email address of the person who created the commit.
     public var email: Swift.String?
     /// If the commit contains deletions, whether to keep a folder or folder structure if the changes leave the folders empty. If true, a ..gitkeep file is created for empty folders. The default is false.
-    public var keepEmptyFolders: Swift.Bool
+    public var keepEmptyFolders: Swift.Bool?
     /// The ID of the commit that is the parent of the commit you create. Not required if this is an empty repository.
     public var parentCommitId: Swift.String?
     /// The files to add or update in this commit.
@@ -5028,7 +5028,7 @@ public struct CreateCommitInput: Swift.Equatable {
         commitMessage: Swift.String? = nil,
         deleteFiles: [CodeCommitClientTypes.DeleteFileEntry]? = nil,
         email: Swift.String? = nil,
-        keepEmptyFolders: Swift.Bool = false,
+        keepEmptyFolders: Swift.Bool? = nil,
         parentCommitId: Swift.String? = nil,
         putFiles: [CodeCommitClientTypes.PutFileEntry]? = nil,
         repositoryName: Swift.String? = nil,
@@ -5055,7 +5055,7 @@ struct CreateCommitInputBody: Swift.Equatable {
     let authorName: Swift.String?
     let email: Swift.String?
     let commitMessage: Swift.String?
-    let keepEmptyFolders: Swift.Bool
+    let keepEmptyFolders: Swift.Bool?
     let putFiles: [CodeCommitClientTypes.PutFileEntry]?
     let deleteFiles: [CodeCommitClientTypes.DeleteFileEntry]?
     let setFileModes: [CodeCommitClientTypes.SetFileModeEntry]?
@@ -5089,7 +5089,7 @@ extension CreateCommitInputBody: Swift.Decodable {
         email = emailDecoded
         let commitMessageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .commitMessage)
         commitMessage = commitMessageDecoded
-        let keepEmptyFoldersDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .keepEmptyFolders) ?? false
+        let keepEmptyFoldersDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .keepEmptyFolders)
         keepEmptyFolders = keepEmptyFoldersDecoded
         let putFilesContainer = try containerValues.decodeIfPresent([CodeCommitClientTypes.PutFileEntry?].self, forKey: .putFiles)
         var putFilesDecoded0:[CodeCommitClientTypes.PutFileEntry]? = nil
@@ -5310,9 +5310,9 @@ extension CreatePullRequestApprovalRuleInput: ClientRuntime.URLPathProvider {
 }
 
 public struct CreatePullRequestApprovalRuleInput: Swift.Equatable {
-    /// The content of the approval rule, including the number of approvals needed and the structure of an approval pool defined for approvals, if any. For more information about approval pools, see the AWS CodeCommit User Guide. When you create the content of the approval rule, you can specify approvers in an approval pool in one of two ways:
+    /// The content of the approval rule, including the number of approvals needed and the structure of an approval pool defined for approvals, if any. For more information about approval pools, see the CodeCommit User Guide. When you create the content of the approval rule, you can specify approvers in an approval pool in one of two ways:
     ///
-    /// * CodeCommitApprovers: This option only requires an AWS account and a resource. It can be used for both IAM users and federated access users whose name matches the provided resource name. This is a very powerful option that offers a great deal of flexibility. For example, if you specify the AWS account 123456789012 and Mary_Major, all of the following would be counted as approvals coming from that user:
+    /// * CodeCommitApprovers: This option only requires an Amazon Web Services account and a resource. It can be used for both IAM users and federated access users whose name matches the provided resource name. This is a very powerful option that offers a great deal of flexibility. For example, if you specify the Amazon Web Services account 123456789012 and Mary_Major, all of the following would be counted as approvals coming from that user:
     ///
     /// * An IAM user in the account (arn:aws:iam::123456789012:user/Mary_Major)
     ///
@@ -5471,7 +5471,7 @@ extension CreatePullRequestInput: ClientRuntime.URLPathProvider {
 }
 
 public struct CreatePullRequestInput: Swift.Equatable {
-    /// A unique, client-generated idempotency token that, when provided in a request, ensures the request cannot be repeated with a changed parameter. If a request is received with the same parameters and a token is included, the request returns information about the initial request that used that token. The AWS SDKs prepopulate client request tokens. If you are using an AWS SDK, an idempotency token is created for you.
+    /// A unique, client-generated idempotency token that, when provided in a request, ensures the request cannot be repeated with a changed parameter. If a request is received with the same parameters and a token is included, the request returns information about the initial request that used that token. The Amazon Web ServicesSDKs prepopulate client request tokens. If you are using an Amazon Web ServicesSDK, an idempotency token is created for you.
     public var clientRequestToken: Swift.String?
     /// A description of the pull request.
     public var description: Swift.String?
@@ -5643,7 +5643,7 @@ extension CreateRepositoryInput: ClientRuntime.URLPathProvider {
 public struct CreateRepositoryInput: Swift.Equatable {
     /// A comment or description about the new repository. The description field for a repository accepts all HTML characters and all valid Unicode characters. Applications that do not HTML-encode the description and display it in a webpage can expose users to potentially malicious code. Make sure that you HTML-encode the description field in any application that uses this API to display the repository description on a webpage.
     public var repositoryDescription: Swift.String?
-    /// The name of the new repository to be created. The repository name must be unique across the calling AWS account. Repository names are limited to 100 alphanumeric, dash, and underscore characters, and cannot include certain characters. For more information about the limits on repository names, see [Limits](https://docs.aws.amazon.com/codecommit/latest/userguide/limits.html) in the AWS CodeCommit User Guide. The suffix .git is prohibited.
+    /// The name of the new repository to be created. The repository name must be unique across the calling Amazon Web Services account. Repository names are limited to 100 alphanumeric, dash, and underscore characters, and cannot include certain characters. For more information about the limits on repository names, see [Quotas](https://docs.aws.amazon.com/codecommit/latest/userguide/limits.html) in the CodeCommit User Guide. The suffix .git is prohibited.
     /// This member is required.
     public var repositoryName: Swift.String?
     /// One or more tag key-value pairs to use when tagging this repository.
@@ -5797,7 +5797,7 @@ extension CreateUnreferencedMergeCommitInput: Swift.Encodable {
         if let email = self.email {
             try encodeContainer.encode(email, forKey: .email)
         }
-        if keepEmptyFolders != false {
+        if let keepEmptyFolders = self.keepEmptyFolders {
             try encodeContainer.encode(keepEmptyFolders, forKey: .keepEmptyFolders)
         }
         if let mergeOption = self.mergeOption {
@@ -5835,7 +5835,7 @@ public struct CreateUnreferencedMergeCommitInput: Swift.Equatable {
     /// The email address for the person who created the unreferenced commit.
     public var email: Swift.String?
     /// If the commit contains deletions, whether to keep a folder or folder structure if the changes leave the folders empty. If this is specified as true, a .gitkeep file is created for empty folders. The default is false.
-    public var keepEmptyFolders: Swift.Bool
+    public var keepEmptyFolders: Swift.Bool?
     /// The merge option or strategy you want to use to merge the code.
     /// This member is required.
     public var mergeOption: CodeCommitClientTypes.MergeOptionTypeEnum?
@@ -5854,7 +5854,7 @@ public struct CreateUnreferencedMergeCommitInput: Swift.Equatable {
         conflictResolutionStrategy: CodeCommitClientTypes.ConflictResolutionStrategyTypeEnum? = nil,
         destinationCommitSpecifier: Swift.String? = nil,
         email: Swift.String? = nil,
-        keepEmptyFolders: Swift.Bool = false,
+        keepEmptyFolders: Swift.Bool? = nil,
         mergeOption: CodeCommitClientTypes.MergeOptionTypeEnum? = nil,
         repositoryName: Swift.String? = nil,
         sourceCommitSpecifier: Swift.String? = nil
@@ -5884,7 +5884,7 @@ struct CreateUnreferencedMergeCommitInputBody: Swift.Equatable {
     let authorName: Swift.String?
     let email: Swift.String?
     let commitMessage: Swift.String?
-    let keepEmptyFolders: Swift.Bool
+    let keepEmptyFolders: Swift.Bool?
     let conflictResolution: CodeCommitClientTypes.ConflictResolution?
 }
 
@@ -5923,7 +5923,7 @@ extension CreateUnreferencedMergeCommitInputBody: Swift.Decodable {
         email = emailDecoded
         let commitMessageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .commitMessage)
         commitMessage = commitMessageDecoded
-        let keepEmptyFoldersDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .keepEmptyFolders) ?? false
+        let keepEmptyFoldersDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .keepEmptyFolders)
         keepEmptyFolders = keepEmptyFoldersDecoded
         let conflictResolutionDecoded = try containerValues.decodeIfPresent(CodeCommitClientTypes.ConflictResolution.self, forKey: .conflictResolution)
         conflictResolution = conflictResolutionDecoded
@@ -6472,7 +6472,7 @@ extension DeleteFileInput: Swift.Encodable {
         if let filePath = self.filePath {
             try encodeContainer.encode(filePath, forKey: .filePath)
         }
-        if keepEmptyFolders != false {
+        if let keepEmptyFolders = self.keepEmptyFolders {
             try encodeContainer.encode(keepEmptyFolders, forKey: .keepEmptyFolders)
         }
         if let name = self.name {
@@ -6505,7 +6505,7 @@ public struct DeleteFileInput: Swift.Equatable {
     /// This member is required.
     public var filePath: Swift.String?
     /// If a file is the only object in the folder or directory, specifies whether to delete the folder or directory that contains the file. By default, empty folders are deleted. This includes empty folders that are part of the directory structure. For example, if the path to a file is dir1/dir2/dir3/dir4, and dir2 and dir3 are empty, deleting the last file in dir4 also deletes the empty folders dir4, dir3, and dir2.
-    public var keepEmptyFolders: Swift.Bool
+    public var keepEmptyFolders: Swift.Bool?
     /// The name of the author of the commit that deletes the file. If no name is specified, the user's ARN is used as the author name and committer name.
     public var name: Swift.String?
     /// The ID of the commit that is the tip of the branch where you want to create the commit that deletes the file. This must be the HEAD commit for the branch. The commit that deletes the file is created from this commit ID.
@@ -6520,7 +6520,7 @@ public struct DeleteFileInput: Swift.Equatable {
         commitMessage: Swift.String? = nil,
         email: Swift.String? = nil,
         filePath: Swift.String? = nil,
-        keepEmptyFolders: Swift.Bool = false,
+        keepEmptyFolders: Swift.Bool? = nil,
         name: Swift.String? = nil,
         parentCommitId: Swift.String? = nil,
         repositoryName: Swift.String? = nil
@@ -6542,7 +6542,7 @@ struct DeleteFileInputBody: Swift.Equatable {
     let branchName: Swift.String?
     let filePath: Swift.String?
     let parentCommitId: Swift.String?
-    let keepEmptyFolders: Swift.Bool
+    let keepEmptyFolders: Swift.Bool?
     let commitMessage: Swift.String?
     let name: Swift.String?
     let email: Swift.String?
@@ -6570,7 +6570,7 @@ extension DeleteFileInputBody: Swift.Decodable {
         filePath = filePathDecoded
         let parentCommitIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .parentCommitId)
         parentCommitId = parentCommitIdDecoded
-        let keepEmptyFoldersDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .keepEmptyFolders) ?? false
+        let keepEmptyFoldersDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .keepEmptyFolders)
         keepEmptyFolders = keepEmptyFoldersDecoded
         let commitMessageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .commitMessage)
         commitMessage = commitMessageDecoded
@@ -8804,7 +8804,7 @@ extension FileTooLargeException {
     }
 }
 
-/// The specified file exceeds the file size limit for AWS CodeCommit. For more information about limits in AWS CodeCommit, see [AWS CodeCommit User Guide](https://docs.aws.amazon.com/codecommit/latest/userguide/limits.html).
+/// The specified file exceeds the file size limit for CodeCommit. For more information about limits in CodeCommit, see [Quotas](https://docs.aws.amazon.com/codecommit/latest/userguide/limits.html) in the CodeCommit User Guide.
 public struct FileTooLargeException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
@@ -8843,6 +8843,83 @@ extension FileTooLargeExceptionBody: Swift.Decodable {
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
     }
+}
+
+extension CodeCommitClientTypes.FileVersion: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case blobId
+        case commit
+        case path
+        case revisionChildren
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let blobId = self.blobId {
+            try encodeContainer.encode(blobId, forKey: .blobId)
+        }
+        if let commit = self.commit {
+            try encodeContainer.encode(commit, forKey: .commit)
+        }
+        if let path = self.path {
+            try encodeContainer.encode(path, forKey: .path)
+        }
+        if let revisionChildren = revisionChildren {
+            var revisionChildrenContainer = encodeContainer.nestedUnkeyedContainer(forKey: .revisionChildren)
+            for revisionid0 in revisionChildren {
+                try revisionChildrenContainer.encode(revisionid0)
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let commitDecoded = try containerValues.decodeIfPresent(CodeCommitClientTypes.Commit.self, forKey: .commit)
+        commit = commitDecoded
+        let blobIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .blobId)
+        blobId = blobIdDecoded
+        let pathDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .path)
+        path = pathDecoded
+        let revisionChildrenContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .revisionChildren)
+        var revisionChildrenDecoded0:[Swift.String]? = nil
+        if let revisionChildrenContainer = revisionChildrenContainer {
+            revisionChildrenDecoded0 = [Swift.String]()
+            for string0 in revisionChildrenContainer {
+                if let string0 = string0 {
+                    revisionChildrenDecoded0?.append(string0)
+                }
+            }
+        }
+        revisionChildren = revisionChildrenDecoded0
+    }
+}
+
+extension CodeCommitClientTypes {
+    /// Information about a version of a file.
+    public struct FileVersion: Swift.Equatable {
+        /// The blob ID of the object that represents the content of the file in this version.
+        public var blobId: Swift.String?
+        /// Returns information about a specific commit.
+        public var commit: CodeCommitClientTypes.Commit?
+        /// The name and path of the file at which this blob is indexed which contains the data for this version of the file. This value will vary between file versions if a file is renamed or if its path changes.
+        public var path: Swift.String?
+        /// An array of commit IDs that contain more recent versions of this file. If there are no additional versions of the file, this array will be empty.
+        public var revisionChildren: [Swift.String]?
+
+        public init(
+            blobId: Swift.String? = nil,
+            commit: CodeCommitClientTypes.Commit? = nil,
+            path: Swift.String? = nil,
+            revisionChildren: [Swift.String]? = nil
+        )
+        {
+            self.blobId = blobId
+            self.commit = commit
+            self.path = path
+            self.revisionChildren = revisionChildren
+        }
+    }
+
 }
 
 extension CodeCommitClientTypes.Folder: Swift.Codable {
@@ -9849,9 +9926,9 @@ extension GetCommentsForPullRequestInput: ClientRuntime.URLPathProvider {
 }
 
 public struct GetCommentsForPullRequestInput: Swift.Equatable {
-    /// The full commit ID of the commit in the source branch that was the tip of the branch at the time the comment was made.
+    /// The full commit ID of the commit in the source branch that was the tip of the branch at the time the comment was made. Requirement is conditional: afterCommitId must be specified when repositoryName is included.
     public var afterCommitId: Swift.String?
-    /// The full commit ID of the commit in the destination branch that was the tip of the branch at the time the pull request was created.
+    /// The full commit ID of the commit in the destination branch that was the tip of the branch at the time the pull request was created. Requirement is conditional: beforeCommitId must be specified when repositoryName is included.
     public var beforeCommitId: Swift.String?
     /// A non-zero, non-negative integer used to limit the number of returned results. The default is 100 comments. You can return up to 500 comments with a single request.
     public var maxResults: Swift.Int?
@@ -9860,7 +9937,7 @@ public struct GetCommentsForPullRequestInput: Swift.Equatable {
     /// The system-generated ID of the pull request. To get this ID, use [ListPullRequests].
     /// This member is required.
     public var pullRequestId: Swift.String?
-    /// The name of the repository that contains the pull request.
+    /// The name of the repository that contains the pull request. Requirement is conditional: repositoryName must be specified when beforeCommitId and afterCommitId are included.
     public var repositoryName: Swift.String?
 
     public init(
@@ -10362,7 +10439,7 @@ extension GetFileInput: ClientRuntime.URLPathProvider {
 }
 
 public struct GetFileInput: Swift.Equatable {
-    /// The fully quaified reference that identifies the commit that contains the file. For example, you can specify a full commit ID, a tag, a branch name, or a reference such as refs/heads/master. If none is provided, the head commit is used.
+    /// The fully quaified reference that identifies the commit that contains the file. For example, you can specify a full commit ID, a tag, a branch name, or a reference such as refs/heads/main. If none is provided, the head commit is used.
     public var commitSpecifier: Swift.String?
     /// The fully qualified path to the file, including the full name and extension of the file. For example, /examples/file.md is the fully qualified path to a file named file.md in a folder named examples.
     /// This member is required.
@@ -11413,9 +11490,9 @@ extension GetMergeOptionsOutputResponseBody: Swift.Decodable {
         var mergeOptionsDecoded0:[CodeCommitClientTypes.MergeOptionTypeEnum]? = nil
         if let mergeOptionsContainer = mergeOptionsContainer {
             mergeOptionsDecoded0 = [CodeCommitClientTypes.MergeOptionTypeEnum]()
-            for string0 in mergeOptionsContainer {
-                if let string0 = string0 {
-                    mergeOptionsDecoded0?.append(string0)
+            for enum0 in mergeOptionsContainer {
+                if let enum0 = enum0 {
+                    mergeOptionsDecoded0?.append(enum0)
                 }
             }
         }
@@ -12327,7 +12404,7 @@ extension InvalidApprovalRuleTemplateDescriptionException {
     }
 }
 
-/// The description for the approval rule template is not valid because it exceeds the maximum characters allowed for a description. For more information about limits in AWS CodeCommit, see [AWS CodeCommit User Guide](https://docs.aws.amazon.com/codecommit/latest/userguide/limits.html).
+/// The description for the approval rule template is not valid because it exceeds the maximum characters allowed for a description. For more information about limits in CodeCommit, see [Quotas](https://docs.aws.amazon.com/codecommit/latest/userguide/limits.html) in the CodeCommit User Guide.
 public struct InvalidApprovalRuleTemplateDescriptionException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
@@ -12383,7 +12460,7 @@ extension InvalidApprovalRuleTemplateNameException {
     }
 }
 
-/// The name of the approval rule template is not valid. Template names must be between 1 and 100 valid characters in length. For more information about limits in AWS CodeCommit, see [AWS CodeCommit User Guide](https://docs.aws.amazon.com/codecommit/latest/userguide/limits.html).
+/// The name of the approval rule template is not valid. Template names must be between 1 and 100 valid characters in length. For more information about limits in CodeCommit, see [Quotas](https://docs.aws.amazon.com/codecommit/latest/userguide/limits.html) in the CodeCommit User Guide.
 public struct InvalidApprovalRuleTemplateNameException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
@@ -14231,7 +14308,7 @@ extension InvalidReactionValueException {
     }
 }
 
-/// The value of the reaction is not valid. For more information, see the [AWS CodeCommit User Guide](https://docs.aws.amazon.com/codecommit/latest/userguide/welcome.html).
+/// The value of the reaction is not valid. For more information, see the [CodeCommit User Guide](https://docs.aws.amazon.com/codecommit/latest/userguide/welcome.html).
 public struct InvalidReactionValueException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
@@ -14287,7 +14364,7 @@ extension InvalidReferenceNameException {
     }
 }
 
-/// The specified reference name format is not valid. Reference names must conform to the Git references format (for example, refs/heads/master). For more information, see [Git Internals - Git References](https://git-scm.com/book/en/v2/Git-Internals-Git-References) or consult your Git documentation.
+/// The specified reference name format is not valid. Reference names must conform to the Git references format (for example, refs/heads/main). For more information, see [Git Internals - Git References](https://git-scm.com/book/en/v2/Git-Internals-Git-References) or consult your Git documentation.
 public struct InvalidReferenceNameException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
@@ -14903,7 +14980,7 @@ extension InvalidRepositoryTriggerRegionException {
     }
 }
 
-/// The AWS Region for the trigger target does not match the AWS Region for the repository. Triggers must be created in the same Region as the target for the trigger.
+/// The Amazon Web Services Region for the trigger target does not match the Amazon Web Services Region for the repository. Triggers must be created in the same Amazon Web Services Region as the target for the trigger.
 public struct InvalidRepositoryTriggerRegionException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
@@ -14959,7 +15036,7 @@ extension InvalidResourceArnException {
     }
 }
 
-/// The value for the resource ARN is not valid. For more information about resources in AWS CodeCommit, see [CodeCommit Resources and Operations](https://docs.aws.amazon.com/codecommit/latest/userguide/auth-and-access-control-iam-access-control-identity-based.html#arn-formats) in the AWS CodeCommit User Guide.
+/// The value for the resource ARN is not valid. For more information about resources in CodeCommit, see [CodeCommit Resources and Operations](https://docs.aws.amazon.com/codecommit/latest/userguide/auth-and-access-control-iam-access-control-identity-based.html#arn-formats) in the CodeCommit User Guide.
 public struct InvalidResourceArnException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
@@ -15757,7 +15834,7 @@ extension ListApprovalRuleTemplatesOutputResponse: ClientRuntime.HttpResponseBin
 }
 
 public struct ListApprovalRuleTemplatesOutputResponse: Swift.Equatable {
-    /// The names of all the approval rule templates found in the AWS Region for your AWS account.
+    /// The names of all the approval rule templates found in the Amazon Web Services Region for your Amazon Web Services account.
     public var approvalRuleTemplateNames: [Swift.String]?
     /// An enumeration token that allows the operation to batch the next results of the operation.
     public var nextToken: Swift.String?
@@ -16087,6 +16164,187 @@ extension ListBranchesOutputResponseBody: Swift.Decodable {
             }
         }
         branches = branchesDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+extension ListFileCommitHistoryInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case commitSpecifier
+        case filePath
+        case maxResults
+        case nextToken
+        case repositoryName
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let commitSpecifier = self.commitSpecifier {
+            try encodeContainer.encode(commitSpecifier, forKey: .commitSpecifier)
+        }
+        if let filePath = self.filePath {
+            try encodeContainer.encode(filePath, forKey: .filePath)
+        }
+        if let maxResults = self.maxResults {
+            try encodeContainer.encode(maxResults, forKey: .maxResults)
+        }
+        if let nextToken = self.nextToken {
+            try encodeContainer.encode(nextToken, forKey: .nextToken)
+        }
+        if let repositoryName = self.repositoryName {
+            try encodeContainer.encode(repositoryName, forKey: .repositoryName)
+        }
+    }
+}
+
+extension ListFileCommitHistoryInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct ListFileCommitHistoryInput: Swift.Equatable {
+    /// The fully quaified reference that identifies the commit that contains the file. For example, you can specify a full commit ID, a tag, a branch name, or a reference such as refs/heads/main. If none is provided, the head commit is used.
+    public var commitSpecifier: Swift.String?
+    /// The full path of the file whose history you want to retrieve, including the name of the file.
+    /// This member is required.
+    public var filePath: Swift.String?
+    /// A non-zero, non-negative integer used to limit the number of returned results.
+    public var maxResults: Swift.Int?
+    /// An enumeration token that allows the operation to batch the results.
+    public var nextToken: Swift.String?
+    /// The name of the repository that contains the file.
+    /// This member is required.
+    public var repositoryName: Swift.String?
+
+    public init(
+        commitSpecifier: Swift.String? = nil,
+        filePath: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        repositoryName: Swift.String? = nil
+    )
+    {
+        self.commitSpecifier = commitSpecifier
+        self.filePath = filePath
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.repositoryName = repositoryName
+    }
+}
+
+struct ListFileCommitHistoryInputBody: Swift.Equatable {
+    let repositoryName: Swift.String?
+    let commitSpecifier: Swift.String?
+    let filePath: Swift.String?
+    let maxResults: Swift.Int?
+    let nextToken: Swift.String?
+}
+
+extension ListFileCommitHistoryInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case commitSpecifier
+        case filePath
+        case maxResults
+        case nextToken
+        case repositoryName
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let repositoryNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .repositoryName)
+        repositoryName = repositoryNameDecoded
+        let commitSpecifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .commitSpecifier)
+        commitSpecifier = commitSpecifierDecoded
+        let filePathDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .filePath)
+        filePath = filePathDecoded
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
+        maxResults = maxResultsDecoded
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+public enum ListFileCommitHistoryOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "CommitDoesNotExistException": return try await CommitDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "CommitRequiredException": return try await CommitRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "EncryptionIntegrityChecksFailedException": return try await EncryptionIntegrityChecksFailedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "EncryptionKeyAccessDeniedException": return try await EncryptionKeyAccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "EncryptionKeyDisabledException": return try await EncryptionKeyDisabledException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "EncryptionKeyNotFoundException": return try await EncryptionKeyNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "EncryptionKeyUnavailableException": return try await EncryptionKeyUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidCommitException": return try await InvalidCommitException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidContinuationTokenException": return try await InvalidContinuationTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidMaxResultsException": return try await InvalidMaxResultsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRepositoryNameException": return try await InvalidRepositoryNameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "RepositoryDoesNotExistException": return try await RepositoryDoesNotExistException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "RepositoryNameRequiredException": return try await RepositoryNameRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TipsDivergenceExceededException": return try await TipsDivergenceExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension ListFileCommitHistoryOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ListFileCommitHistoryOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.nextToken = output.nextToken
+            self.revisionDag = output.revisionDag
+        } else {
+            self.nextToken = nil
+            self.revisionDag = nil
+        }
+    }
+}
+
+public struct ListFileCommitHistoryOutputResponse: Swift.Equatable {
+    /// An enumeration token that can be used to return the next batch of results.
+    public var nextToken: Swift.String?
+    /// An array of FileVersion objects that form a directed acyclic graph (DAG) of the changes to the file made by the commits that changed the file.
+    /// This member is required.
+    public var revisionDag: [CodeCommitClientTypes.FileVersion]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        revisionDag: [CodeCommitClientTypes.FileVersion]? = nil
+    )
+    {
+        self.nextToken = nextToken
+        self.revisionDag = revisionDag
+    }
+}
+
+struct ListFileCommitHistoryOutputResponseBody: Swift.Equatable {
+    let revisionDag: [CodeCommitClientTypes.FileVersion]?
+    let nextToken: Swift.String?
+}
+
+extension ListFileCommitHistoryOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case nextToken
+        case revisionDag
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let revisionDagContainer = try containerValues.decodeIfPresent([CodeCommitClientTypes.FileVersion?].self, forKey: .revisionDag)
+        var revisionDagDecoded0:[CodeCommitClientTypes.FileVersion]? = nil
+        if let revisionDagContainer = revisionDagContainer {
+            revisionDagDecoded0 = [CodeCommitClientTypes.FileVersion]()
+            for structure0 in revisionDagContainer {
+                if let structure0 = structure0 {
+                    revisionDagDecoded0?.append(structure0)
+                }
+            }
+        }
+        revisionDag = revisionDagDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
     }
@@ -16451,7 +16709,7 @@ extension ListRepositoriesInput: ClientRuntime.URLPathProvider {
 
 /// Represents the input of a list repositories operation.
 public struct ListRepositoriesInput: Swift.Equatable {
-    /// An enumeration token that allows the operation to batch the results of the operation. Batch sizes are 1,000 for list repository operations. When the client sends the token back to AWS CodeCommit, another page of 1,000 records is retrieved.
+    /// An enumeration token that allows the operation to batch the results of the operation. Batch sizes are 1,000 for list repository operations. When the client sends the token back to CodeCommit, another page of 1,000 records is retrieved.
     public var nextToken: Swift.String?
     /// The order in which to sort the results of a list repositories operation.
     public var order: CodeCommitClientTypes.OrderEnum?
@@ -16523,7 +16781,7 @@ extension ListRepositoriesOutputResponse: ClientRuntime.HttpResponseBinding {
 
 /// Represents the output of a list repositories operation.
 public struct ListRepositoriesOutputResponse: Swift.Equatable {
-    /// An enumeration token that allows the operation to batch the results of the operation. Batch sizes are 1,000 for list repository operations. When the client sends the token back to AWS CodeCommit, another page of 1,000 records is retrieved.
+    /// An enumeration token that allows the operation to batch the results of the operation. Batch sizes are 1,000 for list repository operations. When the client sends the token back to CodeCommit, another page of 1,000 records is retrieved.
     public var nextToken: Swift.String?
     /// Lists the repositories called by the list repositories operation.
     public var repositories: [CodeCommitClientTypes.RepositoryNameIdPair]?
@@ -17574,7 +17832,7 @@ extension MergeBranchesBySquashInput: Swift.Encodable {
         if let email = self.email {
             try encodeContainer.encode(email, forKey: .email)
         }
-        if keepEmptyFolders != false {
+        if let keepEmptyFolders = self.keepEmptyFolders {
             try encodeContainer.encode(keepEmptyFolders, forKey: .keepEmptyFolders)
         }
         if let repositoryName = self.repositoryName {
@@ -17612,7 +17870,7 @@ public struct MergeBranchesBySquashInput: Swift.Equatable {
     /// The email address of the person merging the branches. This information is used in the commit information for the merge.
     public var email: Swift.String?
     /// If the commit contains deletions, whether to keep a folder or folder structure if the changes leave the folders empty. If this is specified as true, a .gitkeep file is created for empty folders. The default is false.
-    public var keepEmptyFolders: Swift.Bool
+    public var keepEmptyFolders: Swift.Bool?
     /// The name of the repository where you want to merge two branches.
     /// This member is required.
     public var repositoryName: Swift.String?
@@ -17630,7 +17888,7 @@ public struct MergeBranchesBySquashInput: Swift.Equatable {
         conflictResolutionStrategy: CodeCommitClientTypes.ConflictResolutionStrategyTypeEnum? = nil,
         destinationCommitSpecifier: Swift.String? = nil,
         email: Swift.String? = nil,
-        keepEmptyFolders: Swift.Bool = false,
+        keepEmptyFolders: Swift.Bool? = nil,
         repositoryName: Swift.String? = nil,
         sourceCommitSpecifier: Swift.String? = nil,
         targetBranch: Swift.String? = nil
@@ -17660,7 +17918,7 @@ struct MergeBranchesBySquashInputBody: Swift.Equatable {
     let authorName: Swift.String?
     let email: Swift.String?
     let commitMessage: Swift.String?
-    let keepEmptyFolders: Swift.Bool
+    let keepEmptyFolders: Swift.Bool?
     let conflictResolution: CodeCommitClientTypes.ConflictResolution?
 }
 
@@ -17699,7 +17957,7 @@ extension MergeBranchesBySquashInputBody: Swift.Decodable {
         email = emailDecoded
         let commitMessageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .commitMessage)
         commitMessage = commitMessageDecoded
-        let keepEmptyFoldersDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .keepEmptyFolders) ?? false
+        let keepEmptyFoldersDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .keepEmptyFolders)
         keepEmptyFolders = keepEmptyFoldersDecoded
         let conflictResolutionDecoded = try containerValues.decodeIfPresent(CodeCommitClientTypes.ConflictResolution.self, forKey: .conflictResolution)
         conflictResolution = conflictResolutionDecoded
@@ -17843,7 +18101,7 @@ extension MergeBranchesByThreeWayInput: Swift.Encodable {
         if let email = self.email {
             try encodeContainer.encode(email, forKey: .email)
         }
-        if keepEmptyFolders != false {
+        if let keepEmptyFolders = self.keepEmptyFolders {
             try encodeContainer.encode(keepEmptyFolders, forKey: .keepEmptyFolders)
         }
         if let repositoryName = self.repositoryName {
@@ -17881,7 +18139,7 @@ public struct MergeBranchesByThreeWayInput: Swift.Equatable {
     /// The email address of the person merging the branches. This information is used in the commit information for the merge.
     public var email: Swift.String?
     /// If the commit contains deletions, whether to keep a folder or folder structure if the changes leave the folders empty. If true, a .gitkeep file is created for empty folders. The default is false.
-    public var keepEmptyFolders: Swift.Bool
+    public var keepEmptyFolders: Swift.Bool?
     /// The name of the repository where you want to merge two branches.
     /// This member is required.
     public var repositoryName: Swift.String?
@@ -17899,7 +18157,7 @@ public struct MergeBranchesByThreeWayInput: Swift.Equatable {
         conflictResolutionStrategy: CodeCommitClientTypes.ConflictResolutionStrategyTypeEnum? = nil,
         destinationCommitSpecifier: Swift.String? = nil,
         email: Swift.String? = nil,
-        keepEmptyFolders: Swift.Bool = false,
+        keepEmptyFolders: Swift.Bool? = nil,
         repositoryName: Swift.String? = nil,
         sourceCommitSpecifier: Swift.String? = nil,
         targetBranch: Swift.String? = nil
@@ -17929,7 +18187,7 @@ struct MergeBranchesByThreeWayInputBody: Swift.Equatable {
     let authorName: Swift.String?
     let email: Swift.String?
     let commitMessage: Swift.String?
-    let keepEmptyFolders: Swift.Bool
+    let keepEmptyFolders: Swift.Bool?
     let conflictResolution: CodeCommitClientTypes.ConflictResolution?
 }
 
@@ -17968,7 +18226,7 @@ extension MergeBranchesByThreeWayInputBody: Swift.Decodable {
         email = emailDecoded
         let commitMessageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .commitMessage)
         commitMessage = commitMessageDecoded
-        let keepEmptyFoldersDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .keepEmptyFolders) ?? false
+        let keepEmptyFoldersDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .keepEmptyFolders)
         keepEmptyFolders = keepEmptyFoldersDecoded
         let conflictResolutionDecoded = try containerValues.decodeIfPresent(CodeCommitClientTypes.ConflictResolution.self, forKey: .conflictResolution)
         conflictResolution = conflictResolutionDecoded
@@ -18571,7 +18829,7 @@ extension MergePullRequestBySquashInput: Swift.Encodable {
         if let email = self.email {
             try encodeContainer.encode(email, forKey: .email)
         }
-        if keepEmptyFolders != false {
+        if let keepEmptyFolders = self.keepEmptyFolders {
             try encodeContainer.encode(keepEmptyFolders, forKey: .keepEmptyFolders)
         }
         if let pullRequestId = self.pullRequestId {
@@ -18606,7 +18864,7 @@ public struct MergePullRequestBySquashInput: Swift.Equatable {
     /// The email address of the person merging the branches. This information is used in the commit information for the merge.
     public var email: Swift.String?
     /// If the commit contains deletions, whether to keep a folder or folder structure if the changes leave the folders empty. If true, a .gitkeep file is created for empty folders. The default is false.
-    public var keepEmptyFolders: Swift.Bool
+    public var keepEmptyFolders: Swift.Bool?
     /// The system-generated ID of the pull request. To get this ID, use [ListPullRequests].
     /// This member is required.
     public var pullRequestId: Swift.String?
@@ -18623,7 +18881,7 @@ public struct MergePullRequestBySquashInput: Swift.Equatable {
         conflictResolution: CodeCommitClientTypes.ConflictResolution? = nil,
         conflictResolutionStrategy: CodeCommitClientTypes.ConflictResolutionStrategyTypeEnum? = nil,
         email: Swift.String? = nil,
-        keepEmptyFolders: Swift.Bool = false,
+        keepEmptyFolders: Swift.Bool? = nil,
         pullRequestId: Swift.String? = nil,
         repositoryName: Swift.String? = nil,
         sourceCommitId: Swift.String? = nil
@@ -18651,7 +18909,7 @@ struct MergePullRequestBySquashInputBody: Swift.Equatable {
     let commitMessage: Swift.String?
     let authorName: Swift.String?
     let email: Swift.String?
-    let keepEmptyFolders: Swift.Bool
+    let keepEmptyFolders: Swift.Bool?
     let conflictResolution: CodeCommitClientTypes.ConflictResolution?
 }
 
@@ -18687,7 +18945,7 @@ extension MergePullRequestBySquashInputBody: Swift.Decodable {
         authorName = authorNameDecoded
         let emailDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .email)
         email = emailDecoded
-        let keepEmptyFoldersDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .keepEmptyFolders) ?? false
+        let keepEmptyFoldersDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .keepEmptyFolders)
         keepEmptyFolders = keepEmptyFoldersDecoded
         let conflictResolutionDecoded = try containerValues.decodeIfPresent(CodeCommitClientTypes.ConflictResolution.self, forKey: .conflictResolution)
         conflictResolution = conflictResolutionDecoded
@@ -18816,7 +19074,7 @@ extension MergePullRequestByThreeWayInput: Swift.Encodable {
         if let email = self.email {
             try encodeContainer.encode(email, forKey: .email)
         }
-        if keepEmptyFolders != false {
+        if let keepEmptyFolders = self.keepEmptyFolders {
             try encodeContainer.encode(keepEmptyFolders, forKey: .keepEmptyFolders)
         }
         if let pullRequestId = self.pullRequestId {
@@ -18851,7 +19109,7 @@ public struct MergePullRequestByThreeWayInput: Swift.Equatable {
     /// The email address of the person merging the branches. This information is used in the commit information for the merge.
     public var email: Swift.String?
     /// If the commit contains deletions, whether to keep a folder or folder structure if the changes leave the folders empty. If true, a .gitkeep file is created for empty folders. The default is false.
-    public var keepEmptyFolders: Swift.Bool
+    public var keepEmptyFolders: Swift.Bool?
     /// The system-generated ID of the pull request. To get this ID, use [ListPullRequests].
     /// This member is required.
     public var pullRequestId: Swift.String?
@@ -18868,7 +19126,7 @@ public struct MergePullRequestByThreeWayInput: Swift.Equatable {
         conflictResolution: CodeCommitClientTypes.ConflictResolution? = nil,
         conflictResolutionStrategy: CodeCommitClientTypes.ConflictResolutionStrategyTypeEnum? = nil,
         email: Swift.String? = nil,
-        keepEmptyFolders: Swift.Bool = false,
+        keepEmptyFolders: Swift.Bool? = nil,
         pullRequestId: Swift.String? = nil,
         repositoryName: Swift.String? = nil,
         sourceCommitId: Swift.String? = nil
@@ -18896,7 +19154,7 @@ struct MergePullRequestByThreeWayInputBody: Swift.Equatable {
     let commitMessage: Swift.String?
     let authorName: Swift.String?
     let email: Swift.String?
-    let keepEmptyFolders: Swift.Bool
+    let keepEmptyFolders: Swift.Bool?
     let conflictResolution: CodeCommitClientTypes.ConflictResolution?
 }
 
@@ -18932,7 +19190,7 @@ extension MergePullRequestByThreeWayInputBody: Swift.Decodable {
         authorName = authorNameDecoded
         let emailDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .email)
         email = emailDecoded
-        let keepEmptyFoldersDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .keepEmptyFolders) ?? false
+        let keepEmptyFoldersDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .keepEmptyFolders)
         keepEmptyFolders = keepEmptyFoldersDecoded
         let conflictResolutionDecoded = try containerValues.decodeIfPresent(CodeCommitClientTypes.ConflictResolution.self, forKey: .conflictResolution)
         conflictResolution = conflictResolutionDecoded
@@ -19266,7 +19524,7 @@ extension NumberOfRuleTemplatesExceededException {
     }
 }
 
-/// The maximum number of approval rule templates has been exceeded for this AWS Region.
+/// The maximum number of approval rule templates has been exceeded for this Amazon Web Services Region.
 public struct NumberOfRuleTemplatesExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
@@ -21768,7 +22026,7 @@ public struct PutCommentReactionInput: Swift.Equatable {
     /// The ID of the comment to which you want to add or update a reaction.
     /// This member is required.
     public var commentId: Swift.String?
-    /// The emoji reaction you want to add or update. To remove a reaction, provide a value of blank or null. You can also provide the value of none. For information about emoji reaction values supported in AWS CodeCommit, see the [AWS CodeCommit User Guide](https://docs.aws.amazon.com/codecommit/latest/userguide/how-to-commit-comment.html#emoji-reaction-table).
+    /// The emoji reaction you want to add or update. To remove a reaction, provide a value of blank or null. You can also provide the value of none. For information about emoji reaction values supported in CodeCommit, see the [CodeCommit User Guide](https://docs.aws.amazon.com/codecommit/latest/userguide/how-to-commit-comment.html#emoji-reaction-table).
     /// This member is required.
     public var reactionValue: Swift.String?
 
@@ -22502,7 +22760,7 @@ extension CodeCommitClientTypes.ReactionValueFormats: Swift.Codable {
 }
 
 extension CodeCommitClientTypes {
-    /// Information about the values for reactions to a comment. AWS CodeCommit supports a limited set of reactions.
+    /// Information about the values for reactions to a comment. CodeCommit supports a limited set of reactions.
     public struct ReactionValueFormats: Swift.Equatable {
         /// The Emoji Version 1.0 graphic of the reaction. These graphics are interpreted slightly differently on different operating systems.
         public var emoji: Swift.String?
@@ -23186,7 +23444,7 @@ extension CodeCommitClientTypes.RepositoryMetadata: Swift.Codable {
 extension CodeCommitClientTypes {
     /// Information about a repository.
     public struct RepositoryMetadata: Swift.Equatable {
-        /// The ID of the AWS account associated with the repository.
+        /// The ID of the Amazon Web Services account associated with the repository.
         public var accountId: Swift.String?
         /// The Amazon Resource Name (ARN) of the repository.
         public var arn: Swift.String?
@@ -23561,9 +23819,9 @@ extension CodeCommitClientTypes.RepositoryTrigger: Swift.Codable {
         var eventsDecoded0:[CodeCommitClientTypes.RepositoryTriggerEventEnum]? = nil
         if let eventsContainer = eventsContainer {
             eventsDecoded0 = [CodeCommitClientTypes.RepositoryTriggerEventEnum]()
-            for string0 in eventsContainer {
-                if let string0 = string0 {
-                    eventsDecoded0?.append(string0)
+            for enum0 in eventsContainer {
+                if let enum0 = enum0 {
+                    eventsDecoded0?.append(enum0)
                 }
             }
         }
@@ -23572,7 +23830,7 @@ extension CodeCommitClientTypes.RepositoryTrigger: Swift.Codable {
 }
 
 extension CodeCommitClientTypes {
-    /// Information about a trigger for a repository.
+    /// Information about a trigger for a repository. If you want to receive notifications about repository events, consider using notifications instead of triggers. For more information, see [Configuring notifications for repository events](https://docs.aws.amazon.com/codecommit/latest/userguide/how-to-repository-email.html).
     public struct RepositoryTrigger: Swift.Equatable {
         /// The branches to be included in the trigger configuration. If you specify an empty array, the trigger applies to all branches. Although no content is required in the array, you must include the array itself.
         public var branches: [Swift.String]?
@@ -23984,7 +24242,7 @@ extension ResourceArnRequiredException {
     }
 }
 
-/// A valid Amazon Resource Name (ARN) for an AWS CodeCommit resource is required. For a list of valid resources in AWS CodeCommit, see [CodeCommit Resources and Operations](https://docs.aws.amazon.com/codecommit/latest/userguide/auth-and-access-control-iam-access-control-identity-based.html#arn-formats) in the AWS CodeCommit User Guide.
+/// A valid Amazon Resource Name (ARN) for an CodeCommit resource is required. For a list of valid resources in CodeCommit, see [CodeCommit Resources and Operations](https://docs.aws.amazon.com/codecommit/latest/userguide/auth-and-access-control-iam-access-control-identity-based.html#arn-formats) in the CodeCommit User Guide.
 public struct ResourceArnRequiredException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
@@ -25458,7 +25716,7 @@ extension TooManyTagsException {
     }
 }
 
-/// The maximum number of tags for an AWS CodeCommit resource has been exceeded.
+/// The maximum number of tags for an CodeCommit resource has been exceeded.
 public struct TooManyTagsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
@@ -26106,10 +26364,10 @@ extension UpdateDefaultBranchInput: ClientRuntime.URLPathProvider {
 
 /// Represents the input of an update default branch operation.
 public struct UpdateDefaultBranchInput: Swift.Equatable {
-    /// The name of the branch to set as the default.
+    /// The name of the branch to set as the default branch.
     /// This member is required.
     public var defaultBranchName: Swift.String?
-    /// The name of the repository to set or change the default branch for.
+    /// The name of the repository for which you want to set or change the default branch.
     /// This member is required.
     public var repositoryName: Swift.String?
 
@@ -26213,7 +26471,7 @@ public struct UpdatePullRequestApprovalRuleContentInput: Swift.Equatable {
     public var existingRuleContentSha256: Swift.String?
     /// The updated content for the approval rule. When you update the content of the approval rule, you can specify approvers in an approval pool in one of two ways:
     ///
-    /// * CodeCommitApprovers: This option only requires an AWS account and a resource. It can be used for both IAM users and federated access users whose name matches the provided resource name. This is a very powerful option that offers a great deal of flexibility. For example, if you specify the AWS account 123456789012 and Mary_Major, all of the following are counted as approvals coming from that user:
+    /// * CodeCommitApprovers: This option only requires an Amazon Web Services account and a resource. It can be used for both IAM users and federated access users whose name matches the provided resource name. This is a very powerful option that offers a great deal of flexibility. For example, if you specify the Amazon Web Services account 123456789012 and Mary_Major, all of the following are counted as approvals coming from that user:
     ///
     /// * An IAM user in the account (arn:aws:iam::123456789012:user/Mary_Major)
     ///

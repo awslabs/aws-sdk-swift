@@ -779,7 +779,7 @@ extension AssignTapePoolInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if bypassGovernanceRetention != false {
+        if let bypassGovernanceRetention = self.bypassGovernanceRetention {
             try encodeContainer.encode(bypassGovernanceRetention, forKey: .bypassGovernanceRetention)
         }
         if let poolId = self.poolId {
@@ -799,7 +799,7 @@ extension AssignTapePoolInput: ClientRuntime.URLPathProvider {
 
 public struct AssignTapePoolInput: Swift.Equatable {
     /// Set permissions to bypass governance retention. If the lock type of the archived tape is Governance, the tape's archived age is not older than RetentionLockInDays, and the user does not already have BypassGovernanceRetention, setting this to TRUE enables the user to bypass the retention lock. This parameter is set to true by default for calls from the console. Valid values: TRUE | FALSE
-    public var bypassGovernanceRetention: Swift.Bool
+    public var bypassGovernanceRetention: Swift.Bool?
     /// The ID of the pool that you want to add your tape to for archiving. The tape in this pool is archived in the S3 storage class that is associated with the pool. When you use your backup application to eject the tape, the tape is archived directly into the storage class (S3 Glacier or S3 Glacier Deep Archive) that corresponds to the pool.
     /// This member is required.
     public var poolId: Swift.String?
@@ -808,7 +808,7 @@ public struct AssignTapePoolInput: Swift.Equatable {
     public var tapeARN: Swift.String?
 
     public init(
-        bypassGovernanceRetention: Swift.Bool = false,
+        bypassGovernanceRetention: Swift.Bool? = nil,
         poolId: Swift.String? = nil,
         tapeARN: Swift.String? = nil
     )
@@ -822,7 +822,7 @@ public struct AssignTapePoolInput: Swift.Equatable {
 struct AssignTapePoolInputBody: Swift.Equatable {
     let tapeARN: Swift.String?
     let poolId: Swift.String?
-    let bypassGovernanceRetention: Swift.Bool
+    let bypassGovernanceRetention: Swift.Bool?
 }
 
 extension AssignTapePoolInputBody: Swift.Decodable {
@@ -838,7 +838,7 @@ extension AssignTapePoolInputBody: Swift.Decodable {
         tapeARN = tapeARNDecoded
         let poolIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .poolId)
         poolId = poolIdDecoded
-        let bypassGovernanceRetentionDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .bypassGovernanceRetention) ?? false
+        let bypassGovernanceRetentionDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .bypassGovernanceRetention)
         bypassGovernanceRetention = bypassGovernanceRetentionDecoded
     }
 }
@@ -2125,7 +2125,7 @@ extension CreateCachediSCSIVolumeInput: Swift.Encodable {
         if let targetName = self.targetName {
             try encodeContainer.encode(targetName, forKey: .targetName)
         }
-        if volumeSizeInBytes != 0 {
+        if let volumeSizeInBytes = self.volumeSizeInBytes {
             try encodeContainer.encode(volumeSizeInBytes, forKey: .volumeSizeInBytes)
         }
     }
@@ -2162,7 +2162,7 @@ public struct CreateCachediSCSIVolumeInput: Swift.Equatable {
     public var targetName: Swift.String?
     /// The size of the volume in bytes.
     /// This member is required.
-    public var volumeSizeInBytes: Swift.Int
+    public var volumeSizeInBytes: Swift.Int?
 
     public init(
         clientToken: Swift.String? = nil,
@@ -2174,7 +2174,7 @@ public struct CreateCachediSCSIVolumeInput: Swift.Equatable {
         sourceVolumeARN: Swift.String? = nil,
         tags: [StorageGatewayClientTypes.Tag]? = nil,
         targetName: Swift.String? = nil,
-        volumeSizeInBytes: Swift.Int = 0
+        volumeSizeInBytes: Swift.Int? = nil
     )
     {
         self.clientToken = clientToken
@@ -2192,7 +2192,7 @@ public struct CreateCachediSCSIVolumeInput: Swift.Equatable {
 
 struct CreateCachediSCSIVolumeInputBody: Swift.Equatable {
     let gatewayARN: Swift.String?
-    let volumeSizeInBytes: Swift.Int
+    let volumeSizeInBytes: Swift.Int?
     let snapshotId: Swift.String?
     let targetName: Swift.String?
     let sourceVolumeARN: Swift.String?
@@ -2221,7 +2221,7 @@ extension CreateCachediSCSIVolumeInputBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let gatewayARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .gatewayARN)
         gatewayARN = gatewayARNDecoded
-        let volumeSizeInBytesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .volumeSizeInBytes) ?? 0
+        let volumeSizeInBytesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .volumeSizeInBytes)
         volumeSizeInBytes = volumeSizeInBytesDecoded
         let snapshotIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .snapshotId)
         snapshotId = snapshotIdDecoded
@@ -2449,7 +2449,7 @@ public struct CreateNFSFileShareInput: Swift.Equatable {
     public var locationARN: Swift.String?
     /// File share default values. Optional.
     public var nfsFileShareDefaults: StorageGatewayClientTypes.NFSFileShareDefaults?
-    /// The notification policy of the file share. SettlingTimeInSeconds controls the number of seconds to wait after the last point in time a client wrote to a file before generating an ObjectUploaded notification. Because clients can make many small writes to files, it's best to set this parameter for as long as possible to avoid generating multiple notifications for the same file in a small time period. SettlingTimeInSeconds has no effect on the timing of the object uploading to Amazon S3, only the timing of the notification. The following example sets NotificationPolicy on with SettlingTimeInSeconds set to 60. {"Upload": {"SettlingTimeInSeconds": 60}} The following example sets NotificationPolicy off. {}
+    /// The notification policy of the file share. SettlingTimeInSeconds controls the number of seconds to wait after the last point in time a client wrote to a file before generating an ObjectUploaded notification. Because clients can make many small writes to files, it's best to set this parameter for as long as possible to avoid generating multiple notifications for the same file in a small time period. SettlingTimeInSeconds has no effect on the timing of the object uploading to Amazon S3, only the timing of the notification. The following example sets NotificationPolicy on with SettlingTimeInSeconds set to 60. {\"Upload\": {\"SettlingTimeInSeconds\": 60}} The following example sets NotificationPolicy off. {}
     public var notificationPolicy: Swift.String?
     /// A value that sets the access control list (ACL) permission for objects in the S3 bucket that a S3 File Gateway puts objects into. The default value is private.
     public var objectACL: StorageGatewayClientTypes.ObjectACL?
@@ -2856,7 +2856,7 @@ public struct CreateSMBFileShareInput: Swift.Equatable {
     /// A custom ARN for the backend storage used for storing data for file shares. It includes a resource ARN with an optional prefix concatenation. The prefix must end with a forward slash (/). You can specify LocationARN as a bucket ARN, access point ARN or access point alias, as shown in the following examples. Bucket ARN: arn:aws:s3:::my-bucket/prefix/ Access point ARN: arn:aws:s3:region:account-id:accesspoint/access-point-name/prefix/ If you specify an access point, the bucket policy must be configured to delegate access control to the access point. For information, see [Delegating access control to access points](https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-points-policies.html#access-points-delegating-control) in the Amazon S3 User Guide. Access point alias: test-ap-ab123cdef4gehijklmn5opqrstuvuse1a-s3alias
     /// This member is required.
     public var locationARN: Swift.String?
-    /// The notification policy of the file share. SettlingTimeInSeconds controls the number of seconds to wait after the last point in time a client wrote to a file before generating an ObjectUploaded notification. Because clients can make many small writes to files, it's best to set this parameter for as long as possible to avoid generating multiple notifications for the same file in a small time period. SettlingTimeInSeconds has no effect on the timing of the object uploading to Amazon S3, only the timing of the notification. The following example sets NotificationPolicy on with SettlingTimeInSeconds set to 60. {"Upload": {"SettlingTimeInSeconds": 60}} The following example sets NotificationPolicy off. {}
+    /// The notification policy of the file share. SettlingTimeInSeconds controls the number of seconds to wait after the last point in time a client wrote to a file before generating an ObjectUploaded notification. Because clients can make many small writes to files, it's best to set this parameter for as long as possible to avoid generating multiple notifications for the same file in a small time period. SettlingTimeInSeconds has no effect on the timing of the object uploading to Amazon S3, only the timing of the notification. The following example sets NotificationPolicy on with SettlingTimeInSeconds set to 60. {\"Upload\": {\"SettlingTimeInSeconds\": 60}} The following example sets NotificationPolicy off. {}
     public var notificationPolicy: Swift.String?
     /// A value that sets the access control list (ACL) permission for objects in the S3 bucket that a S3 File Gateway puts objects into. The default value is private.
     public var objectACL: StorageGatewayClientTypes.ObjectACL?
@@ -3483,7 +3483,7 @@ extension CreateStorediSCSIVolumeInput: Swift.Encodable {
         if let networkInterfaceId = self.networkInterfaceId {
             try encodeContainer.encode(networkInterfaceId, forKey: .networkInterfaceId)
         }
-        if preserveExistingData != false {
+        if let preserveExistingData = self.preserveExistingData {
             try encodeContainer.encode(preserveExistingData, forKey: .preserveExistingData)
         }
         if let snapshotId = self.snapshotId {
@@ -3534,7 +3534,7 @@ public struct CreateStorediSCSIVolumeInput: Swift.Equatable {
     public var networkInterfaceId: Swift.String?
     /// Set to true if you want to preserve the data on the local disk. Otherwise, set to false to create an empty volume. Valid Values: true | false
     /// This member is required.
-    public var preserveExistingData: Swift.Bool
+    public var preserveExistingData: Swift.Bool?
     /// The snapshot ID (e.g., "snap-1122aabb") of the snapshot to restore as the new stored volume. Specify this field if you want to create the iSCSI storage volume from a snapshot; otherwise, do not include this field. To list snapshots for your account use [DescribeSnapshots](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/ApiReference-query-DescribeSnapshots.html) in the Amazon Elastic Compute Cloud API Reference.
     public var snapshotId: Swift.String?
     /// A list of up to 50 tags that can be assigned to a stored volume. Each tag is a key-value pair. Valid characters for key and value are letters, spaces, and numbers representable in UTF-8 format, and the following special characters: + - = . _ : / @. The maximum length of a tag's key is 128 characters, and the maximum length for a tag's value is 256.
@@ -3549,7 +3549,7 @@ public struct CreateStorediSCSIVolumeInput: Swift.Equatable {
         kmsEncrypted: Swift.Bool? = nil,
         kmsKey: Swift.String? = nil,
         networkInterfaceId: Swift.String? = nil,
-        preserveExistingData: Swift.Bool = false,
+        preserveExistingData: Swift.Bool? = nil,
         snapshotId: Swift.String? = nil,
         tags: [StorageGatewayClientTypes.Tag]? = nil,
         targetName: Swift.String? = nil
@@ -3571,7 +3571,7 @@ struct CreateStorediSCSIVolumeInputBody: Swift.Equatable {
     let gatewayARN: Swift.String?
     let diskId: Swift.String?
     let snapshotId: Swift.String?
-    let preserveExistingData: Swift.Bool
+    let preserveExistingData: Swift.Bool?
     let targetName: Swift.String?
     let networkInterfaceId: Swift.String?
     let kmsEncrypted: Swift.Bool?
@@ -3600,7 +3600,7 @@ extension CreateStorediSCSIVolumeInputBody: Swift.Decodable {
         diskId = diskIdDecoded
         let snapshotIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .snapshotId)
         snapshotId = snapshotIdDecoded
-        let preserveExistingDataDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .preserveExistingData) ?? false
+        let preserveExistingDataDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .preserveExistingData)
         preserveExistingData = preserveExistingDataDecoded
         let targetNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .targetName)
         targetName = targetNameDecoded
@@ -3896,7 +3896,7 @@ extension CreateTapeWithBarcodeInput: Swift.Encodable {
         if let tapeSizeInBytes = self.tapeSizeInBytes {
             try encodeContainer.encode(tapeSizeInBytes, forKey: .tapeSizeInBytes)
         }
-        if worm != false {
+        if let worm = self.worm {
             try encodeContainer.encode(worm, forKey: .worm)
         }
     }
@@ -3924,11 +3924,11 @@ public struct CreateTapeWithBarcodeInput: Swift.Equatable {
     /// The barcode that you want to assign to the tape. Barcodes cannot be reused. This includes barcodes used for tapes that have been deleted.
     /// This member is required.
     public var tapeBarcode: Swift.String?
-    /// The size, in bytes, of the virtual tape that you want to create. The size must be aligned by gigabyte (102410241024 bytes).
+    /// The size, in bytes, of the virtual tape that you want to create. The size must be aligned by gigabyte (1024*1024*1024 bytes).
     /// This member is required.
     public var tapeSizeInBytes: Swift.Int?
     /// Set to TRUE if the tape you are creating is to be configured as a write-once-read-many (WORM) tape.
-    public var worm: Swift.Bool
+    public var worm: Swift.Bool?
 
     public init(
         gatewayARN: Swift.String? = nil,
@@ -3938,7 +3938,7 @@ public struct CreateTapeWithBarcodeInput: Swift.Equatable {
         tags: [StorageGatewayClientTypes.Tag]? = nil,
         tapeBarcode: Swift.String? = nil,
         tapeSizeInBytes: Swift.Int? = nil,
-        worm: Swift.Bool = false
+        worm: Swift.Bool? = nil
     )
     {
         self.gatewayARN = gatewayARN
@@ -3959,7 +3959,7 @@ struct CreateTapeWithBarcodeInputBody: Swift.Equatable {
     let kmsEncrypted: Swift.Bool?
     let kmsKey: Swift.String?
     let poolId: Swift.String?
-    let worm: Swift.Bool
+    let worm: Swift.Bool?
     let tags: [StorageGatewayClientTypes.Tag]?
 }
 
@@ -3989,7 +3989,7 @@ extension CreateTapeWithBarcodeInputBody: Swift.Decodable {
         kmsKey = kmsKeyDecoded
         let poolIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .poolId)
         poolId = poolIdDecoded
-        let wormDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .worm) ?? false
+        let wormDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .worm)
         worm = wormDecoded
         let tagsContainer = try containerValues.decodeIfPresent([StorageGatewayClientTypes.Tag?].self, forKey: .tags)
         var tagsDecoded0:[StorageGatewayClientTypes.Tag]? = nil
@@ -4104,7 +4104,7 @@ extension CreateTapesInput: Swift.Encodable {
         if let tapeSizeInBytes = self.tapeSizeInBytes {
             try encodeContainer.encode(tapeSizeInBytes, forKey: .tapeSizeInBytes)
         }
-        if worm != false {
+        if let worm = self.worm {
             try encodeContainer.encode(worm, forKey: .worm)
         }
     }
@@ -4138,11 +4138,11 @@ public struct CreateTapesInput: Swift.Equatable {
     /// A prefix that you append to the barcode of the virtual tape you are creating. This prefix makes the barcode unique. The prefix must be 1-4 characters in length and must be one of the uppercase letters from A to Z.
     /// This member is required.
     public var tapeBarcodePrefix: Swift.String?
-    /// The size, in bytes, of the virtual tapes that you want to create. The size must be aligned by gigabyte (102410241024 bytes).
+    /// The size, in bytes, of the virtual tapes that you want to create. The size must be aligned by gigabyte (1024*1024*1024 bytes).
     /// This member is required.
     public var tapeSizeInBytes: Swift.Int?
     /// Set to TRUE if the tape you are creating is to be configured as a write-once-read-many (WORM) tape.
-    public var worm: Swift.Bool
+    public var worm: Swift.Bool?
 
     public init(
         clientToken: Swift.String? = nil,
@@ -4154,7 +4154,7 @@ public struct CreateTapesInput: Swift.Equatable {
         tags: [StorageGatewayClientTypes.Tag]? = nil,
         tapeBarcodePrefix: Swift.String? = nil,
         tapeSizeInBytes: Swift.Int? = nil,
-        worm: Swift.Bool = false
+        worm: Swift.Bool? = nil
     )
     {
         self.clientToken = clientToken
@@ -4179,7 +4179,7 @@ struct CreateTapesInputBody: Swift.Equatable {
     let kmsEncrypted: Swift.Bool?
     let kmsKey: Swift.String?
     let poolId: Swift.String?
-    let worm: Swift.Bool
+    let worm: Swift.Bool?
     let tags: [StorageGatewayClientTypes.Tag]?
 }
 
@@ -4215,7 +4215,7 @@ extension CreateTapesInputBody: Swift.Decodable {
         kmsKey = kmsKeyDecoded
         let poolIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .poolId)
         poolId = poolIdDecoded
-        let wormDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .worm) ?? false
+        let wormDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .worm)
         worm = wormDecoded
         let tagsContainer = try containerValues.decodeIfPresent([StorageGatewayClientTypes.Tag?].self, forKey: .tags)
         var tagsDecoded0:[StorageGatewayClientTypes.Tag]? = nil
@@ -4650,7 +4650,7 @@ extension DeleteFileShareInput: Swift.Encodable {
         if let fileShareARN = self.fileShareARN {
             try encodeContainer.encode(fileShareARN, forKey: .fileShareARN)
         }
-        if forceDelete != false {
+        if let forceDelete = self.forceDelete {
             try encodeContainer.encode(forceDelete, forKey: .forceDelete)
         }
     }
@@ -4668,11 +4668,11 @@ public struct DeleteFileShareInput: Swift.Equatable {
     /// This member is required.
     public var fileShareARN: Swift.String?
     /// If this value is set to true, the operation deletes a file share immediately and aborts all data uploads to Amazon Web Services. Otherwise, the file share is not deleted until all data is uploaded to Amazon Web Services. This process aborts the data upload process, and the file share enters the FORCE_DELETING status. Valid Values: true | false
-    public var forceDelete: Swift.Bool
+    public var forceDelete: Swift.Bool?
 
     public init(
         fileShareARN: Swift.String? = nil,
-        forceDelete: Swift.Bool = false
+        forceDelete: Swift.Bool? = nil
     )
     {
         self.fileShareARN = fileShareARN
@@ -4682,7 +4682,7 @@ public struct DeleteFileShareInput: Swift.Equatable {
 
 struct DeleteFileShareInputBody: Swift.Equatable {
     let fileShareARN: Swift.String?
-    let forceDelete: Swift.Bool
+    let forceDelete: Swift.Bool?
 }
 
 extension DeleteFileShareInputBody: Swift.Decodable {
@@ -4695,7 +4695,7 @@ extension DeleteFileShareInputBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let fileShareARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .fileShareARN)
         fileShareARN = fileShareARNDecoded
-        let forceDeleteDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .forceDelete) ?? false
+        let forceDeleteDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .forceDelete)
         forceDelete = forceDeleteDecoded
     }
 }
@@ -4963,7 +4963,7 @@ extension DeleteTapeArchiveInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if bypassGovernanceRetention != false {
+        if let bypassGovernanceRetention = self.bypassGovernanceRetention {
             try encodeContainer.encode(bypassGovernanceRetention, forKey: .bypassGovernanceRetention)
         }
         if let tapeARN = self.tapeARN {
@@ -4981,13 +4981,13 @@ extension DeleteTapeArchiveInput: ClientRuntime.URLPathProvider {
 /// DeleteTapeArchiveInput
 public struct DeleteTapeArchiveInput: Swift.Equatable {
     /// Set to TRUE to delete an archived tape that belongs to a custom pool with tape retention lock. Only archived tapes with tape retention lock set to governance can be deleted. Archived tapes with tape retention lock set to compliance can't be deleted.
-    public var bypassGovernanceRetention: Swift.Bool
+    public var bypassGovernanceRetention: Swift.Bool?
     /// The Amazon Resource Name (ARN) of the virtual tape to delete from the virtual tape shelf (VTS).
     /// This member is required.
     public var tapeARN: Swift.String?
 
     public init(
-        bypassGovernanceRetention: Swift.Bool = false,
+        bypassGovernanceRetention: Swift.Bool? = nil,
         tapeARN: Swift.String? = nil
     )
     {
@@ -4998,7 +4998,7 @@ public struct DeleteTapeArchiveInput: Swift.Equatable {
 
 struct DeleteTapeArchiveInputBody: Swift.Equatable {
     let tapeARN: Swift.String?
-    let bypassGovernanceRetention: Swift.Bool
+    let bypassGovernanceRetention: Swift.Bool?
 }
 
 extension DeleteTapeArchiveInputBody: Swift.Decodable {
@@ -5011,7 +5011,7 @@ extension DeleteTapeArchiveInputBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let tapeARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .tapeARN)
         tapeARN = tapeARNDecoded
-        let bypassGovernanceRetentionDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .bypassGovernanceRetention) ?? false
+        let bypassGovernanceRetentionDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .bypassGovernanceRetention)
         bypassGovernanceRetention = bypassGovernanceRetentionDecoded
     }
 }
@@ -5078,7 +5078,7 @@ extension DeleteTapeInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if bypassGovernanceRetention != false {
+        if let bypassGovernanceRetention = self.bypassGovernanceRetention {
             try encodeContainer.encode(bypassGovernanceRetention, forKey: .bypassGovernanceRetention)
         }
         if let gatewayARN = self.gatewayARN {
@@ -5099,7 +5099,7 @@ extension DeleteTapeInput: ClientRuntime.URLPathProvider {
 /// DeleteTapeInput
 public struct DeleteTapeInput: Swift.Equatable {
     /// Set to TRUE to delete an archived tape that belongs to a custom pool with tape retention lock. Only archived tapes with tape retention lock set to governance can be deleted. Archived tapes with tape retention lock set to compliance can't be deleted.
-    public var bypassGovernanceRetention: Swift.Bool
+    public var bypassGovernanceRetention: Swift.Bool?
     /// The unique Amazon Resource Name (ARN) of the gateway that the virtual tape to delete is associated with. Use the [ListGateways] operation to return a list of gateways for your account and Amazon Web Services Region.
     /// This member is required.
     public var gatewayARN: Swift.String?
@@ -5108,7 +5108,7 @@ public struct DeleteTapeInput: Swift.Equatable {
     public var tapeARN: Swift.String?
 
     public init(
-        bypassGovernanceRetention: Swift.Bool = false,
+        bypassGovernanceRetention: Swift.Bool? = nil,
         gatewayARN: Swift.String? = nil,
         tapeARN: Swift.String? = nil
     )
@@ -5122,7 +5122,7 @@ public struct DeleteTapeInput: Swift.Equatable {
 struct DeleteTapeInputBody: Swift.Equatable {
     let gatewayARN: Swift.String?
     let tapeARN: Swift.String?
-    let bypassGovernanceRetention: Swift.Bool
+    let bypassGovernanceRetention: Swift.Bool?
 }
 
 extension DeleteTapeInputBody: Swift.Decodable {
@@ -5138,7 +5138,7 @@ extension DeleteTapeInputBody: Swift.Decodable {
         gatewayARN = gatewayARNDecoded
         let tapeARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .tapeARN)
         tapeARN = tapeARNDecoded
-        let bypassGovernanceRetentionDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .bypassGovernanceRetention) ?? false
+        let bypassGovernanceRetentionDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .bypassGovernanceRetention)
         bypassGovernanceRetention = bypassGovernanceRetentionDecoded
     }
 }
@@ -6607,9 +6607,9 @@ extension DescribeGatewayInformationOutputResponseBody: Swift.Decodable {
         var supportedGatewayCapacitiesDecoded0:[StorageGatewayClientTypes.GatewayCapacity]? = nil
         if let supportedGatewayCapacitiesContainer = supportedGatewayCapacitiesContainer {
             supportedGatewayCapacitiesDecoded0 = [StorageGatewayClientTypes.GatewayCapacity]()
-            for string0 in supportedGatewayCapacitiesContainer {
-                if let string0 = string0 {
-                    supportedGatewayCapacitiesDecoded0?.append(string0)
+            for enum0 in supportedGatewayCapacitiesContainer {
+                if let enum0 = enum0 {
+                    supportedGatewayCapacitiesDecoded0?.append(enum0)
                 }
             }
         }
@@ -8752,7 +8752,7 @@ extension DisassociateFileSystemInput: Swift.Encodable {
         if let fileSystemAssociationARN = self.fileSystemAssociationARN {
             try encodeContainer.encode(fileSystemAssociationARN, forKey: .fileSystemAssociationARN)
         }
-        if forceDelete != false {
+        if let forceDelete = self.forceDelete {
             try encodeContainer.encode(forceDelete, forKey: .forceDelete)
         }
     }
@@ -8769,11 +8769,11 @@ public struct DisassociateFileSystemInput: Swift.Equatable {
     /// This member is required.
     public var fileSystemAssociationARN: Swift.String?
     /// If this value is set to true, the operation disassociates an Amazon FSx file system immediately. It ends all data uploads to the file system, and the file system association enters the FORCE_DELETING status. If this value is set to false, the Amazon FSx file system does not disassociate until all data is uploaded.
-    public var forceDelete: Swift.Bool
+    public var forceDelete: Swift.Bool?
 
     public init(
         fileSystemAssociationARN: Swift.String? = nil,
-        forceDelete: Swift.Bool = false
+        forceDelete: Swift.Bool? = nil
     )
     {
         self.fileSystemAssociationARN = fileSystemAssociationARN
@@ -8783,7 +8783,7 @@ public struct DisassociateFileSystemInput: Swift.Equatable {
 
 struct DisassociateFileSystemInputBody: Swift.Equatable {
     let fileSystemAssociationARN: Swift.String?
-    let forceDelete: Swift.Bool
+    let forceDelete: Swift.Bool?
 }
 
 extension DisassociateFileSystemInputBody: Swift.Decodable {
@@ -8796,7 +8796,7 @@ extension DisassociateFileSystemInputBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let fileSystemAssociationARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .fileSystemAssociationARN)
         fileSystemAssociationARN = fileSystemAssociationARNDecoded
-        let forceDeleteDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .forceDelete) ?? false
+        let forceDeleteDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .forceDelete)
         forceDelete = forceDeleteDecoded
     }
 }
@@ -11937,7 +11937,7 @@ extension StorageGatewayClientTypes {
         public var locationARN: Swift.String?
         /// Describes Network File System (NFS) file share default values. Files and folders stored as Amazon S3 objects in S3 buckets don't, by default, have Unix file permissions assigned to them. Upon discovery in an S3 bucket by Storage Gateway, the S3 objects that represent files and folders are assigned these default Unix permissions. This operation is only supported for S3 File Gateways.
         public var nfsFileShareDefaults: StorageGatewayClientTypes.NFSFileShareDefaults?
-        /// The notification policy of the file share. SettlingTimeInSeconds controls the number of seconds to wait after the last point in time a client wrote to a file before generating an ObjectUploaded notification. Because clients can make many small writes to files, it's best to set this parameter for as long as possible to avoid generating multiple notifications for the same file in a small time period. SettlingTimeInSeconds has no effect on the timing of the object uploading to Amazon S3, only the timing of the notification. The following example sets NotificationPolicy on with SettlingTimeInSeconds set to 60. {"Upload": {"SettlingTimeInSeconds": 60}} The following example sets NotificationPolicy off. {}
+        /// The notification policy of the file share. SettlingTimeInSeconds controls the number of seconds to wait after the last point in time a client wrote to a file before generating an ObjectUploaded notification. Because clients can make many small writes to files, it's best to set this parameter for as long as possible to avoid generating multiple notifications for the same file in a small time period. SettlingTimeInSeconds has no effect on the timing of the object uploading to Amazon S3, only the timing of the notification. The following example sets NotificationPolicy on with SettlingTimeInSeconds set to 60. {\"Upload\": {\"SettlingTimeInSeconds\": 60}} The following example sets NotificationPolicy off. {}
         public var notificationPolicy: Swift.String?
         /// A value that sets the access control list (ACL) permission for objects in the S3 bucket that an S3 File Gateway puts objects into. The default value is private.
         public var objectACL: StorageGatewayClientTypes.ObjectACL?
@@ -13262,7 +13262,7 @@ extension StorageGatewayClientTypes {
         public var kmsKey: Swift.String?
         /// A custom ARN for the backend storage used for storing data for file shares. It includes a resource ARN with an optional prefix concatenation. The prefix must end with a forward slash (/). You can specify LocationARN as a bucket ARN, access point ARN or access point alias, as shown in the following examples. Bucket ARN: arn:aws:s3:::my-bucket/prefix/ Access point ARN: arn:aws:s3:region:account-id:accesspoint/access-point-name/prefix/ If you specify an access point, the bucket policy must be configured to delegate access control to the access point. For information, see [Delegating access control to access points](https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-points-policies.html#access-points-delegating-control) in the Amazon S3 User Guide. Access point alias: test-ap-ab123cdef4gehijklmn5opqrstuvuse1a-s3alias
         public var locationARN: Swift.String?
-        /// The notification policy of the file share. SettlingTimeInSeconds controls the number of seconds to wait after the last point in time a client wrote to a file before generating an ObjectUploaded notification. Because clients can make many small writes to files, it's best to set this parameter for as long as possible to avoid generating multiple notifications for the same file in a small time period. SettlingTimeInSeconds has no effect on the timing of the object uploading to Amazon S3, only the timing of the notification. The following example sets NotificationPolicy on with SettlingTimeInSeconds set to 60. {"Upload": {"SettlingTimeInSeconds": 60}} The following example sets NotificationPolicy off. {}
+        /// The notification policy of the file share. SettlingTimeInSeconds controls the number of seconds to wait after the last point in time a client wrote to a file before generating an ObjectUploaded notification. Because clients can make many small writes to files, it's best to set this parameter for as long as possible to avoid generating multiple notifications for the same file in a small time period. SettlingTimeInSeconds has no effect on the timing of the object uploading to Amazon S3, only the timing of the notification. The following example sets NotificationPolicy on with SettlingTimeInSeconds set to 60. {\"Upload\": {\"SettlingTimeInSeconds\": 60}} The following example sets NotificationPolicy off. {}
         public var notificationPolicy: Swift.String?
         /// A value that sets the access control list (ACL) permission for objects in the S3 bucket that an S3 File Gateway puts objects into. The default value is private.
         public var objectACL: StorageGatewayClientTypes.ObjectACL?
@@ -16050,7 +16050,7 @@ public struct UpdateNFSFileShareInput: Swift.Equatable {
     public var kmsKey: Swift.String?
     /// The default values for the file share. Optional.
     public var nfsFileShareDefaults: StorageGatewayClientTypes.NFSFileShareDefaults?
-    /// The notification policy of the file share. SettlingTimeInSeconds controls the number of seconds to wait after the last point in time a client wrote to a file before generating an ObjectUploaded notification. Because clients can make many small writes to files, it's best to set this parameter for as long as possible to avoid generating multiple notifications for the same file in a small time period. SettlingTimeInSeconds has no effect on the timing of the object uploading to Amazon S3, only the timing of the notification. The following example sets NotificationPolicy on with SettlingTimeInSeconds set to 60. {"Upload": {"SettlingTimeInSeconds": 60}} The following example sets NotificationPolicy off. {}
+    /// The notification policy of the file share. SettlingTimeInSeconds controls the number of seconds to wait after the last point in time a client wrote to a file before generating an ObjectUploaded notification. Because clients can make many small writes to files, it's best to set this parameter for as long as possible to avoid generating multiple notifications for the same file in a small time period. SettlingTimeInSeconds has no effect on the timing of the object uploading to Amazon S3, only the timing of the notification. The following example sets NotificationPolicy on with SettlingTimeInSeconds set to 60. {\"Upload\": {\"SettlingTimeInSeconds\": 60}} The following example sets NotificationPolicy off. {}
     public var notificationPolicy: Swift.String?
     /// A value that sets the access control list (ACL) permission for objects in the S3 bucket that a S3 File Gateway puts objects into. The default value is private.
     public var objectACL: StorageGatewayClientTypes.ObjectACL?
@@ -16364,7 +16364,7 @@ public struct UpdateSMBFileShareInput: Swift.Equatable {
     public var kmsEncrypted: Swift.Bool?
     /// The Amazon Resource Name (ARN) of a symmetric customer master key (CMK) used for Amazon S3 server-side encryption. Storage Gateway does not support asymmetric CMKs. This value can only be set when KMSEncrypted is true. Optional.
     public var kmsKey: Swift.String?
-    /// The notification policy of the file share. SettlingTimeInSeconds controls the number of seconds to wait after the last point in time a client wrote to a file before generating an ObjectUploaded notification. Because clients can make many small writes to files, it's best to set this parameter for as long as possible to avoid generating multiple notifications for the same file in a small time period. SettlingTimeInSeconds has no effect on the timing of the object uploading to Amazon S3, only the timing of the notification. The following example sets NotificationPolicy on with SettlingTimeInSeconds set to 60. {"Upload": {"SettlingTimeInSeconds": 60}} The following example sets NotificationPolicy off. {}
+    /// The notification policy of the file share. SettlingTimeInSeconds controls the number of seconds to wait after the last point in time a client wrote to a file before generating an ObjectUploaded notification. Because clients can make many small writes to files, it's best to set this parameter for as long as possible to avoid generating multiple notifications for the same file in a small time period. SettlingTimeInSeconds has no effect on the timing of the object uploading to Amazon S3, only the timing of the notification. The following example sets NotificationPolicy on with SettlingTimeInSeconds set to 60. {\"Upload\": {\"SettlingTimeInSeconds\": 60}} The following example sets NotificationPolicy off. {}
     public var notificationPolicy: Swift.String?
     /// A value that sets the access control list (ACL) permission for objects in the S3 bucket that a S3 File Gateway puts objects into. The default value is private.
     public var objectACL: StorageGatewayClientTypes.ObjectACL?

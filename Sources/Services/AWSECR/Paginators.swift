@@ -83,6 +83,15 @@ extension DescribePullThroughCacheRulesInput: ClientRuntime.PaginateToken {
             registryId: self.registryId
         )}
 }
+
+extension PaginatorSequence where Input == DescribePullThroughCacheRulesInput, Output == DescribePullThroughCacheRulesOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `describePullThroughCacheRulesPaginated`
+    /// to access the nested member `[ECRClientTypes.PullThroughCacheRule]`
+    /// - Returns: `[ECRClientTypes.PullThroughCacheRule]`
+    public func pullThroughCacheRules() async throws -> [ECRClientTypes.PullThroughCacheRule] {
+        return try await self.asyncCompactMap { item in item.pullThroughCacheRules }
+    }
+}
 extension ECRClient {
     /// Paginate over `[DescribeRepositoriesOutputResponse]` results.
     ///

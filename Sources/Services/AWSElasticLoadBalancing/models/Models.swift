@@ -6209,7 +6209,7 @@ extension SetLoadBalancerListenerSSLCertificateInput: Swift.Encodable {
         if let loadBalancerName = loadBalancerName {
             try container.encode(loadBalancerName, forKey: ClientRuntime.Key("LoadBalancerName"))
         }
-        if loadBalancerPort != 0 {
+        if let loadBalancerPort = loadBalancerPort {
             try container.encode(loadBalancerPort, forKey: ClientRuntime.Key("LoadBalancerPort"))
         }
         if let sslCertificateId = sslCertificateId {
@@ -6233,14 +6233,14 @@ public struct SetLoadBalancerListenerSSLCertificateInput: Swift.Equatable {
     public var loadBalancerName: Swift.String?
     /// The port that uses the specified SSL certificate.
     /// This member is required.
-    public var loadBalancerPort: Swift.Int
+    public var loadBalancerPort: Swift.Int?
     /// The Amazon Resource Name (ARN) of the SSL certificate.
     /// This member is required.
     public var sslCertificateId: Swift.String?
 
     public init(
         loadBalancerName: Swift.String? = nil,
-        loadBalancerPort: Swift.Int = 0,
+        loadBalancerPort: Swift.Int? = nil,
         sslCertificateId: Swift.String? = nil
     )
     {
@@ -6252,7 +6252,7 @@ public struct SetLoadBalancerListenerSSLCertificateInput: Swift.Equatable {
 
 struct SetLoadBalancerListenerSSLCertificateInputBody: Swift.Equatable {
     let loadBalancerName: Swift.String?
-    let loadBalancerPort: Swift.Int
+    let loadBalancerPort: Swift.Int?
     let sslCertificateId: Swift.String?
 }
 
@@ -6425,7 +6425,7 @@ extension SetLoadBalancerPoliciesOfListenerInput: Swift.Encodable {
         if let loadBalancerName = loadBalancerName {
             try container.encode(loadBalancerName, forKey: ClientRuntime.Key("LoadBalancerName"))
         }
-        if loadBalancerPort != 0 {
+        if let loadBalancerPort = loadBalancerPort {
             try container.encode(loadBalancerPort, forKey: ClientRuntime.Key("LoadBalancerPort"))
         }
         if let policyNames = policyNames {
@@ -6458,14 +6458,14 @@ public struct SetLoadBalancerPoliciesOfListenerInput: Swift.Equatable {
     public var loadBalancerName: Swift.String?
     /// The external port of the load balancer.
     /// This member is required.
-    public var loadBalancerPort: Swift.Int
+    public var loadBalancerPort: Swift.Int?
     /// The names of the policies. This list must include all policies to be enabled. If you omit a policy that is currently enabled, it is disabled. If the list is empty, all current policies are disabled.
     /// This member is required.
     public var policyNames: [Swift.String]?
 
     public init(
         loadBalancerName: Swift.String? = nil,
-        loadBalancerPort: Swift.Int = 0,
+        loadBalancerPort: Swift.Int? = nil,
         policyNames: [Swift.String]? = nil
     )
     {
@@ -6477,7 +6477,7 @@ public struct SetLoadBalancerPoliciesOfListenerInput: Swift.Equatable {
 
 struct SetLoadBalancerPoliciesOfListenerInputBody: Swift.Equatable {
     let loadBalancerName: Swift.String?
-    let loadBalancerPort: Swift.Int
+    let loadBalancerPort: Swift.Int?
     let policyNames: [Swift.String]?
 }
 

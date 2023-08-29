@@ -1109,6 +1109,7 @@ public protocol QuickSightClientProtocol {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon QuickSight service, that your policies have the correct permissions, and that you are using the correct credentials.
     /// - `InternalFailureException` : An internal failure occurred.
+    /// - `InvalidNextTokenException` : The NextToken value isn't valid.
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
@@ -1125,6 +1126,7 @@ public protocol QuickSightClientProtocol {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You don't have access to this item. The provided credentials couldn't be validated. You might not be authorized to carry out the request. Make sure that your account is authorized to use the Amazon QuickSight service, that your policies have the correct permissions, and that you are using the correct credentials.
     /// - `InternalFailureException` : An internal failure occurred.
+    /// - `InvalidNextTokenException` : The NextToken value isn't valid.
     /// - `InvalidParameterValueException` : One or more parameters has a value that isn't valid.
     /// - `ResourceNotFoundException` : One or more resources can't be found.
     /// - `ThrottlingException` : Access is throttled.
@@ -2212,6 +2214,8 @@ public protocol QuickSightClientProtocol {
     /// Starts an asynchronous job that generates a dashboard snapshot. You can request one of the following format configurations per API call.
     ///
     /// * 1 paginated PDF
+    ///
+    /// * 1 Excel workbook
     ///
     /// * 5 CSVs
     ///

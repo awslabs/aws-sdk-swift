@@ -3551,7 +3551,7 @@ extension ClusterQuotaForCustomerExceededFaultBody: Swift.Decodable {
 extension CompleteMigrationInput: Swift.Encodable {
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
-        if force != false {
+        if let force = force {
             try container.encode(force, forKey: ClientRuntime.Key("Force"))
         }
         if let replicationGroupId = replicationGroupId {
@@ -3570,13 +3570,13 @@ extension CompleteMigrationInput: ClientRuntime.URLPathProvider {
 
 public struct CompleteMigrationInput: Swift.Equatable {
     /// Forces the migration to stop without ensuring that data is in sync. It is recommended to use this option only to abort the migration and not recommended when application wants to continue migration to ElastiCache.
-    public var force: Swift.Bool
+    public var force: Swift.Bool?
     /// The ID of the replication group to which data is being migrated.
     /// This member is required.
     public var replicationGroupId: Swift.String?
 
     public init(
-        force: Swift.Bool = false,
+        force: Swift.Bool? = nil,
         replicationGroupId: Swift.String? = nil
     )
     {
@@ -3587,7 +3587,7 @@ public struct CompleteMigrationInput: Swift.Equatable {
 
 struct CompleteMigrationInputBody: Swift.Equatable {
     let replicationGroupId: Swift.String?
-    let force: Swift.Bool
+    let force: Swift.Bool?
 }
 
 extension CompleteMigrationInputBody: Swift.Decodable {
@@ -6960,7 +6960,7 @@ extension ElastiCacheClientTypes {
 extension DecreaseNodeGroupsInGlobalReplicationGroupInput: Swift.Encodable {
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
-        if applyImmediately != false {
+        if let applyImmediately = applyImmediately {
             try container.encode(applyImmediately, forKey: ClientRuntime.Key("ApplyImmediately"))
         }
         if let globalNodeGroupsToRemove = globalNodeGroupsToRemove {
@@ -6990,7 +6990,7 @@ extension DecreaseNodeGroupsInGlobalReplicationGroupInput: Swift.Encodable {
         if let globalReplicationGroupId = globalReplicationGroupId {
             try container.encode(globalReplicationGroupId, forKey: ClientRuntime.Key("GlobalReplicationGroupId"))
         }
-        if nodeGroupCount != 0 {
+        if let nodeGroupCount = nodeGroupCount {
             try container.encode(nodeGroupCount, forKey: ClientRuntime.Key("NodeGroupCount"))
         }
         try container.encode("DecreaseNodeGroupsInGlobalReplicationGroup", forKey:ClientRuntime.Key("Action"))
@@ -7007,7 +7007,7 @@ extension DecreaseNodeGroupsInGlobalReplicationGroupInput: ClientRuntime.URLPath
 public struct DecreaseNodeGroupsInGlobalReplicationGroupInput: Swift.Equatable {
     /// Indicates that the shard reconfiguration process begins immediately. At present, the only permitted value for this parameter is true.
     /// This member is required.
-    public var applyImmediately: Swift.Bool
+    public var applyImmediately: Swift.Bool?
     /// If the value of NodeGroupCount is less than the current number of node groups (shards), then either NodeGroupsToRemove or NodeGroupsToRetain is required. GlobalNodeGroupsToRemove is a list of NodeGroupIds to remove from the cluster. ElastiCache for Redis will attempt to remove all node groups listed by GlobalNodeGroupsToRemove from the cluster.
     public var globalNodeGroupsToRemove: [Swift.String]?
     /// If the value of NodeGroupCount is less than the current number of node groups (shards), then either NodeGroupsToRemove or NodeGroupsToRetain is required. GlobalNodeGroupsToRetain is a list of NodeGroupIds to retain from the cluster. ElastiCache for Redis will attempt to retain all node groups listed by GlobalNodeGroupsToRetain from the cluster.
@@ -7017,14 +7017,14 @@ public struct DecreaseNodeGroupsInGlobalReplicationGroupInput: Swift.Equatable {
     public var globalReplicationGroupId: Swift.String?
     /// The number of node groups (shards) that results from the modification of the shard configuration
     /// This member is required.
-    public var nodeGroupCount: Swift.Int
+    public var nodeGroupCount: Swift.Int?
 
     public init(
-        applyImmediately: Swift.Bool = false,
+        applyImmediately: Swift.Bool? = nil,
         globalNodeGroupsToRemove: [Swift.String]? = nil,
         globalNodeGroupsToRetain: [Swift.String]? = nil,
         globalReplicationGroupId: Swift.String? = nil,
-        nodeGroupCount: Swift.Int = 0
+        nodeGroupCount: Swift.Int? = nil
     )
     {
         self.applyImmediately = applyImmediately
@@ -7037,10 +7037,10 @@ public struct DecreaseNodeGroupsInGlobalReplicationGroupInput: Swift.Equatable {
 
 struct DecreaseNodeGroupsInGlobalReplicationGroupInputBody: Swift.Equatable {
     let globalReplicationGroupId: Swift.String?
-    let nodeGroupCount: Swift.Int
+    let nodeGroupCount: Swift.Int?
     let globalNodeGroupsToRemove: [Swift.String]?
     let globalNodeGroupsToRetain: [Swift.String]?
-    let applyImmediately: Swift.Bool
+    let applyImmediately: Swift.Bool?
 }
 
 extension DecreaseNodeGroupsInGlobalReplicationGroupInputBody: Swift.Decodable {
@@ -7160,7 +7160,7 @@ extension DecreaseNodeGroupsInGlobalReplicationGroupOutputResponseBody: Swift.De
 extension DecreaseReplicaCountInput: Swift.Encodable {
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
-        if applyImmediately != false {
+        if let applyImmediately = applyImmediately {
             try container.encode(applyImmediately, forKey: ClientRuntime.Key("ApplyImmediately"))
         }
         if let newReplicaCount = newReplicaCount {
@@ -7207,7 +7207,7 @@ extension DecreaseReplicaCountInput: ClientRuntime.URLPathProvider {
 public struct DecreaseReplicaCountInput: Swift.Equatable {
     /// If True, the number of replica nodes is decreased immediately. ApplyImmediately=False is not currently supported.
     /// This member is required.
-    public var applyImmediately: Swift.Bool
+    public var applyImmediately: Swift.Bool?
     /// The number of read replica nodes you want at the completion of this operation. For Redis (cluster mode disabled) replication groups, this is the number of replica nodes in the replication group. For Redis (cluster mode enabled) replication groups, this is the number of replica nodes in each of the replication group's node groups. The minimum number of replicas in a shard or replication group is:
     ///
     /// * Redis (cluster mode disabled)
@@ -7230,7 +7230,7 @@ public struct DecreaseReplicaCountInput: Swift.Equatable {
     public var replicationGroupId: Swift.String?
 
     public init(
-        applyImmediately: Swift.Bool = false,
+        applyImmediately: Swift.Bool? = nil,
         newReplicaCount: Swift.Int? = nil,
         replicaConfiguration: [ElastiCacheClientTypes.ConfigureShard]? = nil,
         replicasToRemove: [Swift.String]? = nil,
@@ -7250,7 +7250,7 @@ struct DecreaseReplicaCountInputBody: Swift.Equatable {
     let newReplicaCount: Swift.Int?
     let replicaConfiguration: [ElastiCacheClientTypes.ConfigureShard]?
     let replicasToRemove: [Swift.String]?
-    let applyImmediately: Swift.Bool
+    let applyImmediately: Swift.Bool?
 }
 
 extension DecreaseReplicaCountInputBody: Swift.Decodable {
@@ -7810,7 +7810,7 @@ extension DeleteGlobalReplicationGroupInput: Swift.Encodable {
         if let globalReplicationGroupId = globalReplicationGroupId {
             try container.encode(globalReplicationGroupId, forKey: ClientRuntime.Key("GlobalReplicationGroupId"))
         }
-        if retainPrimaryReplicationGroup != false {
+        if let retainPrimaryReplicationGroup = retainPrimaryReplicationGroup {
             try container.encode(retainPrimaryReplicationGroup, forKey: ClientRuntime.Key("RetainPrimaryReplicationGroup"))
         }
         try container.encode("DeleteGlobalReplicationGroup", forKey:ClientRuntime.Key("Action"))
@@ -7830,11 +7830,11 @@ public struct DeleteGlobalReplicationGroupInput: Swift.Equatable {
     public var globalReplicationGroupId: Swift.String?
     /// The primary replication group is retained as a standalone replication group.
     /// This member is required.
-    public var retainPrimaryReplicationGroup: Swift.Bool
+    public var retainPrimaryReplicationGroup: Swift.Bool?
 
     public init(
         globalReplicationGroupId: Swift.String? = nil,
-        retainPrimaryReplicationGroup: Swift.Bool = false
+        retainPrimaryReplicationGroup: Swift.Bool? = nil
     )
     {
         self.globalReplicationGroupId = globalReplicationGroupId
@@ -7844,7 +7844,7 @@ public struct DeleteGlobalReplicationGroupInput: Swift.Equatable {
 
 struct DeleteGlobalReplicationGroupInputBody: Swift.Equatable {
     let globalReplicationGroupId: Swift.String?
-    let retainPrimaryReplicationGroup: Swift.Bool
+    let retainPrimaryReplicationGroup: Swift.Bool?
 }
 
 extension DeleteGlobalReplicationGroupInputBody: Swift.Decodable {
@@ -8723,7 +8723,7 @@ extension DescribeCacheEngineVersionsInput: Swift.Encodable {
         if let cacheParameterGroupFamily = cacheParameterGroupFamily {
             try container.encode(cacheParameterGroupFamily, forKey: ClientRuntime.Key("CacheParameterGroupFamily"))
         }
-        if defaultOnly != false {
+        if let defaultOnly = defaultOnly {
             try container.encode(defaultOnly, forKey: ClientRuntime.Key("DefaultOnly"))
         }
         if let engine = engine {
@@ -8760,7 +8760,7 @@ public struct DescribeCacheEngineVersionsInput: Swift.Equatable {
     /// * Cannot end with a hyphen or contain two consecutive hyphens
     public var cacheParameterGroupFamily: Swift.String?
     /// If true, specifies that only the default version of the specified engine or engine and major version combination is to be returned.
-    public var defaultOnly: Swift.Bool
+    public var defaultOnly: Swift.Bool?
     /// The cache engine to return. Valid values: memcached | redis
     public var engine: Swift.String?
     /// The cache engine version to return. Example: 1.4.14
@@ -8772,7 +8772,7 @@ public struct DescribeCacheEngineVersionsInput: Swift.Equatable {
 
     public init(
         cacheParameterGroupFamily: Swift.String? = nil,
-        defaultOnly: Swift.Bool = false,
+        defaultOnly: Swift.Bool? = nil,
         engine: Swift.String? = nil,
         engineVersion: Swift.String? = nil,
         marker: Swift.String? = nil,
@@ -8794,7 +8794,7 @@ struct DescribeCacheEngineVersionsInputBody: Swift.Equatable {
     let cacheParameterGroupFamily: Swift.String?
     let maxRecords: Swift.Int?
     let marker: Swift.String?
-    let defaultOnly: Swift.Bool
+    let defaultOnly: Swift.Bool?
 }
 
 extension DescribeCacheEngineVersionsInputBody: Swift.Decodable {
@@ -12900,13 +12900,13 @@ extension GlobalReplicationGroupNotFoundFaultBody: Swift.Decodable {
 extension IncreaseNodeGroupsInGlobalReplicationGroupInput: Swift.Encodable {
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
-        if applyImmediately != false {
+        if let applyImmediately = applyImmediately {
             try container.encode(applyImmediately, forKey: ClientRuntime.Key("ApplyImmediately"))
         }
         if let globalReplicationGroupId = globalReplicationGroupId {
             try container.encode(globalReplicationGroupId, forKey: ClientRuntime.Key("GlobalReplicationGroupId"))
         }
-        if nodeGroupCount != 0 {
+        if let nodeGroupCount = nodeGroupCount {
             try container.encode(nodeGroupCount, forKey: ClientRuntime.Key("NodeGroupCount"))
         }
         if let regionalConfigurations = regionalConfigurations {
@@ -12935,20 +12935,20 @@ extension IncreaseNodeGroupsInGlobalReplicationGroupInput: ClientRuntime.URLPath
 public struct IncreaseNodeGroupsInGlobalReplicationGroupInput: Swift.Equatable {
     /// Indicates that the process begins immediately. At present, the only permitted value for this parameter is true.
     /// This member is required.
-    public var applyImmediately: Swift.Bool
+    public var applyImmediately: Swift.Bool?
     /// The name of the Global datastore
     /// This member is required.
     public var globalReplicationGroupId: Swift.String?
     /// Total number of node groups you want
     /// This member is required.
-    public var nodeGroupCount: Swift.Int
+    public var nodeGroupCount: Swift.Int?
     /// Describes the replication group IDs, the Amazon regions where they are stored and the shard configuration for each that comprise the Global datastore
     public var regionalConfigurations: [ElastiCacheClientTypes.RegionalConfiguration]?
 
     public init(
-        applyImmediately: Swift.Bool = false,
+        applyImmediately: Swift.Bool? = nil,
         globalReplicationGroupId: Swift.String? = nil,
-        nodeGroupCount: Swift.Int = 0,
+        nodeGroupCount: Swift.Int? = nil,
         regionalConfigurations: [ElastiCacheClientTypes.RegionalConfiguration]? = nil
     )
     {
@@ -12961,9 +12961,9 @@ public struct IncreaseNodeGroupsInGlobalReplicationGroupInput: Swift.Equatable {
 
 struct IncreaseNodeGroupsInGlobalReplicationGroupInputBody: Swift.Equatable {
     let globalReplicationGroupId: Swift.String?
-    let nodeGroupCount: Swift.Int
+    let nodeGroupCount: Swift.Int?
     let regionalConfigurations: [ElastiCacheClientTypes.RegionalConfiguration]?
-    let applyImmediately: Swift.Bool
+    let applyImmediately: Swift.Bool?
 }
 
 extension IncreaseNodeGroupsInGlobalReplicationGroupInputBody: Swift.Decodable {
@@ -13062,7 +13062,7 @@ extension IncreaseNodeGroupsInGlobalReplicationGroupOutputResponseBody: Swift.De
 extension IncreaseReplicaCountInput: Swift.Encodable {
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
-        if applyImmediately != false {
+        if let applyImmediately = applyImmediately {
             try container.encode(applyImmediately, forKey: ClientRuntime.Key("ApplyImmediately"))
         }
         if let newReplicaCount = newReplicaCount {
@@ -13097,7 +13097,7 @@ extension IncreaseReplicaCountInput: ClientRuntime.URLPathProvider {
 public struct IncreaseReplicaCountInput: Swift.Equatable {
     /// If True, the number of replica nodes is increased immediately. ApplyImmediately=False is not currently supported.
     /// This member is required.
-    public var applyImmediately: Swift.Bool
+    public var applyImmediately: Swift.Bool?
     /// The number of read replica nodes you want at the completion of this operation. For Redis (cluster mode disabled) replication groups, this is the number of replica nodes in the replication group. For Redis (cluster mode enabled) replication groups, this is the number of replica nodes in each of the replication group's node groups.
     public var newReplicaCount: Swift.Int?
     /// A list of ConfigureShard objects that can be used to configure each shard in a Redis (cluster mode enabled) replication group. The ConfigureShard has three members: NewReplicaCount, NodeGroupId, and PreferredAvailabilityZones.
@@ -13107,7 +13107,7 @@ public struct IncreaseReplicaCountInput: Swift.Equatable {
     public var replicationGroupId: Swift.String?
 
     public init(
-        applyImmediately: Swift.Bool = false,
+        applyImmediately: Swift.Bool? = nil,
         newReplicaCount: Swift.Int? = nil,
         replicaConfiguration: [ElastiCacheClientTypes.ConfigureShard]? = nil,
         replicationGroupId: Swift.String? = nil
@@ -13124,7 +13124,7 @@ struct IncreaseReplicaCountInputBody: Swift.Equatable {
     let replicationGroupId: Swift.String?
     let newReplicaCount: Swift.Int?
     let replicaConfiguration: [ElastiCacheClientTypes.ConfigureShard]?
-    let applyImmediately: Swift.Bool
+    let applyImmediately: Swift.Bool?
 }
 
 extension IncreaseReplicaCountInputBody: Swift.Decodable {
@@ -14694,7 +14694,7 @@ extension ModifyCacheClusterInput: Swift.Encodable {
         if let azMode = azMode {
             try container.encode(azMode, forKey: ClientRuntime.Key("AZMode"))
         }
-        if applyImmediately != false {
+        if let applyImmediately = applyImmediately {
             try container.encode(applyImmediately, forKey: ClientRuntime.Key("ApplyImmediately"))
         }
         if let authToken = authToken {
@@ -14813,7 +14813,7 @@ extension ModifyCacheClusterInput: ClientRuntime.URLPathProvider {
 /// Represents the input of a ModifyCacheCluster operation.
 public struct ModifyCacheClusterInput: Swift.Equatable {
     /// If true, this parameter causes the modifications in this request and any pending modifications to be applied, asynchronously and as soon as possible, regardless of the PreferredMaintenanceWindow setting for the cluster. If false, changes to the cluster are applied on the next maintenance reboot, or the next failure reboot, whichever occurs first. If you perform a ModifyCacheCluster before a pending modification is applied, the pending modification is replaced by the newer modification. Valid values: true | false Default: false
-    public var applyImmediately: Swift.Bool
+    public var applyImmediately: Swift.Bool?
     /// Reserved parameter. The password used to access a password protected server. This parameter must be specified with the auth-token-update parameter. Password constraints:
     ///
     /// * Must be only printable ASCII characters
@@ -14940,7 +14940,7 @@ public struct ModifyCacheClusterInput: Swift.Equatable {
     public var snapshotWindow: Swift.String?
 
     public init(
-        applyImmediately: Swift.Bool = false,
+        applyImmediately: Swift.Bool? = nil,
         authToken: Swift.String? = nil,
         authTokenUpdateStrategy: ElastiCacheClientTypes.AuthTokenUpdateStrategyType? = nil,
         autoMinorVersionUpgrade: Swift.Bool? = nil,
@@ -14999,7 +14999,7 @@ struct ModifyCacheClusterInputBody: Swift.Equatable {
     let notificationTopicArn: Swift.String?
     let cacheParameterGroupName: Swift.String?
     let notificationTopicStatus: Swift.String?
-    let applyImmediately: Swift.Bool
+    let applyImmediately: Swift.Bool?
     let engineVersion: Swift.String?
     let autoMinorVersionUpgrade: Swift.Bool?
     let snapshotRetentionLimit: Swift.Int?
@@ -15531,7 +15531,7 @@ extension ModifyCacheSubnetGroupOutputResponseBody: Swift.Decodable {
 extension ModifyGlobalReplicationGroupInput: Swift.Encodable {
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
-        if applyImmediately != false {
+        if let applyImmediately = applyImmediately {
             try container.encode(applyImmediately, forKey: ClientRuntime.Key("ApplyImmediately"))
         }
         if let automaticFailoverEnabled = automaticFailoverEnabled {
@@ -15566,7 +15566,7 @@ extension ModifyGlobalReplicationGroupInput: ClientRuntime.URLPathProvider {
 public struct ModifyGlobalReplicationGroupInput: Swift.Equatable {
     /// This parameter causes the modifications in this request and any pending modifications to be applied, asynchronously and as soon as possible. Modifications to Global Replication Groups cannot be requested to be applied in PreferredMaintenceWindow.
     /// This member is required.
-    public var applyImmediately: Swift.Bool
+    public var applyImmediately: Swift.Bool?
     /// Determines whether a read replica is automatically promoted to read/write primary if the existing primary encounters a failure.
     public var automaticFailoverEnabled: Swift.Bool?
     /// A valid cache node type that you want to scale this Global datastore to.
@@ -15582,7 +15582,7 @@ public struct ModifyGlobalReplicationGroupInput: Swift.Equatable {
     public var globalReplicationGroupId: Swift.String?
 
     public init(
-        applyImmediately: Swift.Bool = false,
+        applyImmediately: Swift.Bool? = nil,
         automaticFailoverEnabled: Swift.Bool? = nil,
         cacheNodeType: Swift.String? = nil,
         cacheParameterGroupName: Swift.String? = nil,
@@ -15603,7 +15603,7 @@ public struct ModifyGlobalReplicationGroupInput: Swift.Equatable {
 
 struct ModifyGlobalReplicationGroupInputBody: Swift.Equatable {
     let globalReplicationGroupId: Swift.String?
-    let applyImmediately: Swift.Bool
+    let applyImmediately: Swift.Bool?
     let cacheNodeType: Swift.String?
     let engineVersion: Swift.String?
     let cacheParameterGroupName: Swift.String?
@@ -15699,7 +15699,7 @@ extension ModifyGlobalReplicationGroupOutputResponseBody: Swift.Decodable {
 extension ModifyReplicationGroupInput: Swift.Encodable {
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
-        if applyImmediately != false {
+        if let applyImmediately = applyImmediately {
             try container.encode(applyImmediately, forKey: ClientRuntime.Key("ApplyImmediately"))
         }
         if let authToken = authToken {
@@ -15845,7 +15845,7 @@ extension ModifyReplicationGroupInput: ClientRuntime.URLPathProvider {
 /// Represents the input of a ModifyReplicationGroups operation.
 public struct ModifyReplicationGroupInput: Swift.Equatable {
     /// If true, this parameter causes the modifications in this request and any pending modifications to be applied, asynchronously and as soon as possible, regardless of the PreferredMaintenanceWindow setting for the replication group. If false, changes to the nodes in the replication group are applied on the next maintenance reboot, or the next failure reboot, whichever occurs first. Valid values: true | false Default: false
-    public var applyImmediately: Swift.Bool
+    public var applyImmediately: Swift.Bool?
     /// Reserved parameter. The password used to access a password protected server. This parameter must be specified with the auth-token-update-strategy  parameter. Password constraints:
     ///
     /// * Must be only printable ASCII characters
@@ -15939,7 +15939,7 @@ public struct ModifyReplicationGroupInput: Swift.Equatable {
     public var userGroupIdsToRemove: [Swift.String]?
 
     public init(
-        applyImmediately: Swift.Bool = false,
+        applyImmediately: Swift.Bool? = nil,
         authToken: Swift.String? = nil,
         authTokenUpdateStrategy: ElastiCacheClientTypes.AuthTokenUpdateStrategyType? = nil,
         autoMinorVersionUpgrade: Swift.Bool? = nil,
@@ -16016,7 +16016,7 @@ struct ModifyReplicationGroupInputBody: Swift.Equatable {
     let notificationTopicArn: Swift.String?
     let cacheParameterGroupName: Swift.String?
     let notificationTopicStatus: Swift.String?
-    let applyImmediately: Swift.Bool
+    let applyImmediately: Swift.Bool?
     let engineVersion: Swift.String?
     let autoMinorVersionUpgrade: Swift.Bool?
     let snapshotRetentionLimit: Swift.Int?
@@ -16284,10 +16284,10 @@ extension ModifyReplicationGroupOutputResponseBody: Swift.Decodable {
 extension ModifyReplicationGroupShardConfigurationInput: Swift.Encodable {
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
-        if applyImmediately != false {
+        if let applyImmediately = applyImmediately {
             try container.encode(applyImmediately, forKey: ClientRuntime.Key("ApplyImmediately"))
         }
-        if nodeGroupCount != 0 {
+        if let nodeGroupCount = nodeGroupCount {
             try container.encode(nodeGroupCount, forKey: ClientRuntime.Key("NodeGroupCount"))
         }
         if let nodeGroupsToRemove = nodeGroupsToRemove {
@@ -16344,10 +16344,10 @@ extension ModifyReplicationGroupShardConfigurationInput: ClientRuntime.URLPathPr
 public struct ModifyReplicationGroupShardConfigurationInput: Swift.Equatable {
     /// Indicates that the shard reconfiguration process begins immediately. At present, the only permitted value for this parameter is true. Value: true
     /// This member is required.
-    public var applyImmediately: Swift.Bool
+    public var applyImmediately: Swift.Bool?
     /// The number of node groups (shards) that results from the modification of the shard configuration.
     /// This member is required.
-    public var nodeGroupCount: Swift.Int
+    public var nodeGroupCount: Swift.Int?
     /// If the value of NodeGroupCount is less than the current number of node groups (shards), then either NodeGroupsToRemove or NodeGroupsToRetain is required. NodeGroupsToRemove is a list of NodeGroupIds to remove from the cluster. ElastiCache for Redis will attempt to remove all node groups listed by NodeGroupsToRemove from the cluster.
     public var nodeGroupsToRemove: [Swift.String]?
     /// If the value of NodeGroupCount is less than the current number of node groups (shards), then either NodeGroupsToRemove or NodeGroupsToRetain is required. NodeGroupsToRetain is a list of NodeGroupIds to retain in the cluster. ElastiCache for Redis will attempt to remove all node groups except those listed by NodeGroupsToRetain from the cluster.
@@ -16359,8 +16359,8 @@ public struct ModifyReplicationGroupShardConfigurationInput: Swift.Equatable {
     public var reshardingConfiguration: [ElastiCacheClientTypes.ReshardingConfiguration]?
 
     public init(
-        applyImmediately: Swift.Bool = false,
-        nodeGroupCount: Swift.Int = 0,
+        applyImmediately: Swift.Bool? = nil,
+        nodeGroupCount: Swift.Int? = nil,
         nodeGroupsToRemove: [Swift.String]? = nil,
         nodeGroupsToRetain: [Swift.String]? = nil,
         replicationGroupId: Swift.String? = nil,
@@ -16378,8 +16378,8 @@ public struct ModifyReplicationGroupShardConfigurationInput: Swift.Equatable {
 
 struct ModifyReplicationGroupShardConfigurationInputBody: Swift.Equatable {
     let replicationGroupId: Swift.String?
-    let nodeGroupCount: Swift.Int
-    let applyImmediately: Swift.Bool
+    let nodeGroupCount: Swift.Int?
+    let applyImmediately: Swift.Bool?
     let reshardingConfiguration: [ElastiCacheClientTypes.ReshardingConfiguration]?
     let nodeGroupsToRemove: [Swift.String]?
     let nodeGroupsToRetain: [Swift.String]?
@@ -18842,7 +18842,7 @@ extension PurchaseReservedCacheNodesOfferingOutputResponseBody: Swift.Decodable 
 extension RebalanceSlotsInGlobalReplicationGroupInput: Swift.Encodable {
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
-        if applyImmediately != false {
+        if let applyImmediately = applyImmediately {
             try container.encode(applyImmediately, forKey: ClientRuntime.Key("ApplyImmediately"))
         }
         if let globalReplicationGroupId = globalReplicationGroupId {
@@ -18862,13 +18862,13 @@ extension RebalanceSlotsInGlobalReplicationGroupInput: ClientRuntime.URLPathProv
 public struct RebalanceSlotsInGlobalReplicationGroupInput: Swift.Equatable {
     /// If True, redistribution is applied immediately.
     /// This member is required.
-    public var applyImmediately: Swift.Bool
+    public var applyImmediately: Swift.Bool?
     /// The name of the Global datastore
     /// This member is required.
     public var globalReplicationGroupId: Swift.String?
 
     public init(
-        applyImmediately: Swift.Bool = false,
+        applyImmediately: Swift.Bool? = nil,
         globalReplicationGroupId: Swift.String? = nil
     )
     {
@@ -18879,7 +18879,7 @@ public struct RebalanceSlotsInGlobalReplicationGroupInput: Swift.Equatable {
 
 struct RebalanceSlotsInGlobalReplicationGroupInputBody: Swift.Equatable {
     let globalReplicationGroupId: Swift.String?
-    let applyImmediately: Swift.Bool
+    let applyImmediately: Swift.Bool?
 }
 
 extension RebalanceSlotsInGlobalReplicationGroupInputBody: Swift.Decodable {
@@ -20829,7 +20829,7 @@ extension ResetCacheParameterGroupInput: Swift.Encodable {
                 try parameterNameValuesContainer.encode("", forKey: ClientRuntime.Key(""))
             }
         }
-        if resetAllParameters != false {
+        if let resetAllParameters = resetAllParameters {
             try container.encode(resetAllParameters, forKey: ClientRuntime.Key("ResetAllParameters"))
         }
         try container.encode("ResetCacheParameterGroup", forKey:ClientRuntime.Key("Action"))
@@ -20851,12 +20851,12 @@ public struct ResetCacheParameterGroupInput: Swift.Equatable {
     /// An array of parameter names to reset to their default values. If ResetAllParameters is true, do not use ParameterNameValues. If ResetAllParameters is false, you must specify the name of at least one parameter to reset.
     public var parameterNameValues: [ElastiCacheClientTypes.ParameterNameValue]?
     /// If true, all parameters in the cache parameter group are reset to their default values. If false, only the parameters listed by ParameterNameValues are reset to their default values. Valid values: true | false
-    public var resetAllParameters: Swift.Bool
+    public var resetAllParameters: Swift.Bool?
 
     public init(
         cacheParameterGroupName: Swift.String? = nil,
         parameterNameValues: [ElastiCacheClientTypes.ParameterNameValue]? = nil,
-        resetAllParameters: Swift.Bool = false
+        resetAllParameters: Swift.Bool? = nil
     )
     {
         self.cacheParameterGroupName = cacheParameterGroupName
@@ -20867,7 +20867,7 @@ public struct ResetCacheParameterGroupInput: Swift.Equatable {
 
 struct ResetCacheParameterGroupInputBody: Swift.Equatable {
     let cacheParameterGroupName: Swift.String?
-    let resetAllParameters: Swift.Bool
+    let resetAllParameters: Swift.Bool?
     let parameterNameValues: [ElastiCacheClientTypes.ParameterNameValue]?
 }
 

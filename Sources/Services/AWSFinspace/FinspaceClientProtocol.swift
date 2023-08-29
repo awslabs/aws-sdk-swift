@@ -456,6 +456,7 @@ public protocol FinspaceClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ConflictException` : There was a conflict with this action, and it could not be completed.
     /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
     /// - `LimitExceededException` : A service limit or quota is exceeded.
     /// - `ResourceNotFoundException` : One or more resources can't be found.

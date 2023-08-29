@@ -4028,9 +4028,9 @@ extension SearchEntitiesInputBody: Swift.Decodable {
         var entityTypesDecoded0:[IoTThingsGraphClientTypes.EntityType]? = nil
         if let entityTypesContainer = entityTypesContainer {
             entityTypesDecoded0 = [IoTThingsGraphClientTypes.EntityType]()
-            for string0 in entityTypesContainer {
-                if let string0 = string0 {
-                    entityTypesDecoded0?.append(string0)
+            for enum0 in entityTypesContainer {
+                if let enum0 = enum0 {
+                    entityTypesDecoded0?.append(enum0)
                 }
             }
         }
@@ -6208,13 +6208,13 @@ extension UploadEntityDefinitionsInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if deprecateExistingEntities != false {
+        if let deprecateExistingEntities = self.deprecateExistingEntities {
             try encodeContainer.encode(deprecateExistingEntities, forKey: .deprecateExistingEntities)
         }
         if let document = self.document {
             try encodeContainer.encode(document, forKey: .document)
         }
-        if syncWithPublicNamespace != false {
+        if let syncWithPublicNamespace = self.syncWithPublicNamespace {
             try encodeContainer.encode(syncWithPublicNamespace, forKey: .syncWithPublicNamespace)
         }
     }
@@ -6228,16 +6228,16 @@ extension UploadEntityDefinitionsInput: ClientRuntime.URLPathProvider {
 
 public struct UploadEntityDefinitionsInput: Swift.Equatable {
     /// A Boolean that specifies whether to deprecate all entities in the latest version before uploading the new DefinitionDocument. If set to true, the upload will create a new namespace version.
-    public var deprecateExistingEntities: Swift.Bool
+    public var deprecateExistingEntities: Swift.Bool?
     /// The DefinitionDocument that defines the updated entities.
     public var document: IoTThingsGraphClientTypes.DefinitionDocument?
     /// A Boolean that specifies whether to synchronize with the latest version of the public namespace. If set to true, the upload will create a new namespace version.
-    public var syncWithPublicNamespace: Swift.Bool
+    public var syncWithPublicNamespace: Swift.Bool?
 
     public init(
-        deprecateExistingEntities: Swift.Bool = false,
+        deprecateExistingEntities: Swift.Bool? = nil,
         document: IoTThingsGraphClientTypes.DefinitionDocument? = nil,
-        syncWithPublicNamespace: Swift.Bool = false
+        syncWithPublicNamespace: Swift.Bool? = nil
     )
     {
         self.deprecateExistingEntities = deprecateExistingEntities
@@ -6248,8 +6248,8 @@ public struct UploadEntityDefinitionsInput: Swift.Equatable {
 
 struct UploadEntityDefinitionsInputBody: Swift.Equatable {
     let document: IoTThingsGraphClientTypes.DefinitionDocument?
-    let syncWithPublicNamespace: Swift.Bool
-    let deprecateExistingEntities: Swift.Bool
+    let syncWithPublicNamespace: Swift.Bool?
+    let deprecateExistingEntities: Swift.Bool?
 }
 
 extension UploadEntityDefinitionsInputBody: Swift.Decodable {
@@ -6263,9 +6263,9 @@ extension UploadEntityDefinitionsInputBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let documentDecoded = try containerValues.decodeIfPresent(IoTThingsGraphClientTypes.DefinitionDocument.self, forKey: .document)
         document = documentDecoded
-        let syncWithPublicNamespaceDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .syncWithPublicNamespace) ?? false
+        let syncWithPublicNamespaceDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .syncWithPublicNamespace)
         syncWithPublicNamespace = syncWithPublicNamespaceDecoded
-        let deprecateExistingEntitiesDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .deprecateExistingEntities) ?? false
+        let deprecateExistingEntitiesDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .deprecateExistingEntities)
         deprecateExistingEntities = deprecateExistingEntitiesDecoded
     }
 }

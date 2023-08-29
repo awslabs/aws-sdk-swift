@@ -8632,7 +8632,7 @@ extension DeleteDBClusterInput: Swift.Encodable {
         if let finalDBSnapshotIdentifier = finalDBSnapshotIdentifier {
             try container.encode(finalDBSnapshotIdentifier, forKey: ClientRuntime.Key("FinalDBSnapshotIdentifier"))
         }
-        if skipFinalSnapshot != false {
+        if let skipFinalSnapshot = skipFinalSnapshot {
             try container.encode(skipFinalSnapshot, forKey: ClientRuntime.Key("SkipFinalSnapshot"))
         }
         try container.encode("DeleteDBCluster", forKey:ClientRuntime.Key("Action"))
@@ -8661,12 +8661,12 @@ public struct DeleteDBClusterInput: Swift.Equatable {
     /// * Cannot end with a hyphen or contain two consecutive hyphens
     public var finalDBSnapshotIdentifier: Swift.String?
     /// Determines whether a final DB cluster snapshot is created before the DB cluster is deleted. If true is specified, no DB cluster snapshot is created. If false is specified, a DB cluster snapshot is created before the DB cluster is deleted. You must specify a FinalDBSnapshotIdentifier parameter if SkipFinalSnapshot is false. Default: false
-    public var skipFinalSnapshot: Swift.Bool
+    public var skipFinalSnapshot: Swift.Bool?
 
     public init(
         dbClusterIdentifier: Swift.String? = nil,
         finalDBSnapshotIdentifier: Swift.String? = nil,
-        skipFinalSnapshot: Swift.Bool = false
+        skipFinalSnapshot: Swift.Bool? = nil
     )
     {
         self.dbClusterIdentifier = dbClusterIdentifier
@@ -8677,7 +8677,7 @@ public struct DeleteDBClusterInput: Swift.Equatable {
 
 struct DeleteDBClusterInputBody: Swift.Equatable {
     let dbClusterIdentifier: Swift.String?
-    let skipFinalSnapshot: Swift.Bool
+    let skipFinalSnapshot: Swift.Bool?
     let finalDBSnapshotIdentifier: Swift.String?
 }
 
@@ -8934,7 +8934,7 @@ extension DeleteDBInstanceInput: Swift.Encodable {
         if let finalDBSnapshotIdentifier = finalDBSnapshotIdentifier {
             try container.encode(finalDBSnapshotIdentifier, forKey: ClientRuntime.Key("FinalDBSnapshotIdentifier"))
         }
-        if skipFinalSnapshot != false {
+        if let skipFinalSnapshot = skipFinalSnapshot {
             try container.encode(skipFinalSnapshot, forKey: ClientRuntime.Key("SkipFinalSnapshot"))
         }
         try container.encode("DeleteDBInstance", forKey:ClientRuntime.Key("Action"))
@@ -8965,12 +8965,12 @@ public struct DeleteDBInstanceInput: Swift.Equatable {
     /// * Cannot be specified when deleting a Read Replica.
     public var finalDBSnapshotIdentifier: Swift.String?
     /// Determines whether a final DB snapshot is created before the DB instance is deleted. If true is specified, no DBSnapshot is created. If false is specified, a DB snapshot is created before the DB instance is deleted. Note that when a DB instance is in a failure state and has a status of 'failed', 'incompatible-restore', or 'incompatible-network', it can only be deleted when the SkipFinalSnapshot parameter is set to "true". Specify true when deleting a Read Replica. The FinalDBSnapshotIdentifier parameter must be specified if SkipFinalSnapshot is false. Default: false
-    public var skipFinalSnapshot: Swift.Bool
+    public var skipFinalSnapshot: Swift.Bool?
 
     public init(
         dbInstanceIdentifier: Swift.String? = nil,
         finalDBSnapshotIdentifier: Swift.String? = nil,
-        skipFinalSnapshot: Swift.Bool = false
+        skipFinalSnapshot: Swift.Bool? = nil
     )
     {
         self.dbInstanceIdentifier = dbInstanceIdentifier
@@ -8981,7 +8981,7 @@ public struct DeleteDBInstanceInput: Swift.Equatable {
 
 struct DeleteDBInstanceInputBody: Swift.Equatable {
     let dbInstanceIdentifier: Swift.String?
-    let skipFinalSnapshot: Swift.Bool
+    let skipFinalSnapshot: Swift.Bool?
     let finalDBSnapshotIdentifier: Swift.String?
 }
 
@@ -10086,10 +10086,10 @@ extension DescribeDBClusterSnapshotsInput: Swift.Encodable {
                 try filtersContainer.encode("", forKey: ClientRuntime.Key(""))
             }
         }
-        if includePublic != false {
+        if let includePublic = includePublic {
             try container.encode(includePublic, forKey: ClientRuntime.Key("IncludePublic"))
         }
-        if includeShared != false {
+        if let includeShared = includeShared {
             try container.encode(includeShared, forKey: ClientRuntime.Key("IncludeShared"))
         }
         if let marker = marker {
@@ -10126,9 +10126,9 @@ public struct DescribeDBClusterSnapshotsInput: Swift.Equatable {
     /// This parameter is not currently supported.
     public var filters: [NeptuneClientTypes.Filter]?
     /// True to include manual DB cluster snapshots that are public and can be copied or restored by any Amazon account, and otherwise false. The default is false. The default is false. You can share a manual DB cluster snapshot as public by using the [ModifyDBClusterSnapshotAttribute] API action.
-    public var includePublic: Swift.Bool
+    public var includePublic: Swift.Bool?
     /// True to include shared manual DB cluster snapshots from other Amazon accounts that this Amazon account has been given permission to copy or restore, and otherwise false. The default is false. You can give an Amazon account permission to restore a manual DB cluster snapshot from another Amazon account by the [ModifyDBClusterSnapshotAttribute] API action.
-    public var includeShared: Swift.Bool
+    public var includeShared: Swift.Bool?
     /// An optional pagination token provided by a previous DescribeDBClusterSnapshots request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
     public var marker: Swift.String?
     /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that the remaining results can be retrieved. Default: 100 Constraints: Minimum 20, maximum 100.
@@ -10151,8 +10151,8 @@ public struct DescribeDBClusterSnapshotsInput: Swift.Equatable {
         dbClusterIdentifier: Swift.String? = nil,
         dbClusterSnapshotIdentifier: Swift.String? = nil,
         filters: [NeptuneClientTypes.Filter]? = nil,
-        includePublic: Swift.Bool = false,
-        includeShared: Swift.Bool = false,
+        includePublic: Swift.Bool? = nil,
+        includeShared: Swift.Bool? = nil,
         marker: Swift.String? = nil,
         maxRecords: Swift.Int? = nil,
         snapshotType: Swift.String? = nil
@@ -10176,8 +10176,8 @@ struct DescribeDBClusterSnapshotsInputBody: Swift.Equatable {
     let filters: [NeptuneClientTypes.Filter]?
     let maxRecords: Swift.Int?
     let marker: Swift.String?
-    let includeShared: Swift.Bool
-    let includePublic: Swift.Bool
+    let includeShared: Swift.Bool?
+    let includePublic: Swift.Bool?
 }
 
 extension DescribeDBClusterSnapshotsInputBody: Swift.Decodable {
@@ -10505,7 +10505,7 @@ extension DescribeDBEngineVersionsInput: Swift.Encodable {
         if let dbParameterGroupFamily = dbParameterGroupFamily {
             try container.encode(dbParameterGroupFamily, forKey: ClientRuntime.Key("DBParameterGroupFamily"))
         }
-        if defaultOnly != false {
+        if let defaultOnly = defaultOnly {
             try container.encode(defaultOnly, forKey: ClientRuntime.Key("DefaultOnly"))
         }
         if let engine = engine {
@@ -10555,7 +10555,7 @@ public struct DescribeDBEngineVersionsInput: Swift.Equatable {
     /// * If supplied, must match an existing DBParameterGroupFamily.
     public var dbParameterGroupFamily: Swift.String?
     /// Indicates that only the default version of the specified engine or engine and major version combination is returned.
-    public var defaultOnly: Swift.Bool
+    public var defaultOnly: Swift.Bool?
     /// The database engine to return.
     public var engine: Swift.String?
     /// The database engine version to return. Example: 5.1.49
@@ -10573,7 +10573,7 @@ public struct DescribeDBEngineVersionsInput: Swift.Equatable {
 
     public init(
         dbParameterGroupFamily: Swift.String? = nil,
-        defaultOnly: Swift.Bool = false,
+        defaultOnly: Swift.Bool? = nil,
         engine: Swift.String? = nil,
         engineVersion: Swift.String? = nil,
         filters: [NeptuneClientTypes.Filter]? = nil,
@@ -10602,7 +10602,7 @@ struct DescribeDBEngineVersionsInputBody: Swift.Equatable {
     let filters: [NeptuneClientTypes.Filter]?
     let maxRecords: Swift.Int?
     let marker: Swift.String?
-    let defaultOnly: Swift.Bool
+    let defaultOnly: Swift.Bool?
     let listSupportedCharacterSets: Swift.Bool?
     let listSupportedTimezones: Swift.Bool?
 }
@@ -15981,10 +15981,10 @@ extension ModifyDBClusterEndpointOutputResponseBody: Swift.Decodable {
 extension ModifyDBClusterInput: Swift.Encodable {
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
-        if allowMajorVersionUpgrade != false {
+        if let allowMajorVersionUpgrade = allowMajorVersionUpgrade {
             try container.encode(allowMajorVersionUpgrade, forKey: ClientRuntime.Key("AllowMajorVersionUpgrade"))
         }
-        if applyImmediately != false {
+        if let applyImmediately = applyImmediately {
             try container.encode(applyImmediately, forKey: ClientRuntime.Key("ApplyImmediately"))
         }
         if let backupRetentionPeriod = backupRetentionPeriod {
@@ -16060,9 +16060,9 @@ extension ModifyDBClusterInput: ClientRuntime.URLPathProvider {
 
 public struct ModifyDBClusterInput: Swift.Equatable {
     /// A value that indicates whether upgrades between different major versions are allowed. Constraints: You must set the allow-major-version-upgrade flag when providing an EngineVersion parameter that uses a different major version than the DB cluster's current version.
-    public var allowMajorVersionUpgrade: Swift.Bool
+    public var allowMajorVersionUpgrade: Swift.Bool?
     /// A value that specifies whether the modifications in this request and any pending modifications are asynchronously applied as soon as possible, regardless of the PreferredMaintenanceWindow setting for the DB cluster. If this parameter is set to false, changes to the DB cluster are applied during the next maintenance window. The ApplyImmediately parameter only affects NewDBClusterIdentifier values. If you set the ApplyImmediately parameter value to false, then changes to NewDBClusterIdentifier values are applied during the next maintenance window. All other changes are applied immediately, regardless of the value of the ApplyImmediately parameter. Default: false
-    public var applyImmediately: Swift.Bool
+    public var applyImmediately: Swift.Bool?
     /// The number of days for which automated backups are retained. You must specify a minimum value of 1. Default: 1 Constraints:
     ///
     /// * Must be a value from 1 to 35
@@ -16125,8 +16125,8 @@ public struct ModifyDBClusterInput: Swift.Equatable {
     public var vpcSecurityGroupIds: [Swift.String]?
 
     public init(
-        allowMajorVersionUpgrade: Swift.Bool = false,
-        applyImmediately: Swift.Bool = false,
+        allowMajorVersionUpgrade: Swift.Bool? = nil,
+        applyImmediately: Swift.Bool? = nil,
         backupRetentionPeriod: Swift.Int? = nil,
         cloudwatchLogsExportConfiguration: NeptuneClientTypes.CloudwatchLogsExportConfiguration? = nil,
         copyTagsToSnapshot: Swift.Bool? = nil,
@@ -16171,7 +16171,7 @@ public struct ModifyDBClusterInput: Swift.Equatable {
 struct ModifyDBClusterInputBody: Swift.Equatable {
     let dbClusterIdentifier: Swift.String?
     let newDBClusterIdentifier: Swift.String?
-    let applyImmediately: Swift.Bool
+    let applyImmediately: Swift.Bool?
     let backupRetentionPeriod: Swift.Int?
     let dbClusterParameterGroupName: Swift.String?
     let vpcSecurityGroupIds: [Swift.String]?
@@ -16183,7 +16183,7 @@ struct ModifyDBClusterInputBody: Swift.Equatable {
     let enableIAMDatabaseAuthentication: Swift.Bool?
     let cloudwatchLogsExportConfiguration: NeptuneClientTypes.CloudwatchLogsExportConfiguration?
     let engineVersion: Swift.String?
-    let allowMajorVersionUpgrade: Swift.Bool
+    let allowMajorVersionUpgrade: Swift.Bool?
     let dbInstanceParameterGroupName: Swift.String?
     let deletionProtection: Swift.Bool?
     let copyTagsToSnapshot: Swift.Bool?
@@ -16670,10 +16670,10 @@ extension ModifyDBInstanceInput: Swift.Encodable {
         if let allocatedStorage = allocatedStorage {
             try container.encode(allocatedStorage, forKey: ClientRuntime.Key("AllocatedStorage"))
         }
-        if allowMajorVersionUpgrade != false {
+        if let allowMajorVersionUpgrade = allowMajorVersionUpgrade {
             try container.encode(allowMajorVersionUpgrade, forKey: ClientRuntime.Key("AllowMajorVersionUpgrade"))
         }
-        if applyImmediately != false {
+        if let applyImmediately = applyImmediately {
             try container.encode(applyImmediately, forKey: ClientRuntime.Key("ApplyImmediately"))
         }
         if let autoMinorVersionUpgrade = autoMinorVersionUpgrade {
@@ -16811,9 +16811,9 @@ public struct ModifyDBInstanceInput: Swift.Equatable {
     /// Not supported by Neptune.
     public var allocatedStorage: Swift.Int?
     /// Indicates that major version upgrades are allowed. Changing this parameter doesn't result in an outage and the change is asynchronously applied as soon as possible.
-    public var allowMajorVersionUpgrade: Swift.Bool
+    public var allowMajorVersionUpgrade: Swift.Bool?
     /// Specifies whether the modifications in this request and any pending modifications are asynchronously applied as soon as possible, regardless of the PreferredMaintenanceWindow setting for the DB instance. If this parameter is set to false, changes to the DB instance are applied during the next maintenance window. Some parameter changes can cause an outage and are applied on the next call to [RebootDBInstance], or the next failure reboot. Default: false
-    public var applyImmediately: Swift.Bool
+    public var applyImmediately: Swift.Bool?
     /// Indicates that minor version upgrades are applied automatically to the DB instance during the maintenance window. Changing this parameter doesn't result in an outage except in the following case and the change is asynchronously applied as soon as possible. An outage will result if this parameter is set to true during the maintenance window, and a newer minor version is available, and Neptune has enabled auto patching for that engine version.
     public var autoMinorVersionUpgrade: Swift.Bool?
     /// Not applicable. The retention period for automated backups is managed by the DB cluster. For more information, see [ModifyDBCluster]. Default: Uses existing setting
@@ -16910,8 +16910,8 @@ public struct ModifyDBInstanceInput: Swift.Equatable {
 
     public init(
         allocatedStorage: Swift.Int? = nil,
-        allowMajorVersionUpgrade: Swift.Bool = false,
-        applyImmediately: Swift.Bool = false,
+        allowMajorVersionUpgrade: Swift.Bool? = nil,
+        applyImmediately: Swift.Bool? = nil,
         autoMinorVersionUpgrade: Swift.Bool? = nil,
         backupRetentionPeriod: Swift.Int? = nil,
         caCertificateIdentifier: Swift.String? = nil,
@@ -16995,7 +16995,7 @@ struct ModifyDBInstanceInputBody: Swift.Equatable {
     let dbSubnetGroupName: Swift.String?
     let dbSecurityGroups: [Swift.String]?
     let vpcSecurityGroupIds: [Swift.String]?
-    let applyImmediately: Swift.Bool
+    let applyImmediately: Swift.Bool?
     let masterUserPassword: Swift.String?
     let dbParameterGroupName: Swift.String?
     let backupRetentionPeriod: Swift.Int?
@@ -17003,7 +17003,7 @@ struct ModifyDBInstanceInputBody: Swift.Equatable {
     let preferredMaintenanceWindow: Swift.String?
     let multiAZ: Swift.Bool?
     let engineVersion: Swift.String?
-    let allowMajorVersionUpgrade: Swift.Bool
+    let allowMajorVersionUpgrade: Swift.Bool?
     let autoMinorVersionUpgrade: Swift.Bool?
     let licenseModel: Swift.String?
     let iops: Swift.Int?
@@ -19447,7 +19447,7 @@ extension ResetDBClusterParameterGroupInput: Swift.Encodable {
                 try parametersContainer.encode("", forKey: ClientRuntime.Key(""))
             }
         }
-        if resetAllParameters != false {
+        if let resetAllParameters = resetAllParameters {
             try container.encode(resetAllParameters, forKey: ClientRuntime.Key("ResetAllParameters"))
         }
         try container.encode("ResetDBClusterParameterGroup", forKey:ClientRuntime.Key("Action"))
@@ -19468,12 +19468,12 @@ public struct ResetDBClusterParameterGroupInput: Swift.Equatable {
     /// A list of parameter names in the DB cluster parameter group to reset to the default values. You can't use this parameter if the ResetAllParameters parameter is set to true.
     public var parameters: [NeptuneClientTypes.Parameter]?
     /// A value that is set to true to reset all parameters in the DB cluster parameter group to their default values, and false otherwise. You can't use this parameter if there is a list of parameter names specified for the Parameters parameter.
-    public var resetAllParameters: Swift.Bool
+    public var resetAllParameters: Swift.Bool?
 
     public init(
         dbClusterParameterGroupName: Swift.String? = nil,
         parameters: [NeptuneClientTypes.Parameter]? = nil,
-        resetAllParameters: Swift.Bool = false
+        resetAllParameters: Swift.Bool? = nil
     )
     {
         self.dbClusterParameterGroupName = dbClusterParameterGroupName
@@ -19484,7 +19484,7 @@ public struct ResetDBClusterParameterGroupInput: Swift.Equatable {
 
 struct ResetDBClusterParameterGroupInputBody: Swift.Equatable {
     let dbClusterParameterGroupName: Swift.String?
-    let resetAllParameters: Swift.Bool
+    let resetAllParameters: Swift.Bool?
     let parameters: [NeptuneClientTypes.Parameter]?
 }
 
@@ -19602,7 +19602,7 @@ extension ResetDBParameterGroupInput: Swift.Encodable {
                 try parametersContainer.encode("", forKey: ClientRuntime.Key(""))
             }
         }
-        if resetAllParameters != false {
+        if let resetAllParameters = resetAllParameters {
             try container.encode(resetAllParameters, forKey: ClientRuntime.Key("ResetAllParameters"))
         }
         try container.encode("ResetDBParameterGroup", forKey:ClientRuntime.Key("Action"))
@@ -19625,12 +19625,12 @@ public struct ResetDBParameterGroupInput: Swift.Equatable {
     /// To reset the entire DB parameter group, specify the DBParameterGroup name and ResetAllParameters parameters. To reset specific parameters, provide a list of the following: ParameterName and ApplyMethod. A maximum of 20 parameters can be modified in a single request. Valid Values (for Apply method): pending-reboot
     public var parameters: [NeptuneClientTypes.Parameter]?
     /// Specifies whether (true) or not (false) to reset all parameters in the DB parameter group to default values. Default: true
-    public var resetAllParameters: Swift.Bool
+    public var resetAllParameters: Swift.Bool?
 
     public init(
         dbParameterGroupName: Swift.String? = nil,
         parameters: [NeptuneClientTypes.Parameter]? = nil,
-        resetAllParameters: Swift.Bool = false
+        resetAllParameters: Swift.Bool? = nil
     )
     {
         self.dbParameterGroupName = dbParameterGroupName
@@ -19641,7 +19641,7 @@ public struct ResetDBParameterGroupInput: Swift.Equatable {
 
 struct ResetDBParameterGroupInputBody: Swift.Equatable {
     let dbParameterGroupName: Swift.String?
-    let resetAllParameters: Swift.Bool
+    let resetAllParameters: Swift.Bool?
     let parameters: [NeptuneClientTypes.Parameter]?
 }
 
@@ -20343,7 +20343,7 @@ extension RestoreDBClusterToPointInTimeInput: Swift.Encodable {
                 try tagsContainer.encode("", forKey: ClientRuntime.Key(""))
             }
         }
-        if useLatestRestorableTime != false {
+        if let useLatestRestorableTime = useLatestRestorableTime {
             try container.encode(useLatestRestorableTime, forKey: ClientRuntime.Key("UseLatestRestorableTime"))
         }
         if let vpcSecurityGroupIds = vpcSecurityGroupIds {
@@ -20436,7 +20436,7 @@ public struct RestoreDBClusterToPointInTimeInput: Swift.Equatable {
     /// The tags to be applied to the restored DB cluster.
     public var tags: [NeptuneClientTypes.Tag]?
     /// A value that is set to true to restore the DB cluster to the latest restorable backup time, and false otherwise. Default: false Constraints: Cannot be specified if RestoreToTime parameter is provided.
-    public var useLatestRestorableTime: Swift.Bool
+    public var useLatestRestorableTime: Swift.Bool?
     /// A list of VPC security groups that the new DB cluster belongs to.
     public var vpcSecurityGroupIds: [Swift.String]?
 
@@ -20455,7 +20455,7 @@ public struct RestoreDBClusterToPointInTimeInput: Swift.Equatable {
         serverlessV2ScalingConfiguration: NeptuneClientTypes.ServerlessV2ScalingConfiguration? = nil,
         sourceDBClusterIdentifier: Swift.String? = nil,
         tags: [NeptuneClientTypes.Tag]? = nil,
-        useLatestRestorableTime: Swift.Bool = false,
+        useLatestRestorableTime: Swift.Bool? = nil,
         vpcSecurityGroupIds: [Swift.String]? = nil
     )
     {
@@ -20483,7 +20483,7 @@ struct RestoreDBClusterToPointInTimeInputBody: Swift.Equatable {
     let restoreType: Swift.String?
     let sourceDBClusterIdentifier: Swift.String?
     let restoreToTime: ClientRuntime.Date?
-    let useLatestRestorableTime: Swift.Bool
+    let useLatestRestorableTime: Swift.Bool?
     let port: Swift.Int?
     let dbSubnetGroupName: Swift.String?
     let optionGroupName: Swift.String?

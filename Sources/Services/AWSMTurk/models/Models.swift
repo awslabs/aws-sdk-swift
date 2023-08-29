@@ -3198,9 +3198,9 @@ extension ListAssignmentsForHITInputBody: Swift.Decodable {
         var assignmentStatusesDecoded0:[MTurkClientTypes.AssignmentStatus]? = nil
         if let assignmentStatusesContainer = assignmentStatusesContainer {
             assignmentStatusesDecoded0 = [MTurkClientTypes.AssignmentStatus]()
-            for string0 in assignmentStatusesContainer {
-                if let string0 = string0 {
-                    assignmentStatusesDecoded0?.append(string0)
+            for enum0 in assignmentStatusesContainer {
+                if let enum0 = enum0 {
+                    assignmentStatusesDecoded0?.append(enum0)
                 }
             }
         }
@@ -4175,9 +4175,9 @@ extension ListReviewPolicyResultsForHITInputBody: Swift.Decodable {
         var policyLevelsDecoded0:[MTurkClientTypes.ReviewPolicyLevel]? = nil
         if let policyLevelsContainer = policyLevelsContainer {
             policyLevelsDecoded0 = [MTurkClientTypes.ReviewPolicyLevel]()
-            for string0 in policyLevelsContainer {
-                if let string0 = string0 {
-                    policyLevelsDecoded0?.append(string0)
+            for enum0 in policyLevelsContainer {
+                if let enum0 = enum0 {
+                    policyLevelsDecoded0?.append(enum0)
                 }
             }
         }
@@ -4848,9 +4848,9 @@ extension MTurkClientTypes.NotificationSpecification: Swift.Codable {
         var eventTypesDecoded0:[MTurkClientTypes.EventType]? = nil
         if let eventTypesContainer = eventTypesContainer {
             eventTypesDecoded0 = [MTurkClientTypes.EventType]()
-            for string0 in eventTypesContainer {
-                if let string0 = string0 {
-                    eventTypesDecoded0?.append(string0)
+            for enum0 in eventTypesContainer {
+                if let enum0 = enum0 {
+                    eventTypesDecoded0?.append(enum0)
                 }
             }
         }

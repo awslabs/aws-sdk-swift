@@ -24,6 +24,15 @@ extension ListDeploymentJobsInput: ClientRuntime.PaginateToken {
             nextToken: token
         )}
 }
+
+extension PaginatorSequence where Input == ListDeploymentJobsInput, Output == ListDeploymentJobsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listDeploymentJobsPaginated`
+    /// to access the nested member `[RoboMakerClientTypes.DeploymentJob]`
+    /// - Returns: `[RoboMakerClientTypes.DeploymentJob]`
+    public func deploymentJobs() async throws -> [RoboMakerClientTypes.DeploymentJob] {
+        return try await self.asyncCompactMap { item in item.deploymentJobs }
+    }
+}
 extension RoboMakerClient {
     /// Paginate over `[ListFleetsOutputResponse]` results.
     ///
@@ -45,6 +54,15 @@ extension ListFleetsInput: ClientRuntime.PaginateToken {
             maxResults: self.maxResults,
             nextToken: token
         )}
+}
+
+extension PaginatorSequence where Input == ListFleetsInput, Output == ListFleetsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listFleetsPaginated`
+    /// to access the nested member `[RoboMakerClientTypes.Fleet]`
+    /// - Returns: `[RoboMakerClientTypes.Fleet]`
+    public func fleetDetails() async throws -> [RoboMakerClientTypes.Fleet] {
+        return try await self.asyncCompactMap { item in item.fleetDetails }
+    }
 }
 extension RoboMakerClient {
     /// Paginate over `[ListRobotApplicationsOutputResponse]` results.
@@ -69,6 +87,15 @@ extension ListRobotApplicationsInput: ClientRuntime.PaginateToken {
             versionQualifier: self.versionQualifier
         )}
 }
+
+extension PaginatorSequence where Input == ListRobotApplicationsInput, Output == ListRobotApplicationsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listRobotApplicationsPaginated`
+    /// to access the nested member `[RoboMakerClientTypes.RobotApplicationSummary]`
+    /// - Returns: `[RoboMakerClientTypes.RobotApplicationSummary]`
+    public func robotApplicationSummaries() async throws -> [RoboMakerClientTypes.RobotApplicationSummary] {
+        return try await self.asyncCompactMap { item in item.robotApplicationSummaries }
+    }
+}
 extension RoboMakerClient {
     /// Paginate over `[ListRobotsOutputResponse]` results.
     ///
@@ -90,6 +117,15 @@ extension ListRobotsInput: ClientRuntime.PaginateToken {
             maxResults: self.maxResults,
             nextToken: token
         )}
+}
+
+extension PaginatorSequence where Input == ListRobotsInput, Output == ListRobotsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listRobotsPaginated`
+    /// to access the nested member `[RoboMakerClientTypes.Robot]`
+    /// - Returns: `[RoboMakerClientTypes.Robot]`
+    public func robots() async throws -> [RoboMakerClientTypes.Robot] {
+        return try await self.asyncCompactMap { item in item.robots }
+    }
 }
 extension RoboMakerClient {
     /// Paginate over `[ListSimulationApplicationsOutputResponse]` results.
@@ -114,6 +150,15 @@ extension ListSimulationApplicationsInput: ClientRuntime.PaginateToken {
             versionQualifier: self.versionQualifier
         )}
 }
+
+extension PaginatorSequence where Input == ListSimulationApplicationsInput, Output == ListSimulationApplicationsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listSimulationApplicationsPaginated`
+    /// to access the nested member `[RoboMakerClientTypes.SimulationApplicationSummary]`
+    /// - Returns: `[RoboMakerClientTypes.SimulationApplicationSummary]`
+    public func simulationApplicationSummaries() async throws -> [RoboMakerClientTypes.SimulationApplicationSummary] {
+        return try await self.asyncCompactMap { item in item.simulationApplicationSummaries }
+    }
+}
 extension RoboMakerClient {
     /// Paginate over `[ListSimulationJobBatchesOutputResponse]` results.
     ///
@@ -135,6 +180,15 @@ extension ListSimulationJobBatchesInput: ClientRuntime.PaginateToken {
             maxResults: self.maxResults,
             nextToken: token
         )}
+}
+
+extension PaginatorSequence where Input == ListSimulationJobBatchesInput, Output == ListSimulationJobBatchesOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listSimulationJobBatchesPaginated`
+    /// to access the nested member `[RoboMakerClientTypes.SimulationJobBatchSummary]`
+    /// - Returns: `[RoboMakerClientTypes.SimulationJobBatchSummary]`
+    public func simulationJobBatchSummaries() async throws -> [RoboMakerClientTypes.SimulationJobBatchSummary] {
+        return try await self.asyncCompactMap { item in item.simulationJobBatchSummaries }
+    }
 }
 extension RoboMakerClient {
     /// Paginate over `[ListSimulationJobsOutputResponse]` results.
@@ -158,6 +212,15 @@ extension ListSimulationJobsInput: ClientRuntime.PaginateToken {
             nextToken: token
         )}
 }
+
+extension PaginatorSequence where Input == ListSimulationJobsInput, Output == ListSimulationJobsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listSimulationJobsPaginated`
+    /// to access the nested member `[RoboMakerClientTypes.SimulationJobSummary]`
+    /// - Returns: `[RoboMakerClientTypes.SimulationJobSummary]`
+    public func simulationJobSummaries() async throws -> [RoboMakerClientTypes.SimulationJobSummary] {
+        return try await self.asyncCompactMap { item in item.simulationJobSummaries }
+    }
+}
 extension RoboMakerClient {
     /// Paginate over `[ListWorldExportJobsOutputResponse]` results.
     ///
@@ -179,6 +242,15 @@ extension ListWorldExportJobsInput: ClientRuntime.PaginateToken {
             maxResults: self.maxResults,
             nextToken: token
         )}
+}
+
+extension PaginatorSequence where Input == ListWorldExportJobsInput, Output == ListWorldExportJobsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listWorldExportJobsPaginated`
+    /// to access the nested member `[RoboMakerClientTypes.WorldExportJobSummary]`
+    /// - Returns: `[RoboMakerClientTypes.WorldExportJobSummary]`
+    public func worldExportJobSummaries() async throws -> [RoboMakerClientTypes.WorldExportJobSummary] {
+        return try await self.asyncCompactMap { item in item.worldExportJobSummaries }
+    }
 }
 extension RoboMakerClient {
     /// Paginate over `[ListWorldGenerationJobsOutputResponse]` results.
@@ -202,6 +274,15 @@ extension ListWorldGenerationJobsInput: ClientRuntime.PaginateToken {
             nextToken: token
         )}
 }
+
+extension PaginatorSequence where Input == ListWorldGenerationJobsInput, Output == ListWorldGenerationJobsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listWorldGenerationJobsPaginated`
+    /// to access the nested member `[RoboMakerClientTypes.WorldGenerationJobSummary]`
+    /// - Returns: `[RoboMakerClientTypes.WorldGenerationJobSummary]`
+    public func worldGenerationJobSummaries() async throws -> [RoboMakerClientTypes.WorldGenerationJobSummary] {
+        return try await self.asyncCompactMap { item in item.worldGenerationJobSummaries }
+    }
+}
 extension RoboMakerClient {
     /// Paginate over `[ListWorldsOutputResponse]` results.
     ///
@@ -224,6 +305,15 @@ extension ListWorldsInput: ClientRuntime.PaginateToken {
             nextToken: token
         )}
 }
+
+extension PaginatorSequence where Input == ListWorldsInput, Output == ListWorldsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listWorldsPaginated`
+    /// to access the nested member `[RoboMakerClientTypes.WorldSummary]`
+    /// - Returns: `[RoboMakerClientTypes.WorldSummary]`
+    public func worldSummaries() async throws -> [RoboMakerClientTypes.WorldSummary] {
+        return try await self.asyncCompactMap { item in item.worldSummaries }
+    }
+}
 extension RoboMakerClient {
     /// Paginate over `[ListWorldTemplatesOutputResponse]` results.
     ///
@@ -244,4 +334,13 @@ extension ListWorldTemplatesInput: ClientRuntime.PaginateToken {
             maxResults: self.maxResults,
             nextToken: token
         )}
+}
+
+extension PaginatorSequence where Input == ListWorldTemplatesInput, Output == ListWorldTemplatesOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listWorldTemplatesPaginated`
+    /// to access the nested member `[RoboMakerClientTypes.TemplateSummary]`
+    /// - Returns: `[RoboMakerClientTypes.TemplateSummary]`
+    public func templateSummaries() async throws -> [RoboMakerClientTypes.TemplateSummary] {
+        return try await self.asyncCompactMap { item in item.templateSummaries }
+    }
 }

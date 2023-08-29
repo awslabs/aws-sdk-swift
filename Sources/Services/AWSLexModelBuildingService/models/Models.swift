@@ -467,9 +467,9 @@ extension LexModelBuildingClientTypes.BuiltinIntentMetadata: Swift.Codable {
         var supportedLocalesDecoded0:[LexModelBuildingClientTypes.Locale]? = nil
         if let supportedLocalesContainer = supportedLocalesContainer {
             supportedLocalesDecoded0 = [LexModelBuildingClientTypes.Locale]()
-            for string0 in supportedLocalesContainer {
-                if let string0 = string0 {
-                    supportedLocalesDecoded0?.append(string0)
+            for enum0 in supportedLocalesContainer {
+                if let enum0 = enum0 {
+                    supportedLocalesDecoded0?.append(enum0)
                 }
             }
         }
@@ -559,9 +559,9 @@ extension LexModelBuildingClientTypes.BuiltinSlotTypeMetadata: Swift.Codable {
         var supportedLocalesDecoded0:[LexModelBuildingClientTypes.Locale]? = nil
         if let supportedLocalesContainer = supportedLocalesContainer {
             supportedLocalesDecoded0 = [LexModelBuildingClientTypes.Locale]()
-            for string0 in supportedLocalesContainer {
-                if let string0 = string0 {
-                    supportedLocalesDecoded0?.append(string0)
+            for enum0 in supportedLocalesContainer {
+                if let enum0 = enum0 {
+                    supportedLocalesDecoded0?.append(enum0)
                 }
             }
         }
@@ -3865,9 +3865,9 @@ extension GetBuiltinIntentOutputResponseBody: Swift.Decodable {
         var supportedLocalesDecoded0:[LexModelBuildingClientTypes.Locale]? = nil
         if let supportedLocalesContainer = supportedLocalesContainer {
             supportedLocalesDecoded0 = [LexModelBuildingClientTypes.Locale]()
-            for string0 in supportedLocalesContainer {
-                if let string0 = string0 {
-                    supportedLocalesDecoded0?.append(string0)
+            for enum0 in supportedLocalesContainer {
+                if let enum0 = enum0 {
+                    supportedLocalesDecoded0?.append(enum0)
                 }
             }
         }

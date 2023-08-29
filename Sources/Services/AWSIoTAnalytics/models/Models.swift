@@ -3926,7 +3926,7 @@ extension DescribeChannelInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
         get throws {
             var items = [ClientRuntime.URLQueryItem]()
-            if includeStatistics != false {
+            if let includeStatistics = includeStatistics {
                 let includeStatisticsQueryItem = ClientRuntime.URLQueryItem(name: "includeStatistics".urlPercentEncoding(), value: Swift.String(includeStatistics).urlPercentEncoding())
                 items.append(includeStatisticsQueryItem)
             }
@@ -3949,11 +3949,11 @@ public struct DescribeChannelInput: Swift.Equatable {
     /// This member is required.
     public var channelName: Swift.String?
     /// If true, additional statistical information about the channel is included in the response. This feature can't be used with a channel whose S3 storage is customer-managed.
-    public var includeStatistics: Swift.Bool
+    public var includeStatistics: Swift.Bool?
 
     public init(
         channelName: Swift.String? = nil,
-        includeStatistics: Swift.Bool = false
+        includeStatistics: Swift.Bool? = nil
     )
     {
         self.channelName = channelName
@@ -4125,7 +4125,7 @@ extension DescribeDatastoreInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
         get throws {
             var items = [ClientRuntime.URLQueryItem]()
-            if includeStatistics != false {
+            if let includeStatistics = includeStatistics {
                 let includeStatisticsQueryItem = ClientRuntime.URLQueryItem(name: "includeStatistics".urlPercentEncoding(), value: Swift.String(includeStatistics).urlPercentEncoding())
                 items.append(includeStatisticsQueryItem)
             }
@@ -4148,11 +4148,11 @@ public struct DescribeDatastoreInput: Swift.Equatable {
     /// This member is required.
     public var datastoreName: Swift.String?
     /// If true, additional statistical information about the data store is included in the response. This feature can't be used with a data store whose S3 storage is customer-managed.
-    public var includeStatistics: Swift.Bool
+    public var includeStatistics: Swift.Bool?
 
     public init(
         datastoreName: Swift.String? = nil,
-        includeStatistics: Swift.Bool = false
+        includeStatistics: Swift.Bool? = nil
     )
     {
         self.datastoreName = datastoreName

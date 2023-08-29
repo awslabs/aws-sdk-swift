@@ -2481,7 +2481,7 @@ extension StartCallAnalyticsStreamTranscriptionInput: ClientRuntime.HeaderProvid
         if let contentRedactionType = contentRedactionType {
             items.add(Header(name: "x-amzn-transcribe-content-redaction-type", value: Swift.String(contentRedactionType.rawValue)))
         }
-        if enablePartialResultsStabilization != false {
+        if let enablePartialResultsStabilization = enablePartialResultsStabilization {
             items.add(Header(name: "x-amzn-transcribe-enable-partial-results-stabilization", value: Swift.String(enablePartialResultsStabilization)))
         }
         if let languageCode = languageCode {
@@ -2533,7 +2533,7 @@ public struct StartCallAnalyticsStreamTranscriptionInput: Swift.Equatable {
     /// Redacts all personally identifiable information (PII) identified in your transcript. Content redaction is performed at the segment level; PII specified in PiiEntityTypes is redacted upon complete transcription of an audio segment. You can’t set ContentRedactionType and ContentIdentificationType in the same request. If you set both, your request returns a BadRequestException. For more information, see [Redacting or identifying personally identifiable information](https://docs.aws.amazon.com/transcribe/latest/dg/pii-redaction.html).
     public var contentRedactionType: TranscribeStreamingClientTypes.ContentRedactionType?
     /// Enables partial result stabilization for your transcription. Partial result stabilization can reduce latency in your output, but may impact accuracy. For more information, see [Partial-result stabilization](https://docs.aws.amazon.com/transcribe/latest/dg/streaming.html#streaming-partial-result-stabilization).
-    public var enablePartialResultsStabilization: Swift.Bool
+    public var enablePartialResultsStabilization: Swift.Bool?
     /// Specify the language code that represents the language spoken in your audio. If you're unsure of the language spoken in your audio, consider using IdentifyLanguage to enable automatic language identification. For a list of languages supported with streaming Call Analytics, refer to the [Supported languages](https://docs.aws.amazon.com/transcribe/latest/dg/supported-languages.html) table.
     /// This member is required.
     public var languageCode: TranscribeStreamingClientTypes.CallAnalyticsLanguageCode?
@@ -2571,7 +2571,7 @@ public struct StartCallAnalyticsStreamTranscriptionInput: Swift.Equatable {
         audioStream: AsyncThrowingStream<TranscribeStreamingClientTypes.AudioStream, Swift.Error>? = nil,
         contentIdentificationType: TranscribeStreamingClientTypes.ContentIdentificationType? = nil,
         contentRedactionType: TranscribeStreamingClientTypes.ContentRedactionType? = nil,
-        enablePartialResultsStabilization: Swift.Bool = false,
+        enablePartialResultsStabilization: Swift.Bool? = nil,
         languageCode: TranscribeStreamingClientTypes.CallAnalyticsLanguageCode? = nil,
         languageModelName: Swift.String? = nil,
         mediaEncoding: TranscribeStreamingClientTypes.MediaEncoding? = nil,
@@ -2815,7 +2815,7 @@ extension StartMedicalStreamTranscriptionInput: ClientRuntime.HeaderProvider {
         if let contentIdentificationType = contentIdentificationType {
             items.add(Header(name: "x-amzn-transcribe-content-identification-type", value: Swift.String(contentIdentificationType.rawValue)))
         }
-        if enableChannelIdentification != false {
+        if let enableChannelIdentification = enableChannelIdentification {
             items.add(Header(name: "x-amzn-transcribe-enable-channel-identification", value: Swift.String(enableChannelIdentification)))
         }
         if let languageCode = languageCode {
@@ -2833,7 +2833,7 @@ extension StartMedicalStreamTranscriptionInput: ClientRuntime.HeaderProvider {
         if let sessionId = sessionId {
             items.add(Header(name: "x-amzn-transcribe-session-id", value: Swift.String(sessionId)))
         }
-        if showSpeakerLabel != false {
+        if let showSpeakerLabel = showSpeakerLabel {
             items.add(Header(name: "x-amzn-transcribe-show-speaker-label", value: Swift.String(showSpeakerLabel)))
         }
         if let specialty = specialty {
@@ -2862,7 +2862,7 @@ public struct StartMedicalStreamTranscriptionInput: Swift.Equatable {
     /// Labels all personal health information (PHI) identified in your transcript. Content identification is performed at the segment level; PHI is flagged upon complete transcription of an audio segment. For more information, see [Identifying personal health information (PHI) in a transcription](https://docs.aws.amazon.com/transcribe/latest/dg/phi-id.html).
     public var contentIdentificationType: TranscribeStreamingClientTypes.MedicalContentIdentificationType?
     /// Enables channel identification in multi-channel audio. Channel identification transcribes the audio on each channel independently, then appends the output for each channel into one transcript. If you have multi-channel audio and do not enable channel identification, your audio is transcribed in a continuous manner and your transcript is not separated by channel. For more information, see [Transcribing multi-channel audio](https://docs.aws.amazon.com/transcribe/latest/dg/channel-id.html).
-    public var enableChannelIdentification: Swift.Bool
+    public var enableChannelIdentification: Swift.Bool?
     /// Specify the language code that represents the language spoken in your audio. Amazon Transcribe Medical only supports US English (en-US).
     /// This member is required.
     public var languageCode: TranscribeStreamingClientTypes.LanguageCode?
@@ -2886,7 +2886,7 @@ public struct StartMedicalStreamTranscriptionInput: Swift.Equatable {
     /// Specify a name for your transcription session. If you don't include this parameter in your request, Amazon Transcribe Medical generates an ID and returns it in the response. You can use a session ID to retry a streaming session.
     public var sessionId: Swift.String?
     /// Enables speaker partitioning (diarization) in your transcription output. Speaker partitioning labels the speech from individual speakers in your media file. For more information, see [Partitioning speakers (diarization)](https://docs.aws.amazon.com/transcribe/latest/dg/diarization.html).
-    public var showSpeakerLabel: Swift.Bool
+    public var showSpeakerLabel: Swift.Bool?
     /// Specify the medical specialty contained in your audio.
     /// This member is required.
     public var specialty: TranscribeStreamingClientTypes.Specialty?
@@ -2899,13 +2899,13 @@ public struct StartMedicalStreamTranscriptionInput: Swift.Equatable {
     public init(
         audioStream: AsyncThrowingStream<TranscribeStreamingClientTypes.AudioStream, Swift.Error>? = nil,
         contentIdentificationType: TranscribeStreamingClientTypes.MedicalContentIdentificationType? = nil,
-        enableChannelIdentification: Swift.Bool = false,
+        enableChannelIdentification: Swift.Bool? = nil,
         languageCode: TranscribeStreamingClientTypes.LanguageCode? = nil,
         mediaEncoding: TranscribeStreamingClientTypes.MediaEncoding? = nil,
         mediaSampleRateHertz: Swift.Int? = nil,
         numberOfChannels: Swift.Int? = nil,
         sessionId: Swift.String? = nil,
-        showSpeakerLabel: Swift.Bool = false,
+        showSpeakerLabel: Swift.Bool? = nil,
         specialty: TranscribeStreamingClientTypes.Specialty? = nil,
         type: TranscribeStreamingClientTypes.ModelType? = nil,
         vocabularyName: Swift.String? = nil
@@ -3125,13 +3125,13 @@ extension StartStreamTranscriptionInput: ClientRuntime.HeaderProvider {
         if let contentRedactionType = contentRedactionType {
             items.add(Header(name: "x-amzn-transcribe-content-redaction-type", value: Swift.String(contentRedactionType.rawValue)))
         }
-        if enableChannelIdentification != false {
+        if let enableChannelIdentification = enableChannelIdentification {
             items.add(Header(name: "x-amzn-transcribe-enable-channel-identification", value: Swift.String(enableChannelIdentification)))
         }
-        if enablePartialResultsStabilization != false {
+        if let enablePartialResultsStabilization = enablePartialResultsStabilization {
             items.add(Header(name: "x-amzn-transcribe-enable-partial-results-stabilization", value: Swift.String(enablePartialResultsStabilization)))
         }
-        if identifyLanguage != false {
+        if let identifyLanguage = identifyLanguage {
             items.add(Header(name: "x-amzn-transcribe-identify-language", value: Swift.String(identifyLanguage)))
         }
         if let languageCode = languageCode {
@@ -3164,7 +3164,7 @@ extension StartStreamTranscriptionInput: ClientRuntime.HeaderProvider {
         if let sessionId = sessionId {
             items.add(Header(name: "x-amzn-transcribe-session-id", value: Swift.String(sessionId)))
         }
-        if showSpeakerLabel != false {
+        if let showSpeakerLabel = showSpeakerLabel {
             items.add(Header(name: "x-amzn-transcribe-show-speaker-label", value: Swift.String(showSpeakerLabel)))
         }
         if let vocabularyFilterMethod = vocabularyFilterMethod {
@@ -3201,11 +3201,11 @@ public struct StartStreamTranscriptionInput: Swift.Equatable {
     /// Redacts all personally identifiable information (PII) identified in your transcript. Content redaction is performed at the segment level; PII specified in PiiEntityTypes is redacted upon complete transcription of an audio segment. You can’t set ContentRedactionType and ContentIdentificationType in the same request. If you set both, your request returns a BadRequestException. For more information, see [Redacting or identifying personally identifiable information](https://docs.aws.amazon.com/transcribe/latest/dg/pii-redaction.html).
     public var contentRedactionType: TranscribeStreamingClientTypes.ContentRedactionType?
     /// Enables channel identification in multi-channel audio. Channel identification transcribes the audio on each channel independently, then appends the output for each channel into one transcript. If you have multi-channel audio and do not enable channel identification, your audio is transcribed in a continuous manner and your transcript is not separated by channel. For more information, see [Transcribing multi-channel audio](https://docs.aws.amazon.com/transcribe/latest/dg/channel-id.html).
-    public var enableChannelIdentification: Swift.Bool
+    public var enableChannelIdentification: Swift.Bool?
     /// Enables partial result stabilization for your transcription. Partial result stabilization can reduce latency in your output, but may impact accuracy. For more information, see [Partial-result stabilization](https://docs.aws.amazon.com/transcribe/latest/dg/streaming.html#streaming-partial-result-stabilization).
-    public var enablePartialResultsStabilization: Swift.Bool
+    public var enablePartialResultsStabilization: Swift.Bool?
     /// Enables automatic language identification for your transcription. If you include IdentifyLanguage, you can optionally include a list of language codes, using LanguageOptions, that you think may be present in your audio stream. Including language options can improve transcription accuracy. You can also include a preferred language using PreferredLanguage. Adding a preferred language can help Amazon Transcribe identify the language faster than if you omit this parameter. If you have multi-channel audio that contains different languages on each channel, and you've enabled channel identification, automatic language identification identifies the dominant language on each audio channel. Note that you must include either LanguageCode or IdentifyLanguage in your request. If you include both parameters, your request fails. Streaming language identification can't be combined with custom language models or redaction.
-    public var identifyLanguage: Swift.Bool
+    public var identifyLanguage: Swift.Bool?
     /// Specify the language code that represents the language spoken in your audio. If you're unsure of the language spoken in your audio, consider using IdentifyLanguage to enable automatic language identification. For a list of languages supported with Amazon Transcribe streaming, refer to the [Supported languages](https://docs.aws.amazon.com/transcribe/latest/dg/supported-languages.html) table.
     public var languageCode: TranscribeStreamingClientTypes.LanguageCode?
     /// Specify the name of the custom language model that you want to use when processing your transcription. Note that language model names are case sensitive. The language of the specified language model must match the language code you specify in your transcription request. If the languages don't match, the custom language model isn't applied. There are no errors or warnings associated with a language mismatch. For more information, see [Custom language models](https://docs.aws.amazon.com/transcribe/latest/dg/custom-language-models.html).
@@ -3238,7 +3238,7 @@ public struct StartStreamTranscriptionInput: Swift.Equatable {
     /// Specify a name for your transcription session. If you don't include this parameter in your request, Amazon Transcribe generates an ID and returns it in the response. You can use a session ID to retry a streaming session.
     public var sessionId: Swift.String?
     /// Enables speaker partitioning (diarization) in your transcription output. Speaker partitioning labels the speech from individual speakers in your media file. For more information, see [Partitioning speakers (diarization)](https://docs.aws.amazon.com/transcribe/latest/dg/diarization.html).
-    public var showSpeakerLabel: Swift.Bool
+    public var showSpeakerLabel: Swift.Bool?
     /// Specify how you want your vocabulary filter applied to your transcript. To replace words with ***, choose mask. To delete words, choose remove. To flag words without changing them, choose tag.
     public var vocabularyFilterMethod: TranscribeStreamingClientTypes.VocabularyFilterMethod?
     /// Specify the name of the custom vocabulary filter that you want to use when processing your transcription. Note that vocabulary filter names are case sensitive. If the language of the specified custom vocabulary filter doesn't match the language identified in your media, the vocabulary filter is not applied to your transcription. This parameter is not intended for use with the IdentifyLanguage parameter. If you're including IdentifyLanguage in your request and want to use one or more vocabulary filters with your transcription, use the VocabularyFilterNames parameter instead. For more information, see [Using vocabulary filtering with unwanted words](https://docs.aws.amazon.com/transcribe/latest/dg/vocabulary-filtering.html).
@@ -3254,9 +3254,9 @@ public struct StartStreamTranscriptionInput: Swift.Equatable {
         audioStream: AsyncThrowingStream<TranscribeStreamingClientTypes.AudioStream, Swift.Error>? = nil,
         contentIdentificationType: TranscribeStreamingClientTypes.ContentIdentificationType? = nil,
         contentRedactionType: TranscribeStreamingClientTypes.ContentRedactionType? = nil,
-        enableChannelIdentification: Swift.Bool = false,
-        enablePartialResultsStabilization: Swift.Bool = false,
-        identifyLanguage: Swift.Bool = false,
+        enableChannelIdentification: Swift.Bool? = nil,
+        enablePartialResultsStabilization: Swift.Bool? = nil,
+        identifyLanguage: Swift.Bool? = nil,
         languageCode: TranscribeStreamingClientTypes.LanguageCode? = nil,
         languageModelName: Swift.String? = nil,
         languageOptions: Swift.String? = nil,
@@ -3267,7 +3267,7 @@ public struct StartStreamTranscriptionInput: Swift.Equatable {
         piiEntityTypes: Swift.String? = nil,
         preferredLanguage: TranscribeStreamingClientTypes.LanguageCode? = nil,
         sessionId: Swift.String? = nil,
-        showSpeakerLabel: Swift.Bool = false,
+        showSpeakerLabel: Swift.Bool? = nil,
         vocabularyFilterMethod: TranscribeStreamingClientTypes.VocabularyFilterMethod? = nil,
         vocabularyFilterName: Swift.String? = nil,
         vocabularyFilterNames: Swift.String? = nil,

@@ -531,7 +531,7 @@ extension DescribeObjectsInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if evaluateExpressions != false {
+        if let evaluateExpressions = self.evaluateExpressions {
             try encodeContainer.encode(evaluateExpressions, forKey: .evaluateExpressions)
         }
         if let marker = self.marker {
@@ -558,7 +558,7 @@ extension DescribeObjectsInput: ClientRuntime.URLPathProvider {
 /// Contains the parameters for DescribeObjects.
 public struct DescribeObjectsInput: Swift.Equatable {
     /// Indicates whether any expressions in the object should be evaluated when the object descriptions are returned.
-    public var evaluateExpressions: Swift.Bool
+    public var evaluateExpressions: Swift.Bool?
     /// The starting point for the results to be returned. For the first call, this value should be empty. As long as there are more results, continue to call DescribeObjects with the marker value from the previous call to retrieve the next set of results.
     public var marker: Swift.String?
     /// The IDs of the pipeline objects that contain the definitions to be described. You can pass as many as 25 identifiers in a single call to DescribeObjects.
@@ -569,7 +569,7 @@ public struct DescribeObjectsInput: Swift.Equatable {
     public var pipelineId: Swift.String?
 
     public init(
-        evaluateExpressions: Swift.Bool = false,
+        evaluateExpressions: Swift.Bool? = nil,
         marker: Swift.String? = nil,
         objectIds: [Swift.String]? = nil,
         pipelineId: Swift.String? = nil
@@ -585,7 +585,7 @@ public struct DescribeObjectsInput: Swift.Equatable {
 struct DescribeObjectsInputBody: Swift.Equatable {
     let pipelineId: Swift.String?
     let objectIds: [Swift.String]?
-    let evaluateExpressions: Swift.Bool
+    let evaluateExpressions: Swift.Bool?
     let marker: Swift.String?
 }
 
@@ -612,7 +612,7 @@ extension DescribeObjectsInputBody: Swift.Decodable {
             }
         }
         objectIds = objectIdsDecoded0
-        let evaluateExpressionsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .evaluateExpressions) ?? false
+        let evaluateExpressionsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .evaluateExpressions)
         evaluateExpressions = evaluateExpressionsDecoded
         let markerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .marker)
         marker = markerDecoded

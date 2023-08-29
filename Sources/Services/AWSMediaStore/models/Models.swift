@@ -376,9 +376,9 @@ extension MediaStoreClientTypes.CorsRule: Swift.Codable {
         var allowedMethodsDecoded0:[MediaStoreClientTypes.MethodName]? = nil
         if let allowedMethodsContainer = allowedMethodsContainer {
             allowedMethodsDecoded0 = [MediaStoreClientTypes.MethodName]()
-            for string0 in allowedMethodsContainer {
-                if let string0 = string0 {
-                    allowedMethodsDecoded0?.append(string0)
+            for enum0 in allowedMethodsContainer {
+                if let enum0 = enum0 {
+                    allowedMethodsDecoded0?.append(enum0)
                 }
             }
         }

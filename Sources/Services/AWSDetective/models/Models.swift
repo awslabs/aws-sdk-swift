@@ -195,6 +195,11 @@ extension DetectiveClientTypes.Account: Swift.Codable {
     }
 }
 
+extension DetectiveClientTypes.Account: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "Account(accountId: \(Swift.String(describing: accountId)), emailAddress: \"CONTENT_REDACTED\")"}
+}
+
 extension DetectiveClientTypes {
     /// An Amazon Web Services account that is the administrator account of or a member of a behavior graph.
     public struct Account: Swift.Equatable {
@@ -735,6 +740,11 @@ extension CreateGraphOutputResponseBody: Swift.Decodable {
         let graphArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .graphArn)
         graphArn = graphArnDecoded
     }
+}
+
+extension CreateMembersInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CreateMembersInput(accounts: \(Swift.String(describing: accounts)), disableEmailNotification: \(Swift.String(describing: disableEmailNotification)), graphArn: \(Swift.String(describing: graphArn)), message: \"CONTENT_REDACTED\")"}
 }
 
 extension CreateMembersInput: Swift.Encodable {
@@ -2839,6 +2849,11 @@ extension DetectiveClientTypes.MemberDetail: Swift.Codable {
         }
         datasourcePackageIngestStates = datasourcePackageIngestStatesDecoded0
     }
+}
+
+extension DetectiveClientTypes.MemberDetail: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "MemberDetail(accountId: \(Swift.String(describing: accountId)), administratorId: \(Swift.String(describing: administratorId)), datasourcePackageIngestStates: \(Swift.String(describing: datasourcePackageIngestStates)), disabledReason: \(Swift.String(describing: disabledReason)), graphArn: \(Swift.String(describing: graphArn)), invitationType: \(Swift.String(describing: invitationType)), invitedTime: \(Swift.String(describing: invitedTime)), masterId: \(Swift.String(describing: masterId)), percentOfGraphUtilization: \(Swift.String(describing: percentOfGraphUtilization)), percentOfGraphUtilizationUpdatedTime: \(Swift.String(describing: percentOfGraphUtilizationUpdatedTime)), status: \(Swift.String(describing: status)), updatedTime: \(Swift.String(describing: updatedTime)), volumeUsageByDatasourcePackage: \(Swift.String(describing: volumeUsageByDatasourcePackage)), volumeUsageInBytes: \(Swift.String(describing: volumeUsageInBytes)), volumeUsageUpdatedTime: \(Swift.String(describing: volumeUsageUpdatedTime)), emailAddress: \"CONTENT_REDACTED\")"}
 }
 
 extension DetectiveClientTypes {

@@ -729,6 +729,8 @@ extension CostExplorerClientTypes {
 
 extension CostExplorerClientTypes.CostAllocationTag: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case lastUpdatedDate = "LastUpdatedDate"
+        case lastUsedDate = "LastUsedDate"
         case status = "Status"
         case tagKey = "TagKey"
         case type = "Type"
@@ -736,6 +738,12 @@ extension CostExplorerClientTypes.CostAllocationTag: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let lastUpdatedDate = self.lastUpdatedDate {
+            try encodeContainer.encode(lastUpdatedDate, forKey: .lastUpdatedDate)
+        }
+        if let lastUsedDate = self.lastUsedDate {
+            try encodeContainer.encode(lastUsedDate, forKey: .lastUsedDate)
+        }
         if let status = self.status {
             try encodeContainer.encode(status.rawValue, forKey: .status)
         }
@@ -755,12 +763,20 @@ extension CostExplorerClientTypes.CostAllocationTag: Swift.Codable {
         type = typeDecoded
         let statusDecoded = try containerValues.decodeIfPresent(CostExplorerClientTypes.CostAllocationTagStatus.self, forKey: .status)
         status = statusDecoded
+        let lastUpdatedDateDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .lastUpdatedDate)
+        lastUpdatedDate = lastUpdatedDateDecoded
+        let lastUsedDateDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .lastUsedDate)
+        lastUsedDate = lastUsedDateDecoded
     }
 }
 
 extension CostExplorerClientTypes {
     /// The cost allocation tag structure. This includes detailed metadata for the CostAllocationTag object.
     public struct CostAllocationTag: Swift.Equatable {
+        /// The last date that the tag was either activated or deactivated.
+        public var lastUpdatedDate: Swift.String?
+        /// The last month that the tag was used on an Amazon Web Services resource.
+        public var lastUsedDate: Swift.String?
         /// The status of a cost allocation tag.
         /// This member is required.
         public var status: CostExplorerClientTypes.CostAllocationTagStatus?
@@ -772,11 +788,15 @@ extension CostExplorerClientTypes {
         public var type: CostExplorerClientTypes.CostAllocationTagType?
 
         public init(
+            lastUpdatedDate: Swift.String? = nil,
+            lastUsedDate: Swift.String? = nil,
             status: CostExplorerClientTypes.CostAllocationTagStatus? = nil,
             tagKey: Swift.String? = nil,
             type: CostExplorerClientTypes.CostAllocationTagType? = nil
         )
         {
+            self.lastUpdatedDate = lastUpdatedDate
+            self.lastUsedDate = lastUsedDate
             self.status = status
             self.tagKey = tagKey
             self.type = type

@@ -1070,7 +1070,7 @@ extension CreateNetworkProfileInput: Swift.Encodable {
         if let downlinkJitterMs = self.downlinkJitterMs {
             try encodeContainer.encode(downlinkJitterMs, forKey: .downlinkJitterMs)
         }
-        if downlinkLossPercent != 0 {
+        if let downlinkLossPercent = self.downlinkLossPercent {
             try encodeContainer.encode(downlinkLossPercent, forKey: .downlinkLossPercent)
         }
         if let name = self.name {
@@ -1091,7 +1091,7 @@ extension CreateNetworkProfileInput: Swift.Encodable {
         if let uplinkJitterMs = self.uplinkJitterMs {
             try encodeContainer.encode(uplinkJitterMs, forKey: .uplinkJitterMs)
         }
-        if uplinkLossPercent != 0 {
+        if let uplinkLossPercent = self.uplinkLossPercent {
             try encodeContainer.encode(uplinkLossPercent, forKey: .uplinkLossPercent)
         }
     }
@@ -1113,7 +1113,7 @@ public struct CreateNetworkProfileInput: Swift.Equatable {
     /// Time variation in the delay of received packets in milliseconds as an integer from 0 to 2000.
     public var downlinkJitterMs: Swift.Int?
     /// Proportion of received packets that fail to arrive from 0 to 100 percent.
-    public var downlinkLossPercent: Swift.Int
+    public var downlinkLossPercent: Swift.Int?
     /// The name for the new network profile.
     /// This member is required.
     public var name: Swift.String?
@@ -1129,21 +1129,21 @@ public struct CreateNetworkProfileInput: Swift.Equatable {
     /// Time variation in the delay of received packets in milliseconds as an integer from 0 to 2000.
     public var uplinkJitterMs: Swift.Int?
     /// Proportion of transmitted packets that fail to arrive from 0 to 100 percent.
-    public var uplinkLossPercent: Swift.Int
+    public var uplinkLossPercent: Swift.Int?
 
     public init(
         description: Swift.String? = nil,
         downlinkBandwidthBits: Swift.Int? = nil,
         downlinkDelayMs: Swift.Int? = nil,
         downlinkJitterMs: Swift.Int? = nil,
-        downlinkLossPercent: Swift.Int = 0,
+        downlinkLossPercent: Swift.Int? = nil,
         name: Swift.String? = nil,
         projectArn: Swift.String? = nil,
         type: DeviceFarmClientTypes.NetworkProfileType? = nil,
         uplinkBandwidthBits: Swift.Int? = nil,
         uplinkDelayMs: Swift.Int? = nil,
         uplinkJitterMs: Swift.Int? = nil,
-        uplinkLossPercent: Swift.Int = 0
+        uplinkLossPercent: Swift.Int? = nil
     )
     {
         self.description = description
@@ -1172,8 +1172,8 @@ struct CreateNetworkProfileInputBody: Swift.Equatable {
     let downlinkDelayMs: Swift.Int?
     let uplinkJitterMs: Swift.Int?
     let downlinkJitterMs: Swift.Int?
-    let uplinkLossPercent: Swift.Int
-    let downlinkLossPercent: Swift.Int
+    let uplinkLossPercent: Swift.Int?
+    let downlinkLossPercent: Swift.Int?
 }
 
 extension CreateNetworkProfileInputBody: Swift.Decodable {
@@ -1214,9 +1214,9 @@ extension CreateNetworkProfileInputBody: Swift.Decodable {
         uplinkJitterMs = uplinkJitterMsDecoded
         let downlinkJitterMsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .downlinkJitterMs)
         downlinkJitterMs = downlinkJitterMsDecoded
-        let uplinkLossPercentDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .uplinkLossPercent) ?? 0
+        let uplinkLossPercentDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .uplinkLossPercent)
         uplinkLossPercent = uplinkLossPercentDecoded
-        let downlinkLossPercentDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .downlinkLossPercent) ?? 0
+        let downlinkLossPercentDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .downlinkLossPercent)
         downlinkLossPercent = downlinkLossPercentDecoded
     }
 }
@@ -15968,7 +15968,7 @@ extension UpdateNetworkProfileInput: Swift.Encodable {
         if let downlinkJitterMs = self.downlinkJitterMs {
             try encodeContainer.encode(downlinkJitterMs, forKey: .downlinkJitterMs)
         }
-        if downlinkLossPercent != 0 {
+        if let downlinkLossPercent = self.downlinkLossPercent {
             try encodeContainer.encode(downlinkLossPercent, forKey: .downlinkLossPercent)
         }
         if let name = self.name {
@@ -15986,7 +15986,7 @@ extension UpdateNetworkProfileInput: Swift.Encodable {
         if let uplinkJitterMs = self.uplinkJitterMs {
             try encodeContainer.encode(uplinkJitterMs, forKey: .uplinkJitterMs)
         }
-        if uplinkLossPercent != 0 {
+        if let uplinkLossPercent = self.uplinkLossPercent {
             try encodeContainer.encode(uplinkLossPercent, forKey: .uplinkLossPercent)
         }
     }
@@ -16011,7 +16011,7 @@ public struct UpdateNetworkProfileInput: Swift.Equatable {
     /// Time variation in the delay of received packets in milliseconds as an integer from 0 to 2000.
     public var downlinkJitterMs: Swift.Int?
     /// Proportion of received packets that fail to arrive from 0 to 100 percent.
-    public var downlinkLossPercent: Swift.Int
+    public var downlinkLossPercent: Swift.Int?
     /// The name of the network profile about which you are returning information.
     public var name: Swift.String?
     /// The type of network profile to return information about. Valid values are listed here.
@@ -16023,7 +16023,7 @@ public struct UpdateNetworkProfileInput: Swift.Equatable {
     /// Time variation in the delay of received packets in milliseconds as an integer from 0 to 2000.
     public var uplinkJitterMs: Swift.Int?
     /// Proportion of transmitted packets that fail to arrive from 0 to 100 percent.
-    public var uplinkLossPercent: Swift.Int
+    public var uplinkLossPercent: Swift.Int?
 
     public init(
         arn: Swift.String? = nil,
@@ -16031,13 +16031,13 @@ public struct UpdateNetworkProfileInput: Swift.Equatable {
         downlinkBandwidthBits: Swift.Int? = nil,
         downlinkDelayMs: Swift.Int? = nil,
         downlinkJitterMs: Swift.Int? = nil,
-        downlinkLossPercent: Swift.Int = 0,
+        downlinkLossPercent: Swift.Int? = nil,
         name: Swift.String? = nil,
         type: DeviceFarmClientTypes.NetworkProfileType? = nil,
         uplinkBandwidthBits: Swift.Int? = nil,
         uplinkDelayMs: Swift.Int? = nil,
         uplinkJitterMs: Swift.Int? = nil,
-        uplinkLossPercent: Swift.Int = 0
+        uplinkLossPercent: Swift.Int? = nil
     )
     {
         self.arn = arn
@@ -16066,8 +16066,8 @@ struct UpdateNetworkProfileInputBody: Swift.Equatable {
     let downlinkDelayMs: Swift.Int?
     let uplinkJitterMs: Swift.Int?
     let downlinkJitterMs: Swift.Int?
-    let uplinkLossPercent: Swift.Int
-    let downlinkLossPercent: Swift.Int
+    let uplinkLossPercent: Swift.Int?
+    let downlinkLossPercent: Swift.Int?
 }
 
 extension UpdateNetworkProfileInputBody: Swift.Decodable {
@@ -16108,9 +16108,9 @@ extension UpdateNetworkProfileInputBody: Swift.Decodable {
         uplinkJitterMs = uplinkJitterMsDecoded
         let downlinkJitterMsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .downlinkJitterMs)
         downlinkJitterMs = downlinkJitterMsDecoded
-        let uplinkLossPercentDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .uplinkLossPercent) ?? 0
+        let uplinkLossPercentDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .uplinkLossPercent)
         uplinkLossPercent = uplinkLossPercentDecoded
-        let downlinkLossPercentDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .downlinkLossPercent) ?? 0
+        let downlinkLossPercentDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .downlinkLossPercent)
         downlinkLossPercent = downlinkLossPercentDecoded
     }
 }
