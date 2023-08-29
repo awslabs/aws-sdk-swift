@@ -283,7 +283,7 @@ class ECSCredentialsProviderTests: XCTestCase {
             if let task = describeTasksResp.tasks?.first, task.lastStatus == "STOPPED" {
                 isTaskCompleted = true
             }
-            try await Task.sleep(nanoseconds: intervalSeconds * 1_000_000_000) // Sleep for 5 seconds before retrying
+            try await Task.sleep(nanoseconds: intervalSeconds * 1_000_000_000) // Sleep for X seconds before retrying
         }
     }
     
@@ -305,9 +305,6 @@ class ECSCredentialsProviderTests: XCTestCase {
             print("Log Stream name: \(logStreamName)")
             
             for event in logEventsResp.events ?? [] {
-                if let message = event.message {
-                    print(message)
-                }
                 if let message = event.message, message.contains(keyword) {
                     return true
                 }
@@ -329,7 +326,7 @@ class ECSCredentialsProviderTests: XCTestCase {
             }
             
             if !allTasksStopped {
-                try await Task.sleep(nanoseconds: intervalSeconds * 1_000_000_000) // Sleep for a defined interval before retrying
+                try await Task.sleep(nanoseconds: intervalSeconds * 1_000_000_000) // Sleep for X seconds before retrying
             }
         }
     }
