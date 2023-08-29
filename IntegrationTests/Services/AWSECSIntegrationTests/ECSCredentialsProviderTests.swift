@@ -94,9 +94,6 @@ class ECSCredentialsProviderTests: XCTestCase {
         _ = try await ecsClient.deregisterTaskDefinition(input: DeregisterTaskDefinitionInput(
             taskDefinition: taskDefArn
         ))
-
-        // wait 30 seconds to ensure service deletion has propogated
-        try await Task.sleep(nanoseconds: 30 * 1_000_000_000)
         
         // delete cluster
         _ = try await ecsClient.deleteCluster(input: DeleteClusterInput(
