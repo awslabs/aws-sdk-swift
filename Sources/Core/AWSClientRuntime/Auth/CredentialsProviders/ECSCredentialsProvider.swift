@@ -24,30 +24,31 @@ public struct ECSCredentialsProvider: CredentialsSourcedByCRT {
     /// - Returns: `CredentialsProvider`
     /// - Throws: CommonRuntimeError.crtError or InitializationError.missingURIs
     public init(
-        environment: Environment = ProcessEnvironment()
+        relativeURI: String? = nil,
+        absoluteURI: String? = nil,
+        authorizationToken: String? = nil
     ) throws {
-        let relativeURI = environment.environmentVariable(key: "AWS_CONTAINER_CREDENTIALS_RELATIVE_URI")
-        print("AWS_CONTAINER_CREDENTIALS_RELATIVE_URI: \(relativeURI ?? "Not Set")")
-        let absoluteURI = environment.environmentVariable(key: "AWS_CONTAINER_CREDENTIALS_FULL_URI")
-        print("AWS_CONTAINER_CREDENTIALS_FULL_URI: \(absoluteURI ?? "Not Set")")
+        let env = ProcessEnvironment()
 
+        var resolvedRelativeURI = relativeURI ?? env.environmentVariable(key: "AWS_CONTAINER_CREDENTIALS_RELATIVE_URI")
+        var resolvedAbsoluteURI = absoluteURI ?? env.environmentVariable(key: "AWS_CONTAINER_CREDENTIALS_FULL_URI")
 
-        guard relativeURI != nil || isValidAbsoluteURI(absoluteURI) else {
+        guard resolvedRelativeURI != nil || isValidAbsoluteURI(resolvedAbsoluteURI) else {
             let environmentVariables = ProcessInfo.processInfo.environment
             let environmentString = environmentVariables.map { "\($0.key): \($0.value)" }.joined(separator: "\n")
 
-            throw InitializationError.missingURIs(
+            throw ClientError.dataNotFound(
                 "Please configure either the relative or absolute URI environment variable!\n All Environment Variables:\n \(environmentString)"
             )
         }
 
         let defaultHost = "169.254.170.2"
         var host = defaultHost
-        var pathAndQuery = relativeURI ?? ""
+        var pathAndQuery = resolvedRelativeURI ?? ""
 
-        if let absoluteString = absoluteURI, relativeURI == nil, let uriURL = URL(string: absoluteString) {
+        if let absoluteString = resolvedAbsoluteURI, resolvedRelativeURI == nil, let uriURL = URL(string: absoluteString) {
             host = uriURL.host ?? defaultHost
-            pathAndQuery = buildPathAndQuery(from: uriURL)
+            pathAndQuery = try buildPathAndQuery(from: uriURL)
         }
 
         self.crtCredentialsProvider = try CRTCredentialsProvider(source: .ecs(
@@ -58,43 +59,19 @@ public struct ECSCredentialsProvider: CredentialsSourcedByCRT {
     }
 }
 
-enum InitializationError: Error {
-    case missingURIs(String)
-
-    var localizedDescription: String {
-        switch self {
-        case .missingURIs(let message):
-            return message
-        }
+private func buildPathAndQuery(from url: URL) throws -> String {
+    var components = URLComponents(url: url, resolvingAgainstBaseURL: false)!
+    components.scheme = nil
+    components.host = nil
+    guard let pathQueryFragment = components.url else {
+        throw ClientError.pathCreationFailed("Could not retrieve path from URL!")
     }
-}
-
-private func buildPathAndQuery(from url: URL) -> String {
-    let path = url.path
-    let query = url.query ?? ""
-    let fragment = url.fragment ?? ""
-
-    return path
-        + (query.isEmpty ? "" : "?\(query)")
-        + (fragment.isEmpty ? "" : "#\(fragment)")
+    return pathQueryFragment.absoluteString
 }
 
 private func isValidAbsoluteURI(_ uri: String?) -> Bool {
-
-    // check for empty or nil
-    guard let uri = uri, !uri.isEmpty else {
+    guard let validUri = uri, let _ = URL(string: validUri)?.host else {
         return false
     }
-
-    // ensure uri can be made into a URL object
-    guard let url = URL(string: uri) else {
-        return false
-    }
-
-    // sanity check host
-    guard url.host != nil else {
-        return false
-    }
-
     return true
 }

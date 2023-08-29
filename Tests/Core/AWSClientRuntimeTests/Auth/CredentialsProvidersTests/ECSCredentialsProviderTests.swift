@@ -14,23 +14,44 @@ import XCTest
 class ECSCredentialsProviderTests: XCTestCase {
     func testGetCredentialsWithRelativeURI() async throws {
         // relative uri is preferred over absolute uri so we shouldn't get thrown an error
-        let mockEnvironment = MockEnvironment(relativeURI: "subfolder/test.txt", absoluteURI: "invalid absolute uri")
-        XCTAssertNoThrow(try ECSCredentialsProvider(environment: mockEnvironment))
+        XCTAssertNoThrow(try ECSCredentialsProvider(relativeURI: "subfolder/test.txt", absoluteURI: "invalid absolute uri"))
     }
 
     func testGetCredentialsWithAbsoluteURI() async throws {
-        let mockEnvironment = MockEnvironment(relativeURI: nil, absoluteURI: "http://www.example.com/subfolder/test.txt")
-        XCTAssertNoThrow(try ECSCredentialsProvider(environment: mockEnvironment))
+        XCTAssertNoThrow(try ECSCredentialsProvider(relativeURI: nil, absoluteURI: "http://www.example.com/subfolder/test.txt"))
     }
 
     func testGetCredentialsWithInvalidAbsoluteURI() async throws {
-        let mockEnvironment = MockEnvironment(relativeURI: nil, absoluteURI: "test")
-        XCTAssertThrowsError(try ECSCredentialsProvider(environment: mockEnvironment))
+        XCTAssertThrowsError(try ECSCredentialsProvider(relativeURI: nil, absoluteURI: "test"))
     }
 
     func testGetCredentialsWithMissingURI() async throws {
-        let mockEnvironment = MockEnvironment(relativeURI: nil, absoluteURI: nil)
-        XCTAssertThrowsError(try ECSCredentialsProvider(environment: mockEnvironment))
+        XCTAssertThrowsError(try ECSCredentialsProvider(relativeURI: nil, absoluteURI: nil))
+    }
+
+    func testGetCredentialsWithRelativeURIEnv() async throws {
+        // relative uri is preferred over absolute uri so we shouldn't get thrown an error
+        setenv("AWS_CONTAINER_CREDENTIALS_RELATIVE_URI", "subfolder/test.txt", 1)
+        unsetenv("AWS_CONTAINER_CREDENTIALS_FULL_URI")
+        XCTAssertNoThrow(try ECSCredentialsProvider())
+    }
+
+    func testGetCredentialsWithAbsoluteURIEnv() async throws {
+        unsetenv("AWS_CONTAINER_CREDENTIALS_RELATIVE_URI")
+        setenv("AWS_CONTAINER_CREDENTIALS_FULL_URI", "http://www.example.com/subfolder/test.txt", 1)
+        XCTAssertNoThrow(try ECSCredentialsProvider())
+    }
+
+    func testGetCredentialsWithInvalidAbsoluteURIEnv() async throws {
+        unsetenv("AWS_CONTAINER_CREDENTIALS_RELATIVE_URI")
+        setenv("AWS_CONTAINER_CREDENTIALS_FULL_URI", "test", 1)
+        XCTAssertThrowsError(try ECSCredentialsProvider())
+    }
+
+    func testGetCredentialsWithMissingURIEnv() async throws {
+        unsetenv("AWS_CONTAINER_CREDENTIALS_RELATIVE_URI")
+        unsetenv("AWS_CONTAINER_CREDENTIALS_FULL_URI")
+        XCTAssertThrowsError(try ECSCredentialsProvider())
     }
 }
 
