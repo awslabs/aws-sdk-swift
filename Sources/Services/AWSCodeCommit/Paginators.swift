@@ -253,6 +253,30 @@ extension PaginatorSequence where Input == ListBranchesInput, Output == ListBran
     }
 }
 extension CodeCommitClient {
+    /// Paginate over `[ListFileCommitHistoryOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListFileCommitHistoryInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListFileCommitHistoryOutputResponse`
+    public func listFileCommitHistoryPaginated(input: ListFileCommitHistoryInput) -> ClientRuntime.PaginatorSequence<ListFileCommitHistoryInput, ListFileCommitHistoryOutputResponse> {
+        return ClientRuntime.PaginatorSequence<ListFileCommitHistoryInput, ListFileCommitHistoryOutputResponse>(input: input, inputKey: \ListFileCommitHistoryInput.nextToken, outputKey: \ListFileCommitHistoryOutputResponse.nextToken, paginationFunction: self.listFileCommitHistory(input:))
+    }
+}
+
+extension ListFileCommitHistoryInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListFileCommitHistoryInput {
+        return ListFileCommitHistoryInput(
+            commitSpecifier: self.commitSpecifier,
+            filePath: self.filePath,
+            maxResults: self.maxResults,
+            nextToken: token,
+            repositoryName: self.repositoryName
+        )}
+}
+extension CodeCommitClient {
     /// Paginate over `[ListPullRequestsOutputResponse]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service

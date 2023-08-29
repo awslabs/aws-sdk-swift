@@ -4,6 +4,13 @@ import ClientRuntime
 
 extension AccessDeniedException {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: AccessDeniedExceptionBody = try responseDecoder.decode(responseBody: data)
+            self.properties.message = output.message
+        } else {
+            self.properties.message = nil
+        }
         self.httpResponse = httpResponse
         self.requestID = requestID
         self.message = message
@@ -12,6 +19,12 @@ extension AccessDeniedException {
 
 /// You do not have sufficient access to perform this action.
 public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
     public static var typeName: Swift.String { "AccessDeniedException" }
     public static var fault: ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
@@ -20,7 +33,28 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     public internal(set) var message: Swift.String?
     public internal(set) var requestID: Swift.String?
 
-    public init() { }
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+struct AccessDeniedExceptionBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension AccessDeniedExceptionBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
 }
 
 extension FinspaceClientTypes.AutoScalingConfiguration: Swift.Codable {
@@ -163,7 +197,7 @@ extension FinspaceClientTypes.CapacityConfiguration: Swift.Codable {
 }
 
 extension FinspaceClientTypes {
-    /// A structure for the metadata of a cluster. It includes information like the CPUs needed, memory of instances, number of instances, and the port used while establishing a connection.
+    /// A structure for the metadata of a cluster. It includes information like the CPUs needed, memory of instances, and number of instances.
     public struct CapacityConfiguration: Swift.Equatable {
         /// The number of instances running in a cluster.
         public var nodeCount: Swift.Int?
@@ -1043,7 +1077,7 @@ public struct CreateKxClusterInput: Swift.Equatable {
     public var azMode: FinspaceClientTypes.KxAzMode?
     /// The configurations for a read only cache storage associated with a cluster. This cache will be stored as an FSx Lustre that reads from the S3 store.
     public var cacheStorageConfigurations: [FinspaceClientTypes.KxCacheStorageConfiguration]?
-    /// A structure for the metadata of a cluster. It includes information about like the CPUs needed, memory of instances, number of instances, and the port used while establishing a connection.
+    /// A structure for the metadata of a cluster. It includes information like the CPUs needed, memory of instances, and number of instances.
     /// This member is required.
     public var capacityConfiguration: FinspaceClientTypes.CapacityConfiguration?
     /// A token that ensures idempotency. This token expires in 10 minutes.
@@ -1331,7 +1365,7 @@ public struct CreateKxClusterOutputResponse: Swift.Equatable {
     public var azMode: FinspaceClientTypes.KxAzMode?
     /// The configurations for a read only cache storage associated with a cluster. This cache will be stored as an FSx Lustre that reads from the S3 store.
     public var cacheStorageConfigurations: [FinspaceClientTypes.KxCacheStorageConfiguration]?
-    /// A structure for the metadata of a cluster. It includes information like the CPUs needed, memory of instances, number of instances, and the port used while establishing a connection.
+    /// A structure for the metadata of a cluster. It includes information like the CPUs needed, memory of instances, and number of instances.
     public var capacityConfiguration: FinspaceClientTypes.CapacityConfiguration?
     /// A description of the cluster.
     public var clusterDescription: Swift.String?
@@ -2144,7 +2178,7 @@ public struct CreateKxUserOutputResponse: Swift.Equatable {
     public var environmentId: Swift.String?
     /// The IAM role ARN that will be associated with the user.
     public var iamRole: Swift.String?
-    /// The Amazon Resource Name (ARN) that identifies the user. For more information about ARNs and how to use ARNs in policies, see [IAM Identifiers] in the IAM User Guide.
+    /// The Amazon Resource Name (ARN) that identifies the user. For more information about ARNs and how to use ARNs in policies, see [IAM Identifiers](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_identifiers.html) in the IAM User Guide.
     public var userArn: Swift.String?
     /// A unique identifier for the user.
     public var userName: Swift.String?
@@ -3460,7 +3494,7 @@ public struct GetKxClusterOutputResponse: Swift.Equatable {
     public var azMode: FinspaceClientTypes.KxAzMode?
     /// The configurations for a read only cache storage associated with a cluster. This cache will be stored as an FSx Lustre that reads from the S3 store.
     public var cacheStorageConfigurations: [FinspaceClientTypes.KxCacheStorageConfiguration]?
-    /// A structure for the metadata of a cluster. It includes information like the CPUs needed, memory of instances, number of instances, and the port used while establishing a connection.
+    /// A structure for the metadata of a cluster. It includes information like the CPUs needed, memory of instances, and number of instances.
     public var capacityConfiguration: FinspaceClientTypes.CapacityConfiguration?
     /// A description of the cluster.
     public var clusterDescription: Swift.String?
@@ -3717,7 +3751,7 @@ public struct GetKxConnectionStringInput: Swift.Equatable {
     /// A unique identifier for the kdb environment.
     /// This member is required.
     public var environmentId: Swift.String?
-    /// The Amazon Resource Name (ARN) that identifies the user. For more information about ARNs and how to use ARNs in policies, see [IAM Identifiers] in the IAM User Guide.
+    /// The Amazon Resource Name (ARN) that identifies the user. For more information about ARNs and how to use ARNs in policies, see [IAM Identifiers](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_identifiers.html) in the IAM User Guide.
     /// This member is required.
     public var userArn: Swift.String?
 
@@ -4326,7 +4360,7 @@ public struct GetKxUserOutputResponse: Swift.Equatable {
     public var environmentId: Swift.String?
     /// The IAM role ARN that is associated with the user.
     public var iamRole: Swift.String?
-    /// The Amazon Resource Name (ARN) that identifies the user. For more information about ARNs and how to use ARNs in policies, see [IAM Identifiers] in the IAM User Guide.
+    /// The Amazon Resource Name (ARN) that identifies the user. For more information about ARNs and how to use ARNs in policies, see [IAM Identifiers](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_identifiers.html) in the IAM User Guide.
     public var userArn: Swift.String?
     /// A unique identifier for the user.
     public var userName: Swift.String?
@@ -4400,6 +4434,53 @@ extension FinspaceClientTypes {
             self = IPAddressType(rawValue: rawValue) ?? IPAddressType.sdkUnknown(rawValue)
         }
     }
+}
+
+extension FinspaceClientTypes.IcmpTypeCode: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case code
+        case type
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if code != 0 {
+            try encodeContainer.encode(code, forKey: .code)
+        }
+        if type != 0 {
+            try encodeContainer.encode(type, forKey: .type)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let typeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .type) ?? 0
+        type = typeDecoded
+        let codeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .code) ?? 0
+        code = codeDecoded
+    }
+}
+
+extension FinspaceClientTypes {
+    /// Defines the ICMP protocol that consists of the ICMP type and code.
+    public struct IcmpTypeCode: Swift.Equatable {
+        /// The ICMP code. A value of -1 means all codes for the specified ICMP type.
+        /// This member is required.
+        public var code: Swift.Int
+        /// The ICMP type. A value of -1 means all types.
+        /// This member is required.
+        public var type: Swift.Int
+
+        public init(
+            code: Swift.Int = 0,
+            type: Swift.Int = 0
+        )
+        {
+            self.code = code
+            self.type = type
+        }
+    }
+
 }
 
 extension InternalServerException {
@@ -4766,7 +4847,7 @@ extension FinspaceClientTypes {
     public struct KxCluster: Swift.Equatable {
         /// The availability zone identifiers for the requested regions.
         public var availabilityZoneId: Swift.String?
-        /// The number of availability zones assigned per cluster. This can be one of the following
+        /// The number of availability zones assigned per cluster. This can be one of the following:
         ///
         /// * SINGLE – Assigns one availability zone per cluster.
         ///
@@ -5161,6 +5242,78 @@ extension FinspaceClientTypes {
 
 }
 
+extension FinspaceClientTypes.KxDeploymentConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case deploymentStrategy
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let deploymentStrategy = self.deploymentStrategy {
+            try encodeContainer.encode(deploymentStrategy.rawValue, forKey: .deploymentStrategy)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let deploymentStrategyDecoded = try containerValues.decodeIfPresent(FinspaceClientTypes.KxDeploymentStrategy.self, forKey: .deploymentStrategy)
+        deploymentStrategy = deploymentStrategyDecoded
+    }
+}
+
+extension FinspaceClientTypes {
+    /// The configuration that allows you to choose how you want to update the databases on a cluster. Depending on the option you choose, you can reduce the time it takes to update the database changesets on to a cluster.
+    public struct KxDeploymentConfiguration: Swift.Equatable {
+        /// The type of deployment that you want on a cluster.
+        ///
+        /// * ROLLING – This options loads the updated database by stopping the exiting q process and starting a new q process with updated configuration.
+        ///
+        /// * NO_RESTART – This option loads the updated database on the running q process without stopping it. This option is quicker as it reduces the turn around time to update a kdb database changeset configuration on a cluster.
+        /// This member is required.
+        public var deploymentStrategy: FinspaceClientTypes.KxDeploymentStrategy?
+
+        public init(
+            deploymentStrategy: FinspaceClientTypes.KxDeploymentStrategy? = nil
+        )
+        {
+            self.deploymentStrategy = deploymentStrategy
+        }
+    }
+
+}
+
+extension FinspaceClientTypes {
+    public enum KxDeploymentStrategy: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case noRestart
+        case rolling
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [KxDeploymentStrategy] {
+            return [
+                .noRestart,
+                .rolling,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .noRestart: return "NO_RESTART"
+            case .rolling: return "ROLLING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = KxDeploymentStrategy(rawValue: rawValue) ?? KxDeploymentStrategy.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension FinspaceClientTypes.KxEnvironment: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case availabilityZoneIds
@@ -5481,7 +5634,7 @@ extension FinspaceClientTypes.KxSavedownStorageConfiguration: Swift.Codable {
 extension FinspaceClientTypes {
     /// The size and type of temporary storage that is used to hold data during the savedown process. All the data written to this storage space is lost when the cluster node is restarted.
     public struct KxSavedownStorageConfiguration: Swift.Equatable {
-        /// The size of temporary storage in bytes.
+        /// The size of temporary storage in gibibytes.
         /// This member is required.
         public var size: Swift.Int
         /// The type of writeable storage space for temporarily storing your savedown data. The valid values are:
@@ -5583,7 +5736,7 @@ extension FinspaceClientTypes {
         public var iamRole: Swift.String?
         /// The timestamp at which the kdb user was updated.
         public var updateTimestamp: ClientRuntime.Date?
-        /// The Amazon Resource Name (ARN) that identifies the user. For more information about ARNs and how to use ARNs in policies, see [IAM Identifiers] in the IAM User Guide.
+        /// The Amazon Resource Name (ARN) that identifies the user. For more information about ARNs and how to use ARNs in policies, see [IAM Identifiers](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_identifiers.html) in the IAM User Guide.
         public var userArn: Swift.String?
         /// A unique identifier for the user.
         public var userName: Swift.String?
@@ -6675,6 +6828,142 @@ extension ListTagsForResourceOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension FinspaceClientTypes.NetworkACLEntry: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case cidrBlock
+        case icmpTypeCode
+        case portRange
+        case `protocol` = "protocol"
+        case ruleAction
+        case ruleNumber
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let cidrBlock = self.cidrBlock {
+            try encodeContainer.encode(cidrBlock, forKey: .cidrBlock)
+        }
+        if let icmpTypeCode = self.icmpTypeCode {
+            try encodeContainer.encode(icmpTypeCode, forKey: .icmpTypeCode)
+        }
+        if let portRange = self.portRange {
+            try encodeContainer.encode(portRange, forKey: .portRange)
+        }
+        if let `protocol` = self.`protocol` {
+            try encodeContainer.encode(`protocol`, forKey: .`protocol`)
+        }
+        if let ruleAction = self.ruleAction {
+            try encodeContainer.encode(ruleAction.rawValue, forKey: .ruleAction)
+        }
+        if ruleNumber != 0 {
+            try encodeContainer.encode(ruleNumber, forKey: .ruleNumber)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let ruleNumberDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .ruleNumber) ?? 0
+        ruleNumber = ruleNumberDecoded
+        let protocolDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .protocol)
+        `protocol` = protocolDecoded
+        let ruleActionDecoded = try containerValues.decodeIfPresent(FinspaceClientTypes.RuleAction.self, forKey: .ruleAction)
+        ruleAction = ruleActionDecoded
+        let portRangeDecoded = try containerValues.decodeIfPresent(FinspaceClientTypes.PortRange.self, forKey: .portRange)
+        portRange = portRangeDecoded
+        let icmpTypeCodeDecoded = try containerValues.decodeIfPresent(FinspaceClientTypes.IcmpTypeCode.self, forKey: .icmpTypeCode)
+        icmpTypeCode = icmpTypeCodeDecoded
+        let cidrBlockDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .cidrBlock)
+        cidrBlock = cidrBlockDecoded
+    }
+}
+
+extension FinspaceClientTypes {
+    /// The network access control list (ACL) is an optional layer of security for your VPC that acts as a firewall for controlling traffic in and out of one or more subnets. The entry is a set of numbered ingress and egress rules that determine whether a packet should be allowed in or out of a subnet associated with the ACL. We process the entries in the ACL according to the rule numbers, in ascending order.
+    public struct NetworkACLEntry: Swift.Equatable {
+        /// The IPv4 network range to allow or deny, in CIDR notation. For example, 172.16.0.0/24. We modify the specified CIDR block to its canonical form. For example, if you specify 100.68.0.18/18, we modify it to 100.68.0.0/18.
+        /// This member is required.
+        public var cidrBlock: Swift.String?
+        /// Defines the ICMP protocol that consists of the ICMP type and code.
+        public var icmpTypeCode: FinspaceClientTypes.IcmpTypeCode?
+        /// The range of ports the rule applies to.
+        public var portRange: FinspaceClientTypes.PortRange?
+        /// The protocol number. A value of -1 means all the protocols.
+        /// This member is required.
+        public var `protocol`: Swift.String?
+        /// Indicates whether to allow or deny the traffic that matches the rule.
+        /// This member is required.
+        public var ruleAction: FinspaceClientTypes.RuleAction?
+        /// The rule number for the entry. For example 100. All the network ACL entries are processed in ascending order by rule number.
+        /// This member is required.
+        public var ruleNumber: Swift.Int
+
+        public init(
+            cidrBlock: Swift.String? = nil,
+            icmpTypeCode: FinspaceClientTypes.IcmpTypeCode? = nil,
+            portRange: FinspaceClientTypes.PortRange? = nil,
+            `protocol`: Swift.String? = nil,
+            ruleAction: FinspaceClientTypes.RuleAction? = nil,
+            ruleNumber: Swift.Int = 0
+        )
+        {
+            self.cidrBlock = cidrBlock
+            self.icmpTypeCode = icmpTypeCode
+            self.portRange = portRange
+            self.`protocol` = `protocol`
+            self.ruleAction = ruleAction
+            self.ruleNumber = ruleNumber
+        }
+    }
+
+}
+
+extension FinspaceClientTypes.PortRange: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case from
+        case to
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if from != 0 {
+            try encodeContainer.encode(from, forKey: .from)
+        }
+        if to != 0 {
+            try encodeContainer.encode(to, forKey: .to)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let fromDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .from) ?? 0
+        from = fromDecoded
+        let toDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .to) ?? 0
+        to = toDecoded
+    }
+}
+
+extension FinspaceClientTypes {
+    /// The range of ports the rule applies to.
+    public struct PortRange: Swift.Equatable {
+        /// The first port in the range.
+        /// This member is required.
+        public var from: Swift.Int
+        /// The last port in the range.
+        /// This member is required.
+        public var to: Swift.Int
+
+        public init(
+            from: Swift.Int = 0,
+            to: Swift.Int = 0
+        )
+        {
+            self.from = from
+            self.to = to
+        }
+    }
+
+}
+
 extension ResourceAlreadyExistsException {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -6782,6 +7071,38 @@ extension ResourceNotFoundExceptionBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
+    }
+}
+
+extension FinspaceClientTypes {
+    public enum RuleAction: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case allow
+        case deny
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RuleAction] {
+            return [
+                .allow,
+                .deny,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .allow: return "allow"
+            case .deny: return "deny"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = RuleAction(rawValue: rawValue) ?? RuleAction.sdkUnknown(rawValue)
+        }
     }
 }
 
@@ -7037,6 +7358,13 @@ extension FinspaceClientTypes {
 
 extension ThrottlingException {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ThrottlingExceptionBody = try responseDecoder.decode(responseBody: data)
+            self.properties.message = output.message
+        } else {
+            self.properties.message = nil
+        }
         self.httpResponse = httpResponse
         self.requestID = requestID
         self.message = message
@@ -7045,6 +7373,12 @@ extension ThrottlingException {
 
 /// The request was denied due to request throttling.
 public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
     public static var typeName: Swift.String { "ThrottlingException" }
     public static var fault: ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
@@ -7053,17 +7387,45 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
     public internal(set) var message: Swift.String?
     public internal(set) var requestID: Swift.String?
 
-    public init() { }
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+struct ThrottlingExceptionBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension ThrottlingExceptionBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
 }
 
 extension FinspaceClientTypes.TransitGatewayConfiguration: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case attachmentNetworkAclConfiguration
         case routableCIDRSpace
         case transitGatewayID
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let attachmentNetworkAclConfiguration = attachmentNetworkAclConfiguration {
+            var attachmentNetworkAclConfigurationContainer = encodeContainer.nestedUnkeyedContainer(forKey: .attachmentNetworkAclConfiguration)
+            for networkaclentry0 in attachmentNetworkAclConfiguration {
+                try attachmentNetworkAclConfigurationContainer.encode(networkaclentry0)
+            }
+        }
         if let routableCIDRSpace = self.routableCIDRSpace {
             try encodeContainer.encode(routableCIDRSpace, forKey: .routableCIDRSpace)
         }
@@ -7078,12 +7440,25 @@ extension FinspaceClientTypes.TransitGatewayConfiguration: Swift.Codable {
         transitGatewayID = transitGatewayIDDecoded
         let routableCIDRSpaceDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .routableCIDRSpace)
         routableCIDRSpace = routableCIDRSpaceDecoded
+        let attachmentNetworkAclConfigurationContainer = try containerValues.decodeIfPresent([FinspaceClientTypes.NetworkACLEntry?].self, forKey: .attachmentNetworkAclConfiguration)
+        var attachmentNetworkAclConfigurationDecoded0:[FinspaceClientTypes.NetworkACLEntry]? = nil
+        if let attachmentNetworkAclConfigurationContainer = attachmentNetworkAclConfigurationContainer {
+            attachmentNetworkAclConfigurationDecoded0 = [FinspaceClientTypes.NetworkACLEntry]()
+            for structure0 in attachmentNetworkAclConfigurationContainer {
+                if let structure0 = structure0 {
+                    attachmentNetworkAclConfigurationDecoded0?.append(structure0)
+                }
+            }
+        }
+        attachmentNetworkAclConfiguration = attachmentNetworkAclConfigurationDecoded0
     }
 }
 
 extension FinspaceClientTypes {
     /// The structure of the transit gateway and network configuration that is used to connect the kdb environment to an internal network.
     public struct TransitGatewayConfiguration: Swift.Equatable {
+        /// The rules that define how you manage the outbound traffic from kdb network to your internal network.
+        public var attachmentNetworkAclConfiguration: [FinspaceClientTypes.NetworkACLEntry]?
         /// The routing CIDR on behalf of kdb environment. It could be any "/26 range in the 100.64.0.0 CIDR space. After providing, it will be added to the customer's transit gateway routing table so that the traffics could be routed to kdb network.
         /// This member is required.
         public var routableCIDRSpace: Swift.String?
@@ -7092,10 +7467,12 @@ extension FinspaceClientTypes {
         public var transitGatewayID: Swift.String?
 
         public init(
+            attachmentNetworkAclConfiguration: [FinspaceClientTypes.NetworkACLEntry]? = nil,
             routableCIDRSpace: Swift.String? = nil,
             transitGatewayID: Swift.String? = nil
         )
         {
+            self.attachmentNetworkAclConfiguration = attachmentNetworkAclConfiguration
             self.routableCIDRSpace = routableCIDRSpace
             self.transitGatewayID = transitGatewayID
         }
@@ -7333,6 +7710,7 @@ extension UpdateKxClusterDatabasesInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case clientToken
         case databases
+        case deploymentConfiguration
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -7345,6 +7723,9 @@ extension UpdateKxClusterDatabasesInput: Swift.Encodable {
             for kxdatabaseconfiguration0 in databases {
                 try databasesContainer.encode(kxdatabaseconfiguration0)
             }
+        }
+        if let deploymentConfiguration = self.deploymentConfiguration {
+            try encodeContainer.encode(deploymentConfiguration, forKey: .deploymentConfiguration)
         }
     }
 }
@@ -7370,6 +7751,8 @@ public struct UpdateKxClusterDatabasesInput: Swift.Equatable {
     /// The structure of databases mounted on the cluster.
     /// This member is required.
     public var databases: [FinspaceClientTypes.KxDatabaseConfiguration]?
+    /// The configuration that allows you to choose how you want to update the databases on a cluster.
+    public var deploymentConfiguration: FinspaceClientTypes.KxDeploymentConfiguration?
     /// The unique identifier of a kdb environment.
     /// This member is required.
     public var environmentId: Swift.String?
@@ -7378,12 +7761,14 @@ public struct UpdateKxClusterDatabasesInput: Swift.Equatable {
         clientToken: Swift.String? = nil,
         clusterName: Swift.String? = nil,
         databases: [FinspaceClientTypes.KxDatabaseConfiguration]? = nil,
+        deploymentConfiguration: FinspaceClientTypes.KxDeploymentConfiguration? = nil,
         environmentId: Swift.String? = nil
     )
     {
         self.clientToken = clientToken
         self.clusterName = clusterName
         self.databases = databases
+        self.deploymentConfiguration = deploymentConfiguration
         self.environmentId = environmentId
     }
 }
@@ -7391,12 +7776,14 @@ public struct UpdateKxClusterDatabasesInput: Swift.Equatable {
 struct UpdateKxClusterDatabasesInputBody: Swift.Equatable {
     let clientToken: Swift.String?
     let databases: [FinspaceClientTypes.KxDatabaseConfiguration]?
+    let deploymentConfiguration: FinspaceClientTypes.KxDeploymentConfiguration?
 }
 
 extension UpdateKxClusterDatabasesInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case clientToken
         case databases
+        case deploymentConfiguration
     }
 
     public init(from decoder: Swift.Decoder) throws {
@@ -7414,6 +7801,8 @@ extension UpdateKxClusterDatabasesInputBody: Swift.Decodable {
             }
         }
         databases = databasesDecoded0
+        let deploymentConfigurationDecoded = try containerValues.decodeIfPresent(FinspaceClientTypes.KxDeploymentConfiguration.self, forKey: .deploymentConfiguration)
+        deploymentConfiguration = deploymentConfigurationDecoded
     }
 }
 
@@ -7423,6 +7812,7 @@ public enum UpdateKxClusterDatabasesOutputError: ClientRuntime.HttpResponseError
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
             case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
@@ -8339,7 +8729,7 @@ public struct UpdateKxUserOutputResponse: Swift.Equatable {
     public var environmentId: Swift.String?
     /// The IAM role ARN that is associated with the user.
     public var iamRole: Swift.String?
-    /// The Amazon Resource Name (ARN) that identifies the user. For more information about ARNs and how to use ARNs in policies, see [IAM Identifiers] in the IAM User Guide.
+    /// The Amazon Resource Name (ARN) that identifies the user. For more information about ARNs and how to use ARNs in policies, see [IAM Identifiers](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_identifiers.html) in the IAM User Guide.
     public var userArn: Swift.String?
     /// A unique identifier for the user.
     public var userName: Swift.String?

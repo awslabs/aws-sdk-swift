@@ -9900,7 +9900,7 @@ extension ListTagsInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if maxResults != 0 {
+        if let maxResults = self.maxResults {
             try encodeContainer.encode(maxResults, forKey: .maxResults)
         }
         if let nextToken = self.nextToken {
@@ -9920,7 +9920,7 @@ extension ListTagsInput: ClientRuntime.URLPathProvider {
 
 public struct ListTagsInput: Swift.Equatable {
     /// Do not use. A validation exception occurs if you add a MaxResults parameter to a ListTagsRequest call.
-    public var maxResults: Swift.Int
+    public var maxResults: Swift.Int?
     /// Do not use. A validation exception occurs if you add a NextToken parameter to a ListTagsRequest call.
     public var nextToken: Swift.String?
     /// The stack or layer's Amazon Resource Number (ARN).
@@ -9928,7 +9928,7 @@ public struct ListTagsInput: Swift.Equatable {
     public var resourceArn: Swift.String?
 
     public init(
-        maxResults: Swift.Int = 0,
+        maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         resourceArn: Swift.String? = nil
     )
@@ -9941,7 +9941,7 @@ public struct ListTagsInput: Swift.Equatable {
 
 struct ListTagsInputBody: Swift.Equatable {
     let resourceArn: Swift.String?
-    let maxResults: Swift.Int
+    let maxResults: Swift.Int?
     let nextToken: Swift.String?
 }
 
@@ -9956,7 +9956,7 @@ extension ListTagsInputBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let resourceArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceArn)
         resourceArn = resourceArnDecoded
-        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults) ?? 0
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
         maxResults = maxResultsDecoded
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded

@@ -112,6 +112,41 @@ extension AccessDeniedExceptionBody: Swift.Decodable {
     }
 }
 
+extension ServiceQuotasClientTypes {
+    public enum AppliedLevelEnum: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case account
+        case all
+        case resource
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AppliedLevelEnum] {
+            return [
+                .account,
+                .all,
+                .resource,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .account: return "ACCOUNT"
+            case .all: return "ALL"
+            case .resource: return "RESOURCE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = AppliedLevelEnum(rawValue: rawValue) ?? AppliedLevelEnum.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension AssociateServiceQuotaTemplateInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -196,13 +231,13 @@ extension DeleteServiceQuotaIncreaseRequestFromTemplateInput: ClientRuntime.URLP
 }
 
 public struct DeleteServiceQuotaIncreaseRequestFromTemplateInput: Swift.Equatable {
-    /// The AWS Region.
+    /// Specifies the Amazon Web Services Region for which the request was made.
     /// This member is required.
     public var awsRegion: Swift.String?
-    /// The quota identifier.
+    /// Specifies the quota identifier. To find the quota code for a specific quota, use the [ListServiceQuotas] operation, and look for the QuotaCode response in the output for the quota you want.
     /// This member is required.
     public var quotaCode: Swift.String?
-    /// The service identifier.
+    /// Specifies the service identifier. To find the service code value for an Amazon Web Services service, use the [ListServices] operation.
     /// This member is required.
     public var serviceCode: Swift.String?
 
@@ -450,11 +485,11 @@ extension ServiceQuotasClientTypes {
     public struct ErrorReason: Swift.Equatable {
         /// Service Quotas returns the following error values:
         ///
-        /// * DEPENDENCY_ACCESS_DENIED_ERROR - The caller does not have the required permissions to complete the action. To resolve the error, you must have permission to access the service or quota.
+        /// * DEPENDENCY_ACCESS_DENIED_ERROR - The caller does not have the required permissions to complete the action. To resolve the error, you must have permission to access the Amazon Web Service or quota.
         ///
-        /// * DEPENDENCY_THROTTLING_ERROR - The service is throttling Service Quotas.
+        /// * DEPENDENCY_THROTTLING_ERROR - The Amazon Web Service is throttling Service Quotas.
         ///
-        /// * DEPENDENCY_SERVICE_ERROR - The service is not available.
+        /// * DEPENDENCY_SERVICE_ERROR - The Amazon Web Service is not available.
         ///
         /// * SERVICE_QUOTA_NOT_AVAILABLE_ERROR - There was an error in Service Quotas.
         public var errorCode: ServiceQuotasClientTypes.ErrorCode?
@@ -497,10 +532,10 @@ extension GetAWSDefaultServiceQuotaInput: ClientRuntime.URLPathProvider {
 }
 
 public struct GetAWSDefaultServiceQuotaInput: Swift.Equatable {
-    /// The quota identifier.
+    /// Specifies the quota identifier. To find the quota code for a specific quota, use the [ListServiceQuotas] operation, and look for the QuotaCode response in the output for the quota you want.
     /// This member is required.
     public var quotaCode: Swift.String?
-    /// The service identifier.
+    /// Specifies the service identifier. To find the service code value for an Amazon Web Services service, use the [ListServices] operation.
     /// This member is required.
     public var serviceCode: Swift.String?
 
@@ -648,7 +683,7 @@ extension GetAssociationForServiceQuotaTemplateOutputResponse: ClientRuntime.Htt
 }
 
 public struct GetAssociationForServiceQuotaTemplateOutputResponse: Swift.Equatable {
-    /// The association status. If the status is ASSOCIATED, the quota increase requests in the template are automatically applied to new accounts in your organization.
+    /// The association status. If the status is ASSOCIATED, the quota increase requests in the template are automatically applied to new Amazon Web Services accounts in your organization.
     public var serviceQuotaTemplateAssociationStatus: ServiceQuotasClientTypes.ServiceQuotaTemplateAssociationStatus?
 
     public init(
@@ -695,7 +730,7 @@ extension GetRequestedServiceQuotaChangeInput: ClientRuntime.URLPathProvider {
 }
 
 public struct GetRequestedServiceQuotaChangeInput: Swift.Equatable {
-    /// The ID of the quota increase request.
+    /// Specifies the ID of the quota increase request.
     /// This member is required.
     public var requestId: Swift.String?
 
@@ -806,13 +841,13 @@ extension GetServiceQuotaIncreaseRequestFromTemplateInput: ClientRuntime.URLPath
 }
 
 public struct GetServiceQuotaIncreaseRequestFromTemplateInput: Swift.Equatable {
-    /// The AWS Region.
+    /// Specifies the Amazon Web Services Region for which you made the request.
     /// This member is required.
     public var awsRegion: Swift.String?
-    /// The quota identifier.
+    /// Specifies the quota identifier. To find the quota code for a specific quota, use the [ListServiceQuotas] operation, and look for the QuotaCode response in the output for the quota you want.
     /// This member is required.
     public var quotaCode: Swift.String?
-    /// The service identifier.
+    /// Specifies the service identifier. To find the service code value for an Amazon Web Services service, use the [ListServices] operation.
     /// This member is required.
     public var serviceCode: Swift.String?
 
@@ -913,12 +948,16 @@ extension GetServiceQuotaIncreaseRequestFromTemplateOutputResponseBody: Swift.De
 
 extension GetServiceQuotaInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case contextId = "ContextId"
         case quotaCode = "QuotaCode"
         case serviceCode = "ServiceCode"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let contextId = self.contextId {
+            try encodeContainer.encode(contextId, forKey: .contextId)
+        }
         if let quotaCode = self.quotaCode {
             try encodeContainer.encode(quotaCode, forKey: .quotaCode)
         }
@@ -935,18 +974,22 @@ extension GetServiceQuotaInput: ClientRuntime.URLPathProvider {
 }
 
 public struct GetServiceQuotaInput: Swift.Equatable {
-    /// The quota identifier.
+    /// Specifies the Amazon Web Services account or resource to which the quota applies. The value in this field depends on the context scope associated with the specified service quota.
+    public var contextId: Swift.String?
+    /// Specifies the quota identifier. To find the quota code for a specific quota, use the [ListServiceQuotas] operation, and look for the QuotaCode response in the output for the quota you want.
     /// This member is required.
     public var quotaCode: Swift.String?
-    /// The service identifier.
+    /// Specifies the service identifier. To find the service code value for an Amazon Web Services service, use the [ListServices] operation.
     /// This member is required.
     public var serviceCode: Swift.String?
 
     public init(
+        contextId: Swift.String? = nil,
         quotaCode: Swift.String? = nil,
         serviceCode: Swift.String? = nil
     )
     {
+        self.contextId = contextId
         self.quotaCode = quotaCode
         self.serviceCode = serviceCode
     }
@@ -955,10 +998,12 @@ public struct GetServiceQuotaInput: Swift.Equatable {
 struct GetServiceQuotaInputBody: Swift.Equatable {
     let serviceCode: Swift.String?
     let quotaCode: Swift.String?
+    let contextId: Swift.String?
 }
 
 extension GetServiceQuotaInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case contextId = "ContextId"
         case quotaCode = "QuotaCode"
         case serviceCode = "ServiceCode"
     }
@@ -969,6 +1014,8 @@ extension GetServiceQuotaInputBody: Swift.Decodable {
         serviceCode = serviceCodeDecoded
         let quotaCodeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .quotaCode)
         quotaCode = quotaCodeDecoded
+        let contextIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .contextId)
+        contextId = contextIdDecoded
     }
 }
 
@@ -1220,11 +1267,11 @@ extension ListAWSDefaultServiceQuotasInput: ClientRuntime.URLPathProvider {
 }
 
 public struct ListAWSDefaultServiceQuotasInput: Swift.Equatable {
-    /// The maximum number of results to return with a single call. To retrieve the remaining results, if any, make another call with the token returned from this call.
+    /// Specifies the maximum number of results that you want included on each page of the response. If you do not include this parameter, it defaults to a value appropriate to the operation. If additional items exist beyond those included in the current response, the NextToken response element is present and has a value (is not null). Include that value as the NextToken request parameter in the next call to the operation to get the next part of the results. An API operation can return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
     public var maxResults: Swift.Int?
-    /// The token for the next page of results.
+    /// Specifies a value for receiving additional results after you receive a NextToken response in a previous request. A NextToken response indicates that more output is available. Set this parameter to the value of the previous call's NextToken response to indicate where the output should continue from.
     public var nextToken: Swift.String?
-    /// The service identifier.
+    /// Specifies the service identifier. To find the service code value for an Amazon Web Services service, use the [ListServices] operation.
     /// This member is required.
     public var serviceCode: Swift.String?
 
@@ -1295,7 +1342,7 @@ extension ListAWSDefaultServiceQuotasOutputResponse: ClientRuntime.HttpResponseB
 }
 
 public struct ListAWSDefaultServiceQuotasOutputResponse: Swift.Equatable {
-    /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
+    /// If present, indicates that more output is available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null.
     public var nextToken: Swift.String?
     /// Information about the quotas.
     public var quotas: [ServiceQuotasClientTypes.ServiceQuota]?
@@ -1344,6 +1391,7 @@ extension ListRequestedServiceQuotaChangeHistoryByQuotaInput: Swift.Encodable {
         case maxResults = "MaxResults"
         case nextToken = "NextToken"
         case quotaCode = "QuotaCode"
+        case quotaRequestedAtLevel = "QuotaRequestedAtLevel"
         case serviceCode = "ServiceCode"
         case status = "Status"
     }
@@ -1358,6 +1406,9 @@ extension ListRequestedServiceQuotaChangeHistoryByQuotaInput: Swift.Encodable {
         }
         if let quotaCode = self.quotaCode {
             try encodeContainer.encode(quotaCode, forKey: .quotaCode)
+        }
+        if let quotaRequestedAtLevel = self.quotaRequestedAtLevel {
+            try encodeContainer.encode(quotaRequestedAtLevel.rawValue, forKey: .quotaRequestedAtLevel)
         }
         if let serviceCode = self.serviceCode {
             try encodeContainer.encode(serviceCode, forKey: .serviceCode)
@@ -1375,23 +1426,26 @@ extension ListRequestedServiceQuotaChangeHistoryByQuotaInput: ClientRuntime.URLP
 }
 
 public struct ListRequestedServiceQuotaChangeHistoryByQuotaInput: Swift.Equatable {
-    /// The maximum number of results to return with a single call. To retrieve the remaining results, if any, make another call with the token returned from this call.
+    /// Specifies the maximum number of results that you want included on each page of the response. If you do not include this parameter, it defaults to a value appropriate to the operation. If additional items exist beyond those included in the current response, the NextToken response element is present and has a value (is not null). Include that value as the NextToken request parameter in the next call to the operation to get the next part of the results. An API operation can return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
     public var maxResults: Swift.Int?
-    /// The token for the next page of results.
+    /// Specifies a value for receiving additional results after you receive a NextToken response in a previous request. A NextToken response indicates that more output is available. Set this parameter to the value of the previous call's NextToken response to indicate where the output should continue from.
     public var nextToken: Swift.String?
-    /// The quota identifier.
+    /// Specifies the quota identifier. To find the quota code for a specific quota, use the [ListServiceQuotas] operation, and look for the QuotaCode response in the output for the quota you want.
     /// This member is required.
     public var quotaCode: Swift.String?
-    /// The service identifier.
+    /// Specifies at which level within the Amazon Web Services account the quota request applies to.
+    public var quotaRequestedAtLevel: ServiceQuotasClientTypes.AppliedLevelEnum?
+    /// Specifies the service identifier. To find the service code value for an Amazon Web Services service, use the [ListServices] operation.
     /// This member is required.
     public var serviceCode: Swift.String?
-    /// The status value of the quota increase request.
+    /// Specifies that you want to filter the results to only the requests with the matching status.
     public var status: ServiceQuotasClientTypes.RequestStatus?
 
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         quotaCode: Swift.String? = nil,
+        quotaRequestedAtLevel: ServiceQuotasClientTypes.AppliedLevelEnum? = nil,
         serviceCode: Swift.String? = nil,
         status: ServiceQuotasClientTypes.RequestStatus? = nil
     )
@@ -1399,6 +1453,7 @@ public struct ListRequestedServiceQuotaChangeHistoryByQuotaInput: Swift.Equatabl
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.quotaCode = quotaCode
+        self.quotaRequestedAtLevel = quotaRequestedAtLevel
         self.serviceCode = serviceCode
         self.status = status
     }
@@ -1410,6 +1465,7 @@ struct ListRequestedServiceQuotaChangeHistoryByQuotaInputBody: Swift.Equatable {
     let status: ServiceQuotasClientTypes.RequestStatus?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
+    let quotaRequestedAtLevel: ServiceQuotasClientTypes.AppliedLevelEnum?
 }
 
 extension ListRequestedServiceQuotaChangeHistoryByQuotaInputBody: Swift.Decodable {
@@ -1417,6 +1473,7 @@ extension ListRequestedServiceQuotaChangeHistoryByQuotaInputBody: Swift.Decodabl
         case maxResults = "MaxResults"
         case nextToken = "NextToken"
         case quotaCode = "QuotaCode"
+        case quotaRequestedAtLevel = "QuotaRequestedAtLevel"
         case serviceCode = "ServiceCode"
         case status = "Status"
     }
@@ -1433,6 +1490,8 @@ extension ListRequestedServiceQuotaChangeHistoryByQuotaInputBody: Swift.Decodabl
         nextToken = nextTokenDecoded
         let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
         maxResults = maxResultsDecoded
+        let quotaRequestedAtLevelDecoded = try containerValues.decodeIfPresent(ServiceQuotasClientTypes.AppliedLevelEnum.self, forKey: .quotaRequestedAtLevel)
+        quotaRequestedAtLevel = quotaRequestedAtLevelDecoded
     }
 }
 
@@ -1467,7 +1526,7 @@ extension ListRequestedServiceQuotaChangeHistoryByQuotaOutputResponse: ClientRun
 }
 
 public struct ListRequestedServiceQuotaChangeHistoryByQuotaOutputResponse: Swift.Equatable {
-    /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
+    /// If present, indicates that more output is available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null.
     public var nextToken: Swift.String?
     /// Information about the quota increase requests.
     public var requestedQuotas: [ServiceQuotasClientTypes.RequestedServiceQuotaChange]?
@@ -1515,6 +1574,7 @@ extension ListRequestedServiceQuotaChangeHistoryInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case maxResults = "MaxResults"
         case nextToken = "NextToken"
+        case quotaRequestedAtLevel = "QuotaRequestedAtLevel"
         case serviceCode = "ServiceCode"
         case status = "Status"
     }
@@ -1526,6 +1586,9 @@ extension ListRequestedServiceQuotaChangeHistoryInput: Swift.Encodable {
         }
         if let nextToken = self.nextToken {
             try encodeContainer.encode(nextToken, forKey: .nextToken)
+        }
+        if let quotaRequestedAtLevel = self.quotaRequestedAtLevel {
+            try encodeContainer.encode(quotaRequestedAtLevel.rawValue, forKey: .quotaRequestedAtLevel)
         }
         if let serviceCode = self.serviceCode {
             try encodeContainer.encode(serviceCode, forKey: .serviceCode)
@@ -1543,24 +1606,28 @@ extension ListRequestedServiceQuotaChangeHistoryInput: ClientRuntime.URLPathProv
 }
 
 public struct ListRequestedServiceQuotaChangeHistoryInput: Swift.Equatable {
-    /// The maximum number of results to return with a single call. To retrieve the remaining results, if any, make another call with the token returned from this call.
+    /// Specifies the maximum number of results that you want included on each page of the response. If you do not include this parameter, it defaults to a value appropriate to the operation. If additional items exist beyond those included in the current response, the NextToken response element is present and has a value (is not null). Include that value as the NextToken request parameter in the next call to the operation to get the next part of the results. An API operation can return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
     public var maxResults: Swift.Int?
-    /// The token for the next page of results.
+    /// Specifies a value for receiving additional results after you receive a NextToken response in a previous request. A NextToken response indicates that more output is available. Set this parameter to the value of the previous call's NextToken response to indicate where the output should continue from.
     public var nextToken: Swift.String?
-    /// The service identifier.
+    /// Specifies at which level within the Amazon Web Services account the quota request applies to.
+    public var quotaRequestedAtLevel: ServiceQuotasClientTypes.AppliedLevelEnum?
+    /// Specifies the service identifier. To find the service code value for an Amazon Web Services service, use the [ListServices] operation.
     public var serviceCode: Swift.String?
-    /// The status of the quota increase request.
+    /// Specifies that you want to filter the results to only the requests with the matching status.
     public var status: ServiceQuotasClientTypes.RequestStatus?
 
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
+        quotaRequestedAtLevel: ServiceQuotasClientTypes.AppliedLevelEnum? = nil,
         serviceCode: Swift.String? = nil,
         status: ServiceQuotasClientTypes.RequestStatus? = nil
     )
     {
         self.maxResults = maxResults
         self.nextToken = nextToken
+        self.quotaRequestedAtLevel = quotaRequestedAtLevel
         self.serviceCode = serviceCode
         self.status = status
     }
@@ -1571,12 +1638,14 @@ struct ListRequestedServiceQuotaChangeHistoryInputBody: Swift.Equatable {
     let status: ServiceQuotasClientTypes.RequestStatus?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
+    let quotaRequestedAtLevel: ServiceQuotasClientTypes.AppliedLevelEnum?
 }
 
 extension ListRequestedServiceQuotaChangeHistoryInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case maxResults = "MaxResults"
         case nextToken = "NextToken"
+        case quotaRequestedAtLevel = "QuotaRequestedAtLevel"
         case serviceCode = "ServiceCode"
         case status = "Status"
     }
@@ -1591,6 +1660,8 @@ extension ListRequestedServiceQuotaChangeHistoryInputBody: Swift.Decodable {
         nextToken = nextTokenDecoded
         let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
         maxResults = maxResultsDecoded
+        let quotaRequestedAtLevelDecoded = try containerValues.decodeIfPresent(ServiceQuotasClientTypes.AppliedLevelEnum.self, forKey: .quotaRequestedAtLevel)
+        quotaRequestedAtLevel = quotaRequestedAtLevelDecoded
     }
 }
 
@@ -1625,7 +1696,7 @@ extension ListRequestedServiceQuotaChangeHistoryOutputResponse: ClientRuntime.Ht
 }
 
 public struct ListRequestedServiceQuotaChangeHistoryOutputResponse: Swift.Equatable {
-    /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
+    /// If present, indicates that more output is available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null.
     public var nextToken: Swift.String?
     /// Information about the quota increase requests.
     public var requestedQuotas: [ServiceQuotasClientTypes.RequestedServiceQuotaChange]?
@@ -1701,13 +1772,13 @@ extension ListServiceQuotaIncreaseRequestsInTemplateInput: ClientRuntime.URLPath
 }
 
 public struct ListServiceQuotaIncreaseRequestsInTemplateInput: Swift.Equatable {
-    /// The AWS Region.
+    /// Specifies the Amazon Web Services Region for which you made the request.
     public var awsRegion: Swift.String?
-    /// The maximum number of results to return with a single call. To retrieve the remaining results, if any, make another call with the token returned from this call.
+    /// Specifies the maximum number of results that you want included on each page of the response. If you do not include this parameter, it defaults to a value appropriate to the operation. If additional items exist beyond those included in the current response, the NextToken response element is present and has a value (is not null). Include that value as the NextToken request parameter in the next call to the operation to get the next part of the results. An API operation can return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
     public var maxResults: Swift.Int?
-    /// The token for the next page of results.
+    /// Specifies a value for receiving additional results after you receive a NextToken response in a previous request. A NextToken response indicates that more output is available. Set this parameter to the value of the previous call's NextToken response to indicate where the output should continue from.
     public var nextToken: Swift.String?
-    /// The service identifier.
+    /// Specifies the service identifier. To find the service code value for an Amazon Web Services service, use the [ListServices] operation.
     public var serviceCode: Swift.String?
 
     public init(
@@ -1785,7 +1856,7 @@ extension ListServiceQuotaIncreaseRequestsInTemplateOutputResponse: ClientRuntim
 }
 
 public struct ListServiceQuotaIncreaseRequestsInTemplateOutputResponse: Swift.Equatable {
-    /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
+    /// If present, indicates that more output is available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null.
     public var nextToken: Swift.String?
     /// Information about the quota increase requests.
     public var serviceQuotaIncreaseRequestInTemplateList: [ServiceQuotasClientTypes.ServiceQuotaIncreaseRequestInTemplate]?
@@ -1833,6 +1904,8 @@ extension ListServiceQuotasInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case maxResults = "MaxResults"
         case nextToken = "NextToken"
+        case quotaAppliedAtLevel = "QuotaAppliedAtLevel"
+        case quotaCode = "QuotaCode"
         case serviceCode = "ServiceCode"
     }
 
@@ -1843,6 +1916,12 @@ extension ListServiceQuotasInput: Swift.Encodable {
         }
         if let nextToken = self.nextToken {
             try encodeContainer.encode(nextToken, forKey: .nextToken)
+        }
+        if let quotaAppliedAtLevel = self.quotaAppliedAtLevel {
+            try encodeContainer.encode(quotaAppliedAtLevel.rawValue, forKey: .quotaAppliedAtLevel)
+        }
+        if let quotaCode = self.quotaCode {
+            try encodeContainer.encode(quotaCode, forKey: .quotaCode)
         }
         if let serviceCode = self.serviceCode {
             try encodeContainer.encode(serviceCode, forKey: .serviceCode)
@@ -1857,22 +1936,30 @@ extension ListServiceQuotasInput: ClientRuntime.URLPathProvider {
 }
 
 public struct ListServiceQuotasInput: Swift.Equatable {
-    /// The maximum number of results to return with a single call. To retrieve the remaining results, if any, make another call with the token returned from this call.
+    /// Specifies the maximum number of results that you want included on each page of the response. If you do not include this parameter, it defaults to a value appropriate to the operation. If additional items exist beyond those included in the current response, the NextToken response element is present and has a value (is not null). Include that value as the NextToken request parameter in the next call to the operation to get the next part of the results. An API operation can return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
     public var maxResults: Swift.Int?
-    /// The token for the next page of results.
+    /// Specifies a value for receiving additional results after you receive a NextToken response in a previous request. A NextToken response indicates that more output is available. Set this parameter to the value of the previous call's NextToken response to indicate where the output should continue from.
     public var nextToken: Swift.String?
-    /// The service identifier.
+    /// Specifies at which level of granularity that the quota value is applied.
+    public var quotaAppliedAtLevel: ServiceQuotasClientTypes.AppliedLevelEnum?
+    /// Specifies the quota identifier. To find the quota code for a specific quota, use the [ListServiceQuotas] operation, and look for the QuotaCode response in the output for the quota you want.
+    public var quotaCode: Swift.String?
+    /// Specifies the service identifier. To find the service code value for an Amazon Web Services service, use the [ListServices] operation.
     /// This member is required.
     public var serviceCode: Swift.String?
 
     public init(
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
+        quotaAppliedAtLevel: ServiceQuotasClientTypes.AppliedLevelEnum? = nil,
+        quotaCode: Swift.String? = nil,
         serviceCode: Swift.String? = nil
     )
     {
         self.maxResults = maxResults
         self.nextToken = nextToken
+        self.quotaAppliedAtLevel = quotaAppliedAtLevel
+        self.quotaCode = quotaCode
         self.serviceCode = serviceCode
     }
 }
@@ -1881,12 +1968,16 @@ struct ListServiceQuotasInputBody: Swift.Equatable {
     let serviceCode: Swift.String?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
+    let quotaCode: Swift.String?
+    let quotaAppliedAtLevel: ServiceQuotasClientTypes.AppliedLevelEnum?
 }
 
 extension ListServiceQuotasInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case maxResults = "MaxResults"
         case nextToken = "NextToken"
+        case quotaAppliedAtLevel = "QuotaAppliedAtLevel"
+        case quotaCode = "QuotaCode"
         case serviceCode = "ServiceCode"
     }
 
@@ -1898,6 +1989,10 @@ extension ListServiceQuotasInputBody: Swift.Decodable {
         nextToken = nextTokenDecoded
         let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
         maxResults = maxResultsDecoded
+        let quotaCodeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .quotaCode)
+        quotaCode = quotaCodeDecoded
+        let quotaAppliedAtLevelDecoded = try containerValues.decodeIfPresent(ServiceQuotasClientTypes.AppliedLevelEnum.self, forKey: .quotaAppliedAtLevel)
+        quotaAppliedAtLevel = quotaAppliedAtLevelDecoded
     }
 }
 
@@ -1932,7 +2027,7 @@ extension ListServiceQuotasOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 public struct ListServiceQuotasOutputResponse: Swift.Equatable {
-    /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
+    /// If present, indicates that more output is available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null.
     public var nextToken: Swift.String?
     /// Information about the quotas.
     public var quotas: [ServiceQuotasClientTypes.ServiceQuota]?
@@ -2000,9 +2095,9 @@ extension ListServicesInput: ClientRuntime.URLPathProvider {
 }
 
 public struct ListServicesInput: Swift.Equatable {
-    /// The maximum number of results to return with a single call. To retrieve the remaining results, if any, make another call with the token returned from this call.
+    /// Specifies the maximum number of results that you want included on each page of the response. If you do not include this parameter, it defaults to a value appropriate to the operation. If additional items exist beyond those included in the current response, the NextToken response element is present and has a value (is not null). Include that value as the NextToken request parameter in the next call to the operation to get the next part of the results. An API operation can return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
     public var maxResults: Swift.Int?
-    /// The token for the next page of results.
+    /// Specifies a value for receiving additional results after you receive a NextToken response in a previous request. A NextToken response indicates that more output is available. Set this parameter to the value of the previous call's NextToken response to indicate where the output should continue from.
     public var nextToken: Swift.String?
 
     public init(
@@ -2065,9 +2160,9 @@ extension ListServicesOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 public struct ListServicesOutputResponse: Swift.Equatable {
-    /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
+    /// If present, indicates that more output is available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null.
     public var nextToken: Swift.String?
-    /// Information about the services.
+    /// The list of the Amazon Web Service names and service codes.
     public var services: [ServiceQuotasClientTypes.ServiceInfo]?
 
     public init(
@@ -2129,7 +2224,7 @@ extension ListTagsForResourceInput: ClientRuntime.URLPathProvider {
 }
 
 public struct ListTagsForResourceInput: Swift.Equatable {
-    /// The Amazon Resource Name (ARN) for the applied quota for which you want to list tags. You can get this information by using the Service Quotas console, or by listing the quotas using the [list-service-quotas](https://docs.aws.amazon.com/cli/latest/reference/service-quotas/list-service-quotas.html) AWS CLI command or the [ListServiceQuotas](https://docs.aws.amazon.com/servicequotas/2019-06-24/apireference/API_ListServiceQuotas.html) AWS API operation.
+    /// The Amazon Resource Name (ARN) for the applied quota for which you want to list tags. You can get this information by using the Service Quotas console, or by listing the quotas using the [list-service-quotas](https://docs.aws.amazon.com/cli/latest/reference/service-quotas/list-service-quotas.html) CLI command or the [ListServiceQuotas](https://docs.aws.amazon.com/servicequotas/2019-06-24/apireference/API_ListServiceQuotas.html) Amazon Web Services API operation.
     /// This member is required.
     public var resourceARN: Swift.String?
 
@@ -2313,7 +2408,7 @@ extension NoAvailableOrganizationException {
     }
 }
 
-/// The account making this call is not a member of an organization.
+/// The Amazon Web Services account making this call is not a member of an organization.
 public struct NoAvailableOrganizationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
@@ -2423,7 +2518,7 @@ extension OrganizationNotInAllFeaturesModeException {
     }
 }
 
-/// The organization that your account belongs to is not in All Features mode.
+/// The organization that your Amazon Web Services account belongs to is not in All Features mode.
 public struct OrganizationNotInAllFeaturesModeException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
@@ -2542,16 +2637,16 @@ extension PutServiceQuotaIncreaseRequestIntoTemplateInput: ClientRuntime.URLPath
 }
 
 public struct PutServiceQuotaIncreaseRequestIntoTemplateInput: Swift.Equatable {
-    /// The AWS Region.
+    /// Specifies the Amazon Web Services Region to which the template applies.
     /// This member is required.
     public var awsRegion: Swift.String?
-    /// The new, increased value for the quota.
+    /// Specifies the new, increased value for the quota.
     /// This member is required.
     public var desiredValue: Swift.Double?
-    /// The quota identifier.
+    /// Specifies the quota identifier. To find the quota code for a specific quota, use the [ListServiceQuotas] operation, and look for the QuotaCode response in the output for the quota you want.
     /// This member is required.
     public var quotaCode: Swift.String?
-    /// The service identifier.
+    /// Specifies the service identifier. To find the service code value for an Amazon Web Services service, use the [ListServices] operation.
     /// This member is required.
     public var serviceCode: Swift.String?
 
@@ -2657,6 +2752,93 @@ extension PutServiceQuotaIncreaseRequestIntoTemplateOutputResponseBody: Swift.De
     }
 }
 
+extension ServiceQuotasClientTypes.QuotaContextInfo: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case contextId = "ContextId"
+        case contextScope = "ContextScope"
+        case contextScopeType = "ContextScopeType"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let contextId = self.contextId {
+            try encodeContainer.encode(contextId, forKey: .contextId)
+        }
+        if let contextScope = self.contextScope {
+            try encodeContainer.encode(contextScope.rawValue, forKey: .contextScope)
+        }
+        if let contextScopeType = self.contextScopeType {
+            try encodeContainer.encode(contextScopeType, forKey: .contextScopeType)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let contextScopeDecoded = try containerValues.decodeIfPresent(ServiceQuotasClientTypes.QuotaContextScope.self, forKey: .contextScope)
+        contextScope = contextScopeDecoded
+        let contextScopeTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .contextScopeType)
+        contextScopeType = contextScopeTypeDecoded
+        let contextIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .contextId)
+        contextId = contextIdDecoded
+    }
+}
+
+extension ServiceQuotasClientTypes {
+    /// A structure that describes the context for a service quota. The context identifies what the quota applies to.
+    public struct QuotaContextInfo: Swift.Equatable {
+        /// Specifies the Amazon Web Services account or resource to which the quota applies. The value in this field depends on the context scope associated with the specified service quota.
+        public var contextId: Swift.String?
+        /// Specifies whether the quota applies to an Amazon Web Services account, or to a resource.
+        public var contextScope: ServiceQuotasClientTypes.QuotaContextScope?
+        /// When the ContextScope is RESOURCE, then this specifies the resource type of the specified resource.
+        public var contextScopeType: Swift.String?
+
+        public init(
+            contextId: Swift.String? = nil,
+            contextScope: ServiceQuotasClientTypes.QuotaContextScope? = nil,
+            contextScopeType: Swift.String? = nil
+        )
+        {
+            self.contextId = contextId
+            self.contextScope = contextScope
+            self.contextScopeType = contextScopeType
+        }
+    }
+
+}
+
+extension ServiceQuotasClientTypes {
+    public enum QuotaContextScope: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case account
+        case resource
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [QuotaContextScope] {
+            return [
+                .account,
+                .resource,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .account: return "ACCOUNT"
+            case .resource: return "RESOURCE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = QuotaContextScope(rawValue: rawValue) ?? QuotaContextScope.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension QuotaExceededException {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -2742,7 +2924,7 @@ extension ServiceQuotasClientTypes {
     public struct QuotaPeriod: Swift.Equatable {
         /// The time unit.
         public var periodUnit: ServiceQuotasClientTypes.PeriodUnit?
-        /// The value.
+        /// The value associated with the reported PeriodUnit.
         public var periodValue: Swift.Int?
 
         public init(
@@ -2759,6 +2941,7 @@ extension ServiceQuotasClientTypes {
 
 extension RequestServiceQuotaIncreaseInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case contextId = "ContextId"
         case desiredValue = "DesiredValue"
         case quotaCode = "QuotaCode"
         case serviceCode = "ServiceCode"
@@ -2766,6 +2949,9 @@ extension RequestServiceQuotaIncreaseInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let contextId = self.contextId {
+            try encodeContainer.encode(contextId, forKey: .contextId)
+        }
         if let desiredValue = self.desiredValue {
             try encodeContainer.encode(desiredValue, forKey: .desiredValue)
         }
@@ -2785,22 +2971,26 @@ extension RequestServiceQuotaIncreaseInput: ClientRuntime.URLPathProvider {
 }
 
 public struct RequestServiceQuotaIncreaseInput: Swift.Equatable {
-    /// The new, increased value for the quota.
+    /// Specifies the Amazon Web Services account or resource to which the quota applies. The value in this field depends on the context scope associated with the specified service quota.
+    public var contextId: Swift.String?
+    /// Specifies the new, increased value for the quota.
     /// This member is required.
     public var desiredValue: Swift.Double?
-    /// The quota identifier.
+    /// Specifies the quota identifier. To find the quota code for a specific quota, use the [ListServiceQuotas] operation, and look for the QuotaCode response in the output for the quota you want.
     /// This member is required.
     public var quotaCode: Swift.String?
-    /// The service identifier.
+    /// Specifies the service identifier. To find the service code value for an Amazon Web Services service, use the [ListServices] operation.
     /// This member is required.
     public var serviceCode: Swift.String?
 
     public init(
+        contextId: Swift.String? = nil,
         desiredValue: Swift.Double? = nil,
         quotaCode: Swift.String? = nil,
         serviceCode: Swift.String? = nil
     )
     {
+        self.contextId = contextId
         self.desiredValue = desiredValue
         self.quotaCode = quotaCode
         self.serviceCode = serviceCode
@@ -2811,10 +3001,12 @@ struct RequestServiceQuotaIncreaseInputBody: Swift.Equatable {
     let serviceCode: Swift.String?
     let quotaCode: Swift.String?
     let desiredValue: Swift.Double?
+    let contextId: Swift.String?
 }
 
 extension RequestServiceQuotaIncreaseInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case contextId = "ContextId"
         case desiredValue = "DesiredValue"
         case quotaCode = "QuotaCode"
         case serviceCode = "ServiceCode"
@@ -2828,6 +3020,8 @@ extension RequestServiceQuotaIncreaseInputBody: Swift.Decodable {
         quotaCode = quotaCodeDecoded
         let desiredValueDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .desiredValue)
         desiredValue = desiredValueDecoded
+        let contextIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .contextId)
+        contextId = contextIdDecoded
     }
 }
 
@@ -2896,6 +3090,8 @@ extension ServiceQuotasClientTypes {
         case caseClosed
         case caseOpened
         case denied
+        case invalidRequest
+        case notApproved
         case pending
         case sdkUnknown(Swift.String)
 
@@ -2905,6 +3101,8 @@ extension ServiceQuotasClientTypes {
                 .caseClosed,
                 .caseOpened,
                 .denied,
+                .invalidRequest,
+                .notApproved,
                 .pending,
                 .sdkUnknown("")
             ]
@@ -2919,6 +3117,8 @@ extension ServiceQuotasClientTypes {
             case .caseClosed: return "CASE_CLOSED"
             case .caseOpened: return "CASE_OPENED"
             case .denied: return "DENIED"
+            case .invalidRequest: return "INVALID_REQUEST"
+            case .notApproved: return "NOT_APPROVED"
             case .pending: return "PENDING"
             case let .sdkUnknown(s): return s
             }
@@ -2941,7 +3141,9 @@ extension ServiceQuotasClientTypes.RequestedServiceQuotaChange: Swift.Codable {
         case lastUpdated = "LastUpdated"
         case quotaArn = "QuotaArn"
         case quotaCode = "QuotaCode"
+        case quotaContext = "QuotaContext"
         case quotaName = "QuotaName"
+        case quotaRequestedAtLevel = "QuotaRequestedAtLevel"
         case requester = "Requester"
         case serviceCode = "ServiceCode"
         case serviceName = "ServiceName"
@@ -2975,8 +3177,14 @@ extension ServiceQuotasClientTypes.RequestedServiceQuotaChange: Swift.Codable {
         if let quotaCode = self.quotaCode {
             try encodeContainer.encode(quotaCode, forKey: .quotaCode)
         }
+        if let quotaContext = self.quotaContext {
+            try encodeContainer.encode(quotaContext, forKey: .quotaContext)
+        }
         if let quotaName = self.quotaName {
             try encodeContainer.encode(quotaName, forKey: .quotaName)
+        }
+        if let quotaRequestedAtLevel = self.quotaRequestedAtLevel {
+            try encodeContainer.encode(quotaRequestedAtLevel.rawValue, forKey: .quotaRequestedAtLevel)
         }
         if let requester = self.requester {
             try encodeContainer.encode(requester, forKey: .requester)
@@ -3025,6 +3233,10 @@ extension ServiceQuotasClientTypes.RequestedServiceQuotaChange: Swift.Codable {
         globalQuota = globalQuotaDecoded
         let unitDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .unit)
         unit = unitDecoded
+        let quotaRequestedAtLevelDecoded = try containerValues.decodeIfPresent(ServiceQuotasClientTypes.AppliedLevelEnum.self, forKey: .quotaRequestedAtLevel)
+        quotaRequestedAtLevel = quotaRequestedAtLevelDecoded
+        let quotaContextDecoded = try containerValues.decodeIfPresent(ServiceQuotasClientTypes.QuotaContextInfo.self, forKey: .quotaContext)
+        quotaContext = quotaContextDecoded
     }
 }
 
@@ -3045,15 +3257,19 @@ extension ServiceQuotasClientTypes {
         public var lastUpdated: ClientRuntime.Date?
         /// The Amazon Resource Name (ARN) of the quota.
         public var quotaArn: Swift.String?
-        /// The quota identifier.
+        /// Specifies the quota identifier. To find the quota code for a specific quota, use the [ListServiceQuotas] operation, and look for the QuotaCode response in the output for the quota you want.
         public var quotaCode: Swift.String?
-        /// The quota name.
+        /// The context for this service quota.
+        public var quotaContext: ServiceQuotasClientTypes.QuotaContextInfo?
+        /// Specifies the quota name.
         public var quotaName: Swift.String?
+        /// Specifies at which level within the Amazon Web Services account the quota request applies to.
+        public var quotaRequestedAtLevel: ServiceQuotasClientTypes.AppliedLevelEnum?
         /// The IAM identity of the requester.
         public var requester: Swift.String?
-        /// The service identifier.
+        /// Specifies the service identifier. To find the service code value for an Amazon Web Services service, use the [ListServices] operation.
         public var serviceCode: Swift.String?
-        /// The service name.
+        /// Specifies the service name.
         public var serviceName: Swift.String?
         /// The state of the quota increase request.
         public var status: ServiceQuotasClientTypes.RequestStatus?
@@ -3069,7 +3285,9 @@ extension ServiceQuotasClientTypes {
             lastUpdated: ClientRuntime.Date? = nil,
             quotaArn: Swift.String? = nil,
             quotaCode: Swift.String? = nil,
+            quotaContext: ServiceQuotasClientTypes.QuotaContextInfo? = nil,
             quotaName: Swift.String? = nil,
+            quotaRequestedAtLevel: ServiceQuotasClientTypes.AppliedLevelEnum? = nil,
             requester: Swift.String? = nil,
             serviceCode: Swift.String? = nil,
             serviceName: Swift.String? = nil,
@@ -3085,7 +3303,9 @@ extension ServiceQuotasClientTypes {
             self.lastUpdated = lastUpdated
             self.quotaArn = quotaArn
             self.quotaCode = quotaCode
+            self.quotaContext = quotaContext
             self.quotaName = quotaName
+            self.quotaRequestedAtLevel = quotaRequestedAtLevel
             self.requester = requester
             self.serviceCode = serviceCode
             self.serviceName = serviceName
@@ -3232,11 +3452,11 @@ extension ServiceQuotasClientTypes.ServiceInfo: Swift.Codable {
 }
 
 extension ServiceQuotasClientTypes {
-    /// Information about a service.
+    /// Information about an Amazon Web Service.
     public struct ServiceInfo: Swift.Equatable {
-        /// The service identifier.
+        /// Specifies the service identifier. To find the service code value for an Amazon Web Services service, use the [ListServices] operation.
         public var serviceCode: Swift.String?
-        /// The service name.
+        /// Specifies the service name.
         public var serviceName: Swift.String?
 
         public init(
@@ -3257,8 +3477,10 @@ extension ServiceQuotasClientTypes.ServiceQuota: Swift.Codable {
         case errorReason = "ErrorReason"
         case globalQuota = "GlobalQuota"
         case period = "Period"
+        case quotaAppliedAtLevel = "QuotaAppliedAtLevel"
         case quotaArn = "QuotaArn"
         case quotaCode = "QuotaCode"
+        case quotaContext = "QuotaContext"
         case quotaName = "QuotaName"
         case serviceCode = "ServiceCode"
         case serviceName = "ServiceName"
@@ -3281,11 +3503,17 @@ extension ServiceQuotasClientTypes.ServiceQuota: Swift.Codable {
         if let period = self.period {
             try encodeContainer.encode(period, forKey: .period)
         }
+        if let quotaAppliedAtLevel = self.quotaAppliedAtLevel {
+            try encodeContainer.encode(quotaAppliedAtLevel.rawValue, forKey: .quotaAppliedAtLevel)
+        }
         if let quotaArn = self.quotaArn {
             try encodeContainer.encode(quotaArn, forKey: .quotaArn)
         }
         if let quotaCode = self.quotaCode {
             try encodeContainer.encode(quotaCode, forKey: .quotaCode)
+        }
+        if let quotaContext = self.quotaContext {
+            try encodeContainer.encode(quotaContext, forKey: .quotaContext)
         }
         if let quotaName = self.quotaName {
             try encodeContainer.encode(quotaName, forKey: .quotaName)
@@ -3333,6 +3561,10 @@ extension ServiceQuotasClientTypes.ServiceQuota: Swift.Codable {
         period = periodDecoded
         let errorReasonDecoded = try containerValues.decodeIfPresent(ServiceQuotasClientTypes.ErrorReason.self, forKey: .errorReason)
         errorReason = errorReasonDecoded
+        let quotaAppliedAtLevelDecoded = try containerValues.decodeIfPresent(ServiceQuotasClientTypes.AppliedLevelEnum.self, forKey: .quotaAppliedAtLevel)
+        quotaAppliedAtLevel = quotaAppliedAtLevelDecoded
+        let quotaContextDecoded = try containerValues.decodeIfPresent(ServiceQuotasClientTypes.QuotaContextInfo.self, forKey: .quotaContext)
+        quotaContext = quotaContextDecoded
     }
 }
 
@@ -3347,15 +3579,19 @@ extension ServiceQuotasClientTypes {
         public var globalQuota: Swift.Bool
         /// The period of time.
         public var period: ServiceQuotasClientTypes.QuotaPeriod?
+        /// Specifies at which level of granularity that the quota value is applied.
+        public var quotaAppliedAtLevel: ServiceQuotasClientTypes.AppliedLevelEnum?
         /// The Amazon Resource Name (ARN) of the quota.
         public var quotaArn: Swift.String?
-        /// The quota identifier.
+        /// Specifies the quota identifier. To find the quota code for a specific quota, use the [ListServiceQuotas] operation, and look for the QuotaCode response in the output for the quota you want.
         public var quotaCode: Swift.String?
-        /// The quota name.
+        /// The context for this service quota.
+        public var quotaContext: ServiceQuotasClientTypes.QuotaContextInfo?
+        /// Specifies the quota name.
         public var quotaName: Swift.String?
-        /// The service identifier.
+        /// Specifies the service identifier. To find the service code value for an Amazon Web Services service, use the [ListServices] operation.
         public var serviceCode: Swift.String?
-        /// The service name.
+        /// Specifies the service name.
         public var serviceName: Swift.String?
         /// The unit of measurement.
         public var unit: Swift.String?
@@ -3369,8 +3605,10 @@ extension ServiceQuotasClientTypes {
             errorReason: ServiceQuotasClientTypes.ErrorReason? = nil,
             globalQuota: Swift.Bool = false,
             period: ServiceQuotasClientTypes.QuotaPeriod? = nil,
+            quotaAppliedAtLevel: ServiceQuotasClientTypes.AppliedLevelEnum? = nil,
             quotaArn: Swift.String? = nil,
             quotaCode: Swift.String? = nil,
+            quotaContext: ServiceQuotasClientTypes.QuotaContextInfo? = nil,
             quotaName: Swift.String? = nil,
             serviceCode: Swift.String? = nil,
             serviceName: Swift.String? = nil,
@@ -3383,8 +3621,10 @@ extension ServiceQuotasClientTypes {
             self.errorReason = errorReason
             self.globalQuota = globalQuota
             self.period = period
+            self.quotaAppliedAtLevel = quotaAppliedAtLevel
             self.quotaArn = quotaArn
             self.quotaCode = quotaCode
+            self.quotaContext = quotaContext
             self.quotaName = quotaName
             self.serviceCode = serviceCode
             self.serviceName = serviceName
@@ -3460,19 +3700,19 @@ extension ServiceQuotasClientTypes.ServiceQuotaIncreaseRequestInTemplate: Swift.
 extension ServiceQuotasClientTypes {
     /// Information about a quota increase request.
     public struct ServiceQuotaIncreaseRequestInTemplate: Swift.Equatable {
-        /// The AWS Region.
+        /// The Amazon Web Services Region.
         public var awsRegion: Swift.String?
         /// The new, increased value of the quota.
         public var desiredValue: Swift.Double?
         /// Indicates whether the quota is global.
         public var globalQuota: Swift.Bool
-        /// The quota identifier.
+        /// Specifies the quota identifier. To find the quota code for a specific quota, use the [ListServiceQuotas] operation, and look for the QuotaCode response in the output for the quota you want.
         public var quotaCode: Swift.String?
-        /// The quota name.
+        /// Specifies the quota name.
         public var quotaName: Swift.String?
-        /// The service identifier.
+        /// Specifies the service identifier. To find the service code value for an Amazon Web Services service, use the [ListServices] operation.
         public var serviceCode: Swift.String?
-        /// The service name.
+        /// Specifies the service name.
         public var serviceName: Swift.String?
         /// The unit of measurement.
         public var unit: Swift.String?
@@ -3717,7 +3957,7 @@ extension TagResourceInput: ClientRuntime.URLPathProvider {
 }
 
 public struct TagResourceInput: Swift.Equatable {
-    /// The Amazon Resource Name (ARN) for the applied quota. You can get this information by using the Service Quotas console, or by listing the quotas using the [list-service-quotas](https://docs.aws.amazon.com/cli/latest/reference/service-quotas/list-service-quotas.html) AWS CLI command or the [ListServiceQuotas](https://docs.aws.amazon.com/servicequotas/2019-06-24/apireference/API_ListServiceQuotas.html) AWS API operation.
+    /// The Amazon Resource Name (ARN) for the applied quota. You can get this information by using the Service Quotas console, or by listing the quotas using the [list-service-quotas](https://docs.aws.amazon.com/cli/latest/reference/service-quotas/list-service-quotas.html) CLI command or the [ListServiceQuotas](https://docs.aws.amazon.com/servicequotas/2019-06-24/apireference/API_ListServiceQuotas.html) Amazon Web Services API operation.
     /// This member is required.
     public var resourceARN: Swift.String?
     /// The tags that you want to add to the resource.
@@ -3805,7 +4045,7 @@ extension TemplatesNotAvailableInRegionException {
     }
 }
 
-/// The Service Quotas template is not available in this AWS Region.
+/// The Service Quotas template is not available in this Amazon Web Services Region.
 public struct TemplatesNotAvailableInRegionException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
@@ -3982,7 +4222,7 @@ extension UntagResourceInput: ClientRuntime.URLPathProvider {
 }
 
 public struct UntagResourceInput: Swift.Equatable {
-    /// The Amazon Resource Name (ARN) for the applied quota that you want to untag. You can get this information by using the Service Quotas console, or by listing the quotas using the [list-service-quotas](https://docs.aws.amazon.com/cli/latest/reference/service-quotas/list-service-quotas.html) AWS CLI command or the [ListServiceQuotas](https://docs.aws.amazon.com/servicequotas/2019-06-24/apireference/API_ListServiceQuotas.html) AWS API operation.
+    /// The Amazon Resource Name (ARN) for the applied quota that you want to untag. You can get this information by using the Service Quotas console, or by listing the quotas using the [list-service-quotas](https://docs.aws.amazon.com/cli/latest/reference/service-quotas/list-service-quotas.html) CLI command or the [ListServiceQuotas](https://docs.aws.amazon.com/servicequotas/2019-06-24/apireference/API_ListServiceQuotas.html) Amazon Web Services API operation.
     /// This member is required.
     public var resourceARN: Swift.String?
     /// The keys of the tags that you want to remove from the resource.

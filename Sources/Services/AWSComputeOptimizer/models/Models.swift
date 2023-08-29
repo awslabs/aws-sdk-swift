@@ -3545,6 +3545,218 @@ extension ExportLambdaFunctionRecommendationsOutputResponseBody: Swift.Decodable
     }
 }
 
+extension ExportLicenseRecommendationsInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountIds
+        case fieldsToExport
+        case fileFormat
+        case filters
+        case includeMemberAccounts
+        case s3DestinationConfig
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let accountIds = accountIds {
+            var accountIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .accountIds)
+            for accountid0 in accountIds {
+                try accountIdsContainer.encode(accountid0)
+            }
+        }
+        if let fieldsToExport = fieldsToExport {
+            var fieldsToExportContainer = encodeContainer.nestedUnkeyedContainer(forKey: .fieldsToExport)
+            for exportablelicensefield0 in fieldsToExport {
+                try fieldsToExportContainer.encode(exportablelicensefield0.rawValue)
+            }
+        }
+        if let fileFormat = self.fileFormat {
+            try encodeContainer.encode(fileFormat.rawValue, forKey: .fileFormat)
+        }
+        if let filters = filters {
+            var filtersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filters)
+            for licenserecommendationfilter0 in filters {
+                try filtersContainer.encode(licenserecommendationfilter0)
+            }
+        }
+        if let includeMemberAccounts = self.includeMemberAccounts {
+            try encodeContainer.encode(includeMemberAccounts, forKey: .includeMemberAccounts)
+        }
+        if let s3DestinationConfig = self.s3DestinationConfig {
+            try encodeContainer.encode(s3DestinationConfig, forKey: .s3DestinationConfig)
+        }
+    }
+}
+
+extension ExportLicenseRecommendationsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct ExportLicenseRecommendationsInput: Swift.Equatable {
+    /// The IDs of the Amazon Web Services accounts for which to export license recommendations. If your account is the management account of an organization, use this parameter to specify the member account for which you want to export recommendations. This parameter can't be specified together with the include member accounts parameter. The parameters are mutually exclusive. If this parameter is omitted, recommendations for member accounts aren't included in the export. You can specify multiple account IDs per request.
+    public var accountIds: [Swift.String]?
+    /// The recommendations data to include in the export file. For more information about the fields that can be exported, see [Exported files](https://docs.aws.amazon.com/compute-optimizer/latest/ug/exporting-recommendations.html#exported-files) in the Compute Optimizer User Guide.
+    public var fieldsToExport: [ComputeOptimizerClientTypes.ExportableLicenseField]?
+    /// The format of the export file. A CSV file is the only export format currently supported.
+    public var fileFormat: ComputeOptimizerClientTypes.FileFormat?
+    /// An array of objects to specify a filter that exports a more specific set of license recommendations.
+    public var filters: [ComputeOptimizerClientTypes.LicenseRecommendationFilter]?
+    /// Indicates whether to include recommendations for resources in all member accounts of the organization if your account is the management account of an organization. The member accounts must also be opted in to Compute Optimizer, and trusted access for Compute Optimizer must be enabled in the organization account. For more information, see [Compute Optimizer and Amazon Web Services Organizations trusted access](https://docs.aws.amazon.com/compute-optimizer/latest/ug/security-iam.html#trusted-service-access) in the Compute Optimizer User Guide. If this parameter is omitted, recommendations for member accounts of the organization aren't included in the export file . This parameter cannot be specified together with the account IDs parameter. The parameters are mutually exclusive.
+    public var includeMemberAccounts: Swift.Bool?
+    /// Describes the destination Amazon Simple Storage Service (Amazon S3) bucket name and key prefix for a recommendations export job. You must create the destination Amazon S3 bucket for your recommendations export before you create the export job. Compute Optimizer does not create the S3 bucket for you. After you create the S3 bucket, ensure that it has the required permission policy to allow Compute Optimizer to write the export file to it. If you plan to specify an object prefix when you create the export job, you must include the object prefix in the policy that you add to the S3 bucket. For more information, see [Amazon S3 Bucket Policy for Compute Optimizer](https://docs.aws.amazon.com/compute-optimizer/latest/ug/create-s3-bucket-policy-for-compute-optimizer.html) in the Compute Optimizer User Guide.
+    /// This member is required.
+    public var s3DestinationConfig: ComputeOptimizerClientTypes.S3DestinationConfig?
+
+    public init(
+        accountIds: [Swift.String]? = nil,
+        fieldsToExport: [ComputeOptimizerClientTypes.ExportableLicenseField]? = nil,
+        fileFormat: ComputeOptimizerClientTypes.FileFormat? = nil,
+        filters: [ComputeOptimizerClientTypes.LicenseRecommendationFilter]? = nil,
+        includeMemberAccounts: Swift.Bool? = nil,
+        s3DestinationConfig: ComputeOptimizerClientTypes.S3DestinationConfig? = nil
+    )
+    {
+        self.accountIds = accountIds
+        self.fieldsToExport = fieldsToExport
+        self.fileFormat = fileFormat
+        self.filters = filters
+        self.includeMemberAccounts = includeMemberAccounts
+        self.s3DestinationConfig = s3DestinationConfig
+    }
+}
+
+struct ExportLicenseRecommendationsInputBody: Swift.Equatable {
+    let accountIds: [Swift.String]?
+    let filters: [ComputeOptimizerClientTypes.LicenseRecommendationFilter]?
+    let fieldsToExport: [ComputeOptimizerClientTypes.ExportableLicenseField]?
+    let s3DestinationConfig: ComputeOptimizerClientTypes.S3DestinationConfig?
+    let fileFormat: ComputeOptimizerClientTypes.FileFormat?
+    let includeMemberAccounts: Swift.Bool?
+}
+
+extension ExportLicenseRecommendationsInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountIds
+        case fieldsToExport
+        case fileFormat
+        case filters
+        case includeMemberAccounts
+        case s3DestinationConfig
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let accountIdsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .accountIds)
+        var accountIdsDecoded0:[Swift.String]? = nil
+        if let accountIdsContainer = accountIdsContainer {
+            accountIdsDecoded0 = [Swift.String]()
+            for string0 in accountIdsContainer {
+                if let string0 = string0 {
+                    accountIdsDecoded0?.append(string0)
+                }
+            }
+        }
+        accountIds = accountIdsDecoded0
+        let filtersContainer = try containerValues.decodeIfPresent([ComputeOptimizerClientTypes.LicenseRecommendationFilter?].self, forKey: .filters)
+        var filtersDecoded0:[ComputeOptimizerClientTypes.LicenseRecommendationFilter]? = nil
+        if let filtersContainer = filtersContainer {
+            filtersDecoded0 = [ComputeOptimizerClientTypes.LicenseRecommendationFilter]()
+            for structure0 in filtersContainer {
+                if let structure0 = structure0 {
+                    filtersDecoded0?.append(structure0)
+                }
+            }
+        }
+        filters = filtersDecoded0
+        let fieldsToExportContainer = try containerValues.decodeIfPresent([ComputeOptimizerClientTypes.ExportableLicenseField?].self, forKey: .fieldsToExport)
+        var fieldsToExportDecoded0:[ComputeOptimizerClientTypes.ExportableLicenseField]? = nil
+        if let fieldsToExportContainer = fieldsToExportContainer {
+            fieldsToExportDecoded0 = [ComputeOptimizerClientTypes.ExportableLicenseField]()
+            for enum0 in fieldsToExportContainer {
+                if let enum0 = enum0 {
+                    fieldsToExportDecoded0?.append(enum0)
+                }
+            }
+        }
+        fieldsToExport = fieldsToExportDecoded0
+        let s3DestinationConfigDecoded = try containerValues.decodeIfPresent(ComputeOptimizerClientTypes.S3DestinationConfig.self, forKey: .s3DestinationConfig)
+        s3DestinationConfig = s3DestinationConfigDecoded
+        let fileFormatDecoded = try containerValues.decodeIfPresent(ComputeOptimizerClientTypes.FileFormat.self, forKey: .fileFormat)
+        fileFormat = fileFormatDecoded
+        let includeMemberAccountsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .includeMemberAccounts)
+        includeMemberAccounts = includeMemberAccountsDecoded
+    }
+}
+
+public enum ExportLicenseRecommendationsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "MissingAuthenticationToken": return try await MissingAuthenticationToken(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OptInRequiredException": return try await OptInRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension ExportLicenseRecommendationsOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ExportLicenseRecommendationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.jobId = output.jobId
+            self.s3Destination = output.s3Destination
+        } else {
+            self.jobId = nil
+            self.s3Destination = nil
+        }
+    }
+}
+
+public struct ExportLicenseRecommendationsOutputResponse: Swift.Equatable {
+    /// The identification number of the export job. To view the status of an export job, use the [DescribeRecommendationExportJobs] action and specify the job ID.
+    public var jobId: Swift.String?
+    /// Describes the destination Amazon Simple Storage Service (Amazon S3) bucket name and object keys of a recommendations export file, and its associated metadata file.
+    public var s3Destination: ComputeOptimizerClientTypes.S3Destination?
+
+    public init(
+        jobId: Swift.String? = nil,
+        s3Destination: ComputeOptimizerClientTypes.S3Destination? = nil
+    )
+    {
+        self.jobId = jobId
+        self.s3Destination = s3Destination
+    }
+}
+
+struct ExportLicenseRecommendationsOutputResponseBody: Swift.Equatable {
+    let jobId: Swift.String?
+    let s3Destination: ComputeOptimizerClientTypes.S3Destination?
+}
+
+extension ExportLicenseRecommendationsOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case jobId
+        case s3Destination
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let jobIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .jobId)
+        jobId = jobIdDecoded
+        let s3DestinationDecoded = try containerValues.decodeIfPresent(ComputeOptimizerClientTypes.S3Destination.self, forKey: .s3Destination)
+        s3Destination = s3DestinationDecoded
+    }
+}
+
 extension ComputeOptimizerClientTypes {
     public enum ExportableAutoScalingGroupField: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case accountId
@@ -4131,6 +4343,95 @@ extension ComputeOptimizerClientTypes {
             let container = try decoder.singleValueContainer()
             let rawValue = try container.decode(RawValue.self)
             self = ExportableLambdaFunctionField(rawValue: rawValue) ?? ExportableLambdaFunctionField.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension ComputeOptimizerClientTypes {
+    public enum ExportableLicenseField: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case accountId
+        case currentLicenseConfigurationInstanceType
+        case currentLicenseConfigurationLicenseEdition
+        case currentLicenseConfigurationLicenseModel
+        case currentLicenseConfigurationLicenseName
+        case currentLicenseConfigurationLicenseVersion
+        case currentLicenseConfigurationMetricsSource
+        case currentLicenseConfigurationNumberOfCores
+        case currentLicenseConfigurationOperatingSystem
+        case lastRefreshTimestamp
+        case licenseFinding
+        case licenseFindingReasonCodes
+        case lookbackPeriodInDays
+        case recommendationOptionsEstimatedMonthlySavingsCurrency
+        case recommendationOptionsEstimatedMonthlySavingsValue
+        case recommendationOptionsLicenseEdition
+        case recommendationOptionsLicenseModel
+        case recommendationOptionsOperatingSystem
+        case recommendationOptionsSavingsOpportunityPercentage
+        case resourceArn
+        case tags
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ExportableLicenseField] {
+            return [
+                .accountId,
+                .currentLicenseConfigurationInstanceType,
+                .currentLicenseConfigurationLicenseEdition,
+                .currentLicenseConfigurationLicenseModel,
+                .currentLicenseConfigurationLicenseName,
+                .currentLicenseConfigurationLicenseVersion,
+                .currentLicenseConfigurationMetricsSource,
+                .currentLicenseConfigurationNumberOfCores,
+                .currentLicenseConfigurationOperatingSystem,
+                .lastRefreshTimestamp,
+                .licenseFinding,
+                .licenseFindingReasonCodes,
+                .lookbackPeriodInDays,
+                .recommendationOptionsEstimatedMonthlySavingsCurrency,
+                .recommendationOptionsEstimatedMonthlySavingsValue,
+                .recommendationOptionsLicenseEdition,
+                .recommendationOptionsLicenseModel,
+                .recommendationOptionsOperatingSystem,
+                .recommendationOptionsSavingsOpportunityPercentage,
+                .resourceArn,
+                .tags,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .accountId: return "AccountId"
+            case .currentLicenseConfigurationInstanceType: return "CurrentLicenseConfigurationInstanceType"
+            case .currentLicenseConfigurationLicenseEdition: return "CurrentLicenseConfigurationLicenseEdition"
+            case .currentLicenseConfigurationLicenseModel: return "CurrentLicenseConfigurationLicenseModel"
+            case .currentLicenseConfigurationLicenseName: return "CurrentLicenseConfigurationLicenseName"
+            case .currentLicenseConfigurationLicenseVersion: return "CurrentLicenseConfigurationLicenseVersion"
+            case .currentLicenseConfigurationMetricsSource: return "CurrentLicenseConfigurationMetricsSource"
+            case .currentLicenseConfigurationNumberOfCores: return "CurrentLicenseConfigurationNumberOfCores"
+            case .currentLicenseConfigurationOperatingSystem: return "CurrentLicenseConfigurationOperatingSystem"
+            case .lastRefreshTimestamp: return "LastRefreshTimestamp"
+            case .licenseFinding: return "Finding"
+            case .licenseFindingReasonCodes: return "FindingReasonCodes"
+            case .lookbackPeriodInDays: return "LookbackPeriodInDays"
+            case .recommendationOptionsEstimatedMonthlySavingsCurrency: return "RecommendationOptionsEstimatedMonthlySavingsCurrency"
+            case .recommendationOptionsEstimatedMonthlySavingsValue: return "RecommendationOptionsEstimatedMonthlySavingsValue"
+            case .recommendationOptionsLicenseEdition: return "RecommendationOptionsLicenseEdition"
+            case .recommendationOptionsLicenseModel: return "RecommendationOptionsLicenseModel"
+            case .recommendationOptionsOperatingSystem: return "RecommendationOptionsOperatingSystem"
+            case .recommendationOptionsSavingsOpportunityPercentage: return "RecommendationOptionsSavingsOpportunityPercentage"
+            case .resourceArn: return "ResourceArn"
+            case .tags: return "Tags"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = ExportableLicenseField(rawValue: rawValue) ?? ExportableLicenseField.sdkUnknown(rawValue)
         }
     }
 }
@@ -6543,6 +6844,233 @@ extension GetLambdaFunctionRecommendationsOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension GetLicenseRecommendationsInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountIds
+        case filters
+        case maxResults
+        case nextToken
+        case resourceArns
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let accountIds = accountIds {
+            var accountIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .accountIds)
+            for accountid0 in accountIds {
+                try accountIdsContainer.encode(accountid0)
+            }
+        }
+        if let filters = filters {
+            var filtersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .filters)
+            for licenserecommendationfilter0 in filters {
+                try filtersContainer.encode(licenserecommendationfilter0)
+            }
+        }
+        if let maxResults = self.maxResults {
+            try encodeContainer.encode(maxResults, forKey: .maxResults)
+        }
+        if let nextToken = self.nextToken {
+            try encodeContainer.encode(nextToken, forKey: .nextToken)
+        }
+        if let resourceArns = resourceArns {
+            var resourceArnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .resourceArns)
+            for resourcearn0 in resourceArns {
+                try resourceArnsContainer.encode(resourcearn0)
+            }
+        }
+    }
+}
+
+extension GetLicenseRecommendationsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct GetLicenseRecommendationsInput: Swift.Equatable {
+    /// The ID of the Amazon Web Services account for which to return license recommendations. If your account is the management account of an organization, use this parameter to specify the member account for which you want to return license recommendations. Only one account ID can be specified per request.
+    public var accountIds: [Swift.String]?
+    /// An array of objects to specify a filter that returns a more specific list of license recommendations.
+    public var filters: [ComputeOptimizerClientTypes.LicenseRecommendationFilter]?
+    /// The maximum number of license recommendations to return with a single request. To retrieve the remaining results, make another request with the returned nextToken value.
+    public var maxResults: Swift.Int?
+    /// The token to advance to the next page of license recommendations.
+    public var nextToken: Swift.String?
+    /// The ARN that identifies the Amazon EC2 instance. The following is the format of the ARN: arn:aws:ec2:region:aws_account_id:instance/instance-id
+    public var resourceArns: [Swift.String]?
+
+    public init(
+        accountIds: [Swift.String]? = nil,
+        filters: [ComputeOptimizerClientTypes.LicenseRecommendationFilter]? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        resourceArns: [Swift.String]? = nil
+    )
+    {
+        self.accountIds = accountIds
+        self.filters = filters
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.resourceArns = resourceArns
+    }
+}
+
+struct GetLicenseRecommendationsInputBody: Swift.Equatable {
+    let resourceArns: [Swift.String]?
+    let nextToken: Swift.String?
+    let maxResults: Swift.Int?
+    let filters: [ComputeOptimizerClientTypes.LicenseRecommendationFilter]?
+    let accountIds: [Swift.String]?
+}
+
+extension GetLicenseRecommendationsInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountIds
+        case filters
+        case maxResults
+        case nextToken
+        case resourceArns
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let resourceArnsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .resourceArns)
+        var resourceArnsDecoded0:[Swift.String]? = nil
+        if let resourceArnsContainer = resourceArnsContainer {
+            resourceArnsDecoded0 = [Swift.String]()
+            for string0 in resourceArnsContainer {
+                if let string0 = string0 {
+                    resourceArnsDecoded0?.append(string0)
+                }
+            }
+        }
+        resourceArns = resourceArnsDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
+        maxResults = maxResultsDecoded
+        let filtersContainer = try containerValues.decodeIfPresent([ComputeOptimizerClientTypes.LicenseRecommendationFilter?].self, forKey: .filters)
+        var filtersDecoded0:[ComputeOptimizerClientTypes.LicenseRecommendationFilter]? = nil
+        if let filtersContainer = filtersContainer {
+            filtersDecoded0 = [ComputeOptimizerClientTypes.LicenseRecommendationFilter]()
+            for structure0 in filtersContainer {
+                if let structure0 = structure0 {
+                    filtersDecoded0?.append(structure0)
+                }
+            }
+        }
+        filters = filtersDecoded0
+        let accountIdsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .accountIds)
+        var accountIdsDecoded0:[Swift.String]? = nil
+        if let accountIdsContainer = accountIdsContainer {
+            accountIdsDecoded0 = [Swift.String]()
+            for string0 in accountIdsContainer {
+                if let string0 = string0 {
+                    accountIdsDecoded0?.append(string0)
+                }
+            }
+        }
+        accountIds = accountIdsDecoded0
+    }
+}
+
+public enum GetLicenseRecommendationsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "MissingAuthenticationToken": return try await MissingAuthenticationToken(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OptInRequiredException": return try await OptInRequiredException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension GetLicenseRecommendationsOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetLicenseRecommendationsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.errors = output.errors
+            self.licenseRecommendations = output.licenseRecommendations
+            self.nextToken = output.nextToken
+        } else {
+            self.errors = nil
+            self.licenseRecommendations = nil
+            self.nextToken = nil
+        }
+    }
+}
+
+public struct GetLicenseRecommendationsOutputResponse: Swift.Equatable {
+    /// An array of objects that describe errors of the request.
+    public var errors: [ComputeOptimizerClientTypes.GetRecommendationError]?
+    /// An array of objects that describe license recommendations.
+    public var licenseRecommendations: [ComputeOptimizerClientTypes.LicenseRecommendation]?
+    /// The token to use to advance to the next page of license recommendations.
+    public var nextToken: Swift.String?
+
+    public init(
+        errors: [ComputeOptimizerClientTypes.GetRecommendationError]? = nil,
+        licenseRecommendations: [ComputeOptimizerClientTypes.LicenseRecommendation]? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.errors = errors
+        self.licenseRecommendations = licenseRecommendations
+        self.nextToken = nextToken
+    }
+}
+
+struct GetLicenseRecommendationsOutputResponseBody: Swift.Equatable {
+    let nextToken: Swift.String?
+    let licenseRecommendations: [ComputeOptimizerClientTypes.LicenseRecommendation]?
+    let errors: [ComputeOptimizerClientTypes.GetRecommendationError]?
+}
+
+extension GetLicenseRecommendationsOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case errors
+        case licenseRecommendations
+        case nextToken
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+        let licenseRecommendationsContainer = try containerValues.decodeIfPresent([ComputeOptimizerClientTypes.LicenseRecommendation?].self, forKey: .licenseRecommendations)
+        var licenseRecommendationsDecoded0:[ComputeOptimizerClientTypes.LicenseRecommendation]? = nil
+        if let licenseRecommendationsContainer = licenseRecommendationsContainer {
+            licenseRecommendationsDecoded0 = [ComputeOptimizerClientTypes.LicenseRecommendation]()
+            for structure0 in licenseRecommendationsContainer {
+                if let structure0 = structure0 {
+                    licenseRecommendationsDecoded0?.append(structure0)
+                }
+            }
+        }
+        licenseRecommendations = licenseRecommendationsDecoded0
+        let errorsContainer = try containerValues.decodeIfPresent([ComputeOptimizerClientTypes.GetRecommendationError?].self, forKey: .errors)
+        var errorsDecoded0:[ComputeOptimizerClientTypes.GetRecommendationError]? = nil
+        if let errorsContainer = errorsContainer {
+            errorsDecoded0 = [ComputeOptimizerClientTypes.GetRecommendationError]()
+            for structure0 in errorsContainer {
+                if let structure0 = structure0 {
+                    errorsDecoded0?.append(structure0)
+                }
+            }
+        }
+        errors = errorsDecoded0
+    }
+}
+
 extension ComputeOptimizerClientTypes.GetRecommendationError: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case code
@@ -8596,6 +9124,631 @@ extension ComputeOptimizerClientTypes {
 
 }
 
+extension ComputeOptimizerClientTypes.LicenseConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case instanceType
+        case licenseEdition
+        case licenseModel
+        case licenseName
+        case licenseVersion
+        case metricsSource
+        case numberOfCores
+        case operatingSystem
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let instanceType = self.instanceType {
+            try encodeContainer.encode(instanceType, forKey: .instanceType)
+        }
+        if let licenseEdition = self.licenseEdition {
+            try encodeContainer.encode(licenseEdition.rawValue, forKey: .licenseEdition)
+        }
+        if let licenseModel = self.licenseModel {
+            try encodeContainer.encode(licenseModel.rawValue, forKey: .licenseModel)
+        }
+        if let licenseName = self.licenseName {
+            try encodeContainer.encode(licenseName.rawValue, forKey: .licenseName)
+        }
+        if let licenseVersion = self.licenseVersion {
+            try encodeContainer.encode(licenseVersion, forKey: .licenseVersion)
+        }
+        if let metricsSource = metricsSource {
+            var metricsSourceContainer = encodeContainer.nestedUnkeyedContainer(forKey: .metricsSource)
+            for metricsource0 in metricsSource {
+                try metricsSourceContainer.encode(metricsource0)
+            }
+        }
+        if numberOfCores != 0 {
+            try encodeContainer.encode(numberOfCores, forKey: .numberOfCores)
+        }
+        if let operatingSystem = self.operatingSystem {
+            try encodeContainer.encode(operatingSystem, forKey: .operatingSystem)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let numberOfCoresDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .numberOfCores) ?? 0
+        numberOfCores = numberOfCoresDecoded
+        let instanceTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .instanceType)
+        instanceType = instanceTypeDecoded
+        let operatingSystemDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .operatingSystem)
+        operatingSystem = operatingSystemDecoded
+        let licenseEditionDecoded = try containerValues.decodeIfPresent(ComputeOptimizerClientTypes.LicenseEdition.self, forKey: .licenseEdition)
+        licenseEdition = licenseEditionDecoded
+        let licenseNameDecoded = try containerValues.decodeIfPresent(ComputeOptimizerClientTypes.LicenseName.self, forKey: .licenseName)
+        licenseName = licenseNameDecoded
+        let licenseModelDecoded = try containerValues.decodeIfPresent(ComputeOptimizerClientTypes.LicenseModel.self, forKey: .licenseModel)
+        licenseModel = licenseModelDecoded
+        let licenseVersionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .licenseVersion)
+        licenseVersion = licenseVersionDecoded
+        let metricsSourceContainer = try containerValues.decodeIfPresent([ComputeOptimizerClientTypes.MetricSource?].self, forKey: .metricsSource)
+        var metricsSourceDecoded0:[ComputeOptimizerClientTypes.MetricSource]? = nil
+        if let metricsSourceContainer = metricsSourceContainer {
+            metricsSourceDecoded0 = [ComputeOptimizerClientTypes.MetricSource]()
+            for structure0 in metricsSourceContainer {
+                if let structure0 = structure0 {
+                    metricsSourceDecoded0?.append(structure0)
+                }
+            }
+        }
+        metricsSource = metricsSourceDecoded0
+    }
+}
+
+extension ComputeOptimizerClientTypes {
+    /// Describes the configuration of a license for an Amazon EC2 instance.
+    public struct LicenseConfiguration: Swift.Equatable {
+        /// The instance type used in the license.
+        public var instanceType: Swift.String?
+        /// The edition of the license for the application that runs on the instance.
+        public var licenseEdition: ComputeOptimizerClientTypes.LicenseEdition?
+        /// The license type associated with the instance.
+        public var licenseModel: ComputeOptimizerClientTypes.LicenseModel?
+        /// The name of the license for the application that runs on the instance.
+        public var licenseName: ComputeOptimizerClientTypes.LicenseName?
+        /// The version of the license for the application that runs on the instance.
+        public var licenseVersion: Swift.String?
+        /// The list of metric sources required to generate recommendations for commercial software licenses.
+        public var metricsSource: [ComputeOptimizerClientTypes.MetricSource]?
+        /// The current number of cores associated with the instance.
+        public var numberOfCores: Swift.Int
+        /// The operating system of the instance.
+        public var operatingSystem: Swift.String?
+
+        public init(
+            instanceType: Swift.String? = nil,
+            licenseEdition: ComputeOptimizerClientTypes.LicenseEdition? = nil,
+            licenseModel: ComputeOptimizerClientTypes.LicenseModel? = nil,
+            licenseName: ComputeOptimizerClientTypes.LicenseName? = nil,
+            licenseVersion: Swift.String? = nil,
+            metricsSource: [ComputeOptimizerClientTypes.MetricSource]? = nil,
+            numberOfCores: Swift.Int = 0,
+            operatingSystem: Swift.String? = nil
+        )
+        {
+            self.instanceType = instanceType
+            self.licenseEdition = licenseEdition
+            self.licenseModel = licenseModel
+            self.licenseName = licenseName
+            self.licenseVersion = licenseVersion
+            self.metricsSource = metricsSource
+            self.numberOfCores = numberOfCores
+            self.operatingSystem = operatingSystem
+        }
+    }
+
+}
+
+extension ComputeOptimizerClientTypes {
+    public enum LicenseEdition: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case enterprise
+        case free
+        case noLicenseEditionFound
+        case standard
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [LicenseEdition] {
+            return [
+                .enterprise,
+                .free,
+                .noLicenseEditionFound,
+                .standard,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .enterprise: return "Enterprise"
+            case .free: return "Free"
+            case .noLicenseEditionFound: return "NoLicenseEditionFound"
+            case .standard: return "Standard"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = LicenseEdition(rawValue: rawValue) ?? LicenseEdition.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension ComputeOptimizerClientTypes {
+    public enum LicenseFinding: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case insufficientMetrics
+        case notOptimized
+        case optimized
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [LicenseFinding] {
+            return [
+                .insufficientMetrics,
+                .notOptimized,
+                .optimized,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .insufficientMetrics: return "InsufficientMetrics"
+            case .notOptimized: return "NotOptimized"
+            case .optimized: return "Optimized"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = LicenseFinding(rawValue: rawValue) ?? LicenseFinding.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension ComputeOptimizerClientTypes {
+    public enum LicenseFindingReasonCode: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case cwAppInsightsDisabled
+        case cwAppInsightsError
+        case licenseOverProvisioned
+        case optimized
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [LicenseFindingReasonCode] {
+            return [
+                .cwAppInsightsDisabled,
+                .cwAppInsightsError,
+                .licenseOverProvisioned,
+                .optimized,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .cwAppInsightsDisabled: return "InvalidCloudWatchApplicationInsightsSetup"
+            case .cwAppInsightsError: return "CloudWatchApplicationInsightsError"
+            case .licenseOverProvisioned: return "LicenseOverprovisioned"
+            case .optimized: return "Optimized"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = LicenseFindingReasonCode(rawValue: rawValue) ?? LicenseFindingReasonCode.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension ComputeOptimizerClientTypes {
+    public enum LicenseModel: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case bringYourOwnLicense
+        case licenseIncluded
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [LicenseModel] {
+            return [
+                .bringYourOwnLicense,
+                .licenseIncluded,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .bringYourOwnLicense: return "BringYourOwnLicense"
+            case .licenseIncluded: return "LicenseIncluded"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = LicenseModel(rawValue: rawValue) ?? LicenseModel.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension ComputeOptimizerClientTypes {
+    public enum LicenseName: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case sqlserver
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [LicenseName] {
+            return [
+                .sqlserver,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .sqlserver: return "SQLServer"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = LicenseName(rawValue: rawValue) ?? LicenseName.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension ComputeOptimizerClientTypes.LicenseRecommendation: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountId
+        case currentLicenseConfiguration
+        case finding
+        case findingReasonCodes
+        case lastRefreshTimestamp
+        case licenseRecommendationOptions
+        case lookbackPeriodInDays
+        case resourceArn
+        case tags
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let accountId = self.accountId {
+            try encodeContainer.encode(accountId, forKey: .accountId)
+        }
+        if let currentLicenseConfiguration = self.currentLicenseConfiguration {
+            try encodeContainer.encode(currentLicenseConfiguration, forKey: .currentLicenseConfiguration)
+        }
+        if let finding = self.finding {
+            try encodeContainer.encode(finding.rawValue, forKey: .finding)
+        }
+        if let findingReasonCodes = findingReasonCodes {
+            var findingReasonCodesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .findingReasonCodes)
+            for licensefindingreasoncode0 in findingReasonCodes {
+                try findingReasonCodesContainer.encode(licensefindingreasoncode0.rawValue)
+            }
+        }
+        if let lastRefreshTimestamp = self.lastRefreshTimestamp {
+            try encodeContainer.encodeTimestamp(lastRefreshTimestamp, format: .epochSeconds, forKey: .lastRefreshTimestamp)
+        }
+        if let licenseRecommendationOptions = licenseRecommendationOptions {
+            var licenseRecommendationOptionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .licenseRecommendationOptions)
+            for licenserecommendationoption0 in licenseRecommendationOptions {
+                try licenseRecommendationOptionsContainer.encode(licenserecommendationoption0)
+            }
+        }
+        if lookbackPeriodInDays != 0.0 {
+            try encodeContainer.encode(lookbackPeriodInDays, forKey: .lookbackPeriodInDays)
+        }
+        if let resourceArn = self.resourceArn {
+            try encodeContainer.encode(resourceArn, forKey: .resourceArn)
+        }
+        if let tags = tags {
+            var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let resourceArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceArn)
+        resourceArn = resourceArnDecoded
+        let accountIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .accountId)
+        accountId = accountIdDecoded
+        let currentLicenseConfigurationDecoded = try containerValues.decodeIfPresent(ComputeOptimizerClientTypes.LicenseConfiguration.self, forKey: .currentLicenseConfiguration)
+        currentLicenseConfiguration = currentLicenseConfigurationDecoded
+        let lookbackPeriodInDaysDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .lookbackPeriodInDays) ?? 0.0
+        lookbackPeriodInDays = lookbackPeriodInDaysDecoded
+        let lastRefreshTimestampDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastRefreshTimestamp)
+        lastRefreshTimestamp = lastRefreshTimestampDecoded
+        let findingDecoded = try containerValues.decodeIfPresent(ComputeOptimizerClientTypes.LicenseFinding.self, forKey: .finding)
+        finding = findingDecoded
+        let findingReasonCodesContainer = try containerValues.decodeIfPresent([ComputeOptimizerClientTypes.LicenseFindingReasonCode?].self, forKey: .findingReasonCodes)
+        var findingReasonCodesDecoded0:[ComputeOptimizerClientTypes.LicenseFindingReasonCode]? = nil
+        if let findingReasonCodesContainer = findingReasonCodesContainer {
+            findingReasonCodesDecoded0 = [ComputeOptimizerClientTypes.LicenseFindingReasonCode]()
+            for enum0 in findingReasonCodesContainer {
+                if let enum0 = enum0 {
+                    findingReasonCodesDecoded0?.append(enum0)
+                }
+            }
+        }
+        findingReasonCodes = findingReasonCodesDecoded0
+        let licenseRecommendationOptionsContainer = try containerValues.decodeIfPresent([ComputeOptimizerClientTypes.LicenseRecommendationOption?].self, forKey: .licenseRecommendationOptions)
+        var licenseRecommendationOptionsDecoded0:[ComputeOptimizerClientTypes.LicenseRecommendationOption]? = nil
+        if let licenseRecommendationOptionsContainer = licenseRecommendationOptionsContainer {
+            licenseRecommendationOptionsDecoded0 = [ComputeOptimizerClientTypes.LicenseRecommendationOption]()
+            for structure0 in licenseRecommendationOptionsContainer {
+                if let structure0 = structure0 {
+                    licenseRecommendationOptionsDecoded0?.append(structure0)
+                }
+            }
+        }
+        licenseRecommendationOptions = licenseRecommendationOptionsDecoded0
+        let tagsContainer = try containerValues.decodeIfPresent([ComputeOptimizerClientTypes.Tag?].self, forKey: .tags)
+        var tagsDecoded0:[ComputeOptimizerClientTypes.Tag]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [ComputeOptimizerClientTypes.Tag]()
+            for structure0 in tagsContainer {
+                if let structure0 = structure0 {
+                    tagsDecoded0?.append(structure0)
+                }
+            }
+        }
+        tags = tagsDecoded0
+    }
+}
+
+extension ComputeOptimizerClientTypes {
+    /// Describes a license recommendation for an EC2 instance.
+    public struct LicenseRecommendation: Swift.Equatable {
+        /// The Amazon Web Services account ID of the license.
+        public var accountId: Swift.String?
+        /// An object that describes the current configuration of an instance that runs on a license.
+        public var currentLicenseConfiguration: ComputeOptimizerClientTypes.LicenseConfiguration?
+        /// The finding classification for an instance that runs on a license. Findings include:
+        ///
+        /// * InsufficentMetrics — When Compute Optimizer detects that your CloudWatch Application Insights isn't enabled or is enabled with insufficient permissions.
+        ///
+        /// * NotOptimized — When Compute Optimizer detects that your EC2 infrastructure isn't using any of the SQL server license features you're paying for, a license is considered not optimized.
+        ///
+        /// * Optimized — When Compute Optimizer detects that all specifications of your license meet the performance requirements of your workload.
+        public var finding: ComputeOptimizerClientTypes.LicenseFinding?
+        /// The reason for the finding classification for an instance that runs on a license. Finding reason codes include:
+        ///
+        /// * Optimized — All specifications of your license meet the performance requirements of your workload.
+        ///
+        /// * LicenseOverprovisioned — A license is considered over-provisioned when your license can be downgraded while still meeting the performance requirements of your workload.
+        ///
+        /// * InvalidCloudwatchApplicationInsights — CloudWatch Application Insights isn't configured properly.
+        ///
+        /// * CloudwatchApplicationInsightsError — There is a CloudWatch Application Insights error.
+        public var findingReasonCodes: [ComputeOptimizerClientTypes.LicenseFindingReasonCode]?
+        /// The timestamp of when the license recommendation was last generated.
+        public var lastRefreshTimestamp: ClientRuntime.Date?
+        /// An array of objects that describe the license recommendation options.
+        public var licenseRecommendationOptions: [ComputeOptimizerClientTypes.LicenseRecommendationOption]?
+        /// The number of days for which utilization metrics were analyzed for an instance that runs on a license.
+        public var lookbackPeriodInDays: Swift.Double
+        /// The ARN that identifies the Amazon EC2 instance.
+        public var resourceArn: Swift.String?
+        /// A list of tags assigned to an EC2 instance.
+        public var tags: [ComputeOptimizerClientTypes.Tag]?
+
+        public init(
+            accountId: Swift.String? = nil,
+            currentLicenseConfiguration: ComputeOptimizerClientTypes.LicenseConfiguration? = nil,
+            finding: ComputeOptimizerClientTypes.LicenseFinding? = nil,
+            findingReasonCodes: [ComputeOptimizerClientTypes.LicenseFindingReasonCode]? = nil,
+            lastRefreshTimestamp: ClientRuntime.Date? = nil,
+            licenseRecommendationOptions: [ComputeOptimizerClientTypes.LicenseRecommendationOption]? = nil,
+            lookbackPeriodInDays: Swift.Double = 0.0,
+            resourceArn: Swift.String? = nil,
+            tags: [ComputeOptimizerClientTypes.Tag]? = nil
+        )
+        {
+            self.accountId = accountId
+            self.currentLicenseConfiguration = currentLicenseConfiguration
+            self.finding = finding
+            self.findingReasonCodes = findingReasonCodes
+            self.lastRefreshTimestamp = lastRefreshTimestamp
+            self.licenseRecommendationOptions = licenseRecommendationOptions
+            self.lookbackPeriodInDays = lookbackPeriodInDays
+            self.resourceArn = resourceArn
+            self.tags = tags
+        }
+    }
+
+}
+
+extension ComputeOptimizerClientTypes.LicenseRecommendationFilter: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case name
+        case values
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let name = self.name {
+            try encodeContainer.encode(name.rawValue, forKey: .name)
+        }
+        if let values = values {
+            var valuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .values)
+            for filtervalue0 in values {
+                try valuesContainer.encode(filtervalue0)
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(ComputeOptimizerClientTypes.LicenseRecommendationFilterName.self, forKey: .name)
+        name = nameDecoded
+        let valuesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .values)
+        var valuesDecoded0:[Swift.String]? = nil
+        if let valuesContainer = valuesContainer {
+            valuesDecoded0 = [Swift.String]()
+            for string0 in valuesContainer {
+                if let string0 = string0 {
+                    valuesDecoded0?.append(string0)
+                }
+            }
+        }
+        values = valuesDecoded0
+    }
+}
+
+extension ComputeOptimizerClientTypes {
+    /// Describes a filter that returns a more specific list of license recommendations. Use this filter with the GetLicenseRecommendation action.
+    public struct LicenseRecommendationFilter: Swift.Equatable {
+        /// The name of the filter. Specify Finding to return recommendations with a specific finding classification. Specify FindingReasonCode to return recommendations with a specific finding reason code. You can filter your license recommendations by tag:key and tag-key tags. A tag:key is a key and value combination of a tag assigned to your license recommendations. Use the tag key in the filter name and the tag value as the filter value. For example, to find all license recommendations that have a tag with the key of Owner and the value of TeamA, specify tag:Owner for the filter name and TeamA for the filter value. A tag-key is the key of a tag assigned to your license recommendations. Use this filter to find all of your license recommendations that have a tag with a specific key. This doesn’t consider the tag value. For example, you can find your license recommendations with a tag key value of Owner or without any tag keys assigned.
+        public var name: ComputeOptimizerClientTypes.LicenseRecommendationFilterName?
+        /// The value of the filter. The valid values for this parameter are as follows, depending on what you specify for the name parameter:
+        ///
+        /// * If you specify the name parameter as Finding, then specify Optimized, NotOptimized, or InsufficentMetrics.
+        ///
+        /// * If you specify the name parameter as FindingReasonCode, then specify Optimized, LicenseOverprovisioned, InvalidCloudwatchApplicationInsights, or CloudwatchApplicationInsightsError.
+        public var values: [Swift.String]?
+
+        public init(
+            name: ComputeOptimizerClientTypes.LicenseRecommendationFilterName? = nil,
+            values: [Swift.String]? = nil
+        )
+        {
+            self.name = name
+            self.values = values
+        }
+    }
+
+}
+
+extension ComputeOptimizerClientTypes {
+    public enum LicenseRecommendationFilterName: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case licenseFinding
+        case licenseFindingReasonCode
+        case licenseName
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [LicenseRecommendationFilterName] {
+            return [
+                .licenseFinding,
+                .licenseFindingReasonCode,
+                .licenseName,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .licenseFinding: return "Finding"
+            case .licenseFindingReasonCode: return "FindingReasonCode"
+            case .licenseName: return "LicenseName"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = LicenseRecommendationFilterName(rawValue: rawValue) ?? LicenseRecommendationFilterName.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension ComputeOptimizerClientTypes.LicenseRecommendationOption: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case licenseEdition
+        case licenseModel
+        case operatingSystem
+        case rank
+        case savingsOpportunity
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let licenseEdition = self.licenseEdition {
+            try encodeContainer.encode(licenseEdition.rawValue, forKey: .licenseEdition)
+        }
+        if let licenseModel = self.licenseModel {
+            try encodeContainer.encode(licenseModel.rawValue, forKey: .licenseModel)
+        }
+        if let operatingSystem = self.operatingSystem {
+            try encodeContainer.encode(operatingSystem, forKey: .operatingSystem)
+        }
+        if rank != 0 {
+            try encodeContainer.encode(rank, forKey: .rank)
+        }
+        if let savingsOpportunity = self.savingsOpportunity {
+            try encodeContainer.encode(savingsOpportunity, forKey: .savingsOpportunity)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let rankDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .rank) ?? 0
+        rank = rankDecoded
+        let operatingSystemDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .operatingSystem)
+        operatingSystem = operatingSystemDecoded
+        let licenseEditionDecoded = try containerValues.decodeIfPresent(ComputeOptimizerClientTypes.LicenseEdition.self, forKey: .licenseEdition)
+        licenseEdition = licenseEditionDecoded
+        let licenseModelDecoded = try containerValues.decodeIfPresent(ComputeOptimizerClientTypes.LicenseModel.self, forKey: .licenseModel)
+        licenseModel = licenseModelDecoded
+        let savingsOpportunityDecoded = try containerValues.decodeIfPresent(ComputeOptimizerClientTypes.SavingsOpportunity.self, forKey: .savingsOpportunity)
+        savingsOpportunity = savingsOpportunityDecoded
+    }
+}
+
+extension ComputeOptimizerClientTypes {
+    /// Describes the recommendation options for licenses.
+    public struct LicenseRecommendationOption: Swift.Equatable {
+        /// The recommended edition of the license for the application that runs on the instance.
+        public var licenseEdition: ComputeOptimizerClientTypes.LicenseEdition?
+        /// The recommended license type associated with the instance.
+        public var licenseModel: ComputeOptimizerClientTypes.LicenseModel?
+        /// The operating system of a license recommendation option.
+        public var operatingSystem: Swift.String?
+        /// The rank of the license recommendation option. The top recommendation option is ranked as 1.
+        public var rank: Swift.Int
+        /// Describes the savings opportunity for recommendations of a given resource type or for the recommendation option of an individual resource. Savings opportunity represents the estimated monthly savings you can achieve by implementing a given Compute Optimizer recommendation. Savings opportunity data requires that you opt in to Cost Explorer, as well as activate Receive Amazon EC2 resource recommendations in the Cost Explorer preferences page. That creates a connection between Cost Explorer and Compute Optimizer. With this connection, Cost Explorer generates savings estimates considering the price of existing resources, the price of recommended resources, and historical usage data. Estimated monthly savings reflects the projected dollar savings associated with each of the recommendations generated. For more information, see [Enabling Cost Explorer](https://docs.aws.amazon.com/cost-management/latest/userguide/ce-enable.html) and [Optimizing your cost with Rightsizing Recommendations](https://docs.aws.amazon.com/cost-management/latest/userguide/ce-rightsizing.html) in the Cost Management User Guide.
+        public var savingsOpportunity: ComputeOptimizerClientTypes.SavingsOpportunity?
+
+        public init(
+            licenseEdition: ComputeOptimizerClientTypes.LicenseEdition? = nil,
+            licenseModel: ComputeOptimizerClientTypes.LicenseModel? = nil,
+            operatingSystem: Swift.String? = nil,
+            rank: Swift.Int = 0,
+            savingsOpportunity: ComputeOptimizerClientTypes.SavingsOpportunity? = nil
+        )
+        {
+            self.licenseEdition = licenseEdition
+            self.licenseModel = licenseModel
+            self.operatingSystem = operatingSystem
+            self.rank = rank
+            self.savingsOpportunity = savingsOpportunity
+        }
+    }
+
+}
+
 extension LimitExceededException {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -8760,6 +9913,80 @@ extension ComputeOptimizerClientTypes {
             let container = try decoder.singleValueContainer()
             let rawValue = try container.decode(RawValue.self)
             self = MetricName(rawValue: rawValue) ?? MetricName.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension ComputeOptimizerClientTypes.MetricSource: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case provider
+        case providerArn
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let provider = self.provider {
+            try encodeContainer.encode(provider.rawValue, forKey: .provider)
+        }
+        if let providerArn = self.providerArn {
+            try encodeContainer.encode(providerArn, forKey: .providerArn)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let providerDecoded = try containerValues.decodeIfPresent(ComputeOptimizerClientTypes.MetricSourceProvider.self, forKey: .provider)
+        provider = providerDecoded
+        let providerArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .providerArn)
+        providerArn = providerArnDecoded
+    }
+}
+
+extension ComputeOptimizerClientTypes {
+    /// The list of metric sources required to generate recommendations for commercial software licenses.
+    public struct MetricSource: Swift.Equatable {
+        /// The name of the metric source provider.
+        public var provider: ComputeOptimizerClientTypes.MetricSourceProvider?
+        /// The ARN of the metric source provider.
+        public var providerArn: Swift.String?
+
+        public init(
+            provider: ComputeOptimizerClientTypes.MetricSourceProvider? = nil,
+            providerArn: Swift.String? = nil
+        )
+        {
+            self.provider = provider
+            self.providerArn = providerArn
+        }
+    }
+
+}
+
+extension ComputeOptimizerClientTypes {
+    public enum MetricSourceProvider: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case cloudwatchappinsights
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [MetricSourceProvider] {
+            return [
+                .cloudwatchappinsights,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .cloudwatchappinsights: return "CloudWatchApplicationInsights"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = MetricSourceProvider(rawValue: rawValue) ?? MetricSourceProvider.sdkUnknown(rawValue)
         }
     }
 }
@@ -9550,6 +10777,7 @@ extension ComputeOptimizerClientTypes {
         case ec2Instance
         case ecsService
         case lambdaFunction
+        case license
         case sdkUnknown(Swift.String)
 
         public static var allCases: [RecommendationSourceType] {
@@ -9559,6 +10787,7 @@ extension ComputeOptimizerClientTypes {
                 .ec2Instance,
                 .ecsService,
                 .lambdaFunction,
+                .license,
                 .sdkUnknown("")
             ]
         }
@@ -9573,6 +10802,7 @@ extension ComputeOptimizerClientTypes {
             case .ec2Instance: return "Ec2Instance"
             case .ecsService: return "EcsService"
             case .lambdaFunction: return "LambdaFunction"
+            case .license: return "License"
             case let .sdkUnknown(s): return s
             }
         }
@@ -9822,6 +11052,7 @@ extension ComputeOptimizerClientTypes {
         case ec2Instance
         case ecsService
         case lambdaFunction
+        case license
         case notApplicable
         case sdkUnknown(Swift.String)
 
@@ -9832,6 +11063,7 @@ extension ComputeOptimizerClientTypes {
                 .ec2Instance,
                 .ecsService,
                 .lambdaFunction,
+                .license,
                 .notApplicable,
                 .sdkUnknown("")
             ]
@@ -9847,6 +11079,7 @@ extension ComputeOptimizerClientTypes {
             case .ec2Instance: return "Ec2Instance"
             case .ecsService: return "EcsService"
             case .lambdaFunction: return "LambdaFunction"
+            case .license: return "License"
             case .notApplicable: return "NotApplicable"
             case let .sdkUnknown(s): return s
             }

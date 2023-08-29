@@ -35838,6 +35838,7 @@ extension SecurityHubClientTypes.AwsSecurityFinding: Swift.Codable {
         case description = "Description"
         case findingProviderFields = "FindingProviderFields"
         case firstObservedAt = "FirstObservedAt"
+        case generatorDetails = "GeneratorDetails"
         case generatorId = "GeneratorId"
         case id = "Id"
         case lastObservedAt = "LastObservedAt"
@@ -35902,6 +35903,9 @@ extension SecurityHubClientTypes.AwsSecurityFinding: Swift.Codable {
         }
         if let firstObservedAt = self.firstObservedAt {
             try encodeContainer.encode(firstObservedAt, forKey: .firstObservedAt)
+        }
+        if let generatorDetails = self.generatorDetails {
+            try encodeContainer.encode(generatorDetails, forKey: .generatorDetails)
         }
         if let generatorId = self.generatorId {
             try encodeContainer.encode(generatorId, forKey: .generatorId)
@@ -36202,6 +36206,8 @@ extension SecurityHubClientTypes.AwsSecurityFinding: Swift.Codable {
         findingProviderFields = findingProviderFieldsDecoded
         let sampleDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .sample) ?? false
         sample = sampleDecoded
+        let generatorDetailsDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.GeneratorDetails.self, forKey: .generatorDetails)
+        generatorDetails = generatorDetailsDecoded
     }
 }
 
@@ -36231,6 +36237,8 @@ extension SecurityHubClientTypes {
         public var findingProviderFields: SecurityHubClientTypes.FindingProviderFields?
         /// Indicates when the security findings provider first observed the potential security issue that a finding captured. Uses the date-time format specified in [RFC 3339 section 5.6, Internet Date/Time Format](https://tools.ietf.org/html/rfc3339#section-5.6). The value cannot contain spaces, and date and time should be separated by T. For example, 2020-03-22T13:22:13.933Z.
         public var firstObservedAt: Swift.String?
+        /// Provides metadata for the Amazon CodeGuru detector associated with a finding. This field pertains to findings that relate to Lambda functions. Amazon Inspector identifies policy violations and vulnerabilities in Lambda function code based on internal detectors developed in collaboration with Amazon CodeGuru. Security Hub receives those findings.
+        public var generatorDetails: SecurityHubClientTypes.GeneratorDetails?
         /// The identifier for the solution-specific component (a discrete unit of logic) that generated a finding. In various security findings providers' solutions, this generator can be called a rule, a check, a detector, a plugin, etc.
         /// This member is required.
         public var generatorId: Swift.String?
@@ -36313,6 +36321,7 @@ extension SecurityHubClientTypes {
             description: Swift.String? = nil,
             findingProviderFields: SecurityHubClientTypes.FindingProviderFields? = nil,
             firstObservedAt: Swift.String? = nil,
+            generatorDetails: SecurityHubClientTypes.GeneratorDetails? = nil,
             generatorId: Swift.String? = nil,
             id: Swift.String? = nil,
             lastObservedAt: Swift.String? = nil,
@@ -36356,6 +36365,7 @@ extension SecurityHubClientTypes {
             self.description = description
             self.findingProviderFields = findingProviderFields
             self.firstObservedAt = firstObservedAt
+            self.generatorDetails = generatorDetails
             self.generatorId = generatorId
             self.id = id
             self.lastObservedAt = lastObservedAt
@@ -43682,6 +43692,71 @@ extension SecurityHubClientTypes {
 
 }
 
+extension SecurityHubClientTypes.CodeVulnerabilitiesFilePath: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case endLine = "EndLine"
+        case fileName = "FileName"
+        case filePath = "FilePath"
+        case startLine = "StartLine"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if endLine != 0 {
+            try encodeContainer.encode(endLine, forKey: .endLine)
+        }
+        if let fileName = self.fileName {
+            try encodeContainer.encode(fileName, forKey: .fileName)
+        }
+        if let filePath = self.filePath {
+            try encodeContainer.encode(filePath, forKey: .filePath)
+        }
+        if startLine != 0 {
+            try encodeContainer.encode(startLine, forKey: .startLine)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let endLineDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .endLine) ?? 0
+        endLine = endLineDecoded
+        let fileNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .fileName)
+        fileName = fileNameDecoded
+        let filePathDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .filePath)
+        filePath = filePathDecoded
+        let startLineDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .startLine) ?? 0
+        startLine = startLineDecoded
+    }
+}
+
+extension SecurityHubClientTypes {
+    /// Provides details about where a code vulnerability is located in your Lambda function.
+    public struct CodeVulnerabilitiesFilePath: Swift.Equatable {
+        /// The line number of the last line of code in which the vulnerability is located.
+        public var endLine: Swift.Int
+        /// The name of the file in which the code vulnerability is located.
+        public var fileName: Swift.String?
+        /// The file path to the code in which the vulnerability is located.
+        public var filePath: Swift.String?
+        /// The line number of the first line of code in which the vulnerability is located.
+        public var startLine: Swift.Int
+
+        public init(
+            endLine: Swift.Int = 0,
+            fileName: Swift.String? = nil,
+            filePath: Swift.String? = nil,
+            startLine: Swift.Int = 0
+        )
+        {
+            self.endLine = endLine
+            self.fileName = fileName
+            self.filePath = filePath
+            self.startLine = startLine
+        }
+    }
+
+}
+
 extension SecurityHubClientTypes.Compliance: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case associatedStandards = "AssociatedStandards"
@@ -47979,6 +48054,73 @@ extension SecurityHubClientTypes {
         {
             self.priority = priority
             self.resourceArn = resourceArn
+        }
+    }
+
+}
+
+extension SecurityHubClientTypes.GeneratorDetails: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case description = "Description"
+        case labels = "Labels"
+        case name = "Name"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
+        if let labels = labels {
+            var labelsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .labels)
+            for nonemptystring0 in labels {
+                try labelsContainer.encode(nonemptystring0)
+            }
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let labelsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .labels)
+        var labelsDecoded0:[Swift.String]? = nil
+        if let labelsContainer = labelsContainer {
+            labelsDecoded0 = [Swift.String]()
+            for string0 in labelsContainer {
+                if let string0 = string0 {
+                    labelsDecoded0?.append(string0)
+                }
+            }
+        }
+        labels = labelsDecoded0
+    }
+}
+
+extension SecurityHubClientTypes {
+    /// Provides metadata for the Amazon CodeGuru detector associated with a finding. This field pertains to findings that relate to Lambda functions. Amazon Inspector identifies policy violations and vulnerabilities in Lambda function code based on internal detectors developed in collaboration with Amazon CodeGuru. Security Hub receives those findings.
+    public struct GeneratorDetails: Swift.Equatable {
+        /// The description of the detector used to identify the code vulnerability.
+        public var description: Swift.String?
+        /// An array of tags used to identify the detector associated with the finding.
+        public var labels: [Swift.String]?
+        /// The name of the detector used to identify the code vulnerability.
+        public var name: Swift.String?
+
+        public init(
+            description: Swift.String? = nil,
+            labels: [Swift.String]? = nil,
+            name: Swift.String? = nil
+        )
+        {
+            self.description = description
+            self.labels = labels
+            self.name = name
         }
     }
 
@@ -59834,7 +59976,10 @@ extension SecurityHubClientTypes {
 
 extension SecurityHubClientTypes.Vulnerability: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case codeVulnerabilities = "CodeVulnerabilities"
         case cvss = "Cvss"
+        case epssScore = "EpssScore"
+        case exploitAvailable = "ExploitAvailable"
         case fixAvailable = "FixAvailable"
         case id = "Id"
         case referenceUrls = "ReferenceUrls"
@@ -59845,11 +59990,23 @@ extension SecurityHubClientTypes.Vulnerability: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let codeVulnerabilities = codeVulnerabilities {
+            var codeVulnerabilitiesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .codeVulnerabilities)
+            for vulnerabilitycodevulnerabilities0 in codeVulnerabilities {
+                try codeVulnerabilitiesContainer.encode(vulnerabilitycodevulnerabilities0)
+            }
+        }
         if let cvss = cvss {
             var cvssContainer = encodeContainer.nestedUnkeyedContainer(forKey: .cvss)
             for cvss0 in cvss {
                 try cvssContainer.encode(cvss0)
             }
+        }
+        if epssScore != 0.0 {
+            try encodeContainer.encode(epssScore, forKey: .epssScore)
+        }
+        if let exploitAvailable = self.exploitAvailable {
+            try encodeContainer.encode(exploitAvailable.rawValue, forKey: .exploitAvailable)
         }
         if let fixAvailable = self.fixAvailable {
             try encodeContainer.encode(fixAvailable.rawValue, forKey: .fixAvailable)
@@ -59932,14 +60089,35 @@ extension SecurityHubClientTypes.Vulnerability: Swift.Codable {
         referenceUrls = referenceUrlsDecoded0
         let fixAvailableDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.VulnerabilityFixAvailable.self, forKey: .fixAvailable)
         fixAvailable = fixAvailableDecoded
+        let epssScoreDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .epssScore) ?? 0.0
+        epssScore = epssScoreDecoded
+        let exploitAvailableDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.VulnerabilityExploitAvailable.self, forKey: .exploitAvailable)
+        exploitAvailable = exploitAvailableDecoded
+        let codeVulnerabilitiesContainer = try containerValues.decodeIfPresent([SecurityHubClientTypes.VulnerabilityCodeVulnerabilities?].self, forKey: .codeVulnerabilities)
+        var codeVulnerabilitiesDecoded0:[SecurityHubClientTypes.VulnerabilityCodeVulnerabilities]? = nil
+        if let codeVulnerabilitiesContainer = codeVulnerabilitiesContainer {
+            codeVulnerabilitiesDecoded0 = [SecurityHubClientTypes.VulnerabilityCodeVulnerabilities]()
+            for structure0 in codeVulnerabilitiesContainer {
+                if let structure0 = structure0 {
+                    codeVulnerabilitiesDecoded0?.append(structure0)
+                }
+            }
+        }
+        codeVulnerabilities = codeVulnerabilitiesDecoded0
     }
 }
 
 extension SecurityHubClientTypes {
     /// A vulnerability associated with a finding.
     public struct Vulnerability: Swift.Equatable {
+        /// The vulnerabilities found in your Lambda function code. This field pertains to findings that Security Hub receives from Amazon Inspector.
+        public var codeVulnerabilities: [SecurityHubClientTypes.VulnerabilityCodeVulnerabilities]?
         /// CVSS scores from the advisory related to the vulnerability.
         public var cvss: [SecurityHubClientTypes.Cvss]?
+        /// The Exploit Prediction Scoring System (EPSS) score for a finding.
+        public var epssScore: Swift.Double
+        /// Whether an exploit is available for a finding.
+        public var exploitAvailable: SecurityHubClientTypes.VulnerabilityExploitAvailable?
         /// Specifies if all vulnerable packages in a finding have a value for FixedInVersion and Remediation. This field is evaluated for each vulnerability Id based on the number of vulnerable packages that have a value for both FixedInVersion and Remediation. Valid values are as follows:
         ///
         /// * YES if all vulnerable packages have a value for both FixedInVersion and Remediation
@@ -59961,7 +60139,10 @@ extension SecurityHubClientTypes {
         public var vulnerablePackages: [SecurityHubClientTypes.SoftwarePackage]?
 
         public init(
+            codeVulnerabilities: [SecurityHubClientTypes.VulnerabilityCodeVulnerabilities]? = nil,
             cvss: [SecurityHubClientTypes.Cvss]? = nil,
+            epssScore: Swift.Double = 0.0,
+            exploitAvailable: SecurityHubClientTypes.VulnerabilityExploitAvailable? = nil,
             fixAvailable: SecurityHubClientTypes.VulnerabilityFixAvailable? = nil,
             id: Swift.String? = nil,
             referenceUrls: [Swift.String]? = nil,
@@ -59970,7 +60151,10 @@ extension SecurityHubClientTypes {
             vulnerablePackages: [SecurityHubClientTypes.SoftwarePackage]? = nil
         )
         {
+            self.codeVulnerabilities = codeVulnerabilities
             self.cvss = cvss
+            self.epssScore = epssScore
+            self.exploitAvailable = exploitAvailable
             self.fixAvailable = fixAvailable
             self.id = id
             self.referenceUrls = referenceUrls
@@ -59980,6 +60164,105 @@ extension SecurityHubClientTypes {
         }
     }
 
+}
+
+extension SecurityHubClientTypes.VulnerabilityCodeVulnerabilities: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case cwes = "Cwes"
+        case filePath = "FilePath"
+        case sourceArn = "SourceArn"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let cwes = cwes {
+            var cwesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .cwes)
+            for nonemptystring0 in cwes {
+                try cwesContainer.encode(nonemptystring0)
+            }
+        }
+        if let filePath = self.filePath {
+            try encodeContainer.encode(filePath, forKey: .filePath)
+        }
+        if let sourceArn = self.sourceArn {
+            try encodeContainer.encode(sourceArn, forKey: .sourceArn)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let cwesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .cwes)
+        var cwesDecoded0:[Swift.String]? = nil
+        if let cwesContainer = cwesContainer {
+            cwesDecoded0 = [Swift.String]()
+            for string0 in cwesContainer {
+                if let string0 = string0 {
+                    cwesDecoded0?.append(string0)
+                }
+            }
+        }
+        cwes = cwesDecoded0
+        let filePathDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.CodeVulnerabilitiesFilePath.self, forKey: .filePath)
+        filePath = filePathDecoded
+        let sourceArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sourceArn)
+        sourceArn = sourceArnDecoded
+    }
+}
+
+extension SecurityHubClientTypes {
+    /// Provides details about the vulnerabilities found in your Lambda function code. This field pertains to findings that Security Hub receives from Amazon Inspector.
+    public struct VulnerabilityCodeVulnerabilities: Swift.Equatable {
+        /// The Common Weakness Enumeration (CWE) item associated with the detected code vulnerability.
+        public var cwes: [Swift.String]?
+        /// Provides details about where a code vulnerability is located in your Lambda function.
+        public var filePath: SecurityHubClientTypes.CodeVulnerabilitiesFilePath?
+        /// The Amazon Resource Name (ARN) of the Lambda layer in which the code vulnerability is located.
+        public var sourceArn: Swift.String?
+
+        public init(
+            cwes: [Swift.String]? = nil,
+            filePath: SecurityHubClientTypes.CodeVulnerabilitiesFilePath? = nil,
+            sourceArn: Swift.String? = nil
+        )
+        {
+            self.cwes = cwes
+            self.filePath = filePath
+            self.sourceArn = sourceArn
+        }
+    }
+
+}
+
+extension SecurityHubClientTypes {
+    public enum VulnerabilityExploitAvailable: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case no
+        case yes
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [VulnerabilityExploitAvailable] {
+            return [
+                .no,
+                .yes,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .no: return "NO"
+            case .yes: return "YES"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = VulnerabilityExploitAvailable(rawValue: rawValue) ?? VulnerabilityExploitAvailable.sdkUnknown(rawValue)
+        }
+    }
 }
 
 extension SecurityHubClientTypes {
@@ -60224,7 +60507,7 @@ extension SecurityHubClientTypes.Workflow: Swift.Codable {
 }
 
 extension SecurityHubClientTypes {
-    /// Provides information about the status of the investigation into a finding.
+    /// Provides details about the status of the investigation into a finding.
     public struct Workflow: Swift.Equatable {
         /// The status of the investigation into the finding. The workflow status is specific to an individual finding. It does not affect the generation of new findings. For example, setting the workflow status to SUPPRESSED or RESOLVED does not prevent a new finding for the same issue. The allowed values are the following.
         ///

@@ -2442,9 +2442,9 @@ extension PinpointEmailClientTypes.EventDestination: Swift.Codable {
         var matchingEventTypesDecoded0:[PinpointEmailClientTypes.EventType]? = nil
         if let matchingEventTypesContainer = matchingEventTypesContainer {
             matchingEventTypesDecoded0 = [PinpointEmailClientTypes.EventType]()
-            for string0 in matchingEventTypesContainer {
-                if let string0 = string0 {
-                    matchingEventTypesDecoded0?.append(string0)
+            for enum0 in matchingEventTypesContainer {
+                if let enum0 = enum0 {
+                    matchingEventTypesDecoded0?.append(enum0)
                 }
             }
         }
@@ -2545,9 +2545,9 @@ extension PinpointEmailClientTypes.EventDestinationDefinition: Swift.Codable {
         var matchingEventTypesDecoded0:[PinpointEmailClientTypes.EventType]? = nil
         if let matchingEventTypesContainer = matchingEventTypesContainer {
             matchingEventTypesDecoded0 = [PinpointEmailClientTypes.EventType]()
-            for string0 in matchingEventTypesContainer {
-                if let string0 = string0 {
-                    matchingEventTypesDecoded0?.append(string0)
+            for enum0 in matchingEventTypesContainer {
+                if let enum0 = enum0 {
+                    matchingEventTypesDecoded0?.append(enum0)
                 }
             }
         }
@@ -5608,7 +5608,7 @@ extension PutAccountDedicatedIpWarmupAttributesInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if autoWarmupEnabled != false {
+        if let autoWarmupEnabled = self.autoWarmupEnabled {
             try encodeContainer.encode(autoWarmupEnabled, forKey: .autoWarmupEnabled)
         }
     }
@@ -5623,10 +5623,10 @@ extension PutAccountDedicatedIpWarmupAttributesInput: ClientRuntime.URLPathProvi
 /// A request to enable or disable the automatic IP address warm-up feature.
 public struct PutAccountDedicatedIpWarmupAttributesInput: Swift.Equatable {
     /// Enables or disables the automatic warm-up feature for dedicated IP addresses that are associated with your Amazon Pinpoint account in the current AWS Region. Set to true to enable the automatic warm-up feature, or set to false to disable it.
-    public var autoWarmupEnabled: Swift.Bool
+    public var autoWarmupEnabled: Swift.Bool?
 
     public init(
-        autoWarmupEnabled: Swift.Bool = false
+        autoWarmupEnabled: Swift.Bool? = nil
     )
     {
         self.autoWarmupEnabled = autoWarmupEnabled
@@ -5634,7 +5634,7 @@ public struct PutAccountDedicatedIpWarmupAttributesInput: Swift.Equatable {
 }
 
 struct PutAccountDedicatedIpWarmupAttributesInputBody: Swift.Equatable {
-    let autoWarmupEnabled: Swift.Bool
+    let autoWarmupEnabled: Swift.Bool?
 }
 
 extension PutAccountDedicatedIpWarmupAttributesInputBody: Swift.Decodable {
@@ -5644,7 +5644,7 @@ extension PutAccountDedicatedIpWarmupAttributesInputBody: Swift.Decodable {
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let autoWarmupEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .autoWarmupEnabled) ?? false
+        let autoWarmupEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .autoWarmupEnabled)
         autoWarmupEnabled = autoWarmupEnabledDecoded
     }
 }
@@ -5679,7 +5679,7 @@ extension PutAccountSendingAttributesInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if sendingEnabled != false {
+        if let sendingEnabled = self.sendingEnabled {
             try encodeContainer.encode(sendingEnabled, forKey: .sendingEnabled)
         }
     }
@@ -5694,10 +5694,10 @@ extension PutAccountSendingAttributesInput: ClientRuntime.URLPathProvider {
 /// A request to change the ability of your account to send email.
 public struct PutAccountSendingAttributesInput: Swift.Equatable {
     /// Enables or disables your account's ability to send email. Set to true to enable email sending, or set to false to disable email sending. If AWS paused your account's ability to send email, you can't use this operation to resume your account's ability to send email.
-    public var sendingEnabled: Swift.Bool
+    public var sendingEnabled: Swift.Bool?
 
     public init(
-        sendingEnabled: Swift.Bool = false
+        sendingEnabled: Swift.Bool? = nil
     )
     {
         self.sendingEnabled = sendingEnabled
@@ -5705,7 +5705,7 @@ public struct PutAccountSendingAttributesInput: Swift.Equatable {
 }
 
 struct PutAccountSendingAttributesInputBody: Swift.Equatable {
-    let sendingEnabled: Swift.Bool
+    let sendingEnabled: Swift.Bool?
 }
 
 extension PutAccountSendingAttributesInputBody: Swift.Decodable {
@@ -5715,7 +5715,7 @@ extension PutAccountSendingAttributesInputBody: Swift.Decodable {
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let sendingEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .sendingEnabled) ?? false
+        let sendingEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .sendingEnabled)
         sendingEnabled = sendingEnabledDecoded
     }
 }
@@ -5842,7 +5842,7 @@ extension PutConfigurationSetReputationOptionsInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if reputationMetricsEnabled != false {
+        if let reputationMetricsEnabled = self.reputationMetricsEnabled {
             try encodeContainer.encode(reputationMetricsEnabled, forKey: .reputationMetricsEnabled)
         }
     }
@@ -5863,11 +5863,11 @@ public struct PutConfigurationSetReputationOptionsInput: Swift.Equatable {
     /// This member is required.
     public var configurationSetName: Swift.String?
     /// If true, tracking of reputation metrics is enabled for the configuration set. If false, tracking of reputation metrics is disabled for the configuration set.
-    public var reputationMetricsEnabled: Swift.Bool
+    public var reputationMetricsEnabled: Swift.Bool?
 
     public init(
         configurationSetName: Swift.String? = nil,
-        reputationMetricsEnabled: Swift.Bool = false
+        reputationMetricsEnabled: Swift.Bool? = nil
     )
     {
         self.configurationSetName = configurationSetName
@@ -5876,7 +5876,7 @@ public struct PutConfigurationSetReputationOptionsInput: Swift.Equatable {
 }
 
 struct PutConfigurationSetReputationOptionsInputBody: Swift.Equatable {
-    let reputationMetricsEnabled: Swift.Bool
+    let reputationMetricsEnabled: Swift.Bool?
 }
 
 extension PutConfigurationSetReputationOptionsInputBody: Swift.Decodable {
@@ -5886,7 +5886,7 @@ extension PutConfigurationSetReputationOptionsInputBody: Swift.Decodable {
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let reputationMetricsEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .reputationMetricsEnabled) ?? false
+        let reputationMetricsEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .reputationMetricsEnabled)
         reputationMetricsEnabled = reputationMetricsEnabledDecoded
     }
 }
@@ -5922,7 +5922,7 @@ extension PutConfigurationSetSendingOptionsInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if sendingEnabled != false {
+        if let sendingEnabled = self.sendingEnabled {
             try encodeContainer.encode(sendingEnabled, forKey: .sendingEnabled)
         }
     }
@@ -5943,11 +5943,11 @@ public struct PutConfigurationSetSendingOptionsInput: Swift.Equatable {
     /// This member is required.
     public var configurationSetName: Swift.String?
     /// If true, email sending is enabled for the configuration set. If false, email sending is disabled for the configuration set.
-    public var sendingEnabled: Swift.Bool
+    public var sendingEnabled: Swift.Bool?
 
     public init(
         configurationSetName: Swift.String? = nil,
-        sendingEnabled: Swift.Bool = false
+        sendingEnabled: Swift.Bool? = nil
     )
     {
         self.configurationSetName = configurationSetName
@@ -5956,7 +5956,7 @@ public struct PutConfigurationSetSendingOptionsInput: Swift.Equatable {
 }
 
 struct PutConfigurationSetSendingOptionsInputBody: Swift.Equatable {
-    let sendingEnabled: Swift.Bool
+    let sendingEnabled: Swift.Bool?
 }
 
 extension PutConfigurationSetSendingOptionsInputBody: Swift.Decodable {
@@ -5966,7 +5966,7 @@ extension PutConfigurationSetSendingOptionsInputBody: Swift.Decodable {
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let sendingEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .sendingEnabled) ?? false
+        let sendingEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .sendingEnabled)
         sendingEnabled = sendingEnabledDecoded
     }
 }
@@ -6245,7 +6245,7 @@ extension PutDeliverabilityDashboardOptionInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if dashboardEnabled != false {
+        if let dashboardEnabled = self.dashboardEnabled {
             try encodeContainer.encode(dashboardEnabled, forKey: .dashboardEnabled)
         }
         if let subscribedDomains = subscribedDomains {
@@ -6267,12 +6267,12 @@ extension PutDeliverabilityDashboardOptionInput: ClientRuntime.URLPathProvider {
 public struct PutDeliverabilityDashboardOptionInput: Swift.Equatable {
     /// Specifies whether to enable the Deliverability dashboard for your Amazon Pinpoint account. To enable the dashboard, set this value to true.
     /// This member is required.
-    public var dashboardEnabled: Swift.Bool
+    public var dashboardEnabled: Swift.Bool?
     /// An array of objects, one for each verified domain that you use to send email and enabled the Deliverability dashboard for.
     public var subscribedDomains: [PinpointEmailClientTypes.DomainDeliverabilityTrackingOption]?
 
     public init(
-        dashboardEnabled: Swift.Bool = false,
+        dashboardEnabled: Swift.Bool? = nil,
         subscribedDomains: [PinpointEmailClientTypes.DomainDeliverabilityTrackingOption]? = nil
     )
     {
@@ -6282,7 +6282,7 @@ public struct PutDeliverabilityDashboardOptionInput: Swift.Equatable {
 }
 
 struct PutDeliverabilityDashboardOptionInputBody: Swift.Equatable {
-    let dashboardEnabled: Swift.Bool
+    let dashboardEnabled: Swift.Bool?
     let subscribedDomains: [PinpointEmailClientTypes.DomainDeliverabilityTrackingOption]?
 }
 
@@ -6294,7 +6294,7 @@ extension PutDeliverabilityDashboardOptionInputBody: Swift.Decodable {
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let dashboardEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .dashboardEnabled) ?? false
+        let dashboardEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .dashboardEnabled)
         dashboardEnabled = dashboardEnabledDecoded
         let subscribedDomainsContainer = try containerValues.decodeIfPresent([PinpointEmailClientTypes.DomainDeliverabilityTrackingOption?].self, forKey: .subscribedDomains)
         var subscribedDomainsDecoded0:[PinpointEmailClientTypes.DomainDeliverabilityTrackingOption]? = nil
@@ -6343,7 +6343,7 @@ extension PutEmailIdentityDkimAttributesInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if signingEnabled != false {
+        if let signingEnabled = self.signingEnabled {
             try encodeContainer.encode(signingEnabled, forKey: .signingEnabled)
         }
     }
@@ -6364,11 +6364,11 @@ public struct PutEmailIdentityDkimAttributesInput: Swift.Equatable {
     /// This member is required.
     public var emailIdentity: Swift.String?
     /// Sets the DKIM signing configuration for the identity. When you set this value true, then the messages that Amazon Pinpoint sends from the identity are DKIM-signed. When you set this value to false, then the messages that Amazon Pinpoint sends from the identity aren't DKIM-signed.
-    public var signingEnabled: Swift.Bool
+    public var signingEnabled: Swift.Bool?
 
     public init(
         emailIdentity: Swift.String? = nil,
-        signingEnabled: Swift.Bool = false
+        signingEnabled: Swift.Bool? = nil
     )
     {
         self.emailIdentity = emailIdentity
@@ -6377,7 +6377,7 @@ public struct PutEmailIdentityDkimAttributesInput: Swift.Equatable {
 }
 
 struct PutEmailIdentityDkimAttributesInputBody: Swift.Equatable {
-    let signingEnabled: Swift.Bool
+    let signingEnabled: Swift.Bool?
 }
 
 extension PutEmailIdentityDkimAttributesInputBody: Swift.Decodable {
@@ -6387,7 +6387,7 @@ extension PutEmailIdentityDkimAttributesInputBody: Swift.Decodable {
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let signingEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .signingEnabled) ?? false
+        let signingEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .signingEnabled)
         signingEnabled = signingEnabledDecoded
     }
 }
@@ -6423,7 +6423,7 @@ extension PutEmailIdentityFeedbackAttributesInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if emailForwardingEnabled != false {
+        if let emailForwardingEnabled = self.emailForwardingEnabled {
             try encodeContainer.encode(emailForwardingEnabled, forKey: .emailForwardingEnabled)
         }
     }
@@ -6441,13 +6441,13 @@ extension PutEmailIdentityFeedbackAttributesInput: ClientRuntime.URLPathProvider
 /// A request to set the attributes that control how bounce and complaint events are processed.
 public struct PutEmailIdentityFeedbackAttributesInput: Swift.Equatable {
     /// Sets the feedback forwarding configuration for the identity. If the value is true, Amazon Pinpoint sends you email notifications when bounce or complaint events occur. Amazon Pinpoint sends this notification to the address that you specified in the Return-Path header of the original email. When you set this value to false, Amazon Pinpoint sends notifications through other mechanisms, such as by notifying an Amazon SNS topic or another event destination. You're required to have a method of tracking bounces and complaints. If you haven't set up another mechanism for receiving bounce or complaint notifications, Amazon Pinpoint sends an email notification when these events occur (even if this setting is disabled).
-    public var emailForwardingEnabled: Swift.Bool
+    public var emailForwardingEnabled: Swift.Bool?
     /// The email identity that you want to configure bounce and complaint feedback forwarding for.
     /// This member is required.
     public var emailIdentity: Swift.String?
 
     public init(
-        emailForwardingEnabled: Swift.Bool = false,
+        emailForwardingEnabled: Swift.Bool? = nil,
         emailIdentity: Swift.String? = nil
     )
     {
@@ -6457,7 +6457,7 @@ public struct PutEmailIdentityFeedbackAttributesInput: Swift.Equatable {
 }
 
 struct PutEmailIdentityFeedbackAttributesInputBody: Swift.Equatable {
-    let emailForwardingEnabled: Swift.Bool
+    let emailForwardingEnabled: Swift.Bool?
 }
 
 extension PutEmailIdentityFeedbackAttributesInputBody: Swift.Decodable {
@@ -6467,7 +6467,7 @@ extension PutEmailIdentityFeedbackAttributesInputBody: Swift.Decodable {
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let emailForwardingEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .emailForwardingEnabled) ?? false
+        let emailForwardingEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .emailForwardingEnabled)
         emailForwardingEnabled = emailForwardingEnabledDecoded
     }
 }

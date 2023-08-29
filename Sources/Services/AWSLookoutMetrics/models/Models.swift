@@ -2053,7 +2053,7 @@ extension CreateAlertInput: Swift.Encodable {
         if let alertName = self.alertName {
             try encodeContainer.encode(alertName, forKey: .alertName)
         }
-        if alertSensitivityThreshold != 0 {
+        if let alertSensitivityThreshold = self.alertSensitivityThreshold {
             try encodeContainer.encode(alertSensitivityThreshold, forKey: .alertSensitivityThreshold)
         }
         if let anomalyDetectorArn = self.anomalyDetectorArn {
@@ -2086,7 +2086,7 @@ public struct CreateAlertInput: Swift.Equatable {
     /// This member is required.
     public var alertName: Swift.String?
     /// An integer from 0 to 100 specifying the alert sensitivity threshold.
-    public var alertSensitivityThreshold: Swift.Int
+    public var alertSensitivityThreshold: Swift.Int?
     /// The ARN of the detector to which the alert is attached.
     /// This member is required.
     public var anomalyDetectorArn: Swift.String?
@@ -2098,7 +2098,7 @@ public struct CreateAlertInput: Swift.Equatable {
         alertDescription: Swift.String? = nil,
         alertFilters: LookoutMetricsClientTypes.AlertFilters? = nil,
         alertName: Swift.String? = nil,
-        alertSensitivityThreshold: Swift.Int = 0,
+        alertSensitivityThreshold: Swift.Int? = nil,
         anomalyDetectorArn: Swift.String? = nil,
         tags: [Swift.String:Swift.String]? = nil
     )
@@ -2115,7 +2115,7 @@ public struct CreateAlertInput: Swift.Equatable {
 
 struct CreateAlertInputBody: Swift.Equatable {
     let alertName: Swift.String?
-    let alertSensitivityThreshold: Swift.Int
+    let alertSensitivityThreshold: Swift.Int?
     let alertDescription: Swift.String?
     let anomalyDetectorArn: Swift.String?
     let action: LookoutMetricsClientTypes.Action?
@@ -2138,7 +2138,7 @@ extension CreateAlertInputBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let alertNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .alertName)
         alertName = alertNameDecoded
-        let alertSensitivityThresholdDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .alertSensitivityThreshold) ?? 0
+        let alertSensitivityThresholdDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .alertSensitivityThreshold)
         alertSensitivityThreshold = alertSensitivityThresholdDecoded
         let alertDescriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .alertDescription)
         alertDescription = alertDescriptionDecoded
@@ -6010,7 +6010,7 @@ extension ListAnomalyGroupSummariesInput: Swift.Encodable {
         if let nextToken = self.nextToken {
             try encodeContainer.encode(nextToken, forKey: .nextToken)
         }
-        if sensitivityThreshold != 0 {
+        if let sensitivityThreshold = self.sensitivityThreshold {
             try encodeContainer.encode(sensitivityThreshold, forKey: .sensitivityThreshold)
         }
     }
@@ -6032,13 +6032,13 @@ public struct ListAnomalyGroupSummariesInput: Swift.Equatable {
     public var nextToken: Swift.String?
     /// The minimum severity score for inclusion in the output.
     /// This member is required.
-    public var sensitivityThreshold: Swift.Int
+    public var sensitivityThreshold: Swift.Int?
 
     public init(
         anomalyDetectorArn: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
-        sensitivityThreshold: Swift.Int = 0
+        sensitivityThreshold: Swift.Int? = nil
     )
     {
         self.anomalyDetectorArn = anomalyDetectorArn
@@ -6050,7 +6050,7 @@ public struct ListAnomalyGroupSummariesInput: Swift.Equatable {
 
 struct ListAnomalyGroupSummariesInputBody: Swift.Equatable {
     let anomalyDetectorArn: Swift.String?
-    let sensitivityThreshold: Swift.Int
+    let sensitivityThreshold: Swift.Int?
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
 }
@@ -6067,7 +6067,7 @@ extension ListAnomalyGroupSummariesInputBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let anomalyDetectorArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .anomalyDetectorArn)
         anomalyDetectorArn = anomalyDetectorArnDecoded
-        let sensitivityThresholdDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .sensitivityThreshold) ?? 0
+        let sensitivityThresholdDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .sensitivityThreshold)
         sensitivityThreshold = sensitivityThresholdDecoded
         let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
         maxResults = maxResultsDecoded
@@ -8223,7 +8223,7 @@ extension UpdateAlertInput: Swift.Encodable {
         if let alertFilters = self.alertFilters {
             try encodeContainer.encode(alertFilters, forKey: .alertFilters)
         }
-        if alertSensitivityThreshold != 0 {
+        if let alertSensitivityThreshold = self.alertSensitivityThreshold {
             try encodeContainer.encode(alertSensitivityThreshold, forKey: .alertSensitivityThreshold)
         }
     }
@@ -8246,14 +8246,14 @@ public struct UpdateAlertInput: Swift.Equatable {
     /// The configuration of the alert filters, containing MetricList and DimensionFilterList.
     public var alertFilters: LookoutMetricsClientTypes.AlertFilters?
     /// An integer from 0 to 100 specifying the alert sensitivity threshold.
-    public var alertSensitivityThreshold: Swift.Int
+    public var alertSensitivityThreshold: Swift.Int?
 
     public init(
         action: LookoutMetricsClientTypes.Action? = nil,
         alertArn: Swift.String? = nil,
         alertDescription: Swift.String? = nil,
         alertFilters: LookoutMetricsClientTypes.AlertFilters? = nil,
-        alertSensitivityThreshold: Swift.Int = 0
+        alertSensitivityThreshold: Swift.Int? = nil
     )
     {
         self.action = action
@@ -8267,7 +8267,7 @@ public struct UpdateAlertInput: Swift.Equatable {
 struct UpdateAlertInputBody: Swift.Equatable {
     let alertArn: Swift.String?
     let alertDescription: Swift.String?
-    let alertSensitivityThreshold: Swift.Int
+    let alertSensitivityThreshold: Swift.Int?
     let action: LookoutMetricsClientTypes.Action?
     let alertFilters: LookoutMetricsClientTypes.AlertFilters?
 }
@@ -8287,7 +8287,7 @@ extension UpdateAlertInputBody: Swift.Decodable {
         alertArn = alertArnDecoded
         let alertDescriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .alertDescription)
         alertDescription = alertDescriptionDecoded
-        let alertSensitivityThresholdDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .alertSensitivityThreshold) ?? 0
+        let alertSensitivityThresholdDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .alertSensitivityThreshold)
         alertSensitivityThreshold = alertSensitivityThresholdDecoded
         let actionDecoded = try containerValues.decodeIfPresent(LookoutMetricsClientTypes.Action.self, forKey: .action)
         action = actionDecoded

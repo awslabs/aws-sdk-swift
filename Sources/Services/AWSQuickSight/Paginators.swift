@@ -3,6 +3,72 @@
 import ClientRuntime
 
 extension QuickSightClient {
+    /// Paginate over `[DescribeFolderPermissionsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeFolderPermissionsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeFolderPermissionsOutputResponse`
+    public func describeFolderPermissionsPaginated(input: DescribeFolderPermissionsInput) -> ClientRuntime.PaginatorSequence<DescribeFolderPermissionsInput, DescribeFolderPermissionsOutputResponse> {
+        return ClientRuntime.PaginatorSequence<DescribeFolderPermissionsInput, DescribeFolderPermissionsOutputResponse>(input: input, inputKey: \DescribeFolderPermissionsInput.nextToken, outputKey: \DescribeFolderPermissionsOutputResponse.nextToken, paginationFunction: self.describeFolderPermissions(input:))
+    }
+}
+
+extension DescribeFolderPermissionsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> DescribeFolderPermissionsInput {
+        return DescribeFolderPermissionsInput(
+            awsAccountId: self.awsAccountId,
+            folderId: self.folderId,
+            maxResults: self.maxResults,
+            namespace: self.namespace,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where Input == DescribeFolderPermissionsInput, Output == DescribeFolderPermissionsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `describeFolderPermissionsPaginated`
+    /// to access the nested member `[QuickSightClientTypes.ResourcePermission]`
+    /// - Returns: `[QuickSightClientTypes.ResourcePermission]`
+    public func permissions() async throws -> [QuickSightClientTypes.ResourcePermission] {
+        return try await self.asyncCompactMap { item in item.permissions }
+    }
+}
+extension QuickSightClient {
+    /// Paginate over `[DescribeFolderResolvedPermissionsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeFolderResolvedPermissionsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeFolderResolvedPermissionsOutputResponse`
+    public func describeFolderResolvedPermissionsPaginated(input: DescribeFolderResolvedPermissionsInput) -> ClientRuntime.PaginatorSequence<DescribeFolderResolvedPermissionsInput, DescribeFolderResolvedPermissionsOutputResponse> {
+        return ClientRuntime.PaginatorSequence<DescribeFolderResolvedPermissionsInput, DescribeFolderResolvedPermissionsOutputResponse>(input: input, inputKey: \DescribeFolderResolvedPermissionsInput.nextToken, outputKey: \DescribeFolderResolvedPermissionsOutputResponse.nextToken, paginationFunction: self.describeFolderResolvedPermissions(input:))
+    }
+}
+
+extension DescribeFolderResolvedPermissionsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> DescribeFolderResolvedPermissionsInput {
+        return DescribeFolderResolvedPermissionsInput(
+            awsAccountId: self.awsAccountId,
+            folderId: self.folderId,
+            maxResults: self.maxResults,
+            namespace: self.namespace,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where Input == DescribeFolderResolvedPermissionsInput, Output == DescribeFolderResolvedPermissionsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `describeFolderResolvedPermissionsPaginated`
+    /// to access the nested member `[QuickSightClientTypes.ResourcePermission]`
+    /// - Returns: `[QuickSightClientTypes.ResourcePermission]`
+    public func permissions() async throws -> [QuickSightClientTypes.ResourcePermission] {
+        return try await self.asyncCompactMap { item in item.permissions }
+    }
+}
+extension QuickSightClient {
     /// Paginate over `[ListAnalysesOutputResponse]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
@@ -218,6 +284,69 @@ extension PaginatorSequence where Input == ListDataSourcesInput, Output == ListD
     /// - Returns: `[QuickSightClientTypes.DataSource]`
     public func dataSources() async throws -> [QuickSightClientTypes.DataSource] {
         return try await self.asyncCompactMap { item in item.dataSources }
+    }
+}
+extension QuickSightClient {
+    /// Paginate over `[ListFolderMembersOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListFolderMembersInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListFolderMembersOutputResponse`
+    public func listFolderMembersPaginated(input: ListFolderMembersInput) -> ClientRuntime.PaginatorSequence<ListFolderMembersInput, ListFolderMembersOutputResponse> {
+        return ClientRuntime.PaginatorSequence<ListFolderMembersInput, ListFolderMembersOutputResponse>(input: input, inputKey: \ListFolderMembersInput.nextToken, outputKey: \ListFolderMembersOutputResponse.nextToken, paginationFunction: self.listFolderMembers(input:))
+    }
+}
+
+extension ListFolderMembersInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListFolderMembersInput {
+        return ListFolderMembersInput(
+            awsAccountId: self.awsAccountId,
+            folderId: self.folderId,
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where Input == ListFolderMembersInput, Output == ListFolderMembersOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listFolderMembersPaginated`
+    /// to access the nested member `[QuickSightClientTypes.MemberIdArnPair]`
+    /// - Returns: `[QuickSightClientTypes.MemberIdArnPair]`
+    public func folderMemberList() async throws -> [QuickSightClientTypes.MemberIdArnPair] {
+        return try await self.asyncCompactMap { item in item.folderMemberList }
+    }
+}
+extension QuickSightClient {
+    /// Paginate over `[ListFoldersOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListFoldersInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListFoldersOutputResponse`
+    public func listFoldersPaginated(input: ListFoldersInput) -> ClientRuntime.PaginatorSequence<ListFoldersInput, ListFoldersOutputResponse> {
+        return ClientRuntime.PaginatorSequence<ListFoldersInput, ListFoldersOutputResponse>(input: input, inputKey: \ListFoldersInput.nextToken, outputKey: \ListFoldersOutputResponse.nextToken, paginationFunction: self.listFolders(input:))
+    }
+}
+
+extension ListFoldersInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListFoldersInput {
+        return ListFoldersInput(
+            awsAccountId: self.awsAccountId,
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where Input == ListFoldersInput, Output == ListFoldersOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listFoldersPaginated`
+    /// to access the nested member `[QuickSightClientTypes.FolderSummary]`
+    /// - Returns: `[QuickSightClientTypes.FolderSummary]`
+    public func folderSummaryList() async throws -> [QuickSightClientTypes.FolderSummary] {
+        return try await self.asyncCompactMap { item in item.folderSummaryList }
     }
 }
 extension QuickSightClient {
@@ -808,6 +937,38 @@ extension PaginatorSequence where Input == SearchDataSourcesInput, Output == Sea
     /// - Returns: `[QuickSightClientTypes.DataSourceSummary]`
     public func dataSourceSummaries() async throws -> [QuickSightClientTypes.DataSourceSummary] {
         return try await self.asyncCompactMap { item in item.dataSourceSummaries }
+    }
+}
+extension QuickSightClient {
+    /// Paginate over `[SearchFoldersOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[SearchFoldersInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `SearchFoldersOutputResponse`
+    public func searchFoldersPaginated(input: SearchFoldersInput) -> ClientRuntime.PaginatorSequence<SearchFoldersInput, SearchFoldersOutputResponse> {
+        return ClientRuntime.PaginatorSequence<SearchFoldersInput, SearchFoldersOutputResponse>(input: input, inputKey: \SearchFoldersInput.nextToken, outputKey: \SearchFoldersOutputResponse.nextToken, paginationFunction: self.searchFolders(input:))
+    }
+}
+
+extension SearchFoldersInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> SearchFoldersInput {
+        return SearchFoldersInput(
+            awsAccountId: self.awsAccountId,
+            filters: self.filters,
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where Input == SearchFoldersInput, Output == SearchFoldersOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `searchFoldersPaginated`
+    /// to access the nested member `[QuickSightClientTypes.FolderSummary]`
+    /// - Returns: `[QuickSightClientTypes.FolderSummary]`
+    public func folderSummaryList() async throws -> [QuickSightClientTypes.FolderSummary] {
+        return try await self.asyncCompactMap { item in item.folderSummaryList }
     }
 }
 extension QuickSightClient {

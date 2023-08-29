@@ -52,6 +52,11 @@ extension VerifiedPermissionsClientTypes.ActionIdentifier: Swift.Codable {
     }
 }
 
+extension VerifiedPermissionsClientTypes.ActionIdentifier: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "ActionIdentifier(actionId: \"CONTENT_REDACTED\", actionType: \"CONTENT_REDACTED\")"}
+}
+
 extension VerifiedPermissionsClientTypes {
     /// Contains information about an action for a request for which an authorization decision is made. This data type is used as an request parameter to the [IsAuthorized](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_IsAuthorized.html) and [IsAuthorizedWithToken](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_IsAuthorizedWithToken.html) operations. Example: { "actionId": "<action name>", "actionType": "Action" }
     public struct ActionIdentifier: Swift.Equatable {
@@ -403,6 +408,11 @@ extension VerifiedPermissionsClientTypes {
         case sdkUnknown(Swift.String)
     }
 
+}
+
+extension CreateIdentitySourceInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CreateIdentitySourceInput(clientToken: \(Swift.String(describing: clientToken)), configuration: \(Swift.String(describing: configuration)), policyStoreId: \(Swift.String(describing: policyStoreId)), principalEntityType: \"CONTENT_REDACTED\")"}
 }
 
 extension CreateIdentitySourceInput: Swift.Encodable {
@@ -909,6 +919,11 @@ extension CreatePolicyStoreOutputResponseBody: Swift.Decodable {
         let lastUpdatedDateDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .lastUpdatedDate)
         lastUpdatedDate = lastUpdatedDateDecoded
     }
+}
+
+extension CreatePolicyTemplateInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CreatePolicyTemplateInput(clientToken: \(Swift.String(describing: clientToken)), policyStoreId: \(Swift.String(describing: policyStoreId)), description: \"CONTENT_REDACTED\", statement: \"CONTENT_REDACTED\")"}
 }
 
 extension CreatePolicyTemplateInput: Swift.Encodable {
@@ -1541,6 +1556,11 @@ extension VerifiedPermissionsClientTypes.EntityIdentifier: Swift.Codable {
     }
 }
 
+extension VerifiedPermissionsClientTypes.EntityIdentifier: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "EntityIdentifier(entityId: \"CONTENT_REDACTED\", entityType: \"CONTENT_REDACTED\")"}
+}
+
 extension VerifiedPermissionsClientTypes {
     /// Contains the identifier of an entity, including its ID and type. This data type is used as a request parameter for [IsAuthorized](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_IsAuthorized.html) operation, and as a response parameter for the [CreatePolicy](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_CreatePolicy.html), [GetPolicy](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_GetPolicy.html), and [UpdatePolicy](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_UpdatePolicy.html) operations. Example: {"entityId":"string","entityType":"string"}
     public struct EntityIdentifier: Swift.Equatable {
@@ -1619,7 +1639,7 @@ extension VerifiedPermissionsClientTypes.EntityItem: Swift.Codable {
 }
 
 extension VerifiedPermissionsClientTypes {
-    /// Contains information about an entity that can be referenced in a Cedar policy. This data type is used as one of the fields in the [EntitiesDefinition](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_EntitiesDefinition.html) structure. { "id": { "entityType": "Photo", "entityId": "VacationPhoto94.jpg" }, "Attributes": {}, "Parents": [ { "entityType": "Album", "entityId": "alice_folder" } ] }
+    /// Contains information about an entity that can be referenced in a Cedar policy. This data type is used as one of the fields in the [EntitiesDefinition](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_EntitiesDefinition.html) structure. { "identifier": { "entityType": "Photo", "entityId": "VacationPhoto94.jpg" }, "attributes": {}, "parents": [ { "entityType": "Album", "entityId": "alice_folder" } ] }
     public struct EntityItem: Swift.Equatable {
         /// A list of attributes for the entity.
         public var attributes: [Swift.String:VerifiedPermissionsClientTypes.AttributeValue]?
@@ -1706,6 +1726,12 @@ extension VerifiedPermissionsClientTypes.EvaluationErrorItem: Swift.Codable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let errorDescriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .errorDescription)
         errorDescription = errorDescriptionDecoded
+    }
+}
+
+extension VerifiedPermissionsClientTypes.EvaluationErrorItem: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CONTENT_REDACTED"
     }
 }
 
@@ -1796,6 +1822,11 @@ public enum GetIdentitySourceOutputError: ClientRuntime.HttpResponseErrorBinding
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
+}
+
+extension GetIdentitySourceOutputResponse: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "GetIdentitySourceOutputResponse(createdDate: \(Swift.String(describing: createdDate)), details: \(Swift.String(describing: details)), identitySourceId: \(Swift.String(describing: identitySourceId)), lastUpdatedDate: \(Swift.String(describing: lastUpdatedDate)), policyStoreId: \(Swift.String(describing: policyStoreId)), principalEntityType: \"CONTENT_REDACTED\")"}
 }
 
 extension GetIdentitySourceOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -2298,6 +2329,11 @@ public enum GetPolicyTemplateOutputError: ClientRuntime.HttpResponseErrorBinding
     }
 }
 
+extension GetPolicyTemplateOutputResponse: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "GetPolicyTemplateOutputResponse(createdDate: \(Swift.String(describing: createdDate)), lastUpdatedDate: \(Swift.String(describing: lastUpdatedDate)), policyStoreId: \(Swift.String(describing: policyStoreId)), policyTemplateId: \(Swift.String(describing: policyTemplateId)), description: \"CONTENT_REDACTED\", statement: \"CONTENT_REDACTED\")"}
+}
+
 extension GetPolicyTemplateOutputResponse: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -2450,6 +2486,11 @@ public enum GetSchemaOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
+}
+
+extension GetSchemaOutputResponse: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "GetSchemaOutputResponse(createdDate: \(Swift.String(describing: createdDate)), lastUpdatedDate: \(Swift.String(describing: lastUpdatedDate)), policyStoreId: \(Swift.String(describing: policyStoreId)), schema: \"CONTENT_REDACTED\")"}
 }
 
 extension GetSchemaOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -2622,6 +2663,11 @@ extension VerifiedPermissionsClientTypes.IdentitySourceFilter: Swift.Codable {
     }
 }
 
+extension VerifiedPermissionsClientTypes.IdentitySourceFilter: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "IdentitySourceFilter(principalEntityType: \"CONTENT_REDACTED\")"}
+}
+
 extension VerifiedPermissionsClientTypes {
     /// A structure that defines characteristics of an identity source that you can use to filter. This data type is used as a request parameter for the [ListIdentityStores](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_ListIdentityStores.html) operation.
     public struct IdentitySourceFilter: Swift.Equatable {
@@ -2685,6 +2731,11 @@ extension VerifiedPermissionsClientTypes.IdentitySourceItem: Swift.Codable {
         let principalEntityTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .principalEntityType)
         principalEntityType = principalEntityTypeDecoded
     }
+}
+
+extension VerifiedPermissionsClientTypes.IdentitySourceItem: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "IdentitySourceItem(createdDate: \(Swift.String(describing: createdDate)), details: \(Swift.String(describing: details)), identitySourceId: \(Swift.String(describing: identitySourceId)), lastUpdatedDate: \(Swift.String(describing: lastUpdatedDate)), policyStoreId: \(Swift.String(describing: policyStoreId)), principalEntityType: \"CONTENT_REDACTED\")"}
 }
 
 extension VerifiedPermissionsClientTypes {
@@ -3031,6 +3082,11 @@ extension IsAuthorizedOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension IsAuthorizedWithTokenInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "IsAuthorizedWithTokenInput(action: \(Swift.String(describing: action)), context: \(Swift.String(describing: context)), entities: \(Swift.String(describing: entities)), policyStoreId: \(Swift.String(describing: policyStoreId)), resource: \(Swift.String(describing: resource)), accessToken: \"CONTENT_REDACTED\", identityToken: \"CONTENT_REDACTED\")"}
+}
+
 extension IsAuthorizedWithTokenInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case accessToken
@@ -3075,15 +3131,19 @@ extension IsAuthorizedWithTokenInput: ClientRuntime.URLPathProvider {
 }
 
 public struct IsAuthorizedWithTokenInput: Swift.Equatable {
-    /// Specifies an access token for the principal to be authorized. This token is provided to you by the identity provider (IdP) associated with the specified identity source. You must specify either an AccessToken or an IdentityToken, but not both.
+    /// Specifies an access token for the principal to be authorized. This token is provided to you by the identity provider (IdP) associated with the specified identity source. You must specify either an AccessToken, or an IdentityToken, or both.
     public var accessToken: Swift.String?
     /// Specifies the requested action to be authorized. Is the specified principal authorized to perform this action on the specified resource.
     public var action: VerifiedPermissionsClientTypes.ActionIdentifier?
     /// Specifies additional context that can be used to make more granular authorization decisions.
     public var context: VerifiedPermissionsClientTypes.ContextDefinition?
-    /// Specifies the list of resources and principals and their associated attributes that Verified Permissions can examine when evaluating the policies. You can include only principal and resource entities in this parameter; you can't include actions. You must specify actions in the schema.
+    /// Specifies the list of resources and their associated attributes that Verified Permissions can examine when evaluating the policies. You can include only resource and action entities in this parameter; you can't include principals.
+    ///
+    /// * The IsAuthorizedWithToken operation takes principal attributes from only the identityToken or accessToken passed to the operation.
+    ///
+    /// * For action entities, you can include only their Identifier and EntityType.
     public var entities: VerifiedPermissionsClientTypes.EntitiesDefinition?
-    /// Specifies an identity token for the principal to be authorized. This token is provided to you by the identity provider (IdP) associated with the specified identity source. You must specify either an AccessToken or an IdentityToken, but not both.
+    /// Specifies an identity token for the principal to be authorized. This token is provided to you by the identity provider (IdP) associated with the specified identity source. You must specify either an AccessToken or an IdentityToken, or both.
     public var identityToken: Swift.String?
     /// Specifies the ID of the policy store. Policies in this policy store will be used to make an authorization decision for the input.
     /// This member is required.
@@ -3280,7 +3340,7 @@ extension ListIdentitySourcesInput: ClientRuntime.URLPathProvider {
 public struct ListIdentitySourcesInput: Swift.Equatable {
     /// Specifies characteristics of an identity source that you can use to limit the output to matching identity sources.
     public var filters: [VerifiedPermissionsClientTypes.IdentitySourceFilter]?
-    /// Specifies the total number of results that you want included on each page of the response. If you do not include this parameter, it defaults to a value that is specific to the operation. If additional items exist beyond the number you specify, the NextToken response element is returned with a value (not null). Include the specified value as the NextToken request parameter in the next call to the operation to get the next part of the results. Note that the service might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
+    /// Specifies the total number of results that you want included in each response. If additional items exist beyond the number you specify, the NextToken response element is returned with a value (not null). Include the specified value as the NextToken request parameter in the next call to the operation to get the next set of results. Note that the service might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results. If you do not specify this parameter, the operation defaults to 10 identity sources per response. You can specify a maximum of 200 identity sources per response.
     public var maxResults: Swift.Int?
     /// Specifies that you want to receive the next page of results. Valid only if you received a NextToken response in the previous request. If you did, it indicates that more output is available. Set this parameter to the value provided by the previous call's NextToken response to request the next page of results.
     public var nextToken: Swift.String?
@@ -3444,7 +3504,7 @@ extension ListPoliciesInput: ClientRuntime.URLPathProvider {
 public struct ListPoliciesInput: Swift.Equatable {
     /// Specifies a filter that limits the response to only policies that match the specified criteria. For example, you list only the policies that reference a specified principal.
     public var filter: VerifiedPermissionsClientTypes.PolicyFilter?
-    /// Specifies the total number of results that you want included on each page of the response. If you do not include this parameter, it defaults to a value that is specific to the operation. If additional items exist beyond the number you specify, the NextToken response element is returned with a value (not null). Include the specified value as the NextToken request parameter in the next call to the operation to get the next part of the results. Note that the service might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
+    /// Specifies the total number of results that you want included in each response. If additional items exist beyond the number you specify, the NextToken response element is returned with a value (not null). Include the specified value as the NextToken request parameter in the next call to the operation to get the next set of results. Note that the service might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results. If you do not specify this parameter, the operation defaults to 10 policies per response. You can specify a maximum of 50 policies per response.
     public var maxResults: Swift.Int?
     /// Specifies that you want to receive the next page of results. Valid only if you received a NextToken response in the previous request. If you did, it indicates that more output is available. Set this parameter to the value provided by the previous call's NextToken response to request the next page of results.
     public var nextToken: Swift.String?
@@ -3589,7 +3649,7 @@ extension ListPolicyStoresInput: ClientRuntime.URLPathProvider {
 }
 
 public struct ListPolicyStoresInput: Swift.Equatable {
-    /// Specifies the total number of results that you want included on each page of the response. If you do not include this parameter, it defaults to a value that is specific to the operation. If additional items exist beyond the number you specify, the NextToken response element is returned with a value (not null). Include the specified value as the NextToken request parameter in the next call to the operation to get the next part of the results. Note that the service might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
+    /// Specifies the total number of results that you want included in each response. If additional items exist beyond the number you specify, the NextToken response element is returned with a value (not null). Include the specified value as the NextToken request parameter in the next call to the operation to get the next set of results. Note that the service might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results. If you do not specify this parameter, the operation defaults to 10 policy stores per response. You can specify a maximum of 50 policy stores per response.
     public var maxResults: Swift.Int?
     /// Specifies that you want to receive the next page of results. Valid only if you received a NextToken response in the previous request. If you did, it indicates that more output is available. Set this parameter to the value provided by the previous call's NextToken response to request the next page of results.
     public var nextToken: Swift.String?
@@ -3722,7 +3782,7 @@ extension ListPolicyTemplatesInput: ClientRuntime.URLPathProvider {
 }
 
 public struct ListPolicyTemplatesInput: Swift.Equatable {
-    /// Specifies the total number of results that you want included on each page of the response. If you do not include this parameter, it defaults to a value that is specific to the operation. If additional items exist beyond the number you specify, the NextToken response element is returned with a value (not null). Include the specified value as the NextToken request parameter in the next call to the operation to get the next part of the results. Note that the service might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
+    /// Specifies the total number of results that you want included in each response. If additional items exist beyond the number you specify, the NextToken response element is returned with a value (not null). Include the specified value as the NextToken request parameter in the next call to the operation to get the next set of results. Note that the service might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results. If you do not specify this parameter, the operation defaults to 10 policy templates per response. You can specify a maximum of 50 policy templates per response.
     public var maxResults: Swift.Int?
     /// Specifies that you want to receive the next page of results. Valid only if you received a NextToken response in the previous request. If you did, it indicates that more output is available. Set this parameter to the value provided by the previous call's NextToken response to request the next page of results.
     public var nextToken: Swift.String?
@@ -4288,6 +4348,11 @@ extension VerifiedPermissionsClientTypes.PolicyTemplateItem: Swift.Codable {
     }
 }
 
+extension VerifiedPermissionsClientTypes.PolicyTemplateItem: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "PolicyTemplateItem(createdDate: \(Swift.String(describing: createdDate)), lastUpdatedDate: \(Swift.String(describing: lastUpdatedDate)), policyStoreId: \(Swift.String(describing: policyStoreId)), policyTemplateId: \(Swift.String(describing: policyTemplateId)), description: \"CONTENT_REDACTED\")"}
+}
+
 extension VerifiedPermissionsClientTypes {
     /// Contains details about a policy template This data type is used as a response parameter for the [ListPolicyTemplates](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_ListPolicyTemplates.html) operation.
     public struct PolicyTemplateItem: Swift.Equatable {
@@ -4838,6 +4903,11 @@ extension VerifiedPermissionsClientTypes.StaticPolicyDefinition: Swift.Codable {
     }
 }
 
+extension VerifiedPermissionsClientTypes.StaticPolicyDefinition: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "StaticPolicyDefinition(description: \"CONTENT_REDACTED\", statement: \"CONTENT_REDACTED\")"}
+}
+
 extension VerifiedPermissionsClientTypes {
     /// Contains information about a static policy. This data type is used as a field that is part of the [PolicyDefinitionDetail](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_PolicyDefinitionDetail.html) type.
     public struct StaticPolicyDefinition: Swift.Equatable {
@@ -4884,6 +4954,11 @@ extension VerifiedPermissionsClientTypes.StaticPolicyDefinitionDetail: Swift.Cod
     }
 }
 
+extension VerifiedPermissionsClientTypes.StaticPolicyDefinitionDetail: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "StaticPolicyDefinitionDetail(description: \"CONTENT_REDACTED\", statement: \"CONTENT_REDACTED\")"}
+}
+
 extension VerifiedPermissionsClientTypes {
     /// A structure that contains details about a static policy. It includes the description and policy body. This data type is used within a [PolicyDefinition](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_PolicyDefinition.html) structure as part of a request parameter for the [CreatePolicy](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_CreatePolicy.html) operation.
     public struct StaticPolicyDefinitionDetail: Swift.Equatable {
@@ -4922,6 +4997,11 @@ extension VerifiedPermissionsClientTypes.StaticPolicyDefinitionItem: Swift.Codab
         let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
         description = descriptionDecoded
     }
+}
+
+extension VerifiedPermissionsClientTypes.StaticPolicyDefinitionItem: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "StaticPolicyDefinitionItem(description: \"CONTENT_REDACTED\")"}
 }
 
 extension VerifiedPermissionsClientTypes {
@@ -5234,6 +5314,11 @@ extension VerifiedPermissionsClientTypes {
         case sdkUnknown(Swift.String)
     }
 
+}
+
+extension UpdateIdentitySourceInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "UpdateIdentitySourceInput(identitySourceId: \(Swift.String(describing: identitySourceId)), policyStoreId: \(Swift.String(describing: policyStoreId)), updateConfiguration: \(Swift.String(describing: updateConfiguration)), principalEntityType: \"CONTENT_REDACTED\")"}
 }
 
 extension UpdateIdentitySourceInput: Swift.Encodable {
@@ -5799,6 +5884,11 @@ extension UpdatePolicyStoreOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension UpdatePolicyTemplateInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "UpdatePolicyTemplateInput(policyStoreId: \(Swift.String(describing: policyStoreId)), policyTemplateId: \(Swift.String(describing: policyTemplateId)), description: \"CONTENT_REDACTED\", statement: \"CONTENT_REDACTED\")"}
+}
+
 extension UpdatePolicyTemplateInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case description
@@ -6007,6 +6097,11 @@ extension VerifiedPermissionsClientTypes.UpdateStaticPolicyDefinition: Swift.Cod
         let statementDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .statement)
         statement = statementDecoded
     }
+}
+
+extension VerifiedPermissionsClientTypes.UpdateStaticPolicyDefinition: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "UpdateStaticPolicyDefinition(description: \"CONTENT_REDACTED\", statement: \"CONTENT_REDACTED\")"}
 }
 
 extension VerifiedPermissionsClientTypes {

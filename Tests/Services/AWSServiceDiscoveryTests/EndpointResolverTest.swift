@@ -548,7 +548,7 @@ class EndpointResolverTest: XCTestCase {
             [:]
 
         let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "https://servicediscovery.us-east-1.api.aws", headers: headers, properties: properties)
+        let expected = try ClientRuntime.Endpoint(urlString: "https://servicediscovery.us-east-1.amazonaws.com", headers: headers, properties: properties)
 
         XCTAssertEqual(expected, actual)
     }
@@ -648,7 +648,7 @@ class EndpointResolverTest: XCTestCase {
             [:]
 
         let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "https://servicediscovery.cn-north-1.api.amazonwebservices.com.cn", headers: headers, properties: properties)
+        let expected = try ClientRuntime.Endpoint(urlString: "https://servicediscovery.cn-north-1.amazonaws.com.cn", headers: headers, properties: properties)
 
         XCTAssertEqual(expected, actual)
     }
@@ -768,7 +768,7 @@ class EndpointResolverTest: XCTestCase {
             [:]
 
         let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "https://servicediscovery.us-gov-east-1.api.aws", headers: headers, properties: properties)
+        let expected = try ClientRuntime.Endpoint(urlString: "https://servicediscovery.us-gov-east-1.amazonaws.com", headers: headers, properties: properties)
 
         XCTAssertEqual(expected, actual)
     }

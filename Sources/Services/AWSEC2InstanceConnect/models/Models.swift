@@ -500,7 +500,7 @@ extension SendSerialConsoleSSHPublicKeyInput: Swift.Encodable {
         if let sshPublicKey = self.sshPublicKey {
             try encodeContainer.encode(sshPublicKey, forKey: .sshPublicKey)
         }
-        if serialPort != 0 {
+        if let serialPort = self.serialPort {
             try encodeContainer.encode(serialPort, forKey: .serialPort)
         }
     }
@@ -517,14 +517,14 @@ public struct SendSerialConsoleSSHPublicKeyInput: Swift.Equatable {
     /// This member is required.
     public var instanceId: Swift.String?
     /// The serial port of the EC2 instance. Currently only port 0 is supported. Default: 0
-    public var serialPort: Swift.Int
+    public var serialPort: Swift.Int?
     /// The public key material. To use the public key, you must have the matching private key. For information about the supported key formats and lengths, see [Requirements for key pairs](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html#how-to-generate-your-own-key-and-import-it-to-aws) in the Amazon EC2 User Guide.
     /// This member is required.
     public var sshPublicKey: Swift.String?
 
     public init(
         instanceId: Swift.String? = nil,
-        serialPort: Swift.Int = 0,
+        serialPort: Swift.Int? = nil,
         sshPublicKey: Swift.String? = nil
     )
     {
@@ -536,7 +536,7 @@ public struct SendSerialConsoleSSHPublicKeyInput: Swift.Equatable {
 
 struct SendSerialConsoleSSHPublicKeyInputBody: Swift.Equatable {
     let instanceId: Swift.String?
-    let serialPort: Swift.Int
+    let serialPort: Swift.Int?
     let sshPublicKey: Swift.String?
 }
 
@@ -551,7 +551,7 @@ extension SendSerialConsoleSSHPublicKeyInputBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let instanceIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .instanceId)
         instanceId = instanceIdDecoded
-        let serialPortDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .serialPort) ?? 0
+        let serialPortDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .serialPort)
         serialPort = serialPortDecoded
         let sshPublicKeyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sshPublicKey)
         sshPublicKey = sshPublicKeyDecoded

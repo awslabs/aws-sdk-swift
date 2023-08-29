@@ -22,3 +22,12 @@ extension ListApplicationsInput: ClientRuntime.PaginateToken {
             nextToken: token
         )}
 }
+
+extension PaginatorSequence where Input == ListApplicationsInput, Output == ListApplicationsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listApplicationsPaginated`
+    /// to access the nested member `[IoTFleetHubClientTypes.ApplicationSummary]`
+    /// - Returns: `[IoTFleetHubClientTypes.ApplicationSummary]`
+    public func applicationSummaries() async throws -> [IoTFleetHubClientTypes.ApplicationSummary] {
+        return try await self.asyncCompactMap { item in item.applicationSummaries }
+    }
+}

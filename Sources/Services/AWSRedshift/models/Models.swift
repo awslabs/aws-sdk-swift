@@ -2321,7 +2321,7 @@ extension BatchDeleteRequestSizeExceededFaultBody: Swift.Decodable {
 extension BatchModifyClusterSnapshotsInput: Swift.Encodable {
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
-        if force != false {
+        if let force = force {
             try container.encode(force, forKey: ClientRuntime.Key("Force"))
         }
         if let manualSnapshotRetentionPeriod = manualSnapshotRetentionPeriod {
@@ -2352,7 +2352,7 @@ extension BatchModifyClusterSnapshotsInput: ClientRuntime.URLPathProvider {
 
 public struct BatchModifyClusterSnapshotsInput: Swift.Equatable {
     /// A boolean value indicating whether to override an exception if the retention period has passed.
-    public var force: Swift.Bool
+    public var force: Swift.Bool?
     /// The number of days that a manual snapshot is retained. If you specify the value -1, the manual snapshot is retained indefinitely. The number must be either -1 or an integer between 1 and 3,653. If you decrease the manual snapshot retention period from its current value, existing manual snapshots that fall outside of the new retention period will return an error. If you want to suppress the errors and delete the snapshots, use the force option.
     public var manualSnapshotRetentionPeriod: Swift.Int?
     /// A list of snapshot identifiers you want to modify.
@@ -2360,7 +2360,7 @@ public struct BatchModifyClusterSnapshotsInput: Swift.Equatable {
     public var snapshotIdentifierList: [Swift.String]?
 
     public init(
-        force: Swift.Bool = false,
+        force: Swift.Bool? = nil,
         manualSnapshotRetentionPeriod: Swift.Int? = nil,
         snapshotIdentifierList: [Swift.String]? = nil
     )
@@ -2374,7 +2374,7 @@ public struct BatchModifyClusterSnapshotsInput: Swift.Equatable {
 struct BatchModifyClusterSnapshotsInputBody: Swift.Equatable {
     let snapshotIdentifierList: [Swift.String]?
     let manualSnapshotRetentionPeriod: Swift.Int?
-    let force: Swift.Bool
+    let force: Swift.Bool?
 }
 
 extension BatchModifyClusterSnapshotsInputBody: Swift.Decodable {
@@ -9269,7 +9269,7 @@ public struct CreateTagsOutputResponse: Swift.Equatable {
 extension CreateUsageLimitInput: Swift.Encodable {
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
-        if amount != 0 {
+        if let amount = amount {
             try container.encode(amount, forKey: ClientRuntime.Key("Amount"))
         }
         if let breachAction = breachAction {
@@ -9313,7 +9313,7 @@ extension CreateUsageLimitInput: ClientRuntime.URLPathProvider {
 public struct CreateUsageLimitInput: Swift.Equatable {
     /// The limit amount. If time-based, this amount is in minutes. If data-based, this amount is in terabytes (TB). The value must be a positive number.
     /// This member is required.
-    public var amount: Swift.Int
+    public var amount: Swift.Int?
     /// The action that Amazon Redshift takes when the limit is reached. The default is log. For more information about this parameter, see [UsageLimit].
     public var breachAction: RedshiftClientTypes.UsageLimitBreachAction?
     /// The identifier of the cluster that you want to limit usage.
@@ -9331,7 +9331,7 @@ public struct CreateUsageLimitInput: Swift.Equatable {
     public var tags: [RedshiftClientTypes.Tag]?
 
     public init(
-        amount: Swift.Int = 0,
+        amount: Swift.Int? = nil,
         breachAction: RedshiftClientTypes.UsageLimitBreachAction? = nil,
         clusterIdentifier: Swift.String? = nil,
         featureType: RedshiftClientTypes.UsageLimitFeatureType? = nil,
@@ -9354,7 +9354,7 @@ struct CreateUsageLimitInputBody: Swift.Equatable {
     let clusterIdentifier: Swift.String?
     let featureType: RedshiftClientTypes.UsageLimitFeatureType?
     let limitType: RedshiftClientTypes.UsageLimitLimitType?
-    let amount: Swift.Int
+    let amount: Swift.Int?
     let period: RedshiftClientTypes.UsageLimitPeriod?
     let breachAction: RedshiftClientTypes.UsageLimitBreachAction?
     let tags: [RedshiftClientTypes.Tag]?
@@ -10455,7 +10455,7 @@ extension DeleteClusterInput: Swift.Encodable {
         if let finalClusterSnapshotRetentionPeriod = finalClusterSnapshotRetentionPeriod {
             try container.encode(finalClusterSnapshotRetentionPeriod, forKey: ClientRuntime.Key("FinalClusterSnapshotRetentionPeriod"))
         }
-        if skipFinalClusterSnapshot != false {
+        if let skipFinalClusterSnapshot = skipFinalClusterSnapshot {
             try container.encode(skipFinalClusterSnapshot, forKey: ClientRuntime.Key("SkipFinalClusterSnapshot"))
         }
         try container.encode("DeleteCluster", forKey:ClientRuntime.Key("Action"))
@@ -10493,13 +10493,13 @@ public struct DeleteClusterInput: Swift.Equatable {
     /// The number of days that a manual snapshot is retained. If the value is -1, the manual snapshot is retained indefinitely. The value must be either -1 or an integer between 1 and 3,653. The default value is -1.
     public var finalClusterSnapshotRetentionPeriod: Swift.Int?
     /// Determines whether a final snapshot of the cluster is created before Amazon Redshift deletes the cluster. If true, a final cluster snapshot is not created. If false, a final cluster snapshot is created before the cluster is deleted. The FinalClusterSnapshotIdentifier parameter must be specified if SkipFinalClusterSnapshot is false. Default: false
-    public var skipFinalClusterSnapshot: Swift.Bool
+    public var skipFinalClusterSnapshot: Swift.Bool?
 
     public init(
         clusterIdentifier: Swift.String? = nil,
         finalClusterSnapshotIdentifier: Swift.String? = nil,
         finalClusterSnapshotRetentionPeriod: Swift.Int? = nil,
-        skipFinalClusterSnapshot: Swift.Bool = false
+        skipFinalClusterSnapshot: Swift.Bool? = nil
     )
     {
         self.clusterIdentifier = clusterIdentifier
@@ -10511,7 +10511,7 @@ public struct DeleteClusterInput: Swift.Equatable {
 
 struct DeleteClusterInputBody: Swift.Equatable {
     let clusterIdentifier: Swift.String?
-    let skipFinalClusterSnapshot: Swift.Bool
+    let skipFinalClusterSnapshot: Swift.Bool?
     let finalClusterSnapshotIdentifier: Swift.String?
     let finalClusterSnapshotRetentionPeriod: Swift.Int?
 }
@@ -26184,7 +26184,7 @@ extension ModifyClusterParameterGroupOutputResponseBody: Swift.Decodable {
 extension ModifyClusterSnapshotInput: Swift.Encodable {
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
-        if force != false {
+        if let force = force {
             try container.encode(force, forKey: ClientRuntime.Key("Force"))
         }
         if let manualSnapshotRetentionPeriod = manualSnapshotRetentionPeriod {
@@ -26206,7 +26206,7 @@ extension ModifyClusterSnapshotInput: ClientRuntime.URLPathProvider {
 
 public struct ModifyClusterSnapshotInput: Swift.Equatable {
     /// A Boolean option to override an exception if the retention period has already passed.
-    public var force: Swift.Bool
+    public var force: Swift.Bool?
     /// The number of days that a manual snapshot is retained. If the value is -1, the manual snapshot is retained indefinitely. If the manual snapshot falls outside of the new retention period, you can specify the force option to immediately delete the snapshot. The value must be either -1 or an integer between 1 and 3,653.
     public var manualSnapshotRetentionPeriod: Swift.Int?
     /// The identifier of the snapshot whose setting you want to modify.
@@ -26214,7 +26214,7 @@ public struct ModifyClusterSnapshotInput: Swift.Equatable {
     public var snapshotIdentifier: Swift.String?
 
     public init(
-        force: Swift.Bool = false,
+        force: Swift.Bool? = nil,
         manualSnapshotRetentionPeriod: Swift.Int? = nil,
         snapshotIdentifier: Swift.String? = nil
     )
@@ -26228,7 +26228,7 @@ public struct ModifyClusterSnapshotInput: Swift.Equatable {
 struct ModifyClusterSnapshotInputBody: Swift.Equatable {
     let snapshotIdentifier: Swift.String?
     let manualSnapshotRetentionPeriod: Swift.Int?
-    let force: Swift.Bool
+    let force: Swift.Bool?
 }
 
 extension ModifyClusterSnapshotInputBody: Swift.Decodable {
@@ -27448,10 +27448,10 @@ extension ModifySnapshotCopyRetentionPeriodInput: Swift.Encodable {
         if let clusterIdentifier = clusterIdentifier {
             try container.encode(clusterIdentifier, forKey: ClientRuntime.Key("ClusterIdentifier"))
         }
-        if manual != false {
+        if let manual = manual {
             try container.encode(manual, forKey: ClientRuntime.Key("Manual"))
         }
-        if retentionPeriod != 0 {
+        if let retentionPeriod = retentionPeriod {
             try container.encode(retentionPeriod, forKey: ClientRuntime.Key("RetentionPeriod"))
         }
         try container.encode("ModifySnapshotCopyRetentionPeriod", forKey:ClientRuntime.Key("Action"))
@@ -27471,15 +27471,15 @@ public struct ModifySnapshotCopyRetentionPeriodInput: Swift.Equatable {
     /// This member is required.
     public var clusterIdentifier: Swift.String?
     /// Indicates whether to apply the snapshot retention period to newly copied manual snapshots instead of automated snapshots.
-    public var manual: Swift.Bool
+    public var manual: Swift.Bool?
     /// The number of days to retain automated snapshots in the destination Amazon Web Services Region after they are copied from the source Amazon Web Services Region. By default, this only changes the retention period of copied automated snapshots. If you decrease the retention period for automated snapshots that are copied to a destination Amazon Web Services Region, Amazon Redshift deletes any existing automated snapshots that were copied to the destination Amazon Web Services Region and that fall outside of the new retention period. Constraints: Must be at least 1 and no more than 35 for automated snapshots. If you specify the manual option, only newly copied manual snapshots will have the new retention period. If you specify the value of -1 newly copied manual snapshots are retained indefinitely. Constraints: The number of days must be either -1 or an integer between 1 and 3,653 for manual snapshots.
     /// This member is required.
-    public var retentionPeriod: Swift.Int
+    public var retentionPeriod: Swift.Int?
 
     public init(
         clusterIdentifier: Swift.String? = nil,
-        manual: Swift.Bool = false,
-        retentionPeriod: Swift.Int = 0
+        manual: Swift.Bool? = nil,
+        retentionPeriod: Swift.Int? = nil
     )
     {
         self.clusterIdentifier = clusterIdentifier
@@ -27490,8 +27490,8 @@ public struct ModifySnapshotCopyRetentionPeriodInput: Swift.Equatable {
 
 struct ModifySnapshotCopyRetentionPeriodInputBody: Swift.Equatable {
     let clusterIdentifier: Swift.String?
-    let retentionPeriod: Swift.Int
-    let manual: Swift.Bool
+    let retentionPeriod: Swift.Int?
+    let manual: Swift.Bool?
 }
 
 extension ModifySnapshotCopyRetentionPeriodInputBody: Swift.Decodable {
@@ -30499,7 +30499,7 @@ extension ResetClusterParameterGroupInput: Swift.Encodable {
                 try parametersContainer.encode("", forKey: ClientRuntime.Key(""))
             }
         }
-        if resetAllParameters != false {
+        if let resetAllParameters = resetAllParameters {
             try container.encode(resetAllParameters, forKey: ClientRuntime.Key("ResetAllParameters"))
         }
         try container.encode("ResetClusterParameterGroup", forKey:ClientRuntime.Key("Action"))
@@ -30521,12 +30521,12 @@ public struct ResetClusterParameterGroupInput: Swift.Equatable {
     /// An array of names of parameters to be reset. If ResetAllParameters option is not used, then at least one parameter name must be supplied. Constraints: A maximum of 20 parameters can be reset in a single request.
     public var parameters: [RedshiftClientTypes.Parameter]?
     /// If true, all parameters in the specified parameter group will be reset to their default values. Default: true
-    public var resetAllParameters: Swift.Bool
+    public var resetAllParameters: Swift.Bool?
 
     public init(
         parameterGroupName: Swift.String? = nil,
         parameters: [RedshiftClientTypes.Parameter]? = nil,
-        resetAllParameters: Swift.Bool = false
+        resetAllParameters: Swift.Bool? = nil
     )
     {
         self.parameterGroupName = parameterGroupName
@@ -30537,7 +30537,7 @@ public struct ResetClusterParameterGroupInput: Swift.Equatable {
 
 struct ResetClusterParameterGroupInputBody: Swift.Equatable {
     let parameterGroupName: Swift.String?
-    let resetAllParameters: Swift.Bool
+    let resetAllParameters: Swift.Bool?
     let parameters: [RedshiftClientTypes.Parameter]?
 }
 
@@ -32255,7 +32255,7 @@ extension RevokeEndpointAccessInput: Swift.Encodable {
         if let clusterIdentifier = clusterIdentifier {
             try container.encode(clusterIdentifier, forKey: ClientRuntime.Key("ClusterIdentifier"))
         }
-        if force != false {
+        if let force = force {
             try container.encode(force, forKey: ClientRuntime.Key("Force"))
         }
         if let vpcIds = vpcIds {
@@ -32287,14 +32287,14 @@ public struct RevokeEndpointAccessInput: Swift.Equatable {
     /// The cluster to revoke access from.
     public var clusterIdentifier: Swift.String?
     /// Indicates whether to force the revoke action. If true, the Redshift-managed VPC endpoints associated with the endpoint authorization are also deleted.
-    public var force: Swift.Bool
+    public var force: Swift.Bool?
     /// The virtual private cloud (VPC) identifiers for which access is to be revoked.
     public var vpcIds: [Swift.String]?
 
     public init(
         account: Swift.String? = nil,
         clusterIdentifier: Swift.String? = nil,
-        force: Swift.Bool = false,
+        force: Swift.Bool? = nil,
         vpcIds: [Swift.String]? = nil
     )
     {
@@ -32309,7 +32309,7 @@ struct RevokeEndpointAccessInputBody: Swift.Equatable {
     let clusterIdentifier: Swift.String?
     let account: Swift.String?
     let vpcIds: [Swift.String]?
-    let force: Swift.Bool
+    let force: Swift.Bool?
 }
 
 extension RevokeEndpointAccessInputBody: Swift.Decodable {

@@ -49597,18 +49597,24 @@ extension GlueClientTypes {
 extension GlueClientTypes.Session: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case command = "Command"
+        case completedOn = "CompletedOn"
         case connections = "Connections"
         case createdOn = "CreatedOn"
+        case dpuSeconds = "DPUSeconds"
         case defaultArguments = "DefaultArguments"
         case description = "Description"
         case errorMessage = "ErrorMessage"
+        case executionTime = "ExecutionTime"
         case glueVersion = "GlueVersion"
         case id = "Id"
+        case idleTimeout = "IdleTimeout"
         case maxCapacity = "MaxCapacity"
+        case numberOfWorkers = "NumberOfWorkers"
         case progress = "Progress"
         case role = "Role"
         case securityConfiguration = "SecurityConfiguration"
         case status = "Status"
+        case workerType = "WorkerType"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -49616,11 +49622,17 @@ extension GlueClientTypes.Session: Swift.Codable {
         if let command = self.command {
             try encodeContainer.encode(command, forKey: .command)
         }
+        if let completedOn = self.completedOn {
+            try encodeContainer.encodeTimestamp(completedOn, format: .epochSeconds, forKey: .completedOn)
+        }
         if let connections = self.connections {
             try encodeContainer.encode(connections, forKey: .connections)
         }
         if let createdOn = self.createdOn {
             try encodeContainer.encodeTimestamp(createdOn, format: .epochSeconds, forKey: .createdOn)
+        }
+        if let dpuSeconds = self.dpuSeconds {
+            try encodeContainer.encode(dpuSeconds, forKey: .dpuSeconds)
         }
         if let defaultArguments = defaultArguments {
             var defaultArgumentsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .defaultArguments)
@@ -49634,14 +49646,23 @@ extension GlueClientTypes.Session: Swift.Codable {
         if let errorMessage = self.errorMessage {
             try encodeContainer.encode(errorMessage, forKey: .errorMessage)
         }
+        if let executionTime = self.executionTime {
+            try encodeContainer.encode(executionTime, forKey: .executionTime)
+        }
         if let glueVersion = self.glueVersion {
             try encodeContainer.encode(glueVersion, forKey: .glueVersion)
         }
         if let id = self.id {
             try encodeContainer.encode(id, forKey: .id)
         }
+        if let idleTimeout = self.idleTimeout {
+            try encodeContainer.encode(idleTimeout, forKey: .idleTimeout)
+        }
         if let maxCapacity = self.maxCapacity {
             try encodeContainer.encode(maxCapacity, forKey: .maxCapacity)
+        }
+        if let numberOfWorkers = self.numberOfWorkers {
+            try encodeContainer.encode(numberOfWorkers, forKey: .numberOfWorkers)
         }
         if progress != 0.0 {
             try encodeContainer.encode(progress, forKey: .progress)
@@ -49654,6 +49675,9 @@ extension GlueClientTypes.Session: Swift.Codable {
         }
         if let status = self.status {
             try encodeContainer.encode(status.rawValue, forKey: .status)
+        }
+        if let workerType = self.workerType {
+            try encodeContainer.encode(workerType.rawValue, forKey: .workerType)
         }
     }
 
@@ -49694,6 +49718,18 @@ extension GlueClientTypes.Session: Swift.Codable {
         securityConfiguration = securityConfigurationDecoded
         let glueVersionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .glueVersion)
         glueVersion = glueVersionDecoded
+        let numberOfWorkersDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .numberOfWorkers)
+        numberOfWorkers = numberOfWorkersDecoded
+        let workerTypeDecoded = try containerValues.decodeIfPresent(GlueClientTypes.WorkerType.self, forKey: .workerType)
+        workerType = workerTypeDecoded
+        let completedOnDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .completedOn)
+        completedOn = completedOnDecoded
+        let executionTimeDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .executionTime)
+        executionTime = executionTimeDecoded
+        let dpuSecondsDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .dpuSeconds)
+        dpuSeconds = dpuSecondsDecoded
+        let idleTimeoutDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .idleTimeout)
+        idleTimeout = idleTimeoutDecoded
     }
 }
 
@@ -49702,6 +49738,8 @@ extension GlueClientTypes {
     public struct Session: Swift.Equatable {
         /// The command object.See SessionCommand.
         public var command: GlueClientTypes.SessionCommand?
+        /// The date and time that this session is completed.
+        public var completedOn: ClientRuntime.Date?
         /// The number of connections used for the session.
         public var connections: GlueClientTypes.ConnectionsList?
         /// The time and date when the session was created.
@@ -49710,14 +49748,22 @@ extension GlueClientTypes {
         public var defaultArguments: [Swift.String:Swift.String]?
         /// The description of the session.
         public var description: Swift.String?
+        /// The DPUs consumed by the session (formula: ExecutionTime * MaxCapacity).
+        public var dpuSeconds: Swift.Double?
         /// The error message displayed during the session.
         public var errorMessage: Swift.String?
+        /// The total time the session ran for.
+        public var executionTime: Swift.Double?
         /// The Glue version determines the versions of Apache Spark and Python that Glue supports. The GlueVersion must be greater than 2.0.
         public var glueVersion: Swift.String?
         /// The ID of the session.
         public var id: Swift.String?
+        /// The number of minutes when idle before the session times out.
+        public var idleTimeout: Swift.Int?
         /// The number of Glue data processing units (DPUs) that can be allocated when the job runs. A DPU is a relative measure of processing power that consists of 4 vCPUs of compute capacity and 16 GB memory.
         public var maxCapacity: Swift.Double?
+        /// The number of workers of a defined WorkerType to use for the session.
+        public var numberOfWorkers: Swift.Int?
         /// The code execution progress of the session.
         public var progress: Swift.Double
         /// The name or Amazon Resource Name (ARN) of the IAM role associated with the Session.
@@ -49726,36 +49772,50 @@ extension GlueClientTypes {
         public var securityConfiguration: Swift.String?
         /// The session status.
         public var status: GlueClientTypes.SessionStatus?
+        /// The type of predefined worker that is allocated when a session runs. Accepts a value of G.1X, G.2X, G.4X, or G.8X for Spark sessions. Accepts the value Z.2X for Ray sessions.
+        public var workerType: GlueClientTypes.WorkerType?
 
         public init(
             command: GlueClientTypes.SessionCommand? = nil,
+            completedOn: ClientRuntime.Date? = nil,
             connections: GlueClientTypes.ConnectionsList? = nil,
             createdOn: ClientRuntime.Date? = nil,
             defaultArguments: [Swift.String:Swift.String]? = nil,
             description: Swift.String? = nil,
+            dpuSeconds: Swift.Double? = nil,
             errorMessage: Swift.String? = nil,
+            executionTime: Swift.Double? = nil,
             glueVersion: Swift.String? = nil,
             id: Swift.String? = nil,
+            idleTimeout: Swift.Int? = nil,
             maxCapacity: Swift.Double? = nil,
+            numberOfWorkers: Swift.Int? = nil,
             progress: Swift.Double = 0.0,
             role: Swift.String? = nil,
             securityConfiguration: Swift.String? = nil,
-            status: GlueClientTypes.SessionStatus? = nil
+            status: GlueClientTypes.SessionStatus? = nil,
+            workerType: GlueClientTypes.WorkerType? = nil
         )
         {
             self.command = command
+            self.completedOn = completedOn
             self.connections = connections
             self.createdOn = createdOn
             self.defaultArguments = defaultArguments
             self.description = description
+            self.dpuSeconds = dpuSeconds
             self.errorMessage = errorMessage
+            self.executionTime = executionTime
             self.glueVersion = glueVersion
             self.id = id
+            self.idleTimeout = idleTimeout
             self.maxCapacity = maxCapacity
+            self.numberOfWorkers = numberOfWorkers
             self.progress = progress
             self.role = role
             self.securityConfiguration = securityConfiguration
             self.status = status
+            self.workerType = workerType
         }
     }
 

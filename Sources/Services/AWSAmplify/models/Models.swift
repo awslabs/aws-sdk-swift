@@ -4433,7 +4433,7 @@ extension ListAppsInput: ClientRuntime.QueryItemProvider {
                 let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
                 items.append(nextTokenQueryItem)
             }
-            if maxResults != 0 {
+            if let maxResults = maxResults {
                 let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
                 items.append(maxResultsQueryItem)
             }
@@ -4451,12 +4451,12 @@ extension ListAppsInput: ClientRuntime.URLPathProvider {
 /// The request structure for the list apps request.
 public struct ListAppsInput: Swift.Equatable {
     /// The maximum number of records to list in a single response.
-    public var maxResults: Swift.Int
+    public var maxResults: Swift.Int?
     /// A pagination token. If non-null, the pagination token is returned in a result. Pass its value in another request to retrieve more entries.
     public var nextToken: Swift.String?
 
     public init(
-        maxResults: Swift.Int = 0,
+        maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     )
     {
@@ -4556,7 +4556,7 @@ extension ListArtifactsInput: ClientRuntime.QueryItemProvider {
                 let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
                 items.append(nextTokenQueryItem)
             }
-            if maxResults != 0 {
+            if let maxResults = maxResults {
                 let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
                 items.append(maxResultsQueryItem)
             }
@@ -4592,7 +4592,7 @@ public struct ListArtifactsInput: Swift.Equatable {
     /// This member is required.
     public var jobId: Swift.String?
     /// The maximum number of records to list in a single response.
-    public var maxResults: Swift.Int
+    public var maxResults: Swift.Int?
     /// A pagination token. Set to null to start listing artifacts from start. If a non-null pagination token is returned in a result, pass its value in here to list more artifacts.
     public var nextToken: Swift.String?
 
@@ -4600,7 +4600,7 @@ public struct ListArtifactsInput: Swift.Equatable {
         appId: Swift.String? = nil,
         branchName: Swift.String? = nil,
         jobId: Swift.String? = nil,
-        maxResults: Swift.Int = 0,
+        maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     )
     {
@@ -4708,7 +4708,7 @@ extension ListBackendEnvironmentsInput: ClientRuntime.QueryItemProvider {
                 let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
                 items.append(nextTokenQueryItem)
             }
-            if maxResults != 0 {
+            if let maxResults = maxResults {
                 let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
                 items.append(maxResultsQueryItem)
             }
@@ -4734,14 +4734,14 @@ public struct ListBackendEnvironmentsInput: Swift.Equatable {
     /// The name of the backend environment
     public var environmentName: Swift.String?
     /// The maximum number of records to list in a single response.
-    public var maxResults: Swift.Int
+    public var maxResults: Swift.Int?
     /// A pagination token. Set to null to start listing backend environments from the start. If a non-null pagination token is returned in a result, pass its value in here to list more backend environments.
     public var nextToken: Swift.String?
 
     public init(
         appId: Swift.String? = nil,
         environmentName: Swift.String? = nil,
-        maxResults: Swift.Int = 0,
+        maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     )
     {
@@ -4843,7 +4843,7 @@ extension ListBranchesInput: ClientRuntime.QueryItemProvider {
                 let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
                 items.append(nextTokenQueryItem)
             }
-            if maxResults != 0 {
+            if let maxResults = maxResults {
                 let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
                 items.append(maxResultsQueryItem)
             }
@@ -4867,13 +4867,13 @@ public struct ListBranchesInput: Swift.Equatable {
     /// This member is required.
     public var appId: Swift.String?
     /// The maximum number of records to list in a single response.
-    public var maxResults: Swift.Int
+    public var maxResults: Swift.Int?
     /// A pagination token. Set to null to start listing branches from the start. If a non-null pagination token is returned in a result, pass its value in here to list more branches.
     public var nextToken: Swift.String?
 
     public init(
         appId: Swift.String? = nil,
-        maxResults: Swift.Int = 0,
+        maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     )
     {
@@ -4974,7 +4974,7 @@ extension ListDomainAssociationsInput: ClientRuntime.QueryItemProvider {
                 let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
                 items.append(nextTokenQueryItem)
             }
-            if maxResults != 0 {
+            if let maxResults = maxResults {
                 let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
                 items.append(maxResultsQueryItem)
             }
@@ -4998,13 +4998,13 @@ public struct ListDomainAssociationsInput: Swift.Equatable {
     /// This member is required.
     public var appId: Swift.String?
     /// The maximum number of records to list in a single response.
-    public var maxResults: Swift.Int
+    public var maxResults: Swift.Int?
     /// A pagination token. Set to null to start listing apps from the start. If non-null, a pagination token is returned in a result. Pass its value in here to list more projects.
     public var nextToken: Swift.String?
 
     public init(
         appId: Swift.String? = nil,
-        maxResults: Swift.Int = 0,
+        maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     )
     {
@@ -5105,7 +5105,7 @@ extension ListJobsInput: ClientRuntime.QueryItemProvider {
                 let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
                 items.append(nextTokenQueryItem)
             }
-            if maxResults != 0 {
+            if let maxResults = maxResults {
                 let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
                 items.append(maxResultsQueryItem)
             }
@@ -5135,14 +5135,14 @@ public struct ListJobsInput: Swift.Equatable {
     /// This member is required.
     public var branchName: Swift.String?
     /// The maximum number of records to list in a single response.
-    public var maxResults: Swift.Int
+    public var maxResults: Swift.Int?
     /// A pagination token. Set to null to start listing steps from the start. If a non-null pagination token is returned in a result, pass its value in here to list more steps.
     public var nextToken: Swift.String?
 
     public init(
         appId: Swift.String? = nil,
         branchName: Swift.String? = nil,
-        maxResults: Swift.Int = 0,
+        maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     )
     {
@@ -5340,7 +5340,7 @@ extension ListWebhooksInput: ClientRuntime.QueryItemProvider {
                 let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
                 items.append(nextTokenQueryItem)
             }
-            if maxResults != 0 {
+            if let maxResults = maxResults {
                 let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
                 items.append(maxResultsQueryItem)
             }
@@ -5364,13 +5364,13 @@ public struct ListWebhooksInput: Swift.Equatable {
     /// This member is required.
     public var appId: Swift.String?
     /// The maximum number of records to list in a single response.
-    public var maxResults: Swift.Int
+    public var maxResults: Swift.Int?
     /// A pagination token. Set to null to start listing webhooks from the start. If non-null,the pagination token is returned in a result. Pass its value in here to list more webhooks.
     public var nextToken: Swift.String?
 
     public init(
         appId: Swift.String? = nil,
-        maxResults: Swift.Int = 0,
+        maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     )
     {

@@ -165,9 +165,9 @@ extension MobileClientTypes.BundleDetails: Swift.Codable {
         var availablePlatformsDecoded0:[MobileClientTypes.Platform]? = nil
         if let availablePlatformsContainer = availablePlatformsContainer {
             availablePlatformsDecoded0 = [MobileClientTypes.Platform]()
-            for string0 in availablePlatformsContainer {
-                if let string0 = string0 {
-                    availablePlatformsDecoded0?.append(string0)
+            for enum0 in availablePlatformsContainer {
+                if let enum0 = enum0 {
+                    availablePlatformsDecoded0?.append(enum0)
                 }
             }
         }
@@ -585,7 +585,7 @@ extension DescribeProjectInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
         get throws {
             var items = [ClientRuntime.URLQueryItem]()
-            if syncFromResources != false {
+            if let syncFromResources = syncFromResources {
                 let syncFromResourcesQueryItem = ClientRuntime.URLQueryItem(name: "syncFromResources".urlPercentEncoding(), value: Swift.String(syncFromResources).urlPercentEncoding())
                 items.append(syncFromResourcesQueryItem)
             }
@@ -612,11 +612,11 @@ public struct DescribeProjectInput: Swift.Equatable {
     /// This member is required.
     public var projectId: Swift.String?
     /// If set to true, causes AWS Mobile Hub to synchronize information from other services, e.g., update state of AWS CloudFormation stacks in the AWS Mobile Hub project.
-    public var syncFromResources: Swift.Bool
+    public var syncFromResources: Swift.Bool?
 
     public init(
         projectId: Swift.String? = nil,
-        syncFromResources: Swift.Bool = false
+        syncFromResources: Swift.Bool? = nil
     )
     {
         self.projectId = projectId
@@ -1038,7 +1038,7 @@ extension ListBundlesInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
         get throws {
             var items = [ClientRuntime.URLQueryItem]()
-            if maxResults != 0 {
+            if let maxResults = maxResults {
                 let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
                 items.append(maxResultsQueryItem)
             }
@@ -1060,12 +1060,12 @@ extension ListBundlesInput: ClientRuntime.URLPathProvider {
 /// Request structure to request all available bundles.
 public struct ListBundlesInput: Swift.Equatable {
     /// Maximum number of records to list in a single response.
-    public var maxResults: Swift.Int
+    public var maxResults: Swift.Int?
     /// Pagination token. Set to null to start listing bundles from start. If non-null pagination token is returned in a result, then pass its value in here in another request to list more bundles.
     public var nextToken: Swift.String?
 
     public init(
-        maxResults: Swift.Int = 0,
+        maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     )
     {
@@ -1162,7 +1162,7 @@ extension ListProjectsInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
         get throws {
             var items = [ClientRuntime.URLQueryItem]()
-            if maxResults != 0 {
+            if let maxResults = maxResults {
                 let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
                 items.append(maxResultsQueryItem)
             }
@@ -1184,12 +1184,12 @@ extension ListProjectsInput: ClientRuntime.URLPathProvider {
 /// Request structure used to request projects list in AWS Mobile Hub.
 public struct ListProjectsInput: Swift.Equatable {
     /// Maximum number of records to list in a single response.
-    public var maxResults: Swift.Int
+    public var maxResults: Swift.Int?
     /// Pagination token. Set to null to start listing projects from start. If non-null pagination token is returned in a result, then pass its value in here in another request to list more projects.
     public var nextToken: Swift.String?
 
     public init(
-        maxResults: Swift.Int = 0,
+        maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     )
     {

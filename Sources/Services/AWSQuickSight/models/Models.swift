@@ -510,6 +510,26 @@ extension QuickSightClientTypes {
 
 }
 
+extension QuickSightClientTypes.AllSheetsFilterScopeConfiguration: Swift.Codable {
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.singleValueContainer()
+        try container.encode([String:String]())
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension QuickSightClientTypes {
+    /// The configuration for applying a filter to all sheets. You can apply this filter to all visuals on every sheet. This is a union type structure. For this structure to be valid, only one of the attributes can be defined.
+    public struct AllSheetsFilterScopeConfiguration: Swift.Equatable {
+
+        public init() { }
+    }
+
+}
+
 extension QuickSightClientTypes.AmazonElasticsearchParameters: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case domain = "Domain"
@@ -12046,6 +12066,7 @@ extension CreateFolderInput: Swift.Encodable {
         case name = "Name"
         case parentFolderArn = "ParentFolderArn"
         case permissions = "Permissions"
+        case sharingModel = "SharingModel"
         case tags = "Tags"
     }
 
@@ -12065,6 +12086,9 @@ extension CreateFolderInput: Swift.Encodable {
             for resourcepermission0 in permissions {
                 try permissionsContainer.encode(resourcepermission0)
             }
+        }
+        if let sharingModel = self.sharingModel {
+            try encodeContainer.encode(sharingModel.rawValue, forKey: .sharingModel)
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
@@ -12102,6 +12126,8 @@ public struct CreateFolderInput: Swift.Equatable {
     public var parentFolderArn: Swift.String?
     /// A structure that describes the principals and the resource-level permissions of a folder. To specify no permissions, omit Permissions.
     public var permissions: [QuickSightClientTypes.ResourcePermission]?
+    /// An optional parameter that determines the sharing scope of the folder. The default value for this parameter is ACCOUNT.
+    public var sharingModel: QuickSightClientTypes.SharingModel?
     /// Tags for the folder.
     public var tags: [QuickSightClientTypes.Tag]?
 
@@ -12112,6 +12138,7 @@ public struct CreateFolderInput: Swift.Equatable {
         name: Swift.String? = nil,
         parentFolderArn: Swift.String? = nil,
         permissions: [QuickSightClientTypes.ResourcePermission]? = nil,
+        sharingModel: QuickSightClientTypes.SharingModel? = nil,
         tags: [QuickSightClientTypes.Tag]? = nil
     )
     {
@@ -12121,6 +12148,7 @@ public struct CreateFolderInput: Swift.Equatable {
         self.name = name
         self.parentFolderArn = parentFolderArn
         self.permissions = permissions
+        self.sharingModel = sharingModel
         self.tags = tags
     }
 }
@@ -12131,6 +12159,7 @@ struct CreateFolderInputBody: Swift.Equatable {
     let parentFolderArn: Swift.String?
     let permissions: [QuickSightClientTypes.ResourcePermission]?
     let tags: [QuickSightClientTypes.Tag]?
+    let sharingModel: QuickSightClientTypes.SharingModel?
 }
 
 extension CreateFolderInputBody: Swift.Decodable {
@@ -12139,6 +12168,7 @@ extension CreateFolderInputBody: Swift.Decodable {
         case name = "Name"
         case parentFolderArn = "ParentFolderArn"
         case permissions = "Permissions"
+        case sharingModel = "SharingModel"
         case tags = "Tags"
     }
 
@@ -12172,6 +12202,8 @@ extension CreateFolderInputBody: Swift.Decodable {
             }
         }
         tags = tagsDecoded0
+        let sharingModelDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.SharingModel.self, forKey: .sharingModel)
+        sharingModel = sharingModelDecoded
     }
 }
 
@@ -12200,10 +12232,10 @@ public struct CreateFolderMembershipInput: Swift.Equatable {
     /// The ID of the folder.
     /// This member is required.
     public var folderId: Swift.String?
-    /// The ID of the asset (the dashboard, analysis, or dataset).
+    /// The ID of the asset that you want to add to the folder.
     /// This member is required.
     public var memberId: Swift.String?
-    /// The type of the member, including DASHBOARD, ANALYSIS, and DATASET.
+    /// The member type of the asset that you want to add to a folder.
     /// This member is required.
     public var memberType: QuickSightClientTypes.MemberType?
 
@@ -22808,10 +22840,10 @@ public struct DeleteFolderMembershipInput: Swift.Equatable {
     /// The Folder ID.
     /// This member is required.
     public var folderId: Swift.String?
-    /// The ID of the asset (the dashboard, analysis, or dataset) that you want to delete.
+    /// The ID of the asset that you want to delete.
     /// This member is required.
     public var memberId: Swift.String?
-    /// The type of the member, including DASHBOARD, ANALYSIS, and DATASET
+    /// The member type of the asset that you want to delete from a folder.
     /// This member is required.
     public var memberType: QuickSightClientTypes.MemberType?
 
@@ -27719,6 +27751,27 @@ extension DescribeFolderOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension DescribeFolderPermissionsInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            if let maxResults = maxResults {
+                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+                items.append(maxResultsQueryItem)
+            }
+            if let namespace = namespace {
+                let namespaceQueryItem = ClientRuntime.URLQueryItem(name: "namespace".urlPercentEncoding(), value: Swift.String(namespace).urlPercentEncoding())
+                items.append(namespaceQueryItem)
+            }
+            return items
+        }
+    }
+}
+
 extension DescribeFolderPermissionsInput: ClientRuntime.URLPathProvider {
     public var urlPath: Swift.String? {
         guard let awsAccountId = awsAccountId else {
@@ -27738,14 +27791,26 @@ public struct DescribeFolderPermissionsInput: Swift.Equatable {
     /// The ID of the folder.
     /// This member is required.
     public var folderId: Swift.String?
+    /// The maximum number of results to be returned per request.
+    public var maxResults: Swift.Int?
+    /// The namespace of the folder whose permissions you want described.
+    public var namespace: Swift.String?
+    /// A pagination token for the next set of results.
+    public var nextToken: Swift.String?
 
     public init(
         awsAccountId: Swift.String? = nil,
-        folderId: Swift.String? = nil
+        folderId: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        namespace: Swift.String? = nil,
+        nextToken: Swift.String? = nil
     )
     {
         self.awsAccountId = awsAccountId
         self.folderId = folderId
+        self.maxResults = maxResults
+        self.namespace = namespace
+        self.nextToken = nextToken
     }
 }
 
@@ -27765,6 +27830,7 @@ public enum DescribeFolderPermissionsOutputError: ClientRuntime.HttpResponseErro
         switch restJSONError.errorType {
             case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InternalFailureException": return try await InternalFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidNextTokenException": return try await InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
@@ -27781,11 +27847,13 @@ extension DescribeFolderPermissionsOutputResponse: ClientRuntime.HttpResponseBin
             let output: DescribeFolderPermissionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.folderId = output.folderId
+            self.nextToken = output.nextToken
             self.permissions = output.permissions
             self.requestId = output.requestId
         } else {
             self.arn = nil
             self.folderId = nil
+            self.nextToken = nil
             self.permissions = nil
             self.requestId = nil
         }
@@ -27798,6 +27866,8 @@ public struct DescribeFolderPermissionsOutputResponse: Swift.Equatable {
     public var arn: Swift.String?
     /// The ID of the folder.
     public var folderId: Swift.String?
+    /// The pagination token for the next set of results, or null if there are no more results.
+    public var nextToken: Swift.String?
     /// Information about the permissions on the folder.
     public var permissions: [QuickSightClientTypes.ResourcePermission]?
     /// The Amazon Web Services request ID for this operation.
@@ -27808,6 +27878,7 @@ public struct DescribeFolderPermissionsOutputResponse: Swift.Equatable {
     public init(
         arn: Swift.String? = nil,
         folderId: Swift.String? = nil,
+        nextToken: Swift.String? = nil,
         permissions: [QuickSightClientTypes.ResourcePermission]? = nil,
         requestId: Swift.String? = nil,
         status: Swift.Int = 0
@@ -27815,6 +27886,7 @@ public struct DescribeFolderPermissionsOutputResponse: Swift.Equatable {
     {
         self.arn = arn
         self.folderId = folderId
+        self.nextToken = nextToken
         self.permissions = permissions
         self.requestId = requestId
         self.status = status
@@ -27827,12 +27899,14 @@ struct DescribeFolderPermissionsOutputResponseBody: Swift.Equatable {
     let arn: Swift.String?
     let permissions: [QuickSightClientTypes.ResourcePermission]?
     let requestId: Swift.String?
+    let nextToken: Swift.String?
 }
 
 extension DescribeFolderPermissionsOutputResponseBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn = "Arn"
         case folderId = "FolderId"
+        case nextToken = "NextToken"
         case permissions = "Permissions"
         case requestId = "RequestId"
         case status = "Status"
@@ -27859,6 +27933,29 @@ extension DescribeFolderPermissionsOutputResponseBody: Swift.Decodable {
         permissions = permissionsDecoded0
         let requestIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .requestId)
         requestId = requestIdDecoded
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+extension DescribeFolderResolvedPermissionsInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            if let maxResults = maxResults {
+                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+                items.append(maxResultsQueryItem)
+            }
+            if let namespace = namespace {
+                let namespaceQueryItem = ClientRuntime.URLQueryItem(name: "namespace".urlPercentEncoding(), value: Swift.String(namespace).urlPercentEncoding())
+                items.append(namespaceQueryItem)
+            }
+            return items
+        }
     }
 }
 
@@ -27881,14 +27978,26 @@ public struct DescribeFolderResolvedPermissionsInput: Swift.Equatable {
     /// The ID of the folder.
     /// This member is required.
     public var folderId: Swift.String?
+    /// The maximum number of results to be returned per request.
+    public var maxResults: Swift.Int?
+    /// The namespace of the folder whose permissions you want described.
+    public var namespace: Swift.String?
+    /// A pagination token for the next set of results.
+    public var nextToken: Swift.String?
 
     public init(
         awsAccountId: Swift.String? = nil,
-        folderId: Swift.String? = nil
+        folderId: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        namespace: Swift.String? = nil,
+        nextToken: Swift.String? = nil
     )
     {
         self.awsAccountId = awsAccountId
         self.folderId = folderId
+        self.maxResults = maxResults
+        self.namespace = namespace
+        self.nextToken = nextToken
     }
 }
 
@@ -27908,6 +28017,7 @@ public enum DescribeFolderResolvedPermissionsOutputError: ClientRuntime.HttpResp
         switch restJSONError.errorType {
             case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InternalFailureException": return try await InternalFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidNextTokenException": return try await InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
@@ -27924,11 +28034,13 @@ extension DescribeFolderResolvedPermissionsOutputResponse: ClientRuntime.HttpRes
             let output: DescribeFolderResolvedPermissionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
             self.folderId = output.folderId
+            self.nextToken = output.nextToken
             self.permissions = output.permissions
             self.requestId = output.requestId
         } else {
             self.arn = nil
             self.folderId = nil
+            self.nextToken = nil
             self.permissions = nil
             self.requestId = nil
         }
@@ -27941,6 +28053,8 @@ public struct DescribeFolderResolvedPermissionsOutputResponse: Swift.Equatable {
     public var arn: Swift.String?
     /// The ID of the folder.
     public var folderId: Swift.String?
+    /// A pagination token for the next set of results, or null if there are no more results.
+    public var nextToken: Swift.String?
     /// Information about the permissions for the folder.
     public var permissions: [QuickSightClientTypes.ResourcePermission]?
     /// The Amazon Web Services request ID for this operation.
@@ -27951,6 +28065,7 @@ public struct DescribeFolderResolvedPermissionsOutputResponse: Swift.Equatable {
     public init(
         arn: Swift.String? = nil,
         folderId: Swift.String? = nil,
+        nextToken: Swift.String? = nil,
         permissions: [QuickSightClientTypes.ResourcePermission]? = nil,
         requestId: Swift.String? = nil,
         status: Swift.Int = 0
@@ -27958,6 +28073,7 @@ public struct DescribeFolderResolvedPermissionsOutputResponse: Swift.Equatable {
     {
         self.arn = arn
         self.folderId = folderId
+        self.nextToken = nextToken
         self.permissions = permissions
         self.requestId = requestId
         self.status = status
@@ -27970,12 +28086,14 @@ struct DescribeFolderResolvedPermissionsOutputResponseBody: Swift.Equatable {
     let arn: Swift.String?
     let permissions: [QuickSightClientTypes.ResourcePermission]?
     let requestId: Swift.String?
+    let nextToken: Swift.String?
 }
 
 extension DescribeFolderResolvedPermissionsOutputResponseBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn = "Arn"
         case folderId = "FolderId"
+        case nextToken = "NextToken"
         case permissions = "Permissions"
         case requestId = "RequestId"
         case status = "Status"
@@ -28002,6 +28120,8 @@ extension DescribeFolderResolvedPermissionsOutputResponseBody: Swift.Decodable {
         permissions = permissionsDecoded0
         let requestIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .requestId)
         requestId = requestIdDecoded
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
     }
 }
 
@@ -33780,11 +33900,15 @@ extension QuickSightClientTypes {
 
 extension QuickSightClientTypes.FilterScopeConfiguration: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case allSheets = "AllSheets"
         case selectedSheets = "SelectedSheets"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let allSheets = self.allSheets {
+            try encodeContainer.encode(allSheets, forKey: .allSheets)
+        }
         if let selectedSheets = self.selectedSheets {
             try encodeContainer.encode(selectedSheets, forKey: .selectedSheets)
         }
@@ -33794,19 +33918,25 @@ extension QuickSightClientTypes.FilterScopeConfiguration: Swift.Codable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let selectedSheetsDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.SelectedSheetsFilterScopeConfiguration.self, forKey: .selectedSheets)
         selectedSheets = selectedSheetsDecoded
+        let allSheetsDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.AllSheetsFilterScopeConfiguration.self, forKey: .allSheets)
+        allSheets = allSheetsDecoded
     }
 }
 
 extension QuickSightClientTypes {
     /// The scope configuration for a FilterGroup. This is a union type structure. For this structure to be valid, only one of the attributes can be defined.
     public struct FilterScopeConfiguration: Swift.Equatable {
+        /// The configuration for applying a filter to all sheets.
+        public var allSheets: QuickSightClientTypes.AllSheetsFilterScopeConfiguration?
         /// The configuration for applying a filter to specific sheets.
         public var selectedSheets: QuickSightClientTypes.SelectedSheetsFilterScopeConfiguration?
 
         public init(
+            allSheets: QuickSightClientTypes.AllSheetsFilterScopeConfiguration? = nil,
             selectedSheets: QuickSightClientTypes.SelectedSheetsFilterScopeConfiguration? = nil
         )
         {
+            self.allSheets = allSheets
             self.selectedSheets = selectedSheets
         }
     }
@@ -34162,6 +34292,7 @@ extension QuickSightClientTypes.Folder: Swift.Codable {
         case folderType = "FolderType"
         case lastUpdatedTime = "LastUpdatedTime"
         case name = "Name"
+        case sharingModel = "SharingModel"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -34190,6 +34321,9 @@ extension QuickSightClientTypes.Folder: Swift.Codable {
         if let name = self.name {
             try encodeContainer.encode(name, forKey: .name)
         }
+        if let sharingModel = self.sharingModel {
+            try encodeContainer.encode(sharingModel.rawValue, forKey: .sharingModel)
+        }
     }
 
     public init(from decoder: Swift.Decoder) throws {
@@ -34217,6 +34351,8 @@ extension QuickSightClientTypes.Folder: Swift.Codable {
         createdTime = createdTimeDecoded
         let lastUpdatedTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastUpdatedTime)
         lastUpdatedTime = lastUpdatedTimeDecoded
+        let sharingModelDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.SharingModel.self, forKey: .sharingModel)
+        sharingModel = sharingModelDecoded
     }
 }
 
@@ -34237,6 +34373,8 @@ extension QuickSightClientTypes {
         public var lastUpdatedTime: ClientRuntime.Date?
         /// A display name for the folder.
         public var name: Swift.String?
+        /// The sharing scope of the folder.
+        public var sharingModel: QuickSightClientTypes.SharingModel?
 
         public init(
             arn: Swift.String? = nil,
@@ -34245,7 +34383,8 @@ extension QuickSightClientTypes {
             folderPath: [Swift.String]? = nil,
             folderType: QuickSightClientTypes.FolderType? = nil,
             lastUpdatedTime: ClientRuntime.Date? = nil,
-            name: Swift.String? = nil
+            name: Swift.String? = nil,
+            sharingModel: QuickSightClientTypes.SharingModel? = nil
         )
         {
             self.arn = arn
@@ -34255,6 +34394,7 @@ extension QuickSightClientTypes {
             self.folderType = folderType
             self.lastUpdatedTime = lastUpdatedTime
             self.name = name
+            self.sharingModel = sharingModel
         }
     }
 
@@ -34429,6 +34569,7 @@ extension QuickSightClientTypes.FolderSummary: Swift.Codable {
         case folderType = "FolderType"
         case lastUpdatedTime = "LastUpdatedTime"
         case name = "Name"
+        case sharingModel = "SharingModel"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -34451,6 +34592,9 @@ extension QuickSightClientTypes.FolderSummary: Swift.Codable {
         if let name = self.name {
             try encodeContainer.encode(name, forKey: .name)
         }
+        if let sharingModel = self.sharingModel {
+            try encodeContainer.encode(sharingModel.rawValue, forKey: .sharingModel)
+        }
     }
 
     public init(from decoder: Swift.Decoder) throws {
@@ -34467,6 +34611,8 @@ extension QuickSightClientTypes.FolderSummary: Swift.Codable {
         createdTime = createdTimeDecoded
         let lastUpdatedTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastUpdatedTime)
         lastUpdatedTime = lastUpdatedTimeDecoded
+        let sharingModelDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.SharingModel.self, forKey: .sharingModel)
+        sharingModel = sharingModelDecoded
     }
 }
 
@@ -34485,6 +34631,8 @@ extension QuickSightClientTypes {
         public var lastUpdatedTime: ClientRuntime.Date?
         /// The display name of the folder.
         public var name: Swift.String?
+        /// The sharing scope of the folder.
+        public var sharingModel: QuickSightClientTypes.SharingModel?
 
         public init(
             arn: Swift.String? = nil,
@@ -34492,7 +34640,8 @@ extension QuickSightClientTypes {
             folderId: Swift.String? = nil,
             folderType: QuickSightClientTypes.FolderType? = nil,
             lastUpdatedTime: ClientRuntime.Date? = nil,
-            name: Swift.String? = nil
+            name: Swift.String? = nil,
+            sharingModel: QuickSightClientTypes.SharingModel? = nil
         )
         {
             self.arn = arn
@@ -34501,6 +34650,7 @@ extension QuickSightClientTypes {
             self.folderType = folderType
             self.lastUpdatedTime = lastUpdatedTime
             self.name = name
+            self.sharingModel = sharingModel
         }
     }
 
@@ -34915,7 +35065,6 @@ extension QuickSightClientTypes {
         /// * CUSTOM: Checks the custom seasonality value.
         public var seasonality: QuickSightClientTypes.ForecastComputationSeasonality?
         /// The time field that is used in a computation.
-        /// This member is required.
         public var time: QuickSightClientTypes.DimensionField?
         /// The upper boundary setup of a forecast computation.
         public var upperBoundary: Swift.Double?
@@ -38865,7 +39014,6 @@ extension QuickSightClientTypes {
         /// The period size setup of a growth rate computation.
         public var periodSize: Swift.Int
         /// The time field that is used in a computation.
-        /// This member is required.
         public var time: QuickSightClientTypes.DimensionField?
         /// The value field that is used in a computation.
         public var value: QuickSightClientTypes.MeasureField?
@@ -48963,7 +49111,6 @@ extension QuickSightClientTypes {
         /// The name of a computation.
         public var name: Swift.String?
         /// The time field that is used in a computation.
-        /// This member is required.
         public var time: QuickSightClientTypes.DimensionField?
         /// The type of computation. Choose one of the following options:
         ///
@@ -49220,15 +49367,12 @@ extension QuickSightClientTypes {
         /// This member is required.
         public var computationId: Swift.String?
         /// The field that is used in a metric comparison from value setup.
-        /// This member is required.
         public var fromValue: QuickSightClientTypes.MeasureField?
         /// The name of a computation.
         public var name: Swift.String?
         /// The field that is used in a metric comparison to value setup.
-        /// This member is required.
         public var targetValue: QuickSightClientTypes.MeasureField?
         /// The time field that is used in a computation.
-        /// This member is required.
         public var time: QuickSightClientTypes.DimensionField?
 
         public init(
@@ -52898,7 +53042,6 @@ extension QuickSightClientTypes {
         /// The name of a computation.
         public var name: Swift.String?
         /// The time field that is used in a computation.
-        /// This member is required.
         public var time: QuickSightClientTypes.DimensionField?
         /// The value field that is used in a computation.
         public var value: QuickSightClientTypes.MeasureField?
@@ -52977,7 +53120,6 @@ extension QuickSightClientTypes {
         /// * MONTH: Month to date.
         public var periodTimeGranularity: QuickSightClientTypes.TimeGranularity?
         /// The time field that is used in a computation.
-        /// This member is required.
         public var time: QuickSightClientTypes.DimensionField?
         /// The value field that is used in a computation.
         public var value: QuickSightClientTypes.MeasureField?
@@ -62840,6 +62982,38 @@ extension QuickSightClientTypes {
 
 }
 
+extension QuickSightClientTypes {
+    public enum SharingModel: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case account
+        case namespace
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SharingModel] {
+            return [
+                .account,
+                .namespace,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .account: return "ACCOUNT"
+            case .namespace: return "NAMESPACE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = SharingModel(rawValue: rawValue) ?? SharingModel.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension QuickSightClientTypes.Sheet: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case name = "Name"
@@ -64377,10 +64551,10 @@ extension QuickSightClientTypes.SnapshotFile: Swift.Codable {
 extension QuickSightClientTypes {
     /// A structure that contains the information for the snapshot that you want to generate. This information is provided by you when you start a new snapshot job.
     public struct SnapshotFile: Swift.Equatable {
-        /// The format of the snapshot file to be generated. You can choose between CSV or PDF.
+        /// The format of the snapshot file to be generated. You can choose between CSV, Excel, or PDF.
         /// This member is required.
         public var formatType: QuickSightClientTypes.SnapshotFileFormatType?
-        /// A list of SnapshotFileSheetSelection objects that contain information on the dashboard sheet that is exported. These objects provide information about the snapshot artifacts that are generated during the job. This structure can hold a maximum of 5 CSV configurations or 1 configuration for PDF.
+        /// A list of SnapshotFileSheetSelection objects that contain information on the dashboard sheet that is exported. These objects provide information about the snapshot artifacts that are generated during the job. This structure can hold a maximum of 5 CSV configurations, 5 Excel configurations, or 1 configuration for PDF.
         /// This member is required.
         public var sheetSelections: [QuickSightClientTypes.SnapshotFileSheetSelection]?
 
@@ -64399,12 +64573,14 @@ extension QuickSightClientTypes {
 extension QuickSightClientTypes {
     public enum SnapshotFileFormatType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case csv
+        case excel
         case pdf
         case sdkUnknown(Swift.String)
 
         public static var allCases: [SnapshotFileFormatType] {
             return [
                 .csv,
+                .excel,
                 .pdf,
                 .sdkUnknown("")
             ]
@@ -64416,6 +64592,7 @@ extension QuickSightClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .csv: return "CSV"
+            case .excel: return "EXCEL"
             case .pdf: return "PDF"
             case let .sdkUnknown(s): return s
             }
@@ -64525,13 +64702,13 @@ extension QuickSightClientTypes {
         ///
         /// * ALL_VISUALS - Selects all visuals that are on the sheet. This value is required if the snapshot is a PDF.
         ///
-        /// * SELECTED_VISUALS - Select the visual that you want to add to the snapshot. This value is required if the snapshot is a CSV.
+        /// * SELECTED_VISUALS - Select the visual that you want to add to the snapshot. This value is required if the snapshot is a CSV or Excel workbook.
         /// This member is required.
         public var selectionScope: QuickSightClientTypes.SnapshotFileSheetSelectionScope?
-        /// The sheet ID of the dashboard to generate the snapshot artifact from. This value is required for CSV and PDF format types.
+        /// The sheet ID of the dashboard to generate the snapshot artifact from. This value is required for CSV, Excel, and PDF format types.
         /// This member is required.
         public var sheetId: Swift.String?
-        /// A list of visual IDs that are located in the selected sheet. This structure supports tables and pivot tables. This structure is required if you are generating a CSV. You can add a maximum of 1 visual ID to this structure.
+        /// A structure that lists the IDs of the visuals in the selected sheet. Supported visual types are table, pivot table visuals. This value is required if you are generating a CSV or Excel workbook. This value supports a maximum of 1 visual ID for CSV and 5 visual IDs across up to 5 sheet selections for Excel. If you are generating an Excel workbook, the order of the visual IDs provided in this structure determines the order of the worksheets in the Excel file.
         public var visualIds: [Swift.String]?
 
         public init(
@@ -67476,6 +67653,7 @@ extension QuickSightClientTypes {
 extension QuickSightClientTypes.TableFieldOptions: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case order = "Order"
+        case pinnedFieldOptions = "PinnedFieldOptions"
         case selectedFieldOptions = "SelectedFieldOptions"
     }
 
@@ -67486,6 +67664,9 @@ extension QuickSightClientTypes.TableFieldOptions: Swift.Codable {
             for fieldid0 in order {
                 try orderContainer.encode(fieldid0)
             }
+        }
+        if let pinnedFieldOptions = self.pinnedFieldOptions {
+            try encodeContainer.encode(pinnedFieldOptions, forKey: .pinnedFieldOptions)
         }
         if let selectedFieldOptions = selectedFieldOptions {
             var selectedFieldOptionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .selectedFieldOptions)
@@ -67519,23 +67700,29 @@ extension QuickSightClientTypes.TableFieldOptions: Swift.Codable {
             }
         }
         order = orderDecoded0
+        let pinnedFieldOptionsDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.TablePinnedFieldOptions.self, forKey: .pinnedFieldOptions)
+        pinnedFieldOptions = pinnedFieldOptionsDecoded
     }
 }
 
 extension QuickSightClientTypes {
-    /// The field options for a table visual.
+    /// The field options of a table visual.
     public struct TableFieldOptions: Swift.Equatable {
-        /// The order of field IDs of the field options for a table visual.
+        /// The order of the field IDs that are configured as field options for a table visual.
         public var order: [Swift.String]?
-        /// The selected field options for the table field options.
+        /// The settings for the pinned columns of a table visual.
+        public var pinnedFieldOptions: QuickSightClientTypes.TablePinnedFieldOptions?
+        /// The field options to be configured to a table.
         public var selectedFieldOptions: [QuickSightClientTypes.TableFieldOption]?
 
         public init(
             order: [Swift.String]? = nil,
+            pinnedFieldOptions: QuickSightClientTypes.TablePinnedFieldOptions? = nil,
             selectedFieldOptions: [QuickSightClientTypes.TableFieldOption]? = nil
         )
         {
             self.order = order
+            self.pinnedFieldOptions = pinnedFieldOptions
             self.selectedFieldOptions = selectedFieldOptions
         }
     }
@@ -67804,6 +67991,53 @@ extension QuickSightClientTypes {
         {
             self.overflowColumnHeaderVisibility = overflowColumnHeaderVisibility
             self.verticalOverflowVisibility = verticalOverflowVisibility
+        }
+    }
+
+}
+
+extension QuickSightClientTypes.TablePinnedFieldOptions: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case pinnedLeftFields = "PinnedLeftFields"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let pinnedLeftFields = pinnedLeftFields {
+            var pinnedLeftFieldsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .pinnedLeftFields)
+            for fieldid0 in pinnedLeftFields {
+                try pinnedLeftFieldsContainer.encode(fieldid0)
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let pinnedLeftFieldsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .pinnedLeftFields)
+        var pinnedLeftFieldsDecoded0:[Swift.String]? = nil
+        if let pinnedLeftFieldsContainer = pinnedLeftFieldsContainer {
+            pinnedLeftFieldsDecoded0 = [Swift.String]()
+            for string0 in pinnedLeftFieldsContainer {
+                if let string0 = string0 {
+                    pinnedLeftFieldsDecoded0?.append(string0)
+                }
+            }
+        }
+        pinnedLeftFields = pinnedLeftFieldsDecoded0
+    }
+}
+
+extension QuickSightClientTypes {
+    /// The settings for the pinned columns of a table visual.
+    public struct TablePinnedFieldOptions: Swift.Equatable {
+        /// A list of columns to be pinned to the left of a table visual.
+        public var pinnedLeftFields: [Swift.String]?
+
+        public init(
+            pinnedLeftFields: [Swift.String]? = nil
+        )
+        {
+            self.pinnedLeftFields = pinnedLeftFields
         }
     }
 
@@ -71300,7 +71534,6 @@ extension QuickSightClientTypes {
     /// The top movers and bottom movers computation setup.
     public struct TopBottomMoversComputation: Swift.Equatable {
         /// The category field that is used in a computation.
-        /// This member is required.
         public var category: QuickSightClientTypes.DimensionField?
         /// The ID for a computation.
         /// This member is required.
@@ -71312,7 +71545,6 @@ extension QuickSightClientTypes {
         /// The sort order setup of the top and bottom movers computation.
         public var sortOrder: QuickSightClientTypes.TopBottomSortOrder?
         /// The time field that is used in a computation.
-        /// This member is required.
         public var time: QuickSightClientTypes.DimensionField?
         /// The computation type. Choose from the following options:
         ///
@@ -71401,7 +71633,6 @@ extension QuickSightClientTypes {
     /// The top ranked and bottom ranked computation configuration.
     public struct TopBottomRankedComputation: Swift.Equatable {
         /// The category field that is used in a computation.
-        /// This member is required.
         public var category: QuickSightClientTypes.DimensionField?
         /// The ID for a computation.
         /// This member is required.
@@ -73239,7 +73470,6 @@ extension QuickSightClientTypes {
         /// The name of a computation.
         public var name: Swift.String?
         /// The value field that is used in a computation.
-        /// This member is required.
         public var value: QuickSightClientTypes.MeasureField?
 
         public init(
@@ -74319,7 +74549,6 @@ extension QuickSightClientTypes {
     /// The unique values computation configuration.
     public struct UniqueValuesComputation: Swift.Equatable {
         /// The category field that is used in a computation.
-        /// This member is required.
         public var category: QuickSightClientTypes.DimensionField?
         /// The ID for a computation.
         /// This member is required.

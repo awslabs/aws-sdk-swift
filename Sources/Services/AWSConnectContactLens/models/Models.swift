@@ -386,7 +386,7 @@ extension ListRealtimeContactAnalysisSegmentsInput: Swift.Encodable {
         if let instanceId = self.instanceId {
             try encodeContainer.encode(instanceId, forKey: .instanceId)
         }
-        if maxResults != 0 {
+        if let maxResults = self.maxResults {
             try encodeContainer.encode(maxResults, forKey: .maxResults)
         }
         if let nextToken = self.nextToken {
@@ -409,14 +409,14 @@ public struct ListRealtimeContactAnalysisSegmentsInput: Swift.Equatable {
     /// This member is required.
     public var instanceId: Swift.String?
     /// The maximimum number of results to return per page.
-    public var maxResults: Swift.Int
+    public var maxResults: Swift.Int?
     /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
     public var nextToken: Swift.String?
 
     public init(
         contactId: Swift.String? = nil,
         instanceId: Swift.String? = nil,
-        maxResults: Swift.Int = 0,
+        maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     )
     {
@@ -430,7 +430,7 @@ public struct ListRealtimeContactAnalysisSegmentsInput: Swift.Equatable {
 struct ListRealtimeContactAnalysisSegmentsInputBody: Swift.Equatable {
     let instanceId: Swift.String?
     let contactId: Swift.String?
-    let maxResults: Swift.Int
+    let maxResults: Swift.Int?
     let nextToken: Swift.String?
 }
 
@@ -448,7 +448,7 @@ extension ListRealtimeContactAnalysisSegmentsInputBody: Swift.Decodable {
         instanceId = instanceIdDecoded
         let contactIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .contactId)
         contactId = contactIdDecoded
-        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults) ?? 0
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
         maxResults = maxResultsDecoded
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded

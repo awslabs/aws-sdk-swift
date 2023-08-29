@@ -827,6 +827,7 @@ extension BackupClientTypes.BackupRule: Swift.Codable {
         case ruleId = "RuleId"
         case ruleName = "RuleName"
         case scheduleExpression = "ScheduleExpression"
+        case scheduleExpressionTimezone = "ScheduleExpressionTimezone"
         case startWindowMinutes = "StartWindowMinutes"
         case targetBackupVaultName = "TargetBackupVaultName"
     }
@@ -862,6 +863,9 @@ extension BackupClientTypes.BackupRule: Swift.Codable {
         }
         if let scheduleExpression = self.scheduleExpression {
             try encodeContainer.encode(scheduleExpression, forKey: .scheduleExpression)
+        }
+        if let scheduleExpressionTimezone = self.scheduleExpressionTimezone {
+            try encodeContainer.encode(scheduleExpressionTimezone, forKey: .scheduleExpressionTimezone)
         }
         if let startWindowMinutes = self.startWindowMinutes {
             try encodeContainer.encode(startWindowMinutes, forKey: .startWindowMinutes)
@@ -911,12 +915,14 @@ extension BackupClientTypes.BackupRule: Swift.Codable {
         copyActions = copyActionsDecoded0
         let enableContinuousBackupDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enableContinuousBackup)
         enableContinuousBackup = enableContinuousBackupDecoded
+        let scheduleExpressionTimezoneDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .scheduleExpressionTimezone)
+        scheduleExpressionTimezone = scheduleExpressionTimezoneDecoded
     }
 }
 
 extension BackupClientTypes.BackupRule: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "BackupRule(completionWindowMinutes: \(Swift.String(describing: completionWindowMinutes)), copyActions: \(Swift.String(describing: copyActions)), enableContinuousBackup: \(Swift.String(describing: enableContinuousBackup)), lifecycle: \(Swift.String(describing: lifecycle)), ruleId: \(Swift.String(describing: ruleId)), ruleName: \(Swift.String(describing: ruleName)), scheduleExpression: \(Swift.String(describing: scheduleExpression)), startWindowMinutes: \(Swift.String(describing: startWindowMinutes)), targetBackupVaultName: \(Swift.String(describing: targetBackupVaultName)), recoveryPointTags: \"CONTENT_REDACTED\")"}
+        "BackupRule(completionWindowMinutes: \(Swift.String(describing: completionWindowMinutes)), copyActions: \(Swift.String(describing: copyActions)), enableContinuousBackup: \(Swift.String(describing: enableContinuousBackup)), lifecycle: \(Swift.String(describing: lifecycle)), ruleId: \(Swift.String(describing: ruleId)), ruleName: \(Swift.String(describing: ruleName)), scheduleExpression: \(Swift.String(describing: scheduleExpression)), scheduleExpressionTimezone: \(Swift.String(describing: scheduleExpressionTimezone)), startWindowMinutes: \(Swift.String(describing: startWindowMinutes)), targetBackupVaultName: \(Swift.String(describing: targetBackupVaultName)), recoveryPointTags: \"CONTENT_REDACTED\")"}
 }
 
 extension BackupClientTypes {
@@ -939,6 +945,8 @@ extension BackupClientTypes {
         public var ruleName: Swift.String?
         /// A cron expression in UTC specifying when Backup initiates a backup job. For more information about Amazon Web Services cron expressions, see [Schedule Expressions for Rules](https://docs.aws.amazon.com/AmazonCloudWatch/latest/events/ScheduledEvents.html) in the Amazon CloudWatch Events User Guide.. Two examples of Amazon Web Services cron expressions are  15 * ? * * * (take a backup every hour at 15 minutes past the hour) and 0 12 * * ? * (take a backup every day at 12 noon UTC). For a table of examples, click the preceding link and scroll down the page.
         public var scheduleExpression: Swift.String?
+        /// This is the timezone in which the schedule expression is set. By default, ScheduleExpressions are in UTC. You can modify this to a specified timezone.
+        public var scheduleExpressionTimezone: Swift.String?
         /// A value in minutes after a backup is scheduled before a job will be canceled if it doesn't start successfully. This value is optional. If this value is included, it must be at least 60 minutes to avoid errors. During the start window, the backup job status remains in CREATED status until it has successfully begun or until the start window time has run out. If within the start window time Backup receives an error that allows the job to be retried, Backup will automatically retry to begin the job at least every 10 minutes until the backup successfully begins (the job status changes to RUNNING) or until the job status changes to EXPIRED (which is expected to occur when the start window time is over).
         public var startWindowMinutes: Swift.Int?
         /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the Amazon Web Services Region where they are created. They consist of lowercase letters, numbers, and hyphens.
@@ -954,6 +962,7 @@ extension BackupClientTypes {
             ruleId: Swift.String? = nil,
             ruleName: Swift.String? = nil,
             scheduleExpression: Swift.String? = nil,
+            scheduleExpressionTimezone: Swift.String? = nil,
             startWindowMinutes: Swift.Int? = nil,
             targetBackupVaultName: Swift.String? = nil
         )
@@ -966,6 +975,7 @@ extension BackupClientTypes {
             self.ruleId = ruleId
             self.ruleName = ruleName
             self.scheduleExpression = scheduleExpression
+            self.scheduleExpressionTimezone = scheduleExpressionTimezone
             self.startWindowMinutes = startWindowMinutes
             self.targetBackupVaultName = targetBackupVaultName
         }
@@ -982,6 +992,7 @@ extension BackupClientTypes.BackupRuleInput: Swift.Codable {
         case recoveryPointTags = "RecoveryPointTags"
         case ruleName = "RuleName"
         case scheduleExpression = "ScheduleExpression"
+        case scheduleExpressionTimezone = "ScheduleExpressionTimezone"
         case startWindowMinutes = "StartWindowMinutes"
         case targetBackupVaultName = "TargetBackupVaultName"
     }
@@ -1014,6 +1025,9 @@ extension BackupClientTypes.BackupRuleInput: Swift.Codable {
         }
         if let scheduleExpression = self.scheduleExpression {
             try encodeContainer.encode(scheduleExpression, forKey: .scheduleExpression)
+        }
+        if let scheduleExpressionTimezone = self.scheduleExpressionTimezone {
+            try encodeContainer.encode(scheduleExpressionTimezone, forKey: .scheduleExpressionTimezone)
         }
         if let startWindowMinutes = self.startWindowMinutes {
             try encodeContainer.encode(startWindowMinutes, forKey: .startWindowMinutes)
@@ -1061,12 +1075,14 @@ extension BackupClientTypes.BackupRuleInput: Swift.Codable {
         copyActions = copyActionsDecoded0
         let enableContinuousBackupDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enableContinuousBackup)
         enableContinuousBackup = enableContinuousBackupDecoded
+        let scheduleExpressionTimezoneDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .scheduleExpressionTimezone)
+        scheduleExpressionTimezone = scheduleExpressionTimezoneDecoded
     }
 }
 
 extension BackupClientTypes.BackupRuleInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "BackupRuleInput(completionWindowMinutes: \(Swift.String(describing: completionWindowMinutes)), copyActions: \(Swift.String(describing: copyActions)), enableContinuousBackup: \(Swift.String(describing: enableContinuousBackup)), lifecycle: \(Swift.String(describing: lifecycle)), ruleName: \(Swift.String(describing: ruleName)), scheduleExpression: \(Swift.String(describing: scheduleExpression)), startWindowMinutes: \(Swift.String(describing: startWindowMinutes)), targetBackupVaultName: \(Swift.String(describing: targetBackupVaultName)), recoveryPointTags: \"CONTENT_REDACTED\")"}
+        "BackupRuleInput(completionWindowMinutes: \(Swift.String(describing: completionWindowMinutes)), copyActions: \(Swift.String(describing: copyActions)), enableContinuousBackup: \(Swift.String(describing: enableContinuousBackup)), lifecycle: \(Swift.String(describing: lifecycle)), ruleName: \(Swift.String(describing: ruleName)), scheduleExpression: \(Swift.String(describing: scheduleExpression)), scheduleExpressionTimezone: \(Swift.String(describing: scheduleExpressionTimezone)), startWindowMinutes: \(Swift.String(describing: startWindowMinutes)), targetBackupVaultName: \(Swift.String(describing: targetBackupVaultName)), recoveryPointTags: \"CONTENT_REDACTED\")"}
 }
 
 extension BackupClientTypes {
@@ -1087,6 +1103,8 @@ extension BackupClientTypes {
         public var ruleName: Swift.String?
         /// A CRON expression in UTC specifying when Backup initiates a backup job.
         public var scheduleExpression: Swift.String?
+        /// This is the timezone in which the schedule expression is set. By default, ScheduleExpressions are in UTC. You can modify this to a specified timezone.
+        public var scheduleExpressionTimezone: Swift.String?
         /// A value in minutes after a backup is scheduled before a job will be canceled if it doesn't start successfully. This value is optional. If this value is included, it must be at least 60 minutes to avoid errors. This parameter has a maximum value of 100 years (52,560,000 minutes). During the start window, the backup job status remains in CREATED status until it has successfully begun or until the start window time has run out. If within the start window time Backup receives an error that allows the job to be retried, Backup will automatically retry to begin the job at least every 10 minutes until the backup successfully begins (the job status changes to RUNNING) or until the job status changes to EXPIRED (which is expected to occur when the start window time is over).
         public var startWindowMinutes: Swift.Int?
         /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the Amazon Web Services Region where they are created. They consist of lowercase letters, numbers, and hyphens.
@@ -1101,6 +1119,7 @@ extension BackupClientTypes {
             recoveryPointTags: [Swift.String:Swift.String]? = nil,
             ruleName: Swift.String? = nil,
             scheduleExpression: Swift.String? = nil,
+            scheduleExpressionTimezone: Swift.String? = nil,
             startWindowMinutes: Swift.Int? = nil,
             targetBackupVaultName: Swift.String? = nil
         )
@@ -1112,6 +1131,7 @@ extension BackupClientTypes {
             self.recoveryPointTags = recoveryPointTags
             self.ruleName = ruleName
             self.scheduleExpression = scheduleExpression
+            self.scheduleExpressionTimezone = scheduleExpressionTimezone
             self.startWindowMinutes = startWindowMinutes
             self.targetBackupVaultName = targetBackupVaultName
         }
@@ -6651,7 +6671,7 @@ extension BackupClientTypes {
         /// The name of a control. This name is between 1 and 256 characters.
         /// This member is required.
         public var controlName: Swift.String?
-        /// The scope of a control. The control scope defines what the control will evaluate. Three examples of control scopes are: a specific backup plan, all backup plans with a specific tag, or all backup plans. For more information, see [ControlScope].
+        /// The scope of a control. The control scope defines what the control will evaluate. Three examples of control scopes are: a specific backup plan, all backup plans with a specific tag, or all backup plans.
         public var controlScope: BackupClientTypes.ControlScope?
 
         public init(

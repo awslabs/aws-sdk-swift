@@ -67,6 +67,39 @@ extension PaginatorSequence where Input == DescribeCertificatesInput, Output == 
     }
 }
 extension RDSClient {
+    /// Paginate over `[DescribeDBClusterAutomatedBackupsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeDBClusterAutomatedBackupsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeDBClusterAutomatedBackupsOutputResponse`
+    public func describeDBClusterAutomatedBackupsPaginated(input: DescribeDBClusterAutomatedBackupsInput) -> ClientRuntime.PaginatorSequence<DescribeDBClusterAutomatedBackupsInput, DescribeDBClusterAutomatedBackupsOutputResponse> {
+        return ClientRuntime.PaginatorSequence<DescribeDBClusterAutomatedBackupsInput, DescribeDBClusterAutomatedBackupsOutputResponse>(input: input, inputKey: \DescribeDBClusterAutomatedBackupsInput.marker, outputKey: \DescribeDBClusterAutomatedBackupsOutputResponse.marker, paginationFunction: self.describeDBClusterAutomatedBackups(input:))
+    }
+}
+
+extension DescribeDBClusterAutomatedBackupsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> DescribeDBClusterAutomatedBackupsInput {
+        return DescribeDBClusterAutomatedBackupsInput(
+            dbClusterIdentifier: self.dbClusterIdentifier,
+            dbClusterResourceId: self.dbClusterResourceId,
+            filters: self.filters,
+            marker: token,
+            maxRecords: self.maxRecords
+        )}
+}
+
+extension PaginatorSequence where Input == DescribeDBClusterAutomatedBackupsInput, Output == DescribeDBClusterAutomatedBackupsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `describeDBClusterAutomatedBackupsPaginated`
+    /// to access the nested member `[RDSClientTypes.DBClusterAutomatedBackup]`
+    /// - Returns: `[RDSClientTypes.DBClusterAutomatedBackup]`
+    public func dbClusterAutomatedBackups() async throws -> [RDSClientTypes.DBClusterAutomatedBackup] {
+        return try await self.asyncCompactMap { item in item.dbClusterAutomatedBackups }
+    }
+}
+extension RDSClient {
     /// Paginate over `[DescribeDBClusterBacktracksOutputResponse]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service

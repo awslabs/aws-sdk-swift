@@ -2269,7 +2269,7 @@ public struct DescribeAlarmsInput: Swift.Equatable {
     public var alarmNamePrefix: Swift.String?
     /// The names of the alarms to retrieve information about.
     public var alarmNames: [Swift.String]?
-    /// Use this parameter to specify whether you want the operation to return metric alarms or composite alarms. If you omit this parameter, only metric alarms are returned.
+    /// Use this parameter to specify whether you want the operation to return metric alarms or composite alarms. If you omit this parameter, only metric alarms are returned, even if composite alarms exist in the account. For example, if you omit this parameter or specify MetricAlarms, the operation returns only a list of metric alarms. It does not return any composite alarms, even if composite alarms exist in the account. If you specify CompositeAlarms, the operation returns only a list of composite alarms, and does not return any metric alarms.
     public var alarmTypes: [CloudWatchClientTypes.AlarmType]?
     /// If you use this parameter and specify the name of a composite alarm, the operation returns information about the "children" alarms of the alarm you specify. These are the metric alarms and composite alarms referenced in the AlarmRule field of the composite alarm that you specify in ChildrenOfAlarmName. Information about the composite alarm that you name in ChildrenOfAlarmName is not returned. If you specify ChildrenOfAlarmName, you cannot specify any other parameters in the request except for MaxRecords and NextToken. If you do so, you receive a validation error. Only the Alarm Name, ARN, StateValue (OK/ALARM/INSUFFICIENT_DATA), and StateUpdatedTimestamp information are returned by this operation when you use this parameter. To get complete information about these alarms, perform another DescribeAlarms operation and specify the parent alarm names in the AlarmNames parameter.
     public var childrenOfAlarmName: Swift.String?
@@ -3632,7 +3632,7 @@ public struct GetInsightRuleReportInput: Swift.Equatable {
     ///
     /// * Average -- the average value from all contributors during the time period represented by that data point.
     public var metrics: [Swift.String]?
-    /// Determines what statistic to use to rank the contributors. Valid values are SUM and MAXIMUM.
+    /// Determines what statistic to use to rank the contributors. Valid values are Sum and Maximum.
     public var orderBy: Swift.String?
     /// The period, in seconds, to use for the statistics in the InsightRuleMetricDatapoint results.
     /// This member is required.
@@ -6319,7 +6319,7 @@ extension ListTagsForResourceInput: ClientRuntime.URLPathProvider {
 }
 
 public struct ListTagsForResourceInput: Swift.Equatable {
-    /// The ARN of the CloudWatch resource that you want to view tags for. The ARN format of an alarm is arn:aws:cloudwatch:Region:account-id:alarm:alarm-name  The ARN format of a Contributor Insights rule is arn:aws:cloudwatch:Region:account-id:insight-rule:insight-rule-name  For more information about ARN format, see [ Resource Types Defined by Amazon CloudWatch](https://docs.aws.amazon.com/IAM/latest/UserGuide/list_amazoncloudwatch.html#amazoncloudwatch-resources-for-iam-policies) in the Amazon Web Services General Reference.
+    /// The ARN of the CloudWatch resource that you want to view tags for. The ARN format of an alarm is arn:aws:cloudwatch:Region:account-id:alarm:alarm-name  The ARN format of a Contributor Insights rule is arn:aws:cloudwatch:Region:account-id:insight-rule/insight-rule-name  For more information about ARN format, see [ Resource Types Defined by Amazon CloudWatch](https://docs.aws.amazon.com/IAM/latest/UserGuide/list_amazoncloudwatch.html#amazoncloudwatch-resources-for-iam-policies) in the Amazon Web Services General Reference.
     /// This member is required.
     public var resourceARN: Swift.String?
 
@@ -9304,7 +9304,32 @@ public struct PutMetricAlarmInput: Swift.Equatable {
     /// The number of periods over which data is compared to the specified threshold. If you are setting an alarm that requires that a number of consecutive data points be breaching to trigger the alarm, this value specifies that number. If you are setting an "M out of N" alarm, this value is the N. An alarm's total current evaluation period can be no longer than one day, so this number multiplied by Period cannot be more than 86,400 seconds.
     /// This member is required.
     public var evaluationPeriods: Swift.Int?
-    /// The percentile statistic for the metric specified in MetricName. Specify a value between p0.0 and p100. When you call PutMetricAlarm and specify a MetricName, you must specify either Statistic or ExtendedStatistic, but not both.
+    /// The extended statistic for the metric specified in MetricName. When you call PutMetricAlarm and specify a MetricName, you must specify either Statistic or ExtendedStatistic but not both. If you specify ExtendedStatistic, the following are valid values:
+    ///
+    /// * p90
+    ///
+    /// * tm90
+    ///
+    /// * tc90
+    ///
+    /// * ts90
+    ///
+    /// * wm90
+    ///
+    /// * IQM
+    ///
+    /// * PR(n:m) where n and m are values of the metric
+    ///
+    /// * TC(X%:X%) where X is between 10 and 90 inclusive.
+    ///
+    /// * TM(X%:X%) where X is between 10 and 90 inclusive.
+    ///
+    /// * TS(X%:X%) where X is between 10 and 90 inclusive.
+    ///
+    /// * WM(X%:X%) where X is between 10 and 90 inclusive.
+    ///
+    ///
+    /// For more information about these extended statistics, see [CloudWatch statistics definitions](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/Statistics-definitions.html).
     public var extendedStatistic: Swift.String?
     /// The actions to execute when this alarm transitions to the INSUFFICIENT_DATA state from any other state. Each action is specified as an Amazon Resource Name (ARN). Valid values: EC2 actions:
     ///
@@ -9386,7 +9411,7 @@ public struct PutMetricAlarmInput: Swift.Equatable {
     public var period: Swift.Int?
     /// The statistic for the metric specified in MetricName, other than percentile. For percentile statistics, use ExtendedStatistic. When you call PutMetricAlarm and specify a MetricName, you must specify either Statistic or ExtendedStatistic, but not both.
     public var statistic: CloudWatchClientTypes.Statistic?
-    /// A list of key-value pairs to associate with the alarm. You can associate as many as 50 tags with an alarm. Tags can help you organize and categorize your resources. You can also use them to scope user permissions by granting a user permission to access or change only resources with certain tag values. If you are using this operation to update an existing alarm, any tags you specify in this parameter are ignored. To change the tags of an existing alarm, use [TagResource](https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_TagResource.html) or [UntagResource](https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_UntagResource.html).
+    /// A list of key-value pairs to associate with the alarm. You can associate as many as 50 tags with an alarm. To be able to associate tags with the alarm when you create the alarm, you must have the cloudwatch:TagResource permission. Tags can help you organize and categorize your resources. You can also use them to scope user permissions by granting a user permission to access or change only resources with certain tag values. If you are using this operation to update an existing alarm, any tags you specify in this parameter are ignored. To change the tags of an existing alarm, use [TagResource](https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_TagResource.html) or [UntagResource](https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_UntagResource.html).
     public var tags: [CloudWatchClientTypes.Tag]?
     /// The value against which the specified statistic is compared. This parameter is required for alarms based on static thresholds, but should not be used for alarms based on anomaly detection models.
     public var threshold: Swift.Double?
@@ -11059,7 +11084,7 @@ extension TagResourceInput: ClientRuntime.URLPathProvider {
 }
 
 public struct TagResourceInput: Swift.Equatable {
-    /// The ARN of the CloudWatch resource that you're adding tags to. The ARN format of an alarm is arn:aws:cloudwatch:Region:account-id:alarm:alarm-name  The ARN format of a Contributor Insights rule is arn:aws:cloudwatch:Region:account-id:insight-rule:insight-rule-name  For more information about ARN format, see [ Resource Types Defined by Amazon CloudWatch](https://docs.aws.amazon.com/IAM/latest/UserGuide/list_amazoncloudwatch.html#amazoncloudwatch-resources-for-iam-policies) in the Amazon Web Services General Reference.
+    /// The ARN of the CloudWatch resource that you're adding tags to. The ARN format of an alarm is arn:aws:cloudwatch:Region:account-id:alarm:alarm-name  The ARN format of a Contributor Insights rule is arn:aws:cloudwatch:Region:account-id:insight-rule/insight-rule-name  For more information about ARN format, see [ Resource Types Defined by Amazon CloudWatch](https://docs.aws.amazon.com/IAM/latest/UserGuide/list_amazoncloudwatch.html#amazoncloudwatch-resources-for-iam-policies) in the Amazon Web Services General Reference.
     /// This member is required.
     public var resourceARN: Swift.String?
     /// The list of key-value pairs to associate with the alarm.
@@ -11166,7 +11191,7 @@ extension UntagResourceInput: ClientRuntime.URLPathProvider {
 }
 
 public struct UntagResourceInput: Swift.Equatable {
-    /// The ARN of the CloudWatch resource that you're removing tags from. The ARN format of an alarm is arn:aws:cloudwatch:Region:account-id:alarm:alarm-name  The ARN format of a Contributor Insights rule is arn:aws:cloudwatch:Region:account-id:insight-rule:insight-rule-name  For more information about ARN format, see [ Resource Types Defined by Amazon CloudWatch](https://docs.aws.amazon.com/IAM/latest/UserGuide/list_amazoncloudwatch.html#amazoncloudwatch-resources-for-iam-policies) in the Amazon Web Services General Reference.
+    /// The ARN of the CloudWatch resource that you're removing tags from. The ARN format of an alarm is arn:aws:cloudwatch:Region:account-id:alarm:alarm-name  The ARN format of a Contributor Insights rule is arn:aws:cloudwatch:Region:account-id:insight-rule/insight-rule-name  For more information about ARN format, see [ Resource Types Defined by Amazon CloudWatch](https://docs.aws.amazon.com/IAM/latest/UserGuide/list_amazoncloudwatch.html#amazoncloudwatch-resources-for-iam-policies) in the Amazon Web Services General Reference.
     /// This member is required.
     public var resourceARN: Swift.String?
     /// The list of tag keys to remove from the resource.

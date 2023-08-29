@@ -23,3 +23,12 @@ extension ListReportDefinitionsInput: ClientRuntime.PaginateToken {
             nextToken: token
         )}
 }
+
+extension PaginatorSequence where Input == ListReportDefinitionsInput, Output == ListReportDefinitionsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listReportDefinitionsPaginated`
+    /// to access the nested member `[ApplicationCostProfilerClientTypes.ReportDefinition]`
+    /// - Returns: `[ApplicationCostProfilerClientTypes.ReportDefinition]`
+    public func reportDefinitions() async throws -> [ApplicationCostProfilerClientTypes.ReportDefinition] {
+        return try await self.asyncCompactMap { item in item.reportDefinitions }
+    }
+}
