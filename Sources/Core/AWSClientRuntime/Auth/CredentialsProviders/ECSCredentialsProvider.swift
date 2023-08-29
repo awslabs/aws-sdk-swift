@@ -45,11 +45,9 @@ public struct ECSCredentialsProvider: CredentialsSourcedByCRT {
         var host = defaultHost
         var pathAndQuery = relativeURI ?? ""
 
-        if let absoluteString = absoluteURI, relativeURI == nil {
-            if let uriURL = URL(string: absoluteString) {
-                host = uriURL.host ?? defaultHost
-                pathAndQuery = buildPathAndQuery(from: uriURL)
-            }
+        if let absoluteString = absoluteURI, relativeURI == nil, let uriURL = URL(string: absoluteString) {
+            host = uriURL.host ?? defaultHost
+            pathAndQuery = buildPathAndQuery(from: uriURL)
         }
 
         self.crtCredentialsProvider = try CRTCredentialsProvider(source: .ecs(

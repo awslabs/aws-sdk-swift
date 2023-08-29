@@ -109,7 +109,7 @@ func addIntegrationTestTarget(_ name: String) {
     package.targets += [
         .testTarget(
             name: integrationTestName,
-            dependencies: [.crt, .clientRuntime, .awsClientRuntime, "AWSIAM", "AWSCloudWatchLogs", .byName(name: name), .smithyTestUtils],
+            dependencies: [.crt, .clientRuntime, .awsClientRuntime, "AWSEC2", "AWSCloudWatchLogs", "AWSIAM", .byName(name: name), .smithyTestUtils],
             path: "./IntegrationTests/Services/\(integrationTestName)",
             resources: [.process("Resources")]
         )
