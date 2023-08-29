@@ -176,7 +176,7 @@ class ECSCredentialsProviderTests: XCTestCase {
             return
         }
         
-        // get us-east-1a and us-east-1b subnets
+        // get subnets
         let describeSubnetsResponse = try await ec2Client.describeSubnets(input: DescribeSubnetsInput(
             filters: [EC2ClientTypes.Filter(name: "availability-zone", values: availabilityZones)]
         ))
