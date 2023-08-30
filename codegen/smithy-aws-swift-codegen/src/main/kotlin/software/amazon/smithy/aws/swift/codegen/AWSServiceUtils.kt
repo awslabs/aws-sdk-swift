@@ -10,20 +10,20 @@ import software.amazon.smithy.model.shapes.ServiceShape
 import software.amazon.smithy.swift.codegen.model.expectTrait
 
 /**
- * Get the [sdkId](https://awslabs.github.io/smithy/1.0/spec/aws/aws-core.html#sdkid) from the (AWS) service shape
+ * Get the [sdkId](https://smithy.io/2.0/aws/aws-core.html#sdkid) from the (AWS) service shape
  */
 val ServiceShape.sdkId: String
     get() = expectTrait<ServiceTrait>().sdkId
 
 /**
- * Get the [arnNamespace](https://awslabs.github.io/smithy/1.0/spec/aws/aws-core.html#service-arn-namespace)
+ * Get the [arnNamespace](https://smithy.io/2.0/aws/aws-core.html#arnnamespace)
  * from the (AWS) service shape
  */
 val ServiceShape.arnNamespace: String
     get() = expectTrait<ServiceTrait>().arnNamespace
 
 /**
- * Get the [endpointPrefix](https://awslabs.github.io/smithy/1.0/spec/aws/aws-core.html#endpointprefix)
+ * Get the [endpointPrefix](https://smithy.io/2.0/aws/aws-core.html#endpointprefix)
  * from the (AWS) service shape
  */
 val ServiceShape.endpointPrefix: String
