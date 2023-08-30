@@ -106,15 +106,24 @@ func addServiceTarget(_ name: String) {
 
 func addIntegrationTestTarget(_ name: String) {
     let integrationTestName = "\(name)IntegrationTests"
+    var additionalDependencies: [PackageDescription.Target.Dependency] = []
+    var exclusions: [String] = []
+    switch name {
+    case "AWSECS":
+        additionalDependencies = ["AWSCloudWatchLogs", "AWSEC2",  "AWSIAM"]
+        exclusions = [
+            "README.md",
+            "Resources/ECSIntegTestApp/"
+        ]
+    default:
+        break
+    }
     package.targets += [
         .testTarget(
             name: integrationTestName,
-            dependencies: [.crt, .clientRuntime, .awsClientRuntime, "AWSEC2", "AWSCloudWatchLogs", "AWSIAM", .byName(name: name), .smithyTestUtils],
+            dependencies: [.crt, .clientRuntime, .awsClientRuntime, .byName(name: name), .smithyTestUtils] + additionalDependencies,
             path: "./IntegrationTests/Services/\(integrationTestName)",
-            exclude: [
-                "./IntegrationTests/Services/AWSECSIntegrationTests/Resources/ECSIntegTestApp/*",
-                "./IntegrationTests/Services/AWSECSIntegrationTests/README.md",
-            ],
+            exclude: exclusions,
             resources: [.process("Resources")]
         )
     ]

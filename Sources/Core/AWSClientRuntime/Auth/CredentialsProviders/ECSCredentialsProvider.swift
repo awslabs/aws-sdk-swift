@@ -30,8 +30,8 @@ public struct ECSCredentialsProvider: CredentialsSourcedByCRT {
     ) throws {
         let env = ProcessEnvironment()
 
-        var resolvedRelativeURI = relativeURI ?? env.environmentVariable(key: "AWS_CONTAINER_CREDENTIALS_RELATIVE_URI")
-        var resolvedAbsoluteURI = absoluteURI ?? env.environmentVariable(key: "AWS_CONTAINER_CREDENTIALS_FULL_URI")
+        let resolvedRelativeURI = relativeURI ?? env.environmentVariable(key: "AWS_CONTAINER_CREDENTIALS_RELATIVE_URI")
+        let resolvedAbsoluteURI = absoluteURI ?? env.environmentVariable(key: "AWS_CONTAINER_CREDENTIALS_FULL_URI")
 
         guard resolvedRelativeURI != nil || isValidAbsoluteURI(resolvedAbsoluteURI) else {
             let environmentVariables = ProcessInfo.processInfo.environment
