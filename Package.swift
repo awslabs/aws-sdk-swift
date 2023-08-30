@@ -111,6 +111,10 @@ func addIntegrationTestTarget(_ name: String) {
             name: integrationTestName,
             dependencies: [.crt, .clientRuntime, .awsClientRuntime, "AWSEC2", "AWSCloudWatchLogs", "AWSIAM", .byName(name: name), .smithyTestUtils],
             path: "./IntegrationTests/Services/\(integrationTestName)",
+            exclude: [
+                "./IntegrationTests/Services/AWSECSIntegrationTests/Resources/ECSIntegTestApp/*",
+                "./IntegrationTests/Services/AWSECSIntegrationTests/README.md",
+            ],
             resources: [.process("Resources")]
         )
     ]
