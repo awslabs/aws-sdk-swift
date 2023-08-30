@@ -23,7 +23,7 @@ struct ReleaseNotesBuilder {
             "## What's Changed",
             buildCommits(),
             .newline,
-            "**Full Changelog**: https://github.com/awslabs/\(repoType.rawValue)/compare/\(previousVersion)...\(newVersion)"
+            "**Full Changelog**: https://github.com/\(repoOrg.rawValue)/\(repoType.rawValue)/compare/\(previousVersion)...\(newVersion)"
         ]
         return contents.joined(separator: .newline)
     }
