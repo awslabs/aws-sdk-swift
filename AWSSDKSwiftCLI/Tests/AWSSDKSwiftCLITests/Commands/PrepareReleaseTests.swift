@@ -130,6 +130,7 @@ extension PrepareRelease {
     ) -> Self {
         PrepareRelease(
             repoType: repoType,
+            repoOrg: .awslabs,
             repoPath: repoPath,
             sourceCodeArtifactId: sourceCodeArtifactId,
             diffChecker: diffChecker

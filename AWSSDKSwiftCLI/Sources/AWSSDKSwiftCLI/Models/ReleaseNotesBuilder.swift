@@ -12,6 +12,7 @@ import PackageDescription
 struct ReleaseNotesBuilder {
     let previousVersion: Version
     let newVersion: Version
+    let repoOrg: PrepareRelease.Org
     let repoType: PrepareRelease.Repo
     let commits: [String]
     
