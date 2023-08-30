@@ -76,14 +76,14 @@ extension CodeCommitClient: CodeCommitClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ApprovalRuleTemplateDoesNotExistException` : The specified approval rule template does not exist. Verify that the name is correct and that you are signed in to the AWS Region where the template was created, and then try again.
+    /// - `ApprovalRuleTemplateDoesNotExistException` : The specified approval rule template does not exist. Verify that the name is correct and that you are signed in to the Amazon Web Services Region where the template was created, and then try again.
     /// - `ApprovalRuleTemplateNameRequiredException` : An approval rule template name is required, but was not specified.
     /// - `EncryptionIntegrityChecksFailedException` : An encryption integrity check failed.
     /// - `EncryptionKeyAccessDeniedException` : An encryption key could not be accessed.
     /// - `EncryptionKeyDisabledException` : The encryption key is disabled.
     /// - `EncryptionKeyNotFoundException` : No encryption key was found.
     /// - `EncryptionKeyUnavailableException` : The encryption key is not available.
-    /// - `InvalidApprovalRuleTemplateNameException` : The name of the approval rule template is not valid. Template names must be between 1 and 100 valid characters in length. For more information about limits in AWS CodeCommit, see [AWS CodeCommit User Guide](https://docs.aws.amazon.com/codecommit/latest/userguide/limits.html).
+    /// - `InvalidApprovalRuleTemplateNameException` : The name of the approval rule template is not valid. Template names must be between 1 and 100 valid characters in length. For more information about limits in CodeCommit, see [Quotas](https://docs.aws.amazon.com/codecommit/latest/userguide/limits.html) in the CodeCommit User Guide.
     /// - `InvalidRepositoryNameException` : A specified repository name is not valid. This exception occurs only when a specified repository name is not valid. Other exceptions occur when a required repository parameter is missing, or when a specified repository does not exist.
     /// - `MaximumRuleTemplatesAssociatedWithRepositoryException` : The maximum number of approval rule templates for a repository has been exceeded. You cannot associate more than 25 approval rule templates with a repository.
     /// - `RepositoryDoesNotExistException` : The specified repository does not exist.
@@ -109,8 +109,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AssociateApprovalRuleTemplateWithRepositoryInput, AssociateApprovalRuleTemplateWithRepositoryOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AssociateApprovalRuleTemplateWithRepositoryOutputResponse, AssociateApprovalRuleTemplateWithRepositoryOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<AssociateApprovalRuleTemplateWithRepositoryInput, AssociateApprovalRuleTemplateWithRepositoryOutputResponse>(xAmzTarget: "CodeCommit_20150413.AssociateApprovalRuleTemplateWithRepository"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<AssociateApprovalRuleTemplateWithRepositoryInput, AssociateApprovalRuleTemplateWithRepositoryOutputResponse>(xmlName: "AssociateApprovalRuleTemplateWithRepositoryInput"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<AssociateApprovalRuleTemplateWithRepositoryInput, AssociateApprovalRuleTemplateWithRepositoryOutputResponse>(contentType: "application/x-amz-json-1.1"))
@@ -133,14 +132,14 @@ extension CodeCommitClient: CodeCommitClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ApprovalRuleTemplateDoesNotExistException` : The specified approval rule template does not exist. Verify that the name is correct and that you are signed in to the AWS Region where the template was created, and then try again.
+    /// - `ApprovalRuleTemplateDoesNotExistException` : The specified approval rule template does not exist. Verify that the name is correct and that you are signed in to the Amazon Web Services Region where the template was created, and then try again.
     /// - `ApprovalRuleTemplateNameRequiredException` : An approval rule template name is required, but was not specified.
     /// - `EncryptionIntegrityChecksFailedException` : An encryption integrity check failed.
     /// - `EncryptionKeyAccessDeniedException` : An encryption key could not be accessed.
     /// - `EncryptionKeyDisabledException` : The encryption key is disabled.
     /// - `EncryptionKeyNotFoundException` : No encryption key was found.
     /// - `EncryptionKeyUnavailableException` : The encryption key is not available.
-    /// - `InvalidApprovalRuleTemplateNameException` : The name of the approval rule template is not valid. Template names must be between 1 and 100 valid characters in length. For more information about limits in AWS CodeCommit, see [AWS CodeCommit User Guide](https://docs.aws.amazon.com/codecommit/latest/userguide/limits.html).
+    /// - `InvalidApprovalRuleTemplateNameException` : The name of the approval rule template is not valid. Template names must be between 1 and 100 valid characters in length. For more information about limits in CodeCommit, see [Quotas](https://docs.aws.amazon.com/codecommit/latest/userguide/limits.html) in the CodeCommit User Guide.
     /// - `MaximumRepositoryNamesExceededException` : The maximum number of allowed repository names was exceeded. Currently, this number is 100.
     /// - `RepositoryNamesRequiredException` : At least one repository name object is required, but was not specified.
     public func batchAssociateApprovalRuleTemplateWithRepositories(input: BatchAssociateApprovalRuleTemplateWithRepositoriesInput) async throws -> BatchAssociateApprovalRuleTemplateWithRepositoriesOutputResponse
@@ -164,8 +163,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<BatchAssociateApprovalRuleTemplateWithRepositoriesInput, BatchAssociateApprovalRuleTemplateWithRepositoriesOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<BatchAssociateApprovalRuleTemplateWithRepositoriesOutputResponse, BatchAssociateApprovalRuleTemplateWithRepositoriesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<BatchAssociateApprovalRuleTemplateWithRepositoriesInput, BatchAssociateApprovalRuleTemplateWithRepositoriesOutputResponse>(xAmzTarget: "CodeCommit_20150413.BatchAssociateApprovalRuleTemplateWithRepositories"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<BatchAssociateApprovalRuleTemplateWithRepositoriesInput, BatchAssociateApprovalRuleTemplateWithRepositoriesOutputResponse>(xmlName: "BatchAssociateApprovalRuleTemplateWithRepositoriesInput"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<BatchAssociateApprovalRuleTemplateWithRepositoriesInput, BatchAssociateApprovalRuleTemplateWithRepositoriesOutputResponse>(contentType: "application/x-amz-json-1.1"))
@@ -230,8 +228,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<BatchDescribeMergeConflictsInput, BatchDescribeMergeConflictsOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<BatchDescribeMergeConflictsOutputResponse, BatchDescribeMergeConflictsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<BatchDescribeMergeConflictsInput, BatchDescribeMergeConflictsOutputResponse>(xAmzTarget: "CodeCommit_20150413.BatchDescribeMergeConflicts"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<BatchDescribeMergeConflictsInput, BatchDescribeMergeConflictsOutputResponse>(xmlName: "BatchDescribeMergeConflictsInput"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<BatchDescribeMergeConflictsInput, BatchDescribeMergeConflictsOutputResponse>(contentType: "application/x-amz-json-1.1"))
@@ -254,14 +251,14 @@ extension CodeCommitClient: CodeCommitClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ApprovalRuleTemplateDoesNotExistException` : The specified approval rule template does not exist. Verify that the name is correct and that you are signed in to the AWS Region where the template was created, and then try again.
+    /// - `ApprovalRuleTemplateDoesNotExistException` : The specified approval rule template does not exist. Verify that the name is correct and that you are signed in to the Amazon Web Services Region where the template was created, and then try again.
     /// - `ApprovalRuleTemplateNameRequiredException` : An approval rule template name is required, but was not specified.
     /// - `EncryptionIntegrityChecksFailedException` : An encryption integrity check failed.
     /// - `EncryptionKeyAccessDeniedException` : An encryption key could not be accessed.
     /// - `EncryptionKeyDisabledException` : The encryption key is disabled.
     /// - `EncryptionKeyNotFoundException` : No encryption key was found.
     /// - `EncryptionKeyUnavailableException` : The encryption key is not available.
-    /// - `InvalidApprovalRuleTemplateNameException` : The name of the approval rule template is not valid. Template names must be between 1 and 100 valid characters in length. For more information about limits in AWS CodeCommit, see [AWS CodeCommit User Guide](https://docs.aws.amazon.com/codecommit/latest/userguide/limits.html).
+    /// - `InvalidApprovalRuleTemplateNameException` : The name of the approval rule template is not valid. Template names must be between 1 and 100 valid characters in length. For more information about limits in CodeCommit, see [Quotas](https://docs.aws.amazon.com/codecommit/latest/userguide/limits.html) in the CodeCommit User Guide.
     /// - `MaximumRepositoryNamesExceededException` : The maximum number of allowed repository names was exceeded. Currently, this number is 100.
     /// - `RepositoryNamesRequiredException` : At least one repository name object is required, but was not specified.
     public func batchDisassociateApprovalRuleTemplateFromRepositories(input: BatchDisassociateApprovalRuleTemplateFromRepositoriesInput) async throws -> BatchDisassociateApprovalRuleTemplateFromRepositoriesOutputResponse
@@ -285,8 +282,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<BatchDisassociateApprovalRuleTemplateFromRepositoriesInput, BatchDisassociateApprovalRuleTemplateFromRepositoriesOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<BatchDisassociateApprovalRuleTemplateFromRepositoriesOutputResponse, BatchDisassociateApprovalRuleTemplateFromRepositoriesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<BatchDisassociateApprovalRuleTemplateFromRepositoriesInput, BatchDisassociateApprovalRuleTemplateFromRepositoriesOutputResponse>(xAmzTarget: "CodeCommit_20150413.BatchDisassociateApprovalRuleTemplateFromRepositories"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<BatchDisassociateApprovalRuleTemplateFromRepositoriesInput, BatchDisassociateApprovalRuleTemplateFromRepositoriesOutputResponse>(xmlName: "BatchDisassociateApprovalRuleTemplateFromRepositoriesInput"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<BatchDisassociateApprovalRuleTemplateFromRepositoriesInput, BatchDisassociateApprovalRuleTemplateFromRepositoriesOutputResponse>(contentType: "application/x-amz-json-1.1"))
@@ -340,8 +336,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<BatchGetCommitsInput, BatchGetCommitsOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<BatchGetCommitsOutputResponse, BatchGetCommitsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<BatchGetCommitsInput, BatchGetCommitsOutputResponse>(xAmzTarget: "CodeCommit_20150413.BatchGetCommits"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<BatchGetCommitsInput, BatchGetCommitsOutputResponse>(xmlName: "BatchGetCommitsInput"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<BatchGetCommitsInput, BatchGetCommitsOutputResponse>(contentType: "application/x-amz-json-1.1"))
@@ -393,8 +388,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<BatchGetRepositoriesInput, BatchGetRepositoriesOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<BatchGetRepositoriesOutputResponse, BatchGetRepositoriesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<BatchGetRepositoriesInput, BatchGetRepositoriesOutputResponse>(xAmzTarget: "CodeCommit_20150413.BatchGetRepositories"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<BatchGetRepositoriesInput, BatchGetRepositoriesOutputResponse>(xmlName: "BatchGetRepositoriesInput"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<BatchGetRepositoriesInput, BatchGetRepositoriesOutputResponse>(contentType: "application/x-amz-json-1.1"))
@@ -408,7 +402,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         return result
     }
 
-    /// Creates a template for approval rules that can then be associated with one or more repositories in your AWS account. When you associate a template with a repository, AWS CodeCommit creates an approval rule that matches the conditions of the template for all pull requests that meet the conditions of the template. For more information, see [AssociateApprovalRuleTemplateWithRepository].
+    /// Creates a template for approval rules that can then be associated with one or more repositories in your Amazon Web Services account. When you associate a template with a repository, CodeCommit creates an approval rule that matches the conditions of the template for all pull requests that meet the conditions of the template. For more information, see [AssociateApprovalRuleTemplateWithRepository].
     ///
     /// - Parameter CreateApprovalRuleTemplateInput : [no documentation found]
     ///
@@ -418,12 +412,12 @@ extension CodeCommitClient: CodeCommitClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ApprovalRuleTemplateContentRequiredException` : The content for the approval rule template is empty. You must provide some content for an approval rule template. The content cannot be null.
-    /// - `ApprovalRuleTemplateNameAlreadyExistsException` : You cannot create an approval rule template with that name because a template with that name already exists in this AWS Region for your AWS account. Approval rule template names must be unique.
+    /// - `ApprovalRuleTemplateNameAlreadyExistsException` : You cannot create an approval rule template with that name because a template with that name already exists in this Amazon Web Services Region for your Amazon Web Services account. Approval rule template names must be unique.
     /// - `ApprovalRuleTemplateNameRequiredException` : An approval rule template name is required, but was not specified.
     /// - `InvalidApprovalRuleTemplateContentException` : The content of the approval rule template is not valid.
-    /// - `InvalidApprovalRuleTemplateDescriptionException` : The description for the approval rule template is not valid because it exceeds the maximum characters allowed for a description. For more information about limits in AWS CodeCommit, see [AWS CodeCommit User Guide](https://docs.aws.amazon.com/codecommit/latest/userguide/limits.html).
-    /// - `InvalidApprovalRuleTemplateNameException` : The name of the approval rule template is not valid. Template names must be between 1 and 100 valid characters in length. For more information about limits in AWS CodeCommit, see [AWS CodeCommit User Guide](https://docs.aws.amazon.com/codecommit/latest/userguide/limits.html).
-    /// - `NumberOfRuleTemplatesExceededException` : The maximum number of approval rule templates has been exceeded for this AWS Region.
+    /// - `InvalidApprovalRuleTemplateDescriptionException` : The description for the approval rule template is not valid because it exceeds the maximum characters allowed for a description. For more information about limits in CodeCommit, see [Quotas](https://docs.aws.amazon.com/codecommit/latest/userguide/limits.html) in the CodeCommit User Guide.
+    /// - `InvalidApprovalRuleTemplateNameException` : The name of the approval rule template is not valid. Template names must be between 1 and 100 valid characters in length. For more information about limits in CodeCommit, see [Quotas](https://docs.aws.amazon.com/codecommit/latest/userguide/limits.html) in the CodeCommit User Guide.
+    /// - `NumberOfRuleTemplatesExceededException` : The maximum number of approval rule templates has been exceeded for this Amazon Web Services Region.
     public func createApprovalRuleTemplate(input: CreateApprovalRuleTemplateInput) async throws -> CreateApprovalRuleTemplateOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -445,8 +439,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateApprovalRuleTemplateInput, CreateApprovalRuleTemplateOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateApprovalRuleTemplateOutputResponse, CreateApprovalRuleTemplateOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreateApprovalRuleTemplateInput, CreateApprovalRuleTemplateOutputResponse>(xAmzTarget: "CodeCommit_20150413.CreateApprovalRuleTemplate"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateApprovalRuleTemplateInput, CreateApprovalRuleTemplateOutputResponse>(xmlName: "CreateApprovalRuleTemplateInput"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateApprovalRuleTemplateInput, CreateApprovalRuleTemplateOutputResponse>(contentType: "application/x-amz-json-1.1"))
@@ -504,8 +497,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateBranchInput, CreateBranchOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateBranchOutputResponse, CreateBranchOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreateBranchInput, CreateBranchOutputResponse>(xAmzTarget: "CodeCommit_20150413.CreateBranch"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateBranchInput, CreateBranchOutputResponse>(xmlName: "CreateBranchInput"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateBranchInput, CreateBranchOutputResponse>(contentType: "application/x-amz-json-1.1"))
@@ -587,8 +579,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateCommitInput, CreateCommitOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateCommitOutputResponse, CreateCommitOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreateCommitInput, CreateCommitOutputResponse>(xAmzTarget: "CodeCommit_20150413.CreateCommit"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateCommitInput, CreateCommitOutputResponse>(xmlName: "CreateCommitInput"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateCommitInput, CreateCommitOutputResponse>(contentType: "application/x-amz-json-1.1"))
@@ -620,7 +611,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
     /// - `IdempotencyParameterMismatchException` : The client request token is not valid. Either the token is not in a valid format, or the token has been used in a previous request and cannot be reused.
     /// - `InvalidClientRequestTokenException` : The client request token is not valid.
     /// - `InvalidDescriptionException` : The pull request description is not valid. Descriptions cannot be more than 1,000 characters.
-    /// - `InvalidReferenceNameException` : The specified reference name format is not valid. Reference names must conform to the Git references format (for example, refs/heads/master). For more information, see [Git Internals - Git References](https://git-scm.com/book/en/v2/Git-Internals-Git-References) or consult your Git documentation.
+    /// - `InvalidReferenceNameException` : The specified reference name format is not valid. Reference names must conform to the Git references format (for example, refs/heads/main). For more information, see [Git Internals - Git References](https://git-scm.com/book/en/v2/Git-Internals-Git-References) or consult your Git documentation.
     /// - `InvalidRepositoryNameException` : A specified repository name is not valid. This exception occurs only when a specified repository name is not valid. Other exceptions occur when a required repository parameter is missing, or when a specified repository does not exist.
     /// - `InvalidTargetException` : The target for the pull request is not valid. A target must contain the full values for the repository name, source branch, and destination branch for the pull request.
     /// - `InvalidTargetsException` : The targets for the pull request is not valid or not in a valid format. Targets are a list of target objects. Each target object must contain the full values for the repository name, source branch, and destination branch for a pull request.
@@ -665,8 +656,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreatePullRequestInput, CreatePullRequestOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreatePullRequestOutputResponse, CreatePullRequestOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreatePullRequestInput, CreatePullRequestOutputResponse>(xAmzTarget: "CodeCommit_20150413.CreatePullRequest"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreatePullRequestInput, CreatePullRequestOutputResponse>(xmlName: "CreatePullRequestInput"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreatePullRequestInput, CreatePullRequestOutputResponse>(contentType: "application/x-amz-json-1.1"))
@@ -725,8 +715,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreatePullRequestApprovalRuleInput, CreatePullRequestApprovalRuleOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreatePullRequestApprovalRuleOutputResponse, CreatePullRequestApprovalRuleOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreatePullRequestApprovalRuleInput, CreatePullRequestApprovalRuleOutputResponse>(xAmzTarget: "CodeCommit_20150413.CreatePullRequestApprovalRule"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreatePullRequestApprovalRuleInput, CreatePullRequestApprovalRuleOutputResponse>(xmlName: "CreatePullRequestApprovalRuleInput"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreatePullRequestApprovalRuleInput, CreatePullRequestApprovalRuleOutputResponse>(contentType: "application/x-amz-json-1.1"))
@@ -762,7 +751,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
     /// - `RepositoryNameExistsException` : The specified repository name already exists.
     /// - `RepositoryNameRequiredException` : A repository name is required, but was not specified.
     /// - `TagPolicyException` : The tag policy is not valid.
-    /// - `TooManyTagsException` : The maximum number of tags for an AWS CodeCommit resource has been exceeded.
+    /// - `TooManyTagsException` : The maximum number of tags for an CodeCommit resource has been exceeded.
     public func createRepository(input: CreateRepositoryInput) async throws -> CreateRepositoryOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -784,8 +773,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateRepositoryInput, CreateRepositoryOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateRepositoryOutputResponse, CreateRepositoryOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreateRepositoryInput, CreateRepositoryOutputResponse>(xAmzTarget: "CodeCommit_20150413.CreateRepository"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateRepositoryInput, CreateRepositoryOutputResponse>(xmlName: "CreateRepositoryInput"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateRepositoryInput, CreateRepositoryOutputResponse>(contentType: "application/x-amz-json-1.1"))
@@ -865,8 +853,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateUnreferencedMergeCommitInput, CreateUnreferencedMergeCommitOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateUnreferencedMergeCommitOutputResponse, CreateUnreferencedMergeCommitOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreateUnreferencedMergeCommitInput, CreateUnreferencedMergeCommitOutputResponse>(xAmzTarget: "CodeCommit_20150413.CreateUnreferencedMergeCommit"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateUnreferencedMergeCommitInput, CreateUnreferencedMergeCommitOutputResponse>(xmlName: "CreateUnreferencedMergeCommitInput"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateUnreferencedMergeCommitInput, CreateUnreferencedMergeCommitOutputResponse>(contentType: "application/x-amz-json-1.1"))
@@ -891,7 +878,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
     /// __Possible Exceptions:__
     /// - `ApprovalRuleTemplateInUseException` : The approval rule template is associated with one or more repositories. You cannot delete a template that is associated with a repository. Remove all associations, and then try again.
     /// - `ApprovalRuleTemplateNameRequiredException` : An approval rule template name is required, but was not specified.
-    /// - `InvalidApprovalRuleTemplateNameException` : The name of the approval rule template is not valid. Template names must be between 1 and 100 valid characters in length. For more information about limits in AWS CodeCommit, see [AWS CodeCommit User Guide](https://docs.aws.amazon.com/codecommit/latest/userguide/limits.html).
+    /// - `InvalidApprovalRuleTemplateNameException` : The name of the approval rule template is not valid. Template names must be between 1 and 100 valid characters in length. For more information about limits in CodeCommit, see [Quotas](https://docs.aws.amazon.com/codecommit/latest/userguide/limits.html) in the CodeCommit User Guide.
     public func deleteApprovalRuleTemplate(input: DeleteApprovalRuleTemplateInput) async throws -> DeleteApprovalRuleTemplateOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -913,8 +900,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteApprovalRuleTemplateInput, DeleteApprovalRuleTemplateOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteApprovalRuleTemplateOutputResponse, DeleteApprovalRuleTemplateOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteApprovalRuleTemplateInput, DeleteApprovalRuleTemplateOutputResponse>(xAmzTarget: "CodeCommit_20150413.DeleteApprovalRuleTemplate"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteApprovalRuleTemplateInput, DeleteApprovalRuleTemplateOutputResponse>(xmlName: "DeleteApprovalRuleTemplateInput"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteApprovalRuleTemplateInput, DeleteApprovalRuleTemplateOutputResponse>(contentType: "application/x-amz-json-1.1"))
@@ -969,8 +955,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteBranchInput, DeleteBranchOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteBranchOutputResponse, DeleteBranchOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteBranchInput, DeleteBranchOutputResponse>(xAmzTarget: "CodeCommit_20150413.DeleteBranch"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteBranchInput, DeleteBranchOutputResponse>(xmlName: "DeleteBranchInput"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteBranchInput, DeleteBranchOutputResponse>(contentType: "application/x-amz-json-1.1"))
@@ -1018,8 +1003,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteCommentContentInput, DeleteCommentContentOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteCommentContentOutputResponse, DeleteCommentContentOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteCommentContentInput, DeleteCommentContentOutputResponse>(xAmzTarget: "CodeCommit_20150413.DeleteCommentContent"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteCommentContentInput, DeleteCommentContentOutputResponse>(xmlName: "DeleteCommentContentInput"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteCommentContentInput, DeleteCommentContentOutputResponse>(contentType: "application/x-amz-json-1.1"))
@@ -1085,8 +1069,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteFileInput, DeleteFileOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteFileOutputResponse, DeleteFileOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteFileInput, DeleteFileOutputResponse>(xAmzTarget: "CodeCommit_20150413.DeleteFile"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteFileInput, DeleteFileOutputResponse>(xmlName: "DeleteFileInput"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteFileInput, DeleteFileOutputResponse>(contentType: "application/x-amz-json-1.1"))
@@ -1142,8 +1125,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeletePullRequestApprovalRuleInput, DeletePullRequestApprovalRuleOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeletePullRequestApprovalRuleOutputResponse, DeletePullRequestApprovalRuleOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeletePullRequestApprovalRuleInput, DeletePullRequestApprovalRuleOutputResponse>(xAmzTarget: "CodeCommit_20150413.DeletePullRequestApprovalRule"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeletePullRequestApprovalRuleInput, DeletePullRequestApprovalRuleOutputResponse>(xmlName: "DeletePullRequestApprovalRuleInput"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeletePullRequestApprovalRuleInput, DeletePullRequestApprovalRuleOutputResponse>(contentType: "application/x-amz-json-1.1"))
@@ -1194,8 +1176,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteRepositoryInput, DeleteRepositoryOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteRepositoryOutputResponse, DeleteRepositoryOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteRepositoryInput, DeleteRepositoryOutputResponse>(xAmzTarget: "CodeCommit_20150413.DeleteRepository"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteRepositoryInput, DeleteRepositoryOutputResponse>(xmlName: "DeleteRepositoryInput"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteRepositoryInput, DeleteRepositoryOutputResponse>(contentType: "application/x-amz-json-1.1"))
@@ -1262,8 +1243,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeMergeConflictsInput, DescribeMergeConflictsOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeMergeConflictsOutputResponse, DescribeMergeConflictsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeMergeConflictsInput, DescribeMergeConflictsOutputResponse>(xAmzTarget: "CodeCommit_20150413.DescribeMergeConflicts"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeMergeConflictsInput, DescribeMergeConflictsOutputResponse>(xmlName: "DescribeMergeConflictsInput"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeMergeConflictsInput, DescribeMergeConflictsOutputResponse>(contentType: "application/x-amz-json-1.1"))
@@ -1286,7 +1266,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ActorDoesNotExistException` : The specified Amazon Resource Name (ARN) does not exist in the AWS account.
+    /// - `ActorDoesNotExistException` : The specified Amazon Resource Name (ARN) does not exist in the Amazon Web Services account.
     /// - `EncryptionIntegrityChecksFailedException` : An encryption integrity check failed.
     /// - `EncryptionKeyAccessDeniedException` : An encryption key could not be accessed.
     /// - `EncryptionKeyDisabledException` : The encryption key is disabled.
@@ -1320,8 +1300,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribePullRequestEventsInput, DescribePullRequestEventsOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribePullRequestEventsOutputResponse, DescribePullRequestEventsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribePullRequestEventsInput, DescribePullRequestEventsOutputResponse>(xAmzTarget: "CodeCommit_20150413.DescribePullRequestEvents"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribePullRequestEventsInput, DescribePullRequestEventsOutputResponse>(xmlName: "DescribePullRequestEventsInput"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribePullRequestEventsInput, DescribePullRequestEventsOutputResponse>(contentType: "application/x-amz-json-1.1"))
@@ -1344,14 +1323,14 @@ extension CodeCommitClient: CodeCommitClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ApprovalRuleTemplateDoesNotExistException` : The specified approval rule template does not exist. Verify that the name is correct and that you are signed in to the AWS Region where the template was created, and then try again.
+    /// - `ApprovalRuleTemplateDoesNotExistException` : The specified approval rule template does not exist. Verify that the name is correct and that you are signed in to the Amazon Web Services Region where the template was created, and then try again.
     /// - `ApprovalRuleTemplateNameRequiredException` : An approval rule template name is required, but was not specified.
     /// - `EncryptionIntegrityChecksFailedException` : An encryption integrity check failed.
     /// - `EncryptionKeyAccessDeniedException` : An encryption key could not be accessed.
     /// - `EncryptionKeyDisabledException` : The encryption key is disabled.
     /// - `EncryptionKeyNotFoundException` : No encryption key was found.
     /// - `EncryptionKeyUnavailableException` : The encryption key is not available.
-    /// - `InvalidApprovalRuleTemplateNameException` : The name of the approval rule template is not valid. Template names must be between 1 and 100 valid characters in length. For more information about limits in AWS CodeCommit, see [AWS CodeCommit User Guide](https://docs.aws.amazon.com/codecommit/latest/userguide/limits.html).
+    /// - `InvalidApprovalRuleTemplateNameException` : The name of the approval rule template is not valid. Template names must be between 1 and 100 valid characters in length. For more information about limits in CodeCommit, see [Quotas](https://docs.aws.amazon.com/codecommit/latest/userguide/limits.html) in the CodeCommit User Guide.
     /// - `InvalidRepositoryNameException` : A specified repository name is not valid. This exception occurs only when a specified repository name is not valid. Other exceptions occur when a required repository parameter is missing, or when a specified repository does not exist.
     /// - `RepositoryDoesNotExistException` : The specified repository does not exist.
     /// - `RepositoryNameRequiredException` : A repository name is required, but was not specified.
@@ -1376,8 +1355,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DisassociateApprovalRuleTemplateFromRepositoryInput, DisassociateApprovalRuleTemplateFromRepositoryOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DisassociateApprovalRuleTemplateFromRepositoryOutputResponse, DisassociateApprovalRuleTemplateFromRepositoryOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DisassociateApprovalRuleTemplateFromRepositoryInput, DisassociateApprovalRuleTemplateFromRepositoryOutputResponse>(xAmzTarget: "CodeCommit_20150413.DisassociateApprovalRuleTemplateFromRepository"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DisassociateApprovalRuleTemplateFromRepositoryInput, DisassociateApprovalRuleTemplateFromRepositoryOutputResponse>(xmlName: "DisassociateApprovalRuleTemplateFromRepositoryInput"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DisassociateApprovalRuleTemplateFromRepositoryInput, DisassociateApprovalRuleTemplateFromRepositoryOutputResponse>(contentType: "application/x-amz-json-1.1"))
@@ -1432,8 +1410,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<EvaluatePullRequestApprovalRulesInput, EvaluatePullRequestApprovalRulesOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<EvaluatePullRequestApprovalRulesOutputResponse, EvaluatePullRequestApprovalRulesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<EvaluatePullRequestApprovalRulesInput, EvaluatePullRequestApprovalRulesOutputResponse>(xAmzTarget: "CodeCommit_20150413.EvaluatePullRequestApprovalRules"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<EvaluatePullRequestApprovalRulesInput, EvaluatePullRequestApprovalRulesOutputResponse>(xmlName: "EvaluatePullRequestApprovalRulesInput"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<EvaluatePullRequestApprovalRulesInput, EvaluatePullRequestApprovalRulesOutputResponse>(contentType: "application/x-amz-json-1.1"))
@@ -1456,9 +1433,9 @@ extension CodeCommitClient: CodeCommitClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ApprovalRuleTemplateDoesNotExistException` : The specified approval rule template does not exist. Verify that the name is correct and that you are signed in to the AWS Region where the template was created, and then try again.
+    /// - `ApprovalRuleTemplateDoesNotExistException` : The specified approval rule template does not exist. Verify that the name is correct and that you are signed in to the Amazon Web Services Region where the template was created, and then try again.
     /// - `ApprovalRuleTemplateNameRequiredException` : An approval rule template name is required, but was not specified.
-    /// - `InvalidApprovalRuleTemplateNameException` : The name of the approval rule template is not valid. Template names must be between 1 and 100 valid characters in length. For more information about limits in AWS CodeCommit, see [AWS CodeCommit User Guide](https://docs.aws.amazon.com/codecommit/latest/userguide/limits.html).
+    /// - `InvalidApprovalRuleTemplateNameException` : The name of the approval rule template is not valid. Template names must be between 1 and 100 valid characters in length. For more information about limits in CodeCommit, see [Quotas](https://docs.aws.amazon.com/codecommit/latest/userguide/limits.html) in the CodeCommit User Guide.
     public func getApprovalRuleTemplate(input: GetApprovalRuleTemplateInput) async throws -> GetApprovalRuleTemplateOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1480,8 +1457,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetApprovalRuleTemplateInput, GetApprovalRuleTemplateOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetApprovalRuleTemplateOutputResponse, GetApprovalRuleTemplateOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetApprovalRuleTemplateInput, GetApprovalRuleTemplateOutputResponse>(xAmzTarget: "CodeCommit_20150413.GetApprovalRuleTemplate"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetApprovalRuleTemplateInput, GetApprovalRuleTemplateOutputResponse>(xmlName: "GetApprovalRuleTemplateInput"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetApprovalRuleTemplateInput, GetApprovalRuleTemplateOutputResponse>(contentType: "application/x-amz-json-1.1"))
@@ -1511,7 +1487,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
     /// - `EncryptionKeyDisabledException` : The encryption key is disabled.
     /// - `EncryptionKeyNotFoundException` : No encryption key was found.
     /// - `EncryptionKeyUnavailableException` : The encryption key is not available.
-    /// - `FileTooLargeException` : The specified file exceeds the file size limit for AWS CodeCommit. For more information about limits in AWS CodeCommit, see [AWS CodeCommit User Guide](https://docs.aws.amazon.com/codecommit/latest/userguide/limits.html).
+    /// - `FileTooLargeException` : The specified file exceeds the file size limit for CodeCommit. For more information about limits in CodeCommit, see [Quotas](https://docs.aws.amazon.com/codecommit/latest/userguide/limits.html) in the CodeCommit User Guide.
     /// - `InvalidBlobIdException` : The specified blob is not valid.
     /// - `InvalidRepositoryNameException` : A specified repository name is not valid. This exception occurs only when a specified repository name is not valid. Other exceptions occur when a required repository parameter is missing, or when a specified repository does not exist.
     /// - `RepositoryDoesNotExistException` : The specified repository does not exist.
@@ -1537,8 +1513,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetBlobInput, GetBlobOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetBlobOutputResponse, GetBlobOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetBlobInput, GetBlobOutputResponse>(xAmzTarget: "CodeCommit_20150413.GetBlob"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetBlobInput, GetBlobOutputResponse>(xmlName: "GetBlobInput"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetBlobInput, GetBlobOutputResponse>(contentType: "application/x-amz-json-1.1"))
@@ -1593,8 +1568,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetBranchInput, GetBranchOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetBranchOutputResponse, GetBranchOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetBranchInput, GetBranchOutputResponse>(xAmzTarget: "CodeCommit_20150413.GetBranch"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetBranchInput, GetBranchOutputResponse>(xmlName: "GetBranchInput"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetBranchInput, GetBranchOutputResponse>(contentType: "application/x-amz-json-1.1"))
@@ -1647,8 +1621,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetCommentInput, GetCommentOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetCommentOutputResponse, GetCommentOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetCommentInput, GetCommentOutputResponse>(xAmzTarget: "CodeCommit_20150413.GetComment"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetCommentInput, GetCommentOutputResponse>(xmlName: "GetCommentInput"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetCommentInput, GetCommentOutputResponse>(contentType: "application/x-amz-json-1.1"))
@@ -1699,8 +1672,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetCommentReactionsInput, GetCommentReactionsOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetCommentReactionsOutputResponse, GetCommentReactionsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetCommentReactionsInput, GetCommentReactionsOutputResponse>(xAmzTarget: "CodeCommit_20150413.GetCommentReactions"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetCommentReactionsInput, GetCommentReactionsOutputResponse>(xmlName: "GetCommentReactionsInput"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetCommentReactionsInput, GetCommentReactionsOutputResponse>(contentType: "application/x-amz-json-1.1"))
@@ -1757,8 +1729,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetCommentsForComparedCommitInput, GetCommentsForComparedCommitOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetCommentsForComparedCommitOutputResponse, GetCommentsForComparedCommitOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetCommentsForComparedCommitInput, GetCommentsForComparedCommitOutputResponse>(xAmzTarget: "CodeCommit_20150413.GetCommentsForComparedCommit"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetCommentsForComparedCommitInput, GetCommentsForComparedCommitOutputResponse>(xmlName: "GetCommentsForComparedCommitInput"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetCommentsForComparedCommitInput, GetCommentsForComparedCommitOutputResponse>(contentType: "application/x-amz-json-1.1"))
@@ -1819,8 +1790,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetCommentsForPullRequestInput, GetCommentsForPullRequestOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetCommentsForPullRequestOutputResponse, GetCommentsForPullRequestOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetCommentsForPullRequestInput, GetCommentsForPullRequestOutputResponse>(xAmzTarget: "CodeCommit_20150413.GetCommentsForPullRequest"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetCommentsForPullRequestInput, GetCommentsForPullRequestOutputResponse>(xmlName: "GetCommentsForPullRequestInput"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetCommentsForPullRequestInput, GetCommentsForPullRequestOutputResponse>(contentType: "application/x-amz-json-1.1"))
@@ -1875,8 +1845,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetCommitInput, GetCommitOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetCommitOutputResponse, GetCommitOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetCommitInput, GetCommitOutputResponse>(xAmzTarget: "CodeCommit_20150413.GetCommit"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetCommitInput, GetCommitOutputResponse>(xmlName: "GetCommitInput"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetCommitInput, GetCommitOutputResponse>(contentType: "application/x-amz-json-1.1"))
@@ -1936,8 +1905,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetDifferencesInput, GetDifferencesOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetDifferencesOutputResponse, GetDifferencesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetDifferencesInput, GetDifferencesOutputResponse>(xAmzTarget: "CodeCommit_20150413.GetDifferences"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetDifferencesInput, GetDifferencesOutputResponse>(xmlName: "GetDifferencesInput"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetDifferencesInput, GetDifferencesOutputResponse>(contentType: "application/x-amz-json-1.1"))
@@ -1967,7 +1935,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
     /// - `EncryptionKeyNotFoundException` : No encryption key was found.
     /// - `EncryptionKeyUnavailableException` : The encryption key is not available.
     /// - `FileDoesNotExistException` : The specified file does not exist. Verify that you have used the correct file name, full path, and extension.
-    /// - `FileTooLargeException` : The specified file exceeds the file size limit for AWS CodeCommit. For more information about limits in AWS CodeCommit, see [AWS CodeCommit User Guide](https://docs.aws.amazon.com/codecommit/latest/userguide/limits.html).
+    /// - `FileTooLargeException` : The specified file exceeds the file size limit for CodeCommit. For more information about limits in CodeCommit, see [Quotas](https://docs.aws.amazon.com/codecommit/latest/userguide/limits.html) in the CodeCommit User Guide.
     /// - `InvalidCommitException` : The specified commit is not valid.
     /// - `InvalidPathException` : The specified path is not valid.
     /// - `InvalidRepositoryNameException` : A specified repository name is not valid. This exception occurs only when a specified repository name is not valid. Other exceptions occur when a required repository parameter is missing, or when a specified repository does not exist.
@@ -1995,8 +1963,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetFileInput, GetFileOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetFileOutputResponse, GetFileOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetFileInput, GetFileOutputResponse>(xAmzTarget: "CodeCommit_20150413.GetFile"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetFileInput, GetFileOutputResponse>(xmlName: "GetFileInput"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetFileInput, GetFileOutputResponse>(contentType: "application/x-amz-json-1.1"))
@@ -2053,8 +2020,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetFolderInput, GetFolderOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetFolderOutputResponse, GetFolderOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetFolderInput, GetFolderOutputResponse>(xAmzTarget: "CodeCommit_20150413.GetFolder"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetFolderInput, GetFolderOutputResponse>(xmlName: "GetFolderInput"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetFolderInput, GetFolderOutputResponse>(contentType: "application/x-amz-json-1.1"))
@@ -2111,8 +2077,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetMergeCommitInput, GetMergeCommitOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetMergeCommitOutputResponse, GetMergeCommitOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetMergeCommitInput, GetMergeCommitOutputResponse>(xAmzTarget: "CodeCommit_20150413.GetMergeCommit"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetMergeCommitInput, GetMergeCommitOutputResponse>(xmlName: "GetMergeCommitInput"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetMergeCommitInput, GetMergeCommitOutputResponse>(contentType: "application/x-amz-json-1.1"))
@@ -2178,8 +2143,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetMergeConflictsInput, GetMergeConflictsOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetMergeConflictsOutputResponse, GetMergeConflictsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetMergeConflictsInput, GetMergeConflictsOutputResponse>(xAmzTarget: "CodeCommit_20150413.GetMergeConflicts"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetMergeConflictsInput, GetMergeConflictsOutputResponse>(xmlName: "GetMergeConflictsInput"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetMergeConflictsInput, GetMergeConflictsOutputResponse>(contentType: "application/x-amz-json-1.1"))
@@ -2239,8 +2203,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetMergeOptionsInput, GetMergeOptionsOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetMergeOptionsOutputResponse, GetMergeOptionsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetMergeOptionsInput, GetMergeOptionsOutputResponse>(xAmzTarget: "CodeCommit_20150413.GetMergeOptions"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetMergeOptionsInput, GetMergeOptionsOutputResponse>(xmlName: "GetMergeOptionsInput"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetMergeOptionsInput, GetMergeOptionsOutputResponse>(contentType: "application/x-amz-json-1.1"))
@@ -2292,8 +2255,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetPullRequestInput, GetPullRequestOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetPullRequestOutputResponse, GetPullRequestOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetPullRequestInput, GetPullRequestOutputResponse>(xAmzTarget: "CodeCommit_20150413.GetPullRequest"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetPullRequestInput, GetPullRequestOutputResponse>(xmlName: "GetPullRequestInput"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetPullRequestInput, GetPullRequestOutputResponse>(contentType: "application/x-amz-json-1.1"))
@@ -2347,8 +2309,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetPullRequestApprovalStatesInput, GetPullRequestApprovalStatesOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetPullRequestApprovalStatesOutputResponse, GetPullRequestApprovalStatesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetPullRequestApprovalStatesInput, GetPullRequestApprovalStatesOutputResponse>(xAmzTarget: "CodeCommit_20150413.GetPullRequestApprovalStates"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetPullRequestApprovalStatesInput, GetPullRequestApprovalStatesOutputResponse>(xmlName: "GetPullRequestApprovalStatesInput"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetPullRequestApprovalStatesInput, GetPullRequestApprovalStatesOutputResponse>(contentType: "application/x-amz-json-1.1"))
@@ -2402,8 +2363,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetPullRequestOverrideStateInput, GetPullRequestOverrideStateOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetPullRequestOverrideStateOutputResponse, GetPullRequestOverrideStateOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetPullRequestOverrideStateInput, GetPullRequestOverrideStateOutputResponse>(xAmzTarget: "CodeCommit_20150413.GetPullRequestOverrideState"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetPullRequestOverrideStateInput, GetPullRequestOverrideStateOutputResponse>(xmlName: "GetPullRequestOverrideStateInput"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetPullRequestOverrideStateInput, GetPullRequestOverrideStateOutputResponse>(contentType: "application/x-amz-json-1.1"))
@@ -2455,8 +2415,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetRepositoryInput, GetRepositoryOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetRepositoryOutputResponse, GetRepositoryOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetRepositoryInput, GetRepositoryOutputResponse>(xAmzTarget: "CodeCommit_20150413.GetRepository"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetRepositoryInput, GetRepositoryOutputResponse>(xmlName: "GetRepositoryInput"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetRepositoryInput, GetRepositoryOutputResponse>(contentType: "application/x-amz-json-1.1"))
@@ -2508,8 +2467,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetRepositoryTriggersInput, GetRepositoryTriggersOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetRepositoryTriggersOutputResponse, GetRepositoryTriggersOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetRepositoryTriggersInput, GetRepositoryTriggersOutputResponse>(xAmzTarget: "CodeCommit_20150413.GetRepositoryTriggers"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetRepositoryTriggersInput, GetRepositoryTriggersOutputResponse>(xmlName: "GetRepositoryTriggersInput"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetRepositoryTriggersInput, GetRepositoryTriggersOutputResponse>(contentType: "application/x-amz-json-1.1"))
@@ -2523,7 +2481,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         return result
     }
 
-    /// Lists all approval rule templates in the specified AWS Region in your AWS account. If an AWS Region is not specified, the AWS Region where you are signed in is used.
+    /// Lists all approval rule templates in the specified Amazon Web Services Region in your Amazon Web Services account. If an Amazon Web Services Region is not specified, the Amazon Web Services Region where you are signed in is used.
     ///
     /// - Parameter ListApprovalRuleTemplatesInput : [no documentation found]
     ///
@@ -2555,8 +2513,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListApprovalRuleTemplatesInput, ListApprovalRuleTemplatesOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListApprovalRuleTemplatesOutputResponse, ListApprovalRuleTemplatesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListApprovalRuleTemplatesInput, ListApprovalRuleTemplatesOutputResponse>(xAmzTarget: "CodeCommit_20150413.ListApprovalRuleTemplates"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListApprovalRuleTemplatesInput, ListApprovalRuleTemplatesOutputResponse>(xmlName: "ListApprovalRuleTemplatesInput"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListApprovalRuleTemplatesInput, ListApprovalRuleTemplatesOutputResponse>(contentType: "application/x-amz-json-1.1"))
@@ -2610,8 +2567,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListAssociatedApprovalRuleTemplatesForRepositoryInput, ListAssociatedApprovalRuleTemplatesForRepositoryOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListAssociatedApprovalRuleTemplatesForRepositoryOutputResponse, ListAssociatedApprovalRuleTemplatesForRepositoryOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListAssociatedApprovalRuleTemplatesForRepositoryInput, ListAssociatedApprovalRuleTemplatesForRepositoryOutputResponse>(xAmzTarget: "CodeCommit_20150413.ListAssociatedApprovalRuleTemplatesForRepository"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListAssociatedApprovalRuleTemplatesForRepositoryInput, ListAssociatedApprovalRuleTemplatesForRepositoryOutputResponse>(xmlName: "ListAssociatedApprovalRuleTemplatesForRepositoryInput"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListAssociatedApprovalRuleTemplatesForRepositoryInput, ListAssociatedApprovalRuleTemplatesForRepositoryOutputResponse>(contentType: "application/x-amz-json-1.1"))
@@ -2664,8 +2620,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListBranchesInput, ListBranchesOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListBranchesOutputResponse, ListBranchesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListBranchesInput, ListBranchesOutputResponse>(xAmzTarget: "CodeCommit_20150413.ListBranches"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListBranchesInput, ListBranchesOutputResponse>(xmlName: "ListBranchesInput"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListBranchesInput, ListBranchesOutputResponse>(contentType: "application/x-amz-json-1.1"))
@@ -2679,6 +2634,64 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         return result
     }
 
+    /// Retrieves a list of commits and changes to a specified file.
+    ///
+    /// - Parameter ListFileCommitHistoryInput : [no documentation found]
+    ///
+    /// - Returns: `ListFileCommitHistoryOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `CommitDoesNotExistException` : The specified commit does not exist or no commit was specified, and the specified repository has no default branch.
+    /// - `CommitRequiredException` : A commit was not specified.
+    /// - `EncryptionIntegrityChecksFailedException` : An encryption integrity check failed.
+    /// - `EncryptionKeyAccessDeniedException` : An encryption key could not be accessed.
+    /// - `EncryptionKeyDisabledException` : The encryption key is disabled.
+    /// - `EncryptionKeyNotFoundException` : No encryption key was found.
+    /// - `EncryptionKeyUnavailableException` : The encryption key is not available.
+    /// - `InvalidCommitException` : The specified commit is not valid.
+    /// - `InvalidContinuationTokenException` : The specified continuation token is not valid.
+    /// - `InvalidMaxResultsException` : The specified number of maximum results is not valid.
+    /// - `InvalidRepositoryNameException` : A specified repository name is not valid. This exception occurs only when a specified repository name is not valid. Other exceptions occur when a required repository parameter is missing, or when a specified repository does not exist.
+    /// - `RepositoryDoesNotExistException` : The specified repository does not exist.
+    /// - `RepositoryNameRequiredException` : A repository name is required, but was not specified.
+    /// - `TipsDivergenceExceededException` : The divergence between the tips of the provided commit specifiers is too great to determine whether there might be any merge conflicts. Locally compare the specifiers using git diff or a diff tool.
+    public func listFileCommitHistory(input: ListFileCommitHistoryInput) async throws -> ListFileCommitHistoryOutputResponse
+    {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listFileCommitHistory")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withCredentialsProvider(value: config.credentialsProvider)
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "codecommit")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<ListFileCommitHistoryInput, ListFileCommitHistoryOutputResponse, ListFileCommitHistoryOutputError>(id: "listFileCommitHistory")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListFileCommitHistoryInput, ListFileCommitHistoryOutputResponse, ListFileCommitHistoryOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListFileCommitHistoryInput, ListFileCommitHistoryOutputResponse>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListFileCommitHistoryOutputResponse, ListFileCommitHistoryOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListFileCommitHistoryInput, ListFileCommitHistoryOutputResponse>(xAmzTarget: "CodeCommit_20150413.ListFileCommitHistory"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListFileCommitHistoryInput, ListFileCommitHistoryOutputResponse>(xmlName: "ListFileCommitHistoryRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListFileCommitHistoryInput, ListFileCommitHistoryOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListFileCommitHistoryOutputResponse, ListFileCommitHistoryOutputError>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListFileCommitHistoryOutputResponse, ListFileCommitHistoryOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListFileCommitHistoryOutputResponse, ListFileCommitHistoryOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListFileCommitHistoryOutputResponse, ListFileCommitHistoryOutputError>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
     /// Returns a list of pull requests for a specified repository. The return list can be refined by pull request status or pull request author ARN.
     ///
     /// - Parameter ListPullRequestsInput : [no documentation found]
@@ -2688,7 +2701,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AuthorDoesNotExistException` : The specified Amazon Resource Name (ARN) does not exist in the AWS account.
+    /// - `AuthorDoesNotExistException` : The specified Amazon Resource Name (ARN) does not exist in the Amazon Web Services account.
     /// - `EncryptionIntegrityChecksFailedException` : An encryption integrity check failed.
     /// - `EncryptionKeyAccessDeniedException` : An encryption key could not be accessed.
     /// - `EncryptionKeyDisabledException` : The encryption key is disabled.
@@ -2722,8 +2735,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListPullRequestsInput, ListPullRequestsOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListPullRequestsOutputResponse, ListPullRequestsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListPullRequestsInput, ListPullRequestsOutputResponse>(xAmzTarget: "CodeCommit_20150413.ListPullRequests"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListPullRequestsInput, ListPullRequestsOutputResponse>(xmlName: "ListPullRequestsInput"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListPullRequestsInput, ListPullRequestsOutputResponse>(contentType: "application/x-amz-json-1.1"))
@@ -2770,8 +2782,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListRepositoriesInput, ListRepositoriesOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListRepositoriesOutputResponse, ListRepositoriesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListRepositoriesInput, ListRepositoriesOutputResponse>(xAmzTarget: "CodeCommit_20150413.ListRepositories"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListRepositoriesInput, ListRepositoriesOutputResponse>(xmlName: "ListRepositoriesInput"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListRepositoriesInput, ListRepositoriesOutputResponse>(contentType: "application/x-amz-json-1.1"))
@@ -2794,14 +2805,14 @@ extension CodeCommitClient: CodeCommitClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ApprovalRuleTemplateDoesNotExistException` : The specified approval rule template does not exist. Verify that the name is correct and that you are signed in to the AWS Region where the template was created, and then try again.
+    /// - `ApprovalRuleTemplateDoesNotExistException` : The specified approval rule template does not exist. Verify that the name is correct and that you are signed in to the Amazon Web Services Region where the template was created, and then try again.
     /// - `ApprovalRuleTemplateNameRequiredException` : An approval rule template name is required, but was not specified.
     /// - `EncryptionIntegrityChecksFailedException` : An encryption integrity check failed.
     /// - `EncryptionKeyAccessDeniedException` : An encryption key could not be accessed.
     /// - `EncryptionKeyDisabledException` : The encryption key is disabled.
     /// - `EncryptionKeyNotFoundException` : No encryption key was found.
     /// - `EncryptionKeyUnavailableException` : The encryption key is not available.
-    /// - `InvalidApprovalRuleTemplateNameException` : The name of the approval rule template is not valid. Template names must be between 1 and 100 valid characters in length. For more information about limits in AWS CodeCommit, see [AWS CodeCommit User Guide](https://docs.aws.amazon.com/codecommit/latest/userguide/limits.html).
+    /// - `InvalidApprovalRuleTemplateNameException` : The name of the approval rule template is not valid. Template names must be between 1 and 100 valid characters in length. For more information about limits in CodeCommit, see [Quotas](https://docs.aws.amazon.com/codecommit/latest/userguide/limits.html) in the CodeCommit User Guide.
     /// - `InvalidContinuationTokenException` : The specified continuation token is not valid.
     /// - `InvalidMaxResultsException` : The specified number of maximum results is not valid.
     public func listRepositoriesForApprovalRuleTemplate(input: ListRepositoriesForApprovalRuleTemplateInput) async throws -> ListRepositoriesForApprovalRuleTemplateOutputResponse
@@ -2825,8 +2836,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListRepositoriesForApprovalRuleTemplateInput, ListRepositoriesForApprovalRuleTemplateOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListRepositoriesForApprovalRuleTemplateOutputResponse, ListRepositoriesForApprovalRuleTemplateOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListRepositoriesForApprovalRuleTemplateInput, ListRepositoriesForApprovalRuleTemplateOutputResponse>(xAmzTarget: "CodeCommit_20150413.ListRepositoriesForApprovalRuleTemplate"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListRepositoriesForApprovalRuleTemplateInput, ListRepositoriesForApprovalRuleTemplateOutputResponse>(xmlName: "ListRepositoriesForApprovalRuleTemplateInput"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListRepositoriesForApprovalRuleTemplateInput, ListRepositoriesForApprovalRuleTemplateOutputResponse>(contentType: "application/x-amz-json-1.1"))
@@ -2840,7 +2850,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         return result
     }
 
-    /// Gets information about AWS tags for a specified Amazon Resource Name (ARN) in AWS CodeCommit. For a list of valid resources in AWS CodeCommit, see [CodeCommit Resources and Operations](https://docs.aws.amazon.com/codecommit/latest/userguide/auth-and-access-control-iam-access-control-identity-based.html#arn-formats) in the AWS CodeCommit User Guide.
+    /// Gets information about Amazon Web Servicestags for a specified Amazon Resource Name (ARN) in CodeCommit. For a list of valid resources in CodeCommit, see [CodeCommit Resources and Operations](https://docs.aws.amazon.com/codecommit/latest/userguide/auth-and-access-control-iam-access-control-identity-based.html#arn-formats) in the CodeCommit User Guide.
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
     ///
@@ -2850,9 +2860,9 @@ extension CodeCommitClient: CodeCommitClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `InvalidRepositoryNameException` : A specified repository name is not valid. This exception occurs only when a specified repository name is not valid. Other exceptions occur when a required repository parameter is missing, or when a specified repository does not exist.
-    /// - `InvalidResourceArnException` : The value for the resource ARN is not valid. For more information about resources in AWS CodeCommit, see [CodeCommit Resources and Operations](https://docs.aws.amazon.com/codecommit/latest/userguide/auth-and-access-control-iam-access-control-identity-based.html#arn-formats) in the AWS CodeCommit User Guide.
+    /// - `InvalidResourceArnException` : The value for the resource ARN is not valid. For more information about resources in CodeCommit, see [CodeCommit Resources and Operations](https://docs.aws.amazon.com/codecommit/latest/userguide/auth-and-access-control-iam-access-control-identity-based.html#arn-formats) in the CodeCommit User Guide.
     /// - `RepositoryDoesNotExistException` : The specified repository does not exist.
-    /// - `ResourceArnRequiredException` : A valid Amazon Resource Name (ARN) for an AWS CodeCommit resource is required. For a list of valid resources in AWS CodeCommit, see [CodeCommit Resources and Operations](https://docs.aws.amazon.com/codecommit/latest/userguide/auth-and-access-control-iam-access-control-identity-based.html#arn-formats) in the AWS CodeCommit User Guide.
+    /// - `ResourceArnRequiredException` : A valid Amazon Resource Name (ARN) for an CodeCommit resource is required. For a list of valid resources in CodeCommit, see [CodeCommit Resources and Operations](https://docs.aws.amazon.com/codecommit/latest/userguide/auth-and-access-control-iam-access-control-identity-based.html#arn-formats) in the CodeCommit User Guide.
     public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2874,8 +2884,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse>(xAmzTarget: "CodeCommit_20150413.ListTagsForResource"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse>(xmlName: "ListTagsForResourceInput"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListTagsForResourceInput, ListTagsForResourceOutputResponse>(contentType: "application/x-amz-json-1.1"))
@@ -2938,8 +2947,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<MergeBranchesByFastForwardInput, MergeBranchesByFastForwardOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<MergeBranchesByFastForwardOutputResponse, MergeBranchesByFastForwardOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<MergeBranchesByFastForwardInput, MergeBranchesByFastForwardOutputResponse>(xAmzTarget: "CodeCommit_20150413.MergeBranchesByFastForward"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<MergeBranchesByFastForwardInput, MergeBranchesByFastForwardOutputResponse>(xmlName: "MergeBranchesByFastForwardInput"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<MergeBranchesByFastForwardInput, MergeBranchesByFastForwardOutputResponse>(contentType: "application/x-amz-json-1.1"))
@@ -3022,8 +3030,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<MergeBranchesBySquashInput, MergeBranchesBySquashOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<MergeBranchesBySquashOutputResponse, MergeBranchesBySquashOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<MergeBranchesBySquashInput, MergeBranchesBySquashOutputResponse>(xAmzTarget: "CodeCommit_20150413.MergeBranchesBySquash"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<MergeBranchesBySquashInput, MergeBranchesBySquashOutputResponse>(xmlName: "MergeBranchesBySquashInput"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<MergeBranchesBySquashInput, MergeBranchesBySquashOutputResponse>(contentType: "application/x-amz-json-1.1"))
@@ -3106,8 +3113,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<MergeBranchesByThreeWayInput, MergeBranchesByThreeWayOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<MergeBranchesByThreeWayOutputResponse, MergeBranchesByThreeWayOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<MergeBranchesByThreeWayInput, MergeBranchesByThreeWayOutputResponse>(xAmzTarget: "CodeCommit_20150413.MergeBranchesByThreeWay"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<MergeBranchesByThreeWayInput, MergeBranchesByThreeWayOutputResponse>(xmlName: "MergeBranchesByThreeWayInput"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<MergeBranchesByThreeWayInput, MergeBranchesByThreeWayOutputResponse>(contentType: "application/x-amz-json-1.1"))
@@ -3170,8 +3176,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<MergePullRequestByFastForwardInput, MergePullRequestByFastForwardOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<MergePullRequestByFastForwardOutputResponse, MergePullRequestByFastForwardOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<MergePullRequestByFastForwardInput, MergePullRequestByFastForwardOutputResponse>(xAmzTarget: "CodeCommit_20150413.MergePullRequestByFastForward"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<MergePullRequestByFastForwardInput, MergePullRequestByFastForwardOutputResponse>(xmlName: "MergePullRequestByFastForwardInput"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<MergePullRequestByFastForwardInput, MergePullRequestByFastForwardOutputResponse>(contentType: "application/x-amz-json-1.1"))
@@ -3253,8 +3258,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<MergePullRequestBySquashInput, MergePullRequestBySquashOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<MergePullRequestBySquashOutputResponse, MergePullRequestBySquashOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<MergePullRequestBySquashInput, MergePullRequestBySquashOutputResponse>(xAmzTarget: "CodeCommit_20150413.MergePullRequestBySquash"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<MergePullRequestBySquashInput, MergePullRequestBySquashOutputResponse>(xmlName: "MergePullRequestBySquashInput"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<MergePullRequestBySquashInput, MergePullRequestBySquashOutputResponse>(contentType: "application/x-amz-json-1.1"))
@@ -3336,8 +3340,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<MergePullRequestByThreeWayInput, MergePullRequestByThreeWayOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<MergePullRequestByThreeWayOutputResponse, MergePullRequestByThreeWayOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<MergePullRequestByThreeWayInput, MergePullRequestByThreeWayOutputResponse>(xAmzTarget: "CodeCommit_20150413.MergePullRequestByThreeWay"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<MergePullRequestByThreeWayInput, MergePullRequestByThreeWayOutputResponse>(xmlName: "MergePullRequestByThreeWayInput"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<MergePullRequestByThreeWayInput, MergePullRequestByThreeWayOutputResponse>(contentType: "application/x-amz-json-1.1"))
@@ -3396,8 +3399,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<OverridePullRequestApprovalRulesInput, OverridePullRequestApprovalRulesOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<OverridePullRequestApprovalRulesOutputResponse, OverridePullRequestApprovalRulesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<OverridePullRequestApprovalRulesInput, OverridePullRequestApprovalRulesOutputResponse>(xAmzTarget: "CodeCommit_20150413.OverridePullRequestApprovalRules"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<OverridePullRequestApprovalRulesInput, OverridePullRequestApprovalRulesOutputResponse>(xmlName: "OverridePullRequestApprovalRulesInput"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<OverridePullRequestApprovalRulesInput, OverridePullRequestApprovalRulesOutputResponse>(contentType: "application/x-amz-json-1.1"))
@@ -3423,7 +3425,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
     /// - `BeforeCommitIdAndAfterCommitIdAreSameException` : The before commit ID and the after commit ID are the same, which is not valid. The before commit ID and the after commit ID must be different commit IDs.
     /// - `ClientRequestTokenRequiredException` : A client request token is required. A client request token is an unique, client-generated idempotency token that, when provided in a request, ensures the request cannot be repeated with a changed parameter. If a request is received with the same parameters and a token is included, the request returns information about the initial request that used that token.
     /// - `CommentContentRequiredException` : The comment is empty. You must provide some content for a comment. The content cannot be null.
-    /// - `CommentContentSizeLimitExceededException` : The comment is too large. Comments are limited to 1,000 characters.
+    /// - `CommentContentSizeLimitExceededException` : The comment is too large. Comments are limited to 10,240 characters.
     /// - `CommitDoesNotExistException` : The specified commit does not exist or no commit was specified, and the specified repository has no default branch.
     /// - `CommitIdRequiredException` : A commit ID was not specified.
     /// - `EncryptionIntegrityChecksFailedException` : An encryption integrity check failed.
@@ -3472,8 +3474,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PostCommentForComparedCommitInput, PostCommentForComparedCommitOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PostCommentForComparedCommitOutputResponse, PostCommentForComparedCommitOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<PostCommentForComparedCommitInput, PostCommentForComparedCommitOutputResponse>(xAmzTarget: "CodeCommit_20150413.PostCommentForComparedCommit"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<PostCommentForComparedCommitInput, PostCommentForComparedCommitOutputResponse>(xmlName: "PostCommentForComparedCommitInput"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PostCommentForComparedCommitInput, PostCommentForComparedCommitOutputResponse>(contentType: "application/x-amz-json-1.1"))
@@ -3499,7 +3500,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
     /// - `BeforeCommitIdAndAfterCommitIdAreSameException` : The before commit ID and the after commit ID are the same, which is not valid. The before commit ID and the after commit ID must be different commit IDs.
     /// - `ClientRequestTokenRequiredException` : A client request token is required. A client request token is an unique, client-generated idempotency token that, when provided in a request, ensures the request cannot be repeated with a changed parameter. If a request is received with the same parameters and a token is included, the request returns information about the initial request that used that token.
     /// - `CommentContentRequiredException` : The comment is empty. You must provide some content for a comment. The content cannot be null.
-    /// - `CommentContentSizeLimitExceededException` : The comment is too large. Comments are limited to 1,000 characters.
+    /// - `CommentContentSizeLimitExceededException` : The comment is too large. Comments are limited to 10,240 characters.
     /// - `CommitDoesNotExistException` : The specified commit does not exist or no commit was specified, and the specified repository has no default branch.
     /// - `CommitIdRequiredException` : A commit ID was not specified.
     /// - `EncryptionIntegrityChecksFailedException` : An encryption integrity check failed.
@@ -3552,8 +3553,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PostCommentForPullRequestInput, PostCommentForPullRequestOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PostCommentForPullRequestOutputResponse, PostCommentForPullRequestOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<PostCommentForPullRequestInput, PostCommentForPullRequestOutputResponse>(xAmzTarget: "CodeCommit_20150413.PostCommentForPullRequest"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<PostCommentForPullRequestInput, PostCommentForPullRequestOutputResponse>(xmlName: "PostCommentForPullRequestInput"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PostCommentForPullRequestInput, PostCommentForPullRequestOutputResponse>(contentType: "application/x-amz-json-1.1"))
@@ -3578,7 +3578,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
     /// __Possible Exceptions:__
     /// - `ClientRequestTokenRequiredException` : A client request token is required. A client request token is an unique, client-generated idempotency token that, when provided in a request, ensures the request cannot be repeated with a changed parameter. If a request is received with the same parameters and a token is included, the request returns information about the initial request that used that token.
     /// - `CommentContentRequiredException` : The comment is empty. You must provide some content for a comment. The content cannot be null.
-    /// - `CommentContentSizeLimitExceededException` : The comment is too large. Comments are limited to 1,000 characters.
+    /// - `CommentContentSizeLimitExceededException` : The comment is too large. Comments are limited to 10,240 characters.
     /// - `CommentDoesNotExistException` : No comment exists with the provided ID. Verify that you have used the correct ID, and then try again.
     /// - `CommentIdRequiredException` : The comment ID is missing or null. A comment ID is required.
     /// - `IdempotencyParameterMismatchException` : The client request token is not valid. Either the token is not in a valid format, or the token has been used in a previous request and cannot be reused.
@@ -3613,8 +3613,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PostCommentReplyInput, PostCommentReplyOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PostCommentReplyOutputResponse, PostCommentReplyOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<PostCommentReplyInput, PostCommentReplyOutputResponse>(xAmzTarget: "CodeCommit_20150413.PostCommentReply"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<PostCommentReplyInput, PostCommentReplyOutputResponse>(xmlName: "PostCommentReplyInput"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PostCommentReplyInput, PostCommentReplyOutputResponse>(contentType: "application/x-amz-json-1.1"))
@@ -3641,7 +3640,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
     /// - `CommentDoesNotExistException` : No comment exists with the provided ID. Verify that you have used the correct ID, and then try again.
     /// - `CommentIdRequiredException` : The comment ID is missing or null. A comment ID is required.
     /// - `InvalidCommentIdException` : The comment ID is not in a valid format. Make sure that you have provided the full comment ID.
-    /// - `InvalidReactionValueException` : The value of the reaction is not valid. For more information, see the [AWS CodeCommit User Guide](https://docs.aws.amazon.com/codecommit/latest/userguide/welcome.html).
+    /// - `InvalidReactionValueException` : The value of the reaction is not valid. For more information, see the [CodeCommit User Guide](https://docs.aws.amazon.com/codecommit/latest/userguide/welcome.html).
     /// - `ReactionLimitExceededException` : The number of reactions has been exceeded. Reactions are limited to one reaction per user for each individual comment ID.
     /// - `ReactionValueRequiredException` : A reaction value is required.
     public func putCommentReaction(input: PutCommentReactionInput) async throws -> PutCommentReactionOutputResponse
@@ -3665,8 +3664,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutCommentReactionInput, PutCommentReactionOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutCommentReactionOutputResponse, PutCommentReactionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<PutCommentReactionInput, PutCommentReactionOutputResponse>(xAmzTarget: "CodeCommit_20150413.PutCommentReaction"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<PutCommentReactionInput, PutCommentReactionOutputResponse>(xmlName: "PutCommentReactionInput"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PutCommentReactionInput, PutCommentReactionOutputResponse>(contentType: "application/x-amz-json-1.1"))
@@ -3680,7 +3678,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         return result
     }
 
-    /// Adds or updates a file in a branch in an AWS CodeCommit repository, and generates a commit for the addition in the specified branch.
+    /// Adds or updates a file in a branch in an CodeCommit repository, and generates a commit for the addition in the specified branch.
     ///
     /// - Parameter PutFileInput : [no documentation found]
     ///
@@ -3740,8 +3738,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutFileInput, PutFileOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutFileOutputResponse, PutFileOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<PutFileInput, PutFileOutputResponse>(xAmzTarget: "CodeCommit_20150413.PutFile"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<PutFileInput, PutFileOutputResponse>(xmlName: "PutFileInput"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PutFileInput, PutFileOutputResponse>(contentType: "application/x-amz-json-1.1"))
@@ -3775,7 +3772,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
     /// - `InvalidRepositoryTriggerDestinationArnException` : The Amazon Resource Name (ARN) for the trigger is not valid for the specified destination. The most common reason for this error is that the ARN does not meet the requirements for the service type.
     /// - `InvalidRepositoryTriggerEventsException` : One or more events specified for the trigger is not valid. Check to make sure that all events specified match the requirements for allowed events.
     /// - `InvalidRepositoryTriggerNameException` : The name of the trigger is not valid.
-    /// - `InvalidRepositoryTriggerRegionException` : The AWS Region for the trigger target does not match the AWS Region for the repository. Triggers must be created in the same Region as the target for the trigger.
+    /// - `InvalidRepositoryTriggerRegionException` : The Amazon Web Services Region for the trigger target does not match the Amazon Web Services Region for the repository. Triggers must be created in the same Amazon Web Services Region as the target for the trigger.
     /// - `MaximumBranchesExceededException` : The number of branches for the trigger was exceeded.
     /// - `MaximumRepositoryTriggersExceededException` : The number of triggers allowed for the repository was exceeded.
     /// - `RepositoryDoesNotExistException` : The specified repository does not exist.
@@ -3806,8 +3803,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutRepositoryTriggersInput, PutRepositoryTriggersOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutRepositoryTriggersOutputResponse, PutRepositoryTriggersOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<PutRepositoryTriggersInput, PutRepositoryTriggersOutputResponse>(xAmzTarget: "CodeCommit_20150413.PutRepositoryTriggers"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<PutRepositoryTriggersInput, PutRepositoryTriggersOutputResponse>(xmlName: "PutRepositoryTriggersInput"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PutRepositoryTriggersInput, PutRepositoryTriggersOutputResponse>(contentType: "application/x-amz-json-1.1"))
@@ -3821,7 +3817,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         return result
     }
 
-    /// Adds or updates tags for a resource in AWS CodeCommit. For a list of valid resources in AWS CodeCommit, see [CodeCommit Resources and Operations](https://docs.aws.amazon.com/codecommit/latest/userguide/auth-and-access-control-iam-access-control-identity-based.html#arn-formats) in the AWS CodeCommit User Guide.
+    /// Adds or updates tags for a resource in CodeCommit. For a list of valid resources in CodeCommit, see [CodeCommit Resources and Operations](https://docs.aws.amazon.com/codecommit/latest/userguide/auth-and-access-control-iam-access-control-identity-based.html#arn-formats) in the CodeCommit User Guide.
     ///
     /// - Parameter TagResourceInput : [no documentation found]
     ///
@@ -3831,14 +3827,14 @@ extension CodeCommitClient: CodeCommitClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `InvalidRepositoryNameException` : A specified repository name is not valid. This exception occurs only when a specified repository name is not valid. Other exceptions occur when a required repository parameter is missing, or when a specified repository does not exist.
-    /// - `InvalidResourceArnException` : The value for the resource ARN is not valid. For more information about resources in AWS CodeCommit, see [CodeCommit Resources and Operations](https://docs.aws.amazon.com/codecommit/latest/userguide/auth-and-access-control-iam-access-control-identity-based.html#arn-formats) in the AWS CodeCommit User Guide.
+    /// - `InvalidResourceArnException` : The value for the resource ARN is not valid. For more information about resources in CodeCommit, see [CodeCommit Resources and Operations](https://docs.aws.amazon.com/codecommit/latest/userguide/auth-and-access-control-iam-access-control-identity-based.html#arn-formats) in the CodeCommit User Guide.
     /// - `InvalidSystemTagUsageException` : The specified tag is not valid. Key names cannot be prefixed with aws:.
     /// - `InvalidTagsMapException` : The map of tags is not valid.
     /// - `RepositoryDoesNotExistException` : The specified repository does not exist.
-    /// - `ResourceArnRequiredException` : A valid Amazon Resource Name (ARN) for an AWS CodeCommit resource is required. For a list of valid resources in AWS CodeCommit, see [CodeCommit Resources and Operations](https://docs.aws.amazon.com/codecommit/latest/userguide/auth-and-access-control-iam-access-control-identity-based.html#arn-formats) in the AWS CodeCommit User Guide.
+    /// - `ResourceArnRequiredException` : A valid Amazon Resource Name (ARN) for an CodeCommit resource is required. For a list of valid resources in CodeCommit, see [CodeCommit Resources and Operations](https://docs.aws.amazon.com/codecommit/latest/userguide/auth-and-access-control-iam-access-control-identity-based.html#arn-formats) in the CodeCommit User Guide.
     /// - `TagPolicyException` : The tag policy is not valid.
     /// - `TagsMapRequiredException` : A map of tags is required.
-    /// - `TooManyTagsException` : The maximum number of tags for an AWS CodeCommit resource has been exceeded.
+    /// - `TooManyTagsException` : The maximum number of tags for an CodeCommit resource has been exceeded.
     public func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3860,8 +3856,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TagResourceInput, TagResourceOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<TagResourceOutputResponse, TagResourceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<TagResourceInput, TagResourceOutputResponse>(xAmzTarget: "CodeCommit_20150413.TagResource"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<TagResourceInput, TagResourceOutputResponse>(xmlName: "TagResourceInput"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<TagResourceInput, TagResourceOutputResponse>(contentType: "application/x-amz-json-1.1"))
@@ -3895,7 +3890,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
     /// - `InvalidRepositoryTriggerDestinationArnException` : The Amazon Resource Name (ARN) for the trigger is not valid for the specified destination. The most common reason for this error is that the ARN does not meet the requirements for the service type.
     /// - `InvalidRepositoryTriggerEventsException` : One or more events specified for the trigger is not valid. Check to make sure that all events specified match the requirements for allowed events.
     /// - `InvalidRepositoryTriggerNameException` : The name of the trigger is not valid.
-    /// - `InvalidRepositoryTriggerRegionException` : The AWS Region for the trigger target does not match the AWS Region for the repository. Triggers must be created in the same Region as the target for the trigger.
+    /// - `InvalidRepositoryTriggerRegionException` : The Amazon Web Services Region for the trigger target does not match the Amazon Web Services Region for the repository. Triggers must be created in the same Amazon Web Services Region as the target for the trigger.
     /// - `MaximumBranchesExceededException` : The number of branches for the trigger was exceeded.
     /// - `MaximumRepositoryTriggersExceededException` : The number of triggers allowed for the repository was exceeded.
     /// - `RepositoryDoesNotExistException` : The specified repository does not exist.
@@ -3926,8 +3921,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<TestRepositoryTriggersInput, TestRepositoryTriggersOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<TestRepositoryTriggersOutputResponse, TestRepositoryTriggersOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<TestRepositoryTriggersInput, TestRepositoryTriggersOutputResponse>(xAmzTarget: "CodeCommit_20150413.TestRepositoryTriggers"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<TestRepositoryTriggersInput, TestRepositoryTriggersOutputResponse>(xmlName: "TestRepositoryTriggersInput"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<TestRepositoryTriggersInput, TestRepositoryTriggersOutputResponse>(contentType: "application/x-amz-json-1.1"))
@@ -3941,7 +3935,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         return result
     }
 
-    /// Removes tags for a resource in AWS CodeCommit. For a list of valid resources in AWS CodeCommit, see [CodeCommit Resources and Operations](https://docs.aws.amazon.com/codecommit/latest/userguide/auth-and-access-control-iam-access-control-identity-based.html#arn-formats) in the AWS CodeCommit User Guide.
+    /// Removes tags for a resource in CodeCommit. For a list of valid resources in CodeCommit, see [CodeCommit Resources and Operations](https://docs.aws.amazon.com/codecommit/latest/userguide/auth-and-access-control-iam-access-control-identity-based.html#arn-formats) in the CodeCommit User Guide.
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
     ///
@@ -3951,14 +3945,14 @@ extension CodeCommitClient: CodeCommitClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `InvalidRepositoryNameException` : A specified repository name is not valid. This exception occurs only when a specified repository name is not valid. Other exceptions occur when a required repository parameter is missing, or when a specified repository does not exist.
-    /// - `InvalidResourceArnException` : The value for the resource ARN is not valid. For more information about resources in AWS CodeCommit, see [CodeCommit Resources and Operations](https://docs.aws.amazon.com/codecommit/latest/userguide/auth-and-access-control-iam-access-control-identity-based.html#arn-formats) in the AWS CodeCommit User Guide.
+    /// - `InvalidResourceArnException` : The value for the resource ARN is not valid. For more information about resources in CodeCommit, see [CodeCommit Resources and Operations](https://docs.aws.amazon.com/codecommit/latest/userguide/auth-and-access-control-iam-access-control-identity-based.html#arn-formats) in the CodeCommit User Guide.
     /// - `InvalidSystemTagUsageException` : The specified tag is not valid. Key names cannot be prefixed with aws:.
     /// - `InvalidTagKeysListException` : The list of tags is not valid.
     /// - `RepositoryDoesNotExistException` : The specified repository does not exist.
-    /// - `ResourceArnRequiredException` : A valid Amazon Resource Name (ARN) for an AWS CodeCommit resource is required. For a list of valid resources in AWS CodeCommit, see [CodeCommit Resources and Operations](https://docs.aws.amazon.com/codecommit/latest/userguide/auth-and-access-control-iam-access-control-identity-based.html#arn-formats) in the AWS CodeCommit User Guide.
+    /// - `ResourceArnRequiredException` : A valid Amazon Resource Name (ARN) for an CodeCommit resource is required. For a list of valid resources in CodeCommit, see [CodeCommit Resources and Operations](https://docs.aws.amazon.com/codecommit/latest/userguide/auth-and-access-control-iam-access-control-identity-based.html#arn-formats) in the CodeCommit User Guide.
     /// - `TagKeysListRequiredException` : A list of tag keys is required. The list cannot be empty or null.
     /// - `TagPolicyException` : The tag policy is not valid.
-    /// - `TooManyTagsException` : The maximum number of tags for an AWS CodeCommit resource has been exceeded.
+    /// - `TooManyTagsException` : The maximum number of tags for an CodeCommit resource has been exceeded.
     public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3980,8 +3974,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UntagResourceInput, UntagResourceOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UntagResourceOutputResponse, UntagResourceOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UntagResourceInput, UntagResourceOutputResponse>(xAmzTarget: "CodeCommit_20150413.UntagResource"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UntagResourceInput, UntagResourceOutputResponse>(xmlName: "UntagResourceInput"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UntagResourceInput, UntagResourceOutputResponse>(contentType: "application/x-amz-json-1.1"))
@@ -4005,10 +3998,10 @@ extension CodeCommitClient: CodeCommitClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ApprovalRuleTemplateContentRequiredException` : The content for the approval rule template is empty. You must provide some content for an approval rule template. The content cannot be null.
-    /// - `ApprovalRuleTemplateDoesNotExistException` : The specified approval rule template does not exist. Verify that the name is correct and that you are signed in to the AWS Region where the template was created, and then try again.
+    /// - `ApprovalRuleTemplateDoesNotExistException` : The specified approval rule template does not exist. Verify that the name is correct and that you are signed in to the Amazon Web Services Region where the template was created, and then try again.
     /// - `ApprovalRuleTemplateNameRequiredException` : An approval rule template name is required, but was not specified.
     /// - `InvalidApprovalRuleTemplateContentException` : The content of the approval rule template is not valid.
-    /// - `InvalidApprovalRuleTemplateNameException` : The name of the approval rule template is not valid. Template names must be between 1 and 100 valid characters in length. For more information about limits in AWS CodeCommit, see [AWS CodeCommit User Guide](https://docs.aws.amazon.com/codecommit/latest/userguide/limits.html).
+    /// - `InvalidApprovalRuleTemplateNameException` : The name of the approval rule template is not valid. Template names must be between 1 and 100 valid characters in length. For more information about limits in CodeCommit, see [Quotas](https://docs.aws.amazon.com/codecommit/latest/userguide/limits.html) in the CodeCommit User Guide.
     /// - `InvalidRuleContentSha256Exception` : The SHA-256 hash signature for the rule content is not valid.
     public func updateApprovalRuleTemplateContent(input: UpdateApprovalRuleTemplateContentInput) async throws -> UpdateApprovalRuleTemplateContentOutputResponse
     {
@@ -4031,8 +4024,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateApprovalRuleTemplateContentInput, UpdateApprovalRuleTemplateContentOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateApprovalRuleTemplateContentOutputResponse, UpdateApprovalRuleTemplateContentOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdateApprovalRuleTemplateContentInput, UpdateApprovalRuleTemplateContentOutputResponse>(xAmzTarget: "CodeCommit_20150413.UpdateApprovalRuleTemplateContent"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateApprovalRuleTemplateContentInput, UpdateApprovalRuleTemplateContentOutputResponse>(xmlName: "UpdateApprovalRuleTemplateContentInput"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateApprovalRuleTemplateContentInput, UpdateApprovalRuleTemplateContentOutputResponse>(contentType: "application/x-amz-json-1.1"))
@@ -4055,10 +4047,10 @@ extension CodeCommitClient: CodeCommitClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ApprovalRuleTemplateDoesNotExistException` : The specified approval rule template does not exist. Verify that the name is correct and that you are signed in to the AWS Region where the template was created, and then try again.
+    /// - `ApprovalRuleTemplateDoesNotExistException` : The specified approval rule template does not exist. Verify that the name is correct and that you are signed in to the Amazon Web Services Region where the template was created, and then try again.
     /// - `ApprovalRuleTemplateNameRequiredException` : An approval rule template name is required, but was not specified.
-    /// - `InvalidApprovalRuleTemplateDescriptionException` : The description for the approval rule template is not valid because it exceeds the maximum characters allowed for a description. For more information about limits in AWS CodeCommit, see [AWS CodeCommit User Guide](https://docs.aws.amazon.com/codecommit/latest/userguide/limits.html).
-    /// - `InvalidApprovalRuleTemplateNameException` : The name of the approval rule template is not valid. Template names must be between 1 and 100 valid characters in length. For more information about limits in AWS CodeCommit, see [AWS CodeCommit User Guide](https://docs.aws.amazon.com/codecommit/latest/userguide/limits.html).
+    /// - `InvalidApprovalRuleTemplateDescriptionException` : The description for the approval rule template is not valid because it exceeds the maximum characters allowed for a description. For more information about limits in CodeCommit, see [Quotas](https://docs.aws.amazon.com/codecommit/latest/userguide/limits.html) in the CodeCommit User Guide.
+    /// - `InvalidApprovalRuleTemplateNameException` : The name of the approval rule template is not valid. Template names must be between 1 and 100 valid characters in length. For more information about limits in CodeCommit, see [Quotas](https://docs.aws.amazon.com/codecommit/latest/userguide/limits.html) in the CodeCommit User Guide.
     public func updateApprovalRuleTemplateDescription(input: UpdateApprovalRuleTemplateDescriptionInput) async throws -> UpdateApprovalRuleTemplateDescriptionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -4080,8 +4072,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateApprovalRuleTemplateDescriptionInput, UpdateApprovalRuleTemplateDescriptionOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateApprovalRuleTemplateDescriptionOutputResponse, UpdateApprovalRuleTemplateDescriptionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdateApprovalRuleTemplateDescriptionInput, UpdateApprovalRuleTemplateDescriptionOutputResponse>(xAmzTarget: "CodeCommit_20150413.UpdateApprovalRuleTemplateDescription"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateApprovalRuleTemplateDescriptionInput, UpdateApprovalRuleTemplateDescriptionOutputResponse>(xmlName: "UpdateApprovalRuleTemplateDescriptionInput"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateApprovalRuleTemplateDescriptionInput, UpdateApprovalRuleTemplateDescriptionOutputResponse>(contentType: "application/x-amz-json-1.1"))
@@ -4104,10 +4095,10 @@ extension CodeCommitClient: CodeCommitClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ApprovalRuleTemplateDoesNotExistException` : The specified approval rule template does not exist. Verify that the name is correct and that you are signed in to the AWS Region where the template was created, and then try again.
-    /// - `ApprovalRuleTemplateNameAlreadyExistsException` : You cannot create an approval rule template with that name because a template with that name already exists in this AWS Region for your AWS account. Approval rule template names must be unique.
+    /// - `ApprovalRuleTemplateDoesNotExistException` : The specified approval rule template does not exist. Verify that the name is correct and that you are signed in to the Amazon Web Services Region where the template was created, and then try again.
+    /// - `ApprovalRuleTemplateNameAlreadyExistsException` : You cannot create an approval rule template with that name because a template with that name already exists in this Amazon Web Services Region for your Amazon Web Services account. Approval rule template names must be unique.
     /// - `ApprovalRuleTemplateNameRequiredException` : An approval rule template name is required, but was not specified.
-    /// - `InvalidApprovalRuleTemplateNameException` : The name of the approval rule template is not valid. Template names must be between 1 and 100 valid characters in length. For more information about limits in AWS CodeCommit, see [AWS CodeCommit User Guide](https://docs.aws.amazon.com/codecommit/latest/userguide/limits.html).
+    /// - `InvalidApprovalRuleTemplateNameException` : The name of the approval rule template is not valid. Template names must be between 1 and 100 valid characters in length. For more information about limits in CodeCommit, see [Quotas](https://docs.aws.amazon.com/codecommit/latest/userguide/limits.html) in the CodeCommit User Guide.
     public func updateApprovalRuleTemplateName(input: UpdateApprovalRuleTemplateNameInput) async throws -> UpdateApprovalRuleTemplateNameOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -4129,8 +4120,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateApprovalRuleTemplateNameInput, UpdateApprovalRuleTemplateNameOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateApprovalRuleTemplateNameOutputResponse, UpdateApprovalRuleTemplateNameOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdateApprovalRuleTemplateNameInput, UpdateApprovalRuleTemplateNameOutputResponse>(xAmzTarget: "CodeCommit_20150413.UpdateApprovalRuleTemplateName"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateApprovalRuleTemplateNameInput, UpdateApprovalRuleTemplateNameOutputResponse>(xmlName: "UpdateApprovalRuleTemplateNameInput"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateApprovalRuleTemplateNameInput, UpdateApprovalRuleTemplateNameOutputResponse>(contentType: "application/x-amz-json-1.1"))
@@ -4154,7 +4144,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `CommentContentRequiredException` : The comment is empty. You must provide some content for a comment. The content cannot be null.
-    /// - `CommentContentSizeLimitExceededException` : The comment is too large. Comments are limited to 1,000 characters.
+    /// - `CommentContentSizeLimitExceededException` : The comment is too large. Comments are limited to 10,240 characters.
     /// - `CommentDeletedException` : This comment has already been deleted. You cannot edit or delete a deleted comment.
     /// - `CommentDoesNotExistException` : No comment exists with the provided ID. Verify that you have used the correct ID, and then try again.
     /// - `CommentIdRequiredException` : The comment ID is missing or null. A comment ID is required.
@@ -4181,8 +4171,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateCommentInput, UpdateCommentOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateCommentOutputResponse, UpdateCommentOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdateCommentInput, UpdateCommentOutputResponse>(xAmzTarget: "CodeCommit_20150413.UpdateComment"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateCommentInput, UpdateCommentOutputResponse>(xmlName: "UpdateCommentInput"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateCommentInput, UpdateCommentOutputResponse>(contentType: "application/x-amz-json-1.1"))
@@ -4237,8 +4226,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateDefaultBranchInput, UpdateDefaultBranchOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateDefaultBranchOutputResponse, UpdateDefaultBranchOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdateDefaultBranchInput, UpdateDefaultBranchOutputResponse>(xAmzTarget: "CodeCommit_20150413.UpdateDefaultBranch"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateDefaultBranchInput, UpdateDefaultBranchOutputResponse>(xmlName: "UpdateDefaultBranchInput"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateDefaultBranchInput, UpdateDefaultBranchOutputResponse>(contentType: "application/x-amz-json-1.1"))
@@ -4298,8 +4286,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdatePullRequestApprovalRuleContentInput, UpdatePullRequestApprovalRuleContentOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdatePullRequestApprovalRuleContentOutputResponse, UpdatePullRequestApprovalRuleContentOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdatePullRequestApprovalRuleContentInput, UpdatePullRequestApprovalRuleContentOutputResponse>(xAmzTarget: "CodeCommit_20150413.UpdatePullRequestApprovalRuleContent"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdatePullRequestApprovalRuleContentInput, UpdatePullRequestApprovalRuleContentOutputResponse>(xmlName: "UpdatePullRequestApprovalRuleContentInput"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdatePullRequestApprovalRuleContentInput, UpdatePullRequestApprovalRuleContentOutputResponse>(contentType: "application/x-amz-json-1.1"))
@@ -4359,8 +4346,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdatePullRequestApprovalStateInput, UpdatePullRequestApprovalStateOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdatePullRequestApprovalStateOutputResponse, UpdatePullRequestApprovalStateOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdatePullRequestApprovalStateInput, UpdatePullRequestApprovalStateOutputResponse>(xAmzTarget: "CodeCommit_20150413.UpdatePullRequestApprovalState"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdatePullRequestApprovalStateInput, UpdatePullRequestApprovalStateOutputResponse>(xmlName: "UpdatePullRequestApprovalStateInput"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdatePullRequestApprovalStateInput, UpdatePullRequestApprovalStateOutputResponse>(contentType: "application/x-amz-json-1.1"))
@@ -4409,8 +4395,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdatePullRequestDescriptionInput, UpdatePullRequestDescriptionOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdatePullRequestDescriptionOutputResponse, UpdatePullRequestDescriptionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdatePullRequestDescriptionInput, UpdatePullRequestDescriptionOutputResponse>(xAmzTarget: "CodeCommit_20150413.UpdatePullRequestDescription"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdatePullRequestDescriptionInput, UpdatePullRequestDescriptionOutputResponse>(xmlName: "UpdatePullRequestDescriptionInput"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdatePullRequestDescriptionInput, UpdatePullRequestDescriptionOutputResponse>(contentType: "application/x-amz-json-1.1"))
@@ -4465,8 +4450,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdatePullRequestStatusInput, UpdatePullRequestStatusOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdatePullRequestStatusOutputResponse, UpdatePullRequestStatusOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdatePullRequestStatusInput, UpdatePullRequestStatusOutputResponse>(xAmzTarget: "CodeCommit_20150413.UpdatePullRequestStatus"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdatePullRequestStatusInput, UpdatePullRequestStatusOutputResponse>(xmlName: "UpdatePullRequestStatusInput"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdatePullRequestStatusInput, UpdatePullRequestStatusOutputResponse>(contentType: "application/x-amz-json-1.1"))
@@ -4516,8 +4500,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdatePullRequestTitleInput, UpdatePullRequestTitleOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdatePullRequestTitleOutputResponse, UpdatePullRequestTitleOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdatePullRequestTitleInput, UpdatePullRequestTitleOutputResponse>(xAmzTarget: "CodeCommit_20150413.UpdatePullRequestTitle"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdatePullRequestTitleInput, UpdatePullRequestTitleOutputResponse>(xmlName: "UpdatePullRequestTitleInput"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdatePullRequestTitleInput, UpdatePullRequestTitleOutputResponse>(contentType: "application/x-amz-json-1.1"))
@@ -4570,8 +4553,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateRepositoryDescriptionInput, UpdateRepositoryDescriptionOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateRepositoryDescriptionOutputResponse, UpdateRepositoryDescriptionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdateRepositoryDescriptionInput, UpdateRepositoryDescriptionOutputResponse>(xAmzTarget: "CodeCommit_20150413.UpdateRepositoryDescription"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateRepositoryDescriptionInput, UpdateRepositoryDescriptionOutputResponse>(xmlName: "UpdateRepositoryDescriptionInput"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateRepositoryDescriptionInput, UpdateRepositoryDescriptionOutputResponse>(contentType: "application/x-amz-json-1.1"))
@@ -4585,7 +4567,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         return result
     }
 
-    /// Renames a repository. The repository name must be unique across the calling AWS account. Repository names are limited to 100 alphanumeric, dash, and underscore characters, and cannot include certain characters. The suffix .git is prohibited. For more information about the limits on repository names, see [Limits](https://docs.aws.amazon.com/codecommit/latest/userguide/limits.html) in the AWS CodeCommit User Guide.
+    /// Renames a repository. The repository name must be unique across the calling Amazon Web Services account. Repository names are limited to 100 alphanumeric, dash, and underscore characters, and cannot include certain characters. The suffix .git is prohibited. For more information about the limits on repository names, see [Quotas](https://docs.aws.amazon.com/codecommit/latest/userguide/limits.html) in the CodeCommit User Guide.
     ///
     /// - Parameter UpdateRepositoryNameInput : Represents the input of an update repository description operation.
     ///
@@ -4619,8 +4601,7 @@ extension CodeCommitClient: CodeCommitClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateRepositoryNameInput, UpdateRepositoryNameOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateRepositoryNameOutputResponse, UpdateRepositoryNameOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdateRepositoryNameInput, UpdateRepositoryNameOutputResponse>(xAmzTarget: "CodeCommit_20150413.UpdateRepositoryName"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateRepositoryNameInput, UpdateRepositoryNameOutputResponse>(xmlName: "UpdateRepositoryNameInput"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateRepositoryNameInput, UpdateRepositoryNameOutputResponse>(contentType: "application/x-amz-json-1.1"))

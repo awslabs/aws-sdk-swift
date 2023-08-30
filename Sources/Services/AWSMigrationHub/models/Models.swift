@@ -160,7 +160,7 @@ extension AssociateCreatedArtifactInput: Swift.Encodable {
         if let createdArtifact = self.createdArtifact {
             try encodeContainer.encode(createdArtifact, forKey: .createdArtifact)
         }
-        if dryRun != false {
+        if let dryRun = self.dryRun {
             try encodeContainer.encode(dryRun, forKey: .dryRun)
         }
         if let migrationTaskName = self.migrationTaskName {
@@ -183,7 +183,7 @@ public struct AssociateCreatedArtifactInput: Swift.Equatable {
     /// This member is required.
     public var createdArtifact: MigrationHubClientTypes.CreatedArtifact?
     /// Optional boolean flag to indicate whether any effect should take place. Used to test if the caller has permission to make the call.
-    public var dryRun: Swift.Bool
+    public var dryRun: Swift.Bool?
     /// Unique identifier that references the migration task. Do not store personal data in this field.
     /// This member is required.
     public var migrationTaskName: Swift.String?
@@ -193,7 +193,7 @@ public struct AssociateCreatedArtifactInput: Swift.Equatable {
 
     public init(
         createdArtifact: MigrationHubClientTypes.CreatedArtifact? = nil,
-        dryRun: Swift.Bool = false,
+        dryRun: Swift.Bool? = nil,
         migrationTaskName: Swift.String? = nil,
         progressUpdateStream: Swift.String? = nil
     )
@@ -209,7 +209,7 @@ struct AssociateCreatedArtifactInputBody: Swift.Equatable {
     let progressUpdateStream: Swift.String?
     let migrationTaskName: Swift.String?
     let createdArtifact: MigrationHubClientTypes.CreatedArtifact?
-    let dryRun: Swift.Bool
+    let dryRun: Swift.Bool?
 }
 
 extension AssociateCreatedArtifactInputBody: Swift.Decodable {
@@ -228,7 +228,7 @@ extension AssociateCreatedArtifactInputBody: Swift.Decodable {
         migrationTaskName = migrationTaskNameDecoded
         let createdArtifactDecoded = try containerValues.decodeIfPresent(MigrationHubClientTypes.CreatedArtifact.self, forKey: .createdArtifact)
         createdArtifact = createdArtifactDecoded
-        let dryRunDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .dryRun) ?? false
+        let dryRunDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .dryRun)
         dryRun = dryRunDecoded
     }
 }
@@ -275,7 +275,7 @@ extension AssociateDiscoveredResourceInput: Swift.Encodable {
         if let discoveredResource = self.discoveredResource {
             try encodeContainer.encode(discoveredResource, forKey: .discoveredResource)
         }
-        if dryRun != false {
+        if let dryRun = self.dryRun {
             try encodeContainer.encode(dryRun, forKey: .dryRun)
         }
         if let migrationTaskName = self.migrationTaskName {
@@ -298,7 +298,7 @@ public struct AssociateDiscoveredResourceInput: Swift.Equatable {
     /// This member is required.
     public var discoveredResource: MigrationHubClientTypes.DiscoveredResource?
     /// Optional boolean flag to indicate whether any effect should take place. Used to test if the caller has permission to make the call.
-    public var dryRun: Swift.Bool
+    public var dryRun: Swift.Bool?
     /// The identifier given to the MigrationTask. Do not store personal data in this field.
     /// This member is required.
     public var migrationTaskName: Swift.String?
@@ -308,7 +308,7 @@ public struct AssociateDiscoveredResourceInput: Swift.Equatable {
 
     public init(
         discoveredResource: MigrationHubClientTypes.DiscoveredResource? = nil,
-        dryRun: Swift.Bool = false,
+        dryRun: Swift.Bool? = nil,
         migrationTaskName: Swift.String? = nil,
         progressUpdateStream: Swift.String? = nil
     )
@@ -324,7 +324,7 @@ struct AssociateDiscoveredResourceInputBody: Swift.Equatable {
     let progressUpdateStream: Swift.String?
     let migrationTaskName: Swift.String?
     let discoveredResource: MigrationHubClientTypes.DiscoveredResource?
-    let dryRun: Swift.Bool
+    let dryRun: Swift.Bool?
 }
 
 extension AssociateDiscoveredResourceInputBody: Swift.Decodable {
@@ -343,7 +343,7 @@ extension AssociateDiscoveredResourceInputBody: Swift.Decodable {
         migrationTaskName = migrationTaskNameDecoded
         let discoveredResourceDecoded = try containerValues.decodeIfPresent(MigrationHubClientTypes.DiscoveredResource.self, forKey: .discoveredResource)
         discoveredResource = discoveredResourceDecoded
-        let dryRunDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .dryRun) ?? false
+        let dryRunDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .dryRun)
         dryRun = dryRunDecoded
     }
 }
@@ -386,7 +386,7 @@ extension CreateProgressUpdateStreamInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if dryRun != false {
+        if let dryRun = self.dryRun {
             try encodeContainer.encode(dryRun, forKey: .dryRun)
         }
         if let progressUpdateStreamName = self.progressUpdateStreamName {
@@ -403,13 +403,13 @@ extension CreateProgressUpdateStreamInput: ClientRuntime.URLPathProvider {
 
 public struct CreateProgressUpdateStreamInput: Swift.Equatable {
     /// Optional boolean flag to indicate whether any effect should take place. Used to test if the caller has permission to make the call.
-    public var dryRun: Swift.Bool
+    public var dryRun: Swift.Bool?
     /// The name of the ProgressUpdateStream. Do not store personal data in this field.
     /// This member is required.
     public var progressUpdateStreamName: Swift.String?
 
     public init(
-        dryRun: Swift.Bool = false,
+        dryRun: Swift.Bool? = nil,
         progressUpdateStreamName: Swift.String? = nil
     )
     {
@@ -420,7 +420,7 @@ public struct CreateProgressUpdateStreamInput: Swift.Equatable {
 
 struct CreateProgressUpdateStreamInputBody: Swift.Equatable {
     let progressUpdateStreamName: Swift.String?
-    let dryRun: Swift.Bool
+    let dryRun: Swift.Bool?
 }
 
 extension CreateProgressUpdateStreamInputBody: Swift.Decodable {
@@ -433,7 +433,7 @@ extension CreateProgressUpdateStreamInputBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let progressUpdateStreamNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .progressUpdateStreamName)
         progressUpdateStreamName = progressUpdateStreamNameDecoded
-        let dryRunDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .dryRun) ?? false
+        let dryRunDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .dryRun)
         dryRun = dryRunDecoded
     }
 }
@@ -520,7 +520,7 @@ extension DeleteProgressUpdateStreamInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if dryRun != false {
+        if let dryRun = self.dryRun {
             try encodeContainer.encode(dryRun, forKey: .dryRun)
         }
         if let progressUpdateStreamName = self.progressUpdateStreamName {
@@ -537,13 +537,13 @@ extension DeleteProgressUpdateStreamInput: ClientRuntime.URLPathProvider {
 
 public struct DeleteProgressUpdateStreamInput: Swift.Equatable {
     /// Optional boolean flag to indicate whether any effect should take place. Used to test if the caller has permission to make the call.
-    public var dryRun: Swift.Bool
+    public var dryRun: Swift.Bool?
     /// The name of the ProgressUpdateStream. Do not store personal data in this field.
     /// This member is required.
     public var progressUpdateStreamName: Swift.String?
 
     public init(
-        dryRun: Swift.Bool = false,
+        dryRun: Swift.Bool? = nil,
         progressUpdateStreamName: Swift.String? = nil
     )
     {
@@ -554,7 +554,7 @@ public struct DeleteProgressUpdateStreamInput: Swift.Equatable {
 
 struct DeleteProgressUpdateStreamInputBody: Swift.Equatable {
     let progressUpdateStreamName: Swift.String?
-    let dryRun: Swift.Bool
+    let dryRun: Swift.Bool?
 }
 
 extension DeleteProgressUpdateStreamInputBody: Swift.Decodable {
@@ -567,7 +567,7 @@ extension DeleteProgressUpdateStreamInputBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let progressUpdateStreamNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .progressUpdateStreamName)
         progressUpdateStreamName = progressUpdateStreamNameDecoded
-        let dryRunDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .dryRun) ?? false
+        let dryRunDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .dryRun)
         dryRun = dryRunDecoded
     }
 }
@@ -848,7 +848,7 @@ extension DisassociateCreatedArtifactInput: Swift.Encodable {
         if let createdArtifactName = self.createdArtifactName {
             try encodeContainer.encode(createdArtifactName, forKey: .createdArtifactName)
         }
-        if dryRun != false {
+        if let dryRun = self.dryRun {
             try encodeContainer.encode(dryRun, forKey: .dryRun)
         }
         if let migrationTaskName = self.migrationTaskName {
@@ -871,7 +871,7 @@ public struct DisassociateCreatedArtifactInput: Swift.Equatable {
     /// This member is required.
     public var createdArtifactName: Swift.String?
     /// Optional boolean flag to indicate whether any effect should take place. Used to test if the caller has permission to make the call.
-    public var dryRun: Swift.Bool
+    public var dryRun: Swift.Bool?
     /// Unique identifier that references the migration task to be disassociated with the artifact. Do not store personal data in this field.
     /// This member is required.
     public var migrationTaskName: Swift.String?
@@ -881,7 +881,7 @@ public struct DisassociateCreatedArtifactInput: Swift.Equatable {
 
     public init(
         createdArtifactName: Swift.String? = nil,
-        dryRun: Swift.Bool = false,
+        dryRun: Swift.Bool? = nil,
         migrationTaskName: Swift.String? = nil,
         progressUpdateStream: Swift.String? = nil
     )
@@ -897,7 +897,7 @@ struct DisassociateCreatedArtifactInputBody: Swift.Equatable {
     let progressUpdateStream: Swift.String?
     let migrationTaskName: Swift.String?
     let createdArtifactName: Swift.String?
-    let dryRun: Swift.Bool
+    let dryRun: Swift.Bool?
 }
 
 extension DisassociateCreatedArtifactInputBody: Swift.Decodable {
@@ -916,7 +916,7 @@ extension DisassociateCreatedArtifactInputBody: Swift.Decodable {
         migrationTaskName = migrationTaskNameDecoded
         let createdArtifactNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .createdArtifactName)
         createdArtifactName = createdArtifactNameDecoded
-        let dryRunDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .dryRun) ?? false
+        let dryRunDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .dryRun)
         dryRun = dryRunDecoded
     }
 }
@@ -963,7 +963,7 @@ extension DisassociateDiscoveredResourceInput: Swift.Encodable {
         if let configurationId = self.configurationId {
             try encodeContainer.encode(configurationId, forKey: .configurationId)
         }
-        if dryRun != false {
+        if let dryRun = self.dryRun {
             try encodeContainer.encode(dryRun, forKey: .dryRun)
         }
         if let migrationTaskName = self.migrationTaskName {
@@ -986,7 +986,7 @@ public struct DisassociateDiscoveredResourceInput: Swift.Equatable {
     /// This member is required.
     public var configurationId: Swift.String?
     /// Optional boolean flag to indicate whether any effect should take place. Used to test if the caller has permission to make the call.
-    public var dryRun: Swift.Bool
+    public var dryRun: Swift.Bool?
     /// The identifier given to the MigrationTask. Do not store personal data in this field.
     /// This member is required.
     public var migrationTaskName: Swift.String?
@@ -996,7 +996,7 @@ public struct DisassociateDiscoveredResourceInput: Swift.Equatable {
 
     public init(
         configurationId: Swift.String? = nil,
-        dryRun: Swift.Bool = false,
+        dryRun: Swift.Bool? = nil,
         migrationTaskName: Swift.String? = nil,
         progressUpdateStream: Swift.String? = nil
     )
@@ -1012,7 +1012,7 @@ struct DisassociateDiscoveredResourceInputBody: Swift.Equatable {
     let progressUpdateStream: Swift.String?
     let migrationTaskName: Swift.String?
     let configurationId: Swift.String?
-    let dryRun: Swift.Bool
+    let dryRun: Swift.Bool?
 }
 
 extension DisassociateDiscoveredResourceInputBody: Swift.Decodable {
@@ -1031,7 +1031,7 @@ extension DisassociateDiscoveredResourceInputBody: Swift.Decodable {
         migrationTaskName = migrationTaskNameDecoded
         let configurationIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .configurationId)
         configurationId = configurationIdDecoded
-        let dryRunDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .dryRun) ?? false
+        let dryRunDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .dryRun)
         dryRun = dryRunDecoded
     }
 }
@@ -1230,7 +1230,7 @@ extension ImportMigrationTaskInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if dryRun != false {
+        if let dryRun = self.dryRun {
             try encodeContainer.encode(dryRun, forKey: .dryRun)
         }
         if let migrationTaskName = self.migrationTaskName {
@@ -1250,7 +1250,7 @@ extension ImportMigrationTaskInput: ClientRuntime.URLPathProvider {
 
 public struct ImportMigrationTaskInput: Swift.Equatable {
     /// Optional boolean flag to indicate whether any effect should take place. Used to test if the caller has permission to make the call.
-    public var dryRun: Swift.Bool
+    public var dryRun: Swift.Bool?
     /// Unique identifier that references the migration task. Do not store personal data in this field.
     /// This member is required.
     public var migrationTaskName: Swift.String?
@@ -1259,7 +1259,7 @@ public struct ImportMigrationTaskInput: Swift.Equatable {
     public var progressUpdateStream: Swift.String?
 
     public init(
-        dryRun: Swift.Bool = false,
+        dryRun: Swift.Bool? = nil,
         migrationTaskName: Swift.String? = nil,
         progressUpdateStream: Swift.String? = nil
     )
@@ -1273,7 +1273,7 @@ public struct ImportMigrationTaskInput: Swift.Equatable {
 struct ImportMigrationTaskInputBody: Swift.Equatable {
     let progressUpdateStream: Swift.String?
     let migrationTaskName: Swift.String?
-    let dryRun: Swift.Bool
+    let dryRun: Swift.Bool?
 }
 
 extension ImportMigrationTaskInputBody: Swift.Decodable {
@@ -1289,7 +1289,7 @@ extension ImportMigrationTaskInputBody: Swift.Decodable {
         progressUpdateStream = progressUpdateStreamDecoded
         let migrationTaskNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .migrationTaskName)
         migrationTaskName = migrationTaskNameDecoded
-        let dryRunDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .dryRun) ?? false
+        let dryRunDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .dryRun)
         dryRun = dryRunDecoded
     }
 }
@@ -2380,7 +2380,7 @@ extension NotifyApplicationStateInput: Swift.Encodable {
         if let applicationId = self.applicationId {
             try encodeContainer.encode(applicationId, forKey: .applicationId)
         }
-        if dryRun != false {
+        if let dryRun = self.dryRun {
             try encodeContainer.encode(dryRun, forKey: .dryRun)
         }
         if let status = self.status {
@@ -2403,7 +2403,7 @@ public struct NotifyApplicationStateInput: Swift.Equatable {
     /// This member is required.
     public var applicationId: Swift.String?
     /// Optional boolean flag to indicate whether any effect should take place. Used to test if the caller has permission to make the call.
-    public var dryRun: Swift.Bool
+    public var dryRun: Swift.Bool?
     /// Status of the application - Not Started, In-Progress, Complete.
     /// This member is required.
     public var status: MigrationHubClientTypes.ApplicationStatus?
@@ -2412,7 +2412,7 @@ public struct NotifyApplicationStateInput: Swift.Equatable {
 
     public init(
         applicationId: Swift.String? = nil,
-        dryRun: Swift.Bool = false,
+        dryRun: Swift.Bool? = nil,
         status: MigrationHubClientTypes.ApplicationStatus? = nil,
         updateDateTime: ClientRuntime.Date? = nil
     )
@@ -2428,7 +2428,7 @@ struct NotifyApplicationStateInputBody: Swift.Equatable {
     let applicationId: Swift.String?
     let status: MigrationHubClientTypes.ApplicationStatus?
     let updateDateTime: ClientRuntime.Date?
-    let dryRun: Swift.Bool
+    let dryRun: Swift.Bool?
 }
 
 extension NotifyApplicationStateInputBody: Swift.Decodable {
@@ -2447,7 +2447,7 @@ extension NotifyApplicationStateInputBody: Swift.Decodable {
         status = statusDecoded
         let updateDateTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .updateDateTime)
         updateDateTime = updateDateTimeDecoded
-        let dryRunDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .dryRun) ?? false
+        let dryRunDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .dryRun)
         dryRun = dryRunDecoded
     }
 }
@@ -2494,13 +2494,13 @@ extension NotifyMigrationTaskStateInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if dryRun != false {
+        if let dryRun = self.dryRun {
             try encodeContainer.encode(dryRun, forKey: .dryRun)
         }
         if let migrationTaskName = self.migrationTaskName {
             try encodeContainer.encode(migrationTaskName, forKey: .migrationTaskName)
         }
-        if nextUpdateSeconds != 0 {
+        if let nextUpdateSeconds = self.nextUpdateSeconds {
             try encodeContainer.encode(nextUpdateSeconds, forKey: .nextUpdateSeconds)
         }
         if let progressUpdateStream = self.progressUpdateStream {
@@ -2523,13 +2523,13 @@ extension NotifyMigrationTaskStateInput: ClientRuntime.URLPathProvider {
 
 public struct NotifyMigrationTaskStateInput: Swift.Equatable {
     /// Optional boolean flag to indicate whether any effect should take place. Used to test if the caller has permission to make the call.
-    public var dryRun: Swift.Bool
+    public var dryRun: Swift.Bool?
     /// Unique identifier that references the migration task. Do not store personal data in this field.
     /// This member is required.
     public var migrationTaskName: Swift.String?
     /// Number of seconds after the UpdateDateTime within which the Migration Hub can expect an update. If Migration Hub does not receive an update within the specified interval, then the migration task will be considered stale.
     /// This member is required.
-    public var nextUpdateSeconds: Swift.Int
+    public var nextUpdateSeconds: Swift.Int?
     /// The name of the ProgressUpdateStream.
     /// This member is required.
     public var progressUpdateStream: Swift.String?
@@ -2541,9 +2541,9 @@ public struct NotifyMigrationTaskStateInput: Swift.Equatable {
     public var updateDateTime: ClientRuntime.Date?
 
     public init(
-        dryRun: Swift.Bool = false,
+        dryRun: Swift.Bool? = nil,
         migrationTaskName: Swift.String? = nil,
-        nextUpdateSeconds: Swift.Int = 0,
+        nextUpdateSeconds: Swift.Int? = nil,
         progressUpdateStream: Swift.String? = nil,
         task: MigrationHubClientTypes.Task? = nil,
         updateDateTime: ClientRuntime.Date? = nil
@@ -2563,8 +2563,8 @@ struct NotifyMigrationTaskStateInputBody: Swift.Equatable {
     let migrationTaskName: Swift.String?
     let task: MigrationHubClientTypes.Task?
     let updateDateTime: ClientRuntime.Date?
-    let nextUpdateSeconds: Swift.Int
-    let dryRun: Swift.Bool
+    let nextUpdateSeconds: Swift.Int?
+    let dryRun: Swift.Bool?
 }
 
 extension NotifyMigrationTaskStateInputBody: Swift.Decodable {
@@ -2587,9 +2587,9 @@ extension NotifyMigrationTaskStateInputBody: Swift.Decodable {
         task = taskDecoded
         let updateDateTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .updateDateTime)
         updateDateTime = updateDateTimeDecoded
-        let nextUpdateSecondsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .nextUpdateSeconds) ?? 0
+        let nextUpdateSecondsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .nextUpdateSeconds)
         nextUpdateSeconds = nextUpdateSecondsDecoded
-        let dryRunDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .dryRun) ?? false
+        let dryRunDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .dryRun)
         dryRun = dryRunDecoded
     }
 }
@@ -2723,7 +2723,7 @@ extension PutResourceAttributesInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if dryRun != false {
+        if let dryRun = self.dryRun {
             try encodeContainer.encode(dryRun, forKey: .dryRun)
         }
         if let migrationTaskName = self.migrationTaskName {
@@ -2749,7 +2749,7 @@ extension PutResourceAttributesInput: ClientRuntime.URLPathProvider {
 
 public struct PutResourceAttributesInput: Swift.Equatable {
     /// Optional boolean flag to indicate whether any effect should take place. Used to test if the caller has permission to make the call.
-    public var dryRun: Swift.Bool
+    public var dryRun: Swift.Bool?
     /// Unique identifier that references the migration task. Do not store personal data in this field.
     /// This member is required.
     public var migrationTaskName: Swift.String?
@@ -2765,7 +2765,7 @@ public struct PutResourceAttributesInput: Swift.Equatable {
     public var resourceAttributeList: [MigrationHubClientTypes.ResourceAttribute]?
 
     public init(
-        dryRun: Swift.Bool = false,
+        dryRun: Swift.Bool? = nil,
         migrationTaskName: Swift.String? = nil,
         progressUpdateStream: Swift.String? = nil,
         resourceAttributeList: [MigrationHubClientTypes.ResourceAttribute]? = nil
@@ -2782,7 +2782,7 @@ struct PutResourceAttributesInputBody: Swift.Equatable {
     let progressUpdateStream: Swift.String?
     let migrationTaskName: Swift.String?
     let resourceAttributeList: [MigrationHubClientTypes.ResourceAttribute]?
-    let dryRun: Swift.Bool
+    let dryRun: Swift.Bool?
 }
 
 extension PutResourceAttributesInputBody: Swift.Decodable {
@@ -2810,7 +2810,7 @@ extension PutResourceAttributesInputBody: Swift.Decodable {
             }
         }
         resourceAttributeList = resourceAttributeListDecoded0
-        let dryRunDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .dryRun) ?? false
+        let dryRunDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .dryRun)
         dryRun = dryRunDecoded
     }
 }

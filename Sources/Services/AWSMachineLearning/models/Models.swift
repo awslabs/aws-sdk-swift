@@ -612,7 +612,7 @@ extension CreateDataSourceFromRDSInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if computeStatistics != false {
+        if let computeStatistics = self.computeStatistics {
             try encodeContainer.encode(computeStatistics, forKey: .computeStatistics)
         }
         if let dataSourceId = self.dataSourceId {
@@ -638,7 +638,7 @@ extension CreateDataSourceFromRDSInput: ClientRuntime.URLPathProvider {
 
 public struct CreateDataSourceFromRDSInput: Swift.Equatable {
     /// The compute statistics for a DataSource. The statistics are generated from the observation data referenced by a DataSource. Amazon ML uses the statistics internally during MLModel training. This parameter must be set to true if the DataSource needs to be used for MLModel training.
-    public var computeStatistics: Swift.Bool
+    public var computeStatistics: Swift.Bool?
     /// A user-supplied ID that uniquely identifies the DataSource. Typically, an Amazon Resource Number (ARN) becomes the ID for a DataSource.
     /// This member is required.
     public var dataSourceId: Swift.String?
@@ -679,7 +679,7 @@ public struct CreateDataSourceFromRDSInput: Swift.Equatable {
     public var roleARN: Swift.String?
 
     public init(
-        computeStatistics: Swift.Bool = false,
+        computeStatistics: Swift.Bool? = nil,
         dataSourceId: Swift.String? = nil,
         dataSourceName: Swift.String? = nil,
         rdsData: MachineLearningClientTypes.RDSDataSpec? = nil,
@@ -699,7 +699,7 @@ struct CreateDataSourceFromRDSInputBody: Swift.Equatable {
     let dataSourceName: Swift.String?
     let rdsData: MachineLearningClientTypes.RDSDataSpec?
     let roleARN: Swift.String?
-    let computeStatistics: Swift.Bool
+    let computeStatistics: Swift.Bool?
 }
 
 extension CreateDataSourceFromRDSInputBody: Swift.Decodable {
@@ -721,7 +721,7 @@ extension CreateDataSourceFromRDSInputBody: Swift.Decodable {
         rdsData = rdsDataDecoded
         let roleARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .roleARN)
         roleARN = roleARNDecoded
-        let computeStatisticsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .computeStatistics) ?? false
+        let computeStatisticsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .computeStatistics)
         computeStatistics = computeStatisticsDecoded
     }
 }
@@ -791,7 +791,7 @@ extension CreateDataSourceFromRedshiftInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if computeStatistics != false {
+        if let computeStatistics = self.computeStatistics {
             try encodeContainer.encode(computeStatistics, forKey: .computeStatistics)
         }
         if let dataSourceId = self.dataSourceId {
@@ -817,7 +817,7 @@ extension CreateDataSourceFromRedshiftInput: ClientRuntime.URLPathProvider {
 
 public struct CreateDataSourceFromRedshiftInput: Swift.Equatable {
     /// The compute statistics for a DataSource. The statistics are generated from the observation data referenced by a DataSource. Amazon ML uses the statistics internally during MLModel training. This parameter must be set to true if the DataSource needs to be used for MLModel training.
-    public var computeStatistics: Swift.Bool
+    public var computeStatistics: Swift.Bool?
     /// A user-supplied ID that uniquely identifies the DataSource.
     /// This member is required.
     public var dataSourceId: Swift.String?
@@ -856,7 +856,7 @@ public struct CreateDataSourceFromRedshiftInput: Swift.Equatable {
     public var roleARN: Swift.String?
 
     public init(
-        computeStatistics: Swift.Bool = false,
+        computeStatistics: Swift.Bool? = nil,
         dataSourceId: Swift.String? = nil,
         dataSourceName: Swift.String? = nil,
         dataSpec: MachineLearningClientTypes.RedshiftDataSpec? = nil,
@@ -876,7 +876,7 @@ struct CreateDataSourceFromRedshiftInputBody: Swift.Equatable {
     let dataSourceName: Swift.String?
     let dataSpec: MachineLearningClientTypes.RedshiftDataSpec?
     let roleARN: Swift.String?
-    let computeStatistics: Swift.Bool
+    let computeStatistics: Swift.Bool?
 }
 
 extension CreateDataSourceFromRedshiftInputBody: Swift.Decodable {
@@ -898,7 +898,7 @@ extension CreateDataSourceFromRedshiftInputBody: Swift.Decodable {
         dataSpec = dataSpecDecoded
         let roleARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .roleARN)
         roleARN = roleARNDecoded
-        let computeStatisticsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .computeStatistics) ?? false
+        let computeStatisticsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .computeStatistics)
         computeStatistics = computeStatisticsDecoded
     }
 }
@@ -967,7 +967,7 @@ extension CreateDataSourceFromS3Input: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if computeStatistics != false {
+        if let computeStatistics = self.computeStatistics {
             try encodeContainer.encode(computeStatistics, forKey: .computeStatistics)
         }
         if let dataSourceId = self.dataSourceId {
@@ -990,7 +990,7 @@ extension CreateDataSourceFromS3Input: ClientRuntime.URLPathProvider {
 
 public struct CreateDataSourceFromS3Input: Swift.Equatable {
     /// The compute statistics for a DataSource. The statistics are generated from the observation data referenced by a DataSource. Amazon ML uses the statistics internally during MLModel training. This parameter must be set to true if the DataSource needs to be used for MLModel training.
-    public var computeStatistics: Swift.Bool
+    public var computeStatistics: Swift.Bool?
     /// A user-supplied identifier that uniquely identifies the DataSource.
     /// This member is required.
     public var dataSourceId: Swift.String?
@@ -1009,7 +1009,7 @@ public struct CreateDataSourceFromS3Input: Swift.Equatable {
     public var dataSpec: MachineLearningClientTypes.S3DataSpec?
 
     public init(
-        computeStatistics: Swift.Bool = false,
+        computeStatistics: Swift.Bool? = nil,
         dataSourceId: Swift.String? = nil,
         dataSourceName: Swift.String? = nil,
         dataSpec: MachineLearningClientTypes.S3DataSpec? = nil
@@ -1026,7 +1026,7 @@ struct CreateDataSourceFromS3InputBody: Swift.Equatable {
     let dataSourceId: Swift.String?
     let dataSourceName: Swift.String?
     let dataSpec: MachineLearningClientTypes.S3DataSpec?
-    let computeStatistics: Swift.Bool
+    let computeStatistics: Swift.Bool?
 }
 
 extension CreateDataSourceFromS3InputBody: Swift.Decodable {
@@ -1045,7 +1045,7 @@ extension CreateDataSourceFromS3InputBody: Swift.Decodable {
         dataSourceName = dataSourceNameDecoded
         let dataSpecDecoded = try containerValues.decodeIfPresent(MachineLearningClientTypes.S3DataSpec.self, forKey: .dataSpec)
         dataSpec = dataSpecDecoded
-        let computeStatisticsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .computeStatistics) ?? false
+        let computeStatisticsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .computeStatistics)
         computeStatistics = computeStatisticsDecoded
     }
 }
@@ -4336,7 +4336,7 @@ extension GetDataSourceInput: Swift.Encodable {
         if let dataSourceId = self.dataSourceId {
             try encodeContainer.encode(dataSourceId, forKey: .dataSourceId)
         }
-        if verbose != false {
+        if let verbose = self.verbose {
             try encodeContainer.encode(verbose, forKey: .verbose)
         }
     }
@@ -4353,11 +4353,11 @@ public struct GetDataSourceInput: Swift.Equatable {
     /// This member is required.
     public var dataSourceId: Swift.String?
     /// Specifies whether the GetDataSource operation should return DataSourceSchema. If true, DataSourceSchema is returned. If false, DataSourceSchema is not returned.
-    public var verbose: Swift.Bool
+    public var verbose: Swift.Bool?
 
     public init(
         dataSourceId: Swift.String? = nil,
-        verbose: Swift.Bool = false
+        verbose: Swift.Bool? = nil
     )
     {
         self.dataSourceId = dataSourceId
@@ -4367,7 +4367,7 @@ public struct GetDataSourceInput: Swift.Equatable {
 
 struct GetDataSourceInputBody: Swift.Equatable {
     let dataSourceId: Swift.String?
-    let verbose: Swift.Bool
+    let verbose: Swift.Bool?
 }
 
 extension GetDataSourceInputBody: Swift.Decodable {
@@ -4380,7 +4380,7 @@ extension GetDataSourceInputBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let dataSourceIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dataSourceId)
         dataSourceId = dataSourceIdDecoded
-        let verboseDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .verbose) ?? false
+        let verboseDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .verbose)
         verbose = verboseDecoded
     }
 }
@@ -4911,7 +4911,7 @@ extension GetMLModelInput: Swift.Encodable {
         if let mlModelId = self.mlModelId {
             try encodeContainer.encode(mlModelId, forKey: .mlModelId)
         }
-        if verbose != false {
+        if let verbose = self.verbose {
             try encodeContainer.encode(verbose, forKey: .verbose)
         }
     }
@@ -4928,11 +4928,11 @@ public struct GetMLModelInput: Swift.Equatable {
     /// This member is required.
     public var mlModelId: Swift.String?
     /// Specifies whether the GetMLModel operation should return Recipe. If true, Recipe is returned. If false, Recipe is not returned.
-    public var verbose: Swift.Bool
+    public var verbose: Swift.Bool?
 
     public init(
         mlModelId: Swift.String? = nil,
-        verbose: Swift.Bool = false
+        verbose: Swift.Bool? = nil
     )
     {
         self.mlModelId = mlModelId
@@ -4942,7 +4942,7 @@ public struct GetMLModelInput: Swift.Equatable {
 
 struct GetMLModelInputBody: Swift.Equatable {
     let mlModelId: Swift.String?
-    let verbose: Swift.Bool
+    let verbose: Swift.Bool?
 }
 
 extension GetMLModelInputBody: Swift.Decodable {
@@ -4955,7 +4955,7 @@ extension GetMLModelInputBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let mlModelIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .mlModelId)
         mlModelId = mlModelIdDecoded
-        let verboseDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .verbose) ?? false
+        let verboseDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .verbose)
         verbose = verboseDecoded
     }
 }

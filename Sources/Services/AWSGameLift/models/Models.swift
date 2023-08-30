@@ -402,13 +402,17 @@ extension GameLiftClientTypes.AwsCredentials: Swift.CustomDebugStringConvertible
 }
 
 extension GameLiftClientTypes {
-    /// Temporary access credentials used for uploading game build files to Amazon GameLift. They are valid for a limited time. If they expire before you upload your game build, get a new set by calling [RequestUploadCredentials](https://docs.aws.amazon.com/gamelift/latest/apireference/API_RequestUploadCredentials.html).
+    /// Amazon Web Services account security credentials that allow interactions with Amazon GameLift resources. The credentials are temporary and valid for a limited time span. You can request fresh credentials at any time. Amazon Web Services security credentials consist of three parts: an access key ID, a secret access key, and a session token. You must use all three parts together to authenticate your access requests. You need Amazon Web Services credentials for the following tasks:
+    ///
+    /// * To upload a game server build directly to Amazon GameLift S3 storage using CreateBuild. To get access for this task, call [RequestUploadCredentials].
+    ///
+    /// * To remotely connect to an active Amazon GameLift fleet instances. To get remote access, call [GetComputeAccess].
     public struct AwsCredentials: Swift.Equatable {
-        /// Temporary key allowing access to the Amazon GameLift S3 account.
+        /// The access key ID that identifies the temporary security credentials.
         public var accessKeyId: Swift.String?
-        /// Temporary secret key allowing access to the Amazon GameLift S3 account.
+        /// The secret access key that can be used to sign requests.
         public var secretAccessKey: Swift.String?
-        /// Token used to associate a specific build ID with the files uploaded using these credentials.
+        /// The token that users must pass to the service API to use the temporary credentials.
         public var sessionToken: Swift.String?
 
         public init(
@@ -1031,31 +1035,31 @@ extension GameLiftClientTypes.Compute: Swift.Codable {
 }
 
 extension GameLiftClientTypes {
-    /// Resources used to host your game servers. A compute resource can be managed Amazon GameLift Amazon EC2 instances or your own resources.
+    /// An Amazon GameLift compute resource for hosting your game servers. A compute can be an EC2instance in a managed EC2 fleet or a registered compute in an Anywhere fleet.
     public struct Compute: Swift.Equatable {
-        /// The ARN that is assigned to the compute resource and uniquely identifies it. ARNs are unique across locations.
+        /// The ARN that is assigned to a compute resource and uniquely identifies it. ARNs are unique across locations. Instances in managed EC2 fleets are not assigned a ComputeARN.
         public var computeArn: Swift.String?
-        /// A descriptive label that is associated with the compute resource registered to your fleet.
+        /// A descriptive label for the compute resource. For instances in a managed EC2 fleet, the compute name is an instance ID.
         public var computeName: Swift.String?
         /// Current status of the compute. A compute must have an ACTIVE status to host game sessions.
         public var computeStatus: GameLiftClientTypes.ComputeStatus?
         /// A time stamp indicating when this data object was created. Format is a number expressed in Unix time as milliseconds (for example "1469498468.057").
         public var creationTime: ClientRuntime.Date?
-        /// The DNS name of the compute resource. Amazon GameLift requires the DNS name or IP address to manage your compute resource.
+        /// The DNS name of a compute resource. Amazon GameLift requires a DNS name or IP address for a compute.
         public var dnsName: Swift.String?
-        /// The Amazon Resource Name (ARN) of the fleet that the compute is registered to.
+        /// The Amazon Resource Name (ARN) of the fleet that the compute belongs to.
         public var fleetArn: Swift.String?
-        /// A unique identifier for the fleet that the compute is registered to.
+        /// A unique identifier for the fleet that the compute belongs to.
         public var fleetId: Swift.String?
-        /// The endpoint connection details of the Amazon GameLift SDK endpoint that your game server connects to.
+        /// The Amazon GameLift SDK endpoint connection for a registered compute resource in an Anywhere fleet. The game servers on the compute use this endpoint to connect to the Amazon GameLift service.
         public var gameLiftServiceSdkEndpoint: Swift.String?
-        /// The IP address of the compute resource. Amazon GameLift requires the DNS name or IP address to manage your compute resource.
+        /// The IP address of a compute resource. Amazon GameLift requires a DNS name or IP address for a compute.
         public var ipAddress: Swift.String?
         /// The name of the custom location you added to the fleet that this compute resource resides in.
         public var location: Swift.String?
-        /// The type of operating system on your compute resource.
+        /// The type of operating system on the compute resource.
         public var operatingSystem: GameLiftClientTypes.OperatingSystem?
-        /// The compute type that the fleet uses. A fleet can use Anywhere compute resources that you own, or use managed Amazon EC2 instances.
+        /// The Amazon EC2 instance type that the fleet uses. For registered computes in an Amazon GameLift Anywhere fleet, this property is empty.
         public var type: GameLiftClientTypes.EC2InstanceType?
 
         public init(
@@ -2508,7 +2512,7 @@ public struct CreateGameSessionInput: Swift.Equatable {
     public var gameSessionId: Swift.String?
     /// Custom string that uniquely identifies the new game session request. This is useful for ensuring that game session requests with the same idempotency token are processed only once. Subsequent requests with the same string return the original GameSession object, with an updated status. Maximum token length is 48 characters. If provided, this string is included in the new game session's ID. A game session ARN has the following format: arn:aws:gamelift:::gamesession//. Idempotency tokens remain in use for 30 days after a game session has ended; game session objects are retained for this time period and then deleted.
     public var idempotencyToken: Swift.String?
-    /// A fleet's remote location to place the new game session in. If this parameter is not set, the new game session is placed in the fleet's home Region. Specify a remote location with an Amazon Web Services Region code such as us-west-2.
+    /// A fleet's remote location to place the new game session in. If this parameter is not set, the new game session is placed in the fleet's home Region. Specify a remote location with an Amazon Web Services Region code such as us-west-2. When using an Anywhere fleet, this parameter is required and must be set to the Anywhere fleet's custom location.
     public var location: Swift.String?
     /// The maximum number of players that can be connected simultaneously to the game session.
     /// This member is required.
@@ -5292,10 +5296,10 @@ extension DeregisterComputeInput: ClientRuntime.URLPathProvider {
 }
 
 public struct DeregisterComputeInput: Swift.Equatable {
-    /// The name of the compute resource you want to delete.
+    /// The name of the compute resource to remove from the specified Anywhere fleet.
     /// This member is required.
     public var computeName: Swift.String?
-    /// >A unique identifier for the fleet the compute resource is registered to.
+    /// A unique identifier for the fleet the compute resource is currently registered to.
     /// This member is required.
     public var fleetId: Swift.String?
 
@@ -5666,10 +5670,10 @@ extension DescribeComputeInput: ClientRuntime.URLPathProvider {
 }
 
 public struct DescribeComputeInput: Swift.Equatable {
-    /// A descriptive label that is associated with the compute resource registered to your fleet.
+    /// The unique identifier of the compute resource to retrieve properties for. For an Anywhere fleet compute, use the registered compute name. For a managed EC2 fleet instance, use the instance ID.
     /// This member is required.
     public var computeName: Swift.String?
-    /// A unique identifier for the fleet the compute is registered to.
+    /// A unique identifier for the fleet that the compute is registered to. You can use either the fleet ID or ARN value.
     /// This member is required.
     public var fleetId: Swift.String?
 
@@ -5730,7 +5734,7 @@ extension DescribeComputeOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 public struct DescribeComputeOutputResponse: Swift.Equatable {
-    /// The details of the compute resource you registered to the specified fleet.
+    /// The set of properties for the requested compute resource.
     public var compute: GameLiftClientTypes.Compute?
 
     public init(
@@ -6147,7 +6151,7 @@ extension DescribeFleetCapacityOutputResponse: ClientRuntime.HttpResponseBinding
 }
 
 public struct DescribeFleetCapacityOutputResponse: Swift.Equatable {
-    /// A collection of objects that contains capacity information for each requested fleet ID. Capacity objects are returned only for fleets that currently exist.
+    /// A collection of objects that contains capacity information for each requested fleet ID. Capacity objects are returned only for fleets that currently exist. Changes in desired instance value can take up to 1 minute to be reflected.
     public var fleetCapacity: [GameLiftClientTypes.FleetCapacity]?
     /// A token that indicates where to resume retrieving results on the next call to this operation. If no token is returned, these results represent the end of the list.
     public var nextToken: Swift.String?
@@ -6639,7 +6643,7 @@ extension DescribeFleetLocationCapacityOutputResponse: ClientRuntime.HttpRespons
 }
 
 public struct DescribeFleetLocationCapacityOutputResponse: Swift.Equatable {
-    /// Resource capacity information for the requested fleet location. Capacity objects are returned only for fleets and locations that currently exist.
+    /// Resource capacity information for the requested fleet location. Capacity objects are returned only for fleets and locations that currently exist. Changes in desired instance value can take up to 1 minute to be reflected.
     public var fleetCapacity: GameLiftClientTypes.FleetCapacity?
 
     public init(
@@ -9631,7 +9635,7 @@ extension GameLiftClientTypes {
     public struct EC2InstanceCounts: Swift.Equatable {
         /// Actual number of instances that are ready to host game sessions.
         public var active: Swift.Int?
-        /// Ideal number of active instances. GameLift will always try to maintain the desired number of instances. Capacity is scaled up or down by changing the desired instances.
+        /// Requested number of active instances. Amazon GameLift takes action as needed to maintain the desired number of instances. Capacity is scaled up or down by changing the desired instances. A change in the desired instances value can take up to 1 minute to be reflected when viewing a fleet's capacity settings.
         public var desired: Swift.Int?
         /// Number of active instances that are not currently hosting a game session.
         public var idle: Swift.Int?
@@ -9775,6 +9779,22 @@ extension GameLiftClientTypes {
         case c6a8xlarge
         case c6aLarge
         case c6aXlarge
+        case c6g12xlarge
+        case c6g16xlarge
+        case c6g2xlarge
+        case c6g4xlarge
+        case c6g8xlarge
+        case c6gLarge
+        case c6gMedium
+        case c6gXlarge
+        case c6gn12xlarge
+        case c6gn16xlarge
+        case c6gn2xlarge
+        case c6gn4xlarge
+        case c6gn8xlarge
+        case c6gnLarge
+        case c6gnMedium
+        case c6gnXlarge
         case c6i12xlarge
         case c6i16xlarge
         case c6i24xlarge
@@ -9783,6 +9803,19 @@ extension GameLiftClientTypes {
         case c6i8xlarge
         case c6iLarge
         case c6iXlarge
+        case c7g12xlarge
+        case c7g16xlarge
+        case c7g2xlarge
+        case c7g4xlarge
+        case c7g8xlarge
+        case c7gLarge
+        case c7gMedium
+        case c7gXlarge
+        case g5g16xlarge
+        case g5g2xlarge
+        case g5g4xlarge
+        case g5g8xlarge
+        case g5gXlarge
         case m32xlarge
         case m3Large
         case m3Medium
@@ -9808,6 +9841,22 @@ extension GameLiftClientTypes {
         case m5a8xlarge
         case m5aLarge
         case m5aXlarge
+        case m6g12xlarge
+        case m6g16xlarge
+        case m6g2xlarge
+        case m6g4xlarge
+        case m6g8xlarge
+        case m6gLarge
+        case m6gMedium
+        case m6gXlarge
+        case m7g12xlarge
+        case m7g16xlarge
+        case m7g2xlarge
+        case m7g4xlarge
+        case m7g8xlarge
+        case m7gLarge
+        case m7gMedium
+        case m7gXlarge
         case r32xlarge
         case r34xlarge
         case r38xlarge
@@ -9843,6 +9892,22 @@ extension GameLiftClientTypes {
         case r5d8xlarge
         case r5dLarge
         case r5dXlarge
+        case r6g12xlarge
+        case r6g16xlarge
+        case r6g2xlarge
+        case r6g4xlarge
+        case r6g8xlarge
+        case r6gLarge
+        case r6gMedium
+        case r6gXlarge
+        case r7g12xlarge
+        case r7g16xlarge
+        case r7g2xlarge
+        case r7g4xlarge
+        case r7g8xlarge
+        case r7gLarge
+        case r7gMedium
+        case r7gXlarge
         case t2Large
         case t2Medium
         case t2Micro
@@ -9893,6 +9958,22 @@ extension GameLiftClientTypes {
                 .c6a8xlarge,
                 .c6aLarge,
                 .c6aXlarge,
+                .c6g12xlarge,
+                .c6g16xlarge,
+                .c6g2xlarge,
+                .c6g4xlarge,
+                .c6g8xlarge,
+                .c6gLarge,
+                .c6gMedium,
+                .c6gXlarge,
+                .c6gn12xlarge,
+                .c6gn16xlarge,
+                .c6gn2xlarge,
+                .c6gn4xlarge,
+                .c6gn8xlarge,
+                .c6gnLarge,
+                .c6gnMedium,
+                .c6gnXlarge,
                 .c6i12xlarge,
                 .c6i16xlarge,
                 .c6i24xlarge,
@@ -9901,6 +9982,19 @@ extension GameLiftClientTypes {
                 .c6i8xlarge,
                 .c6iLarge,
                 .c6iXlarge,
+                .c7g12xlarge,
+                .c7g16xlarge,
+                .c7g2xlarge,
+                .c7g4xlarge,
+                .c7g8xlarge,
+                .c7gLarge,
+                .c7gMedium,
+                .c7gXlarge,
+                .g5g16xlarge,
+                .g5g2xlarge,
+                .g5g4xlarge,
+                .g5g8xlarge,
+                .g5gXlarge,
                 .m32xlarge,
                 .m3Large,
                 .m3Medium,
@@ -9926,6 +10020,22 @@ extension GameLiftClientTypes {
                 .m5a8xlarge,
                 .m5aLarge,
                 .m5aXlarge,
+                .m6g12xlarge,
+                .m6g16xlarge,
+                .m6g2xlarge,
+                .m6g4xlarge,
+                .m6g8xlarge,
+                .m6gLarge,
+                .m6gMedium,
+                .m6gXlarge,
+                .m7g12xlarge,
+                .m7g16xlarge,
+                .m7g2xlarge,
+                .m7g4xlarge,
+                .m7g8xlarge,
+                .m7gLarge,
+                .m7gMedium,
+                .m7gXlarge,
                 .r32xlarge,
                 .r34xlarge,
                 .r38xlarge,
@@ -9961,6 +10071,22 @@ extension GameLiftClientTypes {
                 .r5d8xlarge,
                 .r5dLarge,
                 .r5dXlarge,
+                .r6g12xlarge,
+                .r6g16xlarge,
+                .r6g2xlarge,
+                .r6g4xlarge,
+                .r6g8xlarge,
+                .r6gLarge,
+                .r6gMedium,
+                .r6gXlarge,
+                .r7g12xlarge,
+                .r7g16xlarge,
+                .r7g2xlarge,
+                .r7g4xlarge,
+                .r7g8xlarge,
+                .r7gLarge,
+                .r7gMedium,
+                .r7gXlarge,
                 .t2Large,
                 .t2Medium,
                 .t2Micro,
@@ -10016,6 +10142,22 @@ extension GameLiftClientTypes {
             case .c6a8xlarge: return "c6a.8xlarge"
             case .c6aLarge: return "c6a.large"
             case .c6aXlarge: return "c6a.xlarge"
+            case .c6g12xlarge: return "c6g.12xlarge"
+            case .c6g16xlarge: return "c6g.16xlarge"
+            case .c6g2xlarge: return "c6g.2xlarge"
+            case .c6g4xlarge: return "c6g.4xlarge"
+            case .c6g8xlarge: return "c6g.8xlarge"
+            case .c6gLarge: return "c6g.large"
+            case .c6gMedium: return "c6g.medium"
+            case .c6gXlarge: return "c6g.xlarge"
+            case .c6gn12xlarge: return "c6gn.12xlarge"
+            case .c6gn16xlarge: return "c6gn.16xlarge"
+            case .c6gn2xlarge: return "c6gn.2xlarge"
+            case .c6gn4xlarge: return "c6gn.4xlarge"
+            case .c6gn8xlarge: return "c6gn.8xlarge"
+            case .c6gnLarge: return "c6gn.large"
+            case .c6gnMedium: return "c6gn.medium"
+            case .c6gnXlarge: return "c6gn.xlarge"
             case .c6i12xlarge: return "c6i.12xlarge"
             case .c6i16xlarge: return "c6i.16xlarge"
             case .c6i24xlarge: return "c6i.24xlarge"
@@ -10024,6 +10166,19 @@ extension GameLiftClientTypes {
             case .c6i8xlarge: return "c6i.8xlarge"
             case .c6iLarge: return "c6i.large"
             case .c6iXlarge: return "c6i.xlarge"
+            case .c7g12xlarge: return "c7g.12xlarge"
+            case .c7g16xlarge: return "c7g.16xlarge"
+            case .c7g2xlarge: return "c7g.2xlarge"
+            case .c7g4xlarge: return "c7g.4xlarge"
+            case .c7g8xlarge: return "c7g.8xlarge"
+            case .c7gLarge: return "c7g.large"
+            case .c7gMedium: return "c7g.medium"
+            case .c7gXlarge: return "c7g.xlarge"
+            case .g5g16xlarge: return "g5g.16xlarge"
+            case .g5g2xlarge: return "g5g.2xlarge"
+            case .g5g4xlarge: return "g5g.4xlarge"
+            case .g5g8xlarge: return "g5g.8xlarge"
+            case .g5gXlarge: return "g5g.xlarge"
             case .m32xlarge: return "m3.2xlarge"
             case .m3Large: return "m3.large"
             case .m3Medium: return "m3.medium"
@@ -10049,6 +10204,22 @@ extension GameLiftClientTypes {
             case .m5a8xlarge: return "m5a.8xlarge"
             case .m5aLarge: return "m5a.large"
             case .m5aXlarge: return "m5a.xlarge"
+            case .m6g12xlarge: return "m6g.12xlarge"
+            case .m6g16xlarge: return "m6g.16xlarge"
+            case .m6g2xlarge: return "m6g.2xlarge"
+            case .m6g4xlarge: return "m6g.4xlarge"
+            case .m6g8xlarge: return "m6g.8xlarge"
+            case .m6gLarge: return "m6g.large"
+            case .m6gMedium: return "m6g.medium"
+            case .m6gXlarge: return "m6g.xlarge"
+            case .m7g12xlarge: return "m7g.12xlarge"
+            case .m7g16xlarge: return "m7g.16xlarge"
+            case .m7g2xlarge: return "m7g.2xlarge"
+            case .m7g4xlarge: return "m7g.4xlarge"
+            case .m7g8xlarge: return "m7g.8xlarge"
+            case .m7gLarge: return "m7g.large"
+            case .m7gMedium: return "m7g.medium"
+            case .m7gXlarge: return "m7g.xlarge"
             case .r32xlarge: return "r3.2xlarge"
             case .r34xlarge: return "r3.4xlarge"
             case .r38xlarge: return "r3.8xlarge"
@@ -10084,6 +10255,22 @@ extension GameLiftClientTypes {
             case .r5d8xlarge: return "r5d.8xlarge"
             case .r5dLarge: return "r5d.large"
             case .r5dXlarge: return "r5d.xlarge"
+            case .r6g12xlarge: return "r6g.12xlarge"
+            case .r6g16xlarge: return "r6g.16xlarge"
+            case .r6g2xlarge: return "r6g.2xlarge"
+            case .r6g4xlarge: return "r6g.4xlarge"
+            case .r6g8xlarge: return "r6g.8xlarge"
+            case .r6gLarge: return "r6g.large"
+            case .r6gMedium: return "r6g.medium"
+            case .r6gXlarge: return "r6g.xlarge"
+            case .r7g12xlarge: return "r7g.12xlarge"
+            case .r7g16xlarge: return "r7g.16xlarge"
+            case .r7g2xlarge: return "r7g.2xlarge"
+            case .r7g4xlarge: return "r7g.4xlarge"
+            case .r7g8xlarge: return "r7g.8xlarge"
+            case .r7gLarge: return "r7g.large"
+            case .r7gMedium: return "r7g.medium"
+            case .r7gXlarge: return "r7g.xlarge"
             case .t2Large: return "t2.large"
             case .t2Medium: return "t2.medium"
             case .t2Micro: return "t2.micro"
@@ -10203,6 +10390,8 @@ extension GameLiftClientTypes {
         /// Spot instance events:
         ///
         /// * INSTANCE_INTERRUPTED -- A spot instance was interrupted by EC2 with a two-minute notification.
+        ///
+        /// * INSTANCE_RECYCLED -- A spot instance was determined to have a high risk of interruption and is scheduled to be recycled once it has no active game sessions.
         ///
         ///
         /// Server process events:
@@ -12360,7 +12549,7 @@ extension GameLiftClientTypes.GameSession: Swift.Codable {
 }
 
 extension GameLiftClientTypes {
-    /// Properties describing a game session. A game session in ACTIVE status can host players. When a game session ends, its status is set to TERMINATED. Once the session ends, the game session object is retained for 30 days. This means you can reuse idempotency token values after this time. Game session logs are retained for 14 days. [All APIs by task](https://docs.aws.amazon.com/gamelift/latest/developerguide/reference-awssdk.html#reference-awssdk-resources-fleets)
+    /// Properties describing a game session. A game session in ACTIVE status can host players. When a game session ends, its status is set to TERMINATED. Amazon GameLift retains a game session resource for 30 days after the game session ends. You can reuse idempotency token values after this time. Game session logs are retained for 14 days. [All APIs by task](https://docs.aws.amazon.com/gamelift/latest/developerguide/reference-awssdk.html#reference-awssdk-resources-fleets)
     public struct GameSession: Swift.Equatable {
         /// A time stamp indicating when this data object was created. Format is a number expressed in Unix time as milliseconds (for example "1469498468.057").
         public var creationTime: ClientRuntime.Date?
@@ -12391,7 +12580,7 @@ extension GameLiftClientTypes {
         public var ipAddress: Swift.String?
         /// The fleet location where the game session is running. This value might specify the fleet's home Region or a remote location. Location is expressed as an Amazon Web Services Region code such as us-west-2.
         public var location: Swift.String?
-        /// Information about the matchmaking process that was used to create the game session. It is in JSON syntax, formatted as a string. In addition the matchmaking configuration used, it contains data on all players assigned to the match, including player attributes and team assignments. For more details on matchmaker data, see [Match Data](https://docs.aws.amazon.com/gamelift/latest/flexmatchguide/match-server.html#match-server-data). Matchmaker data is useful when requesting match backfills, and is updated whenever new players are added during a successful backfill (see [StartMatchBackfill](https://docs.aws.amazon.com/gamelift/latest/apireference/API_StartMatchBackfill.html)).
+        /// Information about the matchmaking process that resulted in the game session, if matchmaking was used. Data is in JSON syntax, formatted as a string. Information includes the matchmaker ID as well as player attributes and team assignments. For more details on matchmaker data, see [Match Data](https://docs.aws.amazon.com/gamelift/latest/flexmatchguide/match-server.html#match-server-data). Matchmaker data is updated whenever new players are added during a successful backfill (see [StartMatchBackfill](https://docs.aws.amazon.com/gamelift/latest/apireference/API_StartMatchBackfill.html)).
         public var matchmakerData: Swift.String?
         /// The maximum number of players that can be connected simultaneously to the game session.
         public var maximumPlayerSessionCount: Swift.Int?
@@ -12810,7 +12999,7 @@ extension GameLiftClientTypes.GameSessionPlacement: Swift.Codable {
 }
 
 extension GameLiftClientTypes {
-    /// This object includes the full details of the original request plus the current status and start/end time stamps.
+    /// Represents a potential game session placement, including the full details of the original placement request and the current status. If the game session placement status is PENDING, the properties for game session ID/ARN, region, IP address/DNS, and port aren't final. A game session is not active and ready to accept players until placement status reaches FULFILLED. When the placement is in PENDING status, Amazon GameLift may attempt to place a game session multiple times before succeeding. With each attempt it creates a [GameSession] object and updates this placement object with the new game session properties..
     public struct GameSessionPlacement: Swift.Equatable {
         /// The DNS identifier assigned to the instance that is running the game session. Values have the following format:
         ///
@@ -12825,39 +13014,39 @@ extension GameLiftClientTypes {
         public var endTime: ClientRuntime.Date?
         /// A set of custom properties for a game session, formatted as key:value pairs. These properties are passed to a game server process with a request to start a new game session (see [Start a Game Session](https://docs.aws.amazon.com/gamelift/latest/developerguide/gamelift-sdk-server-api.html#gamelift-sdk-server-startsession)).
         public var gameProperties: [GameLiftClientTypes.GameProperty]?
-        /// Identifier for the game session created by this placement request. This value is set once the new game session is placed (placement status is FULFILLED). This identifier is unique across all Regions. You can use this value as a GameSessionId value as needed.
+        /// Identifier for the game session created by this placement request. This identifier is unique across all Regions. This value isn't final until placement status is FULFILLED.
         public var gameSessionArn: Swift.String?
         /// A set of custom game session properties, formatted as a single string value. This data is passed to a game server process in the GameSession object with a request to start a new game session (see [Start a Game Session](https://docs.aws.amazon.com/gamelift/latest/developerguide/gamelift-sdk-server-api.html#gamelift-sdk-server-startsession)).
         public var gameSessionData: Swift.String?
-        /// A unique identifier for the game session. This value is set once the new game session is placed (placement status is FULFILLED).
+        /// A unique identifier for the game session. This value isn't final until placement status is FULFILLED.
         public var gameSessionId: Swift.String?
         /// A descriptive label that is associated with a game session. Session names do not need to be unique.
         public var gameSessionName: Swift.String?
         /// A descriptive label that is associated with game session queue. Queue names must be unique within each Region.
         public var gameSessionQueueName: Swift.String?
-        /// Name of the Region where the game session created by this placement request is running. This value is set once the new game session is placed (placement status is FULFILLED).
+        /// Name of the Region where the game session created by this placement request is running. This value isn't final until placement status is FULFILLED.
         public var gameSessionRegion: Swift.String?
-        /// The IP address of the game session. To connect to a Amazon GameLift game server, an app needs both the IP address and port number. This value is set once the new game session is placed (placement status is FULFILLED).
+        /// The IP address of the game session. To connect to a Amazon GameLift game server, an app needs both the IP address and port number. This value isn't final until placement status is FULFILLED.
         public var ipAddress: Swift.String?
         /// Information on the matchmaking process for this game. Data is in JSON syntax, formatted as a string. It identifies the matchmaking configuration used to create the match, and contains data on all players assigned to the match, including player attributes and team assignments. For more details on matchmaker data, see [Match Data](https://docs.aws.amazon.com/gamelift/latest/flexmatchguide/match-server.html#match-server-data).
         public var matchmakerData: Swift.String?
         /// The maximum number of players that can be connected simultaneously to the game session.
         public var maximumPlayerSessionCount: Swift.Int?
-        /// A collection of information on player sessions created in response to the game session placement request. These player sessions are created only once a new game session is successfully placed (placement status is FULFILLED). This information includes the player ID (as provided in the placement request) and the corresponding player session ID.
+        /// A collection of information on player sessions created in response to the game session placement request. These player sessions are created only after a new game session is successfully placed (placement status is FULFILLED). This information includes the player ID, provided in the placement request, and a corresponding player session ID.
         public var placedPlayerSessions: [GameLiftClientTypes.PlacedPlayerSession]?
         /// A unique identifier for a game session placement.
         public var placementId: Swift.String?
         /// A set of values, expressed in milliseconds, that indicates the amount of latency that a player experiences when connected to Amazon Web Services Regions.
         public var playerLatencies: [GameLiftClientTypes.PlayerLatency]?
-        /// The port number for the game session. To connect to a Amazon GameLift game server, an app needs both the IP address and port number. This value is set once the new game session is placed (placement status is FULFILLED).
+        /// The port number for the game session. To connect to a Amazon GameLift game server, an app needs both the IP address and port number. This value isn't final until placement status is FULFILLED.
         public var port: Swift.Int?
         /// Time stamp indicating when this request was placed in the queue. Format is a number expressed in Unix time as milliseconds (for example "1469498468.057").
         public var startTime: ClientRuntime.Date?
         /// Current status of the game session placement request.
         ///
-        /// * PENDING -- The placement request is currently in the queue waiting to be processed.
+        /// * PENDING -- The placement request is in the queue waiting to be processed. Game session properties are not yet final.
         ///
-        /// * FULFILLED -- A new game session and player sessions (if requested) have been successfully created. Values for GameSessionArn and GameSessionRegion are available.
+        /// * FULFILLED -- A new game session has been successfully placed. Game session properties are now final.
         ///
         /// * CANCELLED -- The placement request was canceled.
         ///
@@ -13219,10 +13408,10 @@ extension GetComputeAccessInput: ClientRuntime.URLPathProvider {
 }
 
 public struct GetComputeAccessInput: Swift.Equatable {
-    /// The name of the compute resource you are requesting credentials for.
+    /// A unique identifier for the compute resource that you want to connect to. You can use either a registered compute name or an instance ID.
     /// This member is required.
     public var computeName: Swift.String?
-    /// A unique identifier for the fleet that the compute resource is registered to.
+    /// A unique identifier for the fleet that contains the compute resource you want to connect to. You can use either the fleet ID or ARN value.
     /// This member is required.
     public var fleetId: Swift.String?
 
@@ -13296,15 +13485,15 @@ extension GetComputeAccessOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 public struct GetComputeAccessOutputResponse: Swift.Equatable {
-    /// The Amazon Resource Name ([ARN](https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-arn-format.html)) that is assigned to a Amazon GameLift compute resource and uniquely identifies it. ARNs are unique across all Regions. Format is arn:aws:gamelift:::compute/compute-a1234567-b8c9-0d1e-2fa3-b45c6d7e8912.
+    /// The Amazon Resource Name ([ARN](https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-arn-format.html)) that is assigned to an Amazon GameLift compute resource and uniquely identifies it. ARNs are unique across all Regions. Format is arn:aws:gamelift:::compute/compute-a1234567-b8c9-0d1e-2fa3-b45c6d7e8912.
     public var computeArn: Swift.String?
-    /// The name of the compute resource you requested credentials for.
+    /// The identifier of the compute resource to be accessed. This value might be either a compute name or an instance ID.
     public var computeName: Swift.String?
-    /// The access credentials for the compute resource.
+    /// A set of temporary Amazon Web Services credentials for use when connecting to the compute resource with Amazon EC2 Systems Manager (SSM).
     public var credentials: GameLiftClientTypes.AwsCredentials?
     /// The Amazon Resource Name ([ARN](https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-arn-format.html)) that is assigned to a Amazon GameLift fleet resource and uniquely identifies it. ARNs are unique across all Regions. Format is arn:aws:gamelift:::fleet/fleet-a1234567-b8c9-0d1e-2fa3-b45c6d7e8912.
     public var fleetArn: Swift.String?
-    /// The fleet ID of compute resource.
+    /// The ID of the fleet that contains the compute resource to be accessed.
     public var fleetId: Swift.String?
 
     public init(
@@ -13453,13 +13642,13 @@ extension GetComputeAuthTokenOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 public struct GetComputeAuthTokenOutputResponse: Swift.Equatable {
-    /// The authentication token that your game server uses to authenticate with Amazon GameLift.
+    /// A valid temporary authentication token.
     public var authToken: Swift.String?
-    /// The Amazon Resource Name ([ARN](https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-arn-format.html)) that is assigned to a Amazon GameLift compute resource and uniquely identifies it. ARNs are unique across all Regions. Format is arn:aws:gamelift:::compute/compute-a1234567-b8c9-0d1e-2fa3-b45c6d7e8912
+    /// The Amazon Resource Name ([ARN](https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-arn-format.html)) that is assigned to an Amazon GameLift compute resource and uniquely identifies it. ARNs are unique across all Regions. Format is arn:aws:gamelift:::compute/compute-a1234567-b8c9-0d1e-2fa3-b45c6d7e8912.
     public var computeArn: Swift.String?
-    /// The name of the compute resource you are requesting the authentication token for.
+    /// The name of the compute resource that the authentication token is issued to.
     public var computeName: Swift.String?
-    /// The amount of time until the authentication token is no longer valid. To continue using the compute resource for game server hosting, renew the authentication token by using this operation again.
+    /// The amount of time until the authentication token is no longer valid.
     public var expirationTimestamp: ClientRuntime.Date?
     /// The Amazon Resource Name ([ARN](https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-arn-format.html)) that is assigned to a Amazon GameLift fleet resource and uniquely identifies it. ARNs are unique across all Regions. Format is arn:aws:gamelift:::fleet/fleet-a1234567-b8c9-0d1e-2fa3-b45c6d7e8912.
     public var fleetArn: Swift.String?
@@ -13646,10 +13835,10 @@ extension GetInstanceAccessInput: ClientRuntime.URLPathProvider {
 }
 
 public struct GetInstanceAccessInput: Swift.Equatable {
-    /// A unique identifier for the fleet that contains the instance you want access to. You can use either the fleet ID or ARN value. The fleet can be in any of the following statuses: ACTIVATING, ACTIVE, or ERROR. Fleets with an ERROR status may be accessible for a short time before they are deleted.
+    /// A unique identifier for the fleet that contains the instance you want to access. You can request access to instances in EC2 fleets with the following statuses: ACTIVATING, ACTIVE, or ERROR. Use either a fleet ID or an ARN value. You can access fleets in ERROR status for a short period of time before Amazon GameLift deletes them.
     /// This member is required.
     public var fleetId: Swift.String?
-    /// A unique identifier for the instance you want to get access to. You can access an instance in any status.
+    /// A unique identifier for the instance you want to access. You can access an instance in any status.
     /// This member is required.
     public var instanceId: Swift.String?
 
@@ -13866,7 +14055,7 @@ extension GameLiftClientTypes.Instance: Swift.Codable {
 }
 
 extension GameLiftClientTypes {
-    /// Represents an EC2 instance of virtual computing resources that hosts one or more game servers. In Amazon GameLift, a fleet can contain zero or more instances. Related actions
+    /// Represents a virtual computing instance that runs game server processes and hosts game sessions. In Amazon GameLift, one or more instances make up a managed EC2 fleet.
     public struct Instance: Swift.Equatable {
         /// A time stamp indicating when this data object was created. Format is a number expressed in Unix time as milliseconds (for example "1469498468.057").
         public var creationTime: ClientRuntime.Date?
@@ -13874,14 +14063,14 @@ extension GameLiftClientTypes {
         ///
         /// * TLS-enabled fleets: ..amazongamelift.com.
         ///
-        /// * Non-TLS-enabled fleets: ec2-.compute.amazonaws.com. (See [Amazon EC2 Instance IP Addressing](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-instance-addressing.html#concepts-public-addresses).)
+        /// * Non-TLS-enabled fleets: ec2-.compute.amazonaws.com. (See [Amazon Elastic Compute Cloud Instance IP Addressing](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-instance-addressing.html#concepts-public-addresses).)
         ///
         ///
         /// When connecting to a game session that is running on a TLS-enabled fleet, you must use the DNS name, not the IP address.
         public var dnsName: Swift.String?
         /// The Amazon Resource Name ([ARN](https://docs.aws.amazon.com/AmazonS3/latest/dev/s3-arn-format.html)) that is assigned to a Amazon GameLift fleet resource and uniquely identifies it. ARNs are unique across all Regions. Format is arn:aws:gamelift:::fleet/fleet-a1234567-b8c9-0d1e-2fa3-b45c6d7e8912.
         public var fleetArn: Swift.String?
-        /// A unique identifier for the fleet that the instance is in.
+        /// A unique identifier for the fleet that the instance belongs to.
         public var fleetId: Swift.String?
         /// A unique identifier for the instance.
         public var instanceId: Swift.String?
@@ -13889,7 +14078,7 @@ extension GameLiftClientTypes {
         public var ipAddress: Swift.String?
         /// The fleet location of the instance, expressed as an Amazon Web Services Region code, such as us-west-2.
         public var location: Swift.String?
-        /// Operating system that is running on this instance.
+        /// Operating system that is running on this EC2 instance.
         public var operatingSystem: GameLiftClientTypes.OperatingSystem?
         /// Current status of the instance. Possible statuses include the following:
         ///
@@ -13899,7 +14088,7 @@ extension GameLiftClientTypes {
         ///
         /// * TERMINATING -- The instance is in the process of shutting down. This may happen to reduce capacity during a scaling down event or to recycle resources in the event of a problem.
         public var status: GameLiftClientTypes.InstanceStatus?
-        /// Amazon EC2 instance type that defines the computing resources of this instance.
+        /// EC2 instance type that defines the computing resources of this instance.
         public var type: GameLiftClientTypes.EC2InstanceType?
 
         public init(
@@ -13979,15 +14168,15 @@ extension GameLiftClientTypes.InstanceAccess: Swift.CustomDebugStringConvertible
 }
 
 extension GameLiftClientTypes {
-    /// Information required to remotely connect to a fleet instance.
+    /// Information and credentials that you can use to remotely connect to an instance in an EC2 managed fleet. This data type is returned in response to a call to [GetInstanceAccess].
     public struct InstanceAccess: Swift.Equatable {
-        /// Credentials required to access the instance.
+        /// Security credentials that are required to access the instance.
         public var credentials: GameLiftClientTypes.InstanceCredentials?
-        /// A unique identifier for the fleet containing the instance being accessed.
+        /// A unique identifier for the fleet containing the instance to be accessed.
         public var fleetId: Swift.String?
-        /// A unique identifier for the instance being accessed.
+        /// A unique identifier for the instance to be accessed.
         public var instanceId: Swift.String?
-        /// IP address that is assigned to the instance.
+        /// IP address assigned to the instance.
         public var ipAddress: Swift.String?
         /// Operating system that is running on the instance.
         public var operatingSystem: GameLiftClientTypes.OperatingSystem?
@@ -14042,11 +14231,11 @@ extension GameLiftClientTypes.InstanceCredentials: Swift.CustomDebugStringConver
 }
 
 extension GameLiftClientTypes {
-    /// Set of credentials required to remotely access a fleet instance.
+    /// A set of credentials that allow remote access to an instance in an EC2 managed fleet. These credentials are returned in response to a call to [GetInstanceAccess], which requests access for instances that are running game servers with the Amazon GameLift server SDK version 4.x or earlier.
     public struct InstanceCredentials: Swift.Equatable {
-        /// Secret string. For Windows instances, the secret is a password for use with Windows Remote Desktop. For Linux instances, it is a private key (which must be saved as a .pem file) for use with SSH.
+        /// Secret string. For Windows instances, the secret is a password for use with Windows Remote Desktop. For Linux instances, it's a private key for use with SSH.
         public var secret: Swift.String?
-        /// User login string.
+        /// A user name for logging in.
         public var userName: Swift.String?
 
         public init(
@@ -14913,12 +15102,12 @@ extension ListComputeInput: ClientRuntime.URLPathProvider {
 }
 
 public struct ListComputeInput: Swift.Equatable {
-    /// A unique identifier for the fleet the compute resources are registered to.
+    /// A unique identifier for the fleet to retrieve compute resources for.
     /// This member is required.
     public var fleetId: Swift.String?
     /// The maximum number of results to return. Use this parameter with NextToken to get results as a set of sequential pages.
     public var limit: Swift.Int?
-    /// The name of the custom location that the compute resources are assigned to.
+    /// The name of a location to retrieve compute resources for.
     public var location: Swift.String?
     /// A token that indicates the start of the next sequential page of results. Use the token that is returned with a previous call to this operation. To start at the beginning of the result set, do not specify a value.
     public var nextToken: Swift.String?
@@ -14993,7 +15182,7 @@ extension ListComputeOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 public struct ListComputeOutputResponse: Swift.Equatable {
-    /// A list of compute resources registered to the fleet you specified.
+    /// A list of compute resources in the specified fleet.
     public var computeList: [GameLiftClientTypes.Compute]?
     /// A token that indicates where to resume retrieving results on the next call to this operation. If no token is returned, these results represent the end of the list.
     public var nextToken: Swift.String?
@@ -17846,19 +18035,19 @@ extension RegisterComputeInput: ClientRuntime.URLPathProvider {
 }
 
 public struct RegisterComputeInput: Swift.Equatable {
-    /// The path to the TLS certificate on your compute resource. The path and certificate are not validated by Amazon GameLift.
+    /// The path to a TLS certificate on your compute resource. Amazon GameLift doesn't validate the path and certificate.
     public var certificatePath: Swift.String?
-    /// A descriptive label that is associated with the compute resource registered to your fleet.
+    /// A descriptive label for the compute resource.
     /// This member is required.
     public var computeName: Swift.String?
-    /// The DNS name of the compute resource. Amazon GameLift requires the DNS name or IP address to manage your compute resource.
+    /// The DNS name of the compute resource. Amazon GameLift requires either a DNS name or IP address.
     public var dnsName: Swift.String?
     /// A unique identifier for the fleet to register the compute to. You can use either the fleet ID or ARN value.
     /// This member is required.
     public var fleetId: Swift.String?
-    /// The IP address of the compute resource. Amazon GameLift requires the DNS name or IP address to manage your compute resource.
+    /// The IP address of the compute resource. Amazon GameLift requires either a DNS name or IP address.
     public var ipAddress: Swift.String?
-    /// The name of the custom location you added to the fleet you are registering this compute resource to.
+    /// The name of a custom location to associate with the compute resource being registered.
     public var location: Swift.String?
 
     public init(
@@ -17942,7 +18131,7 @@ extension RegisterComputeOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 public struct RegisterComputeOutputResponse: Swift.Equatable {
-    /// The details of the compute resource you registered to the specified fleet.
+    /// The details of the compute resource you registered.
     public var compute: GameLiftClientTypes.Compute?
 
     public init(
@@ -19391,11 +19580,14 @@ extension GameLiftClientTypes {
         /// The number of server processes using this configuration that run concurrently on each instance.
         /// This member is required.
         public var concurrentExecutions: Swift.Int?
-        /// The location of a game build executable or the Realtime script file that contains the Init() function. Game builds and Realtime scripts are installed on instances at the root:
+        /// The location of a game build executable or Realtime script. Game builds and Realtime scripts are installed on instances at the root:
         ///
         /// * Windows (custom game builds only): C:\game. Example: "C:\game\MyGame\server.exe"
         ///
         /// * Linux: /local/game. Examples: "/local/game/MyGame/server.exe" or "/local/game/MyRealtimeScript.js"
+        ///
+        ///
+        /// Amazon GameLift doesn't support the use of setup scripts that launch the game executable. For custom game builds, this parameter must indicate the executable that calls the server SDK operations initSDK() and ProcessReady().
         /// This member is required.
         public var launchPath: Swift.String?
         /// An optional list of parameters to pass to the server executable or Realtime script on launch.
@@ -21421,7 +21613,7 @@ public struct UpdateFleetAttributesInput: Swift.Equatable {
     public var metricGroups: [Swift.String]?
     /// A descriptive label that is associated with a fleet. Fleet names do not need to be unique.
     public var name: Swift.String?
-    /// The game session protection policy to apply to all new instances created in this fleet. Instances that already exist are not affected. You can set protection for individual instances using [UpdateGameSession](https://docs.aws.amazon.com/gamelift/latest/apireference/API_UpdateGameSession.html) .
+    /// The game session protection policy to apply to all new game sessions created in this fleet. Game sessions that already exist are not affected. You can set protection for individual game sessions using [UpdateGameSession](https://docs.aws.amazon.com/gamelift/latest/apireference/API_UpdateGameSession.html) .
     ///
     /// * NoProtection -- The game session can be terminated during a scale-down event.
     ///
@@ -21602,7 +21794,7 @@ extension UpdateFleetCapacityInput: ClientRuntime.URLPathProvider {
 }
 
 public struct UpdateFleetCapacityInput: Swift.Equatable {
-    /// The number of Amazon EC2 instances you want to maintain in the specified fleet location. This value must fall between the minimum and maximum size limits.
+    /// The number of Amazon EC2 instances you want to maintain in the specified fleet location. This value must fall between the minimum and maximum size limits. Changes in desired instance value can take up to 1 minute to be reflected when viewing the fleet's capacity settings.
     public var desiredInstances: Swift.Int?
     /// A unique identifier for the fleet to update capacity settings for. You can use either the fleet ID or ARN value.
     /// This member is required.
@@ -22117,7 +22309,7 @@ public struct UpdateGameServerInput: Swift.Equatable {
     public var gameServerId: Swift.String?
     /// Indicates health status of the game server. A request that includes this parameter updates the game server's LastHealthCheckTime timestamp.
     public var healthCheck: GameLiftClientTypes.GameServerHealthCheck?
-    /// Indicates whether the game server is available or is currently hosting gameplay.
+    /// Indicates if the game server is available or is currently hosting gameplay. You can update a game server status from AVAILABLE to UTILIZED, but you can't change a the status from UTILIZED to AVAILABLE.
     public var utilizationStatus: GameLiftClientTypes.GameServerUtilizationStatus?
 
     public init(

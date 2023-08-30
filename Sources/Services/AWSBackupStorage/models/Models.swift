@@ -775,7 +775,7 @@ extension ListChunksInput: ClientRuntime.QueryItemProvider {
                 let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
                 items.append(nextTokenQueryItem)
             }
-            if maxResults != 0 {
+            if let maxResults = maxResults {
                 let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
                 items.append(maxResultsQueryItem)
             }
@@ -798,7 +798,7 @@ extension ListChunksInput: ClientRuntime.URLPathProvider {
 
 public struct ListChunksInput: Swift.Equatable {
     /// Maximum number of chunks
-    public var maxResults: Swift.Int
+    public var maxResults: Swift.Int?
     /// Pagination token
     public var nextToken: Swift.String?
     /// Object token
@@ -809,7 +809,7 @@ public struct ListChunksInput: Swift.Equatable {
     public var storageJobId: Swift.String?
 
     public init(
-        maxResults: Swift.Int = 0,
+        maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         objectToken: Swift.String? = nil,
         storageJobId: Swift.String? = nil
@@ -919,7 +919,7 @@ extension ListObjectsInput: ClientRuntime.QueryItemProvider {
                 let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
                 items.append(nextTokenQueryItem)
             }
-            if maxResults != 0 {
+            if let maxResults = maxResults {
                 let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
                 items.append(maxResultsQueryItem)
             }
@@ -955,7 +955,7 @@ public struct ListObjectsInput: Swift.Equatable {
     /// (Optional) Created before filter
     public var createdBefore: ClientRuntime.Date?
     /// Maximum objects count
-    public var maxResults: Swift.Int
+    public var maxResults: Swift.Int?
     /// Pagination token
     public var nextToken: Swift.String?
     /// Optional, specifies the starting Object name to list from. Ignored if NextToken is not NULL
@@ -969,7 +969,7 @@ public struct ListObjectsInput: Swift.Equatable {
     public init(
         createdAfter: ClientRuntime.Date? = nil,
         createdBefore: ClientRuntime.Date? = nil,
-        maxResults: Swift.Int = 0,
+        maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         startingObjectName: Swift.String? = nil,
         startingObjectPrefix: Swift.String? = nil,
@@ -1182,7 +1182,7 @@ extension NotifyObjectCompleteInput: ClientRuntime.QueryItemProvider {
             }
             let objectChecksumAlgorithmQueryItem = ClientRuntime.URLQueryItem(name: "checksum-algorithm".urlPercentEncoding(), value: Swift.String(objectChecksumAlgorithm.rawValue).urlPercentEncoding())
             items.append(objectChecksumAlgorithmQueryItem)
-            if metadataBlobLength != 0 {
+            if let metadataBlobLength = metadataBlobLength {
                 let metadataBlobLengthQueryItem = ClientRuntime.URLQueryItem(name: "metadata-blob-length".urlPercentEncoding(), value: Swift.String(metadataBlobLength).urlPercentEncoding())
                 items.append(metadataBlobLengthQueryItem)
             }
@@ -1226,7 +1226,7 @@ public struct NotifyObjectCompleteInput: Swift.Equatable {
     /// Checksum algorithm.
     public var metadataBlobChecksumAlgorithm: BackupStorageClientTypes.DataChecksumAlgorithm?
     /// The size of MetadataBlob.
-    public var metadataBlobLength: Swift.Int
+    public var metadataBlobLength: Swift.Int?
     /// Optional metadata associated with an Object. Maximum string length is 256 bytes.
     public var metadataString: Swift.String?
     /// Object checksum
@@ -1244,7 +1244,7 @@ public struct NotifyObjectCompleteInput: Swift.Equatable {
         metadataBlob: ClientRuntime.ByteStream? = nil,
         metadataBlobChecksum: Swift.String? = nil,
         metadataBlobChecksumAlgorithm: BackupStorageClientTypes.DataChecksumAlgorithm? = nil,
-        metadataBlobLength: Swift.Int = 0,
+        metadataBlobLength: Swift.Int? = nil,
         metadataString: Swift.String? = nil,
         objectChecksum: Swift.String? = nil,
         objectChecksumAlgorithm: BackupStorageClientTypes.SummaryChecksumAlgorithm? = nil,
@@ -1391,6 +1391,10 @@ extension PutChunkInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
         get throws {
             var items = [ClientRuntime.URLQueryItem]()
+            guard let length = length else {
+                let message = "Creating a URL Query Item failed. length is required and must not be nil."
+                throw ClientRuntime.ClientError.unknownError(message)
+            }
             let lengthQueryItem = ClientRuntime.URLQueryItem(name: "length".urlPercentEncoding(), value: Swift.String(length).urlPercentEncoding())
             items.append(lengthQueryItem)
             guard let checksum = checksum else {
@@ -1418,6 +1422,9 @@ extension PutChunkInput: ClientRuntime.URLPathProvider {
         guard let uploadId = uploadId else {
             return nil
         }
+        guard let chunkIndex = chunkIndex else {
+            return nil
+        }
         return "/backup-jobs/\(backupJobId.urlPercentEncoding())/chunk/\(uploadId.urlPercentEncoding())/\(chunkIndex)"
     }
 }
@@ -1434,13 +1441,13 @@ public struct PutChunkInput: Swift.Equatable {
     public var checksumAlgorithm: BackupStorageClientTypes.DataChecksumAlgorithm?
     /// Describes this chunk's position relative to the other chunks
     /// This member is required.
-    public var chunkIndex: Swift.Int
+    public var chunkIndex: Swift.Int?
     /// Data to be uploaded
     /// This member is required.
     public var data: ClientRuntime.ByteStream?
     /// Data length
     /// This member is required.
-    public var length: Swift.Int
+    public var length: Swift.Int?
     /// Upload Id for the in-progress upload.
     /// This member is required.
     public var uploadId: Swift.String?
@@ -1449,9 +1456,9 @@ public struct PutChunkInput: Swift.Equatable {
         backupJobId: Swift.String? = nil,
         checksum: Swift.String? = nil,
         checksumAlgorithm: BackupStorageClientTypes.DataChecksumAlgorithm? = nil,
-        chunkIndex: Swift.Int = 0,
+        chunkIndex: Swift.Int? = nil,
         data: ClientRuntime.ByteStream? = nil,
-        length: Swift.Int = 0,
+        length: Swift.Int? = nil,
         uploadId: Swift.String? = nil
     )
     {
@@ -1605,7 +1612,7 @@ extension PutObjectInput: ClientRuntime.QueryItemProvider {
                 let objectChecksumAlgorithmQueryItem = ClientRuntime.URLQueryItem(name: "object-checksum-algorithm".urlPercentEncoding(), value: Swift.String(objectChecksumAlgorithm.rawValue).urlPercentEncoding())
                 items.append(objectChecksumAlgorithmQueryItem)
             }
-            if inlineChunkLength != 0 {
+            if let inlineChunkLength = inlineChunkLength {
                 let inlineChunkLengthQueryItem = ClientRuntime.URLQueryItem(name: "length".urlPercentEncoding(), value: Swift.String(inlineChunkLength).urlPercentEncoding())
                 items.append(inlineChunkLengthQueryItem)
             }
@@ -1617,7 +1624,7 @@ extension PutObjectInput: ClientRuntime.QueryItemProvider {
                 let metadataStringQueryItem = ClientRuntime.URLQueryItem(name: "metadata-string".urlPercentEncoding(), value: Swift.String(metadataString).urlPercentEncoding())
                 items.append(metadataStringQueryItem)
             }
-            if throwOnDuplicate != false {
+            if let throwOnDuplicate = throwOnDuplicate {
                 let throwOnDuplicateQueryItem = ClientRuntime.URLQueryItem(name: "throwOnDuplicate".urlPercentEncoding(), value: Swift.String(throwOnDuplicate).urlPercentEncoding())
                 items.append(throwOnDuplicateQueryItem)
             }
@@ -1649,7 +1656,7 @@ public struct PutObjectInput: Swift.Equatable {
     /// Inline chunk checksum algorithm
     public var inlineChunkChecksumAlgorithm: Swift.String?
     /// Length of the inline chunk data.
-    public var inlineChunkLength: Swift.Int
+    public var inlineChunkLength: Swift.Int?
     /// Store user defined metadata like backup checksum, disk ids, restore metadata etc.
     public var metadataString: Swift.String?
     /// object checksum
@@ -1660,19 +1667,19 @@ public struct PutObjectInput: Swift.Equatable {
     /// This member is required.
     public var objectName: Swift.String?
     /// Throw an exception if Object name is already exist.
-    public var throwOnDuplicate: Swift.Bool
+    public var throwOnDuplicate: Swift.Bool?
 
     public init(
         backupJobId: Swift.String? = nil,
         inlineChunk: ClientRuntime.ByteStream? = nil,
         inlineChunkChecksum: Swift.String? = nil,
         inlineChunkChecksumAlgorithm: Swift.String? = nil,
-        inlineChunkLength: Swift.Int = 0,
+        inlineChunkLength: Swift.Int? = nil,
         metadataString: Swift.String? = nil,
         objectChecksum: Swift.String? = nil,
         objectChecksumAlgorithm: BackupStorageClientTypes.SummaryChecksumAlgorithm? = nil,
         objectName: Swift.String? = nil,
-        throwOnDuplicate: Swift.Bool = false
+        throwOnDuplicate: Swift.Bool? = nil
     )
     {
         self.backupJobId = backupJobId
@@ -2023,7 +2030,7 @@ extension StartObjectInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if throwOnDuplicate != false {
+        if let throwOnDuplicate = self.throwOnDuplicate {
             try encodeContainer.encode(throwOnDuplicate, forKey: .throwOnDuplicate)
         }
     }
@@ -2049,12 +2056,12 @@ public struct StartObjectInput: Swift.Equatable {
     /// This member is required.
     public var objectName: Swift.String?
     /// Throw an exception if Object name is already exist.
-    public var throwOnDuplicate: Swift.Bool
+    public var throwOnDuplicate: Swift.Bool?
 
     public init(
         backupJobId: Swift.String? = nil,
         objectName: Swift.String? = nil,
-        throwOnDuplicate: Swift.Bool = false
+        throwOnDuplicate: Swift.Bool? = nil
     )
     {
         self.backupJobId = backupJobId
@@ -2064,7 +2071,7 @@ public struct StartObjectInput: Swift.Equatable {
 }
 
 struct StartObjectInputBody: Swift.Equatable {
-    let throwOnDuplicate: Swift.Bool
+    let throwOnDuplicate: Swift.Bool?
 }
 
 extension StartObjectInputBody: Swift.Decodable {
@@ -2074,7 +2081,7 @@ extension StartObjectInputBody: Swift.Decodable {
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let throwOnDuplicateDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .throwOnDuplicate) ?? false
+        let throwOnDuplicateDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .throwOnDuplicate)
         throwOnDuplicate = throwOnDuplicateDecoded
     }
 }

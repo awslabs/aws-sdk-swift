@@ -123,8 +123,7 @@ extension CloudTrailClient: CloudTrailClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<AddTagsInput, AddTagsOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<AddTagsOutputResponse, AddTagsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<AddTagsInput, AddTagsOutputResponse>(xAmzTarget: "CloudTrail_20131101.AddTags"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<AddTagsInput, AddTagsOutputResponse>(xmlName: "AddTagsRequest"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<AddTagsInput, AddTagsOutputResponse>(contentType: "application/x-amz-json-1.1"))
@@ -178,8 +177,7 @@ extension CloudTrailClient: CloudTrailClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CancelQueryInput, CancelQueryOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CancelQueryOutputResponse, CancelQueryOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CancelQueryInput, CancelQueryOutputResponse>(xAmzTarget: "CloudTrail_20131101.CancelQuery"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CancelQueryInput, CancelQueryOutputResponse>(xmlName: "CancelQueryRequest"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CancelQueryInput, CancelQueryOutputResponse>(contentType: "application/x-amz-json-1.1"))
@@ -235,8 +233,7 @@ extension CloudTrailClient: CloudTrailClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateChannelInput, CreateChannelOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateChannelOutputResponse, CreateChannelOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreateChannelInput, CreateChannelOutputResponse>(xAmzTarget: "CloudTrail_20131101.CreateChannel"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateChannelInput, CreateChannelOutputResponse>(xmlName: "CreateChannelRequest"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateChannelInput, CreateChannelOutputResponse>(contentType: "application/x-amz-json-1.1"))
@@ -306,8 +303,7 @@ extension CloudTrailClient: CloudTrailClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateEventDataStoreInput, CreateEventDataStoreOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateEventDataStoreOutputResponse, CreateEventDataStoreOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreateEventDataStoreInput, CreateEventDataStoreOutputResponse>(xAmzTarget: "CloudTrail_20131101.CreateEventDataStore"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateEventDataStoreInput, CreateEventDataStoreOutputResponse>(xmlName: "CreateEventDataStoreRequest"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateEventDataStoreInput, CreateEventDataStoreOutputResponse>(contentType: "application/x-amz-json-1.1"))
@@ -368,6 +364,7 @@ extension CloudTrailClient: CloudTrailClientProtocol {
     /// - `OrganizationsNotInUseException` : This exception is thrown when the request is made from an Amazon Web Services account that is not a member of an organization. To make this request, sign in using the credentials of an account that belongs to an organization.
     /// - `S3BucketDoesNotExistException` : This exception is thrown when the specified S3 bucket does not exist.
     /// - `TagsLimitExceededException` : The number of tags per trail, event data store, or channel has exceeded the permitted amount. Currently, the limit is 50.
+    /// - `ThrottlingException` : This exception is thrown when the request rate exceeds the limit.
     /// - `TrailAlreadyExistsException` : This exception is thrown when the specified trail already exists.
     /// - `TrailNotProvidedException` : This exception is no longer in use.
     /// - `UnsupportedOperationException` : This exception is thrown when the requested operation is not supported.
@@ -392,8 +389,7 @@ extension CloudTrailClient: CloudTrailClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateTrailInput, CreateTrailOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateTrailOutputResponse, CreateTrailOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreateTrailInput, CreateTrailOutputResponse>(xAmzTarget: "CloudTrail_20131101.CreateTrail"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateTrailInput, CreateTrailOutputResponse>(xmlName: "CreateTrailRequest"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateTrailInput, CreateTrailOutputResponse>(contentType: "application/x-amz-json-1.1"))
@@ -441,8 +437,7 @@ extension CloudTrailClient: CloudTrailClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteChannelInput, DeleteChannelOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteChannelOutputResponse, DeleteChannelOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteChannelInput, DeleteChannelOutputResponse>(xAmzTarget: "CloudTrail_20131101.DeleteChannel"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteChannelInput, DeleteChannelOutputResponse>(xmlName: "DeleteChannelRequest"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteChannelInput, DeleteChannelOutputResponse>(contentType: "application/x-amz-json-1.1"))
@@ -498,8 +493,7 @@ extension CloudTrailClient: CloudTrailClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteEventDataStoreInput, DeleteEventDataStoreOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteEventDataStoreOutputResponse, DeleteEventDataStoreOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteEventDataStoreInput, DeleteEventDataStoreOutputResponse>(xAmzTarget: "CloudTrail_20131101.DeleteEventDataStore"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteEventDataStoreInput, DeleteEventDataStoreOutputResponse>(xmlName: "DeleteEventDataStoreRequest"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteEventDataStoreInput, DeleteEventDataStoreOutputResponse>(contentType: "application/x-amz-json-1.1"))
@@ -549,8 +543,7 @@ extension CloudTrailClient: CloudTrailClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteResourcePolicyOutputResponse, DeleteResourcePolicyOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutputResponse>(xAmzTarget: "CloudTrail_20131101.DeleteResourcePolicy"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutputResponse>(xmlName: "DeleteResourcePolicyRequest"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteResourcePolicyInput, DeleteResourcePolicyOutputResponse>(contentType: "application/x-amz-json-1.1"))
@@ -591,6 +584,7 @@ extension CloudTrailClient: CloudTrailClientProtocol {
     /// - `NoManagementAccountSLRExistsException` : This exception is thrown when the management account does not have a service-linked role.
     /// - `NotOrganizationMasterAccountException` : This exception is thrown when the Amazon Web Services account making the request to create or update an organization trail or event data store is not the management account for an organization in Organizations. For more information, see [Prepare For Creating a Trail For Your Organization](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/creating-an-organizational-trail-prepare.html) or [Create an event data store](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/query-event-data-store.html).
     /// - `OperationNotPermittedException` : This exception is thrown when the requested operation is not permitted.
+    /// - `ThrottlingException` : This exception is thrown when the request rate exceeds the limit.
     /// - `TrailNotFoundException` : This exception is thrown when the trail with the given name is not found.
     /// - `UnsupportedOperationException` : This exception is thrown when the requested operation is not supported.
     public func deleteTrail(input: DeleteTrailInput) async throws -> DeleteTrailOutputResponse
@@ -614,8 +608,7 @@ extension CloudTrailClient: CloudTrailClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteTrailInput, DeleteTrailOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteTrailOutputResponse, DeleteTrailOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteTrailInput, DeleteTrailOutputResponse>(xAmzTarget: "CloudTrail_20131101.DeleteTrail"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteTrailInput, DeleteTrailOutputResponse>(xmlName: "DeleteTrailRequest"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteTrailInput, DeleteTrailOutputResponse>(contentType: "application/x-amz-json-1.1"))
@@ -670,8 +663,7 @@ extension CloudTrailClient: CloudTrailClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeregisterOrganizationDelegatedAdminInput, DeregisterOrganizationDelegatedAdminOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeregisterOrganizationDelegatedAdminOutputResponse, DeregisterOrganizationDelegatedAdminOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeregisterOrganizationDelegatedAdminInput, DeregisterOrganizationDelegatedAdminOutputResponse>(xAmzTarget: "CloudTrail_20131101.DeregisterOrganizationDelegatedAdmin"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeregisterOrganizationDelegatedAdminInput, DeregisterOrganizationDelegatedAdminOutputResponse>(xmlName: "DeregisterOrganizationDelegatedAdminRequest"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeregisterOrganizationDelegatedAdminInput, DeregisterOrganizationDelegatedAdminOutputResponse>(contentType: "application/x-amz-json-1.1"))
@@ -723,8 +715,7 @@ extension CloudTrailClient: CloudTrailClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeQueryInput, DescribeQueryOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeQueryOutputResponse, DescribeQueryOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeQueryInput, DescribeQueryOutputResponse>(xAmzTarget: "CloudTrail_20131101.DescribeQuery"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeQueryInput, DescribeQueryOutputResponse>(xmlName: "DescribeQueryRequest"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeQueryInput, DescribeQueryOutputResponse>(contentType: "application/x-amz-json-1.1"))
@@ -782,8 +773,7 @@ extension CloudTrailClient: CloudTrailClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeTrailsInput, DescribeTrailsOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeTrailsOutputResponse, DescribeTrailsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeTrailsInput, DescribeTrailsOutputResponse>(xAmzTarget: "CloudTrail_20131101.DescribeTrails"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeTrailsInput, DescribeTrailsOutputResponse>(xmlName: "DescribeTrailsRequest"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeTrailsInput, DescribeTrailsOutputResponse>(contentType: "application/x-amz-json-1.1"))
@@ -831,8 +821,7 @@ extension CloudTrailClient: CloudTrailClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetChannelInput, GetChannelOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetChannelOutputResponse, GetChannelOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetChannelInput, GetChannelOutputResponse>(xAmzTarget: "CloudTrail_20131101.GetChannel"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetChannelInput, GetChannelOutputResponse>(xmlName: "GetChannelRequest"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetChannelInput, GetChannelOutputResponse>(contentType: "application/x-amz-json-1.1"))
@@ -882,8 +871,7 @@ extension CloudTrailClient: CloudTrailClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetEventDataStoreInput, GetEventDataStoreOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetEventDataStoreOutputResponse, GetEventDataStoreOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetEventDataStoreInput, GetEventDataStoreOutputResponse>(xAmzTarget: "CloudTrail_20131101.GetEventDataStore"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetEventDataStoreInput, GetEventDataStoreOutputResponse>(xmlName: "GetEventDataStoreRequest"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetEventDataStoreInput, GetEventDataStoreOutputResponse>(contentType: "application/x-amz-json-1.1"))
@@ -956,8 +944,7 @@ extension CloudTrailClient: CloudTrailClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetEventSelectorsInput, GetEventSelectorsOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetEventSelectorsOutputResponse, GetEventSelectorsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetEventSelectorsInput, GetEventSelectorsOutputResponse>(xAmzTarget: "CloudTrail_20131101.GetEventSelectors"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetEventSelectorsInput, GetEventSelectorsOutputResponse>(xmlName: "GetEventSelectorsRequest"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetEventSelectorsInput, GetEventSelectorsOutputResponse>(contentType: "application/x-amz-json-1.1"))
@@ -1005,8 +992,7 @@ extension CloudTrailClient: CloudTrailClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetImportInput, GetImportOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetImportOutputResponse, GetImportOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetImportInput, GetImportOutputResponse>(xAmzTarget: "CloudTrail_20131101.GetImport"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetImportInput, GetImportOutputResponse>(xmlName: "GetImportRequest"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetImportInput, GetImportOutputResponse>(contentType: "application/x-amz-json-1.1"))
@@ -1044,6 +1030,7 @@ extension CloudTrailClient: CloudTrailClientProtocol {
     /// * Not be in IP address format (for example, 192.168.5.4)
     /// - `NoManagementAccountSLRExistsException` : This exception is thrown when the management account does not have a service-linked role.
     /// - `OperationNotPermittedException` : This exception is thrown when the requested operation is not permitted.
+    /// - `ThrottlingException` : This exception is thrown when the request rate exceeds the limit.
     /// - `TrailNotFoundException` : This exception is thrown when the trail with the given name is not found.
     /// - `UnsupportedOperationException` : This exception is thrown when the requested operation is not supported.
     public func getInsightSelectors(input: GetInsightSelectorsInput) async throws -> GetInsightSelectorsOutputResponse
@@ -1067,8 +1054,7 @@ extension CloudTrailClient: CloudTrailClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetInsightSelectorsInput, GetInsightSelectorsOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetInsightSelectorsOutputResponse, GetInsightSelectorsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetInsightSelectorsInput, GetInsightSelectorsOutputResponse>(xAmzTarget: "CloudTrail_20131101.GetInsightSelectors"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetInsightSelectorsInput, GetInsightSelectorsOutputResponse>(xmlName: "GetInsightSelectorsRequest"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetInsightSelectorsInput, GetInsightSelectorsOutputResponse>(contentType: "application/x-amz-json-1.1"))
@@ -1123,8 +1109,7 @@ extension CloudTrailClient: CloudTrailClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetQueryResultsInput, GetQueryResultsOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetQueryResultsOutputResponse, GetQueryResultsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetQueryResultsInput, GetQueryResultsOutputResponse>(xAmzTarget: "CloudTrail_20131101.GetQueryResults"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetQueryResultsInput, GetQueryResultsOutputResponse>(xmlName: "GetQueryResultsRequest"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetQueryResultsInput, GetQueryResultsOutputResponse>(contentType: "application/x-amz-json-1.1"))
@@ -1174,8 +1159,7 @@ extension CloudTrailClient: CloudTrailClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetResourcePolicyInput, GetResourcePolicyOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetResourcePolicyOutputResponse, GetResourcePolicyOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetResourcePolicyInput, GetResourcePolicyOutputResponse>(xAmzTarget: "CloudTrail_20131101.GetResourcePolicy"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetResourcePolicyInput, GetResourcePolicyOutputResponse>(xmlName: "GetResourcePolicyRequest"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetResourcePolicyInput, GetResourcePolicyOutputResponse>(contentType: "application/x-amz-json-1.1"))
@@ -1234,8 +1218,7 @@ extension CloudTrailClient: CloudTrailClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetTrailInput, GetTrailOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetTrailOutputResponse, GetTrailOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetTrailInput, GetTrailOutputResponse>(xAmzTarget: "CloudTrail_20131101.GetTrail"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetTrailInput, GetTrailOutputResponse>(xmlName: "GetTrailRequest"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetTrailInput, GetTrailOutputResponse>(contentType: "application/x-amz-json-1.1"))
@@ -1294,8 +1277,7 @@ extension CloudTrailClient: CloudTrailClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetTrailStatusInput, GetTrailStatusOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetTrailStatusOutputResponse, GetTrailStatusOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetTrailStatusInput, GetTrailStatusOutputResponse>(xAmzTarget: "CloudTrail_20131101.GetTrailStatus"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetTrailStatusInput, GetTrailStatusOutputResponse>(xmlName: "GetTrailStatusRequest"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetTrailStatusInput, GetTrailStatusOutputResponse>(contentType: "application/x-amz-json-1.1"))
@@ -1342,8 +1324,7 @@ extension CloudTrailClient: CloudTrailClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListChannelsInput, ListChannelsOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListChannelsOutputResponse, ListChannelsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListChannelsInput, ListChannelsOutputResponse>(xAmzTarget: "CloudTrail_20131101.ListChannels"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListChannelsInput, ListChannelsOutputResponse>(xmlName: "ListChannelsRequest"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListChannelsInput, ListChannelsOutputResponse>(contentType: "application/x-amz-json-1.1"))
@@ -1392,8 +1373,7 @@ extension CloudTrailClient: CloudTrailClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListEventDataStoresInput, ListEventDataStoresOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListEventDataStoresOutputResponse, ListEventDataStoresOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListEventDataStoresInput, ListEventDataStoresOutputResponse>(xAmzTarget: "CloudTrail_20131101.ListEventDataStores"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListEventDataStoresInput, ListEventDataStoresOutputResponse>(xmlName: "ListEventDataStoresRequest"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListEventDataStoresInput, ListEventDataStoresOutputResponse>(contentType: "application/x-amz-json-1.1"))
@@ -1440,8 +1420,7 @@ extension CloudTrailClient: CloudTrailClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListImportFailuresInput, ListImportFailuresOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListImportFailuresOutputResponse, ListImportFailuresOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListImportFailuresInput, ListImportFailuresOutputResponse>(xAmzTarget: "CloudTrail_20131101.ListImportFailures"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListImportFailuresInput, ListImportFailuresOutputResponse>(xmlName: "ListImportFailuresRequest"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListImportFailuresInput, ListImportFailuresOutputResponse>(contentType: "application/x-amz-json-1.1"))
@@ -1490,8 +1469,7 @@ extension CloudTrailClient: CloudTrailClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListImportsInput, ListImportsOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListImportsOutputResponse, ListImportsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListImportsInput, ListImportsOutputResponse>(xAmzTarget: "CloudTrail_20131101.ListImports"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListImportsInput, ListImportsOutputResponse>(xmlName: "ListImportsRequest"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListImportsInput, ListImportsOutputResponse>(contentType: "application/x-amz-json-1.1"))
@@ -1539,8 +1517,7 @@ extension CloudTrailClient: CloudTrailClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListPublicKeysInput, ListPublicKeysOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListPublicKeysOutputResponse, ListPublicKeysOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListPublicKeysInput, ListPublicKeysOutputResponse>(xAmzTarget: "CloudTrail_20131101.ListPublicKeys"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListPublicKeysInput, ListPublicKeysOutputResponse>(xmlName: "ListPublicKeysRequest"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListPublicKeysInput, ListPublicKeysOutputResponse>(contentType: "application/x-amz-json-1.1"))
@@ -1595,8 +1572,7 @@ extension CloudTrailClient: CloudTrailClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListQueriesInput, ListQueriesOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListQueriesOutputResponse, ListQueriesOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListQueriesInput, ListQueriesOutputResponse>(xAmzTarget: "CloudTrail_20131101.ListQueries"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListQueriesInput, ListQueriesOutputResponse>(xmlName: "ListQueriesRequest"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListQueriesInput, ListQueriesOutputResponse>(contentType: "application/x-amz-json-1.1"))
@@ -1662,8 +1638,7 @@ extension CloudTrailClient: CloudTrailClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTagsInput, ListTagsOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListTagsOutputResponse, ListTagsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListTagsInput, ListTagsOutputResponse>(xAmzTarget: "CloudTrail_20131101.ListTags"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListTagsInput, ListTagsOutputResponse>(xmlName: "ListTagsRequest"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListTagsInput, ListTagsOutputResponse>(contentType: "application/x-amz-json-1.1"))
@@ -1709,8 +1684,7 @@ extension CloudTrailClient: CloudTrailClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListTrailsInput, ListTrailsOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListTrailsOutputResponse, ListTrailsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListTrailsInput, ListTrailsOutputResponse>(xAmzTarget: "CloudTrail_20131101.ListTrails"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListTrailsInput, ListTrailsOutputResponse>(xmlName: "ListTrailsRequest"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListTrailsInput, ListTrailsOutputResponse>(contentType: "application/x-amz-json-1.1"))
@@ -1789,8 +1763,7 @@ extension CloudTrailClient: CloudTrailClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<LookupEventsInput, LookupEventsOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<LookupEventsOutputResponse, LookupEventsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<LookupEventsInput, LookupEventsOutputResponse>(xAmzTarget: "CloudTrail_20131101.LookupEvents"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<LookupEventsInput, LookupEventsOutputResponse>(xmlName: "LookupEventsRequest"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<LookupEventsInput, LookupEventsOutputResponse>(contentType: "application/x-amz-json-1.1"))
@@ -1853,6 +1826,7 @@ extension CloudTrailClient: CloudTrailClientProtocol {
     /// - `NoManagementAccountSLRExistsException` : This exception is thrown when the management account does not have a service-linked role.
     /// - `NotOrganizationMasterAccountException` : This exception is thrown when the Amazon Web Services account making the request to create or update an organization trail or event data store is not the management account for an organization in Organizations. For more information, see [Prepare For Creating a Trail For Your Organization](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/creating-an-organizational-trail-prepare.html) or [Create an event data store](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/query-event-data-store.html).
     /// - `OperationNotPermittedException` : This exception is thrown when the requested operation is not permitted.
+    /// - `ThrottlingException` : This exception is thrown when the request rate exceeds the limit.
     /// - `TrailNotFoundException` : This exception is thrown when the trail with the given name is not found.
     /// - `UnsupportedOperationException` : This exception is thrown when the requested operation is not supported.
     public func putEventSelectors(input: PutEventSelectorsInput) async throws -> PutEventSelectorsOutputResponse
@@ -1876,8 +1850,7 @@ extension CloudTrailClient: CloudTrailClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutEventSelectorsInput, PutEventSelectorsOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutEventSelectorsOutputResponse, PutEventSelectorsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<PutEventSelectorsInput, PutEventSelectorsOutputResponse>(xAmzTarget: "CloudTrail_20131101.PutEventSelectors"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<PutEventSelectorsInput, PutEventSelectorsOutputResponse>(xmlName: "PutEventSelectorsRequest"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PutEventSelectorsInput, PutEventSelectorsOutputResponse>(contentType: "application/x-amz-json-1.1"))
@@ -1921,6 +1894,7 @@ extension CloudTrailClient: CloudTrailClientProtocol {
     /// - `NotOrganizationMasterAccountException` : This exception is thrown when the Amazon Web Services account making the request to create or update an organization trail or event data store is not the management account for an organization in Organizations. For more information, see [Prepare For Creating a Trail For Your Organization](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/creating-an-organizational-trail-prepare.html) or [Create an event data store](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/query-event-data-store.html).
     /// - `OperationNotPermittedException` : This exception is thrown when the requested operation is not permitted.
     /// - `S3BucketDoesNotExistException` : This exception is thrown when the specified S3 bucket does not exist.
+    /// - `ThrottlingException` : This exception is thrown when the request rate exceeds the limit.
     /// - `TrailNotFoundException` : This exception is thrown when the trail with the given name is not found.
     /// - `UnsupportedOperationException` : This exception is thrown when the requested operation is not supported.
     public func putInsightSelectors(input: PutInsightSelectorsInput) async throws -> PutInsightSelectorsOutputResponse
@@ -1944,8 +1918,7 @@ extension CloudTrailClient: CloudTrailClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutInsightSelectorsInput, PutInsightSelectorsOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutInsightSelectorsOutputResponse, PutInsightSelectorsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<PutInsightSelectorsInput, PutInsightSelectorsOutputResponse>(xAmzTarget: "CloudTrail_20131101.PutInsightSelectors"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<PutInsightSelectorsInput, PutInsightSelectorsOutputResponse>(xmlName: "PutInsightSelectorsRequest"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PutInsightSelectorsInput, PutInsightSelectorsOutputResponse>(contentType: "application/x-amz-json-1.1"))
@@ -2001,8 +1974,7 @@ extension CloudTrailClient: CloudTrailClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutResourcePolicyInput, PutResourcePolicyOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutResourcePolicyOutputResponse, PutResourcePolicyOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<PutResourcePolicyInput, PutResourcePolicyOutputResponse>(xAmzTarget: "CloudTrail_20131101.PutResourcePolicy"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<PutResourcePolicyInput, PutResourcePolicyOutputResponse>(xmlName: "PutResourcePolicyRequest"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PutResourcePolicyInput, PutResourcePolicyOutputResponse>(contentType: "application/x-amz-json-1.1"))
@@ -2059,8 +2031,7 @@ extension CloudTrailClient: CloudTrailClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RegisterOrganizationDelegatedAdminInput, RegisterOrganizationDelegatedAdminOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<RegisterOrganizationDelegatedAdminOutputResponse, RegisterOrganizationDelegatedAdminOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<RegisterOrganizationDelegatedAdminInput, RegisterOrganizationDelegatedAdminOutputResponse>(xAmzTarget: "CloudTrail_20131101.RegisterOrganizationDelegatedAdmin"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<RegisterOrganizationDelegatedAdminInput, RegisterOrganizationDelegatedAdminOutputResponse>(xmlName: "RegisterOrganizationDelegatedAdminRequest"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<RegisterOrganizationDelegatedAdminInput, RegisterOrganizationDelegatedAdminOutputResponse>(contentType: "application/x-amz-json-1.1"))
@@ -2128,8 +2099,7 @@ extension CloudTrailClient: CloudTrailClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RemoveTagsInput, RemoveTagsOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<RemoveTagsOutputResponse, RemoveTagsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<RemoveTagsInput, RemoveTagsOutputResponse>(xAmzTarget: "CloudTrail_20131101.RemoveTags"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<RemoveTagsInput, RemoveTagsOutputResponse>(xmlName: "RemoveTagsRequest"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<RemoveTagsInput, RemoveTagsOutputResponse>(contentType: "application/x-amz-json-1.1"))
@@ -2186,8 +2156,7 @@ extension CloudTrailClient: CloudTrailClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<RestoreEventDataStoreInput, RestoreEventDataStoreOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<RestoreEventDataStoreOutputResponse, RestoreEventDataStoreOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<RestoreEventDataStoreInput, RestoreEventDataStoreOutputResponse>(xAmzTarget: "CloudTrail_20131101.RestoreEventDataStore"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<RestoreEventDataStoreInput, RestoreEventDataStoreOutputResponse>(xmlName: "RestoreEventDataStoreRequest"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<RestoreEventDataStoreInput, RestoreEventDataStoreOutputResponse>(contentType: "application/x-amz-json-1.1"))
@@ -2241,8 +2210,7 @@ extension CloudTrailClient: CloudTrailClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartEventDataStoreIngestionInput, StartEventDataStoreIngestionOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StartEventDataStoreIngestionOutputResponse, StartEventDataStoreIngestionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<StartEventDataStoreIngestionInput, StartEventDataStoreIngestionOutputResponse>(xAmzTarget: "CloudTrail_20131101.StartEventDataStoreIngestion"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<StartEventDataStoreIngestionInput, StartEventDataStoreIngestionOutputResponse>(xmlName: "StartEventDataStoreIngestionRequest"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<StartEventDataStoreIngestionInput, StartEventDataStoreIngestionOutputResponse>(contentType: "application/x-amz-json-1.1"))
@@ -2298,8 +2266,7 @@ extension CloudTrailClient: CloudTrailClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartImportInput, StartImportOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StartImportOutputResponse, StartImportOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<StartImportInput, StartImportOutputResponse>(xAmzTarget: "CloudTrail_20131101.StartImport"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<StartImportInput, StartImportOutputResponse>(xmlName: "StartImportRequest"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<StartImportInput, StartImportOutputResponse>(contentType: "application/x-amz-json-1.1"))
@@ -2340,6 +2307,7 @@ extension CloudTrailClient: CloudTrailClientProtocol {
     /// - `NoManagementAccountSLRExistsException` : This exception is thrown when the management account does not have a service-linked role.
     /// - `NotOrganizationMasterAccountException` : This exception is thrown when the Amazon Web Services account making the request to create or update an organization trail or event data store is not the management account for an organization in Organizations. For more information, see [Prepare For Creating a Trail For Your Organization](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/creating-an-organizational-trail-prepare.html) or [Create an event data store](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/query-event-data-store.html).
     /// - `OperationNotPermittedException` : This exception is thrown when the requested operation is not permitted.
+    /// - `ThrottlingException` : This exception is thrown when the request rate exceeds the limit.
     /// - `TrailNotFoundException` : This exception is thrown when the trail with the given name is not found.
     /// - `UnsupportedOperationException` : This exception is thrown when the requested operation is not supported.
     public func startLogging(input: StartLoggingInput) async throws -> StartLoggingOutputResponse
@@ -2363,8 +2331,7 @@ extension CloudTrailClient: CloudTrailClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartLoggingInput, StartLoggingOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StartLoggingOutputResponse, StartLoggingOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<StartLoggingInput, StartLoggingOutputResponse>(xAmzTarget: "CloudTrail_20131101.StartLogging"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<StartLoggingInput, StartLoggingOutputResponse>(xmlName: "StartLoggingRequest"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<StartLoggingInput, StartLoggingOutputResponse>(contentType: "application/x-amz-json-1.1"))
@@ -2422,8 +2389,7 @@ extension CloudTrailClient: CloudTrailClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartQueryInput, StartQueryOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StartQueryOutputResponse, StartQueryOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<StartQueryInput, StartQueryOutputResponse>(xAmzTarget: "CloudTrail_20131101.StartQuery"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<StartQueryInput, StartQueryOutputResponse>(xmlName: "StartQueryRequest"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<StartQueryInput, StartQueryOutputResponse>(contentType: "application/x-amz-json-1.1"))
@@ -2477,8 +2443,7 @@ extension CloudTrailClient: CloudTrailClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StopEventDataStoreIngestionInput, StopEventDataStoreIngestionOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StopEventDataStoreIngestionOutputResponse, StopEventDataStoreIngestionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<StopEventDataStoreIngestionInput, StopEventDataStoreIngestionOutputResponse>(xAmzTarget: "CloudTrail_20131101.StopEventDataStoreIngestion"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<StopEventDataStoreIngestionInput, StopEventDataStoreIngestionOutputResponse>(xmlName: "StopEventDataStoreIngestionRequest"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<StopEventDataStoreIngestionInput, StopEventDataStoreIngestionOutputResponse>(contentType: "application/x-amz-json-1.1"))
@@ -2526,8 +2491,7 @@ extension CloudTrailClient: CloudTrailClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StopImportInput, StopImportOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StopImportOutputResponse, StopImportOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<StopImportInput, StopImportOutputResponse>(xAmzTarget: "CloudTrail_20131101.StopImport"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<StopImportInput, StopImportOutputResponse>(xmlName: "StopImportRequest"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<StopImportInput, StopImportOutputResponse>(contentType: "application/x-amz-json-1.1"))
@@ -2568,6 +2532,7 @@ extension CloudTrailClient: CloudTrailClientProtocol {
     /// - `NoManagementAccountSLRExistsException` : This exception is thrown when the management account does not have a service-linked role.
     /// - `NotOrganizationMasterAccountException` : This exception is thrown when the Amazon Web Services account making the request to create or update an organization trail or event data store is not the management account for an organization in Organizations. For more information, see [Prepare For Creating a Trail For Your Organization](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/creating-an-organizational-trail-prepare.html) or [Create an event data store](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/query-event-data-store.html).
     /// - `OperationNotPermittedException` : This exception is thrown when the requested operation is not permitted.
+    /// - `ThrottlingException` : This exception is thrown when the request rate exceeds the limit.
     /// - `TrailNotFoundException` : This exception is thrown when the trail with the given name is not found.
     /// - `UnsupportedOperationException` : This exception is thrown when the requested operation is not supported.
     public func stopLogging(input: StopLoggingInput) async throws -> StopLoggingOutputResponse
@@ -2591,8 +2556,7 @@ extension CloudTrailClient: CloudTrailClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StopLoggingInput, StopLoggingOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StopLoggingOutputResponse, StopLoggingOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<StopLoggingInput, StopLoggingOutputResponse>(xAmzTarget: "CloudTrail_20131101.StopLogging"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<StopLoggingInput, StopLoggingOutputResponse>(xmlName: "StopLoggingRequest"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<StopLoggingInput, StopLoggingOutputResponse>(contentType: "application/x-amz-json-1.1"))
@@ -2646,8 +2610,7 @@ extension CloudTrailClient: CloudTrailClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateChannelInput, UpdateChannelOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateChannelOutputResponse, UpdateChannelOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdateChannelInput, UpdateChannelOutputResponse>(xAmzTarget: "CloudTrail_20131101.UpdateChannel"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateChannelInput, UpdateChannelOutputResponse>(xmlName: "UpdateChannelRequest"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateChannelInput, UpdateChannelOutputResponse>(contentType: "application/x-amz-json-1.1"))
@@ -2718,8 +2681,7 @@ extension CloudTrailClient: CloudTrailClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateEventDataStoreInput, UpdateEventDataStoreOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateEventDataStoreOutputResponse, UpdateEventDataStoreOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdateEventDataStoreInput, UpdateEventDataStoreOutputResponse>(xAmzTarget: "CloudTrail_20131101.UpdateEventDataStore"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateEventDataStoreInput, UpdateEventDataStoreOutputResponse>(xmlName: "UpdateEventDataStoreRequest"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateEventDataStoreInput, UpdateEventDataStoreOutputResponse>(contentType: "application/x-amz-json-1.1"))
@@ -2789,6 +2751,7 @@ extension CloudTrailClient: CloudTrailClientProtocol {
     /// - `OrganizationNotInAllFeaturesModeException` : This exception is thrown when Organizations is not configured to support all features. All features must be enabled in Organizations to support creating an organization trail or event data store.
     /// - `OrganizationsNotInUseException` : This exception is thrown when the request is made from an Amazon Web Services account that is not a member of an organization. To make this request, sign in using the credentials of an account that belongs to an organization.
     /// - `S3BucketDoesNotExistException` : This exception is thrown when the specified S3 bucket does not exist.
+    /// - `ThrottlingException` : This exception is thrown when the request rate exceeds the limit.
     /// - `TrailNotFoundException` : This exception is thrown when the trail with the given name is not found.
     /// - `TrailNotProvidedException` : This exception is no longer in use.
     /// - `UnsupportedOperationException` : This exception is thrown when the requested operation is not supported.
@@ -2813,8 +2776,7 @@ extension CloudTrailClient: CloudTrailClientProtocol {
         operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateTrailInput, UpdateTrailOutputResponse>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
         operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateTrailOutputResponse, UpdateTrailOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
-        let apiMetadata = AWSClientRuntime.APIMetadata(serviceId: serviceName, version: "1.0")
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromEnv(apiMetadata: apiMetadata, frameworkMetadata: config.frameworkMetadata)))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
         operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdateTrailInput, UpdateTrailOutputResponse>(xAmzTarget: "CloudTrail_20131101.UpdateTrail"))
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateTrailInput, UpdateTrailOutputResponse>(xmlName: "UpdateTrailRequest"))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateTrailInput, UpdateTrailOutputResponse>(contentType: "application/x-amz-json-1.1"))

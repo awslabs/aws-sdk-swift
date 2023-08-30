@@ -634,7 +634,7 @@ extension SearchInput: ClientRuntime.QueryItemProvider {
             }
             let queryQueryItem = ClientRuntime.URLQueryItem(name: "q".urlPercentEncoding(), value: Swift.String(query).urlPercentEncoding())
             items.append(queryQueryItem)
-            if start != 0 {
+            if let start = start {
                 let startQueryItem = ClientRuntime.URLQueryItem(name: "start".urlPercentEncoding(), value: Swift.String(start).urlPercentEncoding())
                 items.append(startQueryItem)
             }
@@ -650,7 +650,7 @@ extension SearchInput: ClientRuntime.QueryItemProvider {
                 let highlightQueryItem = ClientRuntime.URLQueryItem(name: "highlight".urlPercentEncoding(), value: Swift.String(highlight).urlPercentEncoding())
                 items.append(highlightQueryItem)
             }
-            if size != 0 {
+            if let size = size {
                 let sizeQueryItem = ClientRuntime.URLQueryItem(name: "size".urlPercentEncoding(), value: Swift.String(size).urlPercentEncoding())
                 items.append(sizeQueryItem)
             }
@@ -666,7 +666,7 @@ extension SearchInput: ClientRuntime.QueryItemProvider {
                 let facetQueryItem = ClientRuntime.URLQueryItem(name: "facet".urlPercentEncoding(), value: Swift.String(facet).urlPercentEncoding())
                 items.append(facetQueryItem)
             }
-            if partial != false {
+            if let partial = partial {
                 let partialQueryItem = ClientRuntime.URLQueryItem(name: "partial".urlPercentEncoding(), value: Swift.String(partial).urlPercentEncoding())
                 items.append(partialQueryItem)
             }
@@ -722,7 +722,7 @@ public struct SearchInput: Swift.Equatable {
     /// If no highlight options are specified for a field, the returned field text is treated as HTML and the first match is highlighted with emphasis tags: <em>search-term</em>. For example, the following request retrieves highlights for the actors and title fields. { "actors": {}, "title": {"format": "text","max_phrases": 2,"pre_tag": "","post_tag": ""} }
     public var highlight: Swift.String?
     /// Enables partial results to be returned if one or more index partitions are unavailable. When your search index is partitioned across multiple search instances, by default Amazon CloudSearch only returns results if every partition can be queried. This means that the failure of a single search instance can result in 5xx (internal server) errors. When you enable partial results, Amazon CloudSearch returns whatever results are available and includes the percentage of documents searched in the search results (percent-searched). This enables you to more gracefully degrade your users' search experience. For example, rather than displaying no results, you could display the partial results and a message indicating that the results might be incomplete due to a temporary system outage.
-    public var partial: Swift.Bool
+    public var partial: Swift.Bool?
     /// Specifies the search criteria for the request. How you specify the search criteria depends on the query parser used for the request and the parser options specified in the queryOptions parameter. By default, the simple query parser is used to process requests. To use the structured, lucene, or dismax query parser, you must also specify the queryParser parameter. For more information about specifying search criteria, see [Searching Your Data](http://docs.aws.amazon.com/cloudsearch/latest/developerguide/searching.html) in the Amazon CloudSearch Developer Guide.
     /// This member is required.
     public var query: Swift.String?
@@ -755,11 +755,11 @@ public struct SearchInput: Swift.Equatable {
     /// Specifies the field and expression values to include in the response. Multiple fields or expressions are specified as a comma-separated list. By default, a search response includes all return enabled fields (_all_fields). To return only the document IDs for the matching documents, specify _no_fields. To retrieve the relevance score calculated for each document, specify _score.
     public var `return`: Swift.String?
     /// Specifies the maximum number of search hits to include in the response.
-    public var size: Swift.Int
+    public var size: Swift.Int?
     /// Specifies the fields or custom expressions to use to sort the search results. Multiple fields or expressions are specified as a comma-separated list. You must specify the sort direction (asc or desc) for each field; for example, year desc,title asc. To use a field to sort results, the field must be sort-enabled in the domain configuration. Array type fields cannot be used for sorting. If no sort parameter is specified, results are sorted by their default relevance scores in descending order: _score desc. You can also sort by document ID (_id asc) and version (_version desc). For more information, see [Sorting Results](http://docs.aws.amazon.com/cloudsearch/latest/developerguide/sorting-results.html) in the Amazon CloudSearch Developer Guide.
     public var sort: Swift.String?
     /// Specifies the offset of the first search hit you want to return. Note that the result set is zero-based; the first result is at index 0. You can specify either the start or cursor parameter in a request, they are mutually exclusive. For more information, see [Paginating Results](http://docs.aws.amazon.com/cloudsearch/latest/developerguide/paginating-results.html) in the Amazon CloudSearch Developer Guide.
-    public var start: Swift.Int
+    public var start: Swift.Int?
     /// Specifies one or more fields for which to get statistics information. Each specified field must be facet-enabled in the domain configuration. The fields are specified in JSON using the form: {"FIELD-A":{},"FIELD-B":{}} There are currently no options supported for statistics.
     public var stats: Swift.String?
 
@@ -769,14 +769,14 @@ public struct SearchInput: Swift.Equatable {
         facet: Swift.String? = nil,
         filterQuery: Swift.String? = nil,
         highlight: Swift.String? = nil,
-        partial: Swift.Bool = false,
+        partial: Swift.Bool? = nil,
         query: Swift.String? = nil,
         queryOptions: Swift.String? = nil,
         queryParser: CloudSearchDomainClientTypes.QueryParser? = nil,
         `return`: Swift.String? = nil,
-        size: Swift.Int = 0,
+        size: Swift.Int? = nil,
         sort: Swift.String? = nil,
-        start: Swift.Int = 0,
+        start: Swift.Int? = nil,
         stats: Swift.String? = nil
     )
     {
@@ -963,7 +963,7 @@ extension SuggestInput: ClientRuntime.QueryItemProvider {
             }
             let suggesterQueryItem = ClientRuntime.URLQueryItem(name: "suggester".urlPercentEncoding(), value: Swift.String(suggester).urlPercentEncoding())
             items.append(suggesterQueryItem)
-            if size != 0 {
+            if let size = size {
                 let sizeQueryItem = ClientRuntime.URLQueryItem(name: "size".urlPercentEncoding(), value: Swift.String(size).urlPercentEncoding())
                 items.append(sizeQueryItem)
             }
@@ -990,14 +990,14 @@ public struct SuggestInput: Swift.Equatable {
     /// This member is required.
     public var query: Swift.String?
     /// Specifies the maximum number of suggestions to return.
-    public var size: Swift.Int
+    public var size: Swift.Int?
     /// Specifies the name of the suggester to use to find suggested matches.
     /// This member is required.
     public var suggester: Swift.String?
 
     public init(
         query: Swift.String? = nil,
-        size: Swift.Int = 0,
+        size: Swift.Int? = nil,
         suggester: Swift.String? = nil
     )
     {

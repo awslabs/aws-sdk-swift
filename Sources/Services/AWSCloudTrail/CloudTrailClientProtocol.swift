@@ -165,6 +165,7 @@ public protocol CloudTrailClientProtocol {
     /// - `OrganizationsNotInUseException` : This exception is thrown when the request is made from an Amazon Web Services account that is not a member of an organization. To make this request, sign in using the credentials of an account that belongs to an organization.
     /// - `S3BucketDoesNotExistException` : This exception is thrown when the specified S3 bucket does not exist.
     /// - `TagsLimitExceededException` : The number of tags per trail, event data store, or channel has exceeded the permitted amount. Currently, the limit is 50.
+    /// - `ThrottlingException` : This exception is thrown when the request rate exceeds the limit.
     /// - `TrailAlreadyExistsException` : This exception is thrown when the specified trail already exists.
     /// - `TrailNotProvidedException` : This exception is no longer in use.
     /// - `UnsupportedOperationException` : This exception is thrown when the requested operation is not supported.
@@ -248,6 +249,7 @@ public protocol CloudTrailClientProtocol {
     /// - `NoManagementAccountSLRExistsException` : This exception is thrown when the management account does not have a service-linked role.
     /// - `NotOrganizationMasterAccountException` : This exception is thrown when the Amazon Web Services account making the request to create or update an organization trail or event data store is not the management account for an organization in Organizations. For more information, see [Prepare For Creating a Trail For Your Organization](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/creating-an-organizational-trail-prepare.html) or [Create an event data store](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/query-event-data-store.html).
     /// - `OperationNotPermittedException` : This exception is thrown when the requested operation is not permitted.
+    /// - `ThrottlingException` : This exception is thrown when the request rate exceeds the limit.
     /// - `TrailNotFoundException` : This exception is thrown when the trail with the given name is not found.
     /// - `UnsupportedOperationException` : This exception is thrown when the requested operation is not supported.
     func deleteTrail(input: DeleteTrailInput) async throws -> DeleteTrailOutputResponse
@@ -421,6 +423,7 @@ public protocol CloudTrailClientProtocol {
     /// * Not be in IP address format (for example, 192.168.5.4)
     /// - `NoManagementAccountSLRExistsException` : This exception is thrown when the management account does not have a service-linked role.
     /// - `OperationNotPermittedException` : This exception is thrown when the requested operation is not permitted.
+    /// - `ThrottlingException` : This exception is thrown when the request rate exceeds the limit.
     /// - `TrailNotFoundException` : This exception is thrown when the trail with the given name is not found.
     /// - `UnsupportedOperationException` : This exception is thrown when the requested operation is not supported.
     func getInsightSelectors(input: GetInsightSelectorsInput) async throws -> GetInsightSelectorsOutputResponse
@@ -740,6 +743,7 @@ public protocol CloudTrailClientProtocol {
     /// - `NoManagementAccountSLRExistsException` : This exception is thrown when the management account does not have a service-linked role.
     /// - `NotOrganizationMasterAccountException` : This exception is thrown when the Amazon Web Services account making the request to create or update an organization trail or event data store is not the management account for an organization in Organizations. For more information, see [Prepare For Creating a Trail For Your Organization](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/creating-an-organizational-trail-prepare.html) or [Create an event data store](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/query-event-data-store.html).
     /// - `OperationNotPermittedException` : This exception is thrown when the requested operation is not permitted.
+    /// - `ThrottlingException` : This exception is thrown when the request rate exceeds the limit.
     /// - `TrailNotFoundException` : This exception is thrown when the trail with the given name is not found.
     /// - `UnsupportedOperationException` : This exception is thrown when the requested operation is not supported.
     func putEventSelectors(input: PutEventSelectorsInput) async throws -> PutEventSelectorsOutputResponse
@@ -773,6 +777,7 @@ public protocol CloudTrailClientProtocol {
     /// - `NotOrganizationMasterAccountException` : This exception is thrown when the Amazon Web Services account making the request to create or update an organization trail or event data store is not the management account for an organization in Organizations. For more information, see [Prepare For Creating a Trail For Your Organization](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/creating-an-organizational-trail-prepare.html) or [Create an event data store](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/query-event-data-store.html).
     /// - `OperationNotPermittedException` : This exception is thrown when the requested operation is not permitted.
     /// - `S3BucketDoesNotExistException` : This exception is thrown when the specified S3 bucket does not exist.
+    /// - `ThrottlingException` : This exception is thrown when the request rate exceeds the limit.
     /// - `TrailNotFoundException` : This exception is thrown when the trail with the given name is not found.
     /// - `UnsupportedOperationException` : This exception is thrown when the requested operation is not supported.
     func putInsightSelectors(input: PutInsightSelectorsInput) async throws -> PutInsightSelectorsOutputResponse
@@ -947,6 +952,7 @@ public protocol CloudTrailClientProtocol {
     /// - `NoManagementAccountSLRExistsException` : This exception is thrown when the management account does not have a service-linked role.
     /// - `NotOrganizationMasterAccountException` : This exception is thrown when the Amazon Web Services account making the request to create or update an organization trail or event data store is not the management account for an organization in Organizations. For more information, see [Prepare For Creating a Trail For Your Organization](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/creating-an-organizational-trail-prepare.html) or [Create an event data store](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/query-event-data-store.html).
     /// - `OperationNotPermittedException` : This exception is thrown when the requested operation is not permitted.
+    /// - `ThrottlingException` : This exception is thrown when the request rate exceeds the limit.
     /// - `TrailNotFoundException` : This exception is thrown when the trail with the given name is not found.
     /// - `UnsupportedOperationException` : This exception is thrown when the requested operation is not supported.
     func startLogging(input: StartLoggingInput) async throws -> StartLoggingOutputResponse
@@ -1035,6 +1041,7 @@ public protocol CloudTrailClientProtocol {
     /// - `NoManagementAccountSLRExistsException` : This exception is thrown when the management account does not have a service-linked role.
     /// - `NotOrganizationMasterAccountException` : This exception is thrown when the Amazon Web Services account making the request to create or update an organization trail or event data store is not the management account for an organization in Organizations. For more information, see [Prepare For Creating a Trail For Your Organization](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/creating-an-organizational-trail-prepare.html) or [Create an event data store](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/query-event-data-store.html).
     /// - `OperationNotPermittedException` : This exception is thrown when the requested operation is not permitted.
+    /// - `ThrottlingException` : This exception is thrown when the request rate exceeds the limit.
     /// - `TrailNotFoundException` : This exception is thrown when the trail with the given name is not found.
     /// - `UnsupportedOperationException` : This exception is thrown when the requested operation is not supported.
     func stopLogging(input: StopLoggingInput) async throws -> StopLoggingOutputResponse
@@ -1151,6 +1158,7 @@ public protocol CloudTrailClientProtocol {
     /// - `OrganizationNotInAllFeaturesModeException` : This exception is thrown when Organizations is not configured to support all features. All features must be enabled in Organizations to support creating an organization trail or event data store.
     /// - `OrganizationsNotInUseException` : This exception is thrown when the request is made from an Amazon Web Services account that is not a member of an organization. To make this request, sign in using the credentials of an account that belongs to an organization.
     /// - `S3BucketDoesNotExistException` : This exception is thrown when the specified S3 bucket does not exist.
+    /// - `ThrottlingException` : This exception is thrown when the request rate exceeds the limit.
     /// - `TrailNotFoundException` : This exception is thrown when the trail with the given name is not found.
     /// - `TrailNotProvidedException` : This exception is no longer in use.
     /// - `UnsupportedOperationException` : This exception is thrown when the requested operation is not supported.

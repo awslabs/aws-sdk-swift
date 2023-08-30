@@ -1440,15 +1440,28 @@ extension MediaConvertClientTypes {
     public enum AudioChannelTag: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case c
         case cs
+        case hi
         case l
         case lc
         case lfe
+        case lfe2
         case ls
         case lsd
+        case lt
+        case lw
+        case m
+        case nar
         case r
         case rc
         case rs
         case rsd
+        case rsl
+        case rsr
+        case rt
+        case rw
+        case tbc
+        case tbl
+        case tbr
         case tcs
         case vhc
         case vhl
@@ -1459,15 +1472,28 @@ extension MediaConvertClientTypes {
             return [
                 .c,
                 .cs,
+                .hi,
                 .l,
                 .lc,
                 .lfe,
+                .lfe2,
                 .ls,
                 .lsd,
+                .lt,
+                .lw,
+                .m,
+                .nar,
                 .r,
                 .rc,
                 .rs,
                 .rsd,
+                .rsl,
+                .rsr,
+                .rt,
+                .rw,
+                .tbc,
+                .tbl,
+                .tbr,
                 .tcs,
                 .vhc,
                 .vhl,
@@ -1483,15 +1509,28 @@ extension MediaConvertClientTypes {
             switch self {
             case .c: return "C"
             case .cs: return "CS"
+            case .hi: return "HI"
             case .l: return "L"
             case .lc: return "LC"
             case .lfe: return "LFE"
+            case .lfe2: return "LFE2"
             case .ls: return "LS"
             case .lsd: return "LSD"
+            case .lt: return "LT"
+            case .lw: return "LW"
+            case .m: return "M"
+            case .nar: return "NAR"
             case .r: return "R"
             case .rc: return "RC"
             case .rs: return "RS"
             case .rsd: return "RSD"
+            case .rsl: return "RSL"
+            case .rsr: return "RSR"
+            case .rt: return "RT"
+            case .rw: return "RW"
+            case .tbc: return "TBC"
+            case .tbl: return "TBL"
+            case .tbr: return "TBR"
             case .tcs: return "TCS"
             case .vhc: return "VHC"
             case .vhl: return "VHL"
@@ -1550,6 +1589,7 @@ extension MediaConvertClientTypes {
         case aiff
         case eac3
         case eac3Atmos
+        case flac
         case mp2
         case mp3
         case opus
@@ -1565,6 +1605,7 @@ extension MediaConvertClientTypes {
                 .aiff,
                 .eac3,
                 .eac3Atmos,
+                .flac,
                 .mp2,
                 .mp3,
                 .opus,
@@ -1585,6 +1626,7 @@ extension MediaConvertClientTypes {
             case .aiff: return "AIFF"
             case .eac3: return "EAC3"
             case .eac3Atmos: return "EAC3_ATMOS"
+            case .flac: return "FLAC"
             case .mp2: return "MP2"
             case .mp3: return "MP3"
             case .opus: return "OPUS"
@@ -1610,6 +1652,7 @@ extension MediaConvertClientTypes.AudioCodecSettings: Swift.Codable {
         case codec = "codec"
         case eac3AtmosSettings = "eac3AtmosSettings"
         case eac3Settings = "eac3Settings"
+        case flacSettings = "flacSettings"
         case mp2Settings = "mp2Settings"
         case mp3Settings = "mp3Settings"
         case opusSettings = "opusSettings"
@@ -1636,6 +1679,9 @@ extension MediaConvertClientTypes.AudioCodecSettings: Swift.Codable {
         }
         if let eac3Settings = self.eac3Settings {
             try encodeContainer.encode(eac3Settings, forKey: .eac3Settings)
+        }
+        if let flacSettings = self.flacSettings {
+            try encodeContainer.encode(flacSettings, forKey: .flacSettings)
         }
         if let mp2Settings = self.mp2Settings {
             try encodeContainer.encode(mp2Settings, forKey: .mp2Settings)
@@ -1668,6 +1714,8 @@ extension MediaConvertClientTypes.AudioCodecSettings: Swift.Codable {
         eac3AtmosSettings = eac3AtmosSettingsDecoded
         let eac3SettingsDecoded = try containerValues.decodeIfPresent(MediaConvertClientTypes.Eac3Settings.self, forKey: .eac3Settings)
         eac3Settings = eac3SettingsDecoded
+        let flacSettingsDecoded = try containerValues.decodeIfPresent(MediaConvertClientTypes.FlacSettings.self, forKey: .flacSettings)
+        flacSettings = flacSettingsDecoded
         let mp2SettingsDecoded = try containerValues.decodeIfPresent(MediaConvertClientTypes.Mp2Settings.self, forKey: .mp2Settings)
         mp2Settings = mp2SettingsDecoded
         let mp3SettingsDecoded = try containerValues.decodeIfPresent(MediaConvertClientTypes.Mp3Settings.self, forKey: .mp3Settings)
@@ -1696,6 +1744,8 @@ extension MediaConvertClientTypes {
         public var eac3AtmosSettings: MediaConvertClientTypes.Eac3AtmosSettings?
         /// Required when you set Codec to the value EAC3.
         public var eac3Settings: MediaConvertClientTypes.Eac3Settings?
+        /// Required when you set Codec, under AudioDescriptions>CodecSettings, to the value FLAC.
+        public var flacSettings: MediaConvertClientTypes.FlacSettings?
         /// Required when you set Codec to the value MP2.
         public var mp2Settings: MediaConvertClientTypes.Mp2Settings?
         /// Required when you set Codec, under AudioDescriptions>CodecSettings, to the value MP3.
@@ -1714,6 +1764,7 @@ extension MediaConvertClientTypes {
             codec: MediaConvertClientTypes.AudioCodec? = nil,
             eac3AtmosSettings: MediaConvertClientTypes.Eac3AtmosSettings? = nil,
             eac3Settings: MediaConvertClientTypes.Eac3Settings? = nil,
+            flacSettings: MediaConvertClientTypes.FlacSettings? = nil,
             mp2Settings: MediaConvertClientTypes.Mp2Settings? = nil,
             mp3Settings: MediaConvertClientTypes.Mp3Settings? = nil,
             opusSettings: MediaConvertClientTypes.OpusSettings? = nil,
@@ -1727,6 +1778,7 @@ extension MediaConvertClientTypes {
             self.codec = codec
             self.eac3AtmosSettings = eac3AtmosSettings
             self.eac3Settings = eac3Settings
+            self.flacSettings = flacSettings
             self.mp2Settings = mp2Settings
             self.mp3Settings = mp3Settings
             self.opusSettings = opusSettings
@@ -2649,11 +2701,11 @@ extension MediaConvertClientTypes.AutomatedAbrSettings: Swift.Codable {
 extension MediaConvertClientTypes {
     /// Use automated ABR to have MediaConvert set up the renditions in your ABR package for you automatically, based on characteristics of your input video. This feature optimizes video quality while minimizing the overall size of your ABR package.
     public struct AutomatedAbrSettings: Swift.Equatable {
-        /// Optional. The maximum target bit rate used in your automated ABR stack. Use this value to set an upper limit on the bandwidth consumed by the highest-quality rendition. This is the rendition that is delivered to viewers with the fastest internet connections. If you don't specify a value, MediaConvert uses 8,000,000 (8 mb/s) by default.
+        /// Specify the maximum average bitrate for MediaConvert to use in your automated ABR stack. If you don't specify a value, MediaConvert uses 8,000,000 (8 mb/s) by default. The average bitrate of your highest-quality rendition will be equal to or below this value, depending on the quality, complexity, and resolution of your content. Note that the instantaneous maximum bitrate may vary above the value that you specify.
         public var maxAbrBitrate: Swift.Int?
         /// Optional. The maximum number of renditions that MediaConvert will create in your automated ABR stack. The number of renditions is determined automatically, based on analysis of each job, but will never exceed this limit. When you set this to Auto in the console, which is equivalent to excluding it from your JSON job specification, MediaConvert defaults to a limit of 15.
         public var maxRenditions: Swift.Int?
-        /// Optional. The minimum target bitrate used in your automated ABR stack. Use this value to set a lower limit on the bitrate of video delivered to viewers with slow internet connections. If you don't specify a value, MediaConvert uses 600,000 (600 kb/s) by default.
+        /// Specify the minimum average bitrate for MediaConvert to use in your automated ABR stack. If you don't specify a value, MediaConvert uses 600,000 (600 kb/s) by default. The average bitrate of your lowest-quality rendition will be near this value. Note that the instantaneous minimum bitrate may vary below the value that you specify.
         public var minAbrBitrate: Swift.Int?
         /// Optional. Use Automated ABR rules to specify restrictions for the rendition sizes MediaConvert will create in your ABR stack. You can use these rules if your ABR workflow has specific rendition size requirements, but you still want MediaConvert to optimize for video quality and overall file size.
         public var rules: [MediaConvertClientTypes.AutomatedAbrRule]?
@@ -2783,6 +2835,39 @@ extension MediaConvertClientTypes {
             let container = try decoder.singleValueContainer()
             let rawValue = try container.decode(RawValue.self)
             self = Av1BitDepth(rawValue: rawValue) ?? Av1BitDepth.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension MediaConvertClientTypes {
+    /// Film grain synthesis replaces film grain present in your content with similar quality synthesized AV1 film grain. We recommend that you choose Enabled to reduce the bandwidth of your QVBR quality level 5, 6, 7, or 8 outputs. For QVBR quality level 9 or 10 outputs we recommend that you keep the default value, Disabled. When you include Film grain synthesis, you cannot include the Noise reducer preprocessor.
+    public enum Av1FilmGrainSynthesis: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [Av1FilmGrainSynthesis] {
+            return [
+                .disabled,
+                .enabled,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .enabled: return "ENABLED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = Av1FilmGrainSynthesis(rawValue: rawValue) ?? Av1FilmGrainSynthesis.sdkUnknown(rawValue)
         }
     }
 }
@@ -2935,6 +3020,7 @@ extension MediaConvertClientTypes.Av1Settings: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case adaptiveQuantization = "adaptiveQuantization"
         case bitDepth = "bitDepth"
+        case filmGrainSynthesis = "filmGrainSynthesis"
         case framerateControl = "framerateControl"
         case framerateConversionAlgorithm = "framerateConversionAlgorithm"
         case framerateDenominator = "framerateDenominator"
@@ -2955,6 +3041,9 @@ extension MediaConvertClientTypes.Av1Settings: Swift.Codable {
         }
         if let bitDepth = self.bitDepth {
             try encodeContainer.encode(bitDepth.rawValue, forKey: .bitDepth)
+        }
+        if let filmGrainSynthesis = self.filmGrainSynthesis {
+            try encodeContainer.encode(filmGrainSynthesis.rawValue, forKey: .filmGrainSynthesis)
         }
         if let framerateControl = self.framerateControl {
             try encodeContainer.encode(framerateControl.rawValue, forKey: .framerateControl)
@@ -2997,6 +3086,8 @@ extension MediaConvertClientTypes.Av1Settings: Swift.Codable {
         adaptiveQuantization = adaptiveQuantizationDecoded
         let bitDepthDecoded = try containerValues.decodeIfPresent(MediaConvertClientTypes.Av1BitDepth.self, forKey: .bitDepth)
         bitDepth = bitDepthDecoded
+        let filmGrainSynthesisDecoded = try containerValues.decodeIfPresent(MediaConvertClientTypes.Av1FilmGrainSynthesis.self, forKey: .filmGrainSynthesis)
+        filmGrainSynthesis = filmGrainSynthesisDecoded
         let framerateControlDecoded = try containerValues.decodeIfPresent(MediaConvertClientTypes.Av1FramerateControl.self, forKey: .framerateControl)
         framerateControl = framerateControlDecoded
         let framerateConversionAlgorithmDecoded = try containerValues.decodeIfPresent(MediaConvertClientTypes.Av1FramerateConversionAlgorithm.self, forKey: .framerateConversionAlgorithm)
@@ -3029,6 +3120,8 @@ extension MediaConvertClientTypes {
         public var adaptiveQuantization: MediaConvertClientTypes.Av1AdaptiveQuantization?
         /// Specify the Bit depth. You can choose 8-bit or 10-bit.
         public var bitDepth: MediaConvertClientTypes.Av1BitDepth?
+        /// Film grain synthesis replaces film grain present in your content with similar quality synthesized AV1 film grain. We recommend that you choose Enabled to reduce the bandwidth of your QVBR quality level 5, 6, 7, or 8 outputs. For QVBR quality level 9 or 10 outputs we recommend that you keep the default value, Disabled. When you include Film grain synthesis, you cannot include the Noise reducer preprocessor.
+        public var filmGrainSynthesis: MediaConvertClientTypes.Av1FilmGrainSynthesis?
         /// Use the Framerate setting to specify the frame rate for this output. If you want to keep the same frame rate as the input video, choose Follow source. If you want to do frame rate conversion, choose a frame rate from the dropdown list or choose Custom. The framerates shown in the dropdown list are decimal approximations of fractions. If you choose Custom, specify your frame rate as a fraction.
         public var framerateControl: MediaConvertClientTypes.Av1FramerateControl?
         /// Choose the method that you want MediaConvert to use when increasing or decreasing the frame rate. For numerically simple conversions, such as 60 fps to 30 fps: We recommend that you keep the default value, Drop duplicate. For numerically complex conversions, to avoid stutter: Choose Interpolate. This results in a smooth picture, but might introduce undesirable video artifacts. For complex frame rate conversions, especially if your source video has already been converted from its original cadence: Choose FrameFormer to do motion-compensated interpolation. FrameFormer uses the best conversion method frame by frame. Note that using FrameFormer increases the transcoding time and incurs a significant add-on cost. When you choose FrameFormer, your input video resolution must be at least 128x96.
@@ -3055,6 +3148,7 @@ extension MediaConvertClientTypes {
         public init(
             adaptiveQuantization: MediaConvertClientTypes.Av1AdaptiveQuantization? = nil,
             bitDepth: MediaConvertClientTypes.Av1BitDepth? = nil,
+            filmGrainSynthesis: MediaConvertClientTypes.Av1FilmGrainSynthesis? = nil,
             framerateControl: MediaConvertClientTypes.Av1FramerateControl? = nil,
             framerateConversionAlgorithm: MediaConvertClientTypes.Av1FramerateConversionAlgorithm? = nil,
             framerateDenominator: Swift.Int? = nil,
@@ -3070,6 +3164,7 @@ extension MediaConvertClientTypes {
         {
             self.adaptiveQuantization = adaptiveQuantization
             self.bitDepth = bitDepth
+            self.filmGrainSynthesis = filmGrainSynthesis
             self.framerateControl = framerateControl
             self.framerateConversionAlgorithm = framerateConversionAlgorithm
             self.framerateDenominator = framerateDenominator
@@ -13113,6 +13208,61 @@ extension MediaConvertClientTypes {
     }
 }
 
+extension MediaConvertClientTypes.FlacSettings: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case bitDepth = "bitDepth"
+        case channels = "channels"
+        case sampleRate = "sampleRate"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let bitDepth = self.bitDepth {
+            try encodeContainer.encode(bitDepth, forKey: .bitDepth)
+        }
+        if let channels = self.channels {
+            try encodeContainer.encode(channels, forKey: .channels)
+        }
+        if let sampleRate = self.sampleRate {
+            try encodeContainer.encode(sampleRate, forKey: .sampleRate)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let bitDepthDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .bitDepth)
+        bitDepth = bitDepthDecoded
+        let channelsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .channels)
+        channels = channelsDecoded
+        let sampleRateDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .sampleRate)
+        sampleRate = sampleRateDecoded
+    }
+}
+
+extension MediaConvertClientTypes {
+    /// Required when you set Codec, under AudioDescriptions>CodecSettings, to the value FLAC.
+    public struct FlacSettings: Swift.Equatable {
+        /// Specify Bit depth (BitDepth), in bits per sample, to choose the encoding quality for this audio track.
+        public var bitDepth: Swift.Int?
+        /// Specify the number of channels in this output audio track. Choosing Mono on the console gives you 1 output channel; choosing Stereo gives you 2. In the API, valid values are between 1 and 8.
+        public var channels: Swift.Int?
+        /// Sample rate in hz.
+        public var sampleRate: Swift.Int?
+
+        public init(
+            bitDepth: Swift.Int? = nil,
+            channels: Swift.Int? = nil,
+            sampleRate: Swift.Int? = nil
+        )
+        {
+            self.bitDepth = bitDepth
+            self.channels = channels
+            self.sampleRate = sampleRate
+        }
+    }
+
+}
+
 extension MediaConvertClientTypes {
     /// Provide the font script, using an ISO 15924 script code, if the LanguageCode is not sufficient for determining the script type. Where LanguageCode or CustomLanguageCode is sufficient, use "AUTOMATIC" or leave unset.
     public enum FontScript: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
@@ -23094,6 +23244,8 @@ extension MediaConvertClientTypes.M2tsSettings: Swift.Codable {
         case pmtPid = "pmtPid"
         case privateMetadataPid = "privateMetadataPid"
         case programNumber = "programNumber"
+        case ptsOffset = "ptsOffset"
+        case ptsOffsetMode = "ptsOffsetMode"
         case rateMode = "rateMode"
         case scte35Esam = "scte35Esam"
         case scte35Pid = "scte35Pid"
@@ -23200,6 +23352,12 @@ extension MediaConvertClientTypes.M2tsSettings: Swift.Codable {
         }
         if let programNumber = self.programNumber {
             try encodeContainer.encode(programNumber, forKey: .programNumber)
+        }
+        if let ptsOffset = self.ptsOffset {
+            try encodeContainer.encode(ptsOffset, forKey: .ptsOffset)
+        }
+        if let ptsOffsetMode = self.ptsOffsetMode {
+            try encodeContainer.encode(ptsOffsetMode.rawValue, forKey: .ptsOffsetMode)
         }
         if let rateMode = self.rateMode {
             try encodeContainer.encode(rateMode.rawValue, forKey: .rateMode)
@@ -23311,6 +23469,10 @@ extension MediaConvertClientTypes.M2tsSettings: Swift.Codable {
         privateMetadataPid = privateMetadataPidDecoded
         let programNumberDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .programNumber)
         programNumber = programNumberDecoded
+        let ptsOffsetDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .ptsOffset)
+        ptsOffset = ptsOffsetDecoded
+        let ptsOffsetModeDecoded = try containerValues.decodeIfPresent(MediaConvertClientTypes.TsPtsOffset.self, forKey: .ptsOffsetMode)
+        ptsOffsetMode = ptsOffsetModeDecoded
         let rateModeDecoded = try containerValues.decodeIfPresent(MediaConvertClientTypes.M2tsRateMode.self, forKey: .rateMode)
         rateMode = rateModeDecoded
         let scte35EsamDecoded = try containerValues.decodeIfPresent(MediaConvertClientTypes.M2tsScte35Esam.self, forKey: .scte35Esam)
@@ -23395,6 +23557,10 @@ extension MediaConvertClientTypes {
         public var privateMetadataPid: Swift.Int?
         /// Use Program number to specify the program number used in the program map table (PMT) for this output. Default is 1. Program numbers and program map tables are parts of MPEG-2 transport stream containers, used for organizing data.
         public var programNumber: Swift.Int?
+        /// Manually specify the initial PTS offset, in seconds, when you set PTS offset to Seconds. Enter an integer from 0 to 3600. Leave blank to keep the default value 2.
+        public var ptsOffset: Swift.Int?
+        /// Specify the initial presentation timestamp (PTS) offset for your transport stream output. To let MediaConvert automatically determine the initial PTS offset: Keep the default value, Auto. We recommend that you choose Auto for the widest player compatibility. The initial PTS will be at least two seconds and vary depending on your output's bitrate, HRD buffer size and HRD buffer initial fill percentage. To manually specify an initial PTS offset: Choose Seconds. Then specify the number of seconds with PTS offset.
+        public var ptsOffsetMode: MediaConvertClientTypes.TsPtsOffset?
         /// When set to CBR, inserts null packets into transport stream to fill specified bitrate. When set to VBR, the bitrate setting acts as the maximum bitrate, but the output will not be padded up to that bitrate.
         public var rateMode: MediaConvertClientTypes.M2tsRateMode?
         /// Include this in your job settings to put SCTE-35 markers in your HLS and transport stream outputs at the insertion points that you specify in an ESAM XML document. Provide the document in the setting SCC XML.
@@ -23446,6 +23612,8 @@ extension MediaConvertClientTypes {
             pmtPid: Swift.Int? = nil,
             privateMetadataPid: Swift.Int? = nil,
             programNumber: Swift.Int? = nil,
+            ptsOffset: Swift.Int? = nil,
+            ptsOffsetMode: MediaConvertClientTypes.TsPtsOffset? = nil,
             rateMode: MediaConvertClientTypes.M2tsRateMode? = nil,
             scte35Esam: MediaConvertClientTypes.M2tsScte35Esam? = nil,
             scte35Pid: Swift.Int? = nil,
@@ -23487,6 +23655,8 @@ extension MediaConvertClientTypes {
             self.pmtPid = pmtPid
             self.privateMetadataPid = privateMetadataPid
             self.programNumber = programNumber
+            self.ptsOffset = ptsOffset
+            self.ptsOffsetMode = ptsOffsetMode
             self.rateMode = rateMode
             self.scte35Esam = scte35Esam
             self.scte35Pid = scte35Pid
@@ -23682,6 +23852,8 @@ extension MediaConvertClientTypes.M3u8Settings: Swift.Codable {
         case pmtPid = "pmtPid"
         case privateMetadataPid = "privateMetadataPid"
         case programNumber = "programNumber"
+        case ptsOffset = "ptsOffset"
+        case ptsOffsetMode = "ptsOffsetMode"
         case scte35Pid = "scte35Pid"
         case scte35Source = "scte35Source"
         case timedMetadata = "timedMetadata"
@@ -23733,6 +23905,12 @@ extension MediaConvertClientTypes.M3u8Settings: Swift.Codable {
         }
         if let programNumber = self.programNumber {
             try encodeContainer.encode(programNumber, forKey: .programNumber)
+        }
+        if let ptsOffset = self.ptsOffset {
+            try encodeContainer.encode(ptsOffset, forKey: .ptsOffset)
+        }
+        if let ptsOffsetMode = self.ptsOffsetMode {
+            try encodeContainer.encode(ptsOffsetMode.rawValue, forKey: .ptsOffsetMode)
         }
         if let scte35Pid = self.scte35Pid {
             try encodeContainer.encode(scte35Pid, forKey: .scte35Pid)
@@ -23791,6 +23969,10 @@ extension MediaConvertClientTypes.M3u8Settings: Swift.Codable {
         privateMetadataPid = privateMetadataPidDecoded
         let programNumberDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .programNumber)
         programNumber = programNumberDecoded
+        let ptsOffsetDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .ptsOffset)
+        ptsOffset = ptsOffsetDecoded
+        let ptsOffsetModeDecoded = try containerValues.decodeIfPresent(MediaConvertClientTypes.TsPtsOffset.self, forKey: .ptsOffsetMode)
+        ptsOffsetMode = ptsOffsetModeDecoded
         let scte35PidDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .scte35Pid)
         scte35Pid = scte35PidDecoded
         let scte35SourceDecoded = try containerValues.decodeIfPresent(MediaConvertClientTypes.M3u8Scte35Source.self, forKey: .scte35Source)
@@ -23835,6 +24017,10 @@ extension MediaConvertClientTypes {
         public var privateMetadataPid: Swift.Int?
         /// The value of the program number field in the Program Map Table.
         public var programNumber: Swift.Int?
+        /// Manually specify the initial PTS offset, in seconds, when you set PTS offset to Seconds. Enter an integer from 0 to 3600. Leave blank to keep the default value 2.
+        public var ptsOffset: Swift.Int?
+        /// Specify the initial presentation timestamp (PTS) offset for your transport stream output. To let MediaConvert automatically determine the initial PTS offset: Keep the default value, Auto. We recommend that you choose Auto for the widest player compatibility. The initial PTS will be at least two seconds and vary depending on your output's bitrate, HRD buffer size and HRD buffer initial fill percentage. To manually specify an initial PTS offset: Choose Seconds. Then specify the number of seconds with PTS offset.
+        public var ptsOffsetMode: MediaConvertClientTypes.TsPtsOffset?
         /// Packet Identifier (PID) of the SCTE-35 stream in the transport stream.
         public var scte35Pid: Swift.Int?
         /// For SCTE-35 markers from your input-- Choose Passthrough if you want SCTE-35 markers that appear in your input to also appear in this output. Choose None if you don't want SCTE-35 markers in this output. For SCTE-35 markers from an ESAM XML document-- Choose None if you don't want manifest conditioning. Choose Passthrough and choose Ad markers if you do want manifest conditioning. In both cases, also provide the ESAM XML as a string in the setting Signal processing notification XML.
@@ -23862,6 +24048,8 @@ extension MediaConvertClientTypes {
             pmtPid: Swift.Int? = nil,
             privateMetadataPid: Swift.Int? = nil,
             programNumber: Swift.Int? = nil,
+            ptsOffset: Swift.Int? = nil,
+            ptsOffsetMode: MediaConvertClientTypes.TsPtsOffset? = nil,
             scte35Pid: Swift.Int? = nil,
             scte35Source: MediaConvertClientTypes.M3u8Scte35Source? = nil,
             timedMetadata: MediaConvertClientTypes.TimedMetadata? = nil,
@@ -23883,6 +24071,8 @@ extension MediaConvertClientTypes {
             self.pmtPid = pmtPid
             self.privateMetadataPid = privateMetadataPid
             self.programNumber = programNumber
+            self.ptsOffset = ptsOffset
+            self.ptsOffsetMode = ptsOffsetMode
             self.scte35Pid = scte35Pid
             self.scte35Source = scte35Source
             self.timedMetadata = timedMetadata
@@ -29960,6 +30150,7 @@ extension MediaConvertClientTypes.S3DestinationSettings: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case accessControl = "accessControl"
         case encryption = "encryption"
+        case storageClass = "storageClass"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -29970,6 +30161,9 @@ extension MediaConvertClientTypes.S3DestinationSettings: Swift.Codable {
         if let encryption = self.encryption {
             try encodeContainer.encode(encryption, forKey: .encryption)
         }
+        if let storageClass = self.storageClass {
+            try encodeContainer.encode(storageClass.rawValue, forKey: .storageClass)
+        }
     }
 
     public init(from decoder: Swift.Decoder) throws {
@@ -29978,6 +30172,8 @@ extension MediaConvertClientTypes.S3DestinationSettings: Swift.Codable {
         accessControl = accessControlDecoded
         let encryptionDecoded = try containerValues.decodeIfPresent(MediaConvertClientTypes.S3EncryptionSettings.self, forKey: .encryption)
         encryption = encryptionDecoded
+        let storageClassDecoded = try containerValues.decodeIfPresent(MediaConvertClientTypes.S3StorageClass.self, forKey: .storageClass)
+        storageClass = storageClassDecoded
     }
 }
 
@@ -29988,14 +30184,18 @@ extension MediaConvertClientTypes {
         public var accessControl: MediaConvertClientTypes.S3DestinationAccessControl?
         /// Settings for how your job outputs are encrypted as they are uploaded to Amazon S3.
         public var encryption: MediaConvertClientTypes.S3EncryptionSettings?
+        /// Specify the S3 storage class to use for this destination.
+        public var storageClass: MediaConvertClientTypes.S3StorageClass?
 
         public init(
             accessControl: MediaConvertClientTypes.S3DestinationAccessControl? = nil,
-            encryption: MediaConvertClientTypes.S3EncryptionSettings? = nil
+            encryption: MediaConvertClientTypes.S3EncryptionSettings? = nil,
+            storageClass: MediaConvertClientTypes.S3StorageClass? = nil
         )
         {
             self.accessControl = accessControl
             self.encryption = encryption
+            self.storageClass = storageClass
         }
     }
 
@@ -30124,6 +30324,54 @@ extension MediaConvertClientTypes {
             let container = try decoder.singleValueContainer()
             let rawValue = try container.decode(RawValue.self)
             self = S3ServerSideEncryptionType(rawValue: rawValue) ?? S3ServerSideEncryptionType.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension MediaConvertClientTypes {
+    /// Specify the S3 storage class to use for this destination.
+    public enum S3StorageClass: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case deepArchive
+        case glacier
+        case intelligentTiering
+        case onezoneIa
+        case reducedRedundancy
+        case standard
+        case standardIa
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [S3StorageClass] {
+            return [
+                .deepArchive,
+                .glacier,
+                .intelligentTiering,
+                .onezoneIa,
+                .reducedRedundancy,
+                .standard,
+                .standardIa,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .deepArchive: return "DEEP_ARCHIVE"
+            case .glacier: return "GLACIER"
+            case .intelligentTiering: return "INTELLIGENT_TIERING"
+            case .onezoneIa: return "ONEZONE_IA"
+            case .reducedRedundancy: return "REDUCED_REDUNDANCY"
+            case .standard: return "STANDARD"
+            case .standardIa: return "STANDARD_IA"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = S3StorageClass(rawValue: rawValue) ?? S3StorageClass.sdkUnknown(rawValue)
         }
     }
 }
@@ -31354,6 +31602,39 @@ extension MediaConvertClientTypes {
         }
     }
 
+}
+
+extension MediaConvertClientTypes {
+    /// Specify the initial presentation timestamp (PTS) offset for your transport stream output. To let MediaConvert automatically determine the initial PTS offset: Keep the default value, Auto. We recommend that you choose Auto for the widest player compatibility. The initial PTS will be at least two seconds and vary depending on your output's bitrate, HRD buffer size and HRD buffer initial fill percentage. To manually specify an initial PTS offset: Choose Seconds. Then specify the number of seconds with PTS offset.
+    public enum TsPtsOffset: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case auto
+        case seconds
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TsPtsOffset] {
+            return [
+                .auto,
+                .seconds,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .auto: return "AUTO"
+            case .seconds: return "SECONDS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = TsPtsOffset(rawValue: rawValue) ?? TsPtsOffset.sdkUnknown(rawValue)
+        }
+    }
 }
 
 extension MediaConvertClientTypes.TtmlDestinationSettings: Swift.Codable {

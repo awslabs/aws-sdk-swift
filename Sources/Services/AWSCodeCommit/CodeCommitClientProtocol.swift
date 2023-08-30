@@ -2,17 +2,17 @@
 
 import ClientRuntime
 
-/// AWS CodeCommit This is the AWS CodeCommit API Reference. This reference provides descriptions of the operations and data types for AWS CodeCommit API along with usage examples. You can use the AWS CodeCommit API to work with the following objects: Repositories, by calling the following:
+/// CodeCommit This is the CodeCommit API Reference. This reference provides descriptions of the operations and data types for CodeCommit API along with usage examples. You can use the CodeCommit API to work with the following objects: Repositories, by calling the following:
 ///
-/// * [BatchGetRepositories], which returns information about one or more repositories associated with your AWS account.
+/// * [BatchGetRepositories], which returns information about one or more repositories associated with your Amazon Web Services account.
 ///
-/// * [CreateRepository], which creates an AWS CodeCommit repository.
+/// * [CreateRepository], which creates an CodeCommit repository.
 ///
-/// * [DeleteRepository], which deletes an AWS CodeCommit repository.
+/// * [DeleteRepository], which deletes an CodeCommit repository.
 ///
 /// * [GetRepository], which returns information about a specified repository.
 ///
-/// * [ListRepositories], which lists all AWS CodeCommit repositories associated with your AWS account.
+/// * [ListRepositories], which lists all CodeCommit repositories associated with your Amazon Web Services account.
 ///
 /// * [UpdateRepositoryDescription], which sets or updates the description of the repository.
 ///
@@ -41,6 +41,8 @@ import ClientRuntime
 /// * [GetFile], which returns the base-64 encoded content of a specified file.
 ///
 /// * [GetFolder], which returns the contents of a specified folder or directory.
+///
+/// * [ListFileCommitHistory], which retrieves a list of commits and changes to a specified file.
 ///
 /// * [PutFile], which adds or modifies a single file in a specified repository and branch.
 ///
@@ -103,7 +105,7 @@ import ClientRuntime
 ///
 /// * [MergePullRequestBySquash], which merges the source destination branch of a pull request into the specified destination branch for that pull request using the squash merge option.
 ///
-/// * [MergePullRequestByThreeWay]. which merges the source destination branch of a pull request into the specified destination branch for that pull request using the three-way merge option.
+/// * [MergePullRequestByThreeWay], which merges the source destination branch of a pull request into the specified destination branch for that pull request using the three-way merge option.
 ///
 /// * [OverridePullRequestApprovalRules], which sets aside all approval rule requirements for a pull request.
 ///
@@ -122,13 +124,13 @@ import ClientRuntime
 ///
 /// Approval rule templates, by calling the following:
 ///
-/// * [AssociateApprovalRuleTemplateWithRepository], which associates a template with a specified repository. After the template is associated with a repository, AWS CodeCommit creates approval rules that match the template conditions on every pull request created in the specified repository.
+/// * [AssociateApprovalRuleTemplateWithRepository], which associates a template with a specified repository. After the template is associated with a repository, CodeCommit creates approval rules that match the template conditions on every pull request created in the specified repository.
 ///
-/// * [BatchAssociateApprovalRuleTemplateWithRepositories], which associates a template with one or more specified repositories. After the template is associated with a repository, AWS CodeCommit creates approval rules that match the template conditions on every pull request created in the specified repositories.
+/// * [BatchAssociateApprovalRuleTemplateWithRepositories], which associates a template with one or more specified repositories. After the template is associated with a repository, CodeCommit creates approval rules that match the template conditions on every pull request created in the specified repositories.
 ///
 /// * [BatchDisassociateApprovalRuleTemplateFromRepositories], which removes the association between a template and specified repositories so that approval rules based on the template are not automatically created when pull requests are created in those repositories.
 ///
-/// * [CreateApprovalRuleTemplate], which creates a template for approval rules that can then be associated with one or more repositories in your AWS account.
+/// * [CreateApprovalRuleTemplate], which creates a template for approval rules that can then be associated with one or more repositories in your Amazon Web Services account.
 ///
 /// * [DeleteApprovalRuleTemplate], which deletes the specified template. It does not remove approval rules on pull requests already created with the template.
 ///
@@ -136,7 +138,7 @@ import ClientRuntime
 ///
 /// * [GetApprovalRuleTemplate], which returns information about an approval rule template.
 ///
-/// * [ListApprovalRuleTemplates], which lists all approval rule templates in the AWS Region in your AWS account.
+/// * [ListApprovalRuleTemplates], which lists all approval rule templates in the Amazon Web Services Region in your Amazon Web Services account.
 ///
 /// * [ListAssociatedApprovalRuleTemplatesForRepository], which lists all approval rule templates that are associated with a specified repository.
 ///
@@ -168,13 +170,13 @@ import ClientRuntime
 /// * [UpdateComment], which updates the content of a comment on a commit in a repository.
 ///
 ///
-/// Tags used to tag resources in AWS CodeCommit (not Git tags), by calling the following:
+/// Tags used to tag resources in CodeCommit (not Git tags), by calling the following:
 ///
-/// * [ListTagsForResource], which gets information about AWS tags for a specified Amazon Resource Name (ARN) in AWS CodeCommit.
+/// * [ListTagsForResource], which gets information about Amazon Web Servicestags for a specified Amazon Resource Name (ARN) in CodeCommit.
 ///
-/// * [TagResource], which adds or updates tags for a resource in AWS CodeCommit.
+/// * [TagResource], which adds or updates tags for a resource in CodeCommit.
 ///
-/// * [UntagResource], which removes tags for a resource in AWS CodeCommit.
+/// * [UntagResource], which removes tags for a resource in CodeCommit.
 ///
 ///
 /// Triggers, by calling the following:
@@ -186,7 +188,7 @@ import ClientRuntime
 /// * [TestRepositoryTriggers], which tests the functionality of a repository trigger by sending data to the trigger target.
 ///
 ///
-/// For information about how to use AWS CodeCommit, see the [AWS CodeCommit User Guide](https://docs.aws.amazon.com/codecommit/latest/userguide/welcome.html).
+/// For information about how to use CodeCommit, see the [CodeCommit User Guide](https://docs.aws.amazon.com/codecommit/latest/userguide/welcome.html).
 public protocol CodeCommitClientProtocol {
     /// Creates an association between an approval rule template and a specified repository. Then, the next time a pull request is created in the repository where the destination reference (if specified) matches the destination reference (branch) for the pull request, an approval rule that matches the template conditions is automatically created for that pull request. If no destination references are specified in the template, an approval rule that matches the template contents is created for all pull requests in that repository.
     ///
@@ -197,14 +199,14 @@ public protocol CodeCommitClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ApprovalRuleTemplateDoesNotExistException` : The specified approval rule template does not exist. Verify that the name is correct and that you are signed in to the AWS Region where the template was created, and then try again.
+    /// - `ApprovalRuleTemplateDoesNotExistException` : The specified approval rule template does not exist. Verify that the name is correct and that you are signed in to the Amazon Web Services Region where the template was created, and then try again.
     /// - `ApprovalRuleTemplateNameRequiredException` : An approval rule template name is required, but was not specified.
     /// - `EncryptionIntegrityChecksFailedException` : An encryption integrity check failed.
     /// - `EncryptionKeyAccessDeniedException` : An encryption key could not be accessed.
     /// - `EncryptionKeyDisabledException` : The encryption key is disabled.
     /// - `EncryptionKeyNotFoundException` : No encryption key was found.
     /// - `EncryptionKeyUnavailableException` : The encryption key is not available.
-    /// - `InvalidApprovalRuleTemplateNameException` : The name of the approval rule template is not valid. Template names must be between 1 and 100 valid characters in length. For more information about limits in AWS CodeCommit, see [AWS CodeCommit User Guide](https://docs.aws.amazon.com/codecommit/latest/userguide/limits.html).
+    /// - `InvalidApprovalRuleTemplateNameException` : The name of the approval rule template is not valid. Template names must be between 1 and 100 valid characters in length. For more information about limits in CodeCommit, see [Quotas](https://docs.aws.amazon.com/codecommit/latest/userguide/limits.html) in the CodeCommit User Guide.
     /// - `InvalidRepositoryNameException` : A specified repository name is not valid. This exception occurs only when a specified repository name is not valid. Other exceptions occur when a required repository parameter is missing, or when a specified repository does not exist.
     /// - `MaximumRuleTemplatesAssociatedWithRepositoryException` : The maximum number of approval rule templates for a repository has been exceeded. You cannot associate more than 25 approval rule templates with a repository.
     /// - `RepositoryDoesNotExistException` : The specified repository does not exist.
@@ -219,14 +221,14 @@ public protocol CodeCommitClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ApprovalRuleTemplateDoesNotExistException` : The specified approval rule template does not exist. Verify that the name is correct and that you are signed in to the AWS Region where the template was created, and then try again.
+    /// - `ApprovalRuleTemplateDoesNotExistException` : The specified approval rule template does not exist. Verify that the name is correct and that you are signed in to the Amazon Web Services Region where the template was created, and then try again.
     /// - `ApprovalRuleTemplateNameRequiredException` : An approval rule template name is required, but was not specified.
     /// - `EncryptionIntegrityChecksFailedException` : An encryption integrity check failed.
     /// - `EncryptionKeyAccessDeniedException` : An encryption key could not be accessed.
     /// - `EncryptionKeyDisabledException` : The encryption key is disabled.
     /// - `EncryptionKeyNotFoundException` : No encryption key was found.
     /// - `EncryptionKeyUnavailableException` : The encryption key is not available.
-    /// - `InvalidApprovalRuleTemplateNameException` : The name of the approval rule template is not valid. Template names must be between 1 and 100 valid characters in length. For more information about limits in AWS CodeCommit, see [AWS CodeCommit User Guide](https://docs.aws.amazon.com/codecommit/latest/userguide/limits.html).
+    /// - `InvalidApprovalRuleTemplateNameException` : The name of the approval rule template is not valid. Template names must be between 1 and 100 valid characters in length. For more information about limits in CodeCommit, see [Quotas](https://docs.aws.amazon.com/codecommit/latest/userguide/limits.html) in the CodeCommit User Guide.
     /// - `MaximumRepositoryNamesExceededException` : The maximum number of allowed repository names was exceeded. Currently, this number is 100.
     /// - `RepositoryNamesRequiredException` : At least one repository name object is required, but was not specified.
     func batchAssociateApprovalRuleTemplateWithRepositories(input: BatchAssociateApprovalRuleTemplateWithRepositoriesInput) async throws -> BatchAssociateApprovalRuleTemplateWithRepositoriesOutputResponse
@@ -270,14 +272,14 @@ public protocol CodeCommitClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ApprovalRuleTemplateDoesNotExistException` : The specified approval rule template does not exist. Verify that the name is correct and that you are signed in to the AWS Region where the template was created, and then try again.
+    /// - `ApprovalRuleTemplateDoesNotExistException` : The specified approval rule template does not exist. Verify that the name is correct and that you are signed in to the Amazon Web Services Region where the template was created, and then try again.
     /// - `ApprovalRuleTemplateNameRequiredException` : An approval rule template name is required, but was not specified.
     /// - `EncryptionIntegrityChecksFailedException` : An encryption integrity check failed.
     /// - `EncryptionKeyAccessDeniedException` : An encryption key could not be accessed.
     /// - `EncryptionKeyDisabledException` : The encryption key is disabled.
     /// - `EncryptionKeyNotFoundException` : No encryption key was found.
     /// - `EncryptionKeyUnavailableException` : The encryption key is not available.
-    /// - `InvalidApprovalRuleTemplateNameException` : The name of the approval rule template is not valid. Template names must be between 1 and 100 valid characters in length. For more information about limits in AWS CodeCommit, see [AWS CodeCommit User Guide](https://docs.aws.amazon.com/codecommit/latest/userguide/limits.html).
+    /// - `InvalidApprovalRuleTemplateNameException` : The name of the approval rule template is not valid. Template names must be between 1 and 100 valid characters in length. For more information about limits in CodeCommit, see [Quotas](https://docs.aws.amazon.com/codecommit/latest/userguide/limits.html) in the CodeCommit User Guide.
     /// - `MaximumRepositoryNamesExceededException` : The maximum number of allowed repository names was exceeded. Currently, this number is 100.
     /// - `RepositoryNamesRequiredException` : At least one repository name object is required, but was not specified.
     func batchDisassociateApprovalRuleTemplateFromRepositories(input: BatchDisassociateApprovalRuleTemplateFromRepositoriesInput) async throws -> BatchDisassociateApprovalRuleTemplateFromRepositoriesOutputResponse
@@ -319,7 +321,7 @@ public protocol CodeCommitClientProtocol {
     /// - `MaximumRepositoryNamesExceededException` : The maximum number of allowed repository names was exceeded. Currently, this number is 100.
     /// - `RepositoryNamesRequiredException` : At least one repository name object is required, but was not specified.
     func batchGetRepositories(input: BatchGetRepositoriesInput) async throws -> BatchGetRepositoriesOutputResponse
-    /// Creates a template for approval rules that can then be associated with one or more repositories in your AWS account. When you associate a template with a repository, AWS CodeCommit creates an approval rule that matches the conditions of the template for all pull requests that meet the conditions of the template. For more information, see [AssociateApprovalRuleTemplateWithRepository].
+    /// Creates a template for approval rules that can then be associated with one or more repositories in your Amazon Web Services account. When you associate a template with a repository, CodeCommit creates an approval rule that matches the conditions of the template for all pull requests that meet the conditions of the template. For more information, see [AssociateApprovalRuleTemplateWithRepository].
     ///
     /// - Parameter CreateApprovalRuleTemplateInput : [no documentation found]
     ///
@@ -329,12 +331,12 @@ public protocol CodeCommitClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ApprovalRuleTemplateContentRequiredException` : The content for the approval rule template is empty. You must provide some content for an approval rule template. The content cannot be null.
-    /// - `ApprovalRuleTemplateNameAlreadyExistsException` : You cannot create an approval rule template with that name because a template with that name already exists in this AWS Region for your AWS account. Approval rule template names must be unique.
+    /// - `ApprovalRuleTemplateNameAlreadyExistsException` : You cannot create an approval rule template with that name because a template with that name already exists in this Amazon Web Services Region for your Amazon Web Services account. Approval rule template names must be unique.
     /// - `ApprovalRuleTemplateNameRequiredException` : An approval rule template name is required, but was not specified.
     /// - `InvalidApprovalRuleTemplateContentException` : The content of the approval rule template is not valid.
-    /// - `InvalidApprovalRuleTemplateDescriptionException` : The description for the approval rule template is not valid because it exceeds the maximum characters allowed for a description. For more information about limits in AWS CodeCommit, see [AWS CodeCommit User Guide](https://docs.aws.amazon.com/codecommit/latest/userguide/limits.html).
-    /// - `InvalidApprovalRuleTemplateNameException` : The name of the approval rule template is not valid. Template names must be between 1 and 100 valid characters in length. For more information about limits in AWS CodeCommit, see [AWS CodeCommit User Guide](https://docs.aws.amazon.com/codecommit/latest/userguide/limits.html).
-    /// - `NumberOfRuleTemplatesExceededException` : The maximum number of approval rule templates has been exceeded for this AWS Region.
+    /// - `InvalidApprovalRuleTemplateDescriptionException` : The description for the approval rule template is not valid because it exceeds the maximum characters allowed for a description. For more information about limits in CodeCommit, see [Quotas](https://docs.aws.amazon.com/codecommit/latest/userguide/limits.html) in the CodeCommit User Guide.
+    /// - `InvalidApprovalRuleTemplateNameException` : The name of the approval rule template is not valid. Template names must be between 1 and 100 valid characters in length. For more information about limits in CodeCommit, see [Quotas](https://docs.aws.amazon.com/codecommit/latest/userguide/limits.html) in the CodeCommit User Guide.
+    /// - `NumberOfRuleTemplatesExceededException` : The maximum number of approval rule templates has been exceeded for this Amazon Web Services Region.
     func createApprovalRuleTemplate(input: CreateApprovalRuleTemplateInput) async throws -> CreateApprovalRuleTemplateOutputResponse
     /// Creates a branch in a repository and points the branch to a commit. Calling the create branch operation does not set a repository's default branch. To do this, call the update default branch operation.
     ///
@@ -426,7 +428,7 @@ public protocol CodeCommitClientProtocol {
     /// - `IdempotencyParameterMismatchException` : The client request token is not valid. Either the token is not in a valid format, or the token has been used in a previous request and cannot be reused.
     /// - `InvalidClientRequestTokenException` : The client request token is not valid.
     /// - `InvalidDescriptionException` : The pull request description is not valid. Descriptions cannot be more than 1,000 characters.
-    /// - `InvalidReferenceNameException` : The specified reference name format is not valid. Reference names must conform to the Git references format (for example, refs/heads/master). For more information, see [Git Internals - Git References](https://git-scm.com/book/en/v2/Git-Internals-Git-References) or consult your Git documentation.
+    /// - `InvalidReferenceNameException` : The specified reference name format is not valid. Reference names must conform to the Git references format (for example, refs/heads/main). For more information, see [Git Internals - Git References](https://git-scm.com/book/en/v2/Git-Internals-Git-References) or consult your Git documentation.
     /// - `InvalidRepositoryNameException` : A specified repository name is not valid. This exception occurs only when a specified repository name is not valid. Other exceptions occur when a required repository parameter is missing, or when a specified repository does not exist.
     /// - `InvalidTargetException` : The target for the pull request is not valid. A target must contain the full values for the repository name, source branch, and destination branch for the pull request.
     /// - `InvalidTargetsException` : The targets for the pull request is not valid or not in a valid format. Targets are a list of target objects. Each target object must contain the full values for the repository name, source branch, and destination branch for a pull request.
@@ -490,7 +492,7 @@ public protocol CodeCommitClientProtocol {
     /// - `RepositoryNameExistsException` : The specified repository name already exists.
     /// - `RepositoryNameRequiredException` : A repository name is required, but was not specified.
     /// - `TagPolicyException` : The tag policy is not valid.
-    /// - `TooManyTagsException` : The maximum number of tags for an AWS CodeCommit resource has been exceeded.
+    /// - `TooManyTagsException` : The maximum number of tags for an CodeCommit resource has been exceeded.
     func createRepository(input: CreateRepositoryInput) async throws -> CreateRepositoryOutputResponse
     /// Creates an unreferenced commit that represents the result of merging two branches using a specified merge strategy. This can help you determine the outcome of a potential merge. This API cannot be used with the fast-forward merge strategy because that strategy does not create a merge commit. This unreferenced merge commit can only be accessed using the GetCommit API or through git commands such as git fetch. To retrieve this commit, you must specify its commit ID or otherwise reference it.
     ///
@@ -549,7 +551,7 @@ public protocol CodeCommitClientProtocol {
     /// __Possible Exceptions:__
     /// - `ApprovalRuleTemplateInUseException` : The approval rule template is associated with one or more repositories. You cannot delete a template that is associated with a repository. Remove all associations, and then try again.
     /// - `ApprovalRuleTemplateNameRequiredException` : An approval rule template name is required, but was not specified.
-    /// - `InvalidApprovalRuleTemplateNameException` : The name of the approval rule template is not valid. Template names must be between 1 and 100 valid characters in length. For more information about limits in AWS CodeCommit, see [AWS CodeCommit User Guide](https://docs.aws.amazon.com/codecommit/latest/userguide/limits.html).
+    /// - `InvalidApprovalRuleTemplateNameException` : The name of the approval rule template is not valid. Template names must be between 1 and 100 valid characters in length. For more information about limits in CodeCommit, see [Quotas](https://docs.aws.amazon.com/codecommit/latest/userguide/limits.html) in the CodeCommit User Guide.
     func deleteApprovalRuleTemplate(input: DeleteApprovalRuleTemplateInput) async throws -> DeleteApprovalRuleTemplateOutputResponse
     /// Deletes a branch from a repository, unless that branch is the default branch for the repository.
     ///
@@ -699,7 +701,7 @@ public protocol CodeCommitClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ActorDoesNotExistException` : The specified Amazon Resource Name (ARN) does not exist in the AWS account.
+    /// - `ActorDoesNotExistException` : The specified Amazon Resource Name (ARN) does not exist in the Amazon Web Services account.
     /// - `EncryptionIntegrityChecksFailedException` : An encryption integrity check failed.
     /// - `EncryptionKeyAccessDeniedException` : An encryption key could not be accessed.
     /// - `EncryptionKeyDisabledException` : The encryption key is disabled.
@@ -722,14 +724,14 @@ public protocol CodeCommitClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ApprovalRuleTemplateDoesNotExistException` : The specified approval rule template does not exist. Verify that the name is correct and that you are signed in to the AWS Region where the template was created, and then try again.
+    /// - `ApprovalRuleTemplateDoesNotExistException` : The specified approval rule template does not exist. Verify that the name is correct and that you are signed in to the Amazon Web Services Region where the template was created, and then try again.
     /// - `ApprovalRuleTemplateNameRequiredException` : An approval rule template name is required, but was not specified.
     /// - `EncryptionIntegrityChecksFailedException` : An encryption integrity check failed.
     /// - `EncryptionKeyAccessDeniedException` : An encryption key could not be accessed.
     /// - `EncryptionKeyDisabledException` : The encryption key is disabled.
     /// - `EncryptionKeyNotFoundException` : No encryption key was found.
     /// - `EncryptionKeyUnavailableException` : The encryption key is not available.
-    /// - `InvalidApprovalRuleTemplateNameException` : The name of the approval rule template is not valid. Template names must be between 1 and 100 valid characters in length. For more information about limits in AWS CodeCommit, see [AWS CodeCommit User Guide](https://docs.aws.amazon.com/codecommit/latest/userguide/limits.html).
+    /// - `InvalidApprovalRuleTemplateNameException` : The name of the approval rule template is not valid. Template names must be between 1 and 100 valid characters in length. For more information about limits in CodeCommit, see [Quotas](https://docs.aws.amazon.com/codecommit/latest/userguide/limits.html) in the CodeCommit User Guide.
     /// - `InvalidRepositoryNameException` : A specified repository name is not valid. This exception occurs only when a specified repository name is not valid. Other exceptions occur when a required repository parameter is missing, or when a specified repository does not exist.
     /// - `RepositoryDoesNotExistException` : The specified repository does not exist.
     /// - `RepositoryNameRequiredException` : A repository name is required, but was not specified.
@@ -764,9 +766,9 @@ public protocol CodeCommitClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ApprovalRuleTemplateDoesNotExistException` : The specified approval rule template does not exist. Verify that the name is correct and that you are signed in to the AWS Region where the template was created, and then try again.
+    /// - `ApprovalRuleTemplateDoesNotExistException` : The specified approval rule template does not exist. Verify that the name is correct and that you are signed in to the Amazon Web Services Region where the template was created, and then try again.
     /// - `ApprovalRuleTemplateNameRequiredException` : An approval rule template name is required, but was not specified.
-    /// - `InvalidApprovalRuleTemplateNameException` : The name of the approval rule template is not valid. Template names must be between 1 and 100 valid characters in length. For more information about limits in AWS CodeCommit, see [AWS CodeCommit User Guide](https://docs.aws.amazon.com/codecommit/latest/userguide/limits.html).
+    /// - `InvalidApprovalRuleTemplateNameException` : The name of the approval rule template is not valid. Template names must be between 1 and 100 valid characters in length. For more information about limits in CodeCommit, see [Quotas](https://docs.aws.amazon.com/codecommit/latest/userguide/limits.html) in the CodeCommit User Guide.
     func getApprovalRuleTemplate(input: GetApprovalRuleTemplateInput) async throws -> GetApprovalRuleTemplateOutputResponse
     /// Returns the base-64 encoded content of an individual blob in a repository.
     ///
@@ -784,7 +786,7 @@ public protocol CodeCommitClientProtocol {
     /// - `EncryptionKeyDisabledException` : The encryption key is disabled.
     /// - `EncryptionKeyNotFoundException` : No encryption key was found.
     /// - `EncryptionKeyUnavailableException` : The encryption key is not available.
-    /// - `FileTooLargeException` : The specified file exceeds the file size limit for AWS CodeCommit. For more information about limits in AWS CodeCommit, see [AWS CodeCommit User Guide](https://docs.aws.amazon.com/codecommit/latest/userguide/limits.html).
+    /// - `FileTooLargeException` : The specified file exceeds the file size limit for CodeCommit. For more information about limits in CodeCommit, see [Quotas](https://docs.aws.amazon.com/codecommit/latest/userguide/limits.html) in the CodeCommit User Guide.
     /// - `InvalidBlobIdException` : The specified blob is not valid.
     /// - `InvalidRepositoryNameException` : A specified repository name is not valid. This exception occurs only when a specified repository name is not valid. Other exceptions occur when a required repository parameter is missing, or when a specified repository does not exist.
     /// - `RepositoryDoesNotExistException` : The specified repository does not exist.
@@ -960,7 +962,7 @@ public protocol CodeCommitClientProtocol {
     /// - `EncryptionKeyNotFoundException` : No encryption key was found.
     /// - `EncryptionKeyUnavailableException` : The encryption key is not available.
     /// - `FileDoesNotExistException` : The specified file does not exist. Verify that you have used the correct file name, full path, and extension.
-    /// - `FileTooLargeException` : The specified file exceeds the file size limit for AWS CodeCommit. For more information about limits in AWS CodeCommit, see [AWS CodeCommit User Guide](https://docs.aws.amazon.com/codecommit/latest/userguide/limits.html).
+    /// - `FileTooLargeException` : The specified file exceeds the file size limit for CodeCommit. For more information about limits in CodeCommit, see [Quotas](https://docs.aws.amazon.com/codecommit/latest/userguide/limits.html) in the CodeCommit User Guide.
     /// - `InvalidCommitException` : The specified commit is not valid.
     /// - `InvalidPathException` : The specified path is not valid.
     /// - `InvalidRepositoryNameException` : A specified repository name is not valid. This exception occurs only when a specified repository name is not valid. Other exceptions occur when a required repository parameter is missing, or when a specified repository does not exist.
@@ -1166,7 +1168,7 @@ public protocol CodeCommitClientProtocol {
     /// - `RepositoryDoesNotExistException` : The specified repository does not exist.
     /// - `RepositoryNameRequiredException` : A repository name is required, but was not specified.
     func getRepositoryTriggers(input: GetRepositoryTriggersInput) async throws -> GetRepositoryTriggersOutputResponse
-    /// Lists all approval rule templates in the specified AWS Region in your AWS account. If an AWS Region is not specified, the AWS Region where you are signed in is used.
+    /// Lists all approval rule templates in the specified Amazon Web Services Region in your Amazon Web Services account. If an Amazon Web Services Region is not specified, the Amazon Web Services Region where you are signed in is used.
     ///
     /// - Parameter ListApprovalRuleTemplatesInput : [no documentation found]
     ///
@@ -1217,6 +1219,30 @@ public protocol CodeCommitClientProtocol {
     /// - `RepositoryDoesNotExistException` : The specified repository does not exist.
     /// - `RepositoryNameRequiredException` : A repository name is required, but was not specified.
     func listBranches(input: ListBranchesInput) async throws -> ListBranchesOutputResponse
+    /// Retrieves a list of commits and changes to a specified file.
+    ///
+    /// - Parameter ListFileCommitHistoryInput : [no documentation found]
+    ///
+    /// - Returns: `ListFileCommitHistoryOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `CommitDoesNotExistException` : The specified commit does not exist or no commit was specified, and the specified repository has no default branch.
+    /// - `CommitRequiredException` : A commit was not specified.
+    /// - `EncryptionIntegrityChecksFailedException` : An encryption integrity check failed.
+    /// - `EncryptionKeyAccessDeniedException` : An encryption key could not be accessed.
+    /// - `EncryptionKeyDisabledException` : The encryption key is disabled.
+    /// - `EncryptionKeyNotFoundException` : No encryption key was found.
+    /// - `EncryptionKeyUnavailableException` : The encryption key is not available.
+    /// - `InvalidCommitException` : The specified commit is not valid.
+    /// - `InvalidContinuationTokenException` : The specified continuation token is not valid.
+    /// - `InvalidMaxResultsException` : The specified number of maximum results is not valid.
+    /// - `InvalidRepositoryNameException` : A specified repository name is not valid. This exception occurs only when a specified repository name is not valid. Other exceptions occur when a required repository parameter is missing, or when a specified repository does not exist.
+    /// - `RepositoryDoesNotExistException` : The specified repository does not exist.
+    /// - `RepositoryNameRequiredException` : A repository name is required, but was not specified.
+    /// - `TipsDivergenceExceededException` : The divergence between the tips of the provided commit specifiers is too great to determine whether there might be any merge conflicts. Locally compare the specifiers using git diff or a diff tool.
+    func listFileCommitHistory(input: ListFileCommitHistoryInput) async throws -> ListFileCommitHistoryOutputResponse
     /// Returns a list of pull requests for a specified repository. The return list can be refined by pull request status or pull request author ARN.
     ///
     /// - Parameter ListPullRequestsInput : [no documentation found]
@@ -1226,7 +1252,7 @@ public protocol CodeCommitClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AuthorDoesNotExistException` : The specified Amazon Resource Name (ARN) does not exist in the AWS account.
+    /// - `AuthorDoesNotExistException` : The specified Amazon Resource Name (ARN) does not exist in the Amazon Web Services account.
     /// - `EncryptionIntegrityChecksFailedException` : An encryption integrity check failed.
     /// - `EncryptionKeyAccessDeniedException` : An encryption key could not be accessed.
     /// - `EncryptionKeyDisabledException` : The encryption key is disabled.
@@ -1262,18 +1288,18 @@ public protocol CodeCommitClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ApprovalRuleTemplateDoesNotExistException` : The specified approval rule template does not exist. Verify that the name is correct and that you are signed in to the AWS Region where the template was created, and then try again.
+    /// - `ApprovalRuleTemplateDoesNotExistException` : The specified approval rule template does not exist. Verify that the name is correct and that you are signed in to the Amazon Web Services Region where the template was created, and then try again.
     /// - `ApprovalRuleTemplateNameRequiredException` : An approval rule template name is required, but was not specified.
     /// - `EncryptionIntegrityChecksFailedException` : An encryption integrity check failed.
     /// - `EncryptionKeyAccessDeniedException` : An encryption key could not be accessed.
     /// - `EncryptionKeyDisabledException` : The encryption key is disabled.
     /// - `EncryptionKeyNotFoundException` : No encryption key was found.
     /// - `EncryptionKeyUnavailableException` : The encryption key is not available.
-    /// - `InvalidApprovalRuleTemplateNameException` : The name of the approval rule template is not valid. Template names must be between 1 and 100 valid characters in length. For more information about limits in AWS CodeCommit, see [AWS CodeCommit User Guide](https://docs.aws.amazon.com/codecommit/latest/userguide/limits.html).
+    /// - `InvalidApprovalRuleTemplateNameException` : The name of the approval rule template is not valid. Template names must be between 1 and 100 valid characters in length. For more information about limits in CodeCommit, see [Quotas](https://docs.aws.amazon.com/codecommit/latest/userguide/limits.html) in the CodeCommit User Guide.
     /// - `InvalidContinuationTokenException` : The specified continuation token is not valid.
     /// - `InvalidMaxResultsException` : The specified number of maximum results is not valid.
     func listRepositoriesForApprovalRuleTemplate(input: ListRepositoriesForApprovalRuleTemplateInput) async throws -> ListRepositoriesForApprovalRuleTemplateOutputResponse
-    /// Gets information about AWS tags for a specified Amazon Resource Name (ARN) in AWS CodeCommit. For a list of valid resources in AWS CodeCommit, see [CodeCommit Resources and Operations](https://docs.aws.amazon.com/codecommit/latest/userguide/auth-and-access-control-iam-access-control-identity-based.html#arn-formats) in the AWS CodeCommit User Guide.
+    /// Gets information about Amazon Web Servicestags for a specified Amazon Resource Name (ARN) in CodeCommit. For a list of valid resources in CodeCommit, see [CodeCommit Resources and Operations](https://docs.aws.amazon.com/codecommit/latest/userguide/auth-and-access-control-iam-access-control-identity-based.html#arn-formats) in the CodeCommit User Guide.
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
     ///
@@ -1283,9 +1309,9 @@ public protocol CodeCommitClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `InvalidRepositoryNameException` : A specified repository name is not valid. This exception occurs only when a specified repository name is not valid. Other exceptions occur when a required repository parameter is missing, or when a specified repository does not exist.
-    /// - `InvalidResourceArnException` : The value for the resource ARN is not valid. For more information about resources in AWS CodeCommit, see [CodeCommit Resources and Operations](https://docs.aws.amazon.com/codecommit/latest/userguide/auth-and-access-control-iam-access-control-identity-based.html#arn-formats) in the AWS CodeCommit User Guide.
+    /// - `InvalidResourceArnException` : The value for the resource ARN is not valid. For more information about resources in CodeCommit, see [CodeCommit Resources and Operations](https://docs.aws.amazon.com/codecommit/latest/userguide/auth-and-access-control-iam-access-control-identity-based.html#arn-formats) in the CodeCommit User Guide.
     /// - `RepositoryDoesNotExistException` : The specified repository does not exist.
-    /// - `ResourceArnRequiredException` : A valid Amazon Resource Name (ARN) for an AWS CodeCommit resource is required. For a list of valid resources in AWS CodeCommit, see [CodeCommit Resources and Operations](https://docs.aws.amazon.com/codecommit/latest/userguide/auth-and-access-control-iam-access-control-identity-based.html#arn-formats) in the AWS CodeCommit User Guide.
+    /// - `ResourceArnRequiredException` : A valid Amazon Resource Name (ARN) for an CodeCommit resource is required. For a list of valid resources in CodeCommit, see [CodeCommit Resources and Operations](https://docs.aws.amazon.com/codecommit/latest/userguide/auth-and-access-control-iam-access-control-identity-based.html#arn-formats) in the CodeCommit User Guide.
     func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
     /// Merges two branches using the fast-forward merge strategy.
     ///
@@ -1576,7 +1602,7 @@ public protocol CodeCommitClientProtocol {
     /// - `BeforeCommitIdAndAfterCommitIdAreSameException` : The before commit ID and the after commit ID are the same, which is not valid. The before commit ID and the after commit ID must be different commit IDs.
     /// - `ClientRequestTokenRequiredException` : A client request token is required. A client request token is an unique, client-generated idempotency token that, when provided in a request, ensures the request cannot be repeated with a changed parameter. If a request is received with the same parameters and a token is included, the request returns information about the initial request that used that token.
     /// - `CommentContentRequiredException` : The comment is empty. You must provide some content for a comment. The content cannot be null.
-    /// - `CommentContentSizeLimitExceededException` : The comment is too large. Comments are limited to 1,000 characters.
+    /// - `CommentContentSizeLimitExceededException` : The comment is too large. Comments are limited to 10,240 characters.
     /// - `CommitDoesNotExistException` : The specified commit does not exist or no commit was specified, and the specified repository has no default branch.
     /// - `CommitIdRequiredException` : A commit ID was not specified.
     /// - `EncryptionIntegrityChecksFailedException` : An encryption integrity check failed.
@@ -1609,7 +1635,7 @@ public protocol CodeCommitClientProtocol {
     /// - `BeforeCommitIdAndAfterCommitIdAreSameException` : The before commit ID and the after commit ID are the same, which is not valid. The before commit ID and the after commit ID must be different commit IDs.
     /// - `ClientRequestTokenRequiredException` : A client request token is required. A client request token is an unique, client-generated idempotency token that, when provided in a request, ensures the request cannot be repeated with a changed parameter. If a request is received with the same parameters and a token is included, the request returns information about the initial request that used that token.
     /// - `CommentContentRequiredException` : The comment is empty. You must provide some content for a comment. The content cannot be null.
-    /// - `CommentContentSizeLimitExceededException` : The comment is too large. Comments are limited to 1,000 characters.
+    /// - `CommentContentSizeLimitExceededException` : The comment is too large. Comments are limited to 10,240 characters.
     /// - `CommitDoesNotExistException` : The specified commit does not exist or no commit was specified, and the specified repository has no default branch.
     /// - `CommitIdRequiredException` : A commit ID was not specified.
     /// - `EncryptionIntegrityChecksFailedException` : An encryption integrity check failed.
@@ -1645,7 +1671,7 @@ public protocol CodeCommitClientProtocol {
     /// __Possible Exceptions:__
     /// - `ClientRequestTokenRequiredException` : A client request token is required. A client request token is an unique, client-generated idempotency token that, when provided in a request, ensures the request cannot be repeated with a changed parameter. If a request is received with the same parameters and a token is included, the request returns information about the initial request that used that token.
     /// - `CommentContentRequiredException` : The comment is empty. You must provide some content for a comment. The content cannot be null.
-    /// - `CommentContentSizeLimitExceededException` : The comment is too large. Comments are limited to 1,000 characters.
+    /// - `CommentContentSizeLimitExceededException` : The comment is too large. Comments are limited to 10,240 characters.
     /// - `CommentDoesNotExistException` : No comment exists with the provided ID. Verify that you have used the correct ID, and then try again.
     /// - `CommentIdRequiredException` : The comment ID is missing or null. A comment ID is required.
     /// - `IdempotencyParameterMismatchException` : The client request token is not valid. Either the token is not in a valid format, or the token has been used in a previous request and cannot be reused.
@@ -1665,11 +1691,11 @@ public protocol CodeCommitClientProtocol {
     /// - `CommentDoesNotExistException` : No comment exists with the provided ID. Verify that you have used the correct ID, and then try again.
     /// - `CommentIdRequiredException` : The comment ID is missing or null. A comment ID is required.
     /// - `InvalidCommentIdException` : The comment ID is not in a valid format. Make sure that you have provided the full comment ID.
-    /// - `InvalidReactionValueException` : The value of the reaction is not valid. For more information, see the [AWS CodeCommit User Guide](https://docs.aws.amazon.com/codecommit/latest/userguide/welcome.html).
+    /// - `InvalidReactionValueException` : The value of the reaction is not valid. For more information, see the [CodeCommit User Guide](https://docs.aws.amazon.com/codecommit/latest/userguide/welcome.html).
     /// - `ReactionLimitExceededException` : The number of reactions has been exceeded. Reactions are limited to one reaction per user for each individual comment ID.
     /// - `ReactionValueRequiredException` : A reaction value is required.
     func putCommentReaction(input: PutCommentReactionInput) async throws -> PutCommentReactionOutputResponse
-    /// Adds or updates a file in a branch in an AWS CodeCommit repository, and generates a commit for the addition in the specified branch.
+    /// Adds or updates a file in a branch in an CodeCommit repository, and generates a commit for the addition in the specified branch.
     ///
     /// - Parameter PutFileInput : [no documentation found]
     ///
@@ -1729,7 +1755,7 @@ public protocol CodeCommitClientProtocol {
     /// - `InvalidRepositoryTriggerDestinationArnException` : The Amazon Resource Name (ARN) for the trigger is not valid for the specified destination. The most common reason for this error is that the ARN does not meet the requirements for the service type.
     /// - `InvalidRepositoryTriggerEventsException` : One or more events specified for the trigger is not valid. Check to make sure that all events specified match the requirements for allowed events.
     /// - `InvalidRepositoryTriggerNameException` : The name of the trigger is not valid.
-    /// - `InvalidRepositoryTriggerRegionException` : The AWS Region for the trigger target does not match the AWS Region for the repository. Triggers must be created in the same Region as the target for the trigger.
+    /// - `InvalidRepositoryTriggerRegionException` : The Amazon Web Services Region for the trigger target does not match the Amazon Web Services Region for the repository. Triggers must be created in the same Amazon Web Services Region as the target for the trigger.
     /// - `MaximumBranchesExceededException` : The number of branches for the trigger was exceeded.
     /// - `MaximumRepositoryTriggersExceededException` : The number of triggers allowed for the repository was exceeded.
     /// - `RepositoryDoesNotExistException` : The specified repository does not exist.
@@ -1740,7 +1766,7 @@ public protocol CodeCommitClientProtocol {
     /// - `RepositoryTriggerNameRequiredException` : A name for the trigger is required, but was not specified.
     /// - `RepositoryTriggersListRequiredException` : The list of triggers for the repository is required, but was not specified.
     func putRepositoryTriggers(input: PutRepositoryTriggersInput) async throws -> PutRepositoryTriggersOutputResponse
-    /// Adds or updates tags for a resource in AWS CodeCommit. For a list of valid resources in AWS CodeCommit, see [CodeCommit Resources and Operations](https://docs.aws.amazon.com/codecommit/latest/userguide/auth-and-access-control-iam-access-control-identity-based.html#arn-formats) in the AWS CodeCommit User Guide.
+    /// Adds or updates tags for a resource in CodeCommit. For a list of valid resources in CodeCommit, see [CodeCommit Resources and Operations](https://docs.aws.amazon.com/codecommit/latest/userguide/auth-and-access-control-iam-access-control-identity-based.html#arn-formats) in the CodeCommit User Guide.
     ///
     /// - Parameter TagResourceInput : [no documentation found]
     ///
@@ -1750,14 +1776,14 @@ public protocol CodeCommitClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `InvalidRepositoryNameException` : A specified repository name is not valid. This exception occurs only when a specified repository name is not valid. Other exceptions occur when a required repository parameter is missing, or when a specified repository does not exist.
-    /// - `InvalidResourceArnException` : The value for the resource ARN is not valid. For more information about resources in AWS CodeCommit, see [CodeCommit Resources and Operations](https://docs.aws.amazon.com/codecommit/latest/userguide/auth-and-access-control-iam-access-control-identity-based.html#arn-formats) in the AWS CodeCommit User Guide.
+    /// - `InvalidResourceArnException` : The value for the resource ARN is not valid. For more information about resources in CodeCommit, see [CodeCommit Resources and Operations](https://docs.aws.amazon.com/codecommit/latest/userguide/auth-and-access-control-iam-access-control-identity-based.html#arn-formats) in the CodeCommit User Guide.
     /// - `InvalidSystemTagUsageException` : The specified tag is not valid. Key names cannot be prefixed with aws:.
     /// - `InvalidTagsMapException` : The map of tags is not valid.
     /// - `RepositoryDoesNotExistException` : The specified repository does not exist.
-    /// - `ResourceArnRequiredException` : A valid Amazon Resource Name (ARN) for an AWS CodeCommit resource is required. For a list of valid resources in AWS CodeCommit, see [CodeCommit Resources and Operations](https://docs.aws.amazon.com/codecommit/latest/userguide/auth-and-access-control-iam-access-control-identity-based.html#arn-formats) in the AWS CodeCommit User Guide.
+    /// - `ResourceArnRequiredException` : A valid Amazon Resource Name (ARN) for an CodeCommit resource is required. For a list of valid resources in CodeCommit, see [CodeCommit Resources and Operations](https://docs.aws.amazon.com/codecommit/latest/userguide/auth-and-access-control-iam-access-control-identity-based.html#arn-formats) in the CodeCommit User Guide.
     /// - `TagPolicyException` : The tag policy is not valid.
     /// - `TagsMapRequiredException` : A map of tags is required.
-    /// - `TooManyTagsException` : The maximum number of tags for an AWS CodeCommit resource has been exceeded.
+    /// - `TooManyTagsException` : The maximum number of tags for an CodeCommit resource has been exceeded.
     func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
     /// Tests the functionality of repository triggers by sending information to the trigger target. If real data is available in the repository, the test sends data from the last commit. If no data is available, sample data is generated.
     ///
@@ -1779,7 +1805,7 @@ public protocol CodeCommitClientProtocol {
     /// - `InvalidRepositoryTriggerDestinationArnException` : The Amazon Resource Name (ARN) for the trigger is not valid for the specified destination. The most common reason for this error is that the ARN does not meet the requirements for the service type.
     /// - `InvalidRepositoryTriggerEventsException` : One or more events specified for the trigger is not valid. Check to make sure that all events specified match the requirements for allowed events.
     /// - `InvalidRepositoryTriggerNameException` : The name of the trigger is not valid.
-    /// - `InvalidRepositoryTriggerRegionException` : The AWS Region for the trigger target does not match the AWS Region for the repository. Triggers must be created in the same Region as the target for the trigger.
+    /// - `InvalidRepositoryTriggerRegionException` : The Amazon Web Services Region for the trigger target does not match the Amazon Web Services Region for the repository. Triggers must be created in the same Amazon Web Services Region as the target for the trigger.
     /// - `MaximumBranchesExceededException` : The number of branches for the trigger was exceeded.
     /// - `MaximumRepositoryTriggersExceededException` : The number of triggers allowed for the repository was exceeded.
     /// - `RepositoryDoesNotExistException` : The specified repository does not exist.
@@ -1790,7 +1816,7 @@ public protocol CodeCommitClientProtocol {
     /// - `RepositoryTriggerNameRequiredException` : A name for the trigger is required, but was not specified.
     /// - `RepositoryTriggersListRequiredException` : The list of triggers for the repository is required, but was not specified.
     func testRepositoryTriggers(input: TestRepositoryTriggersInput) async throws -> TestRepositoryTriggersOutputResponse
-    /// Removes tags for a resource in AWS CodeCommit. For a list of valid resources in AWS CodeCommit, see [CodeCommit Resources and Operations](https://docs.aws.amazon.com/codecommit/latest/userguide/auth-and-access-control-iam-access-control-identity-based.html#arn-formats) in the AWS CodeCommit User Guide.
+    /// Removes tags for a resource in CodeCommit. For a list of valid resources in CodeCommit, see [CodeCommit Resources and Operations](https://docs.aws.amazon.com/codecommit/latest/userguide/auth-and-access-control-iam-access-control-identity-based.html#arn-formats) in the CodeCommit User Guide.
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
     ///
@@ -1800,14 +1826,14 @@ public protocol CodeCommitClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `InvalidRepositoryNameException` : A specified repository name is not valid. This exception occurs only when a specified repository name is not valid. Other exceptions occur when a required repository parameter is missing, or when a specified repository does not exist.
-    /// - `InvalidResourceArnException` : The value for the resource ARN is not valid. For more information about resources in AWS CodeCommit, see [CodeCommit Resources and Operations](https://docs.aws.amazon.com/codecommit/latest/userguide/auth-and-access-control-iam-access-control-identity-based.html#arn-formats) in the AWS CodeCommit User Guide.
+    /// - `InvalidResourceArnException` : The value for the resource ARN is not valid. For more information about resources in CodeCommit, see [CodeCommit Resources and Operations](https://docs.aws.amazon.com/codecommit/latest/userguide/auth-and-access-control-iam-access-control-identity-based.html#arn-formats) in the CodeCommit User Guide.
     /// - `InvalidSystemTagUsageException` : The specified tag is not valid. Key names cannot be prefixed with aws:.
     /// - `InvalidTagKeysListException` : The list of tags is not valid.
     /// - `RepositoryDoesNotExistException` : The specified repository does not exist.
-    /// - `ResourceArnRequiredException` : A valid Amazon Resource Name (ARN) for an AWS CodeCommit resource is required. For a list of valid resources in AWS CodeCommit, see [CodeCommit Resources and Operations](https://docs.aws.amazon.com/codecommit/latest/userguide/auth-and-access-control-iam-access-control-identity-based.html#arn-formats) in the AWS CodeCommit User Guide.
+    /// - `ResourceArnRequiredException` : A valid Amazon Resource Name (ARN) for an CodeCommit resource is required. For a list of valid resources in CodeCommit, see [CodeCommit Resources and Operations](https://docs.aws.amazon.com/codecommit/latest/userguide/auth-and-access-control-iam-access-control-identity-based.html#arn-formats) in the CodeCommit User Guide.
     /// - `TagKeysListRequiredException` : A list of tag keys is required. The list cannot be empty or null.
     /// - `TagPolicyException` : The tag policy is not valid.
-    /// - `TooManyTagsException` : The maximum number of tags for an AWS CodeCommit resource has been exceeded.
+    /// - `TooManyTagsException` : The maximum number of tags for an CodeCommit resource has been exceeded.
     func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
     /// Updates the content of an approval rule template. You can change the number of required approvals, the membership of the approval rule, and whether an approval pool is defined.
     ///
@@ -1819,10 +1845,10 @@ public protocol CodeCommitClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `ApprovalRuleTemplateContentRequiredException` : The content for the approval rule template is empty. You must provide some content for an approval rule template. The content cannot be null.
-    /// - `ApprovalRuleTemplateDoesNotExistException` : The specified approval rule template does not exist. Verify that the name is correct and that you are signed in to the AWS Region where the template was created, and then try again.
+    /// - `ApprovalRuleTemplateDoesNotExistException` : The specified approval rule template does not exist. Verify that the name is correct and that you are signed in to the Amazon Web Services Region where the template was created, and then try again.
     /// - `ApprovalRuleTemplateNameRequiredException` : An approval rule template name is required, but was not specified.
     /// - `InvalidApprovalRuleTemplateContentException` : The content of the approval rule template is not valid.
-    /// - `InvalidApprovalRuleTemplateNameException` : The name of the approval rule template is not valid. Template names must be between 1 and 100 valid characters in length. For more information about limits in AWS CodeCommit, see [AWS CodeCommit User Guide](https://docs.aws.amazon.com/codecommit/latest/userguide/limits.html).
+    /// - `InvalidApprovalRuleTemplateNameException` : The name of the approval rule template is not valid. Template names must be between 1 and 100 valid characters in length. For more information about limits in CodeCommit, see [Quotas](https://docs.aws.amazon.com/codecommit/latest/userguide/limits.html) in the CodeCommit User Guide.
     /// - `InvalidRuleContentSha256Exception` : The SHA-256 hash signature for the rule content is not valid.
     func updateApprovalRuleTemplateContent(input: UpdateApprovalRuleTemplateContentInput) async throws -> UpdateApprovalRuleTemplateContentOutputResponse
     /// Updates the description for a specified approval rule template.
@@ -1834,10 +1860,10 @@ public protocol CodeCommitClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ApprovalRuleTemplateDoesNotExistException` : The specified approval rule template does not exist. Verify that the name is correct and that you are signed in to the AWS Region where the template was created, and then try again.
+    /// - `ApprovalRuleTemplateDoesNotExistException` : The specified approval rule template does not exist. Verify that the name is correct and that you are signed in to the Amazon Web Services Region where the template was created, and then try again.
     /// - `ApprovalRuleTemplateNameRequiredException` : An approval rule template name is required, but was not specified.
-    /// - `InvalidApprovalRuleTemplateDescriptionException` : The description for the approval rule template is not valid because it exceeds the maximum characters allowed for a description. For more information about limits in AWS CodeCommit, see [AWS CodeCommit User Guide](https://docs.aws.amazon.com/codecommit/latest/userguide/limits.html).
-    /// - `InvalidApprovalRuleTemplateNameException` : The name of the approval rule template is not valid. Template names must be between 1 and 100 valid characters in length. For more information about limits in AWS CodeCommit, see [AWS CodeCommit User Guide](https://docs.aws.amazon.com/codecommit/latest/userguide/limits.html).
+    /// - `InvalidApprovalRuleTemplateDescriptionException` : The description for the approval rule template is not valid because it exceeds the maximum characters allowed for a description. For more information about limits in CodeCommit, see [Quotas](https://docs.aws.amazon.com/codecommit/latest/userguide/limits.html) in the CodeCommit User Guide.
+    /// - `InvalidApprovalRuleTemplateNameException` : The name of the approval rule template is not valid. Template names must be between 1 and 100 valid characters in length. For more information about limits in CodeCommit, see [Quotas](https://docs.aws.amazon.com/codecommit/latest/userguide/limits.html) in the CodeCommit User Guide.
     func updateApprovalRuleTemplateDescription(input: UpdateApprovalRuleTemplateDescriptionInput) async throws -> UpdateApprovalRuleTemplateDescriptionOutputResponse
     /// Updates the name of a specified approval rule template.
     ///
@@ -1848,10 +1874,10 @@ public protocol CodeCommitClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ApprovalRuleTemplateDoesNotExistException` : The specified approval rule template does not exist. Verify that the name is correct and that you are signed in to the AWS Region where the template was created, and then try again.
-    /// - `ApprovalRuleTemplateNameAlreadyExistsException` : You cannot create an approval rule template with that name because a template with that name already exists in this AWS Region for your AWS account. Approval rule template names must be unique.
+    /// - `ApprovalRuleTemplateDoesNotExistException` : The specified approval rule template does not exist. Verify that the name is correct and that you are signed in to the Amazon Web Services Region where the template was created, and then try again.
+    /// - `ApprovalRuleTemplateNameAlreadyExistsException` : You cannot create an approval rule template with that name because a template with that name already exists in this Amazon Web Services Region for your Amazon Web Services account. Approval rule template names must be unique.
     /// - `ApprovalRuleTemplateNameRequiredException` : An approval rule template name is required, but was not specified.
-    /// - `InvalidApprovalRuleTemplateNameException` : The name of the approval rule template is not valid. Template names must be between 1 and 100 valid characters in length. For more information about limits in AWS CodeCommit, see [AWS CodeCommit User Guide](https://docs.aws.amazon.com/codecommit/latest/userguide/limits.html).
+    /// - `InvalidApprovalRuleTemplateNameException` : The name of the approval rule template is not valid. Template names must be between 1 and 100 valid characters in length. For more information about limits in CodeCommit, see [Quotas](https://docs.aws.amazon.com/codecommit/latest/userguide/limits.html) in the CodeCommit User Guide.
     func updateApprovalRuleTemplateName(input: UpdateApprovalRuleTemplateNameInput) async throws -> UpdateApprovalRuleTemplateNameOutputResponse
     /// Replaces the contents of a comment.
     ///
@@ -1863,7 +1889,7 @@ public protocol CodeCommitClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `CommentContentRequiredException` : The comment is empty. You must provide some content for a comment. The content cannot be null.
-    /// - `CommentContentSizeLimitExceededException` : The comment is too large. Comments are limited to 1,000 characters.
+    /// - `CommentContentSizeLimitExceededException` : The comment is too large. Comments are limited to 10,240 characters.
     /// - `CommentDeletedException` : This comment has already been deleted. You cannot edit or delete a deleted comment.
     /// - `CommentDoesNotExistException` : No comment exists with the provided ID. Verify that you have used the correct ID, and then try again.
     /// - `CommentIdRequiredException` : The comment ID is missing or null. A comment ID is required.
@@ -2014,7 +2040,7 @@ public protocol CodeCommitClientProtocol {
     /// - `RepositoryDoesNotExistException` : The specified repository does not exist.
     /// - `RepositoryNameRequiredException` : A repository name is required, but was not specified.
     func updateRepositoryDescription(input: UpdateRepositoryDescriptionInput) async throws -> UpdateRepositoryDescriptionOutputResponse
-    /// Renames a repository. The repository name must be unique across the calling AWS account. Repository names are limited to 100 alphanumeric, dash, and underscore characters, and cannot include certain characters. The suffix .git is prohibited. For more information about the limits on repository names, see [Limits](https://docs.aws.amazon.com/codecommit/latest/userguide/limits.html) in the AWS CodeCommit User Guide.
+    /// Renames a repository. The repository name must be unique across the calling Amazon Web Services account. Repository names are limited to 100 alphanumeric, dash, and underscore characters, and cannot include certain characters. The suffix .git is prohibited. For more information about the limits on repository names, see [Quotas](https://docs.aws.amazon.com/codecommit/latest/userguide/limits.html) in the CodeCommit User Guide.
     ///
     /// - Parameter UpdateRepositoryNameInput : Represents the input of an update repository description operation.
     ///

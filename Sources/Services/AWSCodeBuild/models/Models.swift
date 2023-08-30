@@ -4146,7 +4146,7 @@ extension DeleteReportGroupInput: Swift.Encodable {
         if let arn = self.arn {
             try encodeContainer.encode(arn, forKey: .arn)
         }
-        if deleteReports != false {
+        if let deleteReports = self.deleteReports {
             try encodeContainer.encode(deleteReports, forKey: .deleteReports)
         }
     }
@@ -4163,11 +4163,11 @@ public struct DeleteReportGroupInput: Swift.Equatable {
     /// This member is required.
     public var arn: Swift.String?
     /// If true, deletes any reports that belong to a report group before deleting the report group. If false, you must delete any reports in the report group. Use [ListReportsForReportGroup](https://docs.aws.amazon.com/codebuild/latest/APIReference/API_ListReportsForReportGroup.html) to get the reports in a report group. Use [DeleteReport](https://docs.aws.amazon.com/codebuild/latest/APIReference/API_DeleteReport.html) to delete the reports. If you call DeleteReportGroup for a report group that contains one or more reports, an exception is thrown.
-    public var deleteReports: Swift.Bool
+    public var deleteReports: Swift.Bool?
 
     public init(
         arn: Swift.String? = nil,
-        deleteReports: Swift.Bool = false
+        deleteReports: Swift.Bool? = nil
     )
     {
         self.arn = arn
@@ -4177,7 +4177,7 @@ public struct DeleteReportGroupInput: Swift.Equatable {
 
 struct DeleteReportGroupInputBody: Swift.Equatable {
     let arn: Swift.String?
-    let deleteReports: Swift.Bool
+    let deleteReports: Swift.Bool?
 }
 
 extension DeleteReportGroupInputBody: Swift.Decodable {
@@ -4190,7 +4190,7 @@ extension DeleteReportGroupInputBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
         arn = arnDecoded
-        let deleteReportsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .deleteReports) ?? false
+        let deleteReportsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .deleteReports)
         deleteReports = deleteReportsDecoded
     }
 }
@@ -8749,9 +8749,9 @@ extension CodeBuildClientTypes.ProjectCache: Swift.Codable {
         var modesDecoded0:[CodeBuildClientTypes.CacheMode]? = nil
         if let modesContainer = modesContainer {
             modesDecoded0 = [CodeBuildClientTypes.CacheMode]()
-            for string0 in modesContainer {
-                if let string0 = string0 {
-                    modesDecoded0?.append(string0)
+            for enum0 in modesContainer {
+                if let enum0 = enum0 {
+                    modesDecoded0?.append(enum0)
                 }
             }
         }
@@ -13376,7 +13376,7 @@ extension UpdateWebhookInput: Swift.Encodable {
         if let projectName = self.projectName {
             try encodeContainer.encode(projectName, forKey: .projectName)
         }
-        if rotateSecret != false {
+        if let rotateSecret = self.rotateSecret {
             try encodeContainer.encode(rotateSecret, forKey: .rotateSecret)
         }
     }
@@ -13399,14 +13399,14 @@ public struct UpdateWebhookInput: Swift.Equatable {
     /// This member is required.
     public var projectName: Swift.String?
     /// A boolean value that specifies whether the associated GitHub repository's secret token should be updated. If you use Bitbucket for your repository, rotateSecret is ignored.
-    public var rotateSecret: Swift.Bool
+    public var rotateSecret: Swift.Bool?
 
     public init(
         branchFilter: Swift.String? = nil,
         buildType: CodeBuildClientTypes.WebhookBuildType? = nil,
         filterGroups: [[CodeBuildClientTypes.WebhookFilter]]? = nil,
         projectName: Swift.String? = nil,
-        rotateSecret: Swift.Bool = false
+        rotateSecret: Swift.Bool? = nil
     )
     {
         self.branchFilter = branchFilter
@@ -13420,7 +13420,7 @@ public struct UpdateWebhookInput: Swift.Equatable {
 struct UpdateWebhookInputBody: Swift.Equatable {
     let projectName: Swift.String?
     let branchFilter: Swift.String?
-    let rotateSecret: Swift.Bool
+    let rotateSecret: Swift.Bool?
     let filterGroups: [[CodeBuildClientTypes.WebhookFilter]]?
     let buildType: CodeBuildClientTypes.WebhookBuildType?
 }
@@ -13440,7 +13440,7 @@ extension UpdateWebhookInputBody: Swift.Decodable {
         projectName = projectNameDecoded
         let branchFilterDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .branchFilter)
         branchFilter = branchFilterDecoded
-        let rotateSecretDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .rotateSecret) ?? false
+        let rotateSecretDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .rotateSecret)
         rotateSecret = rotateSecretDecoded
         let filterGroupsContainer = try containerValues.decodeIfPresent([[CodeBuildClientTypes.WebhookFilter?]?].self, forKey: .filterGroups)
         var filterGroupsDecoded0:[[CodeBuildClientTypes.WebhookFilter]]? = nil

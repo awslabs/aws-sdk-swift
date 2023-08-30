@@ -23,6 +23,15 @@ extension ListScheduledQueriesInput: ClientRuntime.PaginateToken {
             nextToken: token
         )}
 }
+
+extension PaginatorSequence where Input == ListScheduledQueriesInput, Output == ListScheduledQueriesOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listScheduledQueriesPaginated`
+    /// to access the nested member `[TimestreamQueryClientTypes.ScheduledQuery]`
+    /// - Returns: `[TimestreamQueryClientTypes.ScheduledQuery]`
+    public func scheduledQueries() async throws -> [TimestreamQueryClientTypes.ScheduledQuery] {
+        return try await self.asyncCompactMap { item in item.scheduledQueries }
+    }
+}
 extension TimestreamQueryClient {
     /// Paginate over `[ListTagsForResourceOutputResponse]` results.
     ///
@@ -44,6 +53,15 @@ extension ListTagsForResourceInput: ClientRuntime.PaginateToken {
             nextToken: token,
             resourceARN: self.resourceARN
         )}
+}
+
+extension PaginatorSequence where Input == ListTagsForResourceInput, Output == ListTagsForResourceOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listTagsForResourcePaginated`
+    /// to access the nested member `[TimestreamQueryClientTypes.Tag]`
+    /// - Returns: `[TimestreamQueryClientTypes.Tag]`
+    public func tags() async throws -> [TimestreamQueryClientTypes.Tag] {
+        return try await self.asyncCompactMap { item in item.tags }
+    }
 }
 extension TimestreamQueryClient {
     /// Paginate over `[QueryOutputResponse]` results.

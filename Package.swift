@@ -169,7 +169,7 @@ func addProtocolTests() {
 // MARK: - Generated
 
 addDependencies(
-    clientRuntimeVersion: "0.27.0",
+    clientRuntimeVersion: "0.28.0",
     crtVersion: "0.13.0"
 )
 

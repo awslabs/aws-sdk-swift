@@ -1788,7 +1788,7 @@ extension DeleteCanaryInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
         get throws {
             var items = [ClientRuntime.URLQueryItem]()
-            if deleteLambda != false {
+            if let deleteLambda = deleteLambda {
                 let deleteLambdaQueryItem = ClientRuntime.URLQueryItem(name: "deleteLambda".urlPercentEncoding(), value: Swift.String(deleteLambda).urlPercentEncoding())
                 items.append(deleteLambdaQueryItem)
             }
@@ -1808,13 +1808,13 @@ extension DeleteCanaryInput: ClientRuntime.URLPathProvider {
 
 public struct DeleteCanaryInput: Swift.Equatable {
     /// Specifies whether to also delete the Lambda functions and layers used by this canary. The default is false. Type: Boolean
-    public var deleteLambda: Swift.Bool
+    public var deleteLambda: Swift.Bool?
     /// The name of the canary that you want to delete. To find the names of your canaries, use [DescribeCanaries](https://docs.aws.amazon.com/AmazonSynthetics/latest/APIReference/API_DescribeCanaries.html).
     /// This member is required.
     public var name: Swift.String?
 
     public init(
-        deleteLambda: Swift.Bool = false,
+        deleteLambda: Swift.Bool? = nil,
         name: Swift.String? = nil
     )
     {

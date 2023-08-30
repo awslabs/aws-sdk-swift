@@ -1067,10 +1067,7 @@ extension DeleteModelInput: ClientRuntime.URLPathProvider {
 }
 
 public struct DeleteModelInput: Swift.Equatable {
-    /// ClientToken is an idempotency token that ensures a call to DeleteModel completes only once. You choose the value to pass. For example, an issue might prevent you from getting a response from DeleteModel. In this case, safely retry your call to DeleteModel by using the same ClientToken parameter value. If you don't supply a value for ClientToken, the AWS SDK you are using inserts a value for you. This prevents retries after a network error from making multiple model deletion requests. You'll need to provide your own value for other use cases. An error occurs if the other input parameters are not the same as in the first request. Using a different
-    ///
-    ///
-    /// value for ClientToken is considered a new call to DeleteModel. An idempotency token is active for 8 hours.
+    /// ClientToken is an idempotency token that ensures a call to DeleteModel completes only once. You choose the value to pass. For example, an issue might prevent you from getting a response from DeleteModel. In this case, safely retry your call to DeleteModel by using the same ClientToken parameter value. If you don't supply a value for ClientToken, the AWS SDK you are using inserts a value for you. This prevents retries after a network error from making multiple model deletion requests. You'll need to provide your own value for other use cases. An error occurs if the other input parameters are not the same as in the first request. Using a different value for ClientToken is considered a new call to DeleteModel. An idempotency token is active for 8 hours.
     public var clientToken: Swift.String?
     /// The version of the model that you want to delete.
     /// This member is required.
@@ -4196,10 +4193,7 @@ extension StartModelInput: ClientRuntime.URLPathProvider {
 }
 
 public struct StartModelInput: Swift.Equatable {
-    /// ClientToken is an idempotency token that ensures a call to StartModel completes only once. You choose the value to pass. For example, An issue might prevent you from getting a response from StartModel. In this case, safely retry your call to StartModel by using the same ClientToken parameter value. If you don't supply a value for ClientToken, the AWS SDK you are using inserts a value for you. This prevents retries after a network error from making multiple start requests. You'll need to provide your own value for other use cases. An error occurs if the other input parameters are not the same as in the first request. Using a different
-    ///
-    ///
-    /// value for ClientToken is considered a new call to StartModel. An idempotency token is active for 8 hours.
+    /// ClientToken is an idempotency token that ensures a call to StartModel completes only once. You choose the value to pass. For example, An issue might prevent you from getting a response from StartModel. In this case, safely retry your call to StartModel by using the same ClientToken parameter value. If you don't supply a value for ClientToken, the AWS SDK you are using inserts a value for you. This prevents retries after a network error from making multiple start requests. You'll need to provide your own value for other use cases. An error occurs if the other input parameters are not the same as in the first request. Using a different value for ClientToken is considered a new call to StartModel. An idempotency token is active for 8 hours.
     public var clientToken: Swift.String?
     /// The maximum number of inference units to use for auto-scaling the model. If you don't specify a value, Amazon Lookout for Vision doesn't auto-scale the model.
     public var maxInferenceUnits: Swift.Int?

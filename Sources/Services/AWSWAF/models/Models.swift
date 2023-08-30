@@ -937,7 +937,7 @@ extension CreateRateBasedRuleInput: Swift.Encodable {
         if let rateKey = self.rateKey {
             try encodeContainer.encode(rateKey.rawValue, forKey: .rateKey)
         }
-        if rateLimit != 0 {
+        if let rateLimit = self.rateLimit {
             try encodeContainer.encode(rateLimit, forKey: .rateLimit)
         }
         if let tags = tags {
@@ -970,7 +970,7 @@ public struct CreateRateBasedRuleInput: Swift.Equatable {
     public var rateKey: WAFClientTypes.RateKey?
     /// The maximum number of requests, which have an identical value in the field that is specified by RateKey, allowed in a five-minute period. If the number of requests exceeds the RateLimit and the other predicates specified in the rule are also met, AWS WAF triggers the action that is specified for this rule.
     /// This member is required.
-    public var rateLimit: Swift.Int
+    public var rateLimit: Swift.Int?
     ///
     public var tags: [WAFClientTypes.Tag]?
 
@@ -979,7 +979,7 @@ public struct CreateRateBasedRuleInput: Swift.Equatable {
         metricName: Swift.String? = nil,
         name: Swift.String? = nil,
         rateKey: WAFClientTypes.RateKey? = nil,
-        rateLimit: Swift.Int = 0,
+        rateLimit: Swift.Int? = nil,
         tags: [WAFClientTypes.Tag]? = nil
     )
     {
@@ -996,7 +996,7 @@ struct CreateRateBasedRuleInputBody: Swift.Equatable {
     let name: Swift.String?
     let metricName: Swift.String?
     let rateKey: WAFClientTypes.RateKey?
-    let rateLimit: Swift.Int
+    let rateLimit: Swift.Int?
     let changeToken: Swift.String?
     let tags: [WAFClientTypes.Tag]?
 }
@@ -1019,7 +1019,7 @@ extension CreateRateBasedRuleInputBody: Swift.Decodable {
         metricName = metricNameDecoded
         let rateKeyDecoded = try containerValues.decodeIfPresent(WAFClientTypes.RateKey.self, forKey: .rateKey)
         rateKey = rateKeyDecoded
-        let rateLimitDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .rateLimit) ?? 0
+        let rateLimitDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .rateLimit)
         rateLimit = rateLimitDecoded
         let changeTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .changeToken)
         changeToken = changeTokenDecoded
@@ -6396,7 +6396,7 @@ extension GetSampledRequestsInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if maxItems != 0 {
+        if let maxItems = self.maxItems {
             try encodeContainer.encode(maxItems, forKey: .maxItems)
         }
         if let ruleId = self.ruleId {
@@ -6420,7 +6420,7 @@ extension GetSampledRequestsInput: ClientRuntime.URLPathProvider {
 public struct GetSampledRequestsInput: Swift.Equatable {
     /// The number of requests that you want AWS WAF to return from among the first 5,000 requests that your AWS resource received during the time range. If your resource received fewer requests than the value of MaxItems, GetSampledRequests returns information about all of them.
     /// This member is required.
-    public var maxItems: Swift.Int
+    public var maxItems: Swift.Int?
     /// RuleId is one of three values:
     ///
     /// * The RuleId of the Rule or the RuleGroupId of the RuleGroup for which you want GetSampledRequests to return a sample of requests.
@@ -6436,7 +6436,7 @@ public struct GetSampledRequestsInput: Swift.Equatable {
     public var webAclId: Swift.String?
 
     public init(
-        maxItems: Swift.Int = 0,
+        maxItems: Swift.Int? = nil,
         ruleId: Swift.String? = nil,
         timeWindow: WAFClientTypes.TimeWindow? = nil,
         webAclId: Swift.String? = nil
@@ -6453,7 +6453,7 @@ struct GetSampledRequestsInputBody: Swift.Equatable {
     let webAclId: Swift.String?
     let ruleId: Swift.String?
     let timeWindow: WAFClientTypes.TimeWindow?
-    let maxItems: Swift.Int
+    let maxItems: Swift.Int?
 }
 
 extension GetSampledRequestsInputBody: Swift.Decodable {
@@ -6472,7 +6472,7 @@ extension GetSampledRequestsInputBody: Swift.Decodable {
         ruleId = ruleIdDecoded
         let timeWindowDecoded = try containerValues.decodeIfPresent(WAFClientTypes.TimeWindow.self, forKey: .timeWindow)
         timeWindow = timeWindowDecoded
-        let maxItemsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxItems) ?? 0
+        let maxItemsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxItems)
         maxItems = maxItemsDecoded
     }
 }
@@ -7400,7 +7400,7 @@ extension ListActivatedRulesInRuleGroupInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if limit != 0 {
+        if let limit = self.limit {
             try encodeContainer.encode(limit, forKey: .limit)
         }
         if let nextMarker = self.nextMarker {
@@ -7420,14 +7420,14 @@ extension ListActivatedRulesInRuleGroupInput: ClientRuntime.URLPathProvider {
 
 public struct ListActivatedRulesInRuleGroupInput: Swift.Equatable {
     /// Specifies the number of ActivatedRules that you want AWS WAF to return for this request. If you have more ActivatedRules than the number that you specify for Limit, the response includes a NextMarker value that you can use to get another batch of ActivatedRules.
-    public var limit: Swift.Int
+    public var limit: Swift.Int?
     /// If you specify a value for Limit and you have more ActivatedRules than the value of Limit, AWS WAF returns a NextMarker value in the response that allows you to list another group of ActivatedRules. For the second and subsequent ListActivatedRulesInRuleGroup requests, specify the value of NextMarker from the previous response to get information about another batch of ActivatedRules.
     public var nextMarker: Swift.String?
     /// The RuleGroupId of the [RuleGroup] for which you want to get a list of [ActivatedRule] objects.
     public var ruleGroupId: Swift.String?
 
     public init(
-        limit: Swift.Int = 0,
+        limit: Swift.Int? = nil,
         nextMarker: Swift.String? = nil,
         ruleGroupId: Swift.String? = nil
     )
@@ -7441,7 +7441,7 @@ public struct ListActivatedRulesInRuleGroupInput: Swift.Equatable {
 struct ListActivatedRulesInRuleGroupInputBody: Swift.Equatable {
     let ruleGroupId: Swift.String?
     let nextMarker: Swift.String?
-    let limit: Swift.Int
+    let limit: Swift.Int?
 }
 
 extension ListActivatedRulesInRuleGroupInputBody: Swift.Decodable {
@@ -7457,7 +7457,7 @@ extension ListActivatedRulesInRuleGroupInputBody: Swift.Decodable {
         ruleGroupId = ruleGroupIdDecoded
         let nextMarkerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextMarker)
         nextMarker = nextMarkerDecoded
-        let limitDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .limit) ?? 0
+        let limitDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .limit)
         limit = limitDecoded
     }
 }
@@ -7542,7 +7542,7 @@ extension ListByteMatchSetsInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if limit != 0 {
+        if let limit = self.limit {
             try encodeContainer.encode(limit, forKey: .limit)
         }
         if let nextMarker = self.nextMarker {
@@ -7559,12 +7559,12 @@ extension ListByteMatchSetsInput: ClientRuntime.URLPathProvider {
 
 public struct ListByteMatchSetsInput: Swift.Equatable {
     /// Specifies the number of ByteMatchSet objects that you want AWS WAF to return for this request. If you have more ByteMatchSets objects than the number you specify for Limit, the response includes a NextMarker value that you can use to get another batch of ByteMatchSet objects.
-    public var limit: Swift.Int
+    public var limit: Swift.Int?
     /// If you specify a value for Limit and you have more ByteMatchSets than the value of Limit, AWS WAF returns a NextMarker value in the response that allows you to list another group of ByteMatchSets. For the second and subsequent ListByteMatchSets requests, specify the value of NextMarker from the previous response to get information about another batch of ByteMatchSets.
     public var nextMarker: Swift.String?
 
     public init(
-        limit: Swift.Int = 0,
+        limit: Swift.Int? = nil,
         nextMarker: Swift.String? = nil
     )
     {
@@ -7575,7 +7575,7 @@ public struct ListByteMatchSetsInput: Swift.Equatable {
 
 struct ListByteMatchSetsInputBody: Swift.Equatable {
     let nextMarker: Swift.String?
-    let limit: Swift.Int
+    let limit: Swift.Int?
 }
 
 extension ListByteMatchSetsInputBody: Swift.Decodable {
@@ -7588,7 +7588,7 @@ extension ListByteMatchSetsInputBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nextMarkerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextMarker)
         nextMarker = nextMarkerDecoded
-        let limitDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .limit) ?? 0
+        let limitDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .limit)
         limit = limitDecoded
     }
 }
@@ -7672,7 +7672,7 @@ extension ListGeoMatchSetsInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if limit != 0 {
+        if let limit = self.limit {
             try encodeContainer.encode(limit, forKey: .limit)
         }
         if let nextMarker = self.nextMarker {
@@ -7689,12 +7689,12 @@ extension ListGeoMatchSetsInput: ClientRuntime.URLPathProvider {
 
 public struct ListGeoMatchSetsInput: Swift.Equatable {
     /// Specifies the number of GeoMatchSet objects that you want AWS WAF to return for this request. If you have more GeoMatchSet objects than the number you specify for Limit, the response includes a NextMarker value that you can use to get another batch of GeoMatchSet objects.
-    public var limit: Swift.Int
+    public var limit: Swift.Int?
     /// If you specify a value for Limit and you have more GeoMatchSets than the value of Limit, AWS WAF returns a NextMarker value in the response that allows you to list another group of GeoMatchSet objects. For the second and subsequent ListGeoMatchSets requests, specify the value of NextMarker from the previous response to get information about another batch of GeoMatchSet objects.
     public var nextMarker: Swift.String?
 
     public init(
-        limit: Swift.Int = 0,
+        limit: Swift.Int? = nil,
         nextMarker: Swift.String? = nil
     )
     {
@@ -7705,7 +7705,7 @@ public struct ListGeoMatchSetsInput: Swift.Equatable {
 
 struct ListGeoMatchSetsInputBody: Swift.Equatable {
     let nextMarker: Swift.String?
-    let limit: Swift.Int
+    let limit: Swift.Int?
 }
 
 extension ListGeoMatchSetsInputBody: Swift.Decodable {
@@ -7718,7 +7718,7 @@ extension ListGeoMatchSetsInputBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nextMarkerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextMarker)
         nextMarker = nextMarkerDecoded
-        let limitDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .limit) ?? 0
+        let limitDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .limit)
         limit = limitDecoded
     }
 }
@@ -7802,7 +7802,7 @@ extension ListIPSetsInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if limit != 0 {
+        if let limit = self.limit {
             try encodeContainer.encode(limit, forKey: .limit)
         }
         if let nextMarker = self.nextMarker {
@@ -7819,12 +7819,12 @@ extension ListIPSetsInput: ClientRuntime.URLPathProvider {
 
 public struct ListIPSetsInput: Swift.Equatable {
     /// Specifies the number of IPSet objects that you want AWS WAF to return for this request. If you have more IPSet objects than the number you specify for Limit, the response includes a NextMarker value that you can use to get another batch of IPSet objects.
-    public var limit: Swift.Int
+    public var limit: Swift.Int?
     /// AWS WAF returns a NextMarker value in the response that allows you to list another group of IPSets. For the second and subsequent ListIPSets requests, specify the value of NextMarker from the previous response to get information about another batch of IPSets.
     public var nextMarker: Swift.String?
 
     public init(
-        limit: Swift.Int = 0,
+        limit: Swift.Int? = nil,
         nextMarker: Swift.String? = nil
     )
     {
@@ -7835,7 +7835,7 @@ public struct ListIPSetsInput: Swift.Equatable {
 
 struct ListIPSetsInputBody: Swift.Equatable {
     let nextMarker: Swift.String?
-    let limit: Swift.Int
+    let limit: Swift.Int?
 }
 
 extension ListIPSetsInputBody: Swift.Decodable {
@@ -7848,7 +7848,7 @@ extension ListIPSetsInputBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nextMarkerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextMarker)
         nextMarker = nextMarkerDecoded
-        let limitDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .limit) ?? 0
+        let limitDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .limit)
         limit = limitDecoded
     }
 }
@@ -7932,7 +7932,7 @@ extension ListLoggingConfigurationsInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if limit != 0 {
+        if let limit = self.limit {
             try encodeContainer.encode(limit, forKey: .limit)
         }
         if let nextMarker = self.nextMarker {
@@ -7949,12 +7949,12 @@ extension ListLoggingConfigurationsInput: ClientRuntime.URLPathProvider {
 
 public struct ListLoggingConfigurationsInput: Swift.Equatable {
     /// Specifies the number of LoggingConfigurations that you want AWS WAF to return for this request. If you have more LoggingConfigurations than the number that you specify for Limit, the response includes a NextMarker value that you can use to get another batch of LoggingConfigurations.
-    public var limit: Swift.Int
+    public var limit: Swift.Int?
     /// If you specify a value for Limit and you have more LoggingConfigurations than the value of Limit, AWS WAF returns a NextMarker value in the response that allows you to list another group of LoggingConfigurations. For the second and subsequent ListLoggingConfigurations requests, specify the value of NextMarker from the previous response to get information about another batch of ListLoggingConfigurations.
     public var nextMarker: Swift.String?
 
     public init(
-        limit: Swift.Int = 0,
+        limit: Swift.Int? = nil,
         nextMarker: Swift.String? = nil
     )
     {
@@ -7965,7 +7965,7 @@ public struct ListLoggingConfigurationsInput: Swift.Equatable {
 
 struct ListLoggingConfigurationsInputBody: Swift.Equatable {
     let nextMarker: Swift.String?
-    let limit: Swift.Int
+    let limit: Swift.Int?
 }
 
 extension ListLoggingConfigurationsInputBody: Swift.Decodable {
@@ -7978,7 +7978,7 @@ extension ListLoggingConfigurationsInputBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nextMarkerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextMarker)
         nextMarker = nextMarkerDecoded
-        let limitDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .limit) ?? 0
+        let limitDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .limit)
         limit = limitDecoded
     }
 }
@@ -8063,7 +8063,7 @@ extension ListRateBasedRulesInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if limit != 0 {
+        if let limit = self.limit {
             try encodeContainer.encode(limit, forKey: .limit)
         }
         if let nextMarker = self.nextMarker {
@@ -8080,12 +8080,12 @@ extension ListRateBasedRulesInput: ClientRuntime.URLPathProvider {
 
 public struct ListRateBasedRulesInput: Swift.Equatable {
     /// Specifies the number of Rules that you want AWS WAF to return for this request. If you have more Rules than the number that you specify for Limit, the response includes a NextMarker value that you can use to get another batch of Rules.
-    public var limit: Swift.Int
+    public var limit: Swift.Int?
     /// If you specify a value for Limit and you have more Rules than the value of Limit, AWS WAF returns a NextMarker value in the response that allows you to list another group of Rules. For the second and subsequent ListRateBasedRules requests, specify the value of NextMarker from the previous response to get information about another batch of Rules.
     public var nextMarker: Swift.String?
 
     public init(
-        limit: Swift.Int = 0,
+        limit: Swift.Int? = nil,
         nextMarker: Swift.String? = nil
     )
     {
@@ -8096,7 +8096,7 @@ public struct ListRateBasedRulesInput: Swift.Equatable {
 
 struct ListRateBasedRulesInputBody: Swift.Equatable {
     let nextMarker: Swift.String?
-    let limit: Swift.Int
+    let limit: Swift.Int?
 }
 
 extension ListRateBasedRulesInputBody: Swift.Decodable {
@@ -8109,7 +8109,7 @@ extension ListRateBasedRulesInputBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nextMarkerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextMarker)
         nextMarker = nextMarkerDecoded
-        let limitDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .limit) ?? 0
+        let limitDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .limit)
         limit = limitDecoded
     }
 }
@@ -8193,7 +8193,7 @@ extension ListRegexMatchSetsInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if limit != 0 {
+        if let limit = self.limit {
             try encodeContainer.encode(limit, forKey: .limit)
         }
         if let nextMarker = self.nextMarker {
@@ -8210,12 +8210,12 @@ extension ListRegexMatchSetsInput: ClientRuntime.URLPathProvider {
 
 public struct ListRegexMatchSetsInput: Swift.Equatable {
     /// Specifies the number of RegexMatchSet objects that you want AWS WAF to return for this request. If you have more RegexMatchSet objects than the number you specify for Limit, the response includes a NextMarker value that you can use to get another batch of RegexMatchSet objects.
-    public var limit: Swift.Int
+    public var limit: Swift.Int?
     /// If you specify a value for Limit and you have more RegexMatchSet objects than the value of Limit, AWS WAF returns a NextMarker value in the response that allows you to list another group of ByteMatchSets. For the second and subsequent ListRegexMatchSets requests, specify the value of NextMarker from the previous response to get information about another batch of RegexMatchSet objects.
     public var nextMarker: Swift.String?
 
     public init(
-        limit: Swift.Int = 0,
+        limit: Swift.Int? = nil,
         nextMarker: Swift.String? = nil
     )
     {
@@ -8226,7 +8226,7 @@ public struct ListRegexMatchSetsInput: Swift.Equatable {
 
 struct ListRegexMatchSetsInputBody: Swift.Equatable {
     let nextMarker: Swift.String?
-    let limit: Swift.Int
+    let limit: Swift.Int?
 }
 
 extension ListRegexMatchSetsInputBody: Swift.Decodable {
@@ -8239,7 +8239,7 @@ extension ListRegexMatchSetsInputBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nextMarkerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextMarker)
         nextMarker = nextMarkerDecoded
-        let limitDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .limit) ?? 0
+        let limitDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .limit)
         limit = limitDecoded
     }
 }
@@ -8323,7 +8323,7 @@ extension ListRegexPatternSetsInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if limit != 0 {
+        if let limit = self.limit {
             try encodeContainer.encode(limit, forKey: .limit)
         }
         if let nextMarker = self.nextMarker {
@@ -8340,12 +8340,12 @@ extension ListRegexPatternSetsInput: ClientRuntime.URLPathProvider {
 
 public struct ListRegexPatternSetsInput: Swift.Equatable {
     /// Specifies the number of RegexPatternSet objects that you want AWS WAF to return for this request. If you have more RegexPatternSet objects than the number you specify for Limit, the response includes a NextMarker value that you can use to get another batch of RegexPatternSet objects.
-    public var limit: Swift.Int
+    public var limit: Swift.Int?
     /// If you specify a value for Limit and you have more RegexPatternSet objects than the value of Limit, AWS WAF returns a NextMarker value in the response that allows you to list another group of RegexPatternSet objects. For the second and subsequent ListRegexPatternSets requests, specify the value of NextMarker from the previous response to get information about another batch of RegexPatternSet objects.
     public var nextMarker: Swift.String?
 
     public init(
-        limit: Swift.Int = 0,
+        limit: Swift.Int? = nil,
         nextMarker: Swift.String? = nil
     )
     {
@@ -8356,7 +8356,7 @@ public struct ListRegexPatternSetsInput: Swift.Equatable {
 
 struct ListRegexPatternSetsInputBody: Swift.Equatable {
     let nextMarker: Swift.String?
-    let limit: Swift.Int
+    let limit: Swift.Int?
 }
 
 extension ListRegexPatternSetsInputBody: Swift.Decodable {
@@ -8369,7 +8369,7 @@ extension ListRegexPatternSetsInputBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nextMarkerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextMarker)
         nextMarker = nextMarkerDecoded
-        let limitDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .limit) ?? 0
+        let limitDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .limit)
         limit = limitDecoded
     }
 }
@@ -8453,7 +8453,7 @@ extension ListRuleGroupsInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if limit != 0 {
+        if let limit = self.limit {
             try encodeContainer.encode(limit, forKey: .limit)
         }
         if let nextMarker = self.nextMarker {
@@ -8470,12 +8470,12 @@ extension ListRuleGroupsInput: ClientRuntime.URLPathProvider {
 
 public struct ListRuleGroupsInput: Swift.Equatable {
     /// Specifies the number of RuleGroups that you want AWS WAF to return for this request. If you have more RuleGroups than the number that you specify for Limit, the response includes a NextMarker value that you can use to get another batch of RuleGroups.
-    public var limit: Swift.Int
+    public var limit: Swift.Int?
     /// If you specify a value for Limit and you have more RuleGroups than the value of Limit, AWS WAF returns a NextMarker value in the response that allows you to list another group of RuleGroups. For the second and subsequent ListRuleGroups requests, specify the value of NextMarker from the previous response to get information about another batch of RuleGroups.
     public var nextMarker: Swift.String?
 
     public init(
-        limit: Swift.Int = 0,
+        limit: Swift.Int? = nil,
         nextMarker: Swift.String? = nil
     )
     {
@@ -8486,7 +8486,7 @@ public struct ListRuleGroupsInput: Swift.Equatable {
 
 struct ListRuleGroupsInputBody: Swift.Equatable {
     let nextMarker: Swift.String?
-    let limit: Swift.Int
+    let limit: Swift.Int?
 }
 
 extension ListRuleGroupsInputBody: Swift.Decodable {
@@ -8499,7 +8499,7 @@ extension ListRuleGroupsInputBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nextMarkerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextMarker)
         nextMarker = nextMarkerDecoded
-        let limitDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .limit) ?? 0
+        let limitDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .limit)
         limit = limitDecoded
     }
 }
@@ -8582,7 +8582,7 @@ extension ListRulesInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if limit != 0 {
+        if let limit = self.limit {
             try encodeContainer.encode(limit, forKey: .limit)
         }
         if let nextMarker = self.nextMarker {
@@ -8599,12 +8599,12 @@ extension ListRulesInput: ClientRuntime.URLPathProvider {
 
 public struct ListRulesInput: Swift.Equatable {
     /// Specifies the number of Rules that you want AWS WAF to return for this request. If you have more Rules than the number that you specify for Limit, the response includes a NextMarker value that you can use to get another batch of Rules.
-    public var limit: Swift.Int
+    public var limit: Swift.Int?
     /// If you specify a value for Limit and you have more Rules than the value of Limit, AWS WAF returns a NextMarker value in the response that allows you to list another group of Rules. For the second and subsequent ListRules requests, specify the value of NextMarker from the previous response to get information about another batch of Rules.
     public var nextMarker: Swift.String?
 
     public init(
-        limit: Swift.Int = 0,
+        limit: Swift.Int? = nil,
         nextMarker: Swift.String? = nil
     )
     {
@@ -8615,7 +8615,7 @@ public struct ListRulesInput: Swift.Equatable {
 
 struct ListRulesInputBody: Swift.Equatable {
     let nextMarker: Swift.String?
-    let limit: Swift.Int
+    let limit: Swift.Int?
 }
 
 extension ListRulesInputBody: Swift.Decodable {
@@ -8628,7 +8628,7 @@ extension ListRulesInputBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nextMarkerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextMarker)
         nextMarker = nextMarkerDecoded
-        let limitDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .limit) ?? 0
+        let limitDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .limit)
         limit = limitDecoded
     }
 }
@@ -8712,7 +8712,7 @@ extension ListSizeConstraintSetsInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if limit != 0 {
+        if let limit = self.limit {
             try encodeContainer.encode(limit, forKey: .limit)
         }
         if let nextMarker = self.nextMarker {
@@ -8729,12 +8729,12 @@ extension ListSizeConstraintSetsInput: ClientRuntime.URLPathProvider {
 
 public struct ListSizeConstraintSetsInput: Swift.Equatable {
     /// Specifies the number of SizeConstraintSet objects that you want AWS WAF to return for this request. If you have more SizeConstraintSets objects than the number you specify for Limit, the response includes a NextMarker value that you can use to get another batch of SizeConstraintSet objects.
-    public var limit: Swift.Int
+    public var limit: Swift.Int?
     /// If you specify a value for Limit and you have more SizeConstraintSets than the value of Limit, AWS WAF returns a NextMarker value in the response that allows you to list another group of SizeConstraintSets. For the second and subsequent ListSizeConstraintSets requests, specify the value of NextMarker from the previous response to get information about another batch of SizeConstraintSets.
     public var nextMarker: Swift.String?
 
     public init(
-        limit: Swift.Int = 0,
+        limit: Swift.Int? = nil,
         nextMarker: Swift.String? = nil
     )
     {
@@ -8745,7 +8745,7 @@ public struct ListSizeConstraintSetsInput: Swift.Equatable {
 
 struct ListSizeConstraintSetsInputBody: Swift.Equatable {
     let nextMarker: Swift.String?
-    let limit: Swift.Int
+    let limit: Swift.Int?
 }
 
 extension ListSizeConstraintSetsInputBody: Swift.Decodable {
@@ -8758,7 +8758,7 @@ extension ListSizeConstraintSetsInputBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nextMarkerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextMarker)
         nextMarker = nextMarkerDecoded
-        let limitDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .limit) ?? 0
+        let limitDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .limit)
         limit = limitDecoded
     }
 }
@@ -8842,7 +8842,7 @@ extension ListSqlInjectionMatchSetsInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if limit != 0 {
+        if let limit = self.limit {
             try encodeContainer.encode(limit, forKey: .limit)
         }
         if let nextMarker = self.nextMarker {
@@ -8860,12 +8860,12 @@ extension ListSqlInjectionMatchSetsInput: ClientRuntime.URLPathProvider {
 /// A request to list the [SqlInjectionMatchSet] objects created by the current AWS account.
 public struct ListSqlInjectionMatchSetsInput: Swift.Equatable {
     /// Specifies the number of [SqlInjectionMatchSet] objects that you want AWS WAF to return for this request. If you have more SqlInjectionMatchSet objects than the number you specify for Limit, the response includes a NextMarker value that you can use to get another batch of Rules.
-    public var limit: Swift.Int
+    public var limit: Swift.Int?
     /// If you specify a value for Limit and you have more [SqlInjectionMatchSet] objects than the value of Limit, AWS WAF returns a NextMarker value in the response that allows you to list another group of SqlInjectionMatchSets. For the second and subsequent ListSqlInjectionMatchSets requests, specify the value of NextMarker from the previous response to get information about another batch of SqlInjectionMatchSets.
     public var nextMarker: Swift.String?
 
     public init(
-        limit: Swift.Int = 0,
+        limit: Swift.Int? = nil,
         nextMarker: Swift.String? = nil
     )
     {
@@ -8876,7 +8876,7 @@ public struct ListSqlInjectionMatchSetsInput: Swift.Equatable {
 
 struct ListSqlInjectionMatchSetsInputBody: Swift.Equatable {
     let nextMarker: Swift.String?
-    let limit: Swift.Int
+    let limit: Swift.Int?
 }
 
 extension ListSqlInjectionMatchSetsInputBody: Swift.Decodable {
@@ -8889,7 +8889,7 @@ extension ListSqlInjectionMatchSetsInputBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nextMarkerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextMarker)
         nextMarker = nextMarkerDecoded
-        let limitDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .limit) ?? 0
+        let limitDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .limit)
         limit = limitDecoded
     }
 }
@@ -8974,7 +8974,7 @@ extension ListSubscribedRuleGroupsInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if limit != 0 {
+        if let limit = self.limit {
             try encodeContainer.encode(limit, forKey: .limit)
         }
         if let nextMarker = self.nextMarker {
@@ -8991,12 +8991,12 @@ extension ListSubscribedRuleGroupsInput: ClientRuntime.URLPathProvider {
 
 public struct ListSubscribedRuleGroupsInput: Swift.Equatable {
     /// Specifies the number of subscribed rule groups that you want AWS WAF to return for this request. If you have more objects than the number you specify for Limit, the response includes a NextMarker value that you can use to get another batch of objects.
-    public var limit: Swift.Int
+    public var limit: Swift.Int?
     /// If you specify a value for Limit and you have more ByteMatchSetssubscribed rule groups than the value of Limit, AWS WAF returns a NextMarker value in the response that allows you to list another group of subscribed rule groups. For the second and subsequent ListSubscribedRuleGroupsRequest requests, specify the value of NextMarker from the previous response to get information about another batch of subscribed rule groups.
     public var nextMarker: Swift.String?
 
     public init(
-        limit: Swift.Int = 0,
+        limit: Swift.Int? = nil,
         nextMarker: Swift.String? = nil
     )
     {
@@ -9007,7 +9007,7 @@ public struct ListSubscribedRuleGroupsInput: Swift.Equatable {
 
 struct ListSubscribedRuleGroupsInputBody: Swift.Equatable {
     let nextMarker: Swift.String?
-    let limit: Swift.Int
+    let limit: Swift.Int?
 }
 
 extension ListSubscribedRuleGroupsInputBody: Swift.Decodable {
@@ -9020,7 +9020,7 @@ extension ListSubscribedRuleGroupsInputBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nextMarkerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextMarker)
         nextMarker = nextMarkerDecoded
-        let limitDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .limit) ?? 0
+        let limitDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .limit)
         limit = limitDecoded
     }
 }
@@ -9105,7 +9105,7 @@ extension ListTagsForResourceInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if limit != 0 {
+        if let limit = self.limit {
             try encodeContainer.encode(limit, forKey: .limit)
         }
         if let nextMarker = self.nextMarker {
@@ -9125,7 +9125,7 @@ extension ListTagsForResourceInput: ClientRuntime.URLPathProvider {
 
 public struct ListTagsForResourceInput: Swift.Equatable {
     ///
-    public var limit: Swift.Int
+    public var limit: Swift.Int?
     ///
     public var nextMarker: Swift.String?
     ///
@@ -9133,7 +9133,7 @@ public struct ListTagsForResourceInput: Swift.Equatable {
     public var resourceARN: Swift.String?
 
     public init(
-        limit: Swift.Int = 0,
+        limit: Swift.Int? = nil,
         nextMarker: Swift.String? = nil,
         resourceARN: Swift.String? = nil
     )
@@ -9146,7 +9146,7 @@ public struct ListTagsForResourceInput: Swift.Equatable {
 
 struct ListTagsForResourceInputBody: Swift.Equatable {
     let nextMarker: Swift.String?
-    let limit: Swift.Int
+    let limit: Swift.Int?
     let resourceARN: Swift.String?
 }
 
@@ -9161,7 +9161,7 @@ extension ListTagsForResourceInputBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nextMarkerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextMarker)
         nextMarker = nextMarkerDecoded
-        let limitDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .limit) ?? 0
+        let limitDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .limit)
         limit = limitDecoded
         let resourceARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceARN)
         resourceARN = resourceARNDecoded
@@ -9242,7 +9242,7 @@ extension ListWebACLsInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if limit != 0 {
+        if let limit = self.limit {
             try encodeContainer.encode(limit, forKey: .limit)
         }
         if let nextMarker = self.nextMarker {
@@ -9259,12 +9259,12 @@ extension ListWebACLsInput: ClientRuntime.URLPathProvider {
 
 public struct ListWebACLsInput: Swift.Equatable {
     /// Specifies the number of WebACL objects that you want AWS WAF to return for this request. If you have more WebACL objects than the number that you specify for Limit, the response includes a NextMarker value that you can use to get another batch of WebACL objects.
-    public var limit: Swift.Int
+    public var limit: Swift.Int?
     /// If you specify a value for Limit and you have more WebACL objects than the number that you specify for Limit, AWS WAF returns a NextMarker value in the response that allows you to list another group of WebACL objects. For the second and subsequent ListWebACLs requests, specify the value of NextMarker from the previous response to get information about another batch of WebACL objects.
     public var nextMarker: Swift.String?
 
     public init(
-        limit: Swift.Int = 0,
+        limit: Swift.Int? = nil,
         nextMarker: Swift.String? = nil
     )
     {
@@ -9275,7 +9275,7 @@ public struct ListWebACLsInput: Swift.Equatable {
 
 struct ListWebACLsInputBody: Swift.Equatable {
     let nextMarker: Swift.String?
-    let limit: Swift.Int
+    let limit: Swift.Int?
 }
 
 extension ListWebACLsInputBody: Swift.Decodable {
@@ -9288,7 +9288,7 @@ extension ListWebACLsInputBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nextMarkerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextMarker)
         nextMarker = nextMarkerDecoded
-        let limitDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .limit) ?? 0
+        let limitDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .limit)
         limit = limitDecoded
     }
 }
@@ -9372,7 +9372,7 @@ extension ListXssMatchSetsInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if limit != 0 {
+        if let limit = self.limit {
             try encodeContainer.encode(limit, forKey: .limit)
         }
         if let nextMarker = self.nextMarker {
@@ -9390,12 +9390,12 @@ extension ListXssMatchSetsInput: ClientRuntime.URLPathProvider {
 /// A request to list the [XssMatchSet] objects created by the current AWS account.
 public struct ListXssMatchSetsInput: Swift.Equatable {
     /// Specifies the number of [XssMatchSet] objects that you want AWS WAF to return for this request. If you have more XssMatchSet objects than the number you specify for Limit, the response includes a NextMarker value that you can use to get another batch of Rules.
-    public var limit: Swift.Int
+    public var limit: Swift.Int?
     /// If you specify a value for Limit and you have more [XssMatchSet] objects than the value of Limit, AWS WAF returns a NextMarker value in the response that allows you to list another group of XssMatchSets. For the second and subsequent ListXssMatchSets requests, specify the value of NextMarker from the previous response to get information about another batch of XssMatchSets.
     public var nextMarker: Swift.String?
 
     public init(
-        limit: Swift.Int = 0,
+        limit: Swift.Int? = nil,
         nextMarker: Swift.String? = nil
     )
     {
@@ -9406,7 +9406,7 @@ public struct ListXssMatchSetsInput: Swift.Equatable {
 
 struct ListXssMatchSetsInputBody: Swift.Equatable {
     let nextMarker: Swift.String?
-    let limit: Swift.Int
+    let limit: Swift.Int?
 }
 
 extension ListXssMatchSetsInputBody: Swift.Decodable {
@@ -9419,7 +9419,7 @@ extension ListXssMatchSetsInputBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nextMarkerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextMarker)
         nextMarker = nextMarkerDecoded
-        let limitDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .limit) ?? 0
+        let limitDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .limit)
         limit = limitDecoded
     }
 }
@@ -12553,7 +12553,7 @@ extension UpdateRateBasedRuleInput: Swift.Encodable {
         if let changeToken = self.changeToken {
             try encodeContainer.encode(changeToken, forKey: .changeToken)
         }
-        if rateLimit != 0 {
+        if let rateLimit = self.rateLimit {
             try encodeContainer.encode(rateLimit, forKey: .rateLimit)
         }
         if let ruleId = self.ruleId {
@@ -12580,7 +12580,7 @@ public struct UpdateRateBasedRuleInput: Swift.Equatable {
     public var changeToken: Swift.String?
     /// The maximum number of requests, which have an identical value in the field specified by the RateKey, allowed in a five-minute period. If the number of requests exceeds the RateLimit and the other predicates specified in the rule are also met, AWS WAF triggers the action that is specified for this rule.
     /// This member is required.
-    public var rateLimit: Swift.Int
+    public var rateLimit: Swift.Int?
     /// The RuleId of the RateBasedRule that you want to update. RuleId is returned by CreateRateBasedRule and by [ListRateBasedRules].
     /// This member is required.
     public var ruleId: Swift.String?
@@ -12590,7 +12590,7 @@ public struct UpdateRateBasedRuleInput: Swift.Equatable {
 
     public init(
         changeToken: Swift.String? = nil,
-        rateLimit: Swift.Int = 0,
+        rateLimit: Swift.Int? = nil,
         ruleId: Swift.String? = nil,
         updates: [WAFClientTypes.RuleUpdate]? = nil
     )
@@ -12606,7 +12606,7 @@ struct UpdateRateBasedRuleInputBody: Swift.Equatable {
     let ruleId: Swift.String?
     let changeToken: Swift.String?
     let updates: [WAFClientTypes.RuleUpdate]?
-    let rateLimit: Swift.Int
+    let rateLimit: Swift.Int?
 }
 
 extension UpdateRateBasedRuleInputBody: Swift.Decodable {
@@ -12634,7 +12634,7 @@ extension UpdateRateBasedRuleInputBody: Swift.Decodable {
             }
         }
         updates = updatesDecoded0
-        let rateLimitDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .rateLimit) ?? 0
+        let rateLimitDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .rateLimit)
         rateLimit = rateLimitDecoded
     }
 }

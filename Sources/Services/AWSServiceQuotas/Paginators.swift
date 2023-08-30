@@ -52,6 +52,7 @@ extension ListRequestedServiceQuotaChangeHistoryInput: ClientRuntime.PaginateTok
         return ListRequestedServiceQuotaChangeHistoryInput(
             maxResults: self.maxResults,
             nextToken: token,
+            quotaRequestedAtLevel: self.quotaRequestedAtLevel,
             serviceCode: self.serviceCode,
             status: self.status
         )}
@@ -85,6 +86,7 @@ extension ListRequestedServiceQuotaChangeHistoryByQuotaInput: ClientRuntime.Pagi
             maxResults: self.maxResults,
             nextToken: token,
             quotaCode: self.quotaCode,
+            quotaRequestedAtLevel: self.quotaRequestedAtLevel,
             serviceCode: self.serviceCode,
             status: self.status
         )}
@@ -149,6 +151,8 @@ extension ListServiceQuotasInput: ClientRuntime.PaginateToken {
         return ListServiceQuotasInput(
             maxResults: self.maxResults,
             nextToken: token,
+            quotaAppliedAtLevel: self.quotaAppliedAtLevel,
+            quotaCode: self.quotaCode,
             serviceCode: self.serviceCode
         )}
 }

@@ -553,7 +553,7 @@ class EndpointResolverTest: XCTestCase {
     /// ListRegionalBuckets + OutpostId = outposts endpoint@us-east-2
     func testResolve17() throws {
         let endpointParams = EndpointParams(
-            accountId: "123",
+            accountId: "123456789012",
             outpostId: "op-123",
             region: "us-east-2",
             requiresAccountId: true,
@@ -585,7 +585,7 @@ class EndpointResolverTest: XCTestCase {
     /// ListRegionalBuckets without OutpostId = regular endpoint@us-east-2
     func testResolve18() throws {
         let endpointParams = EndpointParams(
-            accountId: "123",
+            accountId: "123456789012",
             region: "us-east-2",
             requiresAccountId: true,
             useDualStack: false,
@@ -608,7 +608,7 @@ class EndpointResolverTest: XCTestCase {
             ]
 
         let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "https://123.s3-control.us-east-2.amazonaws.com", headers: headers, properties: properties)
+        let expected = try ClientRuntime.Endpoint(urlString: "https://123456789012.s3-control.us-east-2.amazonaws.com", headers: headers, properties: properties)
 
         XCTAssertEqual(expected, actual)
     }
@@ -616,7 +616,7 @@ class EndpointResolverTest: XCTestCase {
     /// ListRegionalBucket + OutpostId with fips = outposts endpoint@us-east-2
     func testResolve19() throws {
         let endpointParams = EndpointParams(
-            accountId: "123",
+            accountId: "123456789012",
             outpostId: "op-123",
             region: "us-east-2",
             requiresAccountId: true,
@@ -846,7 +846,7 @@ class EndpointResolverTest: XCTestCase {
     func testResolve28() throws {
         let endpointParams = EndpointParams(
             accessPointName: "arn:aws:s3-outposts:us-west-2:123456789012:outpost:op-01234567890123456:accesspoint:myaccesspoint",
-            accountId: "9999999",
+            accountId: "999999999999",
             region: "us-west-2",
             requiresAccountId: true,
             useArnRegion: false,
@@ -858,7 +858,7 @@ class EndpointResolverTest: XCTestCase {
         XCTAssertThrowsError(try resolver.resolve(params: endpointParams)) { error in
             switch error {
             case EndpointError.unresolved(let message):
-                XCTAssertEqual("Invalid ARN: the accountId specified in the ARN (`123456789012`) does not match the parameter (`9999999`)", message)
+                XCTAssertEqual("Invalid ARN: the accountId specified in the ARN (`123456789012`) does not match the parameter (`999999999999`)", message)
             default:
                 XCTFail()
             }
@@ -1047,7 +1047,7 @@ class EndpointResolverTest: XCTestCase {
     /// ListRegionalBucket + OutpostId endpoint url@us-east-2
     func testResolve35() throws {
         let endpointParams = EndpointParams(
-            accountId: "123",
+            accountId: "123456789012",
             endpoint: "https://beta.example.com",
             outpostId: "op-123",
             region: "us-east-2",
@@ -1080,7 +1080,7 @@ class EndpointResolverTest: XCTestCase {
     /// ListRegionalBucket + OutpostId + fips + endpoint url@us-east-2
     func testResolve36() throws {
         let endpointParams = EndpointParams(
-            accountId: "123",
+            accountId: "123456789012",
             endpoint: "https://beta.example.com",
             outpostId: "op-123",
             region: "us-east-2",
@@ -1926,7 +1926,7 @@ class EndpointResolverTest: XCTestCase {
     /// custom account id prefix with fips@us-east-1
     func testResolve65() throws {
         let endpointParams = EndpointParams(
-            accountId: "1234567890-aBC",
+            accountId: "123456789012",
             region: "us-east-1",
             requiresAccountId: true,
             useDualStack: false,
@@ -1949,7 +1949,7 @@ class EndpointResolverTest: XCTestCase {
             ]
 
         let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "https://1234567890-aBC.s3-control-fips.us-east-1.amazonaws.com", headers: headers, properties: properties)
+        let expected = try ClientRuntime.Endpoint(urlString: "https://123456789012.s3-control-fips.us-east-1.amazonaws.com", headers: headers, properties: properties)
 
         XCTAssertEqual(expected, actual)
     }
@@ -2115,7 +2115,7 @@ class EndpointResolverTest: XCTestCase {
     /// custom account id prefix @us-east-1
     func testResolve72() throws {
         let endpointParams = EndpointParams(
-            accountId: "1234567890-aBC",
+            accountId: "123456789012",
             region: "us-east-1",
             requiresAccountId: true,
             useDualStack: false,
@@ -2138,7 +2138,7 @@ class EndpointResolverTest: XCTestCase {
             ]
 
         let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "https://1234567890-aBC.s3-control.us-east-1.amazonaws.com", headers: headers, properties: properties)
+        let expected = try ClientRuntime.Endpoint(urlString: "https://123456789012.s3-control.us-east-1.amazonaws.com", headers: headers, properties: properties)
 
         XCTAssertEqual(expected, actual)
     }
@@ -2167,7 +2167,7 @@ class EndpointResolverTest: XCTestCase {
     /// custom account id prefix with fips@us-east-1
     func testResolve74() throws {
         let endpointParams = EndpointParams(
-            accountId: "1234567890-aBC",
+            accountId: "123456789012",
             region: "us-east-1",
             requiresAccountId: true,
             useDualStack: false,
@@ -2190,7 +2190,7 @@ class EndpointResolverTest: XCTestCase {
             ]
 
         let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "https://1234567890-aBC.s3-control-fips.us-east-1.amazonaws.com", headers: headers, properties: properties)
+        let expected = try ClientRuntime.Endpoint(urlString: "https://123456789012.s3-control-fips.us-east-1.amazonaws.com", headers: headers, properties: properties)
 
         XCTAssertEqual(expected, actual)
     }
@@ -2198,7 +2198,7 @@ class EndpointResolverTest: XCTestCase {
     /// custom account id prefix with dualstack,fips@us-east-1
     func testResolve75() throws {
         let endpointParams = EndpointParams(
-            accountId: "1234567890-aBC",
+            accountId: "123456789012",
             region: "us-east-1",
             requiresAccountId: true,
             useDualStack: true,
@@ -2221,7 +2221,7 @@ class EndpointResolverTest: XCTestCase {
             ]
 
         let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "https://1234567890-aBC.s3-control-fips.dualstack.us-east-1.amazonaws.com", headers: headers, properties: properties)
+        let expected = try ClientRuntime.Endpoint(urlString: "https://123456789012.s3-control-fips.dualstack.us-east-1.amazonaws.com", headers: headers, properties: properties)
 
         XCTAssertEqual(expected, actual)
     }
@@ -2229,7 +2229,7 @@ class EndpointResolverTest: XCTestCase {
     /// custom account id with custom endpoint
     func testResolve76() throws {
         let endpointParams = EndpointParams(
-            accountId: "1234567890-aBC",
+            accountId: "123456789012",
             endpoint: "https://example.com",
             region: "us-east-1",
             requiresAccountId: true
@@ -2251,7 +2251,7 @@ class EndpointResolverTest: XCTestCase {
             ]
 
         let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "https://1234567890-aBC.example.com", headers: headers, properties: properties)
+        let expected = try ClientRuntime.Endpoint(urlString: "https://123456789012.example.com", headers: headers, properties: properties)
 
         XCTAssertEqual(expected, actual)
     }
@@ -2313,10 +2313,10 @@ class EndpointResolverTest: XCTestCase {
         }
     }
 
-    /// account id with custom endpoint, fips and dualstack
+    /// account id with custom endpoint, fips
     func testResolve80() throws {
         let endpointParams = EndpointParams(
-            accountId: "1234567890-aBC",
+            accountId: "123456789012",
             endpoint: "https://example.com",
             region: "us-east-1",
             requiresAccountId: true,
@@ -2339,12 +2339,12 @@ class EndpointResolverTest: XCTestCase {
             ]
 
         let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "https://1234567890-aBC.example.com", headers: headers, properties: properties)
+        let expected = try ClientRuntime.Endpoint(urlString: "https://123456789012.example.com", headers: headers, properties: properties)
 
         XCTAssertEqual(expected, actual)
     }
 
-    /// custom endpoint, fips and dualstack
+    /// custom endpoint, fips
     func testResolve81() throws {
         let endpointParams = EndpointParams(
             endpoint: "https://example.com",
@@ -2402,33 +2402,24 @@ class EndpointResolverTest: XCTestCase {
         XCTAssertEqual(expected, actual)
     }
 
-    /// custom endpoint, dualstack
+    /// custom endpoint, DualStack
     func testResolve83() throws {
         let endpointParams = EndpointParams(
             endpoint: "https://example.com",
             region: "us-east-1",
+            useDualStack: true,
             useFIPS: false
         )
         let resolver = try DefaultEndpointResolver()
 
-        let actual = try resolver.resolve(params: endpointParams)
-
-        let properties: [String: AnyHashable] =
-            [
-                "authSchemes": [
-                    [
-                        "name": "sigv4",
-                        "signingName": "s3",
-                        "signingRegion": "us-east-1",
-                        "disableDoubleEncoding": true
-                    ] as [String: AnyHashable]
-                ] as [AnyHashable]
-            ]
-
-        let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "https://example.com", headers: headers, properties: properties)
-
-        XCTAssertEqual(expected, actual)
+        XCTAssertThrowsError(try resolver.resolve(params: endpointParams)) { error in
+            switch error {
+            case EndpointError.unresolved(let message):
+                XCTAssertEqual("Invalid Configuration: DualStack and custom endpoint are not supported", message)
+            default:
+                XCTFail()
+            }
+        }
     }
 
     /// region not set
@@ -2637,7 +2628,7 @@ class EndpointResolverTest: XCTestCase {
         XCTAssertEqual(expected, actual)
     }
 
-    /// Dualstack + Custom endpoint is not supported(non-arn)
+    /// DualStack + Custom endpoint is not supported(non-arn)
     func testResolve93() throws {
         let endpointParams = EndpointParams(
             accessPointName: "apname",
@@ -2653,7 +2644,7 @@ class EndpointResolverTest: XCTestCase {
         XCTAssertThrowsError(try resolver.resolve(params: endpointParams)) { error in
             switch error {
             case EndpointError.unresolved(let message):
-                XCTAssertEqual("Invalid Configuration: Dualstack and custom endpoint are not supported", message)
+                XCTAssertEqual("Invalid Configuration: DualStack and custom endpoint are not supported", message)
             default:
                 XCTFail()
             }
@@ -3158,7 +3149,7 @@ class EndpointResolverTest: XCTestCase {
         }
     }
 
-    /// S3 Snow Control with Dual-stack enabled
+    /// S3 Snow Control with Dualstack enabled
     func testResolve113() throws {
         let endpointParams = EndpointParams(
             bucket: "bucketName",
@@ -3172,7 +3163,7 @@ class EndpointResolverTest: XCTestCase {
         XCTAssertThrowsError(try resolver.resolve(params: endpointParams)) { error in
             switch error {
             case EndpointError.unresolved(let message):
-                XCTAssertEqual("S3 Snow does not support Dual-stack", message)
+                XCTAssertEqual("S3 Snow does not support DualStack", message)
             default:
                 XCTFail()
             }

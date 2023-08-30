@@ -163,7 +163,7 @@ extension CreateIdentityPoolInput: Swift.Encodable {
         if let allowClassicFlow = self.allowClassicFlow {
             try encodeContainer.encode(allowClassicFlow, forKey: .allowClassicFlow)
         }
-        if allowUnauthenticatedIdentities != false {
+        if let allowUnauthenticatedIdentities = self.allowUnauthenticatedIdentities {
             try encodeContainer.encode(allowUnauthenticatedIdentities, forKey: .allowUnauthenticatedIdentities)
         }
         if let cognitoIdentityProviders = cognitoIdentityProviders {
@@ -217,7 +217,7 @@ public struct CreateIdentityPoolInput: Swift.Equatable {
     public var allowClassicFlow: Swift.Bool?
     /// TRUE if the identity pool supports unauthenticated logins.
     /// This member is required.
-    public var allowUnauthenticatedIdentities: Swift.Bool
+    public var allowUnauthenticatedIdentities: Swift.Bool?
     /// An array of Amazon Cognito user pools and their client IDs.
     public var cognitoIdentityProviders: [CognitoIdentityClientTypes.CognitoIdentityProvider]?
     /// The "domain" by which Cognito will refer to your users. This name acts as a placeholder that allows your backend and the Cognito service to communicate about the developer provider. For the DeveloperProviderName, you can use letters as well as period (.), underscore (_), and dash (-). Once you have set a developer provider name, you cannot change it. Please take care in setting this parameter.
@@ -236,7 +236,7 @@ public struct CreateIdentityPoolInput: Swift.Equatable {
 
     public init(
         allowClassicFlow: Swift.Bool? = nil,
-        allowUnauthenticatedIdentities: Swift.Bool = false,
+        allowUnauthenticatedIdentities: Swift.Bool? = nil,
         cognitoIdentityProviders: [CognitoIdentityClientTypes.CognitoIdentityProvider]? = nil,
         developerProviderName: Swift.String? = nil,
         identityPoolName: Swift.String? = nil,
@@ -260,7 +260,7 @@ public struct CreateIdentityPoolInput: Swift.Equatable {
 
 struct CreateIdentityPoolInputBody: Swift.Equatable {
     let identityPoolName: Swift.String?
-    let allowUnauthenticatedIdentities: Swift.Bool
+    let allowUnauthenticatedIdentities: Swift.Bool?
     let allowClassicFlow: Swift.Bool?
     let supportedLoginProviders: [Swift.String:Swift.String]?
     let developerProviderName: Swift.String?
@@ -287,7 +287,7 @@ extension CreateIdentityPoolInputBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let identityPoolNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .identityPoolName)
         identityPoolName = identityPoolNameDecoded
-        let allowUnauthenticatedIdentitiesDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .allowUnauthenticatedIdentities) ?? false
+        let allowUnauthenticatedIdentitiesDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .allowUnauthenticatedIdentities)
         allowUnauthenticatedIdentities = allowUnauthenticatedIdentitiesDecoded
         let allowClassicFlowDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .allowClassicFlow)
         allowClassicFlow = allowClassicFlowDecoded
@@ -2636,13 +2636,13 @@ extension ListIdentitiesInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if hideDisabled != false {
+        if let hideDisabled = self.hideDisabled {
             try encodeContainer.encode(hideDisabled, forKey: .hideDisabled)
         }
         if let identityPoolId = self.identityPoolId {
             try encodeContainer.encode(identityPoolId, forKey: .identityPoolId)
         }
-        if maxResults != 0 {
+        if let maxResults = self.maxResults {
             try encodeContainer.encode(maxResults, forKey: .maxResults)
         }
         if let nextToken = self.nextToken {
@@ -2660,20 +2660,20 @@ extension ListIdentitiesInput: ClientRuntime.URLPathProvider {
 /// Input to the ListIdentities action.
 public struct ListIdentitiesInput: Swift.Equatable {
     /// An optional boolean parameter that allows you to hide disabled identities. If omitted, the ListIdentities API will include disabled identities in the response.
-    public var hideDisabled: Swift.Bool
+    public var hideDisabled: Swift.Bool?
     /// An identity pool ID in the format REGION:GUID.
     /// This member is required.
     public var identityPoolId: Swift.String?
     /// The maximum number of identities to return.
     /// This member is required.
-    public var maxResults: Swift.Int
+    public var maxResults: Swift.Int?
     /// A pagination token.
     public var nextToken: Swift.String?
 
     public init(
-        hideDisabled: Swift.Bool = false,
+        hideDisabled: Swift.Bool? = nil,
         identityPoolId: Swift.String? = nil,
-        maxResults: Swift.Int = 0,
+        maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     )
     {
@@ -2686,9 +2686,9 @@ public struct ListIdentitiesInput: Swift.Equatable {
 
 struct ListIdentitiesInputBody: Swift.Equatable {
     let identityPoolId: Swift.String?
-    let maxResults: Swift.Int
+    let maxResults: Swift.Int?
     let nextToken: Swift.String?
-    let hideDisabled: Swift.Bool
+    let hideDisabled: Swift.Bool?
 }
 
 extension ListIdentitiesInputBody: Swift.Decodable {
@@ -2703,11 +2703,11 @@ extension ListIdentitiesInputBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let identityPoolIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .identityPoolId)
         identityPoolId = identityPoolIdDecoded
-        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults) ?? 0
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
         maxResults = maxResultsDecoded
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
-        let hideDisabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .hideDisabled) ?? false
+        let hideDisabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .hideDisabled)
         hideDisabled = hideDisabledDecoded
     }
 }
@@ -2805,7 +2805,7 @@ extension ListIdentityPoolsInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if maxResults != 0 {
+        if let maxResults = self.maxResults {
             try encodeContainer.encode(maxResults, forKey: .maxResults)
         }
         if let nextToken = self.nextToken {
@@ -2824,12 +2824,12 @@ extension ListIdentityPoolsInput: ClientRuntime.URLPathProvider {
 public struct ListIdentityPoolsInput: Swift.Equatable {
     /// The maximum number of identities to return.
     /// This member is required.
-    public var maxResults: Swift.Int
+    public var maxResults: Swift.Int?
     /// A pagination token.
     public var nextToken: Swift.String?
 
     public init(
-        maxResults: Swift.Int = 0,
+        maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     )
     {
@@ -2839,7 +2839,7 @@ public struct ListIdentityPoolsInput: Swift.Equatable {
 }
 
 struct ListIdentityPoolsInputBody: Swift.Equatable {
-    let maxResults: Swift.Int
+    let maxResults: Swift.Int?
     let nextToken: Swift.String?
 }
 
@@ -2851,7 +2851,7 @@ extension ListIdentityPoolsInputBody: Swift.Decodable {
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults) ?? 0
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
         maxResults = maxResultsDecoded
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
@@ -3065,7 +3065,7 @@ extension LookupDeveloperIdentityInput: Swift.Encodable {
         if let identityPoolId = self.identityPoolId {
             try encodeContainer.encode(identityPoolId, forKey: .identityPoolId)
         }
-        if maxResults != 0 {
+        if let maxResults = self.maxResults {
             try encodeContainer.encode(maxResults, forKey: .maxResults)
         }
         if let nextToken = self.nextToken {
@@ -3090,7 +3090,7 @@ public struct LookupDeveloperIdentityInput: Swift.Equatable {
     /// This member is required.
     public var identityPoolId: Swift.String?
     /// The maximum number of identities to return.
-    public var maxResults: Swift.Int
+    public var maxResults: Swift.Int?
     /// A pagination token. The first call you make will have NextToken set to null. After that the service will return NextToken values as needed. For example, let's say you make a request with MaxResults set to 10, and there are 20 matches in the database. The service will return a pagination token as a part of the response. This token can be used to call the API again and get results starting from the 11th match.
     public var nextToken: Swift.String?
 
@@ -3098,7 +3098,7 @@ public struct LookupDeveloperIdentityInput: Swift.Equatable {
         developerUserIdentifier: Swift.String? = nil,
         identityId: Swift.String? = nil,
         identityPoolId: Swift.String? = nil,
-        maxResults: Swift.Int = 0,
+        maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     )
     {
@@ -3114,7 +3114,7 @@ struct LookupDeveloperIdentityInputBody: Swift.Equatable {
     let identityPoolId: Swift.String?
     let identityId: Swift.String?
     let developerUserIdentifier: Swift.String?
-    let maxResults: Swift.Int
+    let maxResults: Swift.Int?
     let nextToken: Swift.String?
 }
 
@@ -3135,7 +3135,7 @@ extension LookupDeveloperIdentityInputBody: Swift.Decodable {
         identityId = identityIdDecoded
         let developerUserIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .developerUserIdentifier)
         developerUserIdentifier = developerUserIdentifierDecoded
-        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults) ?? 0
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
         maxResults = maxResultsDecoded
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded

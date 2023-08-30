@@ -35,7 +35,6 @@ object AWSClientRuntimeTypes {
 
     object Core {
         val AWSUserAgentMetadata = runtimeSymbol("AWSUserAgentMetadata")
-        val APIMetadata = runtimeSymbol("APIMetadata")
         val UserAgentMiddleware = runtimeSymbol("UserAgentMiddleware")
         val EndpointResolverMiddleware = runtimeSymbol("EndpointResolverMiddleware")
         val FrameworkMetadata = runtimeSymbol("FrameworkMetadata")

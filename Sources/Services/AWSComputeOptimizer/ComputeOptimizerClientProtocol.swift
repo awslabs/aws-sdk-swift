@@ -130,6 +130,24 @@ public protocol ComputeOptimizerClientProtocol {
     /// - `ServiceUnavailableException` : The request has failed due to a temporary failure of the server.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     func exportLambdaFunctionRecommendations(input: ExportLambdaFunctionRecommendationsInput) async throws -> ExportLambdaFunctionRecommendationsOutputResponse
+    /// Export optimization recommendations for your licenses. Recommendations are exported in a comma-separated values (CSV) file, and its metadata in a JavaScript Object Notation (JSON) file, to an existing Amazon Simple Storage Service (Amazon S3) bucket that you specify. For more information, see [Exporting Recommendations](https://docs.aws.amazon.com/compute-optimizer/latest/ug/exporting-recommendations.html) in the Compute Optimizer User Guide. You can have only one license export job in progress per Amazon Web Services Region.
+    ///
+    /// - Parameter ExportLicenseRecommendationsInput : [no documentation found]
+    ///
+    /// - Returns: `ExportLicenseRecommendationsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : An internal error has occurred. Try your call again.
+    /// - `InvalidParameterValueException` : The value supplied for the input parameter is out of range or not valid.
+    /// - `LimitExceededException` : The request exceeds a limit of the service.
+    /// - `MissingAuthenticationToken` : The request must contain either a valid (registered) Amazon Web Services access key ID or X.509 certificate.
+    /// - `OptInRequiredException` : The account is not opted in to Compute Optimizer.
+    /// - `ServiceUnavailableException` : The request has failed due to a temporary failure of the server.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    func exportLicenseRecommendations(input: ExportLicenseRecommendationsInput) async throws -> ExportLicenseRecommendationsOutputResponse
     /// Returns Auto Scaling group recommendations. Compute Optimizer generates recommendations for Amazon EC2 Auto Scaling groups that meet a specific set of requirements. For more information, see the [Supported resources and requirements](https://docs.aws.amazon.com/compute-optimizer/latest/ug/requirements.html) in the Compute Optimizer User Guide.
     ///
     /// - Parameter GetAutoScalingGroupRecommendationsInput : [no documentation found]
@@ -306,6 +324,24 @@ public protocol ComputeOptimizerClientProtocol {
     /// - `ServiceUnavailableException` : The request has failed due to a temporary failure of the server.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     func getLambdaFunctionRecommendations(input: GetLambdaFunctionRecommendationsInput) async throws -> GetLambdaFunctionRecommendationsOutputResponse
+    /// Returns license recommendations for Amazon EC2 instances that run on a specific license. Compute Optimizer generates recommendations for licenses that meet a specific set of requirements. For more information, see the [Supported resources and requirements](https://docs.aws.amazon.com/compute-optimizer/latest/ug/requirements.html) in the Compute Optimizer User Guide.
+    ///
+    /// - Parameter GetLicenseRecommendationsInput : [no documentation found]
+    ///
+    /// - Returns: `GetLicenseRecommendationsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : An internal error has occurred. Try your call again.
+    /// - `InvalidParameterValueException` : The value supplied for the input parameter is out of range or not valid.
+    /// - `MissingAuthenticationToken` : The request must contain either a valid (registered) Amazon Web Services access key ID or X.509 certificate.
+    /// - `OptInRequiredException` : The account is not opted in to Compute Optimizer.
+    /// - `ResourceNotFoundException` : A resource that is required for the action doesn't exist.
+    /// - `ServiceUnavailableException` : The request has failed due to a temporary failure of the server.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    func getLicenseRecommendations(input: GetLicenseRecommendationsInput) async throws -> GetLicenseRecommendationsOutputResponse
     /// Returns existing recommendation preferences, such as enhanced infrastructure metrics. Use the scope parameter to specify which preferences to return. You can specify to return preferences for an organization, a specific account ID, or a specific EC2 instance or Auto Scaling group Amazon Resource Name (ARN). For more information, see [Activating enhanced infrastructure metrics](https://docs.aws.amazon.com/compute-optimizer/latest/ug/enhanced-infrastructure-metrics.html) in the Compute Optimizer User Guide.
     ///
     /// - Parameter GetRecommendationPreferencesInput : [no documentation found]

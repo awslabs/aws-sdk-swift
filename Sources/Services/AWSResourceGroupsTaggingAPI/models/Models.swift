@@ -585,9 +585,9 @@ extension GetComplianceSummaryInputBody: Swift.Decodable {
         var groupByDecoded0:[ResourceGroupsTaggingAPIClientTypes.GroupByAttribute]? = nil
         if let groupByContainer = groupByContainer {
             groupByDecoded0 = [ResourceGroupsTaggingAPIClientTypes.GroupByAttribute]()
-            for string0 in groupByContainer {
-                if let string0 = string0 {
-                    groupByDecoded0?.append(string0)
+            for enum0 in groupByContainer {
+                if let enum0 = enum0 {
+                    groupByDecoded0?.append(enum0)
                 }
             }
         }

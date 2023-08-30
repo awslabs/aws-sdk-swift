@@ -1807,7 +1807,7 @@ extension CreateOrganizationInput: Swift.Encodable {
                 try domainsContainer.encode(domain0)
             }
         }
-        if enableInteroperability != false {
+        if let enableInteroperability = self.enableInteroperability {
             try encodeContainer.encode(enableInteroperability, forKey: .enableInteroperability)
         }
         if let kmsKeyArn = self.kmsKeyArn {
@@ -1833,7 +1833,7 @@ public struct CreateOrganizationInput: Swift.Equatable {
     /// The email domains to associate with the organization.
     public var domains: [WorkMailClientTypes.Domain]?
     /// When true, allows organization interoperability between WorkMail and Microsoft Exchange. If true, you must include a AD Connector directory ID in the request.
-    public var enableInteroperability: Swift.Bool
+    public var enableInteroperability: Swift.Bool?
     /// The Amazon Resource Name (ARN) of a customer managed key from AWS KMS.
     public var kmsKeyArn: Swift.String?
 
@@ -1842,7 +1842,7 @@ public struct CreateOrganizationInput: Swift.Equatable {
         clientToken: Swift.String? = nil,
         directoryId: Swift.String? = nil,
         domains: [WorkMailClientTypes.Domain]? = nil,
-        enableInteroperability: Swift.Bool = false,
+        enableInteroperability: Swift.Bool? = nil,
         kmsKeyArn: Swift.String? = nil
     )
     {
@@ -1861,7 +1861,7 @@ struct CreateOrganizationInputBody: Swift.Equatable {
     let clientToken: Swift.String?
     let domains: [WorkMailClientTypes.Domain]?
     let kmsKeyArn: Swift.String?
-    let enableInteroperability: Swift.Bool
+    let enableInteroperability: Swift.Bool?
 }
 
 extension CreateOrganizationInputBody: Swift.Decodable {
@@ -1895,7 +1895,7 @@ extension CreateOrganizationInputBody: Swift.Decodable {
         domains = domainsDecoded0
         let kmsKeyArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .kmsKeyArn)
         kmsKeyArn = kmsKeyArnDecoded
-        let enableInteroperabilityDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enableInteroperability) ?? false
+        let enableInteroperabilityDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enableInteroperability)
         enableInteroperability = enableInteroperabilityDecoded
     }
 }
@@ -3091,7 +3091,7 @@ extension DeleteOrganizationInput: Swift.Encodable {
         if let clientToken = self.clientToken {
             try encodeContainer.encode(clientToken, forKey: .clientToken)
         }
-        if deleteDirectory != false {
+        if let deleteDirectory = self.deleteDirectory {
             try encodeContainer.encode(deleteDirectory, forKey: .deleteDirectory)
         }
         if let organizationId = self.organizationId {
@@ -3111,14 +3111,14 @@ public struct DeleteOrganizationInput: Swift.Equatable {
     public var clientToken: Swift.String?
     /// If true, deletes the AWS Directory Service directory associated with the organization.
     /// This member is required.
-    public var deleteDirectory: Swift.Bool
+    public var deleteDirectory: Swift.Bool?
     /// The organization ID.
     /// This member is required.
     public var organizationId: Swift.String?
 
     public init(
         clientToken: Swift.String? = nil,
-        deleteDirectory: Swift.Bool = false,
+        deleteDirectory: Swift.Bool? = nil,
         organizationId: Swift.String? = nil
     )
     {
@@ -3131,7 +3131,7 @@ public struct DeleteOrganizationInput: Swift.Equatable {
 struct DeleteOrganizationInputBody: Swift.Equatable {
     let clientToken: Swift.String?
     let organizationId: Swift.String?
-    let deleteDirectory: Swift.Bool
+    let deleteDirectory: Swift.Bool?
 }
 
 extension DeleteOrganizationInputBody: Swift.Decodable {
@@ -3147,7 +3147,7 @@ extension DeleteOrganizationInputBody: Swift.Decodable {
         clientToken = clientTokenDecoded
         let organizationIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .organizationId)
         organizationId = organizationIdDecoded
-        let deleteDirectoryDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .deleteDirectory) ?? false
+        let deleteDirectoryDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .deleteDirectory)
         deleteDirectory = deleteDirectoryDecoded
     }
 }

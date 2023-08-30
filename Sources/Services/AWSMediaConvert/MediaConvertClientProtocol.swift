@@ -196,7 +196,7 @@ public protocol MediaConvertClientProtocol {
     /// - `NotFoundException` : The resource you requested doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been sent in too short of a time. The service limits the rate at which it will accept requests.
     func disassociateCertificate(input: DisassociateCertificateInput) async throws -> DisassociateCertificateOutputResponse
-    /// Retrieve the JSON for a specific completed transcoding job.
+    /// Retrieve the JSON for a specific transcoding job.
     ///
     /// - Parameter GetJobInput : [no documentation found]
     ///

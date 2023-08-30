@@ -280,7 +280,7 @@ public protocol CostExplorerClientProtocol {
     /// - `InvalidNextTokenException` : The pagination token is invalid. Try again without a pagination token.
     /// - `LimitExceededException` : You made too many calls in a short period of time. Try again later.
     func getRightsizingRecommendation(input: GetRightsizingRecommendationInput) async throws -> GetRightsizingRecommendationOutputResponse
-    /// Retrieves the details for a Savings Plan recommendation. These details include the hourly data-points that construct the new cost, coverage, and utilization charts.
+    /// Retrieves the details for a Savings Plan recommendation. These details include the hourly data-points that construct the cost, coverage, and utilization charts.
     ///
     /// - Parameter GetSavingsPlanPurchaseRecommendationDetailsInput : [no documentation found]
     ///

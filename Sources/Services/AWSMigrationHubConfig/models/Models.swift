@@ -66,7 +66,7 @@ extension CreateHomeRegionControlInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if dryRun != false {
+        if let dryRun = self.dryRun {
             try encodeContainer.encode(dryRun, forKey: .dryRun)
         }
         if let homeRegion = self.homeRegion {
@@ -86,7 +86,7 @@ extension CreateHomeRegionControlInput: ClientRuntime.URLPathProvider {
 
 public struct CreateHomeRegionControlInput: Swift.Equatable {
     /// Optional Boolean flag to indicate whether any effect should take place. It tests whether the caller has permission to make the call.
-    public var dryRun: Swift.Bool
+    public var dryRun: Swift.Bool?
     /// The name of the home region of the calling account.
     /// This member is required.
     public var homeRegion: Swift.String?
@@ -95,7 +95,7 @@ public struct CreateHomeRegionControlInput: Swift.Equatable {
     public var target: MigrationHubConfigClientTypes.Target?
 
     public init(
-        dryRun: Swift.Bool = false,
+        dryRun: Swift.Bool? = nil,
         homeRegion: Swift.String? = nil,
         target: MigrationHubConfigClientTypes.Target? = nil
     )
@@ -109,7 +109,7 @@ public struct CreateHomeRegionControlInput: Swift.Equatable {
 struct CreateHomeRegionControlInputBody: Swift.Equatable {
     let homeRegion: Swift.String?
     let target: MigrationHubConfigClientTypes.Target?
-    let dryRun: Swift.Bool
+    let dryRun: Swift.Bool?
 }
 
 extension CreateHomeRegionControlInputBody: Swift.Decodable {
@@ -125,7 +125,7 @@ extension CreateHomeRegionControlInputBody: Swift.Decodable {
         homeRegion = homeRegionDecoded
         let targetDecoded = try containerValues.decodeIfPresent(MigrationHubConfigClientTypes.Target.self, forKey: .target)
         target = targetDecoded
-        let dryRunDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .dryRun) ?? false
+        let dryRunDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .dryRun)
         dryRun = dryRunDecoded
     }
 }

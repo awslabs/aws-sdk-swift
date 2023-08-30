@@ -300,7 +300,7 @@ public struct ClusterAlreadyExistsFault: ClientRuntime.ModeledError, AWSClientRu
     }
 
     public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "ClusterAlreadyExistsFault" }
+    public static var typeName: Swift.String { "ClusterAlreadyExists" }
     public static var fault: ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
@@ -387,7 +387,7 @@ public struct ClusterNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime
     }
 
     public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "ClusterNotFoundFault" }
+    public static var typeName: Swift.String { "ClusterNotFound" }
     public static var fault: ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
@@ -442,7 +442,7 @@ public struct ClusterQuotaForCustomerExceededFault: ClientRuntime.ModeledError, 
     }
 
     public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "ClusterQuotaForCustomerExceededFault" }
+    public static var typeName: Swift.String { "ClusterQuotaForCustomerExceeded" }
     public static var fault: ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
@@ -524,7 +524,7 @@ extension CreateClusterInput: Swift.Encodable {
         if let preferredMaintenanceWindow = self.preferredMaintenanceWindow {
             try encodeContainer.encode(preferredMaintenanceWindow, forKey: .preferredMaintenanceWindow)
         }
-        if replicationFactor != 0 {
+        if let replicationFactor = self.replicationFactor {
             try encodeContainer.encode(replicationFactor, forKey: .replicationFactor)
         }
         if let sseSpecification = self.sseSpecification {
@@ -605,7 +605,7 @@ public struct CreateClusterInput: Swift.Equatable {
     public var preferredMaintenanceWindow: Swift.String?
     /// The number of nodes in the DAX cluster. A replication factor of 1 will create a single-node cluster, without any read replicas. For additional fault tolerance, you can create a multiple node cluster with one or more read replicas. To do this, set ReplicationFactor to a number between 3 (one primary and two read replicas) and 10 (one primary and nine read replicas). If the AvailabilityZones parameter is provided, its length must equal the ReplicationFactor. AWS recommends that you have at least two read replicas per cluster.
     /// This member is required.
-    public var replicationFactor: Swift.Int
+    public var replicationFactor: Swift.Int?
     /// A list of security group IDs to be assigned to each node in the DAX cluster. (Each of the security group ID is system-generated.) If this parameter is not specified, DAX assigns the default VPC security group to each node.
     public var securityGroupIds: [Swift.String]?
     /// Represents the settings used to enable server-side encryption on the cluster.
@@ -625,7 +625,7 @@ public struct CreateClusterInput: Swift.Equatable {
         notificationTopicArn: Swift.String? = nil,
         parameterGroupName: Swift.String? = nil,
         preferredMaintenanceWindow: Swift.String? = nil,
-        replicationFactor: Swift.Int = 0,
+        replicationFactor: Swift.Int? = nil,
         securityGroupIds: [Swift.String]? = nil,
         sseSpecification: DAXClientTypes.SSESpecification? = nil,
         subnetGroupName: Swift.String? = nil,
@@ -653,7 +653,7 @@ struct CreateClusterInputBody: Swift.Equatable {
     let clusterName: Swift.String?
     let nodeType: Swift.String?
     let description: Swift.String?
-    let replicationFactor: Swift.Int
+    let replicationFactor: Swift.Int?
     let availabilityZones: [Swift.String]?
     let subnetGroupName: Swift.String?
     let securityGroupIds: [Swift.String]?
@@ -692,7 +692,7 @@ extension CreateClusterInputBody: Swift.Decodable {
         nodeType = nodeTypeDecoded
         let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
         description = descriptionDecoded
-        let replicationFactorDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .replicationFactor) ?? 0
+        let replicationFactorDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .replicationFactor)
         replicationFactor = replicationFactorDecoded
         let availabilityZonesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .availabilityZones)
         var availabilityZonesDecoded0:[Swift.String]? = nil
@@ -749,19 +749,19 @@ public enum CreateClusterOutputError: ClientRuntime.HttpResponseErrorBinding {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
-            case "ClusterAlreadyExistsFault": return try await ClusterAlreadyExistsFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ClusterQuotaForCustomerExceededFault": return try await ClusterQuotaForCustomerExceededFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InsufficientClusterCapacityFault": return try await InsufficientClusterCapacityFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidClusterStateFault": return try await InvalidClusterStateFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidParameterCombinationException": return try await InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidParameterGroupStateFault": return try await InvalidParameterGroupStateFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ClusterAlreadyExists": return try await ClusterAlreadyExistsFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ClusterQuotaForCustomerExceeded": return try await ClusterQuotaForCustomerExceededFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InsufficientClusterCapacity": return try await InsufficientClusterCapacityFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidClusterState": return try await InvalidClusterStateFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterCombination": return try await InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterGroupState": return try await InvalidParameterGroupStateFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValue": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InvalidVPCNetworkStateFault": return try await InvalidVPCNetworkStateFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "NodeQuotaForClusterExceededFault": return try await NodeQuotaForClusterExceededFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "NodeQuotaForCustomerExceededFault": return try await NodeQuotaForCustomerExceededFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ParameterGroupNotFoundFault": return try await ParameterGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NodeQuotaForClusterExceeded": return try await NodeQuotaForClusterExceededFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NodeQuotaForCustomerExceeded": return try await NodeQuotaForCustomerExceededFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ParameterGroupNotFound": return try await ParameterGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ServiceLinkedRoleNotFoundFault": return try await ServiceLinkedRoleNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceeded": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "SubnetGroupNotFoundFault": return try await SubnetGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "TagQuotaPerResourceExceeded": return try await TagQuotaPerResourceExceeded(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
@@ -874,11 +874,11 @@ public enum CreateParameterGroupOutputError: ClientRuntime.HttpResponseErrorBind
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
-            case "InvalidParameterCombinationException": return try await InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidParameterGroupStateFault": return try await InvalidParameterGroupStateFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ParameterGroupAlreadyExistsFault": return try await ParameterGroupAlreadyExistsFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ParameterGroupQuotaExceededFault": return try await ParameterGroupQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterCombination": return try await InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterGroupState": return try await InvalidParameterGroupStateFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValue": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ParameterGroupAlreadyExists": return try await ParameterGroupAlreadyExistsFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ParameterGroupQuotaExceeded": return try await ParameterGroupQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ServiceLinkedRoleNotFoundFault": return try await ServiceLinkedRoleNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
@@ -1017,8 +1017,8 @@ public enum CreateSubnetGroupOutputError: ClientRuntime.HttpResponseErrorBinding
         switch restJSONError.errorType {
             case "InvalidSubnet": return try await InvalidSubnet(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ServiceLinkedRoleNotFoundFault": return try await ServiceLinkedRoleNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "SubnetGroupAlreadyExistsFault": return try await SubnetGroupAlreadyExistsFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "SubnetGroupQuotaExceededFault": return try await SubnetGroupQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "SubnetGroupAlreadyExists": return try await SubnetGroupAlreadyExistsFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "SubnetGroupQuotaExceeded": return try await SubnetGroupQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "SubnetQuotaExceededFault": return try await SubnetQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
@@ -1084,7 +1084,7 @@ extension DecreaseReplicationFactorInput: Swift.Encodable {
         if let clusterName = self.clusterName {
             try encodeContainer.encode(clusterName, forKey: .clusterName)
         }
-        if newReplicationFactor != 0 {
+        if let newReplicationFactor = self.newReplicationFactor {
             try encodeContainer.encode(newReplicationFactor, forKey: .newReplicationFactor)
         }
         if let nodeIdsToRemove = nodeIdsToRemove {
@@ -1110,14 +1110,14 @@ public struct DecreaseReplicationFactorInput: Swift.Equatable {
     public var clusterName: Swift.String?
     /// The new number of nodes for the DAX cluster.
     /// This member is required.
-    public var newReplicationFactor: Swift.Int
+    public var newReplicationFactor: Swift.Int?
     /// The unique identifiers of the nodes to be removed from the cluster.
     public var nodeIdsToRemove: [Swift.String]?
 
     public init(
         availabilityZones: [Swift.String]? = nil,
         clusterName: Swift.String? = nil,
-        newReplicationFactor: Swift.Int = 0,
+        newReplicationFactor: Swift.Int? = nil,
         nodeIdsToRemove: [Swift.String]? = nil
     )
     {
@@ -1130,7 +1130,7 @@ public struct DecreaseReplicationFactorInput: Swift.Equatable {
 
 struct DecreaseReplicationFactorInputBody: Swift.Equatable {
     let clusterName: Swift.String?
-    let newReplicationFactor: Swift.Int
+    let newReplicationFactor: Swift.Int?
     let availabilityZones: [Swift.String]?
     let nodeIdsToRemove: [Swift.String]?
 }
@@ -1147,7 +1147,7 @@ extension DecreaseReplicationFactorInputBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let clusterNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clusterName)
         clusterName = clusterNameDecoded
-        let newReplicationFactorDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .newReplicationFactor) ?? 0
+        let newReplicationFactorDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .newReplicationFactor)
         newReplicationFactor = newReplicationFactorDecoded
         let availabilityZonesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .availabilityZones)
         var availabilityZonesDecoded0:[Swift.String]? = nil
@@ -1179,11 +1179,11 @@ public enum DecreaseReplicationFactorOutputError: ClientRuntime.HttpResponseErro
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
-            case "ClusterNotFoundFault": return try await ClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidClusterStateFault": return try await InvalidClusterStateFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidParameterCombinationException": return try await InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "NodeNotFoundFault": return try await NodeNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ClusterNotFound": return try await ClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidClusterState": return try await InvalidClusterStateFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterCombination": return try await InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValue": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NodeNotFound": return try await NodeNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ServiceLinkedRoleNotFoundFault": return try await ServiceLinkedRoleNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
@@ -1283,10 +1283,10 @@ public enum DeleteClusterOutputError: ClientRuntime.HttpResponseErrorBinding {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
-            case "ClusterNotFoundFault": return try await ClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidClusterStateFault": return try await InvalidClusterStateFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidParameterCombinationException": return try await InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ClusterNotFound": return try await ClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidClusterState": return try await InvalidClusterStateFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterCombination": return try await InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValue": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ServiceLinkedRoleNotFoundFault": return try await ServiceLinkedRoleNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
@@ -1386,10 +1386,10 @@ public enum DeleteParameterGroupOutputError: ClientRuntime.HttpResponseErrorBind
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
-            case "InvalidParameterCombinationException": return try await InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidParameterGroupStateFault": return try await InvalidParameterGroupStateFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ParameterGroupNotFoundFault": return try await ParameterGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterCombination": return try await InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterGroupState": return try await InvalidParameterGroupStateFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValue": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ParameterGroupNotFound": return try await ParameterGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ServiceLinkedRoleNotFoundFault": return try await ServiceLinkedRoleNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
@@ -1490,7 +1490,7 @@ public enum DeleteSubnetGroupOutputError: ClientRuntime.HttpResponseErrorBinding
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
             case "ServiceLinkedRoleNotFoundFault": return try await ServiceLinkedRoleNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "SubnetGroupInUseFault": return try await SubnetGroupInUseFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "SubnetGroupInUse": return try await SubnetGroupInUseFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "SubnetGroupNotFoundFault": return try await SubnetGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
@@ -1625,9 +1625,9 @@ public enum DescribeClustersOutputError: ClientRuntime.HttpResponseErrorBinding 
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
-            case "ClusterNotFoundFault": return try await ClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidParameterCombinationException": return try await InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ClusterNotFound": return try await ClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterCombination": return try await InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValue": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ServiceLinkedRoleNotFoundFault": return try await ServiceLinkedRoleNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
@@ -1757,8 +1757,8 @@ public enum DescribeDefaultParametersOutputError: ClientRuntime.HttpResponseErro
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
-            case "InvalidParameterCombinationException": return try await InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterCombination": return try await InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValue": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ServiceLinkedRoleNotFoundFault": return try await ServiceLinkedRoleNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
@@ -1948,8 +1948,8 @@ public enum DescribeEventsOutputError: ClientRuntime.HttpResponseErrorBinding {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
-            case "InvalidParameterCombinationException": return try await InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterCombination": return try await InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValue": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ServiceLinkedRoleNotFoundFault": return try await ServiceLinkedRoleNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
@@ -2103,9 +2103,9 @@ public enum DescribeParameterGroupsOutputError: ClientRuntime.HttpResponseErrorB
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
-            case "InvalidParameterCombinationException": return try await InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ParameterGroupNotFoundFault": return try await ParameterGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterCombination": return try await InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValue": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ParameterGroupNotFound": return try await ParameterGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ServiceLinkedRoleNotFoundFault": return try await ServiceLinkedRoleNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
@@ -2260,9 +2260,9 @@ public enum DescribeParametersOutputError: ClientRuntime.HttpResponseErrorBindin
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
-            case "InvalidParameterCombinationException": return try await InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ParameterGroupNotFoundFault": return try await ParameterGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterCombination": return try await InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValue": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ParameterGroupNotFound": return try await ParameterGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ServiceLinkedRoleNotFoundFault": return try await ServiceLinkedRoleNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
@@ -2620,7 +2620,7 @@ extension IncreaseReplicationFactorInput: Swift.Encodable {
         if let clusterName = self.clusterName {
             try encodeContainer.encode(clusterName, forKey: .clusterName)
         }
-        if newReplicationFactor != 0 {
+        if let newReplicationFactor = self.newReplicationFactor {
             try encodeContainer.encode(newReplicationFactor, forKey: .newReplicationFactor)
         }
     }
@@ -2640,12 +2640,12 @@ public struct IncreaseReplicationFactorInput: Swift.Equatable {
     public var clusterName: Swift.String?
     /// The new number of nodes for the DAX cluster.
     /// This member is required.
-    public var newReplicationFactor: Swift.Int
+    public var newReplicationFactor: Swift.Int?
 
     public init(
         availabilityZones: [Swift.String]? = nil,
         clusterName: Swift.String? = nil,
-        newReplicationFactor: Swift.Int = 0
+        newReplicationFactor: Swift.Int? = nil
     )
     {
         self.availabilityZones = availabilityZones
@@ -2656,7 +2656,7 @@ public struct IncreaseReplicationFactorInput: Swift.Equatable {
 
 struct IncreaseReplicationFactorInputBody: Swift.Equatable {
     let clusterName: Swift.String?
-    let newReplicationFactor: Swift.Int
+    let newReplicationFactor: Swift.Int?
     let availabilityZones: [Swift.String]?
 }
 
@@ -2671,7 +2671,7 @@ extension IncreaseReplicationFactorInputBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let clusterNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clusterName)
         clusterName = clusterNameDecoded
-        let newReplicationFactorDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .newReplicationFactor) ?? 0
+        let newReplicationFactorDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .newReplicationFactor)
         newReplicationFactor = newReplicationFactorDecoded
         let availabilityZonesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .availabilityZones)
         var availabilityZonesDecoded0:[Swift.String]? = nil
@@ -2692,14 +2692,14 @@ public enum IncreaseReplicationFactorOutputError: ClientRuntime.HttpResponseErro
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
-            case "ClusterNotFoundFault": return try await ClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InsufficientClusterCapacityFault": return try await InsufficientClusterCapacityFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidClusterStateFault": return try await InvalidClusterStateFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidParameterCombinationException": return try await InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ClusterNotFound": return try await ClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InsufficientClusterCapacity": return try await InsufficientClusterCapacityFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidClusterState": return try await InvalidClusterStateFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterCombination": return try await InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValue": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InvalidVPCNetworkStateFault": return try await InvalidVPCNetworkStateFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "NodeQuotaForClusterExceededFault": return try await NodeQuotaForClusterExceededFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "NodeQuotaForCustomerExceededFault": return try await NodeQuotaForCustomerExceededFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NodeQuotaForClusterExceeded": return try await NodeQuotaForClusterExceededFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NodeQuotaForCustomerExceeded": return try await NodeQuotaForCustomerExceededFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ServiceLinkedRoleNotFoundFault": return try await ServiceLinkedRoleNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
@@ -2769,7 +2769,7 @@ public struct InsufficientClusterCapacityFault: ClientRuntime.ModeledError, AWSC
     }
 
     public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "InsufficientClusterCapacityFault" }
+    public static var typeName: Swift.String { "InsufficientClusterCapacity" }
     public static var fault: ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
@@ -2824,7 +2824,7 @@ public struct InvalidARNFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSS
     }
 
     public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "InvalidARNFault" }
+    public static var typeName: Swift.String { "InvalidARN" }
     public static var fault: ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
@@ -2879,7 +2879,7 @@ public struct InvalidClusterStateFault: ClientRuntime.ModeledError, AWSClientRun
     }
 
     public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "InvalidClusterStateFault" }
+    public static var typeName: Swift.String { "InvalidClusterState" }
     public static var fault: ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
@@ -2934,7 +2934,7 @@ public struct InvalidParameterCombinationException: ClientRuntime.ModeledError, 
     }
 
     public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "InvalidParameterCombinationException" }
+    public static var typeName: Swift.String { "InvalidParameterCombination" }
     public static var fault: ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
@@ -2989,7 +2989,7 @@ public struct InvalidParameterGroupStateFault: ClientRuntime.ModeledError, AWSCl
     }
 
     public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "InvalidParameterGroupStateFault" }
+    public static var typeName: Swift.String { "InvalidParameterGroupState" }
     public static var fault: ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
@@ -3044,7 +3044,7 @@ public struct InvalidParameterValueException: ClientRuntime.ModeledError, AWSCli
     }
 
     public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "InvalidParameterValueException" }
+    public static var typeName: Swift.String { "InvalidParameterValue" }
     public static var fault: ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
@@ -3286,11 +3286,11 @@ public enum ListTagsOutputError: ClientRuntime.HttpResponseErrorBinding {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
-            case "ClusterNotFoundFault": return try await ClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidARNFault": return try await InvalidARNFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidClusterStateFault": return try await InvalidClusterStateFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidParameterCombinationException": return try await InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ClusterNotFound": return try await ClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidARN": return try await InvalidARNFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidClusterState": return try await InvalidClusterStateFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterCombination": return try await InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValue": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ServiceLinkedRoleNotFoundFault": return try await ServiceLinkedRoleNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
@@ -3464,7 +3464,7 @@ public struct NodeNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AW
     }
 
     public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "NodeNotFoundFault" }
+    public static var typeName: Swift.String { "NodeNotFound" }
     public static var fault: ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
@@ -3519,7 +3519,7 @@ public struct NodeQuotaForClusterExceededFault: ClientRuntime.ModeledError, AWSC
     }
 
     public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "NodeQuotaForClusterExceededFault" }
+    public static var typeName: Swift.String { "NodeQuotaForClusterExceeded" }
     public static var fault: ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
@@ -3574,7 +3574,7 @@ public struct NodeQuotaForCustomerExceededFault: ClientRuntime.ModeledError, AWS
     }
 
     public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "NodeQuotaForCustomerExceededFault" }
+    public static var typeName: Swift.String { "NodeQuotaForCustomerExceeded" }
     public static var fault: ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
@@ -3901,7 +3901,7 @@ public struct ParameterGroupAlreadyExistsFault: ClientRuntime.ModeledError, AWSC
     }
 
     public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "ParameterGroupAlreadyExistsFault" }
+    public static var typeName: Swift.String { "ParameterGroupAlreadyExists" }
     public static var fault: ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
@@ -3956,7 +3956,7 @@ public struct ParameterGroupNotFoundFault: ClientRuntime.ModeledError, AWSClient
     }
 
     public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "ParameterGroupNotFoundFault" }
+    public static var typeName: Swift.String { "ParameterGroupNotFound" }
     public static var fault: ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
@@ -4011,7 +4011,7 @@ public struct ParameterGroupQuotaExceededFault: ClientRuntime.ModeledError, AWSC
     }
 
     public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "ParameterGroupQuotaExceededFault" }
+    public static var typeName: Swift.String { "ParameterGroupQuotaExceeded" }
     public static var fault: ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
@@ -4253,11 +4253,11 @@ public enum RebootNodeOutputError: ClientRuntime.HttpResponseErrorBinding {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
-            case "ClusterNotFoundFault": return try await ClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidClusterStateFault": return try await InvalidClusterStateFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidParameterCombinationException": return try await InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "NodeNotFoundFault": return try await NodeNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ClusterNotFound": return try await ClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidClusterState": return try await InvalidClusterStateFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterCombination": return try await InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValue": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NodeNotFound": return try await NodeNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ServiceLinkedRoleNotFoundFault": return try await ServiceLinkedRoleNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
@@ -4531,7 +4531,7 @@ extension ServiceQuotaExceededException {
 
 /// You have reached the maximum number of x509 certificates that can be created for encrypted clusters in a 30 day period. Contact AWS customer support to discuss options for continuing to create encrypted clusters.
 public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
-    public static var typeName: Swift.String { "ServiceQuotaExceededException" }
+    public static var typeName: Swift.String { "ServiceQuotaExceeded" }
     public static var fault: ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
@@ -4726,7 +4726,7 @@ public struct SubnetGroupAlreadyExistsFault: ClientRuntime.ModeledError, AWSClie
     }
 
     public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "SubnetGroupAlreadyExistsFault" }
+    public static var typeName: Swift.String { "SubnetGroupAlreadyExists" }
     public static var fault: ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
@@ -4781,7 +4781,7 @@ public struct SubnetGroupInUseFault: ClientRuntime.ModeledError, AWSClientRuntim
     }
 
     public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "SubnetGroupInUseFault" }
+    public static var typeName: Swift.String { "SubnetGroupInUse" }
     public static var fault: ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
@@ -4891,7 +4891,7 @@ public struct SubnetGroupQuotaExceededFault: ClientRuntime.ModeledError, AWSClie
     }
 
     public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "SubnetGroupQuotaExceededFault" }
+    public static var typeName: Swift.String { "SubnetGroupQuotaExceeded" }
     public static var fault: ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
@@ -5101,7 +5101,7 @@ public struct TagNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWS
     }
 
     public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "TagNotFoundFault" }
+    public static var typeName: Swift.String { "TagNotFound" }
     public static var fault: ErrorFault { .client }
     public static var isRetryable: Swift.Bool { false }
     public static var isThrottling: Swift.Bool { false }
@@ -5266,11 +5266,11 @@ public enum TagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
-            case "ClusterNotFoundFault": return try await ClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidARNFault": return try await InvalidARNFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidClusterStateFault": return try await InvalidClusterStateFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidParameterCombinationException": return try await InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ClusterNotFound": return try await ClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidARN": return try await InvalidARNFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidClusterState": return try await InvalidClusterStateFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterCombination": return try await InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValue": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ServiceLinkedRoleNotFoundFault": return try await ServiceLinkedRoleNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "TagQuotaPerResourceExceeded": return try await TagQuotaPerResourceExceeded(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
@@ -5405,13 +5405,13 @@ public enum UntagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
-            case "ClusterNotFoundFault": return try await ClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidARNFault": return try await InvalidARNFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidClusterStateFault": return try await InvalidClusterStateFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidParameterCombinationException": return try await InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ClusterNotFound": return try await ClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidARN": return try await InvalidARNFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidClusterState": return try await InvalidClusterStateFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterCombination": return try await InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValue": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ServiceLinkedRoleNotFoundFault": return try await ServiceLinkedRoleNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "TagNotFoundFault": return try await TagNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TagNotFound": return try await TagNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
@@ -5603,12 +5603,12 @@ public enum UpdateClusterOutputError: ClientRuntime.HttpResponseErrorBinding {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
-            case "ClusterNotFoundFault": return try await ClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidClusterStateFault": return try await InvalidClusterStateFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidParameterCombinationException": return try await InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidParameterGroupStateFault": return try await InvalidParameterGroupStateFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ParameterGroupNotFoundFault": return try await ParameterGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ClusterNotFound": return try await ClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidClusterState": return try await InvalidClusterStateFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterCombination": return try await InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterGroupState": return try await InvalidParameterGroupStateFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValue": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ParameterGroupNotFound": return try await ParameterGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ServiceLinkedRoleNotFoundFault": return try await ServiceLinkedRoleNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
@@ -5733,10 +5733,10 @@ public enum UpdateParameterGroupOutputError: ClientRuntime.HttpResponseErrorBind
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
-            case "InvalidParameterCombinationException": return try await InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidParameterGroupStateFault": return try await InvalidParameterGroupStateFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "InvalidParameterValueException": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
-            case "ParameterGroupNotFoundFault": return try await ParameterGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterCombination": return try await InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterGroupState": return try await InvalidParameterGroupStateFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterValue": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ParameterGroupNotFound": return try await ParameterGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ServiceLinkedRoleNotFoundFault": return try await ServiceLinkedRoleNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }

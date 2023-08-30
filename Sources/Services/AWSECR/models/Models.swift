@@ -1994,7 +1994,7 @@ extension DeleteRepositoryInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if force != false {
+        if let force = self.force {
             try encodeContainer.encode(force, forKey: .force)
         }
         if let registryId = self.registryId {
@@ -2014,7 +2014,7 @@ extension DeleteRepositoryInput: ClientRuntime.URLPathProvider {
 
 public struct DeleteRepositoryInput: Swift.Equatable {
     /// If a repository contains images, forces the deletion.
-    public var force: Swift.Bool
+    public var force: Swift.Bool?
     /// The Amazon Web Services account ID associated with the registry that contains the repository to delete. If you do not specify a registry, the default registry is assumed.
     public var registryId: Swift.String?
     /// The name of the repository to delete.
@@ -2022,7 +2022,7 @@ public struct DeleteRepositoryInput: Swift.Equatable {
     public var repositoryName: Swift.String?
 
     public init(
-        force: Swift.Bool = false,
+        force: Swift.Bool? = nil,
         registryId: Swift.String? = nil,
         repositoryName: Swift.String? = nil
     )
@@ -2036,7 +2036,7 @@ public struct DeleteRepositoryInput: Swift.Equatable {
 struct DeleteRepositoryInputBody: Swift.Equatable {
     let registryId: Swift.String?
     let repositoryName: Swift.String?
-    let force: Swift.Bool
+    let force: Swift.Bool?
 }
 
 extension DeleteRepositoryInputBody: Swift.Decodable {
@@ -2052,7 +2052,7 @@ extension DeleteRepositoryInputBody: Swift.Decodable {
         registryId = registryIdDecoded
         let repositoryNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .repositoryName)
         repositoryName = repositoryNameDecoded
-        let forceDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .force) ?? false
+        let forceDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .force)
         force = forceDecoded
     }
 }
@@ -10108,7 +10108,7 @@ extension SetRepositoryPolicyInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if force != false {
+        if let force = self.force {
             try encodeContainer.encode(force, forKey: .force)
         }
         if let policyText = self.policyText {
@@ -10131,7 +10131,7 @@ extension SetRepositoryPolicyInput: ClientRuntime.URLPathProvider {
 
 public struct SetRepositoryPolicyInput: Swift.Equatable {
     /// If the policy you are attempting to set on a repository policy would prevent you from setting another policy in the future, you must force the [SetRepositoryPolicy] operation. This is intended to prevent accidental repository lock outs.
-    public var force: Swift.Bool
+    public var force: Swift.Bool?
     /// The JSON repository policy text to apply to the repository. For more information, see [Amazon ECR repository policies](https://docs.aws.amazon.com/AmazonECR/latest/userguide/repository-policy-examples.html) in the Amazon Elastic Container Registry User Guide.
     /// This member is required.
     public var policyText: Swift.String?
@@ -10142,7 +10142,7 @@ public struct SetRepositoryPolicyInput: Swift.Equatable {
     public var repositoryName: Swift.String?
 
     public init(
-        force: Swift.Bool = false,
+        force: Swift.Bool? = nil,
         policyText: Swift.String? = nil,
         registryId: Swift.String? = nil,
         repositoryName: Swift.String? = nil
@@ -10159,7 +10159,7 @@ struct SetRepositoryPolicyInputBody: Swift.Equatable {
     let registryId: Swift.String?
     let repositoryName: Swift.String?
     let policyText: Swift.String?
-    let force: Swift.Bool
+    let force: Swift.Bool?
 }
 
 extension SetRepositoryPolicyInputBody: Swift.Decodable {
@@ -10178,7 +10178,7 @@ extension SetRepositoryPolicyInputBody: Swift.Decodable {
         repositoryName = repositoryNameDecoded
         let policyTextDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .policyText)
         policyText = policyTextDecoded
-        let forceDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .force) ?? false
+        let forceDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .force)
         force = forceDecoded
     }
 }

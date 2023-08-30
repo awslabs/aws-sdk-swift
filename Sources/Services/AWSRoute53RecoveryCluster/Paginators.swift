@@ -24,3 +24,12 @@ extension ListRoutingControlsInput: ClientRuntime.PaginateToken {
             nextToken: token
         )}
 }
+
+extension PaginatorSequence where Input == ListRoutingControlsInput, Output == ListRoutingControlsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listRoutingControlsPaginated`
+    /// to access the nested member `[Route53RecoveryClusterClientTypes.RoutingControl]`
+    /// - Returns: `[Route53RecoveryClusterClientTypes.RoutingControl]`
+    public func routingControls() async throws -> [Route53RecoveryClusterClientTypes.RoutingControl] {
+        return try await self.asyncCompactMap { item in item.routingControls }
+    }
+}

@@ -826,7 +826,7 @@ extension DeleteProjectInput: Swift.Encodable {
         if let clientRequestToken = self.clientRequestToken {
             try encodeContainer.encode(clientRequestToken, forKey: .clientRequestToken)
         }
-        if deleteStack != false {
+        if let deleteStack = self.deleteStack {
             try encodeContainer.encode(deleteStack, forKey: .deleteStack)
         }
         if let id = self.id {
@@ -845,14 +845,14 @@ public struct DeleteProjectInput: Swift.Equatable {
     /// A user- or system-generated token that identifies the entity that requested project deletion. This token can be used to repeat the request.
     public var clientRequestToken: Swift.String?
     /// Whether to send a delete request for the primary stack in AWS CloudFormation originally used to generate the project and its resources. This option will delete all AWS resources for the project (except for any buckets in Amazon S3) as well as deleting the project itself. Recommended for most use cases.
-    public var deleteStack: Swift.Bool
+    public var deleteStack: Swift.Bool?
     /// The ID of the project to be deleted in AWS CodeStar.
     /// This member is required.
     public var id: Swift.String?
 
     public init(
         clientRequestToken: Swift.String? = nil,
-        deleteStack: Swift.Bool = false,
+        deleteStack: Swift.Bool? = nil,
         id: Swift.String? = nil
     )
     {
@@ -865,7 +865,7 @@ public struct DeleteProjectInput: Swift.Equatable {
 struct DeleteProjectInputBody: Swift.Equatable {
     let id: Swift.String?
     let clientRequestToken: Swift.String?
-    let deleteStack: Swift.Bool
+    let deleteStack: Swift.Bool?
 }
 
 extension DeleteProjectInputBody: Swift.Decodable {
@@ -881,7 +881,7 @@ extension DeleteProjectInputBody: Swift.Decodable {
         id = idDecoded
         let clientRequestTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientRequestToken)
         clientRequestToken = clientRequestTokenDecoded
-        let deleteStackDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .deleteStack) ?? false
+        let deleteStackDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .deleteStack)
         deleteStack = deleteStackDecoded
     }
 }

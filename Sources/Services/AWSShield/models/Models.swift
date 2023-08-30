@@ -3166,9 +3166,9 @@ extension ShieldClientTypes.InclusionProtectionFilters: Swift.Codable {
         var resourceTypesDecoded0:[ShieldClientTypes.ProtectedResourceType]? = nil
         if let resourceTypesContainer = resourceTypesContainer {
             resourceTypesDecoded0 = [ShieldClientTypes.ProtectedResourceType]()
-            for string0 in resourceTypesContainer {
-                if let string0 = string0 {
-                    resourceTypesDecoded0?.append(string0)
+            for enum0 in resourceTypesContainer {
+                if let enum0 = enum0 {
+                    resourceTypesDecoded0?.append(enum0)
                 }
             }
         }
@@ -3253,9 +3253,9 @@ extension ShieldClientTypes.InclusionProtectionGroupFilters: Swift.Codable {
         var patternsDecoded0:[ShieldClientTypes.ProtectionGroupPattern]? = nil
         if let patternsContainer = patternsContainer {
             patternsDecoded0 = [ShieldClientTypes.ProtectionGroupPattern]()
-            for string0 in patternsContainer {
-                if let string0 = string0 {
-                    patternsDecoded0?.append(string0)
+            for enum0 in patternsContainer {
+                if let enum0 = enum0 {
+                    patternsDecoded0?.append(enum0)
                 }
             }
         }
@@ -3264,9 +3264,9 @@ extension ShieldClientTypes.InclusionProtectionGroupFilters: Swift.Codable {
         var resourceTypesDecoded0:[ShieldClientTypes.ProtectedResourceType]? = nil
         if let resourceTypesContainer = resourceTypesContainer {
             resourceTypesDecoded0 = [ShieldClientTypes.ProtectedResourceType]()
-            for string0 in resourceTypesContainer {
-                if let string0 = string0 {
-                    resourceTypesDecoded0?.append(string0)
+            for enum0 in resourceTypesContainer {
+                if let enum0 = enum0 {
+                    resourceTypesDecoded0?.append(enum0)
                 }
             }
         }
@@ -3275,9 +3275,9 @@ extension ShieldClientTypes.InclusionProtectionGroupFilters: Swift.Codable {
         var aggregationsDecoded0:[ShieldClientTypes.ProtectionGroupAggregation]? = nil
         if let aggregationsContainer = aggregationsContainer {
             aggregationsDecoded0 = [ShieldClientTypes.ProtectionGroupAggregation]()
-            for string0 in aggregationsContainer {
-                if let string0 = string0 {
-                    aggregationsDecoded0?.append(string0)
+            for enum0 in aggregationsContainer {
+                if let enum0 = enum0 {
+                    aggregationsDecoded0?.append(enum0)
                 }
             }
         }

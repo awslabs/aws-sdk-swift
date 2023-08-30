@@ -514,7 +514,7 @@ extension DeleteTargetInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if forceUnsubscribeAll != false {
+        if let forceUnsubscribeAll = self.forceUnsubscribeAll {
             try encodeContainer.encode(forceUnsubscribeAll, forKey: .forceUnsubscribeAll)
         }
         if let targetAddress = self.targetAddress {
@@ -531,13 +531,13 @@ extension DeleteTargetInput: ClientRuntime.URLPathProvider {
 
 public struct DeleteTargetInput: Swift.Equatable {
     /// A Boolean value that can be used to delete all associations with this Chatbot topic. The default value is FALSE. If set to TRUE, all associations between that target and every notification rule in your Amazon Web Services account are deleted.
-    public var forceUnsubscribeAll: Swift.Bool
+    public var forceUnsubscribeAll: Swift.Bool?
     /// The Amazon Resource Name (ARN) of the Chatbot topic or Chatbot client to delete.
     /// This member is required.
     public var targetAddress: Swift.String?
 
     public init(
-        forceUnsubscribeAll: Swift.Bool = false,
+        forceUnsubscribeAll: Swift.Bool? = nil,
         targetAddress: Swift.String? = nil
     )
     {
@@ -548,7 +548,7 @@ public struct DeleteTargetInput: Swift.Equatable {
 
 struct DeleteTargetInputBody: Swift.Equatable {
     let targetAddress: Swift.String?
-    let forceUnsubscribeAll: Swift.Bool
+    let forceUnsubscribeAll: Swift.Bool?
 }
 
 extension DeleteTargetInputBody: Swift.Decodable {
@@ -561,7 +561,7 @@ extension DeleteTargetInputBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let targetAddressDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .targetAddress)
         targetAddress = targetAddressDecoded
-        let forceUnsubscribeAllDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .forceUnsubscribeAll) ?? false
+        let forceUnsubscribeAllDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .forceUnsubscribeAll)
         forceUnsubscribeAll = forceUnsubscribeAllDecoded
     }
 }

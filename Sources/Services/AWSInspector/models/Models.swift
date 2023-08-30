@@ -356,9 +356,9 @@ extension InspectorClientTypes.AgentFilter: Swift.Codable {
         var agentHealthsDecoded0:[InspectorClientTypes.AgentHealth]? = nil
         if let agentHealthsContainer = agentHealthsContainer {
             agentHealthsDecoded0 = [InspectorClientTypes.AgentHealth]()
-            for string0 in agentHealthsContainer {
-                if let string0 = string0 {
-                    agentHealthsDecoded0?.append(string0)
+            for enum0 in agentHealthsContainer {
+                if let enum0 = enum0 {
+                    agentHealthsDecoded0?.append(enum0)
                 }
             }
         }
@@ -367,9 +367,9 @@ extension InspectorClientTypes.AgentFilter: Swift.Codable {
         var agentHealthCodesDecoded0:[InspectorClientTypes.AgentHealthCode]? = nil
         if let agentHealthCodesContainer = agentHealthCodesContainer {
             agentHealthCodesDecoded0 = [InspectorClientTypes.AgentHealthCode]()
-            for string0 in agentHealthCodesContainer {
-                if let string0 = string0 {
-                    agentHealthCodesDecoded0?.append(string0)
+            for enum0 in agentHealthCodesContainer {
+                if let enum0 = enum0 {
+                    agentHealthCodesDecoded0?.append(enum0)
                 }
             }
         }
@@ -1093,9 +1093,9 @@ extension InspectorClientTypes.AssessmentRunFilter: Swift.Codable {
         var statesDecoded0:[InspectorClientTypes.AssessmentRunState]? = nil
         if let statesContainer = statesContainer {
             statesDecoded0 = [InspectorClientTypes.AssessmentRunState]()
-            for string0 in statesContainer {
-                if let string0 = string0 {
-                    statesDecoded0?.append(string0)
+            for enum0 in statesContainer {
+                if let enum0 = enum0 {
+                    statesDecoded0?.append(enum0)
                 }
             }
         }
@@ -2179,7 +2179,7 @@ extension CreateAssessmentTemplateInput: Swift.Encodable {
         if let assessmentTemplateName = self.assessmentTemplateName {
             try encodeContainer.encode(assessmentTemplateName, forKey: .assessmentTemplateName)
         }
-        if durationInSeconds != 0 {
+        if let durationInSeconds = self.durationInSeconds {
             try encodeContainer.encode(durationInSeconds, forKey: .durationInSeconds)
         }
         if let rulesPackageArns = rulesPackageArns {
@@ -2212,7 +2212,7 @@ public struct CreateAssessmentTemplateInput: Swift.Equatable {
     public var assessmentTemplateName: Swift.String?
     /// The duration of the assessment run in seconds.
     /// This member is required.
-    public var durationInSeconds: Swift.Int
+    public var durationInSeconds: Swift.Int?
     /// The ARNs that specify the rules packages that you want to attach to the assessment template.
     /// This member is required.
     public var rulesPackageArns: [Swift.String]?
@@ -2222,7 +2222,7 @@ public struct CreateAssessmentTemplateInput: Swift.Equatable {
     public init(
         assessmentTargetArn: Swift.String? = nil,
         assessmentTemplateName: Swift.String? = nil,
-        durationInSeconds: Swift.Int = 0,
+        durationInSeconds: Swift.Int? = nil,
         rulesPackageArns: [Swift.String]? = nil,
         userAttributesForFindings: [InspectorClientTypes.Attribute]? = nil
     )
@@ -2238,7 +2238,7 @@ public struct CreateAssessmentTemplateInput: Swift.Equatable {
 struct CreateAssessmentTemplateInputBody: Swift.Equatable {
     let assessmentTargetArn: Swift.String?
     let assessmentTemplateName: Swift.String?
-    let durationInSeconds: Swift.Int
+    let durationInSeconds: Swift.Int?
     let rulesPackageArns: [Swift.String]?
     let userAttributesForFindings: [InspectorClientTypes.Attribute]?
 }
@@ -2258,7 +2258,7 @@ extension CreateAssessmentTemplateInputBody: Swift.Decodable {
         assessmentTargetArn = assessmentTargetArnDecoded
         let assessmentTemplateNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .assessmentTemplateName)
         assessmentTemplateName = assessmentTemplateNameDecoded
-        let durationInSecondsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .durationInSeconds) ?? 0
+        let durationInSecondsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .durationInSeconds)
         durationInSeconds = durationInSecondsDecoded
         let rulesPackageArnsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .rulesPackageArns)
         var rulesPackageArnsDecoded0:[Swift.String]? = nil
@@ -4650,9 +4650,9 @@ extension InspectorClientTypes.FindingFilter: Swift.Codable {
         var severitiesDecoded0:[InspectorClientTypes.Severity]? = nil
         if let severitiesContainer = severitiesContainer {
             severitiesDecoded0 = [InspectorClientTypes.Severity]()
-            for string0 in severitiesContainer {
-                if let string0 = string0 {
-                    severitiesDecoded0?.append(string0)
+            for enum0 in severitiesContainer {
+                if let enum0 = enum0 {
+                    severitiesDecoded0?.append(enum0)
                 }
             }
         }

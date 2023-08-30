@@ -681,7 +681,7 @@ extension AccountOwnerNotVerifiedException {
     }
 }
 
-/// You can't invite an existing account to your organization until you verify that you own the email address associated with the management account. For more information, see [Email Address Verification](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_create.html#about-email-verification) in the Organizations User Guide.
+/// You can't invite an existing account to your organization until you verify that you own the email address associated with the management account. For more information, see [Email address verification](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_create.html#about-email-verification) in the Organizations User Guide.
 public struct AccountOwnerNotVerifiedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
@@ -1407,7 +1407,9 @@ extension ConstraintViolationException {
 ///
 /// * ACCOUNT_CREATION_NOT_COMPLETE: Your account setup isn't complete or your account isn't fully active. You must complete the account setup before you create an organization.
 ///
-/// * ACCOUNT_NUMBER_LIMIT_EXCEEDED: You attempted to exceed the limit on the number of accounts in an organization. If you need more accounts, contact [Amazon Web Services Support](https://docs.aws.amazon.com/support/home#/) to request an increase in your limit. Or the number of invitations that you tried to send would cause you to exceed the limit of accounts in your organization. Send fewer invitations or contact Amazon Web Services Support to request an increase in the number of accounts. Deleted and closed accounts still count toward your limit. If you get this exception when running a command immediately after creating the organization, wait one hour and try again. After an hour, if the command continues to fail with this error, contact [Amazon Web Services Support](https://docs.aws.amazon.com/support/home#/).
+/// * ACCOUNT_NUMBER_LIMIT_EXCEEDED: You attempted to exceed the limit on the number of accounts in an organization. If you need more accounts, contact [Amazon Web Services Support](https://console.aws.amazon.com/support/home#/) to request an increase in your limit. Or the number of invitations that you tried to send would cause you to exceed the limit of accounts in your organization. Send fewer invitations or contact Amazon Web Services Support to request an increase in the number of accounts. Deleted and closed accounts still count toward your limit. If you get this exception when running a command immediately after creating the organization, wait one hour and try again. After an hour, if the command continues to fail with this error, contact [Amazon Web Services Support](https://console.aws.amazon.com/support/home#/).
+///
+/// * CANNOT_REGISTER_SUSPENDED_ACCOUNT_AS_DELEGATED_ADMINISTRATOR: You cannot register a suspended account as a delegated administrator.
 ///
 /// * CANNOT_REGISTER_MASTER_AS_DELEGATED_ADMINISTRATOR: You attempted to register the management account of the organization as a delegated administrator for an Amazon Web Services service integrated with Organizations. You can designate only a member account as a delegated administrator.
 ///
@@ -1437,7 +1439,7 @@ extension ConstraintViolationException {
 ///
 /// * MASTER_ACCOUNT_NOT_GOVCLOUD_ENABLED: To complete this operation, the management account must have an associated account in the Amazon Web Services GovCloud (US-West) Region. For more information, see [Organizations](https://docs.aws.amazon.com/govcloud-us/latest/UserGuide/govcloud-organizations.html) in the Amazon Web Services GovCloud User Guide.
 ///
-/// * MASTER_ACCOUNT_PAYMENT_INSTRUMENT_REQUIRED: To create an organization with this management account, you first must associate a valid payment instrument, such as a credit card, with the account. Follow the steps at [To leave an organization when all required account information has not yet been provided](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_remove.html#leave-without-all-info) in the Organizations User Guide.
+/// * MASTER_ACCOUNT_PAYMENT_INSTRUMENT_REQUIRED: To create an organization with this management account, you first must associate a valid payment instrument, such as a credit card, with the account. For more information, see [Considerations before removing an account from an organization](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_account-before-remove.html) in the Organizations User Guide.
 ///
 /// * MAX_DELEGATED_ADMINISTRATORS_FOR_SERVICE_LIMIT_EXCEEDED: You attempted to register more delegated administrators than allowed for the service principal.
 ///
@@ -1445,7 +1447,7 @@ extension ConstraintViolationException {
 ///
 /// * MAX_TAG_LIMIT_EXCEEDED: You have exceeded the number of tags allowed on this resource.
 ///
-/// * MEMBER_ACCOUNT_PAYMENT_INSTRUMENT_REQUIRED: To complete this operation with this member account, you first must associate a valid payment instrument, such as a credit card, with the account. Follow the steps at [To leave an organization when all required account information has not yet been provided](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_remove.html#leave-without-all-info) in the Organizations User Guide.
+/// * MEMBER_ACCOUNT_PAYMENT_INSTRUMENT_REQUIRED: To complete this operation with this member account, you first must associate a valid payment instrument, such as a credit card, with the account. For more information, see [Considerations before removing an account from an organization](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_account-before-remove.html) in the Organizations User Guide.
 ///
 /// * MIN_POLICY_TYPE_ATTACHMENT_LIMIT_EXCEEDED: You attempted to detach a policy from an entity that would cause the entity to have fewer than the minimum number of policies of a certain type required.
 ///
@@ -1778,13 +1780,13 @@ public struct CreateAccountInput: Swift.Equatable {
     /// You can't access the root user of the account or remove an account that was created with an invalid email address.
     /// This member is required.
     public var email: Swift.String?
-    /// If set to ALLOW, the new account enables IAM users to access account billing information if they have the required permissions. If set to DENY, only the root user of the new account can access account billing information. For more information, see [Activating Access to the Billing and Cost Management Console](https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/grantaccess.html#ControllingAccessWebsite-Activate) in the Amazon Web Services Billing and Cost Management User Guide. If you don't specify this parameter, the value defaults to ALLOW, and IAM users and roles with the required permissions can access billing information for the new account.
+    /// If set to ALLOW, the new account enables IAM users to access account billing information if they have the required permissions. If set to DENY, only the root user of the new account can access account billing information. For more information, see [About IAM access to the Billing and Cost Management console](https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/grantaccess.html#ControllingAccessWebsite-Activate) in the Amazon Web Services Billing and Cost Management User Guide. If you don't specify this parameter, the value defaults to ALLOW, and IAM users and roles with the required permissions can access billing information for the new account.
     public var iamUserAccessToBilling: OrganizationsClientTypes.IAMUserAccessToBilling?
     /// The name of an IAM role that Organizations automatically preconfigures in the new member account. This role trusts the management account, allowing users in the management account to assume the role, as permitted by the management account administrator. The role has administrator permissions in the new member account. If you don't specify this parameter, the role name defaults to OrganizationAccountAccessRole. For more information about how to use this role to access the member account, see the following links:
     ///
-    /// * [Accessing and Administering the Member Accounts in Your Organization](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_access.html#orgs_manage_accounts_create-cross-account-role) in the Organizations User Guide
+    /// * [Creating the OrganizationAccountAccessRole in an invited member account](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_access.html#orgs_manage_accounts_create-cross-account-role) in the Organizations User Guide
     ///
-    /// * Steps 2 and 3 in [Tutorial: Delegate Access Across Amazon Web Services accounts Using IAM Roles](https://docs.aws.amazon.com/IAM/latest/UserGuide/tutorial_cross-account-with-roles.html) in the IAM User Guide
+    /// * Steps 2 and 3 in [IAM Tutorial: Delegate access across Amazon Web Services accounts using IAM roles](https://docs.aws.amazon.com/IAM/latest/UserGuide/tutorial_cross-account-with-roles.html) in the IAM User Guide
     ///
     ///
     /// The [regex pattern](http://wikipedia.org/wiki/regex) that is used to validate this parameter. The pattern can include uppercase letters, lowercase letters, digits with no spaces, and any of the following characters: =,.@-
@@ -1881,7 +1883,7 @@ extension CreateAccountOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 public struct CreateAccountOutputResponse: Swift.Equatable {
-    /// A structure that contains details about the request to create an account. This response structure might not be fully populated when you first receive it because account creation is an asynchronous process. You can pass the returned CreateAccountStatus ID as a parameter to [DescribeCreateAccountStatus] to get status about the progress of the request at later times. You can also check the CloudTrail log for the CreateAccountResult event. For more information, see [Monitoring the Activity in Your Organization](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_monitoring.html) in the Organizations User Guide.
+    /// A structure that contains details about the request to create an account. This response structure might not be fully populated when you first receive it because account creation is an asynchronous process. You can pass the returned CreateAccountStatus ID as a parameter to [DescribeCreateAccountStatus] to get status about the progress of the request at later times. You can also check the CloudTrail log for the CreateAccountResult event. For more information, see [Logging and monitoring in Organizations](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_security_incident-response.html) in the Organizations User Guide.
     public var createAccountStatus: OrganizationsClientTypes.CreateAccountStatus?
 
     public init(
@@ -2205,9 +2207,16 @@ public struct CreateGovCloudAccountInput: Swift.Equatable {
     /// You can't access the root user of the account or remove an account that was created with an invalid email address. Like all request parameters for CreateGovCloudAccount, the request for the email address for the Amazon Web Services GovCloud (US) account originates from the commercial Region, not from the Amazon Web Services GovCloud (US) Region.
     /// This member is required.
     public var email: Swift.String?
-    /// If set to ALLOW, the new linked account in the commercial Region enables IAM users to access account billing information if they have the required permissions. If set to DENY, only the root user of the new account can access account billing information. For more information, see [Activating Access to the Billing and Cost Management Console](https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/grantaccess.html#ControllingAccessWebsite-Activate) in the Amazon Web Services Billing and Cost Management User Guide. If you don't specify this parameter, the value defaults to ALLOW, and IAM users and roles with the required permissions can access billing information for the new account.
+    /// If set to ALLOW, the new linked account in the commercial Region enables IAM users to access account billing information if they have the required permissions. If set to DENY, only the root user of the new account can access account billing information. For more information, see [About IAM access to the Billing and Cost Management console](https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/grantaccess.html#ControllingAccessWebsite-Activate) in the Amazon Web Services Billing and Cost Management User Guide. If you don't specify this parameter, the value defaults to ALLOW, and IAM users and roles with the required permissions can access billing information for the new account.
     public var iamUserAccessToBilling: OrganizationsClientTypes.IAMUserAccessToBilling?
-    /// (Optional) The name of an IAM role that Organizations automatically preconfigures in the new member accounts in both the Amazon Web Services GovCloud (US) Region and in the commercial Region. This role trusts the management account, allowing users in the management account to assume the role, as permitted by the management account administrator. The role has administrator permissions in the new member account. If you don't specify this parameter, the role name defaults to OrganizationAccountAccessRole. For more information about how to use this role to access the member account, see [Accessing and Administering the Member Accounts in Your Organization](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_access.html#orgs_manage_accounts_create-cross-account-role) in the Organizations User Guide and steps 2 and 3 in [Tutorial: Delegate Access Across Amazon Web Services accounts Using IAM Roles](https://docs.aws.amazon.com/IAM/latest/UserGuide/tutorial_cross-account-with-roles.html) in the IAM User Guide. The [regex pattern](http://wikipedia.org/wiki/regex) that is used to validate this parameter. The pattern can include uppercase letters, lowercase letters, digits with no spaces, and any of the following characters: =,.@-
+    /// (Optional) The name of an IAM role that Organizations automatically preconfigures in the new member accounts in both the Amazon Web Services GovCloud (US) Region and in the commercial Region. This role trusts the management account, allowing users in the management account to assume the role, as permitted by the management account administrator. The role has administrator permissions in the new member account. If you don't specify this parameter, the role name defaults to OrganizationAccountAccessRole. For more information about how to use this role to access the member account, see the following links:
+    ///
+    /// * [Creating the OrganizationAccountAccessRole in an invited member account](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_access.html#orgs_manage_accounts_create-cross-account-role) in the Organizations User Guide
+    ///
+    /// * Steps 2 and 3 in [IAM Tutorial: Delegate access across Amazon Web Services accounts using IAM roles](https://docs.aws.amazon.com/IAM/latest/UserGuide/tutorial_cross-account-with-roles.html) in the IAM User Guide
+    ///
+    ///
+    /// The [regex pattern](http://wikipedia.org/wiki/regex) that is used to validate this parameter. The pattern can include uppercase letters, lowercase letters, digits with no spaces, and any of the following characters: =,.@-
     public var roleName: Swift.String?
     /// A list of tags that you want to attach to the newly created account. These tags are attached to the commercial account associated with the GovCloud account, and not to the GovCloud account itself. To add tags to the actual GovCloud account, call the [TagResource] operation in the GovCloud region after the new GovCloud account exists. For each tag in the list, you must specify both a tag key and a value. You can set the value to an empty string, but you can't set it to null. For more information about tagging, see [Tagging Organizations resources](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_tagging.html) in the Organizations User Guide. If any one of the tags is not valid or if you exceed the maximum allowed number of tags for an account, then the entire request fails and the account is not created.
     public var tags: [OrganizationsClientTypes.Tag]?
@@ -5599,7 +5608,7 @@ extension HandshakeConstraintViolationException {
 
 /// The requested operation would violate the constraint identified in the reason code. Some of the reasons in the following list might not be applicable to this specific API or operation:
 ///
-/// * ACCOUNT_NUMBER_LIMIT_EXCEEDED: You attempted to exceed the limit on the number of accounts in an organization. Note that deleted and closed accounts still count toward your limit. If you get this exception immediately after creating the organization, wait one hour and try again. If after an hour it continues to fail with this error, contact [Amazon Web Services Support](https://docs.aws.amazon.com/support/home#/).
+/// * ACCOUNT_NUMBER_LIMIT_EXCEEDED: You attempted to exceed the limit on the number of accounts in an organization. Note that deleted and closed accounts still count toward your limit. If you get this exception immediately after creating the organization, wait one hour and try again. If after an hour it continues to fail with this error, contact [Amazon Web Services Support](https://console.aws.amazon.com/support/home#/).
 ///
 /// * ALREADY_IN_AN_ORGANIZATION: The handshake request is invalid because the invited account is already a member of an organization.
 ///
@@ -8995,7 +9004,7 @@ extension MalformedPolicyDocumentException {
     }
 }
 
-/// The provided policy document doesn't meet the requirements of the specified policy type. For example, the syntax might be incorrect. For details about service control policy syntax, see [Service Control Policy Syntax](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_scp-syntax.html) in the Organizations User Guide.
+/// The provided policy document doesn't meet the requirements of the specified policy type. For example, the syntax might be incorrect. For details about service control policy syntax, see [SCP syntax](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_scps_syntax.html) in the Organizations User Guide.
 public struct MalformedPolicyDocumentException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
@@ -9281,7 +9290,7 @@ extension OrganizationsClientTypes {
         public var arn: Swift.String?
         /// Do not use. This field is deprecated and doesn't provide complete information about the policies in your organization. To determine the policies that are enabled and available for use in your organization, use the [ListRoots] operation instead.
         public var availablePolicyTypes: [OrganizationsClientTypes.PolicyTypeSummary]?
-        /// Specifies the functionality that currently is available to the organization. If set to "ALL", then all features are enabled and policies can be applied to accounts in the organization. If set to "CONSOLIDATED_BILLING", then only consolidated billing functionality is available. For more information, see [Enabling All Features in Your Organization](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_org_support-all-features.html) in the Organizations User Guide.
+        /// Specifies the functionality that currently is available to the organization. If set to "ALL", then all features are enabled and policies can be applied to accounts in the organization. If set to "CONSOLIDATED_BILLING", then only consolidated billing functionality is available. For more information, see [Enabling all features in your organization](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_org_support-all-features.html) in the Organizations User Guide.
         public var featureSet: OrganizationsClientTypes.OrganizationFeatureSet?
         /// The unique identifier (ID) of an organization. The [regex pattern](http://wikipedia.org/wiki/regex) for an organization ID string requires "o-" followed by from 10 to 32 lowercase letters or digits.
         public var id: Swift.String?
@@ -9361,7 +9370,7 @@ extension OrganizationNotEmptyException {
     }
 }
 
-/// The organization isn't empty. To delete an organization, you must first remove all accounts except the management account, delete all OUs, and delete all policies.
+/// The organization isn't empty. To delete an organization, you must first remove all accounts except the management account.
 public struct OrganizationNotEmptyException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
@@ -10231,7 +10240,7 @@ extension PolicyTypeNotAvailableForOrganizationException {
     }
 }
 
-/// You can't use the specified policy type with the feature set currently enabled for this organization. For example, you can enable SCPs only after you enable all features in the organization. For more information, see [Managing Organizations Policies](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies.html#enable_policies_on_root)in the Organizations User Guide.
+/// You can't use the specified policy type with the feature set currently enabled for this organization. For example, you can enable SCPs only after you enable all features in the organization. For more information, see [Managing Organizations policies](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies.html#enable_policies_on_root)in the Organizations User Guide.
 public struct PolicyTypeNotAvailableForOrganizationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
@@ -10286,7 +10295,7 @@ extension PolicyTypeNotEnabledException {
     }
 }
 
-/// The specified policy type isn't currently enabled in this root. You can't attach policies of the specified type to entities in a root until you enable that type in the root. For more information, see [Enabling All Features in Your Organization](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_org_support-all-features.html) in the Organizations User Guide.
+/// The specified policy type isn't currently enabled in this root. You can't attach policies of the specified type to entities in a root until you enable that type in the root. For more information, see [Enabling all features in your organization](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_org_support-all-features.html) in the Organizations User Guide.
 public struct PolicyTypeNotEnabledException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
@@ -10433,7 +10442,7 @@ extension PutResourcePolicyInput: ClientRuntime.URLPathProvider {
 }
 
 public struct PutResourcePolicyInput: Swift.Equatable {
-    /// If provided, the new content for the resource policy. The text must be correctly formatted JSON that complies with the syntax for the resource policy's type. For more information, see [Service Control Policy Syntax](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_scp-syntax.html) in the Organizations User Guide.
+    /// If provided, the new content for the resource policy. The text must be correctly formatted JSON that complies with the syntax for the resource policy's type. For more information, see [SCP syntax](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_scps_syntax.html) in the Organizations User Guide.
     /// This member is required.
     public var content: Swift.String?
     /// A list of tags that you want to attach to the newly created resource policy. For each tag in the list, you must specify both a tag key and a value. You can set the value to an empty string, but you can't set it to null. For more information about tagging, see [Tagging Organizations resources](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_tagging.html) in the Organizations User Guide. Calls with tags apply to the initial creation of the resource policy, otherwise an exception is thrown. If any one of the tags is not valid or if you exceed the allowed number of tags for the resource policy, then the entire request fails and the resource policy is not created.
@@ -11362,7 +11371,7 @@ extension TooManyRequestsException {
     }
 }
 
-/// You have sent too many requests in too short a period of time. The quota helps protect against denial-of-service attacks. Try again later. For information about quotas that affect Organizations, see [Quotas for Organizations](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html)in the Organizations User Guide.
+/// You have sent too many requests in too short a period of time. The quota helps protect against denial-of-service attacks. Try again later. For information about quotas that affect Organizations, see [Quotas for Organizations](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html) in the Organizations User Guide.
 public struct TooManyRequestsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
@@ -11723,7 +11732,7 @@ extension UpdatePolicyInput: ClientRuntime.URLPathProvider {
 }
 
 public struct UpdatePolicyInput: Swift.Equatable {
-    /// If provided, the new content for the policy. The text must be correctly formatted JSON that complies with the syntax for the policy's type. For more information, see [Service Control Policy Syntax](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_scp-syntax.html) in the Organizations User Guide.
+    /// If provided, the new content for the policy. The text must be correctly formatted JSON that complies with the syntax for the policy's type. For more information, see [SCP syntax](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_scps_syntax.html) in the Organizations User Guide.
     public var content: Swift.String?
     /// If provided, the new description for the policy.
     public var description: Swift.String?

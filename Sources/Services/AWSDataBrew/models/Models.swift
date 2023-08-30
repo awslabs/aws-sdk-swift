@@ -760,10 +760,10 @@ extension CreateProfileJobInput: Swift.Encodable {
         if let logSubscription = self.logSubscription {
             try encodeContainer.encode(logSubscription.rawValue, forKey: .logSubscription)
         }
-        if maxCapacity != 0 {
+        if let maxCapacity = self.maxCapacity {
             try encodeContainer.encode(maxCapacity, forKey: .maxCapacity)
         }
-        if maxRetries != 0 {
+        if let maxRetries = self.maxRetries {
             try encodeContainer.encode(maxRetries, forKey: .maxRetries)
         }
         if let name = self.name {
@@ -781,7 +781,7 @@ extension CreateProfileJobInput: Swift.Encodable {
                 try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
-        if timeout != 0 {
+        if let timeout = self.timeout {
             try encodeContainer.encode(timeout, forKey: .timeout)
         }
         if let validationConfigurations = validationConfigurations {
@@ -818,9 +818,9 @@ public struct CreateProfileJobInput: Swift.Equatable {
     /// Enables or disables Amazon CloudWatch logging for the job. If logging is enabled, CloudWatch writes one log stream for each job run.
     public var logSubscription: DataBrewClientTypes.LogSubscription?
     /// The maximum number of nodes that DataBrew can use when the job processes data.
-    public var maxCapacity: Swift.Int
+    public var maxCapacity: Swift.Int?
     /// The maximum number of times to retry the job after a job run fails.
-    public var maxRetries: Swift.Int
+    public var maxRetries: Swift.Int?
     /// The name of the job to be created. Valid characters are alphanumeric (A-Z, a-z, 0-9), hyphen (-), period (.), and space.
     /// This member is required.
     public var name: Swift.String?
@@ -833,7 +833,7 @@ public struct CreateProfileJobInput: Swift.Equatable {
     /// Metadata tags to apply to this job.
     public var tags: [Swift.String:Swift.String]?
     /// The job's timeout in minutes. A job that attempts to run longer than this timeout period ends with a status of TIMEOUT.
-    public var timeout: Swift.Int
+    public var timeout: Swift.Int?
     /// List of validation configurations that are applied to the profile job.
     public var validationConfigurations: [DataBrewClientTypes.ValidationConfiguration]?
 
@@ -844,13 +844,13 @@ public struct CreateProfileJobInput: Swift.Equatable {
         encryptionMode: DataBrewClientTypes.EncryptionMode? = nil,
         jobSample: DataBrewClientTypes.JobSample? = nil,
         logSubscription: DataBrewClientTypes.LogSubscription? = nil,
-        maxCapacity: Swift.Int = 0,
-        maxRetries: Swift.Int = 0,
+        maxCapacity: Swift.Int? = nil,
+        maxRetries: Swift.Int? = nil,
         name: Swift.String? = nil,
         outputLocation: DataBrewClientTypes.S3Location? = nil,
         roleArn: Swift.String? = nil,
         tags: [Swift.String:Swift.String]? = nil,
-        timeout: Swift.Int = 0,
+        timeout: Swift.Int? = nil,
         validationConfigurations: [DataBrewClientTypes.ValidationConfiguration]? = nil
     )
     {
@@ -877,14 +877,14 @@ struct CreateProfileJobInputBody: Swift.Equatable {
     let encryptionMode: DataBrewClientTypes.EncryptionMode?
     let name: Swift.String?
     let logSubscription: DataBrewClientTypes.LogSubscription?
-    let maxCapacity: Swift.Int
-    let maxRetries: Swift.Int
+    let maxCapacity: Swift.Int?
+    let maxRetries: Swift.Int?
     let outputLocation: DataBrewClientTypes.S3Location?
     let configuration: DataBrewClientTypes.ProfileConfiguration?
     let validationConfigurations: [DataBrewClientTypes.ValidationConfiguration]?
     let roleArn: Swift.String?
     let tags: [Swift.String:Swift.String]?
-    let timeout: Swift.Int
+    let timeout: Swift.Int?
     let jobSample: DataBrewClientTypes.JobSample?
 }
 
@@ -918,9 +918,9 @@ extension CreateProfileJobInputBody: Swift.Decodable {
         name = nameDecoded
         let logSubscriptionDecoded = try containerValues.decodeIfPresent(DataBrewClientTypes.LogSubscription.self, forKey: .logSubscription)
         logSubscription = logSubscriptionDecoded
-        let maxCapacityDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxCapacity) ?? 0
+        let maxCapacityDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxCapacity)
         maxCapacity = maxCapacityDecoded
-        let maxRetriesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxRetries) ?? 0
+        let maxRetriesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxRetries)
         maxRetries = maxRetriesDecoded
         let outputLocationDecoded = try containerValues.decodeIfPresent(DataBrewClientTypes.S3Location.self, forKey: .outputLocation)
         outputLocation = outputLocationDecoded
@@ -950,7 +950,7 @@ extension CreateProfileJobInputBody: Swift.Decodable {
             }
         }
         tags = tagsDecoded0
-        let timeoutDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .timeout) ?? 0
+        let timeoutDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .timeout)
         timeout = timeoutDecoded
         let jobSampleDecoded = try containerValues.decodeIfPresent(DataBrewClientTypes.JobSample.self, forKey: .jobSample)
         jobSample = jobSampleDecoded
@@ -1345,10 +1345,10 @@ extension CreateRecipeJobInput: Swift.Encodable {
         if let logSubscription = self.logSubscription {
             try encodeContainer.encode(logSubscription.rawValue, forKey: .logSubscription)
         }
-        if maxCapacity != 0 {
+        if let maxCapacity = self.maxCapacity {
             try encodeContainer.encode(maxCapacity, forKey: .maxCapacity)
         }
-        if maxRetries != 0 {
+        if let maxRetries = self.maxRetries {
             try encodeContainer.encode(maxRetries, forKey: .maxRetries)
         }
         if let name = self.name {
@@ -1375,7 +1375,7 @@ extension CreateRecipeJobInput: Swift.Encodable {
                 try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
-        if timeout != 0 {
+        if let timeout = self.timeout {
             try encodeContainer.encode(timeout, forKey: .timeout)
         }
     }
@@ -1405,9 +1405,9 @@ public struct CreateRecipeJobInput: Swift.Equatable {
     /// Enables or disables Amazon CloudWatch logging for the job. If logging is enabled, CloudWatch writes one log stream for each job run.
     public var logSubscription: DataBrewClientTypes.LogSubscription?
     /// The maximum number of nodes that DataBrew can consume when the job processes data.
-    public var maxCapacity: Swift.Int
+    public var maxCapacity: Swift.Int?
     /// The maximum number of times to retry the job after a job run fails.
-    public var maxRetries: Swift.Int
+    public var maxRetries: Swift.Int?
     /// A unique name for the job. Valid characters are alphanumeric (A-Z, a-z, 0-9), hyphen (-), period (.), and space.
     /// This member is required.
     public var name: Swift.String?
@@ -1423,7 +1423,7 @@ public struct CreateRecipeJobInput: Swift.Equatable {
     /// Metadata tags to apply to this job.
     public var tags: [Swift.String:Swift.String]?
     /// The job's timeout in minutes. A job that attempts to run longer than this timeout period ends with a status of TIMEOUT.
-    public var timeout: Swift.Int
+    public var timeout: Swift.Int?
 
     public init(
         dataCatalogOutputs: [DataBrewClientTypes.DataCatalogOutput]? = nil,
@@ -1432,15 +1432,15 @@ public struct CreateRecipeJobInput: Swift.Equatable {
         encryptionKeyArn: Swift.String? = nil,
         encryptionMode: DataBrewClientTypes.EncryptionMode? = nil,
         logSubscription: DataBrewClientTypes.LogSubscription? = nil,
-        maxCapacity: Swift.Int = 0,
-        maxRetries: Swift.Int = 0,
+        maxCapacity: Swift.Int? = nil,
+        maxRetries: Swift.Int? = nil,
         name: Swift.String? = nil,
         outputs: [DataBrewClientTypes.Output]? = nil,
         projectName: Swift.String? = nil,
         recipeReference: DataBrewClientTypes.RecipeReference? = nil,
         roleArn: Swift.String? = nil,
         tags: [Swift.String:Swift.String]? = nil,
-        timeout: Swift.Int = 0
+        timeout: Swift.Int? = nil
     )
     {
         self.dataCatalogOutputs = dataCatalogOutputs
@@ -1467,8 +1467,8 @@ struct CreateRecipeJobInputBody: Swift.Equatable {
     let encryptionMode: DataBrewClientTypes.EncryptionMode?
     let name: Swift.String?
     let logSubscription: DataBrewClientTypes.LogSubscription?
-    let maxCapacity: Swift.Int
-    let maxRetries: Swift.Int
+    let maxCapacity: Swift.Int?
+    let maxRetries: Swift.Int?
     let outputs: [DataBrewClientTypes.Output]?
     let dataCatalogOutputs: [DataBrewClientTypes.DataCatalogOutput]?
     let databaseOutputs: [DataBrewClientTypes.DatabaseOutput]?
@@ -1476,7 +1476,7 @@ struct CreateRecipeJobInputBody: Swift.Equatable {
     let recipeReference: DataBrewClientTypes.RecipeReference?
     let roleArn: Swift.String?
     let tags: [Swift.String:Swift.String]?
-    let timeout: Swift.Int
+    let timeout: Swift.Int?
 }
 
 extension CreateRecipeJobInputBody: Swift.Decodable {
@@ -1510,9 +1510,9 @@ extension CreateRecipeJobInputBody: Swift.Decodable {
         name = nameDecoded
         let logSubscriptionDecoded = try containerValues.decodeIfPresent(DataBrewClientTypes.LogSubscription.self, forKey: .logSubscription)
         logSubscription = logSubscriptionDecoded
-        let maxCapacityDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxCapacity) ?? 0
+        let maxCapacityDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxCapacity)
         maxCapacity = maxCapacityDecoded
-        let maxRetriesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxRetries) ?? 0
+        let maxRetriesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxRetries)
         maxRetries = maxRetriesDecoded
         let outputsContainer = try containerValues.decodeIfPresent([DataBrewClientTypes.Output?].self, forKey: .outputs)
         var outputsDecoded0:[DataBrewClientTypes.Output]? = nil
@@ -1564,7 +1564,7 @@ extension CreateRecipeJobInputBody: Swift.Decodable {
             }
         }
         tags = tagsDecoded0
-        let timeoutDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .timeout) ?? 0
+        let timeoutDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .timeout)
         timeout = timeoutDecoded
     }
 }
@@ -9302,7 +9302,7 @@ extension SendProjectSessionActionInput: Swift.Encodable {
         if let clientSessionId = self.clientSessionId {
             try encodeContainer.encode(clientSessionId, forKey: .clientSessionId)
         }
-        if preview != false {
+        if let preview = self.preview {
             try encodeContainer.encode(preview, forKey: .preview)
         }
         if let recipeStep = self.recipeStep {
@@ -9333,7 +9333,7 @@ public struct SendProjectSessionActionInput: Swift.Equatable {
     /// This member is required.
     public var name: Swift.String?
     /// If true, the result of the recipe step will be returned, but not applied.
-    public var preview: Swift.Bool
+    public var preview: Swift.Bool?
     /// Represents a single step from a DataBrew recipe to be performed.
     public var recipeStep: DataBrewClientTypes.RecipeStep?
     /// The index from which to preview a step. This index is used to preview the result of steps that have already been applied, so that the resulting view frame is from earlier in the view frame stack.
@@ -9344,7 +9344,7 @@ public struct SendProjectSessionActionInput: Swift.Equatable {
     public init(
         clientSessionId: Swift.String? = nil,
         name: Swift.String? = nil,
-        preview: Swift.Bool = false,
+        preview: Swift.Bool? = nil,
         recipeStep: DataBrewClientTypes.RecipeStep? = nil,
         stepIndex: Swift.Int? = nil,
         viewFrame: DataBrewClientTypes.ViewFrame? = nil
@@ -9360,7 +9360,7 @@ public struct SendProjectSessionActionInput: Swift.Equatable {
 }
 
 struct SendProjectSessionActionInputBody: Swift.Equatable {
-    let preview: Swift.Bool
+    let preview: Swift.Bool?
     let recipeStep: DataBrewClientTypes.RecipeStep?
     let stepIndex: Swift.Int?
     let clientSessionId: Swift.String?
@@ -9378,7 +9378,7 @@ extension SendProjectSessionActionInputBody: Swift.Decodable {
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let previewDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .preview) ?? false
+        let previewDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .preview)
         preview = previewDecoded
         let recipeStepDecoded = try containerValues.decodeIfPresent(DataBrewClientTypes.RecipeStep.self, forKey: .recipeStep)
         recipeStep = recipeStepDecoded
@@ -9704,7 +9704,7 @@ extension StartProjectSessionInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if assumeControl != false {
+        if let assumeControl = self.assumeControl {
             try encodeContainer.encode(assumeControl, forKey: .assumeControl)
         }
     }
@@ -9721,13 +9721,13 @@ extension StartProjectSessionInput: ClientRuntime.URLPathProvider {
 
 public struct StartProjectSessionInput: Swift.Equatable {
     /// A value that, if true, enables you to take control of a session, even if a different client is currently accessing the project.
-    public var assumeControl: Swift.Bool
+    public var assumeControl: Swift.Bool?
     /// The name of the project to act upon.
     /// This member is required.
     public var name: Swift.String?
 
     public init(
-        assumeControl: Swift.Bool = false,
+        assumeControl: Swift.Bool? = nil,
         name: Swift.String? = nil
     )
     {
@@ -9737,7 +9737,7 @@ public struct StartProjectSessionInput: Swift.Equatable {
 }
 
 struct StartProjectSessionInputBody: Swift.Equatable {
-    let assumeControl: Swift.Bool
+    let assumeControl: Swift.Bool?
 }
 
 extension StartProjectSessionInputBody: Swift.Decodable {
@@ -9747,7 +9747,7 @@ extension StartProjectSessionInputBody: Swift.Decodable {
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let assumeControlDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .assumeControl) ?? false
+        let assumeControlDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .assumeControl)
         assumeControl = assumeControlDecoded
     }
 }
@@ -10513,10 +10513,10 @@ extension UpdateProfileJobInput: Swift.Encodable {
         if let logSubscription = self.logSubscription {
             try encodeContainer.encode(logSubscription.rawValue, forKey: .logSubscription)
         }
-        if maxCapacity != 0 {
+        if let maxCapacity = self.maxCapacity {
             try encodeContainer.encode(maxCapacity, forKey: .maxCapacity)
         }
-        if maxRetries != 0 {
+        if let maxRetries = self.maxRetries {
             try encodeContainer.encode(maxRetries, forKey: .maxRetries)
         }
         if let outputLocation = self.outputLocation {
@@ -10525,7 +10525,7 @@ extension UpdateProfileJobInput: Swift.Encodable {
         if let roleArn = self.roleArn {
             try encodeContainer.encode(roleArn, forKey: .roleArn)
         }
-        if timeout != 0 {
+        if let timeout = self.timeout {
             try encodeContainer.encode(timeout, forKey: .timeout)
         }
         if let validationConfigurations = validationConfigurations {
@@ -10562,9 +10562,9 @@ public struct UpdateProfileJobInput: Swift.Equatable {
     /// Enables or disables Amazon CloudWatch logging for the job. If logging is enabled, CloudWatch writes one log stream for each job run.
     public var logSubscription: DataBrewClientTypes.LogSubscription?
     /// The maximum number of compute nodes that DataBrew can use when the job processes data.
-    public var maxCapacity: Swift.Int
+    public var maxCapacity: Swift.Int?
     /// The maximum number of times to retry the job after a job run fails.
-    public var maxRetries: Swift.Int
+    public var maxRetries: Swift.Int?
     /// The name of the job to be updated.
     /// This member is required.
     public var name: Swift.String?
@@ -10575,7 +10575,7 @@ public struct UpdateProfileJobInput: Swift.Equatable {
     /// This member is required.
     public var roleArn: Swift.String?
     /// The job's timeout in minutes. A job that attempts to run longer than this timeout period ends with a status of TIMEOUT.
-    public var timeout: Swift.Int
+    public var timeout: Swift.Int?
     /// List of validation configurations that are applied to the profile job.
     public var validationConfigurations: [DataBrewClientTypes.ValidationConfiguration]?
 
@@ -10585,12 +10585,12 @@ public struct UpdateProfileJobInput: Swift.Equatable {
         encryptionMode: DataBrewClientTypes.EncryptionMode? = nil,
         jobSample: DataBrewClientTypes.JobSample? = nil,
         logSubscription: DataBrewClientTypes.LogSubscription? = nil,
-        maxCapacity: Swift.Int = 0,
-        maxRetries: Swift.Int = 0,
+        maxCapacity: Swift.Int? = nil,
+        maxRetries: Swift.Int? = nil,
         name: Swift.String? = nil,
         outputLocation: DataBrewClientTypes.S3Location? = nil,
         roleArn: Swift.String? = nil,
-        timeout: Swift.Int = 0,
+        timeout: Swift.Int? = nil,
         validationConfigurations: [DataBrewClientTypes.ValidationConfiguration]? = nil
     )
     {
@@ -10614,12 +10614,12 @@ struct UpdateProfileJobInputBody: Swift.Equatable {
     let encryptionKeyArn: Swift.String?
     let encryptionMode: DataBrewClientTypes.EncryptionMode?
     let logSubscription: DataBrewClientTypes.LogSubscription?
-    let maxCapacity: Swift.Int
-    let maxRetries: Swift.Int
+    let maxCapacity: Swift.Int?
+    let maxRetries: Swift.Int?
     let outputLocation: DataBrewClientTypes.S3Location?
     let validationConfigurations: [DataBrewClientTypes.ValidationConfiguration]?
     let roleArn: Swift.String?
-    let timeout: Swift.Int
+    let timeout: Swift.Int?
     let jobSample: DataBrewClientTypes.JobSample?
 }
 
@@ -10648,9 +10648,9 @@ extension UpdateProfileJobInputBody: Swift.Decodable {
         encryptionMode = encryptionModeDecoded
         let logSubscriptionDecoded = try containerValues.decodeIfPresent(DataBrewClientTypes.LogSubscription.self, forKey: .logSubscription)
         logSubscription = logSubscriptionDecoded
-        let maxCapacityDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxCapacity) ?? 0
+        let maxCapacityDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxCapacity)
         maxCapacity = maxCapacityDecoded
-        let maxRetriesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxRetries) ?? 0
+        let maxRetriesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxRetries)
         maxRetries = maxRetriesDecoded
         let outputLocationDecoded = try containerValues.decodeIfPresent(DataBrewClientTypes.S3Location.self, forKey: .outputLocation)
         outputLocation = outputLocationDecoded
@@ -10667,7 +10667,7 @@ extension UpdateProfileJobInputBody: Swift.Decodable {
         validationConfigurations = validationConfigurationsDecoded0
         let roleArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .roleArn)
         roleArn = roleArnDecoded
-        let timeoutDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .timeout) ?? 0
+        let timeoutDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .timeout)
         timeout = timeoutDecoded
         let jobSampleDecoded = try containerValues.decodeIfPresent(DataBrewClientTypes.JobSample.self, forKey: .jobSample)
         jobSample = jobSampleDecoded
@@ -10975,10 +10975,10 @@ extension UpdateRecipeJobInput: Swift.Encodable {
         if let logSubscription = self.logSubscription {
             try encodeContainer.encode(logSubscription.rawValue, forKey: .logSubscription)
         }
-        if maxCapacity != 0 {
+        if let maxCapacity = self.maxCapacity {
             try encodeContainer.encode(maxCapacity, forKey: .maxCapacity)
         }
-        if maxRetries != 0 {
+        if let maxRetries = self.maxRetries {
             try encodeContainer.encode(maxRetries, forKey: .maxRetries)
         }
         if let outputs = outputs {
@@ -10990,7 +10990,7 @@ extension UpdateRecipeJobInput: Swift.Encodable {
         if let roleArn = self.roleArn {
             try encodeContainer.encode(roleArn, forKey: .roleArn)
         }
-        if timeout != 0 {
+        if let timeout = self.timeout {
             try encodeContainer.encode(timeout, forKey: .timeout)
         }
     }
@@ -11021,9 +11021,9 @@ public struct UpdateRecipeJobInput: Swift.Equatable {
     /// Enables or disables Amazon CloudWatch logging for the job. If logging is enabled, CloudWatch writes one log stream for each job run.
     public var logSubscription: DataBrewClientTypes.LogSubscription?
     /// The maximum number of nodes that DataBrew can consume when the job processes data.
-    public var maxCapacity: Swift.Int
+    public var maxCapacity: Swift.Int?
     /// The maximum number of times to retry the job after a job run fails.
-    public var maxRetries: Swift.Int
+    public var maxRetries: Swift.Int?
     /// The name of the job to update.
     /// This member is required.
     public var name: Swift.String?
@@ -11033,7 +11033,7 @@ public struct UpdateRecipeJobInput: Swift.Equatable {
     /// This member is required.
     public var roleArn: Swift.String?
     /// The job's timeout in minutes. A job that attempts to run longer than this timeout period ends with a status of TIMEOUT.
-    public var timeout: Swift.Int
+    public var timeout: Swift.Int?
 
     public init(
         dataCatalogOutputs: [DataBrewClientTypes.DataCatalogOutput]? = nil,
@@ -11041,12 +11041,12 @@ public struct UpdateRecipeJobInput: Swift.Equatable {
         encryptionKeyArn: Swift.String? = nil,
         encryptionMode: DataBrewClientTypes.EncryptionMode? = nil,
         logSubscription: DataBrewClientTypes.LogSubscription? = nil,
-        maxCapacity: Swift.Int = 0,
-        maxRetries: Swift.Int = 0,
+        maxCapacity: Swift.Int? = nil,
+        maxRetries: Swift.Int? = nil,
         name: Swift.String? = nil,
         outputs: [DataBrewClientTypes.Output]? = nil,
         roleArn: Swift.String? = nil,
-        timeout: Swift.Int = 0
+        timeout: Swift.Int? = nil
     )
     {
         self.dataCatalogOutputs = dataCatalogOutputs
@@ -11067,13 +11067,13 @@ struct UpdateRecipeJobInputBody: Swift.Equatable {
     let encryptionKeyArn: Swift.String?
     let encryptionMode: DataBrewClientTypes.EncryptionMode?
     let logSubscription: DataBrewClientTypes.LogSubscription?
-    let maxCapacity: Swift.Int
-    let maxRetries: Swift.Int
+    let maxCapacity: Swift.Int?
+    let maxRetries: Swift.Int?
     let outputs: [DataBrewClientTypes.Output]?
     let dataCatalogOutputs: [DataBrewClientTypes.DataCatalogOutput]?
     let databaseOutputs: [DataBrewClientTypes.DatabaseOutput]?
     let roleArn: Swift.String?
-    let timeout: Swift.Int
+    let timeout: Swift.Int?
 }
 
 extension UpdateRecipeJobInputBody: Swift.Decodable {
@@ -11098,9 +11098,9 @@ extension UpdateRecipeJobInputBody: Swift.Decodable {
         encryptionMode = encryptionModeDecoded
         let logSubscriptionDecoded = try containerValues.decodeIfPresent(DataBrewClientTypes.LogSubscription.self, forKey: .logSubscription)
         logSubscription = logSubscriptionDecoded
-        let maxCapacityDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxCapacity) ?? 0
+        let maxCapacityDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxCapacity)
         maxCapacity = maxCapacityDecoded
-        let maxRetriesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxRetries) ?? 0
+        let maxRetriesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxRetries)
         maxRetries = maxRetriesDecoded
         let outputsContainer = try containerValues.decodeIfPresent([DataBrewClientTypes.Output?].self, forKey: .outputs)
         var outputsDecoded0:[DataBrewClientTypes.Output]? = nil
@@ -11137,7 +11137,7 @@ extension UpdateRecipeJobInputBody: Swift.Decodable {
         databaseOutputs = databaseOutputsDecoded0
         let roleArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .roleArn)
         roleArn = roleArnDecoded
-        let timeoutDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .timeout) ?? 0
+        let timeoutDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .timeout)
         timeout = timeoutDecoded
     }
 }
