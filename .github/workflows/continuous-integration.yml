@@ -46,12 +46,12 @@ jobs:
       - name: Select smithy-swift branch
         run: |
           ORIGINAL_REPO_HEAD_REF="$GITHUB_HEAD_REF" \
-          DEPENDENCY_REPO_URL="https://github.com/awslabs/smithy-swift.git" \
+          DEPENDENCY_REPO_URL="https://github.com/smithy-lang/smithy-swift.git" \
           ./scripts/ci_steps/select_dependency_branch.sh
       - name: Checkout smithy-swift
         uses: actions/checkout@v3
         with:
-          repository: awslabs/smithy-swift
+          repository: smithy-lang/smithy-swift
           ref: ${{ env.DEPENDENCY_REPO_SHA }}
           path: smithy-swift
       - name: Move smithy-swift into place
@@ -113,12 +113,12 @@ jobs:
       - name: Select smithy-swift branch
         run: |
           ORIGINAL_REPO_HEAD_REF="${GITHUB_HEAD_REF:-${GITHUB_REF_NAME:-main}}" \
-          DEPENDENCY_REPO_URL="https://github.com/awslabs/smithy-swift.git" \
+          DEPENDENCY_REPO_URL="https://github.com/smithy-lang/smithy-swift.git" \
           ./scripts/ci_steps/select_dependency_branch.sh
       - name: Checkout smithy-swift
         uses: actions/checkout@v3
         with:
-          repository: awslabs/smithy-swift
+          repository: smithy-lang/smithy-swift
           ref: ${{ env.DEPENDENCY_REPO_SHA }}
           path: smithy-swift
       - name: Move smithy-swift into place
