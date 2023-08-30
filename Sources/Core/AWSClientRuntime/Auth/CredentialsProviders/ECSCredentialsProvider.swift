@@ -34,11 +34,8 @@ public struct ECSCredentialsProvider: CredentialsSourcedByCRT {
         let resolvedAbsoluteURI = absoluteURI ?? env.environmentVariable(key: "AWS_CONTAINER_CREDENTIALS_FULL_URI")
 
         guard resolvedRelativeURI != nil || isValidAbsoluteURI(resolvedAbsoluteURI) else {
-            let environmentVariables = ProcessInfo.processInfo.environment
-            let environmentString = environmentVariables.map { "\($0.key): \($0.value)" }.joined(separator: "\n")
-
             throw ClientError.dataNotFound(
-                "Please configure either the relative or absolute URI environment variable!\n All Environment Variables:\n \(environmentString)"
+                "Please configure either the relative or absolute URI environment variable!"
             )
         }
 
@@ -46,9 +43,14 @@ public struct ECSCredentialsProvider: CredentialsSourcedByCRT {
         var host = defaultHost
         var pathAndQuery = resolvedRelativeURI ?? ""
 
-        if let absoluteString = resolvedAbsoluteURI, resolvedRelativeURI == nil, let uriURL = URL(string: absoluteString) {
-            host = uriURL.host ?? defaultHost
-            pathAndQuery = try buildPathAndQuery(from: uriURL)
+        if let relative = resolvedRelativeURI {
+            pathAndQuery = relative
+        } else if let absolute = resolvedAbsoluteURI, let absoluteURL = URL(string: absolute) {
+            let (absoluteHost, absolutePathAndQuery) = try retrieveHostPathAndQuery(from: absoluteURL)
+            host = absoluteHost
+            pathAndQuery = absolutePathAndQuery
+        } else {
+            throw ClientError.pathCreationFailed("Failed to retrieve either relative or absolute URI! URI may be malformed.")
         }
 
         self.crtCredentialsProvider = try CRTCredentialsProvider(source: .ecs(
@@ -59,14 +61,19 @@ public struct ECSCredentialsProvider: CredentialsSourcedByCRT {
     }
 }
 
-private func buildPathAndQuery(from url: URL) throws -> String {
-    var components = URLComponents(url: url, resolvingAgainstBaseURL: false)!
+private func retrieveHostPathAndQuery(from url: URL) throws -> (String, String) {
+    guard var components = URLComponents(url: url, resolvingAgainstBaseURL: false) else {
+        throw ClientError.pathCreationFailed("Absolute URI is malformed! Could not instantiate URLComponents from URL.")
+    }
+    guard let hostComponent = components.host else {
+        throw ClientError.pathCreationFailed("Absolute URI is malformed! Could not retrieve host from URL.")
+    }
     components.scheme = nil
     components.host = nil
     guard let pathQueryFragment = components.url else {
         throw ClientError.pathCreationFailed("Could not retrieve path from URL!")
     }
-    return pathQueryFragment.absoluteString
+    return (hostComponent, pathQueryFragment.absoluteString)
 }
 
 private func isValidAbsoluteURI(_ uri: String?) -> Bool {
