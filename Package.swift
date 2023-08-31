@@ -544,11 +544,6 @@ let serviceTargets: [String] = [
 serviceTargets.forEach(addServiceTarget)
 
 let servicesWithIntegrationTests: [String] = [
-    "AWSECS",
-    "AWSKinesis",
-    "AWSMediaConvert",
-    "AWSS3",
-    "AWSTranscribeStreaming",
 ]
 
 servicesWithIntegrationTests.forEach(addIntegrationTestTarget)
