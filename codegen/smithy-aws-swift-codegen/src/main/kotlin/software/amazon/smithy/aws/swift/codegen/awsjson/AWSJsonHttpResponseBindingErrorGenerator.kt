@@ -7,6 +7,7 @@ package software.amazon.smithy.aws.swift.codegen.awsjson
 
 import software.amazon.smithy.aws.swift.codegen.AWSClientRuntimeTypes
 import software.amazon.smithy.aws.swift.codegen.AWSSwiftDependency
+import software.amazon.smithy.aws.swift.codegen.EndpointParamsGenerator
 import software.amazon.smithy.codegen.core.Symbol
 import software.amazon.smithy.model.shapes.OperationShape
 import software.amazon.smithy.model.shapes.StructureShape
@@ -19,7 +20,40 @@ import software.amazon.smithy.swift.codegen.model.toUpperCamelCase
 import software.amazon.smithy.swift.codegen.utils.errorShapeName
 
 class AWSJsonHttpResponseBindingErrorGenerator : HttpResponseBindingErrorGeneratable {
-    override fun render(ctx: ProtocolGenerator.GenerationContext, op: OperationShape, unknownServiceErrorSymbol: Symbol) {
+    override fun renderServiceError(ctx: ProtocolGenerator.GenerationContext) {
+        val serviceShape = ctx.service
+        val serviceName = ctx.service.id.name
+        val rootNamespace = ctx.settings.moduleName
+
+        ctx.delegator.useFileWriter("./$rootNamespace/models/$serviceName+ServiceErrorHelperMethod.swift") {writer ->
+            writer.addImport(AWSSwiftDependency.AWS_CLIENT_RUNTIME.target)
+            writer.addImport(SwiftDependency.CLIENT_RUNTIME.target)
+
+            writer.openBlock(
+                "func makeServiceError(_ httpResponse: \$N, _ decoder: \$D, _ error: \$N, _ id: String?) async throws -> \$N? {", "}",
+                ClientRuntimeTypes.Http.HttpResponse,
+                ClientRuntimeTypes.Serde.ResponseDecoder,
+                AWSClientRuntimeTypes.RestJSON.RestJSONError,
+                SwiftTypes.Error
+            ) {
+                writer.openBlock("switch error.errorType {", "}") {
+                    val serviceErrorShapes = serviceShape.errors.map { ctx.model.expectShape(it) as StructureShape }.toSet().sorted()
+                    for (errorShape in serviceErrorShapes) {
+                        val errorShapeName = errorShape.errorShapeName(ctx.symbolProvider)
+                        val errorShapeType = ctx.symbolProvider.toSymbol(errorShape).name
+                        writer.write(
+                            "case \$S: return try await \$L(httpResponse: httpResponse, decoder: decoder, message: error.errorMessage, requestID: id)",
+                            errorShapeName,
+                            errorShapeType
+                        )
+                    }
+                    writer.write("default: return nil")
+                }
+            }
+        }
+    }
+
+    override fun renderOperationError(ctx: ProtocolGenerator.GenerationContext, op: OperationShape, unknownServiceErrorSymbol: Symbol) {
         val operationErrorName = "${op.toUpperCamelCase()}OutputError"
         val rootNamespace = ctx.settings.moduleName
         val httpBindingSymbol = Symbol.builder()
@@ -38,11 +72,12 @@ class AWSJsonHttpResponseBindingErrorGenerator : HttpResponseBindingErrorGenerat
                     ClientRuntimeTypes.Serde.ResponseDecoder,
                     SwiftTypes.Error
                 ) {
-                    writer.write(
-                        "let restJSONError = try await \$N(httpResponse: httpResponse)",
-                        AWSClientRuntimeTypes.RestJSON.RestJSONError
-                    )
+                    writer.write("let restJSONError = try await \$N(httpResponse: httpResponse)", AWSClientRuntimeTypes.RestJSON.RestJSONError)
                     writer.write("let requestID = httpResponse.requestId")
+
+                    writer.write("let serviceError = try await makeServiceError(httpResponse, decoder, restJSONError, requestID)")
+                    writer.write("if let error = serviceError { return error }")
+
                     writer.openBlock("switch restJSONError.errorType {", "}") {
                         val errorShapes = op.errors.map { ctx.model.expectShape(it) as StructureShape }.toSet().sorted()
                         for (errorShape in errorShapes) {

@@ -21,10 +21,42 @@ import software.amazon.smithy.swift.codegen.model.toUpperCamelCase
 import software.amazon.smithy.swift.codegen.utils.errorShapeName
 
 class AWSRestXMLHttpResponseBindingErrorGenerator : HttpResponseBindingErrorGeneratable {
+    override fun renderServiceError(ctx: ProtocolGenerator.GenerationContext) {
+        val serviceShape = ctx.service
+        val serviceName = ctx.service.id.name
+        val rootNamespace = ctx.settings.moduleName
+
+        ctx.delegator.useFileWriter("./$rootNamespace/models/$serviceName+ServiceErrorHelperMethod.swift") {writer ->
+            writer.addImport(AWSSwiftDependency.AWS_CLIENT_RUNTIME.target)
+            writer.addImport(SwiftDependency.CLIENT_RUNTIME.target)
+
+            writer.openBlock(
+                "func makeServiceError(_ httpResponse: \$N, _ decoder: \$D, _ error: \$N) async throws -> \$N? {", "}",
+                ClientRuntimeTypes.Http.HttpResponse,
+                ClientRuntimeTypes.Serde.ResponseDecoder,
+                AWSClientRuntimeTypes.RestXML.RestXMLError,
+                SwiftTypes.Error
+            ) {
+                writer.openBlock("switch error.errorCode {", "}") {
+                    val serviceErrorShapes = serviceShape.errors.map { ctx.model.expectShape(it) as StructureShape }.toSet().sorted()
+                    for (errorShape in serviceErrorShapes) {
+                        val errorShapeName = errorShape.errorShapeName(ctx.symbolProvider)
+                        val errorShapeType = ctx.symbolProvider.toSymbol(errorShape).name
+                        writer.write(
+                            "case \$S: return try await \$L(httpResponse: httpResponse, decoder: decoder, message: error.errorMessage, requestID: restXMLError.requestId)",
+                            errorShapeName,
+                            errorShapeType
+                        )
+                    }
+                    writer.write("default: return nil")
+                }
+            }
+        }
+    }
 
     object RestXMLResponseBindingSectionId : SectionId
 
-    override fun render(ctx: ProtocolGenerator.GenerationContext, op: OperationShape, unknownServiceErrorSymbol: Symbol) {
+    override fun renderOperationError(ctx: ProtocolGenerator.GenerationContext, op: OperationShape, unknownServiceErrorSymbol: Symbol) {
         val operationErrorName = "${op.toUpperCamelCase()}OutputError"
         val rootNamespace = ctx.settings.moduleName
         val httpBindingSymbol = Symbol.builder()
@@ -50,8 +82,13 @@ class AWSRestXMLHttpResponseBindingErrorGenerator : HttpResponseBindingErrorGene
                         "unknownServiceErrorSymbol" to unknownServiceErrorSymbol,
                         "errorShapes" to errorShapes
                     )
+
                     writer.declareSection(RestXMLResponseBindingSectionId, context) {
                         writer.write("let restXMLError = try await \$N(httpResponse: httpResponse)", AWSClientRuntimeTypes.RestXML.RestXMLError)
+
+                        writer.write("let serviceError = try await makeServiceError(httpResponse, decoder, restXMLError)")
+                        writer.write("if let error = serviceError { return error }")
+
                         writer.openBlock("switch restXMLError.errorCode {", "}") {
                             for (errorShape in errorShapes) {
                                 var errorShapeName = errorShape.errorShapeName(ctx.symbolProvider)
