@@ -20,7 +20,6 @@ import software.amazon.smithy.swift.codegen.utils.errorShapeName
 class AWSEc2QueryHttpResponseBindingErrorGenerator : HttpResponseBindingErrorGeneratable {
     override fun renderServiceError(ctx: ProtocolGenerator.GenerationContext) {
         // No service errors in EC2
-        return
     }
 
     override fun renderOperationError(ctx: ProtocolGenerator.GenerationContext, op: OperationShape, unknownServiceErrorSymbol: Symbol) {

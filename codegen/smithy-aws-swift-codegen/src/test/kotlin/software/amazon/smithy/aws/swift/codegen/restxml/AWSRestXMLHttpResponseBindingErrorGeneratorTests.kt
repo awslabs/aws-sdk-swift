@@ -25,6 +25,8 @@ class AWSRestXMLHttpResponseBindingErrorGeneratorTests {
             public enum GreetingWithErrorsOutputError: ClientRuntime.HttpResponseErrorBinding {
                 public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
                     let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+                    let serviceError = try await makeServiceError(httpResponse, decoder, restXMLError)
+                    if let error = serviceError { return error }
                     switch restXMLError.errorCode {
                         case "ComplexXMLError": return try await ComplexXMLError(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
                         case "InvalidGreeting": return try await InvalidGreeting(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
