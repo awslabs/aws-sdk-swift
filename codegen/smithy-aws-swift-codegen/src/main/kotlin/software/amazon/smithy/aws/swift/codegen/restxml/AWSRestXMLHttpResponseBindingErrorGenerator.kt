@@ -26,7 +26,7 @@ class AWSRestXMLHttpResponseBindingErrorGenerator : HttpResponseBindingErrorGene
         val serviceName = ctx.service.id.name
         val rootNamespace = ctx.settings.moduleName
 
-        ctx.delegator.useFileWriter("./$rootNamespace/models/$serviceName+ServiceErrorHelperMethod.swift") {writer ->
+        ctx.delegator.useFileWriter("./$rootNamespace/models/$serviceName+ServiceErrorHelperMethod.swift") { writer ->
             writer.addImport(AWSSwiftDependency.AWS_CLIENT_RUNTIME.target)
             writer.addImport(SwiftDependency.CLIENT_RUNTIME.target)
 

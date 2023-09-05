@@ -7,7 +7,6 @@ package software.amazon.smithy.aws.swift.codegen.awsjson
 
 import software.amazon.smithy.aws.swift.codegen.AWSClientRuntimeTypes
 import software.amazon.smithy.aws.swift.codegen.AWSSwiftDependency
-import software.amazon.smithy.aws.swift.codegen.EndpointParamsGenerator
 import software.amazon.smithy.codegen.core.Symbol
 import software.amazon.smithy.model.shapes.OperationShape
 import software.amazon.smithy.model.shapes.StructureShape
@@ -25,7 +24,7 @@ class AWSJsonHttpResponseBindingErrorGenerator : HttpResponseBindingErrorGenerat
         val serviceName = ctx.service.id.name
         val rootNamespace = ctx.settings.moduleName
 
-        ctx.delegator.useFileWriter("./$rootNamespace/models/$serviceName+ServiceErrorHelperMethod.swift") {writer ->
+        ctx.delegator.useFileWriter("./$rootNamespace/models/$serviceName+ServiceErrorHelperMethod.swift") { writer ->
             writer.addImport(AWSSwiftDependency.AWS_CLIENT_RUNTIME.target)
             writer.addImport(SwiftDependency.CLIENT_RUNTIME.target)
 
