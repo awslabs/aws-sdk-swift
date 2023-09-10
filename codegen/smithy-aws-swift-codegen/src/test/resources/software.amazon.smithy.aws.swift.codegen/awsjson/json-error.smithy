@@ -1,16 +1,16 @@
 $version: "1.0"
 
-namespace aws.protocoltests.restxml
+namespace aws.protocoltests.json10
 
 use aws.api#service
-use aws.protocols#restXml
+use aws.protocols#awsJson1_0
 use smithy.test#httpRequestTests
 use smithy.test#httpResponseTests
 
-@service(sdkId: "Rest Xml errors")
-@restXml
-service RestXml {
-    version: "2019-12-16",
+@service(sdkId: "Json10 Protocol")
+@awsJson1_0
+service AwsJson10 {
+    version: "2023-09-08",
     operations: [
         GreetingWithErrors,
     ]
@@ -23,36 +23,27 @@ structure ExampleServiceError {
     Message: String,
 }
 
-@idempotent
-@http(uri: "/GreetingWithErrors", method: "PUT")
 operation GreetingWithErrors {
     output: GreetingWithErrorsOutput,
-    errors: [InvalidGreeting, ComplexXMLError]
+    errors: [InvalidGreeting, ComplexError]
 }
 
 structure GreetingWithErrorsOutput {
-    @httpHeader("X-Greeting")
     greeting: String,
 }
 
 @error("client")
-@httpError(400)
 structure InvalidGreeting {
     Message: String,
 }
 
 @error("client")
-@httpError(403)
-structure ComplexXMLError {
-    // Errors support HTTP bindings!
-    @httpHeader("X-Header")
-    Header: String,
-
+structure ComplexError {
     TopLevel: String,
 
-    Nested: ComplexXMLNestedErrorData,
+    Nested: ComplexNestedErrorData,
 }
 
-structure ComplexXMLNestedErrorData {
+structure ComplexNestedErrorData {
     Foo: String,
 }

@@ -5,6 +5,7 @@
 
 package software.amazon.smithy.aws.swift.codegen.ec2query.httpResponse
 
+import software.amazon.smithy.aws.swift.codegen.AWSClientRuntimeTypes
 import software.amazon.smithy.aws.swift.codegen.AWSSwiftDependency
 import software.amazon.smithy.codegen.core.Symbol
 import software.amazon.smithy.model.shapes.OperationShape
@@ -19,7 +20,39 @@ import software.amazon.smithy.swift.codegen.utils.errorShapeName
 
 class AWSEc2QueryHttpResponseBindingErrorGenerator : HttpResponseBindingErrorGeneratable {
     override fun renderServiceError(ctx: ProtocolGenerator.GenerationContext) {
-        // No service errors in EC2
+        val serviceShape = ctx.service
+        val serviceName = ctx.service.id.name
+        val rootNamespace = ctx.settings.moduleName
+
+        ctx.delegator.useFileWriter("./$rootNamespace/models/$serviceName+ServiceErrorHelperMethod.swift") { writer ->
+            writer.addImport(AWSSwiftDependency.AWS_CLIENT_RUNTIME.target)
+            writer.addImport(SwiftDependency.CLIENT_RUNTIME.target)
+            writer.openBlock("extension ${ctx.symbolProvider.toSymbol(ctx.service).name}Types {", "}") {
+                writer.openBlock(
+                    "static func makeServiceError(_ httpResponse: \$N, _ decoder: \$D, _ error: \$N) async throws -> \$N? {",
+                    "}",
+                    ClientRuntimeTypes.Http.HttpResponse,
+                    ClientRuntimeTypes.Serde.ResponseDecoder,
+                    AWSClientRuntimeTypes.EC2Query.Ec2QueryError,
+                    SwiftTypes.Error
+                ) {
+                    writer.openBlock("switch error.errorCode {", "}") {
+                        val serviceErrorShapes =
+                            serviceShape.errors.map { ctx.model.expectShape(it) as StructureShape }.toSet().sorted()
+                        for (errorShape in serviceErrorShapes) {
+                            val errorShapeName = errorShape.errorShapeName(ctx.symbolProvider)
+                            val errorShapeType = ctx.symbolProvider.toSymbol(errorShape).name
+                            writer.write(
+                                "case \$S: return try await \$L(httpResponse: httpResponse, decoder: decoder, message: error.message, requestID: error.requestId)",
+                                errorShapeName,
+                                errorShapeType
+                            )
+                        }
+                        writer.write("default: return nil")
+                    }
+                }
+            }
+        }
     }
 
     override fun renderOperationError(ctx: ProtocolGenerator.GenerationContext, op: OperationShape, unknownServiceErrorSymbol: Symbol) {
@@ -42,6 +75,10 @@ class AWSEc2QueryHttpResponseBindingErrorGenerator : HttpResponseBindingErrorGen
                     SwiftTypes.Error
                 ) {
                     writer.write("let ec2QueryError = try await Ec2QueryError(httpResponse: httpResponse)")
+
+                    writer.write("let serviceError = try await ${ctx.symbolProvider.toSymbol(ctx.service).name}Types.makeServiceError(httpResponse, decoder, ec2QueryError)")
+                    writer.write("if let error = serviceError { return error }")
+
                     writer.openBlock("switch ec2QueryError.errorCode {", "}") {
                         val errorShapes = op.errors.map { ctx.model.expectShape(it) as StructureShape }.toSet().sorted()
                         for (errorShape in errorShapes) {

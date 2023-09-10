@@ -25,7 +25,7 @@ class AWSRestXMLHttpResponseBindingErrorGeneratorTests {
             public enum GreetingWithErrorsOutputError: ClientRuntime.HttpResponseErrorBinding {
                 public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
                     let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
-                    let serviceError = try await makeServiceError(httpResponse, decoder, restXMLError)
+                    let serviceError = try await RestXmlerrorsClientTypes.makeServiceError(httpResponse, decoder, restXMLError)
                     if let error = serviceError { return error }
                     switch restXMLError.errorCode {
                         case "ComplexXMLError": return try await ComplexXMLError(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -130,6 +130,25 @@ class AWSRestXMLHttpResponseBindingErrorGeneratorTests {
                     self.httpResponse = httpResponse
                     self.requestID = requestID
                     self.message = message
+                }
+            }
+            """.trimIndent()
+        contents.shouldContainOnlyOnce(expectedContents)
+    }
+
+    @Test
+    fun `006 RestXml+ServiceErrorHelperMethod AWSHttpServiceError`() {
+        val context = setupTests("restxml/xml-errors.smithy", "aws.protocoltests.restxml#RestXml")
+        val contents = getFileContents(context.manifest, "/Example/models/RestXml+ServiceErrorHelperMethod.swift")
+        contents.shouldSyntacticSanityCheck()
+        val expectedContents =
+            """
+            extension RestXmlerrorsClientTypes {
+                static func makeServiceError(_ httpResponse: ClientRuntime.HttpResponse, _ decoder: ClientRuntime.ResponseDecoder? = nil, _ error: AWSClientRuntime.RestXMLError) async throws -> Swift.Error? {
+                    switch error.errorCode {
+                        case "ExampleServiceError": return try await ExampleServiceError(httpResponse: httpResponse, decoder: decoder, message: error.message, requestID: error.requestId)
+                        default: return nil
+                    }
                 }
             }
             """.trimIndent()
