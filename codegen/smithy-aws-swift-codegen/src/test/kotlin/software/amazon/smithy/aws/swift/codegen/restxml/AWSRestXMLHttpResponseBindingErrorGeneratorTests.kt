@@ -158,9 +158,11 @@ class AWSRestXMLHttpResponseBindingErrorGeneratorTests {
     private fun setupTests(smithyFile: String, serviceShapeId: String): TestContext {
         val context = initContextFrom(smithyFile, serviceShapeId, RestXmlTrait.ID)
 
-        val generator = RestXmlProtocolGenerator()
-        generator.generateDeserializers(context.ctx)
-        generator.generateCodableConformanceForNestedTypes(context.ctx)
+        RestXmlProtocolGenerator().run {
+            generateDeserializers(context.ctx)
+            generateCodableConformanceForNestedTypes(context.ctx)
+        }
+
         context.ctx.delegator.flushWriters()
         return context
     }

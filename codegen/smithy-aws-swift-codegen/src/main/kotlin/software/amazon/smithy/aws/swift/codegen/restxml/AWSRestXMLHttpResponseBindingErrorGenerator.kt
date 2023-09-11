@@ -25,32 +25,36 @@ class AWSRestXMLHttpResponseBindingErrorGenerator : HttpResponseBindingErrorGene
         val serviceShape = ctx.service
         val serviceName = ctx.service.id.name
         val rootNamespace = ctx.settings.moduleName
+        val fileName = "./$rootNamespace/models/$serviceName+ServiceErrorHelperMethod.swift"
 
-        ctx.delegator.useFileWriter("./$rootNamespace/models/$serviceName+ServiceErrorHelperMethod.swift") { writer ->
-            writer.addImport(AWSSwiftDependency.AWS_CLIENT_RUNTIME.target)
-            writer.addImport(SwiftDependency.CLIENT_RUNTIME.target)
+        ctx.delegator.useFileWriter(fileName) { writer ->
+            with(writer) {
+                addImport(AWSSwiftDependency.AWS_CLIENT_RUNTIME.target)
+                addImport(SwiftDependency.CLIENT_RUNTIME.target)
 
-            writer.openBlock("extension ${ctx.symbolProvider.toSymbol(ctx.service).name}Types {", "}") {
-                writer.openBlock(
-                    "static func makeServiceError(_ httpResponse: \$N, _ decoder: \$D, _ error: \$N) async throws -> \$N? {", "}",
-                    ClientRuntimeTypes.Http.HttpResponse,
-                    ClientRuntimeTypes.Serde.ResponseDecoder,
-                    AWSClientRuntimeTypes.RestXML.RestXMLError,
-                    SwiftTypes.Error
-                ) {
-                    writer.openBlock("switch error.errorCode {", "}") {
-                        val serviceErrorShapes =
-                            serviceShape.errors.map { ctx.model.expectShape(it) as StructureShape }.toSet().sorted()
-                        for (errorShape in serviceErrorShapes) {
-                            val errorShapeName = errorShape.errorShapeName(ctx.symbolProvider)
-                            val errorShapeType = ctx.symbolProvider.toSymbol(errorShape).name
-                            writer.write(
-                                "case \$S: return try await \$L(httpResponse: httpResponse, decoder: decoder, message: error.message, requestID: error.requestId)",
-                                errorShapeName,
-                                errorShapeType
-                            )
+                openBlock("extension ${ctx.symbolProvider.toSymbol(ctx.service).name}Types {", "}") {
+                    openBlock(
+                        "static func makeServiceError(_ httpResponse: \$N, _ decoder: \$D, _ error: \$N) async throws -> \$N? {",
+                        "}",
+                        ClientRuntimeTypes.Http.HttpResponse,
+                        ClientRuntimeTypes.Serde.ResponseDecoder,
+                        AWSClientRuntimeTypes.RestXML.RestXMLError,
+                        SwiftTypes.Error
+                    ) {
+                        openBlock("switch error.errorCode {", "}") {
+                            val serviceErrorShapes =
+                                serviceShape.errors.map { ctx.model.expectShape(it) as StructureShape }.toSet().sorted()
+                            serviceErrorShapes.forEach { errorShape ->
+                                val errorShapeName = errorShape.errorShapeName(ctx.symbolProvider)
+                                val errorShapeType = ctx.symbolProvider.toSymbol(errorShape).name
+                                write(
+                                    "case \$S: return try await \$L(httpResponse: httpResponse, decoder: decoder, message: error.message, requestID: error.requestId)",
+                                    errorShapeName,
+                                    errorShapeType
+                                )
+                            }
+                            write("default: return nil")
                         }
-                        writer.write("default: return nil")
                     }
                 }
             }
@@ -68,37 +72,51 @@ class AWSRestXMLHttpResponseBindingErrorGenerator : HttpResponseBindingErrorGene
             .build()
 
         ctx.delegator.useShapeWriter(httpBindingSymbol) { writer ->
-            writer.addImport(AWSSwiftDependency.AWS_CLIENT_RUNTIME.target)
-            writer.addImport(SwiftDependency.CLIENT_RUNTIME.target)
+            with(writer) {
+                addImport(AWSSwiftDependency.AWS_CLIENT_RUNTIME.target)
+                addImport(SwiftDependency.CLIENT_RUNTIME.target)
 
-            writer.openBlock("public enum \$L: \$N {", "}", operationErrorName, ClientRuntimeTypes.Http.HttpResponseErrorBinding) {
-                writer.openBlock(
-                    "public static func makeError(httpResponse: \$N, decoder: \$D) async throws -> \$N {", "}",
-                    ClientRuntimeTypes.Http.HttpResponse,
-                    ClientRuntimeTypes.Serde.ResponseDecoder,
-                    SwiftTypes.Error
+                openBlock(
+                    "public enum \$L: \$N {",
+                    "}",
+                    operationErrorName,
+                    ClientRuntimeTypes.Http.HttpResponseErrorBinding
                 ) {
-                    val errorShapes = op.errors.map { ctx.model.expectShape(it) as StructureShape }.toSet().sorted()
-                    val context = mapOf<String, Any>(
-                        "operationErrorName" to operationErrorName,
-                        "ctx" to ctx,
-                        "unknownServiceErrorSymbol" to unknownServiceErrorSymbol,
-                        "errorShapes" to errorShapes
-                    )
+                    openBlock(
+                        "public static func makeError(httpResponse: \$N, decoder: \$D) async throws -> \$N {", "}",
+                        ClientRuntimeTypes.Http.HttpResponse,
+                        ClientRuntimeTypes.Serde.ResponseDecoder,
+                        SwiftTypes.Error
+                    ) {
+                        val errorShapes = op.errors.map { ctx.model.expectShape(it) as StructureShape }.toSet().sorted()
+                        val context = mapOf<String, Any>(
+                            "operationErrorName" to operationErrorName,
+                            "ctx" to ctx,
+                            "unknownServiceErrorSymbol" to unknownServiceErrorSymbol,
+                            "errorShapes" to errorShapes
+                        )
 
-                    writer.declareSection(RestXMLResponseBindingSectionId, context) {
-                        writer.write("let restXMLError = try await \$N(httpResponse: httpResponse)", AWSClientRuntimeTypes.RestXML.RestXMLError)
+                        declareSection(RestXMLResponseBindingSectionId, context) {
+                            write(
+                                "let restXMLError = try await \$N(httpResponse: httpResponse)",
+                                AWSClientRuntimeTypes.RestXML.RestXMLError
+                            )
 
-                        writer.write("let serviceError = try await ${ctx.symbolProvider.toSymbol(ctx.service).name}Types.makeServiceError(httpResponse, decoder, restXMLError)")
-                        writer.write("if let error = serviceError { return error }")
+                            write("let serviceError = try await ${ctx.symbolProvider.toSymbol(ctx.service).name}Types.makeServiceError(httpResponse, decoder, restXMLError)")
+                            write("if let error = serviceError { return error }")
 
-                        writer.openBlock("switch restXMLError.errorCode {", "}") {
-                            for (errorShape in errorShapes) {
-                                var errorShapeName = errorShape.errorShapeName(ctx.symbolProvider)
-                                var errorShapeType = ctx.symbolProvider.toSymbol(errorShape).name
-                                writer.write("case \$S: return try await \$L(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)", errorShapeName, errorShapeType)
+                            openBlock("switch restXMLError.errorCode {", "}") {
+                                errorShapes.forEach { errorShape ->
+                                    var errorShapeName = errorShape.errorShapeName(ctx.symbolProvider)
+                                    var errorShapeType = ctx.symbolProvider.toSymbol(errorShape).name
+                                    write(
+                                        "case \$S: return try await \$L(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)",
+                                        errorShapeName,
+                                        errorShapeType
+                                    )
+                                }
+                                write("default: return try await \$unknownServiceErrorSymbol:N.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)")
                             }
-                            writer.write("default: return try await \$unknownServiceErrorSymbol:N.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)")
                         }
                     }
                 }

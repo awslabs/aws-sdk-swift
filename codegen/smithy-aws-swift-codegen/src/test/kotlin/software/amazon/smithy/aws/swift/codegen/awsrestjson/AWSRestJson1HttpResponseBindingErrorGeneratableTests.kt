@@ -61,9 +61,11 @@ class AWSRestJson1HttpResponseBindingErrorGeneratableTests {
     private fun setupTests(smithyFile: String, serviceShapeId: String): TestContext {
         val context = TestContextGenerator.initContextFrom(smithyFile, serviceShapeId, RestJson1Trait.ID)
 
-        val generator = AWSRestJson1ProtocolGenerator()
-        generator.generateDeserializers(context.ctx)
-        generator.generateCodableConformanceForNestedTypes(context.ctx)
+        AWSRestJson1ProtocolGenerator().run {
+            generateDeserializers(context.ctx)
+            generateCodableConformanceForNestedTypes(context.ctx)
+        }
+
         context.ctx.delegator.flushWriters()
         return context
     }

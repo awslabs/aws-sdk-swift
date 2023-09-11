@@ -122,9 +122,10 @@ class Ec2QueryHttpResponseBindingErrorGeneratorTests {
         val context =
             TestContextGenerator.initContextFrom(smithyFile, serviceShapeId, Ec2QueryTrait.ID)
 
-        val generator = Ec2QueryProtocolGenerator()
-        generator.generateDeserializers(context.ctx)
-        generator.generateCodableConformanceForNestedTypes(context.ctx)
+        Ec2QueryProtocolGenerator().run {
+            generateDeserializers(context.ctx)
+            generateCodableConformanceForNestedTypes(context.ctx)
+        }
         context.ctx.delegator.flushWriters()
         return context
     }
