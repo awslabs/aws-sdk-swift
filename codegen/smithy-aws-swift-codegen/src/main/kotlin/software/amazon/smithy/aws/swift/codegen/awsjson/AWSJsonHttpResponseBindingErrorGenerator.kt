@@ -41,7 +41,10 @@ class AWSJsonHttpResponseBindingErrorGenerator : HttpResponseBindingErrorGenerat
                     ) {
                         openBlock("switch error.errorType {", "}") {
                             val serviceErrorShapes =
-                                serviceShape.errors.map { ctx.model.expectShape(it) as StructureShape }.toSet().sorted()
+                                serviceShape.errors
+                                    .map { ctx.model.expectShape(it) as StructureShape }
+                                    .toSet()
+                                    .sorted()
                             serviceErrorShapes.forEach { errorShape ->
                                 val errorShapeName = errorShape.errorShapeName(ctx.symbolProvider)
                                 val errorShapeType = ctx.symbolProvider.toSymbol(errorShape).name
