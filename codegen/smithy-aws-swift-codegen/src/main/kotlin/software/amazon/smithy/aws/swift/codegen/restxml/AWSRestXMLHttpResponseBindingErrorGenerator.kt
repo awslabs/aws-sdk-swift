@@ -88,7 +88,10 @@ class AWSRestXMLHttpResponseBindingErrorGenerator : HttpResponseBindingErrorGene
                         ClientRuntimeTypes.Serde.ResponseDecoder,
                         SwiftTypes.Error
                     ) {
-                        val errorShapes = op.errors.map { ctx.model.expectShape(it) as StructureShape }.toSet().sorted()
+                        val errorShapes = op.errors
+                            .map { ctx.model.expectShape(it) as StructureShape }
+                            .toSet()
+                            .sorted()
                         val context = mapOf<String, Any>(
                             "operationErrorName" to operationErrorName,
                             "ctx" to ctx,

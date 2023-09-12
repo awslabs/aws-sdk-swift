@@ -89,8 +89,10 @@ class AWSEc2QueryHttpResponseBindingErrorGenerator : HttpResponseBindingErrorGen
                         write("if let error = serviceError { return error }")
 
                         openBlock("switch ec2QueryError.errorCode {", "}") {
-                            val errorShapes =
-                                op.errors.map { ctx.model.expectShape(it) as StructureShape }.toSet().sorted()
+                            val errorShapes = op.errors
+                                .map { ctx.model.expectShape(it) as StructureShape }
+                                .toSet()
+                                .sorted()
                             errorShapes.forEach { errorShape ->
                                 var errorShapeName = errorShape.errorShapeName(ctx.symbolProvider)
                                 var errorShapeType = ctx.symbolProvider.toSymbol(errorShape).name

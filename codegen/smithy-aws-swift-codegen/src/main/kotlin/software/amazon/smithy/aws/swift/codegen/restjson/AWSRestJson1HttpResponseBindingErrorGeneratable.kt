@@ -95,8 +95,10 @@ class AWSRestJson1HttpResponseBindingErrorGeneratable : HttpResponseBindingError
                         write("if let error = serviceError { return error }")
 
                         openBlock("switch restJSONError.errorType {", "}") {
-                            val errorShapes =
-                                op.errors.map { ctx.model.expectShape(it) as StructureShape }.toSet().sorted()
+                            val errorShapes = op.errors
+                                .map { ctx.model.expectShape(it) as StructureShape }
+                                .toSet()
+                                .sorted()
                             errorShapes.forEach { errorShape ->
                                 var errorShapeName = errorShape.errorShapeName(ctx.symbolProvider)
                                 var errorShapeType = ctx.symbolProvider.toSymbol(errorShape).name
