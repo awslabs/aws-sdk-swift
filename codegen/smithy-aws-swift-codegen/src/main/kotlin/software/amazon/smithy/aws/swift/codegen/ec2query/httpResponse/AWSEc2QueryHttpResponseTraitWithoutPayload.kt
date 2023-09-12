@@ -58,7 +58,7 @@ class AWSEc2QueryHttpResponseTraitWithoutPayload(
                         else -> "nil"
                     }
                 }
-                writer.write("self.$path$memberName = $value")
+                writer.write("$path$memberName = $value")
             }
             writer.dedent()
             writer.write("}")

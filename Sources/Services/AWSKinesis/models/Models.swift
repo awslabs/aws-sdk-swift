@@ -2442,7 +2442,7 @@ extension InternalFailureException: Swift.Codable {
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
-        message = messageDecoded
+        properties.message = messageDecoded
     }
 }
 
@@ -2541,7 +2541,7 @@ extension KMSAccessDeniedException: Swift.Codable {
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
-        message = messageDecoded
+        properties.message = messageDecoded
     }
 }
 
@@ -2616,7 +2616,7 @@ extension KMSDisabledException: Swift.Codable {
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
-        message = messageDecoded
+        properties.message = messageDecoded
     }
 }
 
@@ -2691,7 +2691,7 @@ extension KMSInvalidStateException: Swift.Codable {
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
-        message = messageDecoded
+        properties.message = messageDecoded
     }
 }
 
@@ -2766,7 +2766,7 @@ extension KMSNotFoundException: Swift.Codable {
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
-        message = messageDecoded
+        properties.message = messageDecoded
     }
 }
 
@@ -2841,7 +2841,7 @@ extension KMSOptInRequired: Swift.Codable {
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
-        message = messageDecoded
+        properties.message = messageDecoded
     }
 }
 
@@ -2916,7 +2916,7 @@ extension KMSThrottlingException: Swift.Codable {
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
-        message = messageDecoded
+        properties.message = messageDecoded
     }
 }
 
@@ -4760,7 +4760,7 @@ extension ResourceInUseException: Swift.Codable {
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
-        message = messageDecoded
+        properties.message = messageDecoded
     }
 }
 
@@ -4835,7 +4835,7 @@ extension ResourceNotFoundException: Swift.Codable {
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
-        message = messageDecoded
+        properties.message = messageDecoded
     }
 }
 
