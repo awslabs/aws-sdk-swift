@@ -216,9 +216,9 @@ Licensed under Apache License v2.0 with Runtime Library Exception
 
 ------
 
-** aws-crt-swift; version 0.2.2 -- https://github.com/awslabs/aws-crt-swift
+** aws-crt-swift -- https://github.com/awslabs/aws-crt-swift
 Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
-** smithy-swift; version 0.2.4 -- https://github.com/awslabs/smithy-swift
+** smithy-swift -- https://github.com/smithy-lang/smithy-swift
 Smithy Swift
 Copyright 2019 Amazon.com, Inc. or its affiliates. All Rights Reserved.
  
