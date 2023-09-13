@@ -66,6 +66,10 @@ class KinesisTests: XCTestCase {
             let input = SubscribeToShardInput(consumerARN: consumerARN, shardId: shard?.shardId, startingPosition: KinesisClientTypes.StartingPosition(sequenceNumber: shard?.sequenceNumberRange?.startingSequenceNumber, type: .atSequenceNumber))
             let output = try await client.subscribeToShard(input: input)
 
+            if let initialResponse = output.dayaffe?.value {
+                assert(initialResponse.isEmpty)
+            }
+
             // Monitor the shard event stream
             for try await event in output.eventStream! {
                 switch event {

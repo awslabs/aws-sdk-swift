@@ -17,6 +17,9 @@ extension AWSEventStream {
         private var decoder: EventStreamMessageDecoder?
         private var messageBuffer: [EventStream.Message] = []
         private var error: Error?
+        private var initialMessage: Data = Data()
+        private var onInitialResponseReceived: ((Data?) -> Void)?
+        private var didProcessInitialMessage = false
 
         private var decodedPayload = Data()
         private var decodededHeaders: [EventStreamHeader] = []
@@ -44,8 +47,18 @@ extension AWSEventStream {
                     self.logger.debug("onComplete")
                     let message = EventStream.Message(headers: self.decodededHeaders.toHeaders(),
                                                       payload: self.decodedPayload)
-                    self.messageBuffer.append(message)
+                    if (message.headers.contains(EventStream.Header(name: ":event-type", value: .string("initial-response")))) {
+                        self.initialMessage = message.payload
+                        self.onInitialResponseReceived?(self.initialMessage)
+                        self.didProcessInitialMessage = true
+                    } else {
+                        self.messageBuffer.append(message)
 
+                        if !self.didProcessInitialMessage {
+                            self.onInitialResponseReceived?(nil)  // Signal that initial-response will never come.
+                            self.didProcessInitialMessage = true
+                        }
+                    }
                     // This could be end of the stream, hence reset the state
                     self.decodedPayload = Data()
                     self.decodededHeaders = []
@@ -86,6 +99,22 @@ extension AWSEventStream {
 
             let message = messageBuffer.removeFirst()
             return message
+        }
+
+        public func awaitInitialResponse() async -> Data? {
+            return await withCheckedContinuation { continuation in
+                retrieveInitialResponse { data in
+                    continuation.resume(returning: data)
+                }
+            }
+        }
+
+        public func retrieveInitialResponse(completion: @escaping (Data?) -> Void) {
+            if self.didProcessInitialMessage {
+                completion(initialMessage)  // Could be nil or populated.
+            } else {
+                self.onInitialResponseReceived = completion
+            }
         }
 
         /// Throws an error if one has occurred.
