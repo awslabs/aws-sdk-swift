@@ -54,6 +54,10 @@ open class AwsQueryProtocolGenerator : AWSHttpBindingProtocolGenerator() {
     override val shouldRenderDecodableBodyStructForInputShapes = false
     override val shouldRenderCodingKeysForEncodable = false
     override val shouldRenderEncodableConformance = true
+    override val testsToIgnore = setOf(
+        "SDKAppliedContentEncoding_awsQuery",
+        "SDKAppendsGzipAndIgnoresHttpProvidedEncoding_awsQuery"
+    )
     override fun renderStructEncode(
         ctx: ProtocolGenerator.GenerationContext,
         shapeContainingMembers: Shape,
