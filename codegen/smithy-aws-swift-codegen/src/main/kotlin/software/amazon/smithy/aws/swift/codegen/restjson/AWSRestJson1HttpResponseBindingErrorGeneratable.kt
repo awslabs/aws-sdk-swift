@@ -94,8 +94,10 @@ class AWSRestJson1HttpResponseBindingErrorGeneratable : HttpResponseBindingError
                         )
                         write("let requestID = httpResponse.requestId")
 
-                        write("let serviceError = try await ${ctx.symbolProvider.toSymbol(ctx.service).name}Types.makeServiceError(httpResponse, decoder, restJSONError, requestID)")
-                        write("if let error = serviceError { return error }")
+                        if (ctx.service.errors.isNotEmpty()) {
+                            write("let serviceError = try await ${ctx.symbolProvider.toSymbol(ctx.service).name}Types.makeServiceError(httpResponse, decoder, restJSONError, requestID)")
+                            write("if let error = serviceError { return error }")
+                        }
 
                         openBlock("switch restJSONError.errorType {", "}") {
                             val errorShapes = op.errors

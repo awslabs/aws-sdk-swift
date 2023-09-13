@@ -88,8 +88,10 @@ class AWSEc2QueryHttpResponseBindingErrorGenerator : HttpResponseBindingErrorGen
                     ) {
                         write("let ec2QueryError = try await Ec2QueryError(httpResponse: httpResponse)")
 
-                        write("let serviceError = try await ${ctx.symbolProvider.toSymbol(ctx.service).name}Types.makeServiceError(httpResponse, decoder, ec2QueryError)")
-                        write("if let error = serviceError { return error }")
+                        if (ctx.service.errors.isNotEmpty()) {
+                            write("let serviceError = try await ${ctx.symbolProvider.toSymbol(ctx.service).name}Types.makeServiceError(httpResponse, decoder, ec2QueryError)")
+                            write("if let error = serviceError { return error }")
+                        }
 
                         openBlock("switch ec2QueryError.errorCode {", "}") {
                             val errorShapes = op.errors

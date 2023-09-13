@@ -108,9 +108,10 @@ class AWSRestXMLHttpResponseBindingErrorGenerator : HttpResponseBindingErrorGene
                                 AWSClientRuntimeTypes.RestXML.RestXMLError
                             )
 
-                            write("let serviceError = try await ${ctx.symbolProvider.toSymbol(ctx.service).name}Types.makeServiceError(httpResponse, decoder, restXMLError)")
-                            write("if let error = serviceError { return error }")
-
+                            if (ctx.service.errors.isNotEmpty()) {
+                                write("let serviceError = try await ${ctx.symbolProvider.toSymbol(ctx.service).name}Types.makeServiceError(httpResponse, decoder, restXMLError)")
+                                write("if let error = serviceError { return error }")
+                            }
                             openBlock("switch restXMLError.errorCode {", "}") {
                                 errorShapes.forEach { errorShape ->
                                     var errorShapeName = errorShape.errorShapeName(ctx.symbolProvider)
