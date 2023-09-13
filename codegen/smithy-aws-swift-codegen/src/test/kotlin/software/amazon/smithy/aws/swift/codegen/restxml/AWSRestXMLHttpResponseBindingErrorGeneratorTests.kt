@@ -25,6 +25,8 @@ class AWSRestXMLHttpResponseBindingErrorGeneratorTests {
             public enum GreetingWithErrorsOutputError: ClientRuntime.HttpResponseErrorBinding {
                 public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
                     let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
+                    let serviceError = try await RestXmlerrorsClientTypes.makeServiceError(httpResponse, decoder, restXMLError)
+                    if let error = serviceError { return error }
                     switch restXMLError.errorCode {
                         case "ComplexXMLError": return try await ComplexXMLError(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
                         case "InvalidGreeting": return try await InvalidGreeting(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -134,12 +136,33 @@ class AWSRestXMLHttpResponseBindingErrorGeneratorTests {
         contents.shouldContainOnlyOnce(expectedContents)
     }
 
+    @Test
+    fun `006 RestXml+ServiceErrorHelperMethod AWSHttpServiceError`() {
+        val context = setupTests("restxml/xml-errors.smithy", "aws.protocoltests.restxml#RestXml")
+        val contents = getFileContents(context.manifest, "/Example/models/RestXml+ServiceErrorHelperMethod.swift")
+        contents.shouldSyntacticSanityCheck()
+        val expectedContents =
+            """
+            extension RestXmlerrorsClientTypes {
+                static func makeServiceError(_ httpResponse: ClientRuntime.HttpResponse, _ decoder: ClientRuntime.ResponseDecoder? = nil, _ error: AWSClientRuntime.RestXMLError) async throws -> Swift.Error? {
+                    switch error.errorCode {
+                        case "ExampleServiceError": return try await ExampleServiceError(httpResponse: httpResponse, decoder: decoder, message: error.message, requestID: error.requestId)
+                        default: return nil
+                    }
+                }
+            }
+            """.trimIndent()
+        contents.shouldContainOnlyOnce(expectedContents)
+    }
+
     private fun setupTests(smithyFile: String, serviceShapeId: String): TestContext {
         val context = initContextFrom(smithyFile, serviceShapeId, RestXmlTrait.ID)
 
-        val generator = RestXmlProtocolGenerator()
-        generator.generateDeserializers(context.ctx)
-        generator.generateCodableConformanceForNestedTypes(context.ctx)
+        RestXmlProtocolGenerator().run {
+            generateDeserializers(context.ctx)
+            generateCodableConformanceForNestedTypes(context.ctx)
+        }
+
         context.ctx.delegator.flushWriters()
         return context
     }

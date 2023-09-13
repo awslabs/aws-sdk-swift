@@ -11,7 +11,7 @@ class PresignerGeneratorTests {
 
     @Test
     fun `001 presignable on getFooInput`() {
-        val context = setupTests("awsjson10/presignable.smithy", "smithy.swift.traits#Example")
+        val context = setupTests("awsrestjson1/presignable.smithy", "smithy.swift.traits#Example")
         val contents = TestContextGenerator.getFileContents(context.manifest, "/Example/models/GetFooInput+Presigner.swift")
         contents.shouldSyntacticSanityCheck()
         val expectedContents =
@@ -68,7 +68,7 @@ class PresignerGeneratorTests {
 
     @Test
     fun `002 presignable on postFooInput`() {
-        val context = setupTests("awsjson10/presignable.smithy", "smithy.swift.traits#Example")
+        val context = setupTests("awsrestjson1/presignable.smithy", "smithy.swift.traits#Example")
         val contents = TestContextGenerator.getFileContents(context.manifest, "/Example/models/PostFooInput+Presigner.swift")
         contents.shouldSyntacticSanityCheck()
         val expectedContents =
@@ -128,7 +128,7 @@ class PresignerGeneratorTests {
 
     @Test
     fun `003 presignable on putFooInput`() {
-        val context = setupTests("awsjson10/presignable.smithy", "smithy.swift.traits#Example")
+        val context = setupTests("awsrestjson1/presignable.smithy", "smithy.swift.traits#Example")
         val contents = TestContextGenerator.getFileContents(context.manifest, "/Example/models/PutFooInput+Presigner.swift")
         contents.shouldSyntacticSanityCheck()
         val expectedContents =
