@@ -163,7 +163,7 @@ extension BadRequestException: Swift.Codable {
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
-        message = messageDecoded
+        properties.message = messageDecoded
     }
 }
 
@@ -741,7 +741,7 @@ extension ConflictException: Swift.Codable {
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
-        message = messageDecoded
+        properties.message = messageDecoded
     }
 }
 
@@ -990,7 +990,7 @@ extension InternalFailureException: Swift.Codable {
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
-        message = messageDecoded
+        properties.message = messageDecoded
     }
 }
 
@@ -1349,7 +1349,7 @@ extension LimitExceededException: Swift.Codable {
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
-        message = messageDecoded
+        properties.message = messageDecoded
     }
 }
 
@@ -2326,7 +2326,7 @@ extension ServiceUnavailableException: Swift.Codable {
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
-        message = messageDecoded
+        properties.message = messageDecoded
     }
 }
 
