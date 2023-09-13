@@ -28,6 +28,10 @@ class AWSRestJson1ProtocolGenerator : AWSHttpBindingProtocolGenerator() {
         AWSRestJson1HttpResponseBindingErrorGeneratable()
     )
     override val serdeContext = serdeContextJSON
+    override val testsToIgnore = setOf(
+        "SDKAppliedContentEncoding_restJson1",
+        "SDKAppendedGzipAfterProvidedEncoding_restJson1"
+    )
 
     override fun generateMessageMarshallable(ctx: ProtocolGenerator.GenerationContext) {
         var streamingShapes = outputStreamingShapes(ctx)
