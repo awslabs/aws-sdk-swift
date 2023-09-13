@@ -2,6 +2,21 @@
 import AWSClientRuntime
 import ClientRuntime
 
+extension AccessDeniedException {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: AccessDeniedExceptionBody = try responseDecoder.decode(responseBody: data)
+            self.properties.message = output.message
+        } else {
+            self.properties.message = nil
+        }
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
+    }
+}
+
 /// The request was denied because you don't have sufficient access to perform this action. Verify that you are a member of a role that allows this action.
 public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
@@ -24,6 +39,22 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     )
     {
         self.properties.message = message
+    }
+}
+
+struct AccessDeniedExceptionBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension AccessDeniedExceptionBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
     }
 }
 
@@ -85,6 +116,20 @@ extension CodeCatalystClientTypes {
 }
 
 extension CodeCatalystClientTypes {
+    static func makeServiceError(_ httpResponse: ClientRuntime.HttpResponse, _ decoder: ClientRuntime.ResponseDecoder? = nil, _ error: AWSClientRuntime.RestJSONError, _ id: String?) async throws -> Swift.Error? {
+        switch error.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: error.errorMessage, requestID: id)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: error.errorMessage, requestID: id)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: error.errorMessage, requestID: id)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: error.errorMessage, requestID: id)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: error.errorMessage, requestID: id)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: error.errorMessage, requestID: id)
+            default: return nil
+        }
+    }
+}
+
+extension CodeCatalystClientTypes {
     public enum ComparisonOperator: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case equals
         case greaterThan
@@ -125,6 +170,21 @@ extension CodeCatalystClientTypes {
     }
 }
 
+extension ConflictException {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ConflictExceptionBody = try responseDecoder.decode(responseBody: data)
+            self.properties.message = output.message
+        } else {
+            self.properties.message = nil
+        }
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
+    }
+}
+
 /// The request was denied because the requested operation would cause a conflict with the current state of a service resource associated with the request. Another user might have updated the resource. Reload, make sure you have the latest data, and then try again.
 public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
@@ -147,6 +207,22 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     )
     {
         self.properties.message = message
+    }
+}
+
+struct ConflictExceptionBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension ConflictExceptionBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
     }
 }
 
@@ -214,6 +290,8 @@ public enum CreateAccessTokenOutputError: ClientRuntime.HttpResponseErrorBinding
     public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
+        let serviceError = try await CodeCatalystClientTypes.makeServiceError(httpResponse, decoder, restJSONError, requestID)
+        if let error = serviceError { return error }
         switch restJSONError.errorType {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
@@ -464,6 +542,8 @@ public enum CreateDevEnvironmentOutputError: ClientRuntime.HttpResponseErrorBind
     public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
+        let serviceError = try await CodeCatalystClientTypes.makeServiceError(httpResponse, decoder, restJSONError, requestID)
+        if let error = serviceError { return error }
         switch restJSONError.errorType {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
@@ -605,6 +685,8 @@ public enum CreateProjectOutputError: ClientRuntime.HttpResponseErrorBinding {
     public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
+        let serviceError = try await CodeCatalystClientTypes.makeServiceError(httpResponse, decoder, restJSONError, requestID)
+        if let error = serviceError { return error }
         switch restJSONError.errorType {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
@@ -765,6 +847,8 @@ public enum CreateSourceRepositoryBranchOutputError: ClientRuntime.HttpResponseE
     public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
+        let serviceError = try await CodeCatalystClientTypes.makeServiceError(httpResponse, decoder, restJSONError, requestID)
+        if let error = serviceError { return error }
         switch restJSONError.errorType {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
@@ -916,6 +1000,8 @@ public enum CreateSourceRepositoryOutputError: ClientRuntime.HttpResponseErrorBi
     public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
+        let serviceError = try await CodeCatalystClientTypes.makeServiceError(httpResponse, decoder, restJSONError, requestID)
+        if let error = serviceError { return error }
         switch restJSONError.errorType {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
@@ -1030,6 +1116,8 @@ public enum DeleteAccessTokenOutputError: ClientRuntime.HttpResponseErrorBinding
     public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
+        let serviceError = try await CodeCatalystClientTypes.makeServiceError(httpResponse, decoder, restJSONError, requestID)
+        if let error = serviceError { return error }
         switch restJSONError.errorType {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
@@ -1097,6 +1185,8 @@ public enum DeleteDevEnvironmentOutputError: ClientRuntime.HttpResponseErrorBind
     public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
+        let serviceError = try await CodeCatalystClientTypes.makeServiceError(httpResponse, decoder, restJSONError, requestID)
+        if let error = serviceError { return error }
         switch restJSONError.errorType {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
@@ -1209,6 +1299,8 @@ public enum DeleteProjectOutputError: ClientRuntime.HttpResponseErrorBinding {
     public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
+        let serviceError = try await CodeCatalystClientTypes.makeServiceError(httpResponse, decoder, restJSONError, requestID)
+        if let error = serviceError { return error }
         switch restJSONError.errorType {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
@@ -1328,6 +1420,8 @@ public enum DeleteSourceRepositoryOutputError: ClientRuntime.HttpResponseErrorBi
     public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
+        let serviceError = try await CodeCatalystClientTypes.makeServiceError(httpResponse, decoder, restJSONError, requestID)
+        if let error = serviceError { return error }
         switch restJSONError.errorType {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
@@ -1432,6 +1526,8 @@ public enum DeleteSpaceOutputError: ClientRuntime.HttpResponseErrorBinding {
     public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
+        let serviceError = try await CodeCatalystClientTypes.makeServiceError(httpResponse, decoder, restJSONError, requestID)
+        if let error = serviceError { return error }
         switch restJSONError.errorType {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
@@ -2463,6 +2559,8 @@ public enum GetDevEnvironmentOutputError: ClientRuntime.HttpResponseErrorBinding
     public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
+        let serviceError = try await CodeCatalystClientTypes.makeServiceError(httpResponse, decoder, restJSONError, requestID)
+        if let error = serviceError { return error }
         switch restJSONError.errorType {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
@@ -2700,6 +2798,8 @@ public enum GetProjectOutputError: ClientRuntime.HttpResponseErrorBinding {
     public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
+        let serviceError = try await CodeCatalystClientTypes.makeServiceError(httpResponse, decoder, restJSONError, requestID)
+        if let error = serviceError { return error }
         switch restJSONError.errorType {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
@@ -2828,6 +2928,8 @@ public enum GetSourceRepositoryCloneUrlsOutputError: ClientRuntime.HttpResponseE
     public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
+        let serviceError = try await CodeCatalystClientTypes.makeServiceError(httpResponse, decoder, restJSONError, requestID)
+        if let error = serviceError { return error }
         switch restJSONError.errorType {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
@@ -2926,6 +3028,8 @@ public enum GetSourceRepositoryOutputError: ClientRuntime.HttpResponseErrorBindi
     public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
+        let serviceError = try await CodeCatalystClientTypes.makeServiceError(httpResponse, decoder, restJSONError, requestID)
+        if let error = serviceError { return error }
         switch restJSONError.errorType {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
@@ -3062,6 +3166,8 @@ public enum GetSpaceOutputError: ClientRuntime.HttpResponseErrorBinding {
     public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
+        let serviceError = try await CodeCatalystClientTypes.makeServiceError(httpResponse, decoder, restJSONError, requestID)
+        if let error = serviceError { return error }
         switch restJSONError.errorType {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
@@ -3175,6 +3281,8 @@ public enum GetSubscriptionOutputError: ClientRuntime.HttpResponseErrorBinding {
     public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
+        let serviceError = try await CodeCatalystClientTypes.makeServiceError(httpResponse, decoder, restJSONError, requestID)
+        if let error = serviceError { return error }
         switch restJSONError.errorType {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
@@ -3283,6 +3391,8 @@ public enum GetUserDetailsOutputError: ClientRuntime.HttpResponseErrorBinding {
     public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
+        let serviceError = try await CodeCatalystClientTypes.makeServiceError(httpResponse, decoder, restJSONError, requestID)
+        if let error = serviceError { return error }
         switch restJSONError.errorType {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
@@ -3560,6 +3670,8 @@ public enum ListAccessTokensOutputError: ClientRuntime.HttpResponseErrorBinding 
     public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
+        let serviceError = try await CodeCatalystClientTypes.makeServiceError(httpResponse, decoder, restJSONError, requestID)
+        if let error = serviceError { return error }
         switch restJSONError.errorType {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
@@ -3713,6 +3825,8 @@ public enum ListDevEnvironmentSessionsOutputError: ClientRuntime.HttpResponseErr
     public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
+        let serviceError = try await CodeCatalystClientTypes.makeServiceError(httpResponse, decoder, restJSONError, requestID)
+        if let error = serviceError { return error }
         switch restJSONError.errorType {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
@@ -3882,6 +3996,8 @@ public enum ListDevEnvironmentsOutputError: ClientRuntime.HttpResponseErrorBindi
     public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
+        let serviceError = try await CodeCatalystClientTypes.makeServiceError(httpResponse, decoder, restJSONError, requestID)
+        if let error = serviceError { return error }
         switch restJSONError.errorType {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
@@ -4057,6 +4173,8 @@ public enum ListEventLogsOutputError: ClientRuntime.HttpResponseErrorBinding {
     public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
+        let serviceError = try await CodeCatalystClientTypes.makeServiceError(httpResponse, decoder, restJSONError, requestID)
+        if let error = serviceError { return error }
         switch restJSONError.errorType {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
@@ -4218,6 +4336,8 @@ public enum ListProjectsOutputError: ClientRuntime.HttpResponseErrorBinding {
     public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
+        let serviceError = try await CodeCatalystClientTypes.makeServiceError(httpResponse, decoder, restJSONError, requestID)
+        if let error = serviceError { return error }
         switch restJSONError.errorType {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
@@ -4441,6 +4561,8 @@ public enum ListSourceRepositoriesOutputError: ClientRuntime.HttpResponseErrorBi
     public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
+        let serviceError = try await CodeCatalystClientTypes.makeServiceError(httpResponse, decoder, restJSONError, requestID)
+        if let error = serviceError { return error }
         switch restJSONError.errorType {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
@@ -4658,6 +4780,8 @@ public enum ListSourceRepositoryBranchesOutputError: ClientRuntime.HttpResponseE
     public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
+        let serviceError = try await CodeCatalystClientTypes.makeServiceError(httpResponse, decoder, restJSONError, requestID)
+        if let error = serviceError { return error }
         switch restJSONError.errorType {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
@@ -4775,6 +4899,8 @@ public enum ListSpacesOutputError: ClientRuntime.HttpResponseErrorBinding {
     public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
+        let serviceError = try await CodeCatalystClientTypes.makeServiceError(httpResponse, decoder, restJSONError, requestID)
+        if let error = serviceError { return error }
         switch restJSONError.errorType {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
@@ -5160,6 +5286,21 @@ extension CodeCatalystClientTypes {
 
 }
 
+extension ResourceNotFoundException {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ResourceNotFoundExceptionBody = try responseDecoder.decode(responseBody: data)
+            self.properties.message = output.message
+        } else {
+            self.properties.message = nil
+        }
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
+    }
+}
+
 /// The request was denied because the specified resource was not found. Verify that the spelling is correct and that you have access to the resource.
 public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
@@ -5185,6 +5326,37 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
+struct ResourceNotFoundExceptionBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension ResourceNotFoundExceptionBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
+}
+
+extension ServiceQuotaExceededException {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ServiceQuotaExceededExceptionBody = try responseDecoder.decode(responseBody: data)
+            self.properties.message = output.message
+        } else {
+            self.properties.message = nil
+        }
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
+    }
+}
+
 /// The request was denied because one or more resources has reached its limits for the tier the space belongs to. Either reduce the number of resources, or change the tier if applicable.
 public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
@@ -5207,6 +5379,22 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
     )
     {
         self.properties.message = message
+    }
+}
+
+struct ServiceQuotaExceededExceptionBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension ServiceQuotaExceededExceptionBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
     }
 }
 
@@ -5388,6 +5576,8 @@ public enum StartDevEnvironmentOutputError: ClientRuntime.HttpResponseErrorBindi
     public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
+        let serviceError = try await CodeCatalystClientTypes.makeServiceError(httpResponse, decoder, restJSONError, requestID)
+        if let error = serviceError { return error }
         switch restJSONError.errorType {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
@@ -5544,6 +5734,8 @@ public enum StartDevEnvironmentSessionOutputError: ClientRuntime.HttpResponseErr
     public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
+        let serviceError = try await CodeCatalystClientTypes.makeServiceError(httpResponse, decoder, restJSONError, requestID)
+        if let error = serviceError { return error }
         switch restJSONError.errorType {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
@@ -5690,6 +5882,8 @@ public enum StopDevEnvironmentOutputError: ClientRuntime.HttpResponseErrorBindin
     public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
+        let serviceError = try await CodeCatalystClientTypes.makeServiceError(httpResponse, decoder, restJSONError, requestID)
+        if let error = serviceError { return error }
         switch restJSONError.errorType {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
@@ -5829,6 +6023,8 @@ public enum StopDevEnvironmentSessionOutputError: ClientRuntime.HttpResponseErro
     public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
+        let serviceError = try await CodeCatalystClientTypes.makeServiceError(httpResponse, decoder, restJSONError, requestID)
+        if let error = serviceError { return error }
         switch restJSONError.errorType {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
@@ -5909,6 +6105,21 @@ extension StopDevEnvironmentSessionOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension ThrottlingException {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ThrottlingExceptionBody = try responseDecoder.decode(responseBody: data)
+            self.properties.message = output.message
+        } else {
+            self.properties.message = nil
+        }
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
+    }
+}
+
 /// The request was denied due to request throttling.
 public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
@@ -5931,6 +6142,22 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
     )
     {
         self.properties.message = message
+    }
+}
+
+struct ThrottlingExceptionBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension ThrottlingExceptionBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
     }
 }
 
@@ -6069,6 +6296,8 @@ public enum UpdateDevEnvironmentOutputError: ClientRuntime.HttpResponseErrorBind
     public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
+        let serviceError = try await CodeCatalystClientTypes.makeServiceError(httpResponse, decoder, restJSONError, requestID)
+        if let error = serviceError { return error }
         switch restJSONError.errorType {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
@@ -6264,6 +6493,8 @@ public enum UpdateProjectOutputError: ClientRuntime.HttpResponseErrorBinding {
     public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
+        let serviceError = try await CodeCatalystClientTypes.makeServiceError(httpResponse, decoder, restJSONError, requestID)
+        if let error = serviceError { return error }
         switch restJSONError.errorType {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
@@ -6399,6 +6630,8 @@ public enum UpdateSpaceOutputError: ClientRuntime.HttpResponseErrorBinding {
     public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
+        let serviceError = try await CodeCatalystClientTypes.makeServiceError(httpResponse, decoder, restJSONError, requestID)
+        if let error = serviceError { return error }
         switch restJSONError.errorType {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
@@ -6567,6 +6800,21 @@ extension CodeCatalystClientTypes {
     }
 }
 
+extension ValidationException {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ValidationExceptionBody = try responseDecoder.decode(responseBody: data)
+            self.properties.message = output.message
+        } else {
+            self.properties.message = nil
+        }
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
+    }
+}
+
 /// The request was denied because an input failed to satisfy the constraints specified by the service. Check the spelling and input requirements, and then try again.
 public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
@@ -6589,6 +6837,22 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     )
     {
         self.properties.message = message
+    }
+}
+
+struct ValidationExceptionBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension ValidationExceptionBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
     }
 }
 
@@ -6616,6 +6880,8 @@ public enum VerifySessionOutputError: ClientRuntime.HttpResponseErrorBinding {
     public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
+        let serviceError = try await CodeCatalystClientTypes.makeServiceError(httpResponse, decoder, restJSONError, requestID)
+        if let error = serviceError { return error }
         switch restJSONError.errorType {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }

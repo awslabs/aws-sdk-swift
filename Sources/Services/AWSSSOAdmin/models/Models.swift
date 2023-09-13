@@ -28,7 +28,7 @@ extension SSOAdminClientTypes.AccessControlAttribute: Swift.Codable {
 }
 
 extension SSOAdminClientTypes {
-    /// These are IAM Identity Center identity store attributes that you can configure for use in attributes-based access control (ABAC). You can create permissions policies that determine who can access your AWS resources based upon the configured attribute values. When you enable ABAC and specify AccessControlAttributes, IAM Identity Center passes the attribute values of the authenticated user into IAM for use in policy evaluation.
+    /// These are IAM Identity Center identity store attributes that you can configure for use in attributes-based access control (ABAC). You can create permissions policies that determine who can access your Amazon Web Services resources based upon the configured attribute values. When you enable ABAC and specify AccessControlAttributes, IAM Identity Center passes the attribute values of the authenticated user into IAM for use in policy evaluation.
     public struct AccessControlAttribute: Swift.Equatable {
         /// The name of the attribute associated with your identities in your identity source. This is used to map a specified attribute in your identity source with an attribute in IAM Identity Center.
         /// This member is required.
@@ -190,11 +190,11 @@ extension SSOAdminClientTypes.AccountAssignment: Swift.Codable {
 }
 
 extension SSOAdminClientTypes {
-    /// The assignment that indicates a principal's limited access to a specified AWS account with a specified permission set. The term principal here refers to a user or group that is defined in IAM Identity Center.
+    /// The assignment that indicates a principal's limited access to a specified Amazon Web Services account with a specified permission set. The term principal here refers to a user or group that is defined in IAM Identity Center.
     public struct AccountAssignment: Swift.Equatable {
-        /// The identifier of the AWS account.
+        /// The identifier of the Amazon Web Services account.
         public var accountId: Swift.String?
-        /// The ARN of the permission set. For more information about ARNs, see [Amazon Resource Names (ARNs) and AWS Service Namespaces] in the AWS General Reference.
+        /// The ARN of the permission set. For more information about ARNs, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces] in the Amazon Web Services General Reference.
         public var permissionSetArn: Swift.String?
         /// An identifier for an object in IAM Identity Center, such as a user or group. PrincipalIds are GUIDs (For example, f81d4fae-7dec-11d0-a765-00a0c91e6bf6). For more information about PrincipalIds in IAM Identity Center, see the [IAM Identity Center Identity Store API Reference].
         public var principalId: Swift.String?
@@ -291,7 +291,7 @@ extension SSOAdminClientTypes {
         public var createdDate: ClientRuntime.Date?
         /// The message that contains an error or exception in case of an operation failure.
         public var failureReason: Swift.String?
-        /// The ARN of the permission set. For more information about ARNs, see [Amazon Resource Names (ARNs) and AWS Service Namespaces] in the AWS General Reference.
+        /// The ARN of the permission set. For more information about ARNs, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces] in the Amazon Web Services General Reference.
         public var permissionSetArn: Swift.String?
         /// An identifier for an object in IAM Identity Center, such as a user or group. PrincipalIds are GUIDs (For example, f81d4fae-7dec-11d0-a765-00a0c91e6bf6). For more information about PrincipalIds in IAM Identity Center, see the [IAM Identity Center Identity Store API Reference].
         public var principalId: Swift.String?
@@ -301,7 +301,7 @@ extension SSOAdminClientTypes {
         public var requestId: Swift.String?
         /// The status of the permission set provisioning process.
         public var status: SSOAdminClientTypes.StatusValues?
-        /// TargetID is an AWS account identifier, typically a 10-12 digit string (For example, 123456789012).
+        /// TargetID is an Amazon Web Services account identifier, (For example, 123456789012).
         public var targetId: Swift.String?
         /// The entity type for which the assignment will be created.
         public var targetType: SSOAdminClientTypes.TargetType?
@@ -415,7 +415,7 @@ extension AttachCustomerManagedPolicyReferenceToPermissionSetInput: ClientRuntim
 }
 
 public struct AttachCustomerManagedPolicyReferenceToPermissionSetInput: Swift.Equatable {
-    /// Specifies the name and path of a customer managed policy. You must have an IAM policy that matches the name and path in each AWS account where you want to deploy your permission set.
+    /// Specifies the name and path of a customer managed policy. You must have an IAM policy that matches the name and path in each Amazon Web Services account where you want to deploy your permission set.
     /// This member is required.
     public var customerManagedPolicyReference: SSOAdminClientTypes.CustomerManagedPolicyReference?
     /// The ARN of the IAM Identity Center instance under which the operation will be executed.
@@ -516,10 +516,10 @@ extension AttachManagedPolicyToPermissionSetInput: ClientRuntime.URLPathProvider
 }
 
 public struct AttachManagedPolicyToPermissionSetInput: Swift.Equatable {
-    /// The ARN of the IAM Identity Center instance under which the operation will be executed. For more information about ARNs, see [Amazon Resource Names (ARNs) and AWS Service Namespaces] in the AWS General Reference.
+    /// The ARN of the IAM Identity Center instance under which the operation will be executed. For more information about ARNs, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces] in the Amazon Web Services General Reference.
     /// This member is required.
     public var instanceArn: Swift.String?
-    /// The AWS managed policy ARN to be attached to a permission set.
+    /// The Amazon Web Services managed policy ARN to be attached to a permission set.
     /// This member is required.
     public var managedPolicyArn: Swift.String?
     /// The ARN of the [PermissionSet] that the managed policy should be attached to.
@@ -615,11 +615,11 @@ extension SSOAdminClientTypes.AttachedManagedPolicy: Swift.Codable {
 }
 
 extension SSOAdminClientTypes {
-    /// A structure that stores the details of the AWS managed policy.
+    /// A structure that stores the details of the Amazon Web Services managed policy.
     public struct AttachedManagedPolicy: Swift.Equatable {
-        /// The ARN of the AWS managed policy. For more information about ARNs, see [Amazon Resource Names (ARNs) and AWS Service Namespaces] in the AWS General Reference.
+        /// The ARN of the Amazon Web Services managed policy. For more information about ARNs, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces] in the Amazon Web Services General Reference.
         public var arn: Swift.String?
-        /// The name of the AWS managed policy.
+        /// The name of the Amazon Web Services managed policy.
         public var name: Swift.String?
 
         public init(
@@ -729,7 +729,7 @@ extension CreateAccountAssignmentInput: ClientRuntime.URLPathProvider {
 }
 
 public struct CreateAccountAssignmentInput: Swift.Equatable {
-    /// The ARN of the IAM Identity Center instance under which the operation will be executed. For more information about ARNs, see [Amazon Resource Names (ARNs) and AWS Service Namespaces] in the AWS General Reference.
+    /// The ARN of the IAM Identity Center instance under which the operation will be executed. For more information about ARNs, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces] in the Amazon Web Services General Reference.
     /// This member is required.
     public var instanceArn: Swift.String?
     /// The ARN of the permission set that the admin wants to grant the principal access to.
@@ -741,7 +741,7 @@ public struct CreateAccountAssignmentInput: Swift.Equatable {
     /// The entity type for which the assignment will be created.
     /// This member is required.
     public var principalType: SSOAdminClientTypes.PrincipalType?
-    /// TargetID is an AWS account identifier, typically a 10-12 digit string (For example, 123456789012).
+    /// TargetID is an Amazon Web Services account identifier, (For example, 123456789012).
     /// This member is required.
     public var targetId: Swift.String?
     /// The entity type for which the assignment will be created.
@@ -991,7 +991,7 @@ extension CreatePermissionSetInput: ClientRuntime.URLPathProvider {
 public struct CreatePermissionSetInput: Swift.Equatable {
     /// The description of the [PermissionSet].
     public var description: Swift.String?
-    /// The ARN of the IAM Identity Center instance under which the operation will be executed. For more information about ARNs, see [Amazon Resource Names (ARNs) and AWS Service Namespaces] in the AWS General Reference.
+    /// The ARN of the IAM Identity Center instance under which the operation will be executed. For more information about ARNs, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces] in the Amazon Web Services General Reference.
     /// This member is required.
     public var instanceArn: Swift.String?
     /// The name of the [PermissionSet].
@@ -1097,7 +1097,7 @@ extension CreatePermissionSetOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 public struct CreatePermissionSetOutputResponse: Swift.Equatable {
-    /// Defines the level of access on an AWS account.
+    /// Defines the level of access on an Amazon Web Services account.
     public var permissionSet: SSOAdminClientTypes.PermissionSet?
 
     public init(
@@ -1150,7 +1150,7 @@ extension SSOAdminClientTypes.CustomerManagedPolicyReference: Swift.Codable {
 }
 
 extension SSOAdminClientTypes {
-    /// Specifies the name and path of a customer managed policy. You must have an IAM policy that matches the name and path in each AWS account where you want to deploy your permission set.
+    /// Specifies the name and path of a customer managed policy. You must have an IAM policy that matches the name and path in each Amazon Web Services account where you want to deploy your permission set.
     public struct CustomerManagedPolicyReference: Swift.Equatable {
         /// The name of the IAM policy that you have configured in each account where you want to deploy your permission set.
         /// This member is required.
@@ -1210,7 +1210,7 @@ extension DeleteAccountAssignmentInput: ClientRuntime.URLPathProvider {
 }
 
 public struct DeleteAccountAssignmentInput: Swift.Equatable {
-    /// The ARN of the IAM Identity Center instance under which the operation will be executed. For more information about ARNs, see [Amazon Resource Names (ARNs) and AWS Service Namespaces] in the AWS General Reference.
+    /// The ARN of the IAM Identity Center instance under which the operation will be executed. For more information about ARNs, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces] in the Amazon Web Services General Reference.
     /// This member is required.
     public var instanceArn: Swift.String?
     /// The ARN of the permission set that will be used to remove access.
@@ -1222,7 +1222,7 @@ public struct DeleteAccountAssignmentInput: Swift.Equatable {
     /// The entity type for which the assignment will be deleted.
     /// This member is required.
     public var principalType: SSOAdminClientTypes.PrincipalType?
-    /// TargetID is an AWS account identifier, typically a 10-12 digit string (For example, 123456789012).
+    /// TargetID is an Amazon Web Services account identifier, (For example, 123456789012).
     /// This member is required.
     public var targetId: Swift.String?
     /// The entity type for which the assignment will be deleted.
@@ -1363,7 +1363,7 @@ extension DeleteInlinePolicyFromPermissionSetInput: ClientRuntime.URLPathProvide
 }
 
 public struct DeleteInlinePolicyFromPermissionSetInput: Swift.Equatable {
-    /// The ARN of the IAM Identity Center instance under which the operation will be executed. For more information about ARNs, see [Amazon Resource Names (ARNs) and AWS Service Namespaces] in the AWS General Reference.
+    /// The ARN of the IAM Identity Center instance under which the operation will be executed. For more information about ARNs, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces] in the Amazon Web Services General Reference.
     /// This member is required.
     public var instanceArn: Swift.String?
     /// The ARN of the permission set that will be used to remove access.
@@ -1524,7 +1524,7 @@ extension DeletePermissionSetInput: ClientRuntime.URLPathProvider {
 }
 
 public struct DeletePermissionSetInput: Swift.Equatable {
-    /// The ARN of the IAM Identity Center instance under which the operation will be executed. For more information about ARNs, see [Amazon Resource Names (ARNs) and AWS Service Namespaces] in the AWS General Reference.
+    /// The ARN of the IAM Identity Center instance under which the operation will be executed. For more information about ARNs, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces] in the Amazon Web Services General Reference.
     /// This member is required.
     public var instanceArn: Swift.String?
     /// The ARN of the permission set that should be deleted.
@@ -1700,7 +1700,7 @@ public struct DescribeAccountAssignmentCreationStatusInput: Swift.Equatable {
     /// The identifier that is used to track the request operation progress.
     /// This member is required.
     public var accountAssignmentCreationRequestId: Swift.String?
-    /// The ARN of the IAM Identity Center instance under which the operation will be executed. For more information about ARNs, see [Amazon Resource Names (ARNs) and AWS Service Namespaces] in the AWS General Reference.
+    /// The ARN of the IAM Identity Center instance under which the operation will be executed. For more information about ARNs, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces] in the Amazon Web Services General Reference.
     /// This member is required.
     public var instanceArn: Swift.String?
 
@@ -1816,7 +1816,7 @@ public struct DescribeAccountAssignmentDeletionStatusInput: Swift.Equatable {
     /// The identifier that is used to track the request operation progress.
     /// This member is required.
     public var accountAssignmentDeletionRequestId: Swift.String?
-    /// The ARN of the IAM Identity Center instance under which the operation will be executed. For more information about ARNs, see [Amazon Resource Names (ARNs) and AWS Service Namespaces] in the AWS General Reference.
+    /// The ARN of the IAM Identity Center instance under which the operation will be executed. For more information about ARNs, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces] in the Amazon Web Services General Reference.
     /// This member is required.
     public var instanceArn: Swift.String?
 
@@ -2052,7 +2052,7 @@ extension DescribePermissionSetInput: ClientRuntime.URLPathProvider {
 }
 
 public struct DescribePermissionSetInput: Swift.Equatable {
-    /// The ARN of the IAM Identity Center instance under which the operation will be executed. For more information about ARNs, see [Amazon Resource Names (ARNs) and AWS Service Namespaces] in the AWS General Reference.
+    /// The ARN of the IAM Identity Center instance under which the operation will be executed. For more information about ARNs, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces] in the Amazon Web Services General Reference.
     /// This member is required.
     public var instanceArn: Swift.String?
     /// The ARN of the permission set.
@@ -2117,7 +2117,7 @@ extension DescribePermissionSetOutputResponse: ClientRuntime.HttpResponseBinding
 }
 
 public struct DescribePermissionSetOutputResponse: Swift.Equatable {
-    /// Describes the level of access on an AWS account.
+    /// Describes the level of access on an Amazon Web Services account.
     public var permissionSet: SSOAdminClientTypes.PermissionSet?
 
     public init(
@@ -2168,7 +2168,7 @@ extension DescribePermissionSetProvisioningStatusInput: ClientRuntime.URLPathPro
 }
 
 public struct DescribePermissionSetProvisioningStatusInput: Swift.Equatable {
-    /// The ARN of the IAM Identity Center instance under which the operation will be executed. For more information about ARNs, see [Amazon Resource Names (ARNs) and AWS Service Namespaces] in the AWS General Reference.
+    /// The ARN of the IAM Identity Center instance under which the operation will be executed. For more information about ARNs, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces] in the Amazon Web Services General Reference.
     /// This member is required.
     public var instanceArn: Swift.String?
     /// The identifier that is provided by the [ProvisionPermissionSet] call to retrieve the current status of the provisioning workflow.
@@ -2288,7 +2288,7 @@ extension DetachCustomerManagedPolicyReferenceFromPermissionSetInput: ClientRunt
 }
 
 public struct DetachCustomerManagedPolicyReferenceFromPermissionSetInput: Swift.Equatable {
-    /// Specifies the name and path of a customer managed policy. You must have an IAM policy that matches the name and path in each AWS account where you want to deploy your permission set.
+    /// Specifies the name and path of a customer managed policy. You must have an IAM policy that matches the name and path in each Amazon Web Services account where you want to deploy your permission set.
     /// This member is required.
     public var customerManagedPolicyReference: SSOAdminClientTypes.CustomerManagedPolicyReference?
     /// The ARN of the IAM Identity Center instance under which the operation will be executed.
@@ -2388,10 +2388,10 @@ extension DetachManagedPolicyFromPermissionSetInput: ClientRuntime.URLPathProvid
 }
 
 public struct DetachManagedPolicyFromPermissionSetInput: Swift.Equatable {
-    /// The ARN of the IAM Identity Center instance under which the operation will be executed. For more information about ARNs, see [Amazon Resource Names (ARNs) and AWS Service Namespaces] in the AWS General Reference.
+    /// The ARN of the IAM Identity Center instance under which the operation will be executed. For more information about ARNs, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces] in the Amazon Web Services General Reference.
     /// This member is required.
     public var instanceArn: Swift.String?
-    /// The AWS managed policy ARN to be detached from a permission set.
+    /// The Amazon Web Services managed policy ARN to be detached from a permission set.
     /// This member is required.
     public var managedPolicyArn: Swift.String?
     /// The ARN of the [PermissionSet] from which the policy should be detached.
@@ -2484,7 +2484,7 @@ extension GetInlinePolicyForPermissionSetInput: ClientRuntime.URLPathProvider {
 }
 
 public struct GetInlinePolicyForPermissionSetInput: Swift.Equatable {
-    /// The ARN of the IAM Identity Center instance under which the operation will be executed. For more information about ARNs, see [Amazon Resource Names (ARNs) and AWS Service Namespaces] in the AWS General Reference.
+    /// The ARN of the IAM Identity Center instance under which the operation will be executed. For more information about ARNs, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces] in the Amazon Web Services General Reference.
     /// This member is required.
     public var instanceArn: Swift.String?
     /// The ARN of the permission set.
@@ -2549,7 +2549,7 @@ extension GetInlinePolicyForPermissionSetOutputResponse: ClientRuntime.HttpRespo
 }
 
 public struct GetInlinePolicyForPermissionSetOutputResponse: Swift.Equatable {
-    /// The inline policy that is attached to the permission set.
+    /// The inline policy that is attached to the permission set. For Length Constraints, if a valid ARN is provided for a permission set, it is possible for an empty inline policy to be returned.
     public var inlinePolicy: Swift.String?
 
     public init(
@@ -2805,7 +2805,7 @@ extension SSOAdminClientTypes {
     public struct InstanceMetadata: Swift.Equatable {
         /// The identifier of the identity store that is connected to the IAM Identity Center instance.
         public var identityStoreId: Swift.String?
-        /// The ARN of the IAM Identity Center instance under which the operation will be executed. For more information about ARNs, see [Amazon Resource Names (ARNs) and AWS Service Namespaces] in the AWS General Reference.
+        /// The ARN of the IAM Identity Center instance under which the operation will be executed. For more information about ARNs, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces] in the Amazon Web Services General Reference.
         public var instanceArn: Swift.String?
 
         public init(
@@ -2909,7 +2909,7 @@ extension ListAccountAssignmentCreationStatusInput: ClientRuntime.URLPathProvide
 public struct ListAccountAssignmentCreationStatusInput: Swift.Equatable {
     /// Filters results based on the passed attribute value.
     public var filter: SSOAdminClientTypes.OperationStatusFilter?
-    /// The ARN of the IAM Identity Center instance under which the operation will be executed. For more information about ARNs, see [Amazon Resource Names (ARNs) and AWS Service Namespaces] in the AWS General Reference.
+    /// The ARN of the IAM Identity Center instance under which the operation will be executed. For more information about ARNs, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces] in the Amazon Web Services General Reference.
     /// This member is required.
     public var instanceArn: Swift.String?
     /// The maximum number of results to display for the assignment.
@@ -3067,7 +3067,7 @@ extension ListAccountAssignmentDeletionStatusInput: ClientRuntime.URLPathProvide
 public struct ListAccountAssignmentDeletionStatusInput: Swift.Equatable {
     /// Filters results based on the passed attribute value.
     public var filter: SSOAdminClientTypes.OperationStatusFilter?
-    /// The ARN of the IAM Identity Center instance under which the operation will be executed. For more information about ARNs, see [Amazon Resource Names (ARNs) and AWS Service Namespaces] in the AWS General Reference.
+    /// The ARN of the IAM Identity Center instance under which the operation will be executed. For more information about ARNs, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces] in the Amazon Web Services General Reference.
     /// This member is required.
     public var instanceArn: Swift.String?
     /// The maximum number of results to display for the assignment.
@@ -3227,10 +3227,10 @@ extension ListAccountAssignmentsInput: ClientRuntime.URLPathProvider {
 }
 
 public struct ListAccountAssignmentsInput: Swift.Equatable {
-    /// The identifier of the AWS account from which to list the assignments.
+    /// The identifier of the Amazon Web Services account from which to list the assignments.
     /// This member is required.
     public var accountId: Swift.String?
-    /// The ARN of the IAM Identity Center instance under which the operation will be executed. For more information about ARNs, see [Amazon Resource Names (ARNs) and AWS Service Namespaces] in the AWS General Reference.
+    /// The ARN of the IAM Identity Center instance under which the operation will be executed. For more information about ARNs, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces] in the Amazon Web Services General Reference.
     /// This member is required.
     public var instanceArn: Swift.String?
     /// The maximum number of results to display for the assignment.
@@ -3319,7 +3319,7 @@ extension ListAccountAssignmentsOutputResponse: ClientRuntime.HttpResponseBindin
 }
 
 public struct ListAccountAssignmentsOutputResponse: Swift.Equatable {
-    /// The list of assignments that match the input AWS account and permission set.
+    /// The list of assignments that match the input Amazon Web Services account and permission set.
     public var accountAssignments: [SSOAdminClientTypes.AccountAssignment]?
     /// The pagination token for the list API. Initially the value is null. Use the output of previous API calls to make subsequent calls.
     public var nextToken: Swift.String?
@@ -3399,17 +3399,17 @@ extension ListAccountsForProvisionedPermissionSetInput: ClientRuntime.URLPathPro
 }
 
 public struct ListAccountsForProvisionedPermissionSetInput: Swift.Equatable {
-    /// The ARN of the IAM Identity Center instance under which the operation will be executed. For more information about ARNs, see [Amazon Resource Names (ARNs) and AWS Service Namespaces] in the AWS General Reference.
+    /// The ARN of the IAM Identity Center instance under which the operation will be executed. For more information about ARNs, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces] in the Amazon Web Services General Reference.
     /// This member is required.
     public var instanceArn: Swift.String?
     /// The maximum number of results to display for the [PermissionSet].
     public var maxResults: Swift.Int?
     /// The pagination token for the list API. Initially the value is null. Use the output of previous API calls to make subsequent calls.
     public var nextToken: Swift.String?
-    /// The ARN of the [PermissionSet] from which the associated AWS accounts will be listed.
+    /// The ARN of the [PermissionSet] from which the associated Amazon Web Services accounts will be listed.
     /// This member is required.
     public var permissionSetArn: Swift.String?
-    /// The permission set provisioning status for an AWS account.
+    /// The permission set provisioning status for an Amazon Web Services account.
     public var provisioningStatus: SSOAdminClientTypes.ProvisioningStatus?
 
     public init(
@@ -3490,7 +3490,7 @@ extension ListAccountsForProvisionedPermissionSetOutputResponse: ClientRuntime.H
 }
 
 public struct ListAccountsForProvisionedPermissionSetOutputResponse: Swift.Equatable {
-    /// The list of AWS AccountIds.
+    /// The list of Amazon Web Services AccountIds.
     public var accountIds: [Swift.String]?
     /// The pagination token for the list API. Initially the value is null. Use the output of previous API calls to make subsequent calls.
     public var nextToken: Swift.String?
@@ -3857,7 +3857,7 @@ extension ListManagedPoliciesInPermissionSetInput: ClientRuntime.URLPathProvider
 }
 
 public struct ListManagedPoliciesInPermissionSetInput: Swift.Equatable {
-    /// The ARN of the IAM Identity Center instance under which the operation will be executed. For more information about ARNs, see [Amazon Resource Names (ARNs) and AWS Service Namespaces] in the AWS General Reference.
+    /// The ARN of the IAM Identity Center instance under which the operation will be executed. For more information about ARNs, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces] in the Amazon Web Services General Reference.
     /// This member is required.
     public var instanceArn: Swift.String?
     /// The maximum number of results to display for the [PermissionSet].
@@ -4018,7 +4018,7 @@ extension ListPermissionSetProvisioningStatusInput: ClientRuntime.URLPathProvide
 public struct ListPermissionSetProvisioningStatusInput: Swift.Equatable {
     /// Filters results based on the passed attribute value.
     public var filter: SSOAdminClientTypes.OperationStatusFilter?
-    /// The ARN of the IAM Identity Center instance under which the operation will be executed. For more information about ARNs, see [Amazon Resource Names (ARNs) and AWS Service Namespaces] in the AWS General Reference.
+    /// The ARN of the IAM Identity Center instance under which the operation will be executed. For more information about ARNs, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces] in the Amazon Web Services General Reference.
     /// This member is required.
     public var instanceArn: Swift.String?
     /// The maximum number of results to display for the assignment.
@@ -4170,7 +4170,7 @@ extension ListPermissionSetsInput: ClientRuntime.URLPathProvider {
 }
 
 public struct ListPermissionSetsInput: Swift.Equatable {
-    /// The ARN of the IAM Identity Center instance under which the operation will be executed. For more information about ARNs, see [Amazon Resource Names (ARNs) and AWS Service Namespaces] in the AWS General Reference.
+    /// The ARN of the IAM Identity Center instance under which the operation will be executed. For more information about ARNs, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces] in the Amazon Web Services General Reference.
     /// This member is required.
     public var instanceArn: Swift.String?
     /// The maximum number of results to display for the assignment.
@@ -4246,7 +4246,7 @@ extension ListPermissionSetsOutputResponse: ClientRuntime.HttpResponseBinding {
 public struct ListPermissionSetsOutputResponse: Swift.Equatable {
     /// The pagination token for the list API. Initially the value is null. Use the output of previous API calls to make subsequent calls.
     public var nextToken: Swift.String?
-    /// Defines the level of access on an AWS account.
+    /// Defines the level of access on an Amazon Web Services account.
     public var permissionSets: [Swift.String]?
 
     public init(
@@ -4324,10 +4324,10 @@ extension ListPermissionSetsProvisionedToAccountInput: ClientRuntime.URLPathProv
 }
 
 public struct ListPermissionSetsProvisionedToAccountInput: Swift.Equatable {
-    /// The identifier of the AWS account from which to list the assignments.
+    /// The identifier of the Amazon Web Services account from which to list the assignments.
     /// This member is required.
     public var accountId: Swift.String?
-    /// The ARN of the IAM Identity Center instance under which the operation will be executed. For more information about ARNs, see [Amazon Resource Names (ARNs) and AWS Service Namespaces] in the AWS General Reference.
+    /// The ARN of the IAM Identity Center instance under which the operation will be executed. For more information about ARNs, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces] in the Amazon Web Services General Reference.
     /// This member is required.
     public var instanceArn: Swift.String?
     /// The maximum number of results to display for the assignment.
@@ -4417,7 +4417,7 @@ extension ListPermissionSetsProvisionedToAccountOutputResponse: ClientRuntime.Ht
 public struct ListPermissionSetsProvisionedToAccountOutputResponse: Swift.Equatable {
     /// The pagination token for the list API. Initially the value is null. Use the output of previous API calls to make subsequent calls.
     public var nextToken: Swift.String?
-    /// Defines the level of access that an AWS account has.
+    /// Defines the level of access that an Amazon Web Services account has.
     public var permissionSets: [Swift.String]?
 
     public init(
@@ -4487,7 +4487,7 @@ extension ListTagsForResourceInput: ClientRuntime.URLPathProvider {
 }
 
 public struct ListTagsForResourceInput: Swift.Equatable {
-    /// The ARN of the IAM Identity Center instance under which the operation will be executed. For more information about ARNs, see [Amazon Resource Names (ARNs) and AWS Service Namespaces] in the AWS General Reference.
+    /// The ARN of the IAM Identity Center instance under which the operation will be executed. For more information about ARNs, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces] in the Amazon Web Services General Reference.
     /// This member is required.
     public var instanceArn: Swift.String?
     /// The pagination token for the list API. Initially the value is null. Use the output of previous API calls to make subsequent calls.
@@ -4699,7 +4699,7 @@ extension SSOAdminClientTypes {
         public var description: Swift.String?
         /// The name of the permission set.
         public var name: Swift.String?
-        /// The ARN of the permission set. For more information about ARNs, see [Amazon Resource Names (ARNs) and AWS Service Namespaces] in the AWS General Reference.
+        /// The ARN of the permission set. For more information about ARNs, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces] in the Amazon Web Services General Reference.
         public var permissionSetArn: Swift.String?
         /// Used to redirect users within the application during the federation authentication process.
         public var relayState: Swift.String?
@@ -4778,13 +4778,13 @@ extension SSOAdminClientTypes.PermissionSetProvisioningStatus: Swift.Codable {
 extension SSOAdminClientTypes {
     /// A structure that is used to provide the status of the provisioning operation for a specified permission set.
     public struct PermissionSetProvisioningStatus: Swift.Equatable {
-        /// The identifier of the AWS account from which to list the assignments.
+        /// The identifier of the Amazon Web Services account from which to list the assignments.
         public var accountId: Swift.String?
         /// The date that the permission set was created.
         public var createdDate: ClientRuntime.Date?
         /// The message that contains an error or exception in case of an operation failure.
         public var failureReason: Swift.String?
-        /// The ARN of the permission set that is being provisioned. For more information about ARNs, see [Amazon Resource Names (ARNs) and AWS Service Namespaces] in the AWS General Reference.
+        /// The ARN of the permission set that is being provisioned. For more information about ARNs, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces] in the Amazon Web Services General Reference.
         public var permissionSetArn: Swift.String?
         /// The identifier for tracking the request operation that is generated by the universally unique identifier (UUID) workflow.
         public var requestId: Swift.String?
@@ -4892,11 +4892,11 @@ extension SSOAdminClientTypes.PermissionsBoundary: Swift.Codable {
 }
 
 extension SSOAdminClientTypes {
-    /// Specifies the configuration of the AWS managed or customer managed policy that you want to set as a permissions boundary. Specify either CustomerManagedPolicyReference to use the name and path of a customer managed policy, or ManagedPolicyArn to use the ARN of an AWS managed policy. A permissions boundary represents the maximum permissions that any policy can grant your role. For more information, see [Permissions boundaries for IAM entities](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_boundaries.html) in the IAM User Guide. Policies used as permissions boundaries don't provide permissions. You must also attach an IAM policy to the role. To learn how the effective permissions for a role are evaluated, see [IAM JSON policy evaluation logic](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_evaluation-logic.html) in the IAM User Guide.
+    /// Specifies the configuration of the Amazon Web Services managed or customer managed policy that you want to set as a permissions boundary. Specify either CustomerManagedPolicyReference to use the name and path of a customer managed policy, or ManagedPolicyArn to use the ARN of an Amazon Web Services managed policy. A permissions boundary represents the maximum permissions that any policy can grant your role. For more information, see [Permissions boundaries for IAM entities](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_boundaries.html) in the IAM User Guide. Policies used as permissions boundaries don't provide permissions. You must also attach an IAM policy to the role. To learn how the effective permissions for a role are evaluated, see [IAM JSON policy evaluation logic](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_evaluation-logic.html) in the IAM User Guide.
     public struct PermissionsBoundary: Swift.Equatable {
-        /// Specifies the name and path of a customer managed policy. You must have an IAM policy that matches the name and path in each AWS account where you want to deploy your permission set.
+        /// Specifies the name and path of a customer managed policy. You must have an IAM policy that matches the name and path in each Amazon Web Services account where you want to deploy your permission set.
         public var customerManagedPolicyReference: SSOAdminClientTypes.CustomerManagedPolicyReference?
-        /// The AWS managed policy ARN that you want to attach to a permission set as a permissions boundary.
+        /// The Amazon Web Services managed policy ARN that you want to attach to a permission set as a permissions boundary.
         public var managedPolicyArn: Swift.String?
 
         public init(
@@ -4975,13 +4975,13 @@ extension ProvisionPermissionSetInput: ClientRuntime.URLPathProvider {
 }
 
 public struct ProvisionPermissionSetInput: Swift.Equatable {
-    /// The ARN of the IAM Identity Center instance under which the operation will be executed. For more information about ARNs, see [Amazon Resource Names (ARNs) and AWS Service Namespaces] in the AWS General Reference.
+    /// The ARN of the IAM Identity Center instance under which the operation will be executed. For more information about ARNs, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces] in the Amazon Web Services General Reference.
     /// This member is required.
     public var instanceArn: Swift.String?
     /// The ARN of the permission set.
     /// This member is required.
     public var permissionSetArn: Swift.String?
-    /// TargetID is an AWS account identifier, typically a 10-12 digit string (For example, 123456789012).
+    /// TargetID is an Amazon Web Services account identifier, (For example, 123456789012).
     public var targetId: Swift.String?
     /// The entity type for which the assignment will be created.
     /// This member is required.
@@ -5180,7 +5180,7 @@ public struct PutInlinePolicyToPermissionSetInput: Swift.Equatable {
     /// The inline policy to attach to a [PermissionSet].
     /// This member is required.
     public var inlinePolicy: Swift.String?
-    /// The ARN of the IAM Identity Center instance under which the operation will be executed. For more information about ARNs, see [Amazon Resource Names (ARNs) and AWS Service Namespaces] in the AWS General Reference.
+    /// The ARN of the IAM Identity Center instance under which the operation will be executed. For more information about ARNs, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces] in the Amazon Web Services General Reference.
     /// This member is required.
     public var instanceArn: Swift.String?
     /// The ARN of the permission set.
@@ -5521,7 +5521,7 @@ extension SSOAdminClientTypes.Tag: Swift.Codable {
 }
 
 extension SSOAdminClientTypes {
-    /// A set of key-value pairs that are used to manage the resource. Tags can only be applied to permission sets and cannot be applied to corresponding roles that IAM Identity Center creates in AWS accounts.
+    /// A set of key-value pairs that are used to manage the resource. Tags can only be applied to permission sets and cannot be applied to corresponding roles that IAM Identity Center creates in Amazon Web Services accounts.
     public struct Tag: Swift.Equatable {
         /// The key for the tag.
         /// This member is required.
@@ -5573,7 +5573,7 @@ extension TagResourceInput: ClientRuntime.URLPathProvider {
 }
 
 public struct TagResourceInput: Swift.Equatable {
-    /// The ARN of the IAM Identity Center instance under which the operation will be executed. For more information about ARNs, see [Amazon Resource Names (ARNs) and AWS Service Namespaces] in the AWS General Reference.
+    /// The ARN of the IAM Identity Center instance under which the operation will be executed. For more information about ARNs, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces] in the Amazon Web Services General Reference.
     /// This member is required.
     public var instanceArn: Swift.String?
     /// The ARN of the resource with the tags to be listed.
@@ -5770,7 +5770,7 @@ extension UntagResourceInput: ClientRuntime.URLPathProvider {
 }
 
 public struct UntagResourceInput: Swift.Equatable {
-    /// The ARN of the IAM Identity Center instance under which the operation will be executed. For more information about ARNs, see [Amazon Resource Names (ARNs) and AWS Service Namespaces] in the AWS General Reference.
+    /// The ARN of the IAM Identity Center instance under which the operation will be executed. For more information about ARNs, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces] in the Amazon Web Services General Reference.
     /// This member is required.
     public var instanceArn: Swift.String?
     /// The ARN of the resource with the tags to be listed.
@@ -5976,7 +5976,7 @@ extension UpdatePermissionSetInput: ClientRuntime.URLPathProvider {
 public struct UpdatePermissionSetInput: Swift.Equatable {
     /// The description of the [PermissionSet].
     public var description: Swift.String?
-    /// The ARN of the IAM Identity Center instance under which the operation will be executed. For more information about ARNs, see [Amazon Resource Names (ARNs) and AWS Service Namespaces] in the AWS General Reference.
+    /// The ARN of the IAM Identity Center instance under which the operation will be executed. For more information about ARNs, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces] in the Amazon Web Services General Reference.
     /// This member is required.
     public var instanceArn: Swift.String?
     /// The ARN of the permission set.

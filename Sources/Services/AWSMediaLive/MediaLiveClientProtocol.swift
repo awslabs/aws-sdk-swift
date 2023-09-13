@@ -823,6 +823,24 @@ public protocol MediaLiveClientProtocol {
     /// - `NotFoundException` : Placeholder documentation for NotFoundException
     /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
     func startChannel(input: StartChannelInput) async throws -> StartChannelOutputResponse
+    /// Start an input device that is attached to a MediaConnect flow. (There is no need to start a device that is attached to a MediaLive input; MediaLive starts the device when the channel starts.)
+    ///
+    /// - Parameter StartInputDeviceInput : Placeholder documentation for StartInputDeviceRequest
+    ///
+    /// - Returns: `StartInputDeviceOutputResponse` : Placeholder documentation for StartInputDeviceResponse
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadGatewayException` : Placeholder documentation for BadGatewayException
+    /// - `BadRequestException` : Placeholder documentation for BadRequestException
+    /// - `ForbiddenException` : Placeholder documentation for ForbiddenException
+    /// - `GatewayTimeoutException` : Placeholder documentation for GatewayTimeoutException
+    /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
+    /// - `NotFoundException` : Placeholder documentation for NotFoundException
+    /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
+    /// - `UnprocessableEntityException` : Placeholder documentation for UnprocessableEntityException
+    func startInputDevice(input: StartInputDeviceInput) async throws -> StartInputDeviceOutputResponse
     /// Start a maintenance window for the specified input device. Starting a maintenance window will give the device up to two hours to install software. If the device was streaming prior to the maintenance, it will resume streaming when the software is fully installed. Devices automatically install updates while they are powered on and their MediaLive channels are stopped. A maintenance window allows you to update a device without having to stop MediaLive channels that use the device. The device must remain powered on and connected to the internet for the duration of the maintenance.
     ///
     /// - Parameter StartInputDeviceMaintenanceWindowInput : Placeholder documentation for StartInputDeviceMaintenanceWindowRequest
@@ -877,6 +895,24 @@ public protocol MediaLiveClientProtocol {
     /// - `NotFoundException` : Placeholder documentation for NotFoundException
     /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
     func stopChannel(input: StopChannelInput) async throws -> StopChannelOutputResponse
+    /// Stop an input device that is attached to a MediaConnect flow. (There is no need to stop a device that is attached to a MediaLive input; MediaLive automatically stops the device when the channel stops.)
+    ///
+    /// - Parameter StopInputDeviceInput : Placeholder documentation for StopInputDeviceRequest
+    ///
+    /// - Returns: `StopInputDeviceOutputResponse` : Placeholder documentation for StopInputDeviceResponse
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadGatewayException` : Placeholder documentation for BadGatewayException
+    /// - `BadRequestException` : Placeholder documentation for BadRequestException
+    /// - `ForbiddenException` : Placeholder documentation for ForbiddenException
+    /// - `GatewayTimeoutException` : Placeholder documentation for GatewayTimeoutException
+    /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
+    /// - `NotFoundException` : Placeholder documentation for NotFoundException
+    /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
+    /// - `UnprocessableEntityException` : Placeholder documentation for UnprocessableEntityException
+    func stopInputDevice(input: StopInputDeviceInput) async throws -> StopInputDeviceOutputResponse
     /// Stops a running multiplex. If the multiplex isn't running, this action has no effect.
     ///
     /// - Parameter StopMultiplexInput : Placeholder documentation for StopMultiplexRequest

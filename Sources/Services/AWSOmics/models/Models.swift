@@ -7621,6 +7621,7 @@ extension GetRunOutputResponse: ClientRuntime.HttpResponseBinding {
             self.parameters = output.parameters
             self.priority = output.priority
             self.resourceDigests = output.resourceDigests
+            self.retentionMode = output.retentionMode
             self.roleArn = output.roleArn
             self.runGroupId = output.runGroupId
             self.runId = output.runId
@@ -7646,6 +7647,7 @@ extension GetRunOutputResponse: ClientRuntime.HttpResponseBinding {
             self.parameters = nil
             self.priority = nil
             self.resourceDigests = nil
+            self.retentionMode = nil
             self.roleArn = nil
             self.runGroupId = nil
             self.runId = nil
@@ -7687,6 +7689,8 @@ public struct GetRunOutputResponse: Swift.Equatable {
     public var priority: Swift.Int?
     /// The run's resource digests.
     public var resourceDigests: [Swift.String:Swift.String]?
+    /// The run's retention mode.
+    public var retentionMode: OmicsClientTypes.RunRetentionMode?
     /// The run's service role ARN.
     public var roleArn: Swift.String?
     /// The run's group ID.
@@ -7725,6 +7729,7 @@ public struct GetRunOutputResponse: Swift.Equatable {
         parameters: ClientRuntime.Document? = nil,
         priority: Swift.Int? = nil,
         resourceDigests: [Swift.String:Swift.String]? = nil,
+        retentionMode: OmicsClientTypes.RunRetentionMode? = nil,
         roleArn: Swift.String? = nil,
         runGroupId: Swift.String? = nil,
         runId: Swift.String? = nil,
@@ -7751,6 +7756,7 @@ public struct GetRunOutputResponse: Swift.Equatable {
         self.parameters = parameters
         self.priority = priority
         self.resourceDigests = resourceDigests
+        self.retentionMode = retentionMode
         self.roleArn = roleArn
         self.runGroupId = runGroupId
         self.runId = runId
@@ -7791,6 +7797,7 @@ struct GetRunOutputResponseBody: Swift.Equatable {
     let statusMessage: Swift.String?
     let tags: [Swift.String:Swift.String]?
     let accelerators: OmicsClientTypes.Accelerators?
+    let retentionMode: OmicsClientTypes.RunRetentionMode?
 }
 
 extension GetRunOutputResponseBody: Swift.Decodable {
@@ -7807,6 +7814,7 @@ extension GetRunOutputResponseBody: Swift.Decodable {
         case parameters
         case priority
         case resourceDigests
+        case retentionMode
         case roleArn
         case runGroupId
         case runId
@@ -7889,6 +7897,8 @@ extension GetRunOutputResponseBody: Swift.Decodable {
         tags = tagsDecoded0
         let acceleratorsDecoded = try containerValues.decodeIfPresent(OmicsClientTypes.Accelerators.self, forKey: .accelerators)
         accelerators = acceleratorsDecoded
+        let retentionModeDecoded = try containerValues.decodeIfPresent(OmicsClientTypes.RunRetentionMode.self, forKey: .retentionMode)
+        retentionMode = retentionModeDecoded
     }
 }
 
@@ -15398,6 +15408,38 @@ extension OmicsClientTypes {
 }
 
 extension OmicsClientTypes {
+    public enum RunRetentionMode: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case remove
+        case retain
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RunRetentionMode] {
+            return [
+                .remove,
+                .retain,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .remove: return "REMOVE"
+            case .retain: return "RETAIN"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = RunRetentionMode(rawValue: rawValue) ?? RunRetentionMode.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension OmicsClientTypes {
     public enum RunStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case cancelled
         case completed
@@ -17255,6 +17297,7 @@ extension StartRunInput: Swift.Encodable {
         case parameters
         case priority
         case requestId
+        case retentionMode
         case roleArn
         case runGroupId
         case runId
@@ -17283,6 +17326,9 @@ extension StartRunInput: Swift.Encodable {
         }
         if let requestId = self.requestId {
             try encodeContainer.encode(requestId, forKey: .requestId)
+        }
+        if let retentionMode = self.retentionMode {
+            try encodeContainer.encode(retentionMode.rawValue, forKey: .retentionMode)
         }
         if let roleArn = self.roleArn {
             try encodeContainer.encode(roleArn, forKey: .roleArn)
@@ -17331,12 +17377,14 @@ public struct StartRunInput: Swift.Equatable {
     /// To ensure that requests don't run multiple times, specify a unique ID for each request.
     /// This member is required.
     public var requestId: Swift.String?
+    /// The retention mode for the run.
+    public var retentionMode: OmicsClientTypes.RunRetentionMode?
     /// A service role for the run.
     /// This member is required.
     public var roleArn: Swift.String?
     /// The run's group ID.
     public var runGroupId: Swift.String?
-    /// The run's ID.
+    /// The ID of a run to duplicate.
     public var runId: Swift.String?
     /// A storage capacity for the run in gigabytes.
     public var storageCapacity: Swift.Int?
@@ -17344,7 +17392,7 @@ public struct StartRunInput: Swift.Equatable {
     public var tags: [Swift.String:Swift.String]?
     /// The run's workflow ID.
     public var workflowId: Swift.String?
-    /// The run's workflows type.
+    /// The run's workflow type.
     public var workflowType: OmicsClientTypes.WorkflowType?
 
     public init(
@@ -17354,6 +17402,7 @@ public struct StartRunInput: Swift.Equatable {
         parameters: ClientRuntime.Document? = nil,
         priority: Swift.Int? = nil,
         requestId: Swift.String? = nil,
+        retentionMode: OmicsClientTypes.RunRetentionMode? = nil,
         roleArn: Swift.String? = nil,
         runGroupId: Swift.String? = nil,
         runId: Swift.String? = nil,
@@ -17369,6 +17418,7 @@ public struct StartRunInput: Swift.Equatable {
         self.parameters = parameters
         self.priority = priority
         self.requestId = requestId
+        self.retentionMode = retentionMode
         self.roleArn = roleArn
         self.runGroupId = runGroupId
         self.runId = runId
@@ -17393,6 +17443,7 @@ struct StartRunInputBody: Swift.Equatable {
     let logLevel: OmicsClientTypes.RunLogLevel?
     let tags: [Swift.String:Swift.String]?
     let requestId: Swift.String?
+    let retentionMode: OmicsClientTypes.RunRetentionMode?
 }
 
 extension StartRunInputBody: Swift.Decodable {
@@ -17403,6 +17454,7 @@ extension StartRunInputBody: Swift.Decodable {
         case parameters
         case priority
         case requestId
+        case retentionMode
         case roleArn
         case runGroupId
         case runId
@@ -17449,6 +17501,8 @@ extension StartRunInputBody: Swift.Decodable {
         tags = tagsDecoded0
         let requestIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .requestId)
         requestId = requestIdDecoded
+        let retentionModeDecoded = try containerValues.decodeIfPresent(OmicsClientTypes.RunRetentionMode.self, forKey: .retentionMode)
+        retentionMode = retentionModeDecoded
     }
 }
 

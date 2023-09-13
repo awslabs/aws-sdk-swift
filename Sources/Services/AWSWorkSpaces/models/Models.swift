@@ -6307,6 +6307,51 @@ public struct DisassociateIpGroupsOutputResponse: Swift.Equatable {
     public init() { }
 }
 
+extension WorkSpacesClientTypes.ErrorDetails: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case errorCode = "ErrorCode"
+        case errorMessage = "ErrorMessage"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let errorCode = self.errorCode {
+            try encodeContainer.encode(errorCode.rawValue, forKey: .errorCode)
+        }
+        if let errorMessage = self.errorMessage {
+            try encodeContainer.encode(errorMessage, forKey: .errorMessage)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let errorCodeDecoded = try containerValues.decodeIfPresent(WorkSpacesClientTypes.WorkspaceImageErrorDetailCode.self, forKey: .errorCode)
+        errorCode = errorCodeDecoded
+        let errorMessageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .errorMessage)
+        errorMessage = errorMessageDecoded
+    }
+}
+
+extension WorkSpacesClientTypes {
+    /// Provides in-depth details about the error. These details include the possible causes of the errors and troubleshooting information.
+    public struct ErrorDetails: Swift.Equatable {
+        /// Indicates the error code returned.
+        public var errorCode: WorkSpacesClientTypes.WorkspaceImageErrorDetailCode?
+        /// The text of the error message related the error code.
+        public var errorMessage: Swift.String?
+
+        public init(
+            errorCode: WorkSpacesClientTypes.WorkspaceImageErrorDetailCode? = nil,
+            errorMessage: Swift.String? = nil
+        )
+        {
+            self.errorCode = errorCode
+            self.errorMessage = errorMessage
+        }
+    }
+
+}
+
 extension WorkSpacesClientTypes.FailedCreateStandbyWorkspacesRequest: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case errorCode = "ErrorCode"
@@ -12542,6 +12587,7 @@ extension WorkSpacesClientTypes.WorkspaceImage: Swift.Codable {
         case created = "Created"
         case description = "Description"
         case errorCode = "ErrorCode"
+        case errorDetails = "ErrorDetails"
         case errorMessage = "ErrorMessage"
         case imageId = "ImageId"
         case name = "Name"
@@ -12562,6 +12608,12 @@ extension WorkSpacesClientTypes.WorkspaceImage: Swift.Codable {
         }
         if let errorCode = self.errorCode {
             try encodeContainer.encode(errorCode, forKey: .errorCode)
+        }
+        if let errorDetails = errorDetails {
+            var errorDetailsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .errorDetails)
+            for errordetails0 in errorDetails {
+                try errorDetailsContainer.encode(errordetails0)
+            }
         }
         if let errorMessage = self.errorMessage {
             try encodeContainer.encode(errorMessage, forKey: .errorMessage)
@@ -12613,6 +12665,17 @@ extension WorkSpacesClientTypes.WorkspaceImage: Swift.Codable {
         ownerAccountId = ownerAccountIdDecoded
         let updatesDecoded = try containerValues.decodeIfPresent(WorkSpacesClientTypes.UpdateResult.self, forKey: .updates)
         updates = updatesDecoded
+        let errorDetailsContainer = try containerValues.decodeIfPresent([WorkSpacesClientTypes.ErrorDetails?].self, forKey: .errorDetails)
+        var errorDetailsDecoded0:[WorkSpacesClientTypes.ErrorDetails]? = nil
+        if let errorDetailsContainer = errorDetailsContainer {
+            errorDetailsDecoded0 = [WorkSpacesClientTypes.ErrorDetails]()
+            for structure0 in errorDetailsContainer {
+                if let structure0 = structure0 {
+                    errorDetailsDecoded0?.append(structure0)
+                }
+            }
+        }
+        errorDetails = errorDetailsDecoded0
     }
 }
 
@@ -12625,6 +12688,8 @@ extension WorkSpacesClientTypes {
         public var description: Swift.String?
         /// The error code that is returned for the image.
         public var errorCode: Swift.String?
+        /// The details of the error returned for the image.
+        public var errorDetails: [WorkSpacesClientTypes.ErrorDetails]?
         /// The text of the error message that is returned for the image.
         public var errorMessage: Swift.String?
         /// The identifier of the image.
@@ -12646,6 +12711,7 @@ extension WorkSpacesClientTypes {
             created: ClientRuntime.Date? = nil,
             description: Swift.String? = nil,
             errorCode: Swift.String? = nil,
+            errorDetails: [WorkSpacesClientTypes.ErrorDetails]? = nil,
             errorMessage: Swift.String? = nil,
             imageId: Swift.String? = nil,
             name: Swift.String? = nil,
@@ -12659,6 +12725,7 @@ extension WorkSpacesClientTypes {
             self.created = created
             self.description = description
             self.errorCode = errorCode
+            self.errorDetails = errorDetails
             self.errorMessage = errorMessage
             self.imageId = imageId
             self.name = name
@@ -12670,6 +12737,110 @@ extension WorkSpacesClientTypes {
         }
     }
 
+}
+
+extension WorkSpacesClientTypes {
+    public enum WorkspaceImageErrorDetailCode: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case additionalDrivesAttached
+        case antiVirusInstalled
+        case autoLogonEnabled
+        case autoMountDisabled
+        case azureDomainJoined
+        case dhcpDisabled
+        case diskFreeSpace
+        case diskSizeExceeded
+        case domainJoined
+        case firewallEnabled
+        case incompatiblePartitioning
+        case inPlaceUpgrade
+        case multipleBootPartition
+        case officeInstalled
+        case osNotSupported
+        case outdatedPowershellVersion
+        case pcoipAgentInstalled
+        case pendingReboot
+        case realtimeUniversalDisabled
+        case sixtyFourBitOs
+        case uefiNotSupported
+        case vmwareToolsInstalled
+        case windowsUpdatesEnabled
+        case workspacesByolAccountDisabled
+        case workspacesByolAccountNotFound
+        case zeroRearmCount
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [WorkspaceImageErrorDetailCode] {
+            return [
+                .additionalDrivesAttached,
+                .antiVirusInstalled,
+                .autoLogonEnabled,
+                .autoMountDisabled,
+                .azureDomainJoined,
+                .dhcpDisabled,
+                .diskFreeSpace,
+                .diskSizeExceeded,
+                .domainJoined,
+                .firewallEnabled,
+                .incompatiblePartitioning,
+                .inPlaceUpgrade,
+                .multipleBootPartition,
+                .officeInstalled,
+                .osNotSupported,
+                .outdatedPowershellVersion,
+                .pcoipAgentInstalled,
+                .pendingReboot,
+                .realtimeUniversalDisabled,
+                .sixtyFourBitOs,
+                .uefiNotSupported,
+                .vmwareToolsInstalled,
+                .windowsUpdatesEnabled,
+                .workspacesByolAccountDisabled,
+                .workspacesByolAccountNotFound,
+                .zeroRearmCount,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .additionalDrivesAttached: return "AdditionalDrivesAttached"
+            case .antiVirusInstalled: return "AntiVirusInstalled"
+            case .autoLogonEnabled: return "AutoLogonEnabled"
+            case .autoMountDisabled: return "AutoMountDisabled"
+            case .azureDomainJoined: return "AzureDomainJoined"
+            case .dhcpDisabled: return "DHCPDisabled"
+            case .diskFreeSpace: return "DiskFreeSpace"
+            case .diskSizeExceeded: return "DiskSizeExceeded"
+            case .domainJoined: return "DomainJoined"
+            case .firewallEnabled: return "FirewallEnabled"
+            case .incompatiblePartitioning: return "IncompatiblePartitioning"
+            case .inPlaceUpgrade: return "InPlaceUpgrade"
+            case .multipleBootPartition: return "MultipleBootPartition"
+            case .officeInstalled: return "OfficeInstalled"
+            case .osNotSupported: return "OSNotSupported"
+            case .outdatedPowershellVersion: return "OutdatedPowershellVersion"
+            case .pcoipAgentInstalled: return "PCoIPAgentInstalled"
+            case .pendingReboot: return "PendingReboot"
+            case .realtimeUniversalDisabled: return "RealTimeUniversalDisabled"
+            case .sixtyFourBitOs: return "Requires64BitOS"
+            case .uefiNotSupported: return "UEFINotSupported"
+            case .vmwareToolsInstalled: return "VMWareToolsInstalled"
+            case .windowsUpdatesEnabled: return "WindowsUpdatesEnabled"
+            case .workspacesByolAccountDisabled: return "WorkspacesBYOLAccountDisabled"
+            case .workspacesByolAccountNotFound: return "WorkspacesBYOLAccountNotFound"
+            case .zeroRearmCount: return "ZeroRearmCount"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = WorkspaceImageErrorDetailCode(rawValue: rawValue) ?? WorkspaceImageErrorDetailCode.sdkUnknown(rawValue)
+        }
+    }
 }
 
 extension WorkSpacesClientTypes {

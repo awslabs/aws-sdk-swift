@@ -8697,8 +8697,10 @@ extension DescribeInputDeviceOutputResponse: ClientRuntime.HttpResponseBinding {
             self.hdDeviceSettings = output.hdDeviceSettings
             self.id = output.id
             self.macAddress = output.macAddress
+            self.medialiveInputArns = output.medialiveInputArns
             self.name = output.name
             self.networkSettings = output.networkSettings
+            self.outputType = output.outputType
             self.serialNumber = output.serialNumber
             self.tags = output.tags
             self.type = output.type
@@ -8712,8 +8714,10 @@ extension DescribeInputDeviceOutputResponse: ClientRuntime.HttpResponseBinding {
             self.hdDeviceSettings = nil
             self.id = nil
             self.macAddress = nil
+            self.medialiveInputArns = nil
             self.name = nil
             self.networkSettings = nil
+            self.outputType = nil
             self.serialNumber = nil
             self.tags = nil
             self.type = nil
@@ -8740,10 +8744,14 @@ public struct DescribeInputDeviceOutputResponse: Swift.Equatable {
     public var id: Swift.String?
     /// The network MAC address of the input device.
     public var macAddress: Swift.String?
+    /// An array of the ARNs for the MediaLive inputs attached to the device. Returned only if the outputType is MEDIALIVE_INPUT.
+    public var medialiveInputArns: [Swift.String]?
     /// A name that you specify for the input device.
     public var name: Swift.String?
     /// The network settings for the input device.
     public var networkSettings: MediaLiveClientTypes.InputDeviceNetworkSettings?
+    /// The output attachment type of the input device. Specifies MEDIACONNECT_FLOW if this device is the source for a MediaConnect flow. Specifies MEDIALIVE_INPUT if this device is the source for a MediaLive input.
+    public var outputType: MediaLiveClientTypes.InputDeviceOutputType?
     /// The unique serial number of the input device.
     public var serialNumber: Swift.String?
     /// A collection of key-value pairs.
@@ -8762,8 +8770,10 @@ public struct DescribeInputDeviceOutputResponse: Swift.Equatable {
         hdDeviceSettings: MediaLiveClientTypes.InputDeviceHdSettings? = nil,
         id: Swift.String? = nil,
         macAddress: Swift.String? = nil,
+        medialiveInputArns: [Swift.String]? = nil,
         name: Swift.String? = nil,
         networkSettings: MediaLiveClientTypes.InputDeviceNetworkSettings? = nil,
+        outputType: MediaLiveClientTypes.InputDeviceOutputType? = nil,
         serialNumber: Swift.String? = nil,
         tags: [Swift.String:Swift.String]? = nil,
         type: MediaLiveClientTypes.InputDeviceType? = nil,
@@ -8778,8 +8788,10 @@ public struct DescribeInputDeviceOutputResponse: Swift.Equatable {
         self.hdDeviceSettings = hdDeviceSettings
         self.id = id
         self.macAddress = macAddress
+        self.medialiveInputArns = medialiveInputArns
         self.name = name
         self.networkSettings = networkSettings
+        self.outputType = outputType
         self.serialNumber = serialNumber
         self.tags = tags
         self.type = type
@@ -8802,6 +8814,8 @@ struct DescribeInputDeviceOutputResponseBody: Swift.Equatable {
     let uhdDeviceSettings: MediaLiveClientTypes.InputDeviceUhdSettings?
     let tags: [Swift.String:Swift.String]?
     let availabilityZone: Swift.String?
+    let medialiveInputArns: [Swift.String]?
+    let outputType: MediaLiveClientTypes.InputDeviceOutputType?
 }
 
 extension DescribeInputDeviceOutputResponseBody: Swift.Decodable {
@@ -8814,8 +8828,10 @@ extension DescribeInputDeviceOutputResponseBody: Swift.Decodable {
         case hdDeviceSettings = "hdDeviceSettings"
         case id = "id"
         case macAddress = "macAddress"
+        case medialiveInputArns = "medialiveInputArns"
         case name = "name"
         case networkSettings = "networkSettings"
+        case outputType = "outputType"
         case serialNumber = "serialNumber"
         case tags = "tags"
         case type = "type"
@@ -8861,6 +8877,19 @@ extension DescribeInputDeviceOutputResponseBody: Swift.Decodable {
         tags = tagsDecoded0
         let availabilityZoneDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .availabilityZone)
         availabilityZone = availabilityZoneDecoded
+        let medialiveInputArnsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .medialiveInputArns)
+        var medialiveInputArnsDecoded0:[Swift.String]? = nil
+        if let medialiveInputArnsContainer = medialiveInputArnsContainer {
+            medialiveInputArnsDecoded0 = [Swift.String]()
+            for string0 in medialiveInputArnsContainer {
+                if let string0 = string0 {
+                    medialiveInputArnsDecoded0?.append(string0)
+                }
+            }
+        }
+        medialiveInputArns = medialiveInputArnsDecoded0
+        let outputTypeDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.InputDeviceOutputType.self, forKey: .outputType)
+        outputType = outputTypeDecoded
     }
 }
 
@@ -12905,6 +12934,51 @@ extension MediaLiveClientTypes {
 
 }
 
+extension MediaLiveClientTypes.EpochLockingSettings: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case customEpoch = "customEpoch"
+        case jamSyncTime = "jamSyncTime"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let customEpoch = self.customEpoch {
+            try encodeContainer.encode(customEpoch, forKey: .customEpoch)
+        }
+        if let jamSyncTime = self.jamSyncTime {
+            try encodeContainer.encode(jamSyncTime, forKey: .jamSyncTime)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let customEpochDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .customEpoch)
+        customEpoch = customEpochDecoded
+        let jamSyncTimeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .jamSyncTime)
+        jamSyncTime = jamSyncTimeDecoded
+    }
+}
+
+extension MediaLiveClientTypes {
+    /// Epoch Locking Settings
+    public struct EpochLockingSettings: Swift.Equatable {
+        /// Optional. Enter a value here to use a custom epoch, instead of the standard epoch (which started at 1970-01-01T00:00:00 UTC). Specify the start time of the custom epoch, in YYYY-MM-DDTHH:MM:SS in UTC. The time must be 2000-01-01T00:00:00 or later. Always set the MM:SS portion to 00:00.
+        public var customEpoch: Swift.String?
+        /// Optional. Enter a time for the jam sync. The default is midnight UTC. When epoch locking is enabled, MediaLive performs a daily jam sync on every output encode to ensure timecodes don’t diverge from the wall clock. The jam sync applies only to encodes with frame rate of 29.97 or 59.94 FPS. To override, enter a time in HH:MM:SS in UTC. Always set the MM:SS portion to 00:00.
+        public var jamSyncTime: Swift.String?
+
+        public init(
+            customEpoch: Swift.String? = nil,
+            jamSyncTime: Swift.String? = nil
+        )
+        {
+            self.customEpoch = customEpoch
+            self.jamSyncTime = jamSyncTime
+        }
+    }
+
+}
+
 extension MediaLiveClientTypes.Esam: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case acquisitionPointId = "acquisitionPointId"
@@ -13912,6 +13986,7 @@ extension MediaLiveClientTypes.GlobalConfiguration: Swift.Codable {
         case inputEndAction = "inputEndAction"
         case inputLossBehavior = "inputLossBehavior"
         case outputLockingMode = "outputLockingMode"
+        case outputLockingSettings = "outputLockingSettings"
         case outputTimingSource = "outputTimingSource"
         case supportLowFramerateInputs = "supportLowFramerateInputs"
     }
@@ -13929,6 +14004,9 @@ extension MediaLiveClientTypes.GlobalConfiguration: Swift.Codable {
         }
         if let outputLockingMode = self.outputLockingMode {
             try encodeContainer.encode(outputLockingMode.rawValue, forKey: .outputLockingMode)
+        }
+        if let outputLockingSettings = self.outputLockingSettings {
+            try encodeContainer.encode(outputLockingSettings, forKey: .outputLockingSettings)
         }
         if let outputTimingSource = self.outputTimingSource {
             try encodeContainer.encode(outputTimingSource.rawValue, forKey: .outputTimingSource)
@@ -13952,6 +14030,8 @@ extension MediaLiveClientTypes.GlobalConfiguration: Swift.Codable {
         outputTimingSource = outputTimingSourceDecoded
         let supportLowFramerateInputsDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.GlobalConfigurationLowFramerateInputs.self, forKey: .supportLowFramerateInputs)
         supportLowFramerateInputs = supportLowFramerateInputsDecoded
+        let outputLockingSettingsDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.OutputLockingSettings.self, forKey: .outputLockingSettings)
+        outputLockingSettings = outputLockingSettingsDecoded
     }
 }
 
@@ -13966,6 +14046,8 @@ extension MediaLiveClientTypes {
         public var inputLossBehavior: MediaLiveClientTypes.InputLossBehavior?
         /// Indicates how MediaLive pipelines are synchronized. PIPELINE_LOCKING - MediaLive will attempt to synchronize the output of each pipeline to the other. EPOCH_LOCKING - MediaLive will attempt to synchronize the output of each pipeline to the Unix epoch.
         public var outputLockingMode: MediaLiveClientTypes.GlobalConfigurationOutputLockingMode?
+        /// Advanced output locking settings
+        public var outputLockingSettings: MediaLiveClientTypes.OutputLockingSettings?
         /// Indicates whether the rate of frames emitted by the Live encoder should be paced by its system clock (which optionally may be locked to another source via NTP) or should be locked to the clock of the source that is providing the input stream.
         public var outputTimingSource: MediaLiveClientTypes.GlobalConfigurationOutputTimingSource?
         /// Adjusts video input buffer for streams with very low video framerates. This is commonly set to enabled for music channels with less than one video frame per second.
@@ -13976,6 +14058,7 @@ extension MediaLiveClientTypes {
             inputEndAction: MediaLiveClientTypes.GlobalConfigurationInputEndAction? = nil,
             inputLossBehavior: MediaLiveClientTypes.InputLossBehavior? = nil,
             outputLockingMode: MediaLiveClientTypes.GlobalConfigurationOutputLockingMode? = nil,
+            outputLockingSettings: MediaLiveClientTypes.OutputLockingSettings? = nil,
             outputTimingSource: MediaLiveClientTypes.GlobalConfigurationOutputTimingSource? = nil,
             supportLowFramerateInputs: MediaLiveClientTypes.GlobalConfigurationLowFramerateInputs? = nil
         )
@@ -13984,6 +14067,7 @@ extension MediaLiveClientTypes {
             self.inputEndAction = inputEndAction
             self.inputLossBehavior = inputLossBehavior
             self.outputLockingMode = outputLockingMode
+            self.outputLockingSettings = outputLockingSettings
             self.outputTimingSource = outputTimingSource
             self.supportLowFramerateInputs = supportLowFramerateInputs
         }
@@ -19386,15 +19470,53 @@ extension MediaLiveClientTypes {
     }
 }
 
+extension MediaLiveClientTypes {
+    /// The codec to use on the video that the device produces.
+    public enum InputDeviceCodec: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case avc
+        case hevc
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [InputDeviceCodec] {
+            return [
+                .avc,
+                .hevc,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .avc: return "AVC"
+            case .hevc: return "HEVC"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = InputDeviceCodec(rawValue: rawValue) ?? InputDeviceCodec.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension MediaLiveClientTypes.InputDeviceConfigurableSettings: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case codec = "codec"
         case configuredInput = "configuredInput"
         case latencyMs = "latencyMs"
         case maxBitrate = "maxBitrate"
+        case mediaconnectSettings = "mediaconnectSettings"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let codec = self.codec {
+            try encodeContainer.encode(codec.rawValue, forKey: .codec)
+        }
         if let configuredInput = self.configuredInput {
             try encodeContainer.encode(configuredInput.rawValue, forKey: .configuredInput)
         }
@@ -19403,6 +19525,9 @@ extension MediaLiveClientTypes.InputDeviceConfigurableSettings: Swift.Codable {
         }
         if let maxBitrate = self.maxBitrate {
             try encodeContainer.encode(maxBitrate, forKey: .maxBitrate)
+        }
+        if let mediaconnectSettings = self.mediaconnectSettings {
+            try encodeContainer.encode(mediaconnectSettings, forKey: .mediaconnectSettings)
         }
     }
 
@@ -19414,28 +19539,40 @@ extension MediaLiveClientTypes.InputDeviceConfigurableSettings: Swift.Codable {
         maxBitrate = maxBitrateDecoded
         let latencyMsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .latencyMs)
         latencyMs = latencyMsDecoded
+        let codecDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.InputDeviceCodec.self, forKey: .codec)
+        codec = codecDecoded
+        let mediaconnectSettingsDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.InputDeviceMediaConnectConfigurableSettings.self, forKey: .mediaconnectSettings)
+        mediaconnectSettings = mediaconnectSettingsDecoded
     }
 }
 
 extension MediaLiveClientTypes {
     /// Configurable settings for the input device.
     public struct InputDeviceConfigurableSettings: Swift.Equatable {
+        /// Choose the codec for the video that the device produces. Only UHD devices can specify this parameter.
+        public var codec: MediaLiveClientTypes.InputDeviceCodec?
         /// The input source that you want to use. If the device has a source connected to only one of its input ports, or if you don't care which source the device sends, specify Auto. If the device has sources connected to both its input ports, and you want to use a specific source, specify the source.
         public var configuredInput: MediaLiveClientTypes.InputDeviceConfiguredInput?
         /// The Link device's buffer size (latency) in milliseconds (ms).
         public var latencyMs: Swift.Int?
         /// The maximum bitrate in bits per second. Set a value here to throttle the bitrate of the source video.
         public var maxBitrate: Swift.Int?
+        /// To attach this device to a MediaConnect flow, specify these parameters. To detach an existing flow, enter {} for the value of mediaconnectSettings. Only UHD devices can specify this parameter.
+        public var mediaconnectSettings: MediaLiveClientTypes.InputDeviceMediaConnectConfigurableSettings?
 
         public init(
+            codec: MediaLiveClientTypes.InputDeviceCodec? = nil,
             configuredInput: MediaLiveClientTypes.InputDeviceConfiguredInput? = nil,
             latencyMs: Swift.Int? = nil,
-            maxBitrate: Swift.Int? = nil
+            maxBitrate: Swift.Int? = nil,
+            mediaconnectSettings: MediaLiveClientTypes.InputDeviceMediaConnectConfigurableSettings? = nil
         )
         {
+            self.codec = codec
             self.configuredInput = configuredInput
             self.latencyMs = latencyMs
             self.maxBitrate = maxBitrate
+            self.mediaconnectSettings = mediaconnectSettings
         }
     }
 
@@ -19658,6 +19795,136 @@ extension MediaLiveClientTypes {
     }
 }
 
+extension MediaLiveClientTypes.InputDeviceMediaConnectConfigurableSettings: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case flowArn = "flowArn"
+        case roleArn = "roleArn"
+        case secretArn = "secretArn"
+        case sourceName = "sourceName"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let flowArn = self.flowArn {
+            try encodeContainer.encode(flowArn, forKey: .flowArn)
+        }
+        if let roleArn = self.roleArn {
+            try encodeContainer.encode(roleArn, forKey: .roleArn)
+        }
+        if let secretArn = self.secretArn {
+            try encodeContainer.encode(secretArn, forKey: .secretArn)
+        }
+        if let sourceName = self.sourceName {
+            try encodeContainer.encode(sourceName, forKey: .sourceName)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let flowArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .flowArn)
+        flowArn = flowArnDecoded
+        let roleArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .roleArn)
+        roleArn = roleArnDecoded
+        let secretArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .secretArn)
+        secretArn = secretArnDecoded
+        let sourceNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sourceName)
+        sourceName = sourceNameDecoded
+    }
+}
+
+extension MediaLiveClientTypes {
+    /// Parameters required to attach a MediaConnect flow to the device.
+    public struct InputDeviceMediaConnectConfigurableSettings: Swift.Equatable {
+        /// The ARN of the MediaConnect flow to attach this device to.
+        public var flowArn: Swift.String?
+        /// The ARN for the role that MediaLive assumes to access the attached flow and secret. For more information about how to create this role, see the MediaLive user guide.
+        public var roleArn: Swift.String?
+        /// The ARN for the secret that holds the encryption key to encrypt the content output by the device.
+        public var secretArn: Swift.String?
+        /// The name of the MediaConnect Flow source to stream to.
+        public var sourceName: Swift.String?
+
+        public init(
+            flowArn: Swift.String? = nil,
+            roleArn: Swift.String? = nil,
+            secretArn: Swift.String? = nil,
+            sourceName: Swift.String? = nil
+        )
+        {
+            self.flowArn = flowArn
+            self.roleArn = roleArn
+            self.secretArn = secretArn
+            self.sourceName = sourceName
+        }
+    }
+
+}
+
+extension MediaLiveClientTypes.InputDeviceMediaConnectSettings: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case flowArn = "flowArn"
+        case roleArn = "roleArn"
+        case secretArn = "secretArn"
+        case sourceName = "sourceName"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let flowArn = self.flowArn {
+            try encodeContainer.encode(flowArn, forKey: .flowArn)
+        }
+        if let roleArn = self.roleArn {
+            try encodeContainer.encode(roleArn, forKey: .roleArn)
+        }
+        if let secretArn = self.secretArn {
+            try encodeContainer.encode(secretArn, forKey: .secretArn)
+        }
+        if let sourceName = self.sourceName {
+            try encodeContainer.encode(sourceName, forKey: .sourceName)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let flowArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .flowArn)
+        flowArn = flowArnDecoded
+        let roleArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .roleArn)
+        roleArn = roleArnDecoded
+        let secretArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .secretArn)
+        secretArn = secretArnDecoded
+        let sourceNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sourceName)
+        sourceName = sourceNameDecoded
+    }
+}
+
+extension MediaLiveClientTypes {
+    /// Information about the MediaConnect flow attached to the device.
+    public struct InputDeviceMediaConnectSettings: Swift.Equatable {
+        /// The ARN of the MediaConnect flow.
+        public var flowArn: Swift.String?
+        /// The ARN for the role that MediaLive assumes to access the attached flow and secret.
+        public var roleArn: Swift.String?
+        /// The ARN of the secret used to encrypt the stream.
+        public var secretArn: Swift.String?
+        /// The name of the MediaConnect flow source.
+        public var sourceName: Swift.String?
+
+        public init(
+            flowArn: Swift.String? = nil,
+            roleArn: Swift.String? = nil,
+            secretArn: Swift.String? = nil,
+            sourceName: Swift.String? = nil
+        )
+        {
+            self.flowArn = flowArn
+            self.roleArn = roleArn
+            self.secretArn = secretArn
+            self.sourceName = sourceName
+        }
+    }
+
+}
+
 extension MediaLiveClientTypes.InputDeviceNetworkSettings: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case dnsAddresses = "dnsAddresses"
@@ -19743,6 +20010,42 @@ extension MediaLiveClientTypes {
         }
     }
 
+}
+
+extension MediaLiveClientTypes {
+    /// The output attachment type of the input device.
+    public enum InputDeviceOutputType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case mediaconnectFlow
+        case medialiveInput
+        case `none`
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [InputDeviceOutputType] {
+            return [
+                .mediaconnectFlow,
+                .medialiveInput,
+                .none,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .mediaconnectFlow: return "MEDIACONNECT_FLOW"
+            case .medialiveInput: return "MEDIALIVE_INPUT"
+            case .none: return "NONE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = InputDeviceOutputType(rawValue: rawValue) ?? InputDeviceOutputType.sdkUnknown(rawValue)
+        }
+    }
 }
 
 extension MediaLiveClientTypes.InputDeviceRequest: Swift.Codable {
@@ -19891,8 +20194,10 @@ extension MediaLiveClientTypes.InputDeviceSummary: Swift.Codable {
         case hdDeviceSettings = "hdDeviceSettings"
         case id = "id"
         case macAddress = "macAddress"
+        case medialiveInputArns = "medialiveInputArns"
         case name = "name"
         case networkSettings = "networkSettings"
+        case outputType = "outputType"
         case serialNumber = "serialNumber"
         case tags = "tags"
         case type = "type"
@@ -19925,11 +20230,20 @@ extension MediaLiveClientTypes.InputDeviceSummary: Swift.Codable {
         if let macAddress = self.macAddress {
             try encodeContainer.encode(macAddress, forKey: .macAddress)
         }
+        if let medialiveInputArns = medialiveInputArns {
+            var medialiveInputArnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .medialiveInputArns)
+            for __string0 in medialiveInputArns {
+                try medialiveInputArnsContainer.encode(__string0)
+            }
+        }
         if let name = self.name {
             try encodeContainer.encode(name, forKey: .name)
         }
         if let networkSettings = self.networkSettings {
             try encodeContainer.encode(networkSettings, forKey: .networkSettings)
+        }
+        if let outputType = self.outputType {
+            try encodeContainer.encode(outputType.rawValue, forKey: .outputType)
         }
         if let serialNumber = self.serialNumber {
             try encodeContainer.encode(serialNumber, forKey: .serialNumber)
@@ -19987,6 +20301,19 @@ extension MediaLiveClientTypes.InputDeviceSummary: Swift.Codable {
         tags = tagsDecoded0
         let availabilityZoneDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .availabilityZone)
         availabilityZone = availabilityZoneDecoded
+        let medialiveInputArnsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .medialiveInputArns)
+        var medialiveInputArnsDecoded0:[Swift.String]? = nil
+        if let medialiveInputArnsContainer = medialiveInputArnsContainer {
+            medialiveInputArnsDecoded0 = [Swift.String]()
+            for string0 in medialiveInputArnsContainer {
+                if let string0 = string0 {
+                    medialiveInputArnsDecoded0?.append(string0)
+                }
+            }
+        }
+        medialiveInputArns = medialiveInputArnsDecoded0
+        let outputTypeDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.InputDeviceOutputType.self, forKey: .outputType)
+        outputType = outputTypeDecoded
     }
 }
 
@@ -20009,10 +20336,14 @@ extension MediaLiveClientTypes {
         public var id: Swift.String?
         /// The network MAC address of the input device.
         public var macAddress: Swift.String?
+        /// An array of the ARNs for the MediaLive inputs attached to the device. Returned only if the outputType is MEDIALIVE_INPUT.
+        public var medialiveInputArns: [Swift.String]?
         /// A name that you specify for the input device.
         public var name: Swift.String?
         /// Network settings for the input device.
         public var networkSettings: MediaLiveClientTypes.InputDeviceNetworkSettings?
+        /// The output attachment type of the input device. Specifies MEDIACONNECT_FLOW if this device is the source for a MediaConnect flow. Specifies MEDIALIVE_INPUT if this device is the source for a MediaLive input.
+        public var outputType: MediaLiveClientTypes.InputDeviceOutputType?
         /// The unique serial number of the input device.
         public var serialNumber: Swift.String?
         /// A collection of key-value pairs.
@@ -20031,8 +20362,10 @@ extension MediaLiveClientTypes {
             hdDeviceSettings: MediaLiveClientTypes.InputDeviceHdSettings? = nil,
             id: Swift.String? = nil,
             macAddress: Swift.String? = nil,
+            medialiveInputArns: [Swift.String]? = nil,
             name: Swift.String? = nil,
             networkSettings: MediaLiveClientTypes.InputDeviceNetworkSettings? = nil,
+            outputType: MediaLiveClientTypes.InputDeviceOutputType? = nil,
             serialNumber: Swift.String? = nil,
             tags: [Swift.String:Swift.String]? = nil,
             type: MediaLiveClientTypes.InputDeviceType? = nil,
@@ -20047,8 +20380,10 @@ extension MediaLiveClientTypes {
             self.hdDeviceSettings = hdDeviceSettings
             self.id = id
             self.macAddress = macAddress
+            self.medialiveInputArns = medialiveInputArns
             self.name = name
             self.networkSettings = networkSettings
+            self.outputType = outputType
             self.serialNumber = serialNumber
             self.tags = tags
             self.type = type
@@ -20127,12 +20462,14 @@ extension MediaLiveClientTypes {
 extension MediaLiveClientTypes.InputDeviceUhdSettings: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case activeInput = "activeInput"
+        case codec = "codec"
         case configuredInput = "configuredInput"
         case deviceState = "deviceState"
         case framerate = "framerate"
         case height = "height"
         case latencyMs = "latencyMs"
         case maxBitrate = "maxBitrate"
+        case mediaconnectSettings = "mediaconnectSettings"
         case scanType = "scanType"
         case width = "width"
     }
@@ -20141,6 +20478,9 @@ extension MediaLiveClientTypes.InputDeviceUhdSettings: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let activeInput = self.activeInput {
             try encodeContainer.encode(activeInput.rawValue, forKey: .activeInput)
+        }
+        if let codec = self.codec {
+            try encodeContainer.encode(codec.rawValue, forKey: .codec)
         }
         if let configuredInput = self.configuredInput {
             try encodeContainer.encode(configuredInput.rawValue, forKey: .configuredInput)
@@ -20159,6 +20499,9 @@ extension MediaLiveClientTypes.InputDeviceUhdSettings: Swift.Codable {
         }
         if let maxBitrate = self.maxBitrate {
             try encodeContainer.encode(maxBitrate, forKey: .maxBitrate)
+        }
+        if let mediaconnectSettings = self.mediaconnectSettings {
+            try encodeContainer.encode(mediaconnectSettings, forKey: .mediaconnectSettings)
         }
         if let scanType = self.scanType {
             try encodeContainer.encode(scanType.rawValue, forKey: .scanType)
@@ -20188,6 +20531,10 @@ extension MediaLiveClientTypes.InputDeviceUhdSettings: Swift.Codable {
         width = widthDecoded
         let latencyMsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .latencyMs)
         latencyMs = latencyMsDecoded
+        let codecDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.InputDeviceCodec.self, forKey: .codec)
+        codec = codecDecoded
+        let mediaconnectSettingsDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.InputDeviceMediaConnectSettings.self, forKey: .mediaconnectSettings)
+        mediaconnectSettings = mediaconnectSettingsDecoded
     }
 }
 
@@ -20196,6 +20543,8 @@ extension MediaLiveClientTypes {
     public struct InputDeviceUhdSettings: Swift.Equatable {
         /// If you specified Auto as the configured input, specifies which of the sources is currently active (SDI or HDMI).
         public var activeInput: MediaLiveClientTypes.InputDeviceActiveInput?
+        /// The codec for the video that the device produces.
+        public var codec: MediaLiveClientTypes.InputDeviceCodec?
         /// The source at the input device that is currently active. You can specify this source.
         public var configuredInput: MediaLiveClientTypes.InputDeviceConfiguredInput?
         /// The state of the input device.
@@ -20208,6 +20557,8 @@ extension MediaLiveClientTypes {
         public var latencyMs: Swift.Int?
         /// The current maximum bitrate for ingesting this source, in bits per second. You can specify this maximum.
         public var maxBitrate: Swift.Int?
+        /// Information about the MediaConnect flow attached to the device. Returned only if the outputType is MEDIACONNECT_FLOW.
+        public var mediaconnectSettings: MediaLiveClientTypes.InputDeviceMediaConnectSettings?
         /// The scan type of the video source.
         public var scanType: MediaLiveClientTypes.InputDeviceScanType?
         /// The width of the video source, in pixels.
@@ -20215,23 +20566,27 @@ extension MediaLiveClientTypes {
 
         public init(
             activeInput: MediaLiveClientTypes.InputDeviceActiveInput? = nil,
+            codec: MediaLiveClientTypes.InputDeviceCodec? = nil,
             configuredInput: MediaLiveClientTypes.InputDeviceConfiguredInput? = nil,
             deviceState: MediaLiveClientTypes.InputDeviceState? = nil,
             framerate: Swift.Double? = nil,
             height: Swift.Int? = nil,
             latencyMs: Swift.Int? = nil,
             maxBitrate: Swift.Int? = nil,
+            mediaconnectSettings: MediaLiveClientTypes.InputDeviceMediaConnectSettings? = nil,
             scanType: MediaLiveClientTypes.InputDeviceScanType? = nil,
             width: Swift.Int? = nil
         )
         {
             self.activeInput = activeInput
+            self.codec = codec
             self.configuredInput = configuredInput
             self.deviceState = deviceState
             self.framerate = framerate
             self.height = height
             self.latencyMs = latencyMs
             self.maxBitrate = maxBitrate
+            self.mediaconnectSettings = mediaconnectSettings
             self.scanType = scanType
             self.width = width
         }
@@ -28620,6 +28975,51 @@ extension MediaLiveClientTypes {
 
 }
 
+extension MediaLiveClientTypes.OutputLockingSettings: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case epochLockingSettings = "epochLockingSettings"
+        case pipelineLockingSettings = "pipelineLockingSettings"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let epochLockingSettings = self.epochLockingSettings {
+            try encodeContainer.encode(epochLockingSettings, forKey: .epochLockingSettings)
+        }
+        if let pipelineLockingSettings = self.pipelineLockingSettings {
+            try encodeContainer.encode(pipelineLockingSettings, forKey: .pipelineLockingSettings)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let epochLockingSettingsDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.EpochLockingSettings.self, forKey: .epochLockingSettings)
+        epochLockingSettings = epochLockingSettingsDecoded
+        let pipelineLockingSettingsDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.PipelineLockingSettings.self, forKey: .pipelineLockingSettings)
+        pipelineLockingSettings = pipelineLockingSettingsDecoded
+    }
+}
+
+extension MediaLiveClientTypes {
+    /// Output Locking Settings
+    public struct OutputLockingSettings: Swift.Equatable {
+        /// Epoch Locking Settings
+        public var epochLockingSettings: MediaLiveClientTypes.EpochLockingSettings?
+        /// Pipeline Locking Settings
+        public var pipelineLockingSettings: MediaLiveClientTypes.PipelineLockingSettings?
+
+        public init(
+            epochLockingSettings: MediaLiveClientTypes.EpochLockingSettings? = nil,
+            pipelineLockingSettings: MediaLiveClientTypes.PipelineLockingSettings? = nil
+        )
+        {
+            self.epochLockingSettings = epochLockingSettings
+            self.pipelineLockingSettings = pipelineLockingSettings
+        }
+    }
+
+}
+
 extension MediaLiveClientTypes.OutputSettings: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case archiveOutputSettings = "archiveOutputSettings"
@@ -28898,6 +29298,26 @@ extension MediaLiveClientTypes {
             self = PipelineId(rawValue: rawValue) ?? PipelineId.sdkUnknown(rawValue)
         }
     }
+}
+
+extension MediaLiveClientTypes.PipelineLockingSettings: Swift.Codable {
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.singleValueContainer()
+        try container.encode([String:String]())
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension MediaLiveClientTypes {
+    /// Pipeline Locking Settings
+    public struct PipelineLockingSettings: Swift.Equatable {
+
+        public init() { }
+    }
+
 }
 
 extension MediaLiveClientTypes.PipelinePauseStateSettings: Swift.Codable {
@@ -32621,6 +33041,38 @@ extension StartChannelOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension StartInputDeviceInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let inputDeviceId = inputDeviceId else {
+            return nil
+        }
+        return "/prod/inputDevices/\(inputDeviceId.urlPercentEncoding())/start"
+    }
+}
+
+/// Placeholder documentation for StartInputDeviceRequest
+public struct StartInputDeviceInput: Swift.Equatable {
+    /// The unique ID of the input device to reboot. For example, hd-123456789abcdef.
+    /// This member is required.
+    public var inputDeviceId: Swift.String?
+
+    public init(
+        inputDeviceId: Swift.String? = nil
+    )
+    {
+        self.inputDeviceId = inputDeviceId
+    }
+}
+
+struct StartInputDeviceInputBody: Swift.Equatable {
+}
+
+extension StartInputDeviceInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
 extension StartInputDeviceMaintenanceWindowInput: ClientRuntime.URLPathProvider {
     public var urlPath: Swift.String? {
         guard let inputDeviceId = inputDeviceId else {
@@ -32678,6 +33130,35 @@ extension StartInputDeviceMaintenanceWindowOutputResponse: ClientRuntime.HttpRes
 
 /// Placeholder documentation for StartInputDeviceMaintenanceWindowResponse
 public struct StartInputDeviceMaintenanceWindowOutputResponse: Swift.Equatable {
+
+    public init() { }
+}
+
+public enum StartInputDeviceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadGatewayException": return try await BadGatewayException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "GatewayTimeoutException": return try await GatewayTimeoutException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnprocessableEntityException": return try await UnprocessableEntityException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension StartInputDeviceOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+/// Placeholder documentation for StartInputDeviceResponse
+public struct StartInputDeviceOutputResponse: Swift.Equatable {
 
     public init() { }
 }
@@ -33446,6 +33927,67 @@ extension StopChannelOutputResponseBody: Swift.Decodable {
         let vpcDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.VpcOutputSettingsDescription.self, forKey: .vpc)
         vpc = vpcDecoded
     }
+}
+
+extension StopInputDeviceInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let inputDeviceId = inputDeviceId else {
+            return nil
+        }
+        return "/prod/inputDevices/\(inputDeviceId.urlPercentEncoding())/stop"
+    }
+}
+
+/// Placeholder documentation for StopInputDeviceRequest
+public struct StopInputDeviceInput: Swift.Equatable {
+    /// The unique ID of the input device to reboot. For example, hd-123456789abcdef.
+    /// This member is required.
+    public var inputDeviceId: Swift.String?
+
+    public init(
+        inputDeviceId: Swift.String? = nil
+    )
+    {
+        self.inputDeviceId = inputDeviceId
+    }
+}
+
+struct StopInputDeviceInputBody: Swift.Equatable {
+}
+
+extension StopInputDeviceInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+public enum StopInputDeviceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadGatewayException": return try await BadGatewayException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "GatewayTimeoutException": return try await GatewayTimeoutException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnprocessableEntityException": return try await UnprocessableEntityException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension StopInputDeviceOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+/// Placeholder documentation for StopInputDeviceResponse
+public struct StopInputDeviceOutputResponse: Swift.Equatable {
+
+    public init() { }
 }
 
 extension StopMultiplexInput: ClientRuntime.URLPathProvider {
@@ -35556,8 +36098,10 @@ extension UpdateInputDeviceOutputResponse: ClientRuntime.HttpResponseBinding {
             self.hdDeviceSettings = output.hdDeviceSettings
             self.id = output.id
             self.macAddress = output.macAddress
+            self.medialiveInputArns = output.medialiveInputArns
             self.name = output.name
             self.networkSettings = output.networkSettings
+            self.outputType = output.outputType
             self.serialNumber = output.serialNumber
             self.tags = output.tags
             self.type = output.type
@@ -35571,8 +36115,10 @@ extension UpdateInputDeviceOutputResponse: ClientRuntime.HttpResponseBinding {
             self.hdDeviceSettings = nil
             self.id = nil
             self.macAddress = nil
+            self.medialiveInputArns = nil
             self.name = nil
             self.networkSettings = nil
+            self.outputType = nil
             self.serialNumber = nil
             self.tags = nil
             self.type = nil
@@ -35599,10 +36145,14 @@ public struct UpdateInputDeviceOutputResponse: Swift.Equatable {
     public var id: Swift.String?
     /// The network MAC address of the input device.
     public var macAddress: Swift.String?
+    /// An array of the ARNs for the MediaLive inputs attached to the device. Returned only if the outputType is MEDIALIVE_INPUT.
+    public var medialiveInputArns: [Swift.String]?
     /// A name that you specify for the input device.
     public var name: Swift.String?
     /// The network settings for the input device.
     public var networkSettings: MediaLiveClientTypes.InputDeviceNetworkSettings?
+    /// The output attachment type of the input device. Specifies MEDIACONNECT_FLOW if this device is the source for a MediaConnect flow. Specifies MEDIALIVE_INPUT if this device is the source for a MediaLive input.
+    public var outputType: MediaLiveClientTypes.InputDeviceOutputType?
     /// The unique serial number of the input device.
     public var serialNumber: Swift.String?
     /// A collection of key-value pairs.
@@ -35621,8 +36171,10 @@ public struct UpdateInputDeviceOutputResponse: Swift.Equatable {
         hdDeviceSettings: MediaLiveClientTypes.InputDeviceHdSettings? = nil,
         id: Swift.String? = nil,
         macAddress: Swift.String? = nil,
+        medialiveInputArns: [Swift.String]? = nil,
         name: Swift.String? = nil,
         networkSettings: MediaLiveClientTypes.InputDeviceNetworkSettings? = nil,
+        outputType: MediaLiveClientTypes.InputDeviceOutputType? = nil,
         serialNumber: Swift.String? = nil,
         tags: [Swift.String:Swift.String]? = nil,
         type: MediaLiveClientTypes.InputDeviceType? = nil,
@@ -35637,8 +36189,10 @@ public struct UpdateInputDeviceOutputResponse: Swift.Equatable {
         self.hdDeviceSettings = hdDeviceSettings
         self.id = id
         self.macAddress = macAddress
+        self.medialiveInputArns = medialiveInputArns
         self.name = name
         self.networkSettings = networkSettings
+        self.outputType = outputType
         self.serialNumber = serialNumber
         self.tags = tags
         self.type = type
@@ -35661,6 +36215,8 @@ struct UpdateInputDeviceOutputResponseBody: Swift.Equatable {
     let uhdDeviceSettings: MediaLiveClientTypes.InputDeviceUhdSettings?
     let tags: [Swift.String:Swift.String]?
     let availabilityZone: Swift.String?
+    let medialiveInputArns: [Swift.String]?
+    let outputType: MediaLiveClientTypes.InputDeviceOutputType?
 }
 
 extension UpdateInputDeviceOutputResponseBody: Swift.Decodable {
@@ -35673,8 +36229,10 @@ extension UpdateInputDeviceOutputResponseBody: Swift.Decodable {
         case hdDeviceSettings = "hdDeviceSettings"
         case id = "id"
         case macAddress = "macAddress"
+        case medialiveInputArns = "medialiveInputArns"
         case name = "name"
         case networkSettings = "networkSettings"
+        case outputType = "outputType"
         case serialNumber = "serialNumber"
         case tags = "tags"
         case type = "type"
@@ -35720,6 +36278,19 @@ extension UpdateInputDeviceOutputResponseBody: Swift.Decodable {
         tags = tagsDecoded0
         let availabilityZoneDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .availabilityZone)
         availabilityZone = availabilityZoneDecoded
+        let medialiveInputArnsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .medialiveInputArns)
+        var medialiveInputArnsDecoded0:[Swift.String]? = nil
+        if let medialiveInputArnsContainer = medialiveInputArnsContainer {
+            medialiveInputArnsDecoded0 = [Swift.String]()
+            for string0 in medialiveInputArnsContainer {
+                if let string0 = string0 {
+                    medialiveInputArnsDecoded0?.append(string0)
+                }
+            }
+        }
+        medialiveInputArns = medialiveInputArnsDecoded0
+        let outputTypeDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.InputDeviceOutputType.self, forKey: .outputType)
+        outputType = outputTypeDecoded
     }
 }
 

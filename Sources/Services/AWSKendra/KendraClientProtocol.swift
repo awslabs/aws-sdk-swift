@@ -36,7 +36,7 @@ public protocol KendraClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling. Please reduce the number of requests and try again.
     /// - `ValidationException` : The input fails to satisfy the constraints set by the Amazon Kendra service. Please provide the correct input and try again.
     func associatePersonasToEntities(input: AssociatePersonasToEntitiesInput) async throws -> AssociatePersonasToEntitiesOutputResponse
-    /// Removes one or more documents from an index. The documents must have been added with the BatchPutDocument API. The documents are deleted asynchronously. You can see the progress of the deletion by using Amazon Web Services CloudWatch. Any error messages related to the processing of the batch are sent to you CloudWatch log.
+    /// Removes one or more documents from an index. The documents must have been added with the BatchPutDocument API. The documents are deleted asynchronously. You can see the progress of the deletion by using Amazon Web Services CloudWatch. Any error messages related to the processing of the batch are sent to your Amazon Web Services CloudWatch log. You can also use the BatchGetDocumentStatus API to monitor the progress of deleting your documents. Deleting documents from an index using BatchDeleteDocument could take up to an hour or more, depending on the number of documents you want to delete.
     ///
     /// - Parameter BatchDeleteDocumentInput : [no documentation found]
     ///
@@ -83,7 +83,7 @@ public protocol KendraClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling. Please reduce the number of requests and try again.
     /// - `ValidationException` : The input fails to satisfy the constraints set by the Amazon Kendra service. Please provide the correct input and try again.
     func batchGetDocumentStatus(input: BatchGetDocumentStatusInput) async throws -> BatchGetDocumentStatusOutputResponse
-    /// Adds one or more documents to an index. The BatchPutDocument API enables you to ingest inline documents or a set of documents stored in an Amazon S3 bucket. Use this API to ingest your text and unstructured text into an index, add custom attributes to the documents, and to attach an access control list to the documents added to the index. The documents are indexed asynchronously. You can see the progress of the batch using Amazon Web Services CloudWatch. Any error messages related to processing the batch are sent to your Amazon Web Services CloudWatch log. For an example of ingesting inline documents using Python and Java SDKs, see [Adding files directly to an index](https://docs.aws.amazon.com/kendra/latest/dg/in-adding-binary-doc.html).
+    /// Adds one or more documents to an index. The BatchPutDocument API enables you to ingest inline documents or a set of documents stored in an Amazon S3 bucket. Use this API to ingest your text and unstructured text into an index, add custom attributes to the documents, and to attach an access control list to the documents added to the index. The documents are indexed asynchronously. You can see the progress of the batch using Amazon Web Services CloudWatch. Any error messages related to processing the batch are sent to your Amazon Web Services CloudWatch log. You can also use the BatchGetDocumentStatus API to monitor the progress of indexing your documents. For an example of ingesting inline documents using Python and Java SDKs, see [Adding files directly to an index](https://docs.aws.amazon.com/kendra/latest/dg/in-adding-binary-doc.html).
     ///
     /// - Parameter BatchPutDocumentInput : [no documentation found]
     ///
@@ -202,7 +202,7 @@ public protocol KendraClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling. Please reduce the number of requests and try again.
     /// - `ValidationException` : The input fails to satisfy the constraints set by the Amazon Kendra service. Please provide the correct input and try again.
     func createFeaturedResultsSet(input: CreateFeaturedResultsSetInput) async throws -> CreateFeaturedResultsSetOutputResponse
-    /// Creates an Amazon Kendra index. Index creation is an asynchronous API. To determine if index creation has completed, check the Status field returned from a call to DescribeIndex. The Status field is set to ACTIVE when the index is ready to use. Once the index is active you can index your documents using the BatchPutDocument API or using one of the supported data sources. For an example of creating an index and data source using the Python SDK, see [Getting started with Python SDK](https://docs.aws.amazon.com/kendra/latest/dg/gs-python.html). For an example of creating an index and data source using the Java SDK, see [Getting started with Java SDK](https://docs.aws.amazon.com/kendra/latest/dg/gs-java.html).
+    /// Creates an Amazon Kendra index. Index creation is an asynchronous API. To determine if index creation has completed, check the Status field returned from a call to DescribeIndex. The Status field is set to ACTIVE when the index is ready to use. Once the index is active, you can index your documents using the BatchPutDocument API or using one of the supported [data sources](https://docs.aws.amazon.com/kendra/latest/dg/data-sources.html). For an example of creating an index and data source using the Python SDK, see [Getting started with Python SDK](https://docs.aws.amazon.com/kendra/latest/dg/gs-python.html). For an example of creating an index and data source using the Java SDK, see [Getting started with Java SDK](https://docs.aws.amazon.com/kendra/latest/dg/gs-java.html).
     ///
     /// - Parameter CreateIndexInput : [no documentation found]
     ///
@@ -269,7 +269,7 @@ public protocol KendraClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling. Please reduce the number of requests and try again.
     /// - `ValidationException` : The input fails to satisfy the constraints set by the Amazon Kendra service. Please provide the correct input and try again.
     func deleteAccessControlConfiguration(input: DeleteAccessControlConfigurationInput) async throws -> DeleteAccessControlConfigurationOutputResponse
-    /// Deletes an Amazon Kendra data source connector. An exception is not thrown if the data source is already being deleted. While the data source is being deleted, the Status field returned by a call to the DescribeDataSource API is set to DELETING. For more information, see [Deleting Data Sources](https://docs.aws.amazon.com/kendra/latest/dg/delete-data-source.html).
+    /// Deletes an Amazon Kendra data source connector. An exception is not thrown if the data source is already being deleted. While the data source is being deleted, the Status field returned by a call to the DescribeDataSource API is set to DELETING. For more information, see [Deleting Data Sources](https://docs.aws.amazon.com/kendra/latest/dg/delete-data-source.html). Deleting an entire data source or re-syncing your index after deleting specific documents from a data source could take up to an hour or more, depending on the number of documents you want to delete.
     ///
     /// - Parameter DeleteDataSourceInput : [no documentation found]
     ///
@@ -831,7 +831,7 @@ public protocol KendraClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling. Please reduce the number of requests and try again.
     /// - `ValidationException` : The input fails to satisfy the constraints set by the Amazon Kendra service. Please provide the correct input and try again.
     func query(input: QueryInput) async throws -> QueryOutputResponse
-    /// Retrieves relevant passages or text excerpts given an input query. This API is similar to the [Query](https://docs.aws.amazon.com/kendra/latest/APIReference/API_Query.html) API. However, by default, the Query API only returns excerpt passages of up to 100 token words. With the Retrieve API, you can retrieve longer passages of up to 200 token words and up to 100 semantically relevant passages. This doesn't include question-answer or FAQ type responses from your index. The passages are text excerpts that can be semantically extracted from multiple documents and multiple parts of the same document. If in extreme cases your documents produce no relevant passages using the Retrieve API, you can alternatively use the Query API. You can also do the following:
+    /// Retrieves relevant passages or text excerpts given an input query. This API is similar to the [Query](https://docs.aws.amazon.com/kendra/latest/APIReference/API_Query.html) API. However, by default, the Query API only returns excerpt passages of up to 100 token words. With the Retrieve API, you can retrieve longer passages of up to 200 token words and up to 100 semantically relevant passages. This doesn't include question-answer or FAQ type responses from your index. The passages are text excerpts that can be semantically extracted from multiple documents and multiple parts of the same document. If in extreme cases your documents produce zero passages using the Retrieve API, you can alternatively use the Query API and its types of responses. You can also do the following:
     ///
     /// * Override boosting at the index level
     ///
@@ -840,7 +840,7 @@ public protocol KendraClientProtocol {
     /// * Filter based on the user or their group access to documents
     ///
     ///
-    /// You can also include certain fields in the response that might provide useful additional information.
+    /// You can also include certain fields in the response that might provide useful additional information. The Retrieve API shares the number of [query capacity units](https://docs.aws.amazon.com/kendra/latest/APIReference/API_CapacityUnitsConfiguration.html) that you set for your index. For more information on what's included in a single capacity unit and the default base capacity for an index, see [Adjusting capacity](https://docs.aws.amazon.com/kendra/latest/dg/adjusting-capacity.html).
     ///
     /// - Parameter RetrieveInput : [no documentation found]
     ///
@@ -857,7 +857,7 @@ public protocol KendraClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling. Please reduce the number of requests and try again.
     /// - `ValidationException` : The input fails to satisfy the constraints set by the Amazon Kendra service. Please provide the correct input and try again.
     func retrieve(input: RetrieveInput) async throws -> RetrieveOutputResponse
-    /// Starts a synchronization job for a data source connector. If a synchronization job is already in progress, Amazon Kendra returns a ResourceInUseException exception.
+    /// Starts a synchronization job for a data source connector. If a synchronization job is already in progress, Amazon Kendra returns a ResourceInUseException exception. Re-syncing your data source with your index after modifying, adding, or deleting documents from your data source respository could take up to an hour or more, depending on the number of documents to sync.
     ///
     /// - Parameter StartDataSourceSyncJobInput : [no documentation found]
     ///

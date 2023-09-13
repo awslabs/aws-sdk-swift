@@ -425,7 +425,7 @@ extension DataSyncClientTypes.AzureBlobSasConfiguration: Swift.CustomDebugString
 extension DataSyncClientTypes {
     /// The shared access signature (SAS) configuration that allows DataSync to access your Microsoft Azure Blob Storage. For more information, see [SAS tokens](https://docs.aws.amazon.com/datasync/latest/userguide/creating-azure-blob-location.html#azure-blob-sas-tokens) for accessing your Azure Blob Storage.
     public struct AzureBlobSasConfiguration: Swift.Equatable {
-        /// Specifies a SAS token that provides permissions at the Azure storage account, container, or folder level. The token is part of the SAS URI string that comes after the storage resource URI and a question mark. A token looks something like this: sp=r&st=2023-12-20T14:54:52Z&se=2023-12-20T22:54:52Z&spr=https&sv=2021-06-08&sr=c&sig=aBBKDWQvyuVcTPH9EBp%2FXTI9E%2F%2Fmq171%2BZU178wcwqU%3D
+        /// Specifies a SAS token that provides permissions to access your Azure Blob Storage. The token is part of the SAS URI string that comes after the storage resource URI and a question mark. A token looks something like this: sp=r&st=2023-12-20T14:54:52Z&se=2023-12-20T22:54:52Z&spr=https&sv=2021-06-08&sr=c&sig=aBBKDWQvyuVcTPH9EBp%2FXTI9E%2F%2Fmq171%2BZU178wcwqU%3D
         /// This member is required.
         public var token: Swift.String?
 
@@ -3038,6 +3038,7 @@ extension CreateTaskInput: Swift.Encodable {
         case schedule = "Schedule"
         case sourceLocationArn = "SourceLocationArn"
         case tags = "Tags"
+        case taskReportConfig = "TaskReportConfig"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -3078,6 +3079,9 @@ extension CreateTaskInput: Swift.Encodable {
                 try tagsContainer.encode(taglistentry0)
             }
         }
+        if let taskReportConfig = self.taskReportConfig {
+            try encodeContainer.encode(taskReportConfig, forKey: .taskReportConfig)
+        }
     }
 }
 
@@ -3109,6 +3113,8 @@ public struct CreateTaskInput: Swift.Equatable {
     public var sourceLocationArn: Swift.String?
     /// Specifies the tags that you want to apply to the Amazon Resource Name (ARN) representing the task. Tags are key-value pairs that help you manage, filter, and search for your DataSync resources.
     public var tags: [DataSyncClientTypes.TagListEntry]?
+    /// Specifies how you want to configure a task report, which provides detailed information about for your DataSync transfer.
+    public var taskReportConfig: DataSyncClientTypes.TaskReportConfig?
 
     public init(
         cloudWatchLogGroupArn: Swift.String? = nil,
@@ -3119,7 +3125,8 @@ public struct CreateTaskInput: Swift.Equatable {
         options: DataSyncClientTypes.Options? = nil,
         schedule: DataSyncClientTypes.TaskSchedule? = nil,
         sourceLocationArn: Swift.String? = nil,
-        tags: [DataSyncClientTypes.TagListEntry]? = nil
+        tags: [DataSyncClientTypes.TagListEntry]? = nil,
+        taskReportConfig: DataSyncClientTypes.TaskReportConfig? = nil
     )
     {
         self.cloudWatchLogGroupArn = cloudWatchLogGroupArn
@@ -3131,6 +3138,7 @@ public struct CreateTaskInput: Swift.Equatable {
         self.schedule = schedule
         self.sourceLocationArn = sourceLocationArn
         self.tags = tags
+        self.taskReportConfig = taskReportConfig
     }
 }
 
@@ -3144,6 +3152,7 @@ struct CreateTaskInputBody: Swift.Equatable {
     let schedule: DataSyncClientTypes.TaskSchedule?
     let tags: [DataSyncClientTypes.TagListEntry]?
     let includes: [DataSyncClientTypes.FilterRule]?
+    let taskReportConfig: DataSyncClientTypes.TaskReportConfig?
 }
 
 extension CreateTaskInputBody: Swift.Decodable {
@@ -3157,6 +3166,7 @@ extension CreateTaskInputBody: Swift.Decodable {
         case schedule = "Schedule"
         case sourceLocationArn = "SourceLocationArn"
         case tags = "Tags"
+        case taskReportConfig = "TaskReportConfig"
     }
 
     public init(from decoder: Swift.Decoder) throws {
@@ -3206,6 +3216,8 @@ extension CreateTaskInputBody: Swift.Decodable {
             }
         }
         includes = includesDecoded0
+        let taskReportConfigDecoded = try containerValues.decodeIfPresent(DataSyncClientTypes.TaskReportConfig.self, forKey: .taskReportConfig)
+        taskReportConfig = taskReportConfigDecoded
     }
 }
 
@@ -6287,7 +6299,7 @@ extension DescribeTaskExecutionInput: ClientRuntime.URLPathProvider {
 
 /// DescribeTaskExecutionRequest
 public struct DescribeTaskExecutionInput: Swift.Equatable {
-    /// Specifies the Amazon Resource Name (ARN) of the transfer task that's running.
+    /// Specifies the Amazon Resource Name (ARN) of the task execution that you want information about.
     /// This member is required.
     public var taskExecutionArn: Swift.String?
 
@@ -6336,29 +6348,41 @@ extension DescribeTaskExecutionOutputResponse: ClientRuntime.HttpResponseBinding
             self.bytesTransferred = output.bytesTransferred
             self.bytesWritten = output.bytesWritten
             self.estimatedBytesToTransfer = output.estimatedBytesToTransfer
+            self.estimatedFilesToDelete = output.estimatedFilesToDelete
             self.estimatedFilesToTransfer = output.estimatedFilesToTransfer
             self.excludes = output.excludes
+            self.filesDeleted = output.filesDeleted
+            self.filesSkipped = output.filesSkipped
             self.filesTransferred = output.filesTransferred
+            self.filesVerified = output.filesVerified
             self.includes = output.includes
             self.options = output.options
+            self.reportResult = output.reportResult
             self.result = output.result
             self.startTime = output.startTime
             self.status = output.status
             self.taskExecutionArn = output.taskExecutionArn
+            self.taskReportConfig = output.taskReportConfig
         } else {
             self.bytesCompressed = 0
             self.bytesTransferred = 0
             self.bytesWritten = 0
             self.estimatedBytesToTransfer = 0
+            self.estimatedFilesToDelete = 0
             self.estimatedFilesToTransfer = 0
             self.excludes = nil
+            self.filesDeleted = 0
+            self.filesSkipped = 0
             self.filesTransferred = 0
+            self.filesVerified = 0
             self.includes = nil
             self.options = nil
+            self.reportResult = nil
             self.result = nil
             self.startTime = nil
             self.status = nil
             self.taskExecutionArn = nil
+            self.taskReportConfig = nil
         }
     }
 }
@@ -6369,58 +6393,82 @@ public struct DescribeTaskExecutionOutputResponse: Swift.Equatable {
     public var bytesCompressed: Swift.Int
     /// The total number of bytes that are involved in the transfer. For the number of bytes sent over the network, see BytesCompressed.
     public var bytesTransferred: Swift.Int
-    /// The number of logical bytes written to the destination Amazon Web Services storage resource.
+    /// The number of logical bytes written to the destination location.
     public var bytesWritten: Swift.Int
-    /// The estimated physical number of bytes that is to be transferred over the network.
+    /// The estimated physical number of bytes that will transfer over the network.
     public var estimatedBytesToTransfer: Swift.Int
-    /// The expected number of files that is to be transferred over the network. This value is calculated during the PREPARING phase before the TRANSFERRING phase of the task execution. This value is the expected number of files to be transferred. It's calculated based on comparing the content of the source and destination locations and finding the delta that needs to be transferred.
+    /// The expected number of files, objects, and directories that DataSync will delete in your destination location. If you don't [configure your task](https://docs.aws.amazon.com/datasync/latest/userguide/configure-metadata.html) to delete data in the destination that isn't in the source, the value is always 0.
+    public var estimatedFilesToDelete: Swift.Int
+    /// The expected number of files, objects, and directories that DataSync will transfer over the network. This value is calculated during the task execution's PREPARING phase before the TRANSFERRING phase. The calculation is based on comparing the content of the source and destination locations and finding the difference that needs to be transferred.
     public var estimatedFilesToTransfer: Swift.Int
     /// A list of filter rules that exclude specific data during your transfer. For more information and examples, see [Filtering data transferred by DataSync](https://docs.aws.amazon.com/datasync/latest/userguide/filtering.html).
     public var excludes: [DataSyncClientTypes.FilterRule]?
-    /// The actual number of files that was transferred over the network. This value is calculated and updated on an ongoing basis during the TRANSFERRING phase of the task execution. It's updated periodically when each file is read from the source and sent over the network. If failures occur during a transfer, this value can be less than EstimatedFilesToTransfer. In some cases, this value can also be greater than EstimatedFilesToTransfer. This element is implementation-specific for some location types, so don't use it as an indicator for a correct file number or to monitor your task execution.
+    /// The number of files, objects, and directories that DataSync deleted in your destination location. If you don't [configure your task](https://docs.aws.amazon.com/datasync/latest/userguide/configure-metadata.html) to delete data in the destination that isn't in the source, the value is always 0.
+    public var filesDeleted: Swift.Int
+    /// The number of files, objects, and directories that DataSync skipped during your transfer.
+    public var filesSkipped: Swift.Int
+    /// The actual number of files, objects, and directories that DataSync transferred over the network. This value is updated periodically during the task execution's TRANSFERRING phase when something is read from the source and sent over the network. If DataSync fails to transfer something, this value can be less than EstimatedFilesToTransfer. In some cases, this value can also be greater than EstimatedFilesToTransfer. This element is implementation-specific for some location types, so don't use it as an exact indication of what transferred or to monitor your task execution.
     public var filesTransferred: Swift.Int
+    /// The number of files, objects, and directories that DataSync verified during your transfer.
+    public var filesVerified: Swift.Int
     /// A list of filter rules that include specific data during your transfer. For more information and examples, see [Filtering data transferred by DataSync](https://docs.aws.amazon.com/datasync/latest/userguide/filtering.html).
     public var includes: [DataSyncClientTypes.FilterRule]?
-    /// Configures your DataSync task settings. These options include how DataSync handles files, objects, and their associated metadata. You also can specify how DataSync verifies data integrity, set bandwidth limits for your task, among other options. Each task setting has a default value. Unless you need to, you don't have to configure any of these Options before starting your task.
+    /// Indicates how your transfer task is configured. These options include how DataSync handles files, objects, and their associated metadata during your transfer. You also can specify how to verify data integrity, set bandwidth limits for your task, among other options. Each option has a default value. Unless you need to, you don't have to configure any of these options before starting your task.
     public var options: DataSyncClientTypes.Options?
+    /// Indicates whether DataSync generated a complete [task report](https://docs.aws.amazon.com/datasync/latest/userguide/creating-task-reports.html) for your transfer.
+    public var reportResult: DataSyncClientTypes.ReportResult?
     /// The result of the task execution.
     public var result: DataSyncClientTypes.TaskExecutionResultDetail?
-    /// The time that the task execution was started.
+    /// The time when the task execution started.
     public var startTime: ClientRuntime.Date?
-    /// The status of the task execution. For detailed information about task execution statuses, see Understanding Task Statuses in the DataSync User Guide.
+    /// The status of the task execution.
     public var status: DataSyncClientTypes.TaskExecutionStatus?
-    /// The Amazon Resource Name (ARN) of the task execution that was described. TaskExecutionArn is hierarchical and includes TaskArn for the task that was executed. For example, a TaskExecution value with the ARN arn:aws:datasync:us-east-1:111222333444:task/task-0208075f79cedf4a2/execution/exec-08ef1e88ec491019b executed the task with the ARN arn:aws:datasync:us-east-1:111222333444:task/task-0208075f79cedf4a2.
+    /// The ARN of the task execution that you wanted information about. TaskExecutionArn is hierarchical and includes TaskArn for the task that was executed. For example, a TaskExecution value with the ARN arn:aws:datasync:us-east-1:111222333444:task/task-0208075f79cedf4a2/execution/exec-08ef1e88ec491019b executed the task with the ARN arn:aws:datasync:us-east-1:111222333444:task/task-0208075f79cedf4a2.
     public var taskExecutionArn: Swift.String?
+    /// The configuration of your task report, which provides detailed information about for your DataSync transfer.
+    public var taskReportConfig: DataSyncClientTypes.TaskReportConfig?
 
     public init(
         bytesCompressed: Swift.Int = 0,
         bytesTransferred: Swift.Int = 0,
         bytesWritten: Swift.Int = 0,
         estimatedBytesToTransfer: Swift.Int = 0,
+        estimatedFilesToDelete: Swift.Int = 0,
         estimatedFilesToTransfer: Swift.Int = 0,
         excludes: [DataSyncClientTypes.FilterRule]? = nil,
+        filesDeleted: Swift.Int = 0,
+        filesSkipped: Swift.Int = 0,
         filesTransferred: Swift.Int = 0,
+        filesVerified: Swift.Int = 0,
         includes: [DataSyncClientTypes.FilterRule]? = nil,
         options: DataSyncClientTypes.Options? = nil,
+        reportResult: DataSyncClientTypes.ReportResult? = nil,
         result: DataSyncClientTypes.TaskExecutionResultDetail? = nil,
         startTime: ClientRuntime.Date? = nil,
         status: DataSyncClientTypes.TaskExecutionStatus? = nil,
-        taskExecutionArn: Swift.String? = nil
+        taskExecutionArn: Swift.String? = nil,
+        taskReportConfig: DataSyncClientTypes.TaskReportConfig? = nil
     )
     {
         self.bytesCompressed = bytesCompressed
         self.bytesTransferred = bytesTransferred
         self.bytesWritten = bytesWritten
         self.estimatedBytesToTransfer = estimatedBytesToTransfer
+        self.estimatedFilesToDelete = estimatedFilesToDelete
         self.estimatedFilesToTransfer = estimatedFilesToTransfer
         self.excludes = excludes
+        self.filesDeleted = filesDeleted
+        self.filesSkipped = filesSkipped
         self.filesTransferred = filesTransferred
+        self.filesVerified = filesVerified
         self.includes = includes
         self.options = options
+        self.reportResult = reportResult
         self.result = result
         self.startTime = startTime
         self.status = status
         self.taskExecutionArn = taskExecutionArn
+        self.taskReportConfig = taskReportConfig
     }
 }
 
@@ -6438,6 +6486,12 @@ struct DescribeTaskExecutionOutputResponseBody: Swift.Equatable {
     let bytesTransferred: Swift.Int
     let result: DataSyncClientTypes.TaskExecutionResultDetail?
     let bytesCompressed: Swift.Int
+    let taskReportConfig: DataSyncClientTypes.TaskReportConfig?
+    let filesDeleted: Swift.Int
+    let filesSkipped: Swift.Int
+    let filesVerified: Swift.Int
+    let reportResult: DataSyncClientTypes.ReportResult?
+    let estimatedFilesToDelete: Swift.Int
 }
 
 extension DescribeTaskExecutionOutputResponseBody: Swift.Decodable {
@@ -6446,15 +6500,21 @@ extension DescribeTaskExecutionOutputResponseBody: Swift.Decodable {
         case bytesTransferred = "BytesTransferred"
         case bytesWritten = "BytesWritten"
         case estimatedBytesToTransfer = "EstimatedBytesToTransfer"
+        case estimatedFilesToDelete = "EstimatedFilesToDelete"
         case estimatedFilesToTransfer = "EstimatedFilesToTransfer"
         case excludes = "Excludes"
+        case filesDeleted = "FilesDeleted"
+        case filesSkipped = "FilesSkipped"
         case filesTransferred = "FilesTransferred"
+        case filesVerified = "FilesVerified"
         case includes = "Includes"
         case options = "Options"
+        case reportResult = "ReportResult"
         case result = "Result"
         case startTime = "StartTime"
         case status = "Status"
         case taskExecutionArn = "TaskExecutionArn"
+        case taskReportConfig = "TaskReportConfig"
     }
 
     public init(from decoder: Swift.Decoder) throws {
@@ -6503,6 +6563,18 @@ extension DescribeTaskExecutionOutputResponseBody: Swift.Decodable {
         result = resultDecoded
         let bytesCompressedDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .bytesCompressed) ?? 0
         bytesCompressed = bytesCompressedDecoded
+        let taskReportConfigDecoded = try containerValues.decodeIfPresent(DataSyncClientTypes.TaskReportConfig.self, forKey: .taskReportConfig)
+        taskReportConfig = taskReportConfigDecoded
+        let filesDeletedDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .filesDeleted) ?? 0
+        filesDeleted = filesDeletedDecoded
+        let filesSkippedDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .filesSkipped) ?? 0
+        filesSkipped = filesSkippedDecoded
+        let filesVerifiedDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .filesVerified) ?? 0
+        filesVerified = filesVerifiedDecoded
+        let reportResultDecoded = try containerValues.decodeIfPresent(DataSyncClientTypes.ReportResult.self, forKey: .reportResult)
+        reportResult = reportResultDecoded
+        let estimatedFilesToDeleteDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .estimatedFilesToDelete) ?? 0
+        estimatedFilesToDelete = estimatedFilesToDeleteDecoded
     }
 }
 
@@ -6588,6 +6660,7 @@ extension DescribeTaskOutputResponse: ClientRuntime.HttpResponseBinding {
             self.sourceNetworkInterfaceArns = output.sourceNetworkInterfaceArns
             self.status = output.status
             self.taskArn = output.taskArn
+            self.taskReportConfig = output.taskReportConfig
         } else {
             self.cloudWatchLogGroupArn = nil
             self.creationTime = nil
@@ -6605,6 +6678,7 @@ extension DescribeTaskOutputResponse: ClientRuntime.HttpResponseBinding {
             self.sourceNetworkInterfaceArns = nil
             self.status = nil
             self.taskArn = nil
+            self.taskReportConfig = nil
         }
     }
 }
@@ -6643,6 +6717,8 @@ public struct DescribeTaskOutputResponse: Swift.Equatable {
     public var status: DataSyncClientTypes.TaskStatus?
     /// The Amazon Resource Name (ARN) of the task that was described.
     public var taskArn: Swift.String?
+    /// The configuration of your task report. For more information, see [Creating a task report](https://docs.aws.amazon.com/https:/docs.aws.amazon.com/datasync/latest/userguide/creating-task-reports.html).
+    public var taskReportConfig: DataSyncClientTypes.TaskReportConfig?
 
     public init(
         cloudWatchLogGroupArn: Swift.String? = nil,
@@ -6660,7 +6736,8 @@ public struct DescribeTaskOutputResponse: Swift.Equatable {
         sourceLocationArn: Swift.String? = nil,
         sourceNetworkInterfaceArns: [Swift.String]? = nil,
         status: DataSyncClientTypes.TaskStatus? = nil,
-        taskArn: Swift.String? = nil
+        taskArn: Swift.String? = nil,
+        taskReportConfig: DataSyncClientTypes.TaskReportConfig? = nil
     )
     {
         self.cloudWatchLogGroupArn = cloudWatchLogGroupArn
@@ -6679,6 +6756,7 @@ public struct DescribeTaskOutputResponse: Swift.Equatable {
         self.sourceNetworkInterfaceArns = sourceNetworkInterfaceArns
         self.status = status
         self.taskArn = taskArn
+        self.taskReportConfig = taskReportConfig
     }
 }
 
@@ -6699,6 +6777,7 @@ struct DescribeTaskOutputResponseBody: Swift.Equatable {
     let errorDetail: Swift.String?
     let creationTime: ClientRuntime.Date?
     let includes: [DataSyncClientTypes.FilterRule]?
+    let taskReportConfig: DataSyncClientTypes.TaskReportConfig?
 }
 
 extension DescribeTaskOutputResponseBody: Swift.Decodable {
@@ -6719,6 +6798,7 @@ extension DescribeTaskOutputResponseBody: Swift.Decodable {
         case sourceNetworkInterfaceArns = "SourceNetworkInterfaceArns"
         case status = "Status"
         case taskArn = "TaskArn"
+        case taskReportConfig = "TaskReportConfig"
     }
 
     public init(from decoder: Swift.Decoder) throws {
@@ -6791,6 +6871,8 @@ extension DescribeTaskOutputResponseBody: Swift.Decodable {
             }
         }
         includes = includesDecoded0
+        let taskReportConfigDecoded = try containerValues.decodeIfPresent(DataSyncClientTypes.TaskReportConfig.self, forKey: .taskReportConfig)
+        taskReportConfig = taskReportConfigDecoded
     }
 }
 
@@ -9991,6 +10073,38 @@ extension DataSyncClientTypes {
     }
 }
 
+extension DataSyncClientTypes {
+    public enum ObjectVersionIds: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case include
+        case `none`
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ObjectVersionIds] {
+            return [
+                .include,
+                .none,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .include: return "INCLUDE"
+            case .none: return "NONE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = ObjectVersionIds(rawValue: rawValue) ?? ObjectVersionIds.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension DataSyncClientTypes.OnPremConfig: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case agentArns = "AgentArns"
@@ -10199,7 +10313,7 @@ extension DataSyncClientTypes.Options: Swift.Codable {
 }
 
 extension DataSyncClientTypes {
-    /// Configures your DataSync task settings. These options include how DataSync handles files, objects, and their associated metadata. You also can specify how DataSync verifies data integrity, set bandwidth limits for your task, among other options. Each task setting has a default value. Unless you need to, you don't have to configure any of these Options before starting your task.
+    /// Indicates how your transfer task is configured. These options include how DataSync handles files, objects, and their associated metadata during your transfer. You also can specify how to verify data integrity, set bandwidth limits for your task, among other options. Each option has a default value. Unless you need to, you don't have to configure any of these options before starting your task.
     public struct Options: Swift.Equatable {
         /// Specifies whether to preserve metadata indicating the last time a file was read or written to. If you set Atime to BEST_EFFORT, DataSync attempts to preserve the original Atime attribute on all source files (that is, the version before the PREPARING phase of the task execution). The behavior of Atime isn't fully standard across platforms, so DataSync can only do this on a best-effort basis. Default value: BEST_EFFORTBEST_EFFORT: Attempt to preserve the per-file Atime value (recommended). NONE: Ignore Atime. If Atime is set to BEST_EFFORT, Mtime must be set to PRESERVE. If Atime is set to NONE, Mtime must also be NONE.
         public var atime: DataSyncClientTypes.Atime?
@@ -10813,6 +10927,317 @@ public struct RemoveStorageSystemOutputResponse: Swift.Equatable {
     public init() { }
 }
 
+extension DataSyncClientTypes.ReportDestination: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case s3 = "S3"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let s3 = self.s3 {
+            try encodeContainer.encode(s3, forKey: .s3)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let s3Decoded = try containerValues.decodeIfPresent(DataSyncClientTypes.ReportDestinationS3.self, forKey: .s3)
+        s3 = s3Decoded
+    }
+}
+
+extension DataSyncClientTypes {
+    /// Specifies where DataSync uploads your [task report](https://docs.aws.amazon.com/datasync/latest/userguide/creating-task-reports.html).
+    public struct ReportDestination: Swift.Equatable {
+        /// Specifies the Amazon S3 bucket where DataSync uploads your task report.
+        public var s3: DataSyncClientTypes.ReportDestinationS3?
+
+        public init(
+            s3: DataSyncClientTypes.ReportDestinationS3? = nil
+        )
+        {
+            self.s3 = s3
+        }
+    }
+
+}
+
+extension DataSyncClientTypes.ReportDestinationS3: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case bucketAccessRoleArn = "BucketAccessRoleArn"
+        case s3BucketArn = "S3BucketArn"
+        case subdirectory = "Subdirectory"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let bucketAccessRoleArn = self.bucketAccessRoleArn {
+            try encodeContainer.encode(bucketAccessRoleArn, forKey: .bucketAccessRoleArn)
+        }
+        if let s3BucketArn = self.s3BucketArn {
+            try encodeContainer.encode(s3BucketArn, forKey: .s3BucketArn)
+        }
+        if let subdirectory = self.subdirectory {
+            try encodeContainer.encode(subdirectory, forKey: .subdirectory)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let subdirectoryDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .subdirectory)
+        subdirectory = subdirectoryDecoded
+        let s3BucketArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .s3BucketArn)
+        s3BucketArn = s3BucketArnDecoded
+        let bucketAccessRoleArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .bucketAccessRoleArn)
+        bucketAccessRoleArn = bucketAccessRoleArnDecoded
+    }
+}
+
+extension DataSyncClientTypes {
+    /// Specifies the Amazon S3 bucket where DataSync uploads your [task report](https://docs.aws.amazon.com/datasync/latest/userguide/creating-task-reports.html).
+    public struct ReportDestinationS3: Swift.Equatable {
+        /// Specifies the Amazon Resource Name (ARN) of the IAM policy that allows DataSync to upload a task report to your S3 bucket. For more information, see [Allowing DataSync to upload a task report to an Amazon S3 bucket](https://docs.aws.amazon.com/https:/docs.aws.amazon.com/datasync/latest/userguide/creating-task-reports.html).
+        /// This member is required.
+        public var bucketAccessRoleArn: Swift.String?
+        /// Specifies the ARN of the S3 bucket where DataSync uploads your report.
+        /// This member is required.
+        public var s3BucketArn: Swift.String?
+        /// Specifies a bucket prefix for your report.
+        public var subdirectory: Swift.String?
+
+        public init(
+            bucketAccessRoleArn: Swift.String? = nil,
+            s3BucketArn: Swift.String? = nil,
+            subdirectory: Swift.String? = nil
+        )
+        {
+            self.bucketAccessRoleArn = bucketAccessRoleArn
+            self.s3BucketArn = s3BucketArn
+            self.subdirectory = subdirectory
+        }
+    }
+
+}
+
+extension DataSyncClientTypes {
+    public enum ReportLevel: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case errorsOnly
+        case successesAndErrors
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ReportLevel] {
+            return [
+                .errorsOnly,
+                .successesAndErrors,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .errorsOnly: return "ERRORS_ONLY"
+            case .successesAndErrors: return "SUCCESSES_AND_ERRORS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = ReportLevel(rawValue: rawValue) ?? ReportLevel.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension DataSyncClientTypes {
+    public enum ReportOutputType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case standard
+        case summaryOnly
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ReportOutputType] {
+            return [
+                .standard,
+                .summaryOnly,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .standard: return "STANDARD"
+            case .summaryOnly: return "SUMMARY_ONLY"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = ReportOutputType(rawValue: rawValue) ?? ReportOutputType.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension DataSyncClientTypes.ReportOverride: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case reportLevel = "ReportLevel"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let reportLevel = self.reportLevel {
+            try encodeContainer.encode(reportLevel.rawValue, forKey: .reportLevel)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let reportLevelDecoded = try containerValues.decodeIfPresent(DataSyncClientTypes.ReportLevel.self, forKey: .reportLevel)
+        reportLevel = reportLevelDecoded
+    }
+}
+
+extension DataSyncClientTypes {
+    /// Specifies the level of detail for a particular aspect of your DataSync [task report](https://docs.aws.amazon.com/datasync/latest/userguide/creating-task-reports.html).
+    public struct ReportOverride: Swift.Equatable {
+        /// Specifies whether your task report includes errors only or successes and errors. For example, your report might mostly include only what didn't go well in your transfer (ERRORS_ONLY). At the same time, you want to verify that your [task filter](https://docs.aws.amazon.com/datasync/latest/userguide/filtering.html) is working correctly. In this situation, you can get a list of what files DataSync successfully skipped and if something transferred that you didn't to transfer (SUCCESSES_AND_ERRORS).
+        public var reportLevel: DataSyncClientTypes.ReportLevel?
+
+        public init(
+            reportLevel: DataSyncClientTypes.ReportLevel? = nil
+        )
+        {
+            self.reportLevel = reportLevel
+        }
+    }
+
+}
+
+extension DataSyncClientTypes.ReportOverrides: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case deleted = "Deleted"
+        case skipped = "Skipped"
+        case transferred = "Transferred"
+        case verified = "Verified"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let deleted = self.deleted {
+            try encodeContainer.encode(deleted, forKey: .deleted)
+        }
+        if let skipped = self.skipped {
+            try encodeContainer.encode(skipped, forKey: .skipped)
+        }
+        if let transferred = self.transferred {
+            try encodeContainer.encode(transferred, forKey: .transferred)
+        }
+        if let verified = self.verified {
+            try encodeContainer.encode(verified, forKey: .verified)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let transferredDecoded = try containerValues.decodeIfPresent(DataSyncClientTypes.ReportOverride.self, forKey: .transferred)
+        transferred = transferredDecoded
+        let verifiedDecoded = try containerValues.decodeIfPresent(DataSyncClientTypes.ReportOverride.self, forKey: .verified)
+        verified = verifiedDecoded
+        let deletedDecoded = try containerValues.decodeIfPresent(DataSyncClientTypes.ReportOverride.self, forKey: .deleted)
+        deleted = deletedDecoded
+        let skippedDecoded = try containerValues.decodeIfPresent(DataSyncClientTypes.ReportOverride.self, forKey: .skipped)
+        skipped = skippedDecoded
+    }
+}
+
+extension DataSyncClientTypes {
+    /// The level of detail included in each aspect of your DataSync [task report](https://docs.aws.amazon.com/datasync/latest/userguide/creating-task-reports.html).
+    public struct ReportOverrides: Swift.Equatable {
+        /// Specifies the level of reporting for the files, objects, and directories that DataSync attempted to delete in your destination location. This only applies if you [configure your task](https://docs.aws.amazon.com/datasync/latest/userguide/configure-metadata.html) to delete data in the destination that isn't in the source.
+        public var deleted: DataSyncClientTypes.ReportOverride?
+        /// Specifies the level of reporting for the files, objects, and directories that DataSync attempted to skip during your transfer.
+        public var skipped: DataSyncClientTypes.ReportOverride?
+        /// Specifies the level of reporting for the files, objects, and directories that DataSync attempted to transfer.
+        public var transferred: DataSyncClientTypes.ReportOverride?
+        /// Specifies the level of reporting for the files, objects, and directories that DataSync attempted to verify at the end of your transfer. This only applies if you [configure your task](https://docs.aws.amazon.com/datasync/latest/userguide/configure-data-verification-options.html) to verify data during and after the transfer (which DataSync does by default).
+        public var verified: DataSyncClientTypes.ReportOverride?
+
+        public init(
+            deleted: DataSyncClientTypes.ReportOverride? = nil,
+            skipped: DataSyncClientTypes.ReportOverride? = nil,
+            transferred: DataSyncClientTypes.ReportOverride? = nil,
+            verified: DataSyncClientTypes.ReportOverride? = nil
+        )
+        {
+            self.deleted = deleted
+            self.skipped = skipped
+            self.transferred = transferred
+            self.verified = verified
+        }
+    }
+
+}
+
+extension DataSyncClientTypes.ReportResult: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case errorCode = "ErrorCode"
+        case errorDetail = "ErrorDetail"
+        case status = "Status"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let errorCode = self.errorCode {
+            try encodeContainer.encode(errorCode, forKey: .errorCode)
+        }
+        if let errorDetail = self.errorDetail {
+            try encodeContainer.encode(errorDetail, forKey: .errorDetail)
+        }
+        if let status = self.status {
+            try encodeContainer.encode(status.rawValue, forKey: .status)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let statusDecoded = try containerValues.decodeIfPresent(DataSyncClientTypes.PhaseStatus.self, forKey: .status)
+        status = statusDecoded
+        let errorCodeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .errorCode)
+        errorCode = errorCodeDecoded
+        let errorDetailDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .errorDetail)
+        errorDetail = errorDetailDecoded
+    }
+}
+
+extension DataSyncClientTypes {
+    /// Indicates whether DataSync created a complete [task report](https://docs.aws.amazon.com/datasync/latest/userguide/creating-task-reports.html) for your transfer.
+    public struct ReportResult: Swift.Equatable {
+        /// Indicates the code associated with the error if DataSync can't create a complete report.
+        public var errorCode: Swift.String?
+        /// Provides details about issues creating a report.
+        public var errorDetail: Swift.String?
+        /// Indicates whether DataSync is still working on your report, created a report, or can't create a complete report.
+        public var status: DataSyncClientTypes.PhaseStatus?
+
+        public init(
+            errorCode: Swift.String? = nil,
+            errorDetail: Swift.String? = nil,
+            status: DataSyncClientTypes.PhaseStatus? = nil
+        )
+        {
+            self.errorCode = errorCode
+            self.errorDetail = errorDetail
+            self.status = status
+        }
+    }
+
+}
+
 extension DataSyncClientTypes.ResourceDetails: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case netAppONTAPClusters = "NetAppONTAPClusters"
@@ -11343,6 +11768,7 @@ extension StartTaskExecutionInput: Swift.Encodable {
         case overrideOptions = "OverrideOptions"
         case tags = "Tags"
         case taskArn = "TaskArn"
+        case taskReportConfig = "TaskReportConfig"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -11371,6 +11797,9 @@ extension StartTaskExecutionInput: Swift.Encodable {
         if let taskArn = self.taskArn {
             try encodeContainer.encode(taskArn, forKey: .taskArn)
         }
+        if let taskReportConfig = self.taskReportConfig {
+            try encodeContainer.encode(taskReportConfig, forKey: .taskReportConfig)
+        }
     }
 }
 
@@ -11386,20 +11815,23 @@ public struct StartTaskExecutionInput: Swift.Equatable {
     public var excludes: [DataSyncClientTypes.FilterRule]?
     /// Specifies a list of filter rules that determines which files to include when running a task. The pattern should contain a single filter string that consists of the patterns to include. The patterns are delimited by "|" (that is, a pipe), for example, "/folder1|/folder2".
     public var includes: [DataSyncClientTypes.FilterRule]?
-    /// Configures your DataSync task settings. These options include how DataSync handles files, objects, and their associated metadata. You also can specify how DataSync verifies data integrity, set bandwidth limits for your task, among other options. Each task setting has a default value. Unless you need to, you don't have to configure any of these Options before starting your task.
+    /// Indicates how your transfer task is configured. These options include how DataSync handles files, objects, and their associated metadata during your transfer. You also can specify how to verify data integrity, set bandwidth limits for your task, among other options. Each option has a default value. Unless you need to, you don't have to configure any of these options before starting your task.
     public var overrideOptions: DataSyncClientTypes.Options?
     /// Specifies the tags that you want to apply to the Amazon Resource Name (ARN) representing the task execution. Tags are key-value pairs that help you manage, filter, and search for your DataSync resources.
     public var tags: [DataSyncClientTypes.TagListEntry]?
     /// Specifies the Amazon Resource Name (ARN) of the task that you want to start.
     /// This member is required.
     public var taskArn: Swift.String?
+    /// Specifies how you want to configure a task report, which provides detailed information about for your DataSync transfer.
+    public var taskReportConfig: DataSyncClientTypes.TaskReportConfig?
 
     public init(
         excludes: [DataSyncClientTypes.FilterRule]? = nil,
         includes: [DataSyncClientTypes.FilterRule]? = nil,
         overrideOptions: DataSyncClientTypes.Options? = nil,
         tags: [DataSyncClientTypes.TagListEntry]? = nil,
-        taskArn: Swift.String? = nil
+        taskArn: Swift.String? = nil,
+        taskReportConfig: DataSyncClientTypes.TaskReportConfig? = nil
     )
     {
         self.excludes = excludes
@@ -11407,6 +11839,7 @@ public struct StartTaskExecutionInput: Swift.Equatable {
         self.overrideOptions = overrideOptions
         self.tags = tags
         self.taskArn = taskArn
+        self.taskReportConfig = taskReportConfig
     }
 }
 
@@ -11416,6 +11849,7 @@ struct StartTaskExecutionInputBody: Swift.Equatable {
     let includes: [DataSyncClientTypes.FilterRule]?
     let excludes: [DataSyncClientTypes.FilterRule]?
     let tags: [DataSyncClientTypes.TagListEntry]?
+    let taskReportConfig: DataSyncClientTypes.TaskReportConfig?
 }
 
 extension StartTaskExecutionInputBody: Swift.Decodable {
@@ -11425,6 +11859,7 @@ extension StartTaskExecutionInputBody: Swift.Decodable {
         case overrideOptions = "OverrideOptions"
         case tags = "Tags"
         case taskArn = "TaskArn"
+        case taskReportConfig = "TaskReportConfig"
     }
 
     public init(from decoder: Swift.Decoder) throws {
@@ -11466,6 +11901,8 @@ extension StartTaskExecutionInputBody: Swift.Decodable {
             }
         }
         tags = tagsDecoded0
+        let taskReportConfigDecoded = try containerValues.decodeIfPresent(DataSyncClientTypes.TaskReportConfig.self, forKey: .taskReportConfig)
+        taskReportConfig = taskReportConfigDecoded
     }
 }
 
@@ -12208,6 +12645,89 @@ extension DataSyncClientTypes {
             self = TaskQueueing(rawValue: rawValue) ?? TaskQueueing.sdkUnknown(rawValue)
         }
     }
+}
+
+extension DataSyncClientTypes.TaskReportConfig: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case destination = "Destination"
+        case objectVersionIds = "ObjectVersionIds"
+        case outputType = "OutputType"
+        case overrides = "Overrides"
+        case reportLevel = "ReportLevel"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let destination = self.destination {
+            try encodeContainer.encode(destination, forKey: .destination)
+        }
+        if let objectVersionIds = self.objectVersionIds {
+            try encodeContainer.encode(objectVersionIds.rawValue, forKey: .objectVersionIds)
+        }
+        if let outputType = self.outputType {
+            try encodeContainer.encode(outputType.rawValue, forKey: .outputType)
+        }
+        if let overrides = self.overrides {
+            try encodeContainer.encode(overrides, forKey: .overrides)
+        }
+        if let reportLevel = self.reportLevel {
+            try encodeContainer.encode(reportLevel.rawValue, forKey: .reportLevel)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let destinationDecoded = try containerValues.decodeIfPresent(DataSyncClientTypes.ReportDestination.self, forKey: .destination)
+        destination = destinationDecoded
+        let outputTypeDecoded = try containerValues.decodeIfPresent(DataSyncClientTypes.ReportOutputType.self, forKey: .outputType)
+        outputType = outputTypeDecoded
+        let reportLevelDecoded = try containerValues.decodeIfPresent(DataSyncClientTypes.ReportLevel.self, forKey: .reportLevel)
+        reportLevel = reportLevelDecoded
+        let objectVersionIdsDecoded = try containerValues.decodeIfPresent(DataSyncClientTypes.ObjectVersionIds.self, forKey: .objectVersionIds)
+        objectVersionIds = objectVersionIdsDecoded
+        let overridesDecoded = try containerValues.decodeIfPresent(DataSyncClientTypes.ReportOverrides.self, forKey: .overrides)
+        overrides = overridesDecoded
+    }
+}
+
+extension DataSyncClientTypes {
+    /// Specifies how you want to configure a task report, which provides detailed information about for your DataSync transfer. For more information, see [Task reports](https://docs.aws.amazon.com/datasync/latest/userguide/creating-task-reports.html).
+    public struct TaskReportConfig: Swift.Equatable {
+        /// Specifies the Amazon S3 bucket where DataSync uploads your task report. For more information, see [Task reports](https://docs.aws.amazon.com/datasync/latest/userguide/creating-task-reports.html#task-report-access).
+        public var destination: DataSyncClientTypes.ReportDestination?
+        /// Specifies whether your task report includes the new version of each object transferred into an S3 bucket. This only applies if you [enable versioning on your bucket](https://docs.aws.amazon.com/AmazonS3/latest/userguide/manage-versioning-examples.html). Keep in mind that setting this to INCLUDE can increase the duration of your task execution.
+        public var objectVersionIds: DataSyncClientTypes.ObjectVersionIds?
+        /// Specifies the type of task report that you want:
+        ///
+        /// * SUMMARY_ONLY: Provides necessary details about your task, including the number of files, objects, and directories transferred and transfer duration.
+        ///
+        /// * STANDARD: Provides complete details about your task, including a full list of files, objects, and directories that were transferred, skipped, verified, and more.
+        public var outputType: DataSyncClientTypes.ReportOutputType?
+        /// Customizes the reporting level for aspects of your task report. For example, your report might generally only include errors, but you could specify that you want a list of successes and errors just for the files that DataSync attempted to delete in your destination location.
+        public var overrides: DataSyncClientTypes.ReportOverrides?
+        /// Specifies whether you want your task report to include only what went wrong with your transfer or a list of what succeeded and didn't.
+        ///
+        /// * ERRORS_ONLY: A report shows what DataSync was unable to transfer, skip, verify, and delete.
+        ///
+        /// * SUCCESSES_AND_ERRORS: A report shows what DataSync was able and unable to transfer, skip, verify, and delete.
+        public var reportLevel: DataSyncClientTypes.ReportLevel?
+
+        public init(
+            destination: DataSyncClientTypes.ReportDestination? = nil,
+            objectVersionIds: DataSyncClientTypes.ObjectVersionIds? = nil,
+            outputType: DataSyncClientTypes.ReportOutputType? = nil,
+            overrides: DataSyncClientTypes.ReportOverrides? = nil,
+            reportLevel: DataSyncClientTypes.ReportLevel? = nil
+        )
+        {
+            self.destination = destination
+            self.objectVersionIds = objectVersionIds
+            self.outputType = outputType
+            self.overrides = overrides
+            self.reportLevel = reportLevel
+        }
+    }
+
 }
 
 extension DataSyncClientTypes.TaskSchedule: Swift.Codable {
@@ -13685,7 +14205,7 @@ extension UpdateTaskExecutionInput: ClientRuntime.URLPathProvider {
 }
 
 public struct UpdateTaskExecutionInput: Swift.Equatable {
-    /// Configures your DataSync task settings. These options include how DataSync handles files, objects, and their associated metadata. You also can specify how DataSync verifies data integrity, set bandwidth limits for your task, among other options. Each task setting has a default value. Unless you need to, you don't have to configure any of these Options before starting your task.
+    /// Indicates how your transfer task is configured. These options include how DataSync handles files, objects, and their associated metadata during your transfer. You also can specify how to verify data integrity, set bandwidth limits for your task, among other options. Each option has a default value. Unless you need to, you don't have to configure any of these options before starting your task.
     /// This member is required.
     public var options: DataSyncClientTypes.Options?
     /// Specifies the Amazon Resource Name (ARN) of the task execution that you're updating.
@@ -13753,6 +14273,7 @@ extension UpdateTaskInput: Swift.Encodable {
         case options = "Options"
         case schedule = "Schedule"
         case taskArn = "TaskArn"
+        case taskReportConfig = "TaskReportConfig"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -13784,6 +14305,9 @@ extension UpdateTaskInput: Swift.Encodable {
         if let taskArn = self.taskArn {
             try encodeContainer.encode(taskArn, forKey: .taskArn)
         }
+        if let taskReportConfig = self.taskReportConfig {
+            try encodeContainer.encode(taskReportConfig, forKey: .taskReportConfig)
+        }
     }
 }
 
@@ -13803,13 +14327,15 @@ public struct UpdateTaskInput: Swift.Equatable {
     public var includes: [DataSyncClientTypes.FilterRule]?
     /// The name of the task to update.
     public var name: Swift.String?
-    /// Configures your DataSync task settings. These options include how DataSync handles files, objects, and their associated metadata. You also can specify how DataSync verifies data integrity, set bandwidth limits for your task, among other options. Each task setting has a default value. Unless you need to, you don't have to configure any of these Options before starting your task.
+    /// Indicates how your transfer task is configured. These options include how DataSync handles files, objects, and their associated metadata during your transfer. You also can specify how to verify data integrity, set bandwidth limits for your task, among other options. Each option has a default value. Unless you need to, you don't have to configure any of these options before starting your task.
     public var options: DataSyncClientTypes.Options?
     /// Specifies a schedule used to periodically transfer files from a source to a destination location. You can configure your task to execute hourly, daily, weekly or on specific days of the week. You control when in the day or hour you want the task to execute. The time you specify is UTC time. For more information, see [Scheduling your task](https://docs.aws.amazon.com/datasync/latest/userguide/task-scheduling.html).
     public var schedule: DataSyncClientTypes.TaskSchedule?
     /// The Amazon Resource Name (ARN) of the resource name of the task to update.
     /// This member is required.
     public var taskArn: Swift.String?
+    /// Specifies how you want to configure a task report, which provides detailed information about for your DataSync transfer.
+    public var taskReportConfig: DataSyncClientTypes.TaskReportConfig?
 
     public init(
         cloudWatchLogGroupArn: Swift.String? = nil,
@@ -13818,7 +14344,8 @@ public struct UpdateTaskInput: Swift.Equatable {
         name: Swift.String? = nil,
         options: DataSyncClientTypes.Options? = nil,
         schedule: DataSyncClientTypes.TaskSchedule? = nil,
-        taskArn: Swift.String? = nil
+        taskArn: Swift.String? = nil,
+        taskReportConfig: DataSyncClientTypes.TaskReportConfig? = nil
     )
     {
         self.cloudWatchLogGroupArn = cloudWatchLogGroupArn
@@ -13828,6 +14355,7 @@ public struct UpdateTaskInput: Swift.Equatable {
         self.options = options
         self.schedule = schedule
         self.taskArn = taskArn
+        self.taskReportConfig = taskReportConfig
     }
 }
 
@@ -13839,6 +14367,7 @@ struct UpdateTaskInputBody: Swift.Equatable {
     let name: Swift.String?
     let cloudWatchLogGroupArn: Swift.String?
     let includes: [DataSyncClientTypes.FilterRule]?
+    let taskReportConfig: DataSyncClientTypes.TaskReportConfig?
 }
 
 extension UpdateTaskInputBody: Swift.Decodable {
@@ -13850,6 +14379,7 @@ extension UpdateTaskInputBody: Swift.Decodable {
         case options = "Options"
         case schedule = "Schedule"
         case taskArn = "TaskArn"
+        case taskReportConfig = "TaskReportConfig"
     }
 
     public init(from decoder: Swift.Decoder) throws {
@@ -13886,6 +14416,8 @@ extension UpdateTaskInputBody: Swift.Decodable {
             }
         }
         includes = includesDecoded0
+        let taskReportConfigDecoded = try containerValues.decodeIfPresent(DataSyncClientTypes.TaskReportConfig.self, forKey: .taskReportConfig)
+        taskReportConfig = taskReportConfigDecoded
     }
 }
 

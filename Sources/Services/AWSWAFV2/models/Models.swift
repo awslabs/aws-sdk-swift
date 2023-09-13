@@ -225,11 +225,15 @@ extension WAFV2ClientTypes {
 
 extension WAFV2ClientTypes.AWSManagedRulesBotControlRuleSet: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case enableMachineLearning = "EnableMachineLearning"
         case inspectionLevel = "InspectionLevel"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if enableMachineLearning != false {
+            try encodeContainer.encode(enableMachineLearning, forKey: .enableMachineLearning)
+        }
         if let inspectionLevel = self.inspectionLevel {
             try encodeContainer.encode(inspectionLevel.rawValue, forKey: .inspectionLevel)
         }
@@ -239,20 +243,26 @@ extension WAFV2ClientTypes.AWSManagedRulesBotControlRuleSet: Swift.Codable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let inspectionLevelDecoded = try containerValues.decodeIfPresent(WAFV2ClientTypes.InspectionLevel.self, forKey: .inspectionLevel)
         inspectionLevel = inspectionLevelDecoded
+        let enableMachineLearningDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enableMachineLearning) ?? false
+        enableMachineLearning = enableMachineLearningDecoded
     }
 }
 
 extension WAFV2ClientTypes {
     /// Details for your use of the Bot Control managed rule group, AWSManagedRulesBotControlRuleSet. This configuration is used in ManagedRuleGroupConfig.
     public struct AWSManagedRulesBotControlRuleSet: Swift.Equatable {
+        /// Applies only to the targeted inspection level. Determines whether to use machine learning (ML) to analyze your web traffic for bot-related activity. Machine learning is required for the Bot Control rules TGT_ML_CoordinatedActivityLow and TGT_ML_CoordinatedActivityMedium, which inspect for anomalous behavior that might indicate distributed, coordinated bot activity. For more information about this choice, see the listing for these rules in the table at [Bot Control rules listing](https://docs.aws.amazon.com/waf/latest/developerguide/aws-managed-rule-groups-bot.html#aws-managed-rule-groups-bot-rules) in the WAF Developer Guide. Default: TRUE
+        public var enableMachineLearning: Swift.Bool
         /// The inspection level to use for the Bot Control rule group. The common level is the least expensive. The targeted level includes all common level rules and adds rules with more advanced inspection criteria. For details, see [WAF Bot Control rule group](https://docs.aws.amazon.com/waf/latest/developerguide/aws-managed-rule-groups-bot.html) in the WAF Developer Guide.
         /// This member is required.
         public var inspectionLevel: WAFV2ClientTypes.InspectionLevel?
 
         public init(
+            enableMachineLearning: Swift.Bool = false,
             inspectionLevel: WAFV2ClientTypes.InspectionLevel? = nil
         )
         {
+            self.enableMachineLearning = enableMachineLearning
             self.inspectionLevel = inspectionLevel
         }
     }
@@ -661,9 +671,9 @@ extension WAFV2ClientTypes.AssociationConfig: Swift.Codable {
 }
 
 extension WAFV2ClientTypes {
-    /// Specifies custom configurations for the associations between the web ACL and protected resources. Use this to customize the maximum size of the request body that your protected CloudFront distributions forward to WAF for inspection. The default is 16 KB (16,384 kilobytes). You are charged additional fees when your protected resources forward body sizes that are larger than the default. For more information, see [WAF Pricing](http://aws.amazon.com/waf/pricing/).
+    /// Specifies custom configurations for the associations between the web ACL and protected resources. Use this to customize the maximum size of the request body that your protected CloudFront distributions forward to WAF for inspection. The default is 16 KB (16,384 bytes). You are charged additional fees when your protected resources forward body sizes that are larger than the default. For more information, see [WAF Pricing](http://aws.amazon.com/waf/pricing/).
     public struct AssociationConfig: Swift.Equatable {
-        /// Customizes the maximum size of the request body that your protected CloudFront distributions forward to WAF for inspection. The default size is 16 KB (16,384 kilobytes). You are charged additional fees when your protected resources forward body sizes that are larger than the default. For more information, see [WAF Pricing](http://aws.amazon.com/waf/pricing/).
+        /// Customizes the maximum size of the request body that your protected CloudFront distributions forward to WAF for inspection. The default size is 16 KB (16,384 bytes). You are charged additional fees when your protected resources forward body sizes that are larger than the default. For more information, see [WAF Pricing](http://aws.amazon.com/waf/pricing/).
         public var requestBody: [Swift.String:WAFV2ClientTypes.RequestBodyAssociatedResourceTypeConfig]?
 
         public init(
@@ -733,7 +743,7 @@ extension WAFV2ClientTypes.Body: Swift.Codable {
 extension WAFV2ClientTypes {
     /// Inspect the body of the web request. The body immediately follows the request headers. This is used to indicate the web request component to inspect, in the [FieldToMatch] specification.
     public struct Body: Swift.Equatable {
-        /// What WAF should do if the body is larger than WAF can inspect. WAF does not support inspecting the entire contents of the web request body if the body exceeds the limit for the resource type. If the body is larger than the limit, the underlying host service only forwards the contents that are below the limit to WAF for inspection. The default limit is 8 KB (8,192 kilobytes) for regional resources and 16 KB (16,384 kilobytes) for CloudFront distributions. For CloudFront distributions, you can increase the limit in the web ACL AssociationConfig, for additional processing fees. The options for oversize handling are the following:
+        /// What WAF should do if the body is larger than WAF can inspect. WAF does not support inspecting the entire contents of the web request body if the body exceeds the limit for the resource type. If the body is larger than the limit, the underlying host service only forwards the contents that are below the limit to WAF for inspection. The default limit is 8 KB (8,192 bytes) for regional resources and 16 KB (16,384 bytes) for CloudFront distributions. For CloudFront distributions, you can increase the limit in the web ACL AssociationConfig, for additional processing fees. The options for oversize handling are the following:
         ///
         /// * CONTINUE - Inspect the available body contents normally, according to the rule inspection criteria.
         ///
@@ -3191,7 +3201,7 @@ extension CreateWebACLInput: ClientRuntime.URLPathProvider {
 }
 
 public struct CreateWebACLInput: Swift.Equatable {
-    /// Specifies custom configurations for the associations between the web ACL and protected resources. Use this to customize the maximum size of the request body that your protected CloudFront distributions forward to WAF for inspection. The default is 16 KB (16,384 kilobytes). You are charged additional fees when your protected resources forward body sizes that are larger than the default. For more information, see [WAF Pricing](http://aws.amazon.com/waf/pricing/).
+    /// Specifies custom configurations for the associations between the web ACL and protected resources. Use this to customize the maximum size of the request body that your protected CloudFront distributions forward to WAF for inspection. The default is 16 KB (16,384 bytes). You are charged additional fees when your protected resources forward body sizes that are larger than the default. For more information, see [WAF Pricing](http://aws.amazon.com/waf/pricing/).
     public var associationConfig: WAFV2ClientTypes.AssociationConfig?
     /// Specifies how WAF should handle CAPTCHA evaluations for rules that don't have their own CaptchaConfig settings. If you don't specify this, WAF uses its default settings for CaptchaConfig.
     public var captchaConfig: WAFV2ClientTypes.CaptchaConfig?
@@ -5196,7 +5206,7 @@ extension WAFV2ClientTypes {
     public struct FieldToMatch: Swift.Equatable {
         /// Inspect all query arguments.
         public var allQueryArguments: WAFV2ClientTypes.AllQueryArguments?
-        /// Inspect the request body as plain text. The request body immediately follows the request headers. This is the part of a request that contains any additional data that you want to send to your web server as the HTTP request body, such as data from a form. A limited amount of the request body is forwarded to WAF for inspection by the underlying host service. For regional resources, the limit is 8 KB (8,192 kilobytes) and for CloudFront distributions, the limit is 16 KB (16,384 kilobytes). For CloudFront distributions, you can increase the limit in the web ACL's AssociationConfig, for additional processing fees. For information about how to handle oversized request bodies, see the Body object configuration.
+        /// Inspect the request body as plain text. The request body immediately follows the request headers. This is the part of a request that contains any additional data that you want to send to your web server as the HTTP request body, such as data from a form. A limited amount of the request body is forwarded to WAF for inspection by the underlying host service. For regional resources, the limit is 8 KB (8,192 bytes) and for CloudFront distributions, the limit is 16 KB (16,384 bytes). For CloudFront distributions, you can increase the limit in the web ACL's AssociationConfig, for additional processing fees. For information about how to handle oversized request bodies, see the Body object configuration.
         public var body: WAFV2ClientTypes.Body?
         /// Inspect the request cookies. You must configure scope and pattern matching filters in the Cookies object, to define the set of cookies and the parts of the cookies that WAF inspects. Only the first 8 KB (8192 bytes) of a request's cookies and only the first 200 cookies are forwarded to WAF for inspection by the underlying host service. You must configure how to handle any oversize cookie content in the Cookies object. WAF applies the pattern matching filters to the cookies that it receives from the underlying host service.
         public var cookies: WAFV2ClientTypes.Cookies?
@@ -5204,7 +5214,7 @@ extension WAFV2ClientTypes {
         public var headerOrder: WAFV2ClientTypes.HeaderOrder?
         /// Inspect the request headers. You must configure scope and pattern matching filters in the Headers object, to define the set of headers to and the parts of the headers that WAF inspects. Only the first 8 KB (8192 bytes) of a request's headers and only the first 200 headers are forwarded to WAF for inspection by the underlying host service. You must configure how to handle any oversize header content in the Headers object. WAF applies the pattern matching filters to the headers that it receives from the underlying host service.
         public var headers: WAFV2ClientTypes.Headers?
-        /// Inspect the request body as JSON. The request body immediately follows the request headers. This is the part of a request that contains any additional data that you want to send to your web server as the HTTP request body, such as data from a form. A limited amount of the request body is forwarded to WAF for inspection by the underlying host service. For regional resources, the limit is 8 KB (8,192 kilobytes) and for CloudFront distributions, the limit is 16 KB (16,384 kilobytes). For CloudFront distributions, you can increase the limit in the web ACL's AssociationConfig, for additional processing fees. For information about how to handle oversized request bodies, see the JsonBody object configuration.
+        /// Inspect the request body as JSON. The request body immediately follows the request headers. This is the part of a request that contains any additional data that you want to send to your web server as the HTTP request body, such as data from a form. A limited amount of the request body is forwarded to WAF for inspection by the underlying host service. For regional resources, the limit is 8 KB (8,192 bytes) and for CloudFront distributions, the limit is 16 KB (16,384 bytes). For CloudFront distributions, you can increase the limit in the web ACL's AssociationConfig, for additional processing fees. For information about how to handle oversized request bodies, see the JsonBody object configuration.
         public var jsonBody: WAFV2ClientTypes.JsonBody?
         /// Inspect the HTTP method. The method indicates the type of operation that the request is asking the origin to perform.
         public var method: WAFV2ClientTypes.Method?
@@ -8229,7 +8239,7 @@ extension WAFV2ClientTypes {
         /// The parts of the JSON to match against using the MatchPattern. If you specify All, WAF matches against keys and values.
         /// This member is required.
         public var matchScope: WAFV2ClientTypes.JsonMatchScope?
-        /// What WAF should do if the body is larger than WAF can inspect. WAF does not support inspecting the entire contents of the web request body if the body exceeds the limit for the resource type. If the body is larger than the limit, the underlying host service only forwards the contents that are below the limit to WAF for inspection. The default limit is 8 KB (8,192 kilobytes) for regional resources and 16 KB (16,384 kilobytes) for CloudFront distributions. For CloudFront distributions, you can increase the limit in the web ACL AssociationConfig, for additional processing fees. The options for oversize handling are the following:
+        /// What WAF should do if the body is larger than WAF can inspect. WAF does not support inspecting the entire contents of the web request body if the body exceeds the limit for the resource type. If the body is larger than the limit, the underlying host service only forwards the contents that are below the limit to WAF for inspection. The default limit is 8 KB (8,192 bytes) for regional resources and 16 KB (16,384 bytes) for CloudFront distributions. For CloudFront distributions, you can increase the limit in the web ACL AssociationConfig, for additional processing fees. The options for oversize handling are the following:
         ///
         /// * CONTINUE - Inspect the available body contents normally, according to the rule inspection criteria.
         ///
@@ -13526,9 +13536,9 @@ extension WAFV2ClientTypes.RequestBodyAssociatedResourceTypeConfig: Swift.Codabl
 }
 
 extension WAFV2ClientTypes {
-    /// Customizes the maximum size of the request body that your protected CloudFront distributions forward to WAF for inspection. The default size is 16 KB (16,384 kilobytes). You are charged additional fees when your protected resources forward body sizes that are larger than the default. For more information, see [WAF Pricing](http://aws.amazon.com/waf/pricing/). This is used in the AssociationConfig of the web ACL.
+    /// Customizes the maximum size of the request body that your protected CloudFront distributions forward to WAF for inspection. The default size is 16 KB (16,384 bytes). You are charged additional fees when your protected resources forward body sizes that are larger than the default. For more information, see [WAF Pricing](http://aws.amazon.com/waf/pricing/). This is used in the AssociationConfig of the web ACL.
     public struct RequestBodyAssociatedResourceTypeConfig: Swift.Equatable {
-        /// Specifies the maximum size of the web request body component that an associated CloudFront distribution should send to WAF for inspection. This applies to statements in the web ACL that inspect the body or JSON body. Default: 16 KB (16,384 kilobytes)
+        /// Specifies the maximum size of the web request body component that an associated CloudFront distribution should send to WAF for inspection. This applies to statements in the web ACL that inspect the body or JSON body. Default: 16 KB (16,384 bytes)
         /// This member is required.
         public var defaultSizeInspectionLimit: WAFV2ClientTypes.SizeInspectionLimit?
 
@@ -14280,7 +14290,7 @@ extension WAFV2ClientTypes {
         public var captchaConfig: WAFV2ClientTypes.CaptchaConfig?
         /// Specifies how WAF should handle Challenge evaluations. If you don't specify this, WAF uses the challenge configuration that's defined for the web ACL.
         public var challengeConfig: WAFV2ClientTypes.ChallengeConfig?
-        /// The name of the rule. You can't change the name of a Rule after you create it.
+        /// The name of the rule. If you change the name of a Rule after you create it and you want the rule's metric name to reflect the change, update the metric name in the rule's VisibilityConfig settings. WAF doesn't automatically update the metric name when you update the rule name.
         /// This member is required.
         public var name: Swift.String?
         /// The action to use in the place of the action that results from the rule group evaluation. Set the override action to none to leave the result of the rule group alone. Set it to count to override the result to count only. You can only use this for rule statements that reference a rule group, like RuleGroupReferenceStatement and ManagedRuleGroupStatement. This option is usually set to none. It does not affect how the rules in the rule group are evaluated. If you want the rules in the rule group to only count matches, do not use this and instead use the rule action override option, with Count action, in your rule group reference statement settings.
@@ -14304,7 +14314,7 @@ extension WAFV2ClientTypes {
         /// The WAF processing statement for the rule, for example [ByteMatchStatement] or [SizeConstraintStatement].
         /// This member is required.
         public var statement: WAFV2ClientTypes.Statement?
-        /// Defines and enables Amazon CloudWatch metrics and web request sample collection.
+        /// Defines and enables Amazon CloudWatch metrics and web request sample collection. If you change the name of a Rule after you create it and you want the rule's metric name to reflect the change, update the metric name as well. WAF doesn't automatically update the metric name.
         /// This member is required.
         public var visibilityConfig: WAFV2ClientTypes.VisibilityConfig?
 
@@ -15195,7 +15205,7 @@ extension WAFV2ClientTypes.SizeConstraintStatement: Swift.Codable {
 }
 
 extension WAFV2ClientTypes {
-    /// A rule statement that compares a number of bytes against the size of a request component, using a comparison operator, such as greater than (>) or less than (<). For example, you can use a size constraint statement to look for query strings that are longer than 100 bytes. If you configure WAF to inspect the request body, WAF inspects only the number of bytes of the body up to the limit for the web ACL. By default, for regional web ACLs, this limit is 8 KB (8,192 kilobytes) and for CloudFront web ACLs, this limit is 16 KB (16,384 kilobytes). For CloudFront web ACLs, you can increase the limit in the web ACL AssociationConfig, for additional fees. If you know that the request body for your web requests should never exceed the inspection limit, you could use a size constraint statement to block requests that have a larger request body size. If you choose URI for the value of Part of the request to filter on, the slash (/) in the URI counts as one character. For example, the URI /logo.jpg is nine characters long.
+    /// A rule statement that compares a number of bytes against the size of a request component, using a comparison operator, such as greater than (>) or less than (<). For example, you can use a size constraint statement to look for query strings that are longer than 100 bytes. If you configure WAF to inspect the request body, WAF inspects only the number of bytes of the body up to the limit for the web ACL. By default, for regional web ACLs, this limit is 8 KB (8,192 bytes) and for CloudFront web ACLs, this limit is 16 KB (16,384 bytes). For CloudFront web ACLs, you can increase the limit in the web ACL AssociationConfig, for additional fees. If you know that the request body for your web requests should never exceed the inspection limit, you could use a size constraint statement to block requests that have a larger request body size. If you choose URI for the value of Part of the request to filter on, the slash (/) in the URI counts as one character. For example, the URI /logo.jpg is nine characters long.
     public struct SizeConstraintStatement: Swift.Equatable {
         /// The operator to use to compare the request part to the size setting.
         /// This member is required.
@@ -15513,7 +15523,7 @@ extension WAFV2ClientTypes {
         public var regexPatternSetReferenceStatement: WAFV2ClientTypes.RegexPatternSetReferenceStatement?
         /// A rule statement used to run the rules that are defined in a [RuleGroup]. To use this, create a rule group with your rules, then provide the ARN of the rule group in this statement. You cannot nest a RuleGroupReferenceStatement, for example for use inside a NotStatement or OrStatement. You can only use a rule group reference statement at the top level inside a web ACL.
         public var ruleGroupReferenceStatement: WAFV2ClientTypes.RuleGroupReferenceStatement?
-        /// A rule statement that compares a number of bytes against the size of a request component, using a comparison operator, such as greater than (>) or less than (<). For example, you can use a size constraint statement to look for query strings that are longer than 100 bytes. If you configure WAF to inspect the request body, WAF inspects only the number of bytes of the body up to the limit for the web ACL. By default, for regional web ACLs, this limit is 8 KB (8,192 kilobytes) and for CloudFront web ACLs, this limit is 16 KB (16,384 kilobytes). For CloudFront web ACLs, you can increase the limit in the web ACL AssociationConfig, for additional fees. If you know that the request body for your web requests should never exceed the inspection limit, you could use a size constraint statement to block requests that have a larger request body size. If you choose URI for the value of Part of the request to filter on, the slash (/) in the URI counts as one character. For example, the URI /logo.jpg is nine characters long.
+        /// A rule statement that compares a number of bytes against the size of a request component, using a comparison operator, such as greater than (>) or less than (<). For example, you can use a size constraint statement to look for query strings that are longer than 100 bytes. If you configure WAF to inspect the request body, WAF inspects only the number of bytes of the body up to the limit for the web ACL. By default, for regional web ACLs, this limit is 8 KB (8,192 bytes) and for CloudFront web ACLs, this limit is 16 KB (16,384 bytes). For CloudFront web ACLs, you can increase the limit in the web ACL AssociationConfig, for additional fees. If you know that the request body for your web requests should never exceed the inspection limit, you could use a size constraint statement to block requests that have a larger request body size. If you choose URI for the value of Part of the request to filter on, the slash (/) in the URI counts as one character. For example, the URI /logo.jpg is nine characters long.
         public var sizeConstraintStatement: WAFV2ClientTypes.SizeConstraintStatement?
         /// A rule statement that inspects for malicious SQL code. Attackers insert malicious SQL code into web requests to do things like modify your database or extract data from it.
         public var sqliMatchStatement: WAFV2ClientTypes.SqliMatchStatement?
@@ -16972,7 +16982,7 @@ extension UpdateWebACLInput: ClientRuntime.URLPathProvider {
 }
 
 public struct UpdateWebACLInput: Swift.Equatable {
-    /// Specifies custom configurations for the associations between the web ACL and protected resources. Use this to customize the maximum size of the request body that your protected CloudFront distributions forward to WAF for inspection. The default is 16 KB (16,384 kilobytes). You are charged additional fees when your protected resources forward body sizes that are larger than the default. For more information, see [WAF Pricing](http://aws.amazon.com/waf/pricing/).
+    /// Specifies custom configurations for the associations between the web ACL and protected resources. Use this to customize the maximum size of the request body that your protected CloudFront distributions forward to WAF for inspection. The default is 16 KB (16,384 bytes). You are charged additional fees when your protected resources forward body sizes that are larger than the default. For more information, see [WAF Pricing](http://aws.amazon.com/waf/pricing/).
     public var associationConfig: WAFV2ClientTypes.AssociationConfig?
     /// Specifies how WAF should handle CAPTCHA evaluations for rules that don't have their own CaptchaConfig settings. If you don't specify this, WAF uses its default settings for CaptchaConfig.
     public var captchaConfig: WAFV2ClientTypes.CaptchaConfig?
@@ -18634,7 +18644,7 @@ extension WAFV2ClientTypes {
         /// The Amazon Resource Name (ARN) of the web ACL that you want to associate with the resource.
         /// This member is required.
         public var arn: Swift.String?
-        /// Specifies custom configurations for the associations between the web ACL and protected resources. Use this to customize the maximum size of the request body that your protected CloudFront distributions forward to WAF for inspection. The default is 16 KB (16,384 kilobytes). You are charged additional fees when your protected resources forward body sizes that are larger than the default. For more information, see [WAF Pricing](http://aws.amazon.com/waf/pricing/).
+        /// Specifies custom configurations for the associations between the web ACL and protected resources. Use this to customize the maximum size of the request body that your protected CloudFront distributions forward to WAF for inspection. The default is 16 KB (16,384 bytes). You are charged additional fees when your protected resources forward body sizes that are larger than the default. For more information, see [WAF Pricing](http://aws.amazon.com/waf/pricing/).
         public var associationConfig: WAFV2ClientTypes.AssociationConfig?
         /// The web ACL capacity units (WCUs) currently being used by this web ACL. WAF uses WCUs to calculate and control the operating resources that are used to run your rules, rule groups, and web ACLs. WAF calculates capacity differently for each rule type, to reflect the relative cost of each rule. Simple rules that cost little to run use fewer WCUs than more complex rules that use more processing power. Rule group capacity is fixed at creation, which helps users plan their web ACL WCU usage when they use a rule group. For more information, see [WAF web ACL capacity units (WCU)](https://docs.aws.amazon.com/waf/latest/developerguide/aws-waf-capacity-units.html) in the WAF Developer Guide.
         public var capacity: Swift.Int

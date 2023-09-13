@@ -1412,7 +1412,6 @@ public struct EncryptDataOutputResponse: Swift.Equatable {
     /// This member is required.
     public var keyArn: Swift.String?
     /// The key check value (KCV) of the encryption key. The KCV is used to check if all parties holding a given key have the same key or to detect that a key has changed. Amazon Web Services Payment Cryptography calculates the KCV by using standard algorithms, typically by encrypting 8 or 16 bytes or "00" or "01" and then truncating the result to the first 3 bytes, or 6 hex digits, of the resulting cryptogram.
-    /// This member is required.
     public var keyCheckValue: Swift.String?
 
     public init(
@@ -1725,6 +1724,11 @@ extension GenerateCardValidationDataOutputResponseBody: Swift.Decodable {
         let validationDataDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .validationData)
         validationData = validationDataDecoded
     }
+}
+
+extension GenerateMacInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "GenerateMacInput(generationAttributes: \(Swift.String(describing: generationAttributes)), keyIdentifier: \(Swift.String(describing: keyIdentifier)), macLength: \(Swift.String(describing: macLength)), messageData: \"CONTENT_REDACTED\")"}
 }
 
 extension GenerateMacInput: Swift.Encodable {
@@ -3917,6 +3921,11 @@ extension ThrottlingExceptionBody: Swift.Decodable {
     }
 }
 
+extension TranslatePinDataInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "TranslatePinDataInput(incomingDukptAttributes: \(Swift.String(describing: incomingDukptAttributes)), incomingKeyIdentifier: \(Swift.String(describing: incomingKeyIdentifier)), incomingTranslationAttributes: \(Swift.String(describing: incomingTranslationAttributes)), outgoingDukptAttributes: \(Swift.String(describing: outgoingDukptAttributes)), outgoingKeyIdentifier: \(Swift.String(describing: outgoingKeyIdentifier)), outgoingTranslationAttributes: \(Swift.String(describing: outgoingTranslationAttributes)), encryptedPinBlock: \"CONTENT_REDACTED\")"}
+}
+
 extension TranslatePinDataInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case encryptedPinBlock = "EncryptedPinBlock"
@@ -4822,6 +4831,11 @@ extension VerifyCardValidationDataOutputResponseBody: Swift.Decodable {
         let keyCheckValueDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .keyCheckValue)
         keyCheckValue = keyCheckValueDecoded
     }
+}
+
+extension VerifyMacInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "VerifyMacInput(keyIdentifier: \(Swift.String(describing: keyIdentifier)), macLength: \(Swift.String(describing: macLength)), verificationAttributes: \(Swift.String(describing: verificationAttributes)), mac: \"CONTENT_REDACTED\", messageData: \"CONTENT_REDACTED\")"}
 }
 
 extension VerifyMacInput: Swift.Encodable {

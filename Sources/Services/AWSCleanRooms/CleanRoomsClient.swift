@@ -1681,7 +1681,7 @@ extension CleanRoomsClient: CleanRoomsClientProtocol {
         return result
     }
 
-    /// Creates a protected query that is started by Clean Rooms .
+    /// Creates a protected query that is started by Clean Rooms.
     ///
     /// - Parameter StartProtectedQueryInput : [no documentation found]
     ///

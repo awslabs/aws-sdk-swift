@@ -54,6 +54,7 @@ public protocol AppflowClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : AppFlow/Requester has invalid or missing permissions.
     /// - `ConflictException` : There was a conflict when processing the request (for example, a flow with the given name already exists within the account. Check for conflicting resource names and try again.
     /// - `ConnectorAuthenticationException` : An error occurred when authenticating with the connector endpoint.
     /// - `ConnectorServerException` : An error occurred when retrieving data from the connector endpoint.
@@ -364,6 +365,7 @@ public protocol AppflowClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : AppFlow/Requester has invalid or missing permissions.
     /// - `ConflictException` : There was a conflict when processing the request (for example, a flow with the given name already exists within the account. Check for conflicting resource names and try again.
     /// - `ConnectorAuthenticationException` : An error occurred when authenticating with the connector endpoint.
     /// - `ConnectorServerException` : An error occurred when retrieving data from the connector endpoint.

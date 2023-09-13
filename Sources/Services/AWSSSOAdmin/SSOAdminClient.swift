@@ -118,7 +118,7 @@ extension SSOAdminClient: SSOAdminClientProtocol {
         return result
     }
 
-    /// Attaches an AWS managed policy ARN to a permission set. If the permission set is already referenced by one or more account assignments, you will need to call [ProvisionPermissionSet] after this operation. Calling ProvisionPermissionSet applies the corresponding IAM policy updates to all assigned accounts.
+    /// Attaches an Amazon Web Services managed policy ARN to a permission set. If the permission set is already referenced by one or more account assignments, you will need to call [ProvisionPermissionSet] after this operation. Calling ProvisionPermissionSet applies the corresponding IAM policy updates to all assigned accounts.
     ///
     /// - Parameter AttachManagedPolicyToPermissionSetInput : [no documentation found]
     ///
@@ -169,7 +169,7 @@ extension SSOAdminClient: SSOAdminClientProtocol {
         return result
     }
 
-    /// Assigns access to a principal for a specified AWS account using a specified permission set. The term principal here refers to a user or group that is defined in IAM Identity Center. As part of a successful CreateAccountAssignment call, the specified permission set will automatically be provisioned to the account in the form of an IAM policy. That policy is attached to the IAM role created in IAM Identity Center. If the permission set is subsequently updated, the corresponding IAM policies attached to roles in your accounts will not be updated automatically. In this case, you must call [ProvisionPermissionSet] to make these updates. After a successful response, call DescribeAccountAssignmentCreationStatus to describe the status of an assignment creation request.
+    /// Assigns access to a principal for a specified Amazon Web Services account using a specified permission set. The term principal here refers to a user or group that is defined in IAM Identity Center. As part of a successful CreateAccountAssignment call, the specified permission set will automatically be provisioned to the account in the form of an IAM policy. That policy is attached to the IAM role created in IAM Identity Center. If the permission set is subsequently updated, the corresponding IAM policies attached to roles in your accounts will not be updated automatically. In this case, you must call [ProvisionPermissionSet] to make these updates. After a successful response, call DescribeAccountAssignmentCreationStatus to describe the status of an assignment creation request.
     ///
     /// - Parameter CreateAccountAssignmentInput : [no documentation found]
     ///
@@ -270,7 +270,7 @@ extension SSOAdminClient: SSOAdminClientProtocol {
         return result
     }
 
-    /// Creates a permission set within a specified IAM Identity Center instance. To grant users and groups access to AWS account resources, use [CreateAccountAssignment].
+    /// Creates a permission set within a specified IAM Identity Center instance. To grant users and groups access to Amazon Web Services account resources, use [CreateAccountAssignment].
     ///
     /// - Parameter CreatePermissionSetInput : [no documentation found]
     ///
@@ -321,7 +321,7 @@ extension SSOAdminClient: SSOAdminClientProtocol {
         return result
     }
 
-    /// Deletes a principal's access from a specified AWS account using a specified permission set. After a successful response, call DescribeAccountAssignmentCreationStatus to describe the status of an assignment deletion request.
+    /// Deletes a principal's access from a specified Amazon Web Services account using a specified permission set. After a successful response, call DescribeAccountAssignmentDeletionStatus to describe the status of an assignment deletion request.
     ///
     /// - Parameter DeleteAccountAssignmentInput : [no documentation found]
     ///
@@ -865,7 +865,7 @@ extension SSOAdminClient: SSOAdminClientProtocol {
         return result
     }
 
-    /// Detaches the attached AWS managed policy ARN from the specified permission set.
+    /// Detaches the attached Amazon Web Services managed policy ARN from the specified permission set.
     ///
     /// - Parameter DetachManagedPolicyFromPermissionSetInput : [no documentation found]
     ///
@@ -1013,7 +1013,7 @@ extension SSOAdminClient: SSOAdminClientProtocol {
         return result
     }
 
-    /// Lists the status of the AWS account assignment creation requests for a specified IAM Identity Center instance.
+    /// Lists the status of the Amazon Web Services account assignment creation requests for a specified IAM Identity Center instance.
     ///
     /// - Parameter ListAccountAssignmentCreationStatusInput : [no documentation found]
     ///
@@ -1062,7 +1062,7 @@ extension SSOAdminClient: SSOAdminClientProtocol {
         return result
     }
 
-    /// Lists the status of the AWS account assignment deletion requests for a specified IAM Identity Center instance.
+    /// Lists the status of the Amazon Web Services account assignment deletion requests for a specified IAM Identity Center instance.
     ///
     /// - Parameter ListAccountAssignmentDeletionStatusInput : [no documentation found]
     ///
@@ -1111,7 +1111,7 @@ extension SSOAdminClient: SSOAdminClientProtocol {
         return result
     }
 
-    /// Lists the assignee of the specified AWS account with the specified permission set.
+    /// Lists the assignee of the specified Amazon Web Services account with the specified permission set.
     ///
     /// - Parameter ListAccountAssignmentsInput : [no documentation found]
     ///
@@ -1160,7 +1160,7 @@ extension SSOAdminClient: SSOAdminClientProtocol {
         return result
     }
 
-    /// Lists all the AWS accounts where the specified permission set is provisioned.
+    /// Lists all the Amazon Web Services accounts where the specified permission set is provisioned.
     ///
     /// - Parameter ListAccountsForProvisionedPermissionSetInput : [no documentation found]
     ///
@@ -1306,7 +1306,7 @@ extension SSOAdminClient: SSOAdminClientProtocol {
         return result
     }
 
-    /// Lists the AWS managed policy that is attached to a specified permission set.
+    /// Lists the Amazon Web Services managed policy that is attached to a specified permission set.
     ///
     /// - Parameter ListManagedPoliciesInPermissionSetInput : [no documentation found]
     ///
@@ -1453,7 +1453,7 @@ extension SSOAdminClient: SSOAdminClientProtocol {
         return result
     }
 
-    /// Lists all the permission sets that are provisioned to a specified AWS account.
+    /// Lists all the permission sets that are provisioned to a specified Amazon Web Services account.
     ///
     /// - Parameter ListPermissionSetsProvisionedToAccountInput : [no documentation found]
     ///
@@ -1652,7 +1652,7 @@ extension SSOAdminClient: SSOAdminClientProtocol {
         return result
     }
 
-    /// Attaches an AWS managed or customer managed policy to the specified [PermissionSet] as a permissions boundary.
+    /// Attaches an Amazon Web Services managed or customer managed policy to the specified [PermissionSet] as a permissions boundary.
     ///
     /// - Parameter PutPermissionsBoundaryToPermissionSetInput : [no documentation found]
     ///

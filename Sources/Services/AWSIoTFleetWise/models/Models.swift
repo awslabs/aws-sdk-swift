@@ -255,6 +255,8 @@ public enum AssociateVehicleFleetOutputError: ClientRuntime.HttpResponseErrorBin
     public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
+        let serviceError = try await IoTFleetWiseClientTypes.makeServiceError(httpResponse, decoder, restJSONError, requestID)
+        if let error = serviceError { return error }
         switch restJSONError.errorType {
             case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
@@ -490,6 +492,8 @@ public enum BatchCreateVehicleOutputError: ClientRuntime.HttpResponseErrorBindin
     public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
+        let serviceError = try await IoTFleetWiseClientTypes.makeServiceError(httpResponse, decoder, restJSONError, requestID)
+        if let error = serviceError { return error }
         switch restJSONError.errorType {
             case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
@@ -633,6 +637,8 @@ public enum BatchUpdateVehicleOutputError: ClientRuntime.HttpResponseErrorBindin
     public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
+        let serviceError = try await IoTFleetWiseClientTypes.makeServiceError(httpResponse, decoder, restJSONError, requestID)
+        if let error = serviceError { return error }
         switch restJSONError.errorType {
             case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
@@ -1723,6 +1729,8 @@ public enum CreateCampaignOutputError: ClientRuntime.HttpResponseErrorBinding {
     public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
+        let serviceError = try await IoTFleetWiseClientTypes.makeServiceError(httpResponse, decoder, restJSONError, requestID)
+        if let error = serviceError { return error }
         switch restJSONError.errorType {
             case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
@@ -1926,6 +1934,8 @@ public enum CreateDecoderManifestOutputError: ClientRuntime.HttpResponseErrorBin
     public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
+        let serviceError = try await IoTFleetWiseClientTypes.makeServiceError(httpResponse, decoder, restJSONError, requestID)
+        if let error = serviceError { return error }
         switch restJSONError.errorType {
             case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
@@ -2084,6 +2094,8 @@ public enum CreateFleetOutputError: ClientRuntime.HttpResponseErrorBinding {
     public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
+        let serviceError = try await IoTFleetWiseClientTypes.makeServiceError(httpResponse, decoder, restJSONError, requestID)
+        if let error = serviceError { return error }
         switch restJSONError.errorType {
             case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
@@ -2267,6 +2279,8 @@ public enum CreateModelManifestOutputError: ClientRuntime.HttpResponseErrorBindi
     public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
+        let serviceError = try await IoTFleetWiseClientTypes.makeServiceError(httpResponse, decoder, restJSONError, requestID)
+        if let error = serviceError { return error }
         switch restJSONError.errorType {
             case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
@@ -2436,6 +2450,8 @@ public enum CreateSignalCatalogOutputError: ClientRuntime.HttpResponseErrorBindi
     public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
+        let serviceError = try await IoTFleetWiseClientTypes.makeServiceError(httpResponse, decoder, restJSONError, requestID)
+        if let error = serviceError { return error }
         switch restJSONError.errorType {
             case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
@@ -2686,6 +2702,8 @@ public enum CreateVehicleOutputError: ClientRuntime.HttpResponseErrorBinding {
     public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
+        let serviceError = try await IoTFleetWiseClientTypes.makeServiceError(httpResponse, decoder, restJSONError, requestID)
+        if let error = serviceError { return error }
         switch restJSONError.errorType {
             case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
@@ -3235,6 +3253,8 @@ public enum DeleteCampaignOutputError: ClientRuntime.HttpResponseErrorBinding {
     public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
+        let serviceError = try await IoTFleetWiseClientTypes.makeServiceError(httpResponse, decoder, restJSONError, requestID)
+        if let error = serviceError { return error }
         switch restJSONError.errorType {
             case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
@@ -3335,6 +3355,8 @@ public enum DeleteDecoderManifestOutputError: ClientRuntime.HttpResponseErrorBin
     public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
+        let serviceError = try await IoTFleetWiseClientTypes.makeServiceError(httpResponse, decoder, restJSONError, requestID)
+        if let error = serviceError { return error }
         switch restJSONError.errorType {
             case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
@@ -3438,6 +3460,8 @@ public enum DeleteFleetOutputError: ClientRuntime.HttpResponseErrorBinding {
     public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
+        let serviceError = try await IoTFleetWiseClientTypes.makeServiceError(httpResponse, decoder, restJSONError, requestID)
+        if let error = serviceError { return error }
         switch restJSONError.errorType {
             case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
@@ -3538,6 +3562,8 @@ public enum DeleteModelManifestOutputError: ClientRuntime.HttpResponseErrorBindi
     public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
+        let serviceError = try await IoTFleetWiseClientTypes.makeServiceError(httpResponse, decoder, restJSONError, requestID)
+        if let error = serviceError { return error }
         switch restJSONError.errorType {
             case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
@@ -3641,6 +3667,8 @@ public enum DeleteSignalCatalogOutputError: ClientRuntime.HttpResponseErrorBindi
     public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
+        let serviceError = try await IoTFleetWiseClientTypes.makeServiceError(httpResponse, decoder, restJSONError, requestID)
+        if let error = serviceError { return error }
         switch restJSONError.errorType {
             case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
@@ -3744,6 +3772,8 @@ public enum DeleteVehicleOutputError: ClientRuntime.HttpResponseErrorBinding {
     public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
+        let serviceError = try await IoTFleetWiseClientTypes.makeServiceError(httpResponse, decoder, restJSONError, requestID)
+        if let error = serviceError { return error }
         switch restJSONError.errorType {
             case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
@@ -3895,6 +3925,8 @@ public enum DisassociateVehicleFleetOutputError: ClientRuntime.HttpResponseError
     public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
+        let serviceError = try await IoTFleetWiseClientTypes.makeServiceError(httpResponse, decoder, restJSONError, requestID)
+        if let error = serviceError { return error }
         switch restJSONError.errorType {
             case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
@@ -4082,6 +4114,8 @@ public enum GetCampaignOutputError: ClientRuntime.HttpResponseErrorBinding {
     public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
+        let serviceError = try await IoTFleetWiseClientTypes.makeServiceError(httpResponse, decoder, restJSONError, requestID)
+        if let error = serviceError { return error }
         switch restJSONError.errorType {
             case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
@@ -4379,6 +4413,8 @@ public enum GetDecoderManifestOutputError: ClientRuntime.HttpResponseErrorBindin
     public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
+        let serviceError = try await IoTFleetWiseClientTypes.makeServiceError(httpResponse, decoder, restJSONError, requestID)
+        if let error = serviceError { return error }
         switch restJSONError.errorType {
             case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
@@ -4533,6 +4569,8 @@ public enum GetFleetOutputError: ClientRuntime.HttpResponseErrorBinding {
     public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
+        let serviceError = try await IoTFleetWiseClientTypes.makeServiceError(httpResponse, decoder, restJSONError, requestID)
+        if let error = serviceError { return error }
         switch restJSONError.errorType {
             case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
@@ -4671,6 +4709,8 @@ public enum GetLoggingOptionsOutputError: ClientRuntime.HttpResponseErrorBinding
     public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
+        let serviceError = try await IoTFleetWiseClientTypes.makeServiceError(httpResponse, decoder, restJSONError, requestID)
+        if let error = serviceError { return error }
         switch restJSONError.errorType {
             case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
@@ -4760,6 +4800,8 @@ public enum GetModelManifestOutputError: ClientRuntime.HttpResponseErrorBinding 
     public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
+        let serviceError = try await IoTFleetWiseClientTypes.makeServiceError(httpResponse, decoder, restJSONError, requestID)
+        if let error = serviceError { return error }
         switch restJSONError.errorType {
             case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
@@ -4906,6 +4948,8 @@ public enum GetRegisterAccountStatusOutputError: ClientRuntime.HttpResponseError
     public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
+        let serviceError = try await IoTFleetWiseClientTypes.makeServiceError(httpResponse, decoder, restJSONError, requestID)
+        if let error = serviceError { return error }
         switch restJSONError.errorType {
             case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
@@ -5058,6 +5102,8 @@ public enum GetSignalCatalogOutputError: ClientRuntime.HttpResponseErrorBinding 
     public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
+        let serviceError = try await IoTFleetWiseClientTypes.makeServiceError(httpResponse, decoder, restJSONError, requestID)
+        if let error = serviceError { return error }
         switch restJSONError.errorType {
             case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
@@ -5202,6 +5248,8 @@ public enum GetVehicleOutputError: ClientRuntime.HttpResponseErrorBinding {
     public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
+        let serviceError = try await IoTFleetWiseClientTypes.makeServiceError(httpResponse, decoder, restJSONError, requestID)
+        if let error = serviceError { return error }
         switch restJSONError.errorType {
             case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
@@ -5379,6 +5427,8 @@ public enum GetVehicleStatusOutputError: ClientRuntime.HttpResponseErrorBinding 
     public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
+        let serviceError = try await IoTFleetWiseClientTypes.makeServiceError(httpResponse, decoder, restJSONError, requestID)
+        if let error = serviceError { return error }
         switch restJSONError.errorType {
             case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
@@ -5610,6 +5660,8 @@ public enum ImportDecoderManifestOutputError: ClientRuntime.HttpResponseErrorBin
     public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
+        let serviceError = try await IoTFleetWiseClientTypes.makeServiceError(httpResponse, decoder, restJSONError, requestID)
+        if let error = serviceError { return error }
         switch restJSONError.errorType {
             case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
@@ -5767,6 +5819,8 @@ public enum ImportSignalCatalogOutputError: ClientRuntime.HttpResponseErrorBindi
     public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
+        let serviceError = try await IoTFleetWiseClientTypes.makeServiceError(httpResponse, decoder, restJSONError, requestID)
+        if let error = serviceError { return error }
         switch restJSONError.errorType {
             case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
@@ -6191,6 +6245,15 @@ extension InvalidSignalsExceptionBody: Swift.Decodable {
     }
 }
 
+extension IoTFleetWiseClientTypes {
+    static func makeServiceError(_ httpResponse: ClientRuntime.HttpResponse, _ decoder: ClientRuntime.ResponseDecoder? = nil, _ error: AWSClientRuntime.RestJSONError, _ id: String?) async throws -> Swift.Error? {
+        switch error.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: error.errorMessage, requestID: id)
+            default: return nil
+        }
+    }
+}
+
 extension LimitExceededException {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -6325,6 +6388,8 @@ public enum ListCampaignsOutputError: ClientRuntime.HttpResponseErrorBinding {
     public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
+        let serviceError = try await IoTFleetWiseClientTypes.makeServiceError(httpResponse, decoder, restJSONError, requestID)
+        if let error = serviceError { return error }
         switch restJSONError.errorType {
             case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
@@ -6450,6 +6515,8 @@ public enum ListDecoderManifestNetworkInterfacesOutputError: ClientRuntime.HttpR
     public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
+        let serviceError = try await IoTFleetWiseClientTypes.makeServiceError(httpResponse, decoder, restJSONError, requestID)
+        if let error = serviceError { return error }
         switch restJSONError.errorType {
             case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
@@ -6577,6 +6644,8 @@ public enum ListDecoderManifestSignalsOutputError: ClientRuntime.HttpResponseErr
     public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
+        let serviceError = try await IoTFleetWiseClientTypes.makeServiceError(httpResponse, decoder, restJSONError, requestID)
+        if let error = serviceError { return error }
         switch restJSONError.errorType {
             case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
@@ -6703,6 +6772,8 @@ public enum ListDecoderManifestsOutputError: ClientRuntime.HttpResponseErrorBind
     public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
+        let serviceError = try await IoTFleetWiseClientTypes.makeServiceError(httpResponse, decoder, restJSONError, requestID)
+        if let error = serviceError { return error }
         switch restJSONError.errorType {
             case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
@@ -6829,6 +6900,8 @@ public enum ListFleetsForVehicleOutputError: ClientRuntime.HttpResponseErrorBind
     public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
+        let serviceError = try await IoTFleetWiseClientTypes.makeServiceError(httpResponse, decoder, restJSONError, requestID)
+        if let error = serviceError { return error }
         switch restJSONError.errorType {
             case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
@@ -6951,6 +7024,8 @@ public enum ListFleetsOutputError: ClientRuntime.HttpResponseErrorBinding {
     public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
+        let serviceError = try await IoTFleetWiseClientTypes.makeServiceError(httpResponse, decoder, restJSONError, requestID)
+        if let error = serviceError { return error }
         switch restJSONError.errorType {
             case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
@@ -7078,6 +7153,8 @@ public enum ListModelManifestNodesOutputError: ClientRuntime.HttpResponseErrorBi
     public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
+        let serviceError = try await IoTFleetWiseClientTypes.makeServiceError(httpResponse, decoder, restJSONError, requestID)
+        if let error = serviceError { return error }
         switch restJSONError.errorType {
             case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
@@ -7205,6 +7282,8 @@ public enum ListModelManifestsOutputError: ClientRuntime.HttpResponseErrorBindin
     public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
+        let serviceError = try await IoTFleetWiseClientTypes.makeServiceError(httpResponse, decoder, restJSONError, requestID)
+        if let error = serviceError { return error }
         switch restJSONError.errorType {
             case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
@@ -7331,6 +7410,8 @@ public enum ListSignalCatalogNodesOutputError: ClientRuntime.HttpResponseErrorBi
     public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
+        let serviceError = try await IoTFleetWiseClientTypes.makeServiceError(httpResponse, decoder, restJSONError, requestID)
+        if let error = serviceError { return error }
         switch restJSONError.errorType {
             case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
@@ -7454,6 +7535,8 @@ public enum ListSignalCatalogsOutputError: ClientRuntime.HttpResponseErrorBindin
     public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
+        let serviceError = try await IoTFleetWiseClientTypes.makeServiceError(httpResponse, decoder, restJSONError, requestID)
+        if let error = serviceError { return error }
         switch restJSONError.errorType {
             case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
@@ -7572,6 +7655,8 @@ public enum ListTagsForResourceOutputError: ClientRuntime.HttpResponseErrorBindi
     public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
+        let serviceError = try await IoTFleetWiseClientTypes.makeServiceError(httpResponse, decoder, restJSONError, requestID)
+        if let error = serviceError { return error }
         switch restJSONError.errorType {
             case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
@@ -7689,6 +7774,8 @@ public enum ListVehiclesInFleetOutputError: ClientRuntime.HttpResponseErrorBindi
     public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
+        let serviceError = try await IoTFleetWiseClientTypes.makeServiceError(httpResponse, decoder, restJSONError, requestID)
+        if let error = serviceError { return error }
         switch restJSONError.errorType {
             case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
@@ -7815,6 +7902,8 @@ public enum ListVehiclesOutputError: ClientRuntime.HttpResponseErrorBinding {
     public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
+        let serviceError = try await IoTFleetWiseClientTypes.makeServiceError(httpResponse, decoder, restJSONError, requestID)
+        if let error = serviceError { return error }
         switch restJSONError.errorType {
             case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
@@ -8745,6 +8834,8 @@ public enum PutLoggingOptionsOutputError: ClientRuntime.HttpResponseErrorBinding
     public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
+        let serviceError = try await IoTFleetWiseClientTypes.makeServiceError(httpResponse, decoder, restJSONError, requestID)
+        if let error = serviceError { return error }
         switch restJSONError.errorType {
             case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
@@ -8831,6 +8922,8 @@ public enum RegisterAccountOutputError: ClientRuntime.HttpResponseErrorBinding {
     public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
+        let serviceError = try await IoTFleetWiseClientTypes.makeServiceError(httpResponse, decoder, restJSONError, requestID)
+        if let error = serviceError { return error }
         switch restJSONError.errorType {
             case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
@@ -9712,6 +9805,8 @@ public enum TagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
     public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
+        let serviceError = try await IoTFleetWiseClientTypes.makeServiceError(httpResponse, decoder, restJSONError, requestID)
+        if let error = serviceError { return error }
         switch restJSONError.errorType {
             case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
@@ -10122,6 +10217,8 @@ public enum UntagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
     public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
+        let serviceError = try await IoTFleetWiseClientTypes.makeServiceError(httpResponse, decoder, restJSONError, requestID)
+        if let error = serviceError { return error }
         switch restJSONError.errorType {
             case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
@@ -10282,6 +10379,8 @@ public enum UpdateCampaignOutputError: ClientRuntime.HttpResponseErrorBinding {
     public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
+        let serviceError = try await IoTFleetWiseClientTypes.makeServiceError(httpResponse, decoder, restJSONError, requestID)
+        if let error = serviceError { return error }
         switch restJSONError.errorType {
             case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
@@ -10573,6 +10672,8 @@ public enum UpdateDecoderManifestOutputError: ClientRuntime.HttpResponseErrorBin
     public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
+        let serviceError = try await IoTFleetWiseClientTypes.makeServiceError(httpResponse, decoder, restJSONError, requestID)
+        if let error = serviceError { return error }
         switch restJSONError.errorType {
             case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
@@ -10694,6 +10795,8 @@ public enum UpdateFleetOutputError: ClientRuntime.HttpResponseErrorBinding {
     public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
+        let serviceError = try await IoTFleetWiseClientTypes.makeServiceError(httpResponse, decoder, restJSONError, requestID)
+        if let error = serviceError { return error }
         switch restJSONError.errorType {
             case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
@@ -10904,6 +11007,8 @@ public enum UpdateModelManifestOutputError: ClientRuntime.HttpResponseErrorBindi
     public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
+        let serviceError = try await IoTFleetWiseClientTypes.makeServiceError(httpResponse, decoder, restJSONError, requestID)
+        if let error = serviceError { return error }
         switch restJSONError.errorType {
             case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
@@ -11097,6 +11202,8 @@ public enum UpdateSignalCatalogOutputError: ClientRuntime.HttpResponseErrorBindi
     public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
+        let serviceError = try await IoTFleetWiseClientTypes.makeServiceError(httpResponse, decoder, restJSONError, requestID)
+        if let error = serviceError { return error }
         switch restJSONError.errorType {
             case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
@@ -11323,6 +11430,8 @@ public enum UpdateVehicleOutputError: ClientRuntime.HttpResponseErrorBinding {
     public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
+        let serviceError = try await IoTFleetWiseClientTypes.makeServiceError(httpResponse, decoder, restJSONError, requestID)
+        if let error = serviceError { return error }
         switch restJSONError.errorType {
             case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)

@@ -672,6 +672,96 @@ extension SESv2ClientTypes {
 
 }
 
+extension SESv2ClientTypes.Bounce: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case bounceSubType = "BounceSubType"
+        case bounceType = "BounceType"
+        case diagnosticCode = "DiagnosticCode"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let bounceSubType = self.bounceSubType {
+            try encodeContainer.encode(bounceSubType, forKey: .bounceSubType)
+        }
+        if let bounceType = self.bounceType {
+            try encodeContainer.encode(bounceType.rawValue, forKey: .bounceType)
+        }
+        if let diagnosticCode = self.diagnosticCode {
+            try encodeContainer.encode(diagnosticCode, forKey: .diagnosticCode)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let bounceTypeDecoded = try containerValues.decodeIfPresent(SESv2ClientTypes.BounceType.self, forKey: .bounceType)
+        bounceType = bounceTypeDecoded
+        let bounceSubTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .bounceSubType)
+        bounceSubType = bounceSubTypeDecoded
+        let diagnosticCodeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .diagnosticCode)
+        diagnosticCode = diagnosticCodeDecoded
+    }
+}
+
+extension SESv2ClientTypes {
+    /// Information about a Bounce event.
+    public struct Bounce: Swift.Equatable {
+        /// The subtype of the bounce, as determined by SES.
+        public var bounceSubType: Swift.String?
+        /// The type of the bounce, as determined by SES. Can be one of UNDETERMINED, TRANSIENT, or PERMANENT
+        public var bounceType: SESv2ClientTypes.BounceType?
+        /// The status code issued by the reporting Message Transfer Authority (MTA). This field only appears if a delivery status notification (DSN) was attached to the bounce and the Diagnostic-Code was provided in the DSN.
+        public var diagnosticCode: Swift.String?
+
+        public init(
+            bounceSubType: Swift.String? = nil,
+            bounceType: SESv2ClientTypes.BounceType? = nil,
+            diagnosticCode: Swift.String? = nil
+        )
+        {
+            self.bounceSubType = bounceSubType
+            self.bounceType = bounceType
+            self.diagnosticCode = diagnosticCode
+        }
+    }
+
+}
+
+extension SESv2ClientTypes {
+    public enum BounceType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case permanent
+        case transient
+        case undetermined
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [BounceType] {
+            return [
+                .permanent,
+                .transient,
+                .undetermined,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .permanent: return "PERMANENT"
+            case .transient: return "TRANSIENT"
+            case .undetermined: return "UNDETERMINED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = BounceType(rawValue: rawValue) ?? BounceType.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension SESv2ClientTypes.BulkEmailContent: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case template = "Template"
@@ -925,6 +1015,62 @@ extension SESv2ClientTypes {
     }
 }
 
+extension CancelExportJobInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let jobId = jobId else {
+            return nil
+        }
+        return "/v2/email/export-jobs/\(jobId.urlPercentEncoding())/cancel"
+    }
+}
+
+/// Represents a request to cancel an export job using the export job ID.
+public struct CancelExportJobInput: Swift.Equatable {
+    /// The export job ID.
+    /// This member is required.
+    public var jobId: Swift.String?
+
+    public init(
+        jobId: Swift.String? = nil
+    )
+    {
+        self.jobId = jobId
+    }
+}
+
+struct CancelExportJobInputBody: Swift.Equatable {
+}
+
+extension CancelExportJobInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+public enum CancelExportJobOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension CancelExportJobOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+/// An HTTP 200 response if the request succeeds, or an error message if the request fails.
+public struct CancelExportJobOutputResponse: Swift.Equatable {
+
+    public init() { }
+}
+
 extension SESv2ClientTypes.CloudWatchDestination: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case dimensionConfigurations = "DimensionConfigurations"
@@ -1034,6 +1180,51 @@ extension SESv2ClientTypes {
             self.defaultDimensionValue = defaultDimensionValue
             self.dimensionName = dimensionName
             self.dimensionValueSource = dimensionValueSource
+        }
+    }
+
+}
+
+extension SESv2ClientTypes.Complaint: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case complaintFeedbackType = "ComplaintFeedbackType"
+        case complaintSubType = "ComplaintSubType"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let complaintFeedbackType = self.complaintFeedbackType {
+            try encodeContainer.encode(complaintFeedbackType, forKey: .complaintFeedbackType)
+        }
+        if let complaintSubType = self.complaintSubType {
+            try encodeContainer.encode(complaintSubType, forKey: .complaintSubType)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let complaintSubTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .complaintSubType)
+        complaintSubType = complaintSubTypeDecoded
+        let complaintFeedbackTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .complaintFeedbackType)
+        complaintFeedbackType = complaintFeedbackTypeDecoded
+    }
+}
+
+extension SESv2ClientTypes {
+    /// Information about a Complaint event.
+    public struct Complaint: Swift.Equatable {
+        /// The value of the Feedback-Type field from the feedback report received from the ISP.
+        public var complaintFeedbackType: Swift.String?
+        /// Can either be null or OnAccountSuppressionList. If the value is OnAccountSuppressionList, SES accepted the message, but didn't attempt to send it because it was on the account-level suppression list.
+        public var complaintSubType: Swift.String?
+
+        public init(
+            complaintFeedbackType: Swift.String? = nil,
+            complaintSubType: Swift.String? = nil
+        )
+        {
+            self.complaintFeedbackType = complaintFeedbackType
+            self.complaintSubType = complaintSubType
         }
     }
 
@@ -2755,6 +2946,123 @@ public struct CreateEmailTemplateOutputResponse: Swift.Equatable {
     public init() { }
 }
 
+extension CreateExportJobInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case exportDataSource = "ExportDataSource"
+        case exportDestination = "ExportDestination"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let exportDataSource = self.exportDataSource {
+            try encodeContainer.encode(exportDataSource, forKey: .exportDataSource)
+        }
+        if let exportDestination = self.exportDestination {
+            try encodeContainer.encode(exportDestination, forKey: .exportDestination)
+        }
+    }
+}
+
+extension CreateExportJobInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/v2/email/export-jobs"
+    }
+}
+
+/// Represents a request to create an export job from a data source to a data destination.
+public struct CreateExportJobInput: Swift.Equatable {
+    /// The data source for the export job.
+    /// This member is required.
+    public var exportDataSource: SESv2ClientTypes.ExportDataSource?
+    /// The destination for the export job.
+    /// This member is required.
+    public var exportDestination: SESv2ClientTypes.ExportDestination?
+
+    public init(
+        exportDataSource: SESv2ClientTypes.ExportDataSource? = nil,
+        exportDestination: SESv2ClientTypes.ExportDestination? = nil
+    )
+    {
+        self.exportDataSource = exportDataSource
+        self.exportDestination = exportDestination
+    }
+}
+
+struct CreateExportJobInputBody: Swift.Equatable {
+    let exportDataSource: SESv2ClientTypes.ExportDataSource?
+    let exportDestination: SESv2ClientTypes.ExportDestination?
+}
+
+extension CreateExportJobInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case exportDataSource = "ExportDataSource"
+        case exportDestination = "ExportDestination"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let exportDataSourceDecoded = try containerValues.decodeIfPresent(SESv2ClientTypes.ExportDataSource.self, forKey: .exportDataSource)
+        exportDataSource = exportDataSourceDecoded
+        let exportDestinationDecoded = try containerValues.decodeIfPresent(SESv2ClientTypes.ExportDestination.self, forKey: .exportDestination)
+        exportDestination = exportDestinationDecoded
+    }
+}
+
+public enum CreateExportJobOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension CreateExportJobOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CreateExportJobOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.jobId = output.jobId
+        } else {
+            self.jobId = nil
+        }
+    }
+}
+
+/// An HTTP 200 response if the request succeeds, or an error message if the request fails.
+public struct CreateExportJobOutputResponse: Swift.Equatable {
+    /// A string that represents the export job ID.
+    public var jobId: Swift.String?
+
+    public init(
+        jobId: Swift.String? = nil
+    )
+    {
+        self.jobId = jobId
+    }
+}
+
+struct CreateExportJobOutputResponseBody: Swift.Equatable {
+    let jobId: Swift.String?
+}
+
+extension CreateExportJobOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case jobId = "JobId"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let jobIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .jobId)
+        jobId = jobIdDecoded
+    }
+}
+
 extension CreateImportJobInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case importDataSource = "ImportDataSource"
@@ -3092,7 +3400,11 @@ extension SESv2ClientTypes {
 }
 
 extension SESv2ClientTypes {
-    /// The data format of the import job's data source.
+    /// The data format of a file, can be one of the following:
+    ///
+    /// * CSV – A comma-separated values file.
+    ///
+    /// * JSON – A JSON file.
     public enum DataFormat: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case csv
         case json
@@ -3985,6 +4297,63 @@ extension SESv2ClientTypes {
     }
 }
 
+extension SESv2ClientTypes {
+    /// The type of delivery events:
+    ///
+    /// * SEND - The send request was successful and SES will attempt to deliver the message to the recipient’s mail server. (If account-level or global suppression is being used, SES will still count it as a send, but delivery is suppressed.)
+    ///
+    /// * DELIVERY - SES successfully delivered the email to the recipient's mail server. Excludes deliveries to the mailbox simulator and emails addressed to more than one recipient.
+    ///
+    /// * TRANSIENT_BOUNCE - Feedback received for delivery failures excluding issues with non-existent mailboxes. Excludes bounces from the mailbox simulator, and those from emails addressed to more than one recipient.
+    ///
+    /// * PERMANENT_BOUNCE - Feedback received for emails sent to non-existent mailboxes. Excludes bounces from the mailbox simulator, those originating from your account-level suppression list (if enabled), and those from emails addressed to more than one recipient.
+    ///
+    /// * UNDETERMINED_BOUNCE - SES was unable to determine the bounce reason.
+    ///
+    /// * COMPLAINT - Complaint received for the email. This excludes complaints from the mailbox simulator, those originating from your account-level suppression list (if enabled), and those from emails addressed to more than one recipient.
+    public enum DeliveryEventType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case complaint
+        case delivery
+        case permanentBounce
+        case send
+        case transientBounce
+        case undeterminedBounce
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DeliveryEventType] {
+            return [
+                .complaint,
+                .delivery,
+                .permanentBounce,
+                .send,
+                .transientBounce,
+                .undeterminedBounce,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .complaint: return "COMPLAINT"
+            case .delivery: return "DELIVERY"
+            case .permanentBounce: return "PERMANENT_BOUNCE"
+            case .send: return "SEND"
+            case .transientBounce: return "TRANSIENT_BOUNCE"
+            case .undeterminedBounce: return "UNDETERMINED_BOUNCE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = DeliveryEventType(rawValue: rawValue) ?? DeliveryEventType.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension SESv2ClientTypes.DeliveryOptions: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case sendingPoolName = "SendingPoolName"
@@ -4842,6 +5211,78 @@ extension SESv2ClientTypes {
 
 }
 
+extension SESv2ClientTypes.EmailInsights: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case destination = "Destination"
+        case events = "Events"
+        case isp = "Isp"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let destination = self.destination {
+            try encodeContainer.encode(destination, forKey: .destination)
+        }
+        if let events = events {
+            var eventsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .events)
+            for insightsevent0 in events {
+                try eventsContainer.encode(insightsevent0)
+            }
+        }
+        if let isp = self.isp {
+            try encodeContainer.encode(isp, forKey: .isp)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let destinationDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .destination)
+        destination = destinationDecoded
+        let ispDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .isp)
+        isp = ispDecoded
+        let eventsContainer = try containerValues.decodeIfPresent([SESv2ClientTypes.InsightsEvent?].self, forKey: .events)
+        var eventsDecoded0:[SESv2ClientTypes.InsightsEvent]? = nil
+        if let eventsContainer = eventsContainer {
+            eventsDecoded0 = [SESv2ClientTypes.InsightsEvent]()
+            for structure0 in eventsContainer {
+                if let structure0 = structure0 {
+                    eventsDecoded0?.append(structure0)
+                }
+            }
+        }
+        events = eventsDecoded0
+    }
+}
+
+extension SESv2ClientTypes.EmailInsights: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "EmailInsights(events: \(Swift.String(describing: events)), isp: \(Swift.String(describing: isp)), destination: \"CONTENT_REDACTED\")"}
+}
+
+extension SESv2ClientTypes {
+    /// An email's insights contain metadata and delivery information about a specific email.
+    public struct EmailInsights: Swift.Equatable {
+        /// The recipient of the email.
+        public var destination: Swift.String?
+        /// A list of events associated with the sent email.
+        public var events: [SESv2ClientTypes.InsightsEvent]?
+        /// The recipient's ISP (e.g., Gmail, Yahoo, etc.).
+        public var isp: Swift.String?
+
+        public init(
+            destination: Swift.String? = nil,
+            events: [SESv2ClientTypes.InsightsEvent]? = nil,
+            isp: Swift.String? = nil
+        )
+        {
+            self.destination = destination
+            self.events = events
+            self.isp = isp
+        }
+    }
+
+}
+
 extension SESv2ClientTypes.EmailTemplateContent: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case html = "Html"
@@ -4940,6 +5381,43 @@ extension SESv2ClientTypes {
         }
     }
 
+}
+
+extension SESv2ClientTypes {
+    /// The type of delivery events:
+    ///
+    /// * OPEN - Open event for emails including open trackers. Excludes opens for emails addressed to more than one recipient.
+    ///
+    /// * CLICK - Click event for emails including wrapped links. Excludes clicks for emails addressed to more than one recipient.
+    public enum EngagementEventType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case click
+        case `open`
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [EngagementEventType] {
+            return [
+                .click,
+                .open,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .click: return "CLICK"
+            case .open: return "OPEN"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = EngagementEventType(rawValue: rawValue) ?? EngagementEventType.sdkUnknown(rawValue)
+        }
+    }
 }
 
 extension SESv2ClientTypes.EventDestination: Swift.Codable {
@@ -5168,6 +5646,51 @@ extension SESv2ClientTypes {
 
 }
 
+extension SESv2ClientTypes.EventDetails: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case bounce = "Bounce"
+        case complaint = "Complaint"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let bounce = self.bounce {
+            try encodeContainer.encode(bounce, forKey: .bounce)
+        }
+        if let complaint = self.complaint {
+            try encodeContainer.encode(complaint, forKey: .complaint)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let bounceDecoded = try containerValues.decodeIfPresent(SESv2ClientTypes.Bounce.self, forKey: .bounce)
+        bounce = bounceDecoded
+        let complaintDecoded = try containerValues.decodeIfPresent(SESv2ClientTypes.Complaint.self, forKey: .complaint)
+        complaint = complaintDecoded
+    }
+}
+
+extension SESv2ClientTypes {
+    /// Contains a Bounce object if the event type is BOUNCE. Contains a Complaint object if the event type is COMPLAINT.
+    public struct EventDetails: Swift.Equatable {
+        /// Information about a Bounce event.
+        public var bounce: SESv2ClientTypes.Bounce?
+        /// Information about a Complaint event.
+        public var complaint: SESv2ClientTypes.Complaint?
+
+        public init(
+            bounce: SESv2ClientTypes.Bounce? = nil,
+            complaint: SESv2ClientTypes.Complaint? = nil
+        )
+        {
+            self.bounce = bounce
+            self.complaint = complaint
+        }
+    }
+
+}
+
 extension SESv2ClientTypes {
     /// An email sending event type. For example, email sends, opens, and bounces are all email events.
     public enum EventType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
@@ -5225,6 +5748,327 @@ extension SESv2ClientTypes {
     }
 }
 
+extension SESv2ClientTypes.ExportDataSource: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case messageInsightsDataSource = "MessageInsightsDataSource"
+        case metricsDataSource = "MetricsDataSource"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let messageInsightsDataSource = self.messageInsightsDataSource {
+            try encodeContainer.encode(messageInsightsDataSource, forKey: .messageInsightsDataSource)
+        }
+        if let metricsDataSource = self.metricsDataSource {
+            try encodeContainer.encode(metricsDataSource, forKey: .metricsDataSource)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let metricsDataSourceDecoded = try containerValues.decodeIfPresent(SESv2ClientTypes.MetricsDataSource.self, forKey: .metricsDataSource)
+        metricsDataSource = metricsDataSourceDecoded
+        let messageInsightsDataSourceDecoded = try containerValues.decodeIfPresent(SESv2ClientTypes.MessageInsightsDataSource.self, forKey: .messageInsightsDataSource)
+        messageInsightsDataSource = messageInsightsDataSourceDecoded
+    }
+}
+
+extension SESv2ClientTypes {
+    /// An object that contains details about the data source of the export job. It can only contain one of MetricsDataSource or MessageInsightsDataSource object.
+    public struct ExportDataSource: Swift.Equatable {
+        /// An object that contains filters applied when performing the Message Insights export.
+        public var messageInsightsDataSource: SESv2ClientTypes.MessageInsightsDataSource?
+        /// An object that contains details about the data source for the metrics export.
+        public var metricsDataSource: SESv2ClientTypes.MetricsDataSource?
+
+        public init(
+            messageInsightsDataSource: SESv2ClientTypes.MessageInsightsDataSource? = nil,
+            metricsDataSource: SESv2ClientTypes.MetricsDataSource? = nil
+        )
+        {
+            self.messageInsightsDataSource = messageInsightsDataSource
+            self.metricsDataSource = metricsDataSource
+        }
+    }
+
+}
+
+extension SESv2ClientTypes.ExportDestination: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case dataFormat = "DataFormat"
+        case s3Url = "S3Url"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let dataFormat = self.dataFormat {
+            try encodeContainer.encode(dataFormat.rawValue, forKey: .dataFormat)
+        }
+        if let s3Url = self.s3Url {
+            try encodeContainer.encode(s3Url, forKey: .s3Url)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let dataFormatDecoded = try containerValues.decodeIfPresent(SESv2ClientTypes.DataFormat.self, forKey: .dataFormat)
+        dataFormat = dataFormatDecoded
+        let s3UrlDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .s3Url)
+        s3Url = s3UrlDecoded
+    }
+}
+
+extension SESv2ClientTypes {
+    /// An object that contains details about the destination of the export job.
+    public struct ExportDestination: Swift.Equatable {
+        /// The data format of the final export job file, can be one of the following:
+        ///
+        /// * CSV - A comma-separated values file.
+        ///
+        /// * JSON - A Json file.
+        /// This member is required.
+        public var dataFormat: SESv2ClientTypes.DataFormat?
+        /// An Amazon S3 pre-signed URL that points to the generated export file.
+        public var s3Url: Swift.String?
+
+        public init(
+            dataFormat: SESv2ClientTypes.DataFormat? = nil,
+            s3Url: Swift.String? = nil
+        )
+        {
+            self.dataFormat = dataFormat
+            self.s3Url = s3Url
+        }
+    }
+
+}
+
+extension SESv2ClientTypes.ExportJobSummary: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case completedTimestamp = "CompletedTimestamp"
+        case createdTimestamp = "CreatedTimestamp"
+        case exportSourceType = "ExportSourceType"
+        case jobId = "JobId"
+        case jobStatus = "JobStatus"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let completedTimestamp = self.completedTimestamp {
+            try encodeContainer.encodeTimestamp(completedTimestamp, format: .epochSeconds, forKey: .completedTimestamp)
+        }
+        if let createdTimestamp = self.createdTimestamp {
+            try encodeContainer.encodeTimestamp(createdTimestamp, format: .epochSeconds, forKey: .createdTimestamp)
+        }
+        if let exportSourceType = self.exportSourceType {
+            try encodeContainer.encode(exportSourceType.rawValue, forKey: .exportSourceType)
+        }
+        if let jobId = self.jobId {
+            try encodeContainer.encode(jobId, forKey: .jobId)
+        }
+        if let jobStatus = self.jobStatus {
+            try encodeContainer.encode(jobStatus.rawValue, forKey: .jobStatus)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let jobIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .jobId)
+        jobId = jobIdDecoded
+        let exportSourceTypeDecoded = try containerValues.decodeIfPresent(SESv2ClientTypes.ExportSourceType.self, forKey: .exportSourceType)
+        exportSourceType = exportSourceTypeDecoded
+        let jobStatusDecoded = try containerValues.decodeIfPresent(SESv2ClientTypes.JobStatus.self, forKey: .jobStatus)
+        jobStatus = jobStatusDecoded
+        let createdTimestampDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .createdTimestamp)
+        createdTimestamp = createdTimestampDecoded
+        let completedTimestampDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .completedTimestamp)
+        completedTimestamp = completedTimestampDecoded
+    }
+}
+
+extension SESv2ClientTypes {
+    /// A summary of the export job.
+    public struct ExportJobSummary: Swift.Equatable {
+        /// The timestamp of when the export job was completed.
+        public var completedTimestamp: ClientRuntime.Date?
+        /// The timestamp of when the export job was created.
+        public var createdTimestamp: ClientRuntime.Date?
+        /// The source type of the export job.
+        public var exportSourceType: SESv2ClientTypes.ExportSourceType?
+        /// The export job ID.
+        public var jobId: Swift.String?
+        /// The status of the export job.
+        public var jobStatus: SESv2ClientTypes.JobStatus?
+
+        public init(
+            completedTimestamp: ClientRuntime.Date? = nil,
+            createdTimestamp: ClientRuntime.Date? = nil,
+            exportSourceType: SESv2ClientTypes.ExportSourceType? = nil,
+            jobId: Swift.String? = nil,
+            jobStatus: SESv2ClientTypes.JobStatus? = nil
+        )
+        {
+            self.completedTimestamp = completedTimestamp
+            self.createdTimestamp = createdTimestamp
+            self.exportSourceType = exportSourceType
+            self.jobId = jobId
+            self.jobStatus = jobStatus
+        }
+    }
+
+}
+
+extension SESv2ClientTypes.ExportMetric: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case aggregation = "Aggregation"
+        case name = "Name"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let aggregation = self.aggregation {
+            try encodeContainer.encode(aggregation.rawValue, forKey: .aggregation)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name.rawValue, forKey: .name)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(SESv2ClientTypes.Metric.self, forKey: .name)
+        name = nameDecoded
+        let aggregationDecoded = try containerValues.decodeIfPresent(SESv2ClientTypes.MetricAggregation.self, forKey: .aggregation)
+        aggregation = aggregationDecoded
+    }
+}
+
+extension SESv2ClientTypes {
+    /// An object that contains a mapping between a Metric and MetricAggregation.
+    public struct ExportMetric: Swift.Equatable {
+        /// The aggregation to apply to a metric, can be one of the following:
+        ///
+        /// * VOLUME - The volume of events for this metric.
+        ///
+        /// * RATE - The rate for this metric relative to the SEND metric volume.
+        public var aggregation: SESv2ClientTypes.MetricAggregation?
+        /// The metric to export, can be one of the following:
+        ///
+        /// * SEND - Emails sent eligible for tracking in the VDM dashboard. This excludes emails sent to the mailbox simulator and emails addressed to more than one recipient.
+        ///
+        /// * COMPLAINT - Complaints received for your account. This excludes complaints from the mailbox simulator, those originating from your account-level suppression list (if enabled), and those for emails addressed to more than one recipient
+        ///
+        /// * PERMANENT_BOUNCE - Permanent bounces - i.e., feedback received for emails sent to non-existent mailboxes. Excludes bounces from the mailbox simulator, those originating from your account-level suppression list (if enabled), and those for emails addressed to more than one recipient.
+        ///
+        /// * TRANSIENT_BOUNCE - Transient bounces - i.e., feedback received for delivery failures excluding issues with non-existent mailboxes. Excludes bounces from the mailbox simulator, and those for emails addressed to more than one recipient.
+        ///
+        /// * OPEN - Unique open events for emails including open trackers. Excludes opens for emails addressed to more than one recipient.
+        ///
+        /// * CLICK - Unique click events for emails including wrapped links. Excludes clicks for emails addressed to more than one recipient.
+        ///
+        /// * DELIVERY - Successful deliveries for email sending attempts. Excludes deliveries to the mailbox simulator and for emails addressed to more than one recipient.
+        ///
+        /// * DELIVERY_OPEN - Successful deliveries for email sending attempts. Excludes deliveries to the mailbox simulator, for emails addressed to more than one recipient, and emails without open trackers.
+        ///
+        /// * DELIVERY_CLICK - Successful deliveries for email sending attempts. Excludes deliveries to the mailbox simulator, for emails addressed to more than one recipient, and emails without click trackers.
+        ///
+        /// * DELIVERY_COMPLAINT - Successful deliveries for email sending attempts. Excludes deliveries to the mailbox simulator, for emails addressed to more than one recipient, and emails addressed to recipients hosted by ISPs with which Amazon SES does not have a feedback loop agreement.
+        public var name: SESv2ClientTypes.Metric?
+
+        public init(
+            aggregation: SESv2ClientTypes.MetricAggregation? = nil,
+            name: SESv2ClientTypes.Metric? = nil
+        )
+        {
+            self.aggregation = aggregation
+            self.name = name
+        }
+    }
+
+}
+
+extension SESv2ClientTypes {
+    /// The type of data source of an export, can be one of the following:
+    ///
+    /// * METRICS_DATA - The metrics export.
+    ///
+    /// * MESSAGE_INSIGHTS - The Message Insights export.
+    public enum ExportSourceType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case messageInsights
+        case metricsData
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ExportSourceType] {
+            return [
+                .messageInsights,
+                .metricsData,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .messageInsights: return "MESSAGE_INSIGHTS"
+            case .metricsData: return "METRICS_DATA"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = ExportSourceType(rawValue: rawValue) ?? ExportSourceType.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension SESv2ClientTypes.ExportStatistics: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case exportedRecordsCount = "ExportedRecordsCount"
+        case processedRecordsCount = "ProcessedRecordsCount"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let exportedRecordsCount = self.exportedRecordsCount {
+            try encodeContainer.encode(exportedRecordsCount, forKey: .exportedRecordsCount)
+        }
+        if let processedRecordsCount = self.processedRecordsCount {
+            try encodeContainer.encode(processedRecordsCount, forKey: .processedRecordsCount)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let processedRecordsCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .processedRecordsCount)
+        processedRecordsCount = processedRecordsCountDecoded
+        let exportedRecordsCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .exportedRecordsCount)
+        exportedRecordsCount = exportedRecordsCountDecoded
+    }
+}
+
+extension SESv2ClientTypes {
+    /// Statistics about the execution of an export job.
+    public struct ExportStatistics: Swift.Equatable {
+        /// The number of records that were exported to the final export file. This value might not be available for all export source types
+        public var exportedRecordsCount: Swift.Int?
+        /// The number of records that were processed to generate the final export file.
+        public var processedRecordsCount: Swift.Int?
+
+        public init(
+            exportedRecordsCount: Swift.Int? = nil,
+            processedRecordsCount: Swift.Int? = nil
+        )
+        {
+            self.exportedRecordsCount = exportedRecordsCount
+            self.processedRecordsCount = processedRecordsCount
+        }
+    }
+
+}
+
 extension SESv2ClientTypes.FailureInfo: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case errorMessage = "ErrorMessage"
@@ -5251,11 +6095,11 @@ extension SESv2ClientTypes.FailureInfo: Swift.Codable {
 }
 
 extension SESv2ClientTypes {
-    /// An object that contains the failure details about an import job.
+    /// An object that contains the failure details about a job.
     public struct FailureInfo: Swift.Equatable {
-        /// A message about why the import job failed.
+        /// A message about why the job failed.
         public var errorMessage: Swift.String?
-        /// An Amazon S3 presigned URL that contains all the failed records and related information.
+        /// An Amazon S3 pre-signed URL that contains all the failed records and related information.
         public var failedRecordsS3Url: Swift.String?
 
         public init(
@@ -7492,6 +8336,172 @@ extension GetEmailTemplateOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension GetExportJobInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let jobId = jobId else {
+            return nil
+        }
+        return "/v2/email/export-jobs/\(jobId.urlPercentEncoding())"
+    }
+}
+
+/// Represents a request to retrieve information about an export job using the export job ID.
+public struct GetExportJobInput: Swift.Equatable {
+    /// The export job ID.
+    /// This member is required.
+    public var jobId: Swift.String?
+
+    public init(
+        jobId: Swift.String? = nil
+    )
+    {
+        self.jobId = jobId
+    }
+}
+
+struct GetExportJobInputBody: Swift.Equatable {
+}
+
+extension GetExportJobInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+public enum GetExportJobOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension GetExportJobOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetExportJobOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.completedTimestamp = output.completedTimestamp
+            self.createdTimestamp = output.createdTimestamp
+            self.exportDataSource = output.exportDataSource
+            self.exportDestination = output.exportDestination
+            self.exportSourceType = output.exportSourceType
+            self.failureInfo = output.failureInfo
+            self.jobId = output.jobId
+            self.jobStatus = output.jobStatus
+            self.statistics = output.statistics
+        } else {
+            self.completedTimestamp = nil
+            self.createdTimestamp = nil
+            self.exportDataSource = nil
+            self.exportDestination = nil
+            self.exportSourceType = nil
+            self.failureInfo = nil
+            self.jobId = nil
+            self.jobStatus = nil
+            self.statistics = nil
+        }
+    }
+}
+
+/// An HTTP 200 response if the request succeeds, or an error message if the request fails.
+public struct GetExportJobOutputResponse: Swift.Equatable {
+    /// The timestamp of when the export job was completed.
+    public var completedTimestamp: ClientRuntime.Date?
+    /// The timestamp of when the export job was created.
+    public var createdTimestamp: ClientRuntime.Date?
+    /// The data source of the export job.
+    public var exportDataSource: SESv2ClientTypes.ExportDataSource?
+    /// The destination of the export job.
+    public var exportDestination: SESv2ClientTypes.ExportDestination?
+    /// The type of source of the export job.
+    public var exportSourceType: SESv2ClientTypes.ExportSourceType?
+    /// The failure details about an export job.
+    public var failureInfo: SESv2ClientTypes.FailureInfo?
+    /// The export job ID.
+    public var jobId: Swift.String?
+    /// The status of the export job.
+    public var jobStatus: SESv2ClientTypes.JobStatus?
+    /// The statistics about the export job.
+    public var statistics: SESv2ClientTypes.ExportStatistics?
+
+    public init(
+        completedTimestamp: ClientRuntime.Date? = nil,
+        createdTimestamp: ClientRuntime.Date? = nil,
+        exportDataSource: SESv2ClientTypes.ExportDataSource? = nil,
+        exportDestination: SESv2ClientTypes.ExportDestination? = nil,
+        exportSourceType: SESv2ClientTypes.ExportSourceType? = nil,
+        failureInfo: SESv2ClientTypes.FailureInfo? = nil,
+        jobId: Swift.String? = nil,
+        jobStatus: SESv2ClientTypes.JobStatus? = nil,
+        statistics: SESv2ClientTypes.ExportStatistics? = nil
+    )
+    {
+        self.completedTimestamp = completedTimestamp
+        self.createdTimestamp = createdTimestamp
+        self.exportDataSource = exportDataSource
+        self.exportDestination = exportDestination
+        self.exportSourceType = exportSourceType
+        self.failureInfo = failureInfo
+        self.jobId = jobId
+        self.jobStatus = jobStatus
+        self.statistics = statistics
+    }
+}
+
+struct GetExportJobOutputResponseBody: Swift.Equatable {
+    let jobId: Swift.String?
+    let exportSourceType: SESv2ClientTypes.ExportSourceType?
+    let jobStatus: SESv2ClientTypes.JobStatus?
+    let exportDestination: SESv2ClientTypes.ExportDestination?
+    let exportDataSource: SESv2ClientTypes.ExportDataSource?
+    let createdTimestamp: ClientRuntime.Date?
+    let completedTimestamp: ClientRuntime.Date?
+    let failureInfo: SESv2ClientTypes.FailureInfo?
+    let statistics: SESv2ClientTypes.ExportStatistics?
+}
+
+extension GetExportJobOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case completedTimestamp = "CompletedTimestamp"
+        case createdTimestamp = "CreatedTimestamp"
+        case exportDataSource = "ExportDataSource"
+        case exportDestination = "ExportDestination"
+        case exportSourceType = "ExportSourceType"
+        case failureInfo = "FailureInfo"
+        case jobId = "JobId"
+        case jobStatus = "JobStatus"
+        case statistics = "Statistics"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let jobIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .jobId)
+        jobId = jobIdDecoded
+        let exportSourceTypeDecoded = try containerValues.decodeIfPresent(SESv2ClientTypes.ExportSourceType.self, forKey: .exportSourceType)
+        exportSourceType = exportSourceTypeDecoded
+        let jobStatusDecoded = try containerValues.decodeIfPresent(SESv2ClientTypes.JobStatus.self, forKey: .jobStatus)
+        jobStatus = jobStatusDecoded
+        let exportDestinationDecoded = try containerValues.decodeIfPresent(SESv2ClientTypes.ExportDestination.self, forKey: .exportDestination)
+        exportDestination = exportDestinationDecoded
+        let exportDataSourceDecoded = try containerValues.decodeIfPresent(SESv2ClientTypes.ExportDataSource.self, forKey: .exportDataSource)
+        exportDataSource = exportDataSourceDecoded
+        let createdTimestampDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .createdTimestamp)
+        createdTimestamp = createdTimestampDecoded
+        let completedTimestampDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .completedTimestamp)
+        completedTimestamp = completedTimestampDecoded
+        let failureInfoDecoded = try containerValues.decodeIfPresent(SESv2ClientTypes.FailureInfo.self, forKey: .failureInfo)
+        failureInfo = failureInfoDecoded
+        let statisticsDecoded = try containerValues.decodeIfPresent(SESv2ClientTypes.ExportStatistics.self, forKey: .statistics)
+        statistics = statisticsDecoded
+    }
+}
+
 extension GetImportJobInput: ClientRuntime.URLPathProvider {
     public var urlPath: Swift.String? {
         guard let jobId = jobId else {
@@ -7655,6 +8665,155 @@ extension GetImportJobOutputResponseBody: Swift.Decodable {
         processedRecordsCount = processedRecordsCountDecoded
         let failedRecordsCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .failedRecordsCount)
         failedRecordsCount = failedRecordsCountDecoded
+    }
+}
+
+extension GetMessageInsightsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let messageId = messageId else {
+            return nil
+        }
+        return "/v2/email/insights/\(messageId.urlPercentEncoding())"
+    }
+}
+
+/// A request to return information about a message.
+public struct GetMessageInsightsInput: Swift.Equatable {
+    /// A MessageId is a unique identifier for a message, and is returned when sending emails through Amazon SES.
+    /// This member is required.
+    public var messageId: Swift.String?
+
+    public init(
+        messageId: Swift.String? = nil
+    )
+    {
+        self.messageId = messageId
+    }
+}
+
+struct GetMessageInsightsInputBody: Swift.Equatable {
+}
+
+extension GetMessageInsightsInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+public enum GetMessageInsightsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension GetMessageInsightsOutputResponse: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "GetMessageInsightsOutputResponse(emailTags: \(Swift.String(describing: emailTags)), insights: \(Swift.String(describing: insights)), messageId: \(Swift.String(describing: messageId)), fromEmailAddress: \"CONTENT_REDACTED\", subject: \"CONTENT_REDACTED\")"}
+}
+
+extension GetMessageInsightsOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetMessageInsightsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.emailTags = output.emailTags
+            self.fromEmailAddress = output.fromEmailAddress
+            self.insights = output.insights
+            self.messageId = output.messageId
+            self.subject = output.subject
+        } else {
+            self.emailTags = nil
+            self.fromEmailAddress = nil
+            self.insights = nil
+            self.messageId = nil
+            self.subject = nil
+        }
+    }
+}
+
+/// Information about a message.
+public struct GetMessageInsightsOutputResponse: Swift.Equatable {
+    /// A list of tags, in the form of name/value pairs, that were applied to the email you sent, along with Amazon SES [Auto-Tags](https://docs.aws.amazon.com/ses/latest/dg/monitor-using-event-publishing.html).
+    public var emailTags: [SESv2ClientTypes.MessageTag]?
+    /// The from address used to send the message.
+    public var fromEmailAddress: Swift.String?
+    /// A set of insights associated with the message.
+    public var insights: [SESv2ClientTypes.EmailInsights]?
+    /// A unique identifier for the message.
+    public var messageId: Swift.String?
+    /// The subject line of the message.
+    public var subject: Swift.String?
+
+    public init(
+        emailTags: [SESv2ClientTypes.MessageTag]? = nil,
+        fromEmailAddress: Swift.String? = nil,
+        insights: [SESv2ClientTypes.EmailInsights]? = nil,
+        messageId: Swift.String? = nil,
+        subject: Swift.String? = nil
+    )
+    {
+        self.emailTags = emailTags
+        self.fromEmailAddress = fromEmailAddress
+        self.insights = insights
+        self.messageId = messageId
+        self.subject = subject
+    }
+}
+
+struct GetMessageInsightsOutputResponseBody: Swift.Equatable {
+    let messageId: Swift.String?
+    let fromEmailAddress: Swift.String?
+    let subject: Swift.String?
+    let emailTags: [SESv2ClientTypes.MessageTag]?
+    let insights: [SESv2ClientTypes.EmailInsights]?
+}
+
+extension GetMessageInsightsOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case emailTags = "EmailTags"
+        case fromEmailAddress = "FromEmailAddress"
+        case insights = "Insights"
+        case messageId = "MessageId"
+        case subject = "Subject"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .messageId)
+        messageId = messageIdDecoded
+        let fromEmailAddressDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .fromEmailAddress)
+        fromEmailAddress = fromEmailAddressDecoded
+        let subjectDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .subject)
+        subject = subjectDecoded
+        let emailTagsContainer = try containerValues.decodeIfPresent([SESv2ClientTypes.MessageTag?].self, forKey: .emailTags)
+        var emailTagsDecoded0:[SESv2ClientTypes.MessageTag]? = nil
+        if let emailTagsContainer = emailTagsContainer {
+            emailTagsDecoded0 = [SESv2ClientTypes.MessageTag]()
+            for structure0 in emailTagsContainer {
+                if let structure0 = structure0 {
+                    emailTagsDecoded0?.append(structure0)
+                }
+            }
+        }
+        emailTags = emailTagsDecoded0
+        let insightsContainer = try containerValues.decodeIfPresent([SESv2ClientTypes.EmailInsights?].self, forKey: .insights)
+        var insightsDecoded0:[SESv2ClientTypes.EmailInsights]? = nil
+        if let insightsContainer = insightsContainer {
+            insightsDecoded0 = [SESv2ClientTypes.EmailInsights]()
+            for structure0 in insightsContainer {
+                if let structure0 = structure0 {
+                    insightsDecoded0?.append(structure0)
+                }
+            }
+        }
+        insights = insightsDecoded0
     }
 }
 
@@ -8116,9 +9275,17 @@ extension SESv2ClientTypes {
         public var failedRecordsCount: Swift.Int?
         /// An object that contains details about the resource destination the import job is going to target.
         public var importDestination: SESv2ClientTypes.ImportDestination?
-        /// A string that represents the import job ID.
+        /// A string that represents a job ID.
         public var jobId: Swift.String?
-        /// The status of the import job.
+        /// The status of a job.
+        ///
+        /// * CREATED – Job has just been created.
+        ///
+        /// * PROCESSING – Job is processing.
+        ///
+        /// * ERROR – An error occurred during processing.
+        ///
+        /// * COMPLETED – Job has completed processing successfully.
         public var jobStatus: SESv2ClientTypes.JobStatus?
         /// The current number of records processed.
         public var processedRecordsCount: Swift.Int?
@@ -8195,6 +9362,73 @@ extension SESv2ClientTypes {
         {
             self.global = global
             self.trackedIsps = trackedIsps
+        }
+    }
+
+}
+
+extension SESv2ClientTypes.InsightsEvent: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case details = "Details"
+        case timestamp = "Timestamp"
+        case type = "Type"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let details = self.details {
+            try encodeContainer.encode(details, forKey: .details)
+        }
+        if let timestamp = self.timestamp {
+            try encodeContainer.encodeTimestamp(timestamp, format: .epochSeconds, forKey: .timestamp)
+        }
+        if let type = self.type {
+            try encodeContainer.encode(type.rawValue, forKey: .type)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let timestampDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .timestamp)
+        timestamp = timestampDecoded
+        let typeDecoded = try containerValues.decodeIfPresent(SESv2ClientTypes.EventType.self, forKey: .type)
+        type = typeDecoded
+        let detailsDecoded = try containerValues.decodeIfPresent(SESv2ClientTypes.EventDetails.self, forKey: .details)
+        details = detailsDecoded
+    }
+}
+
+extension SESv2ClientTypes {
+    /// An object containing details about a specific event.
+    public struct InsightsEvent: Swift.Equatable {
+        /// Details about bounce or complaint events.
+        public var details: SESv2ClientTypes.EventDetails?
+        /// The timestamp of the event.
+        public var timestamp: ClientRuntime.Date?
+        /// The type of event:
+        ///
+        /// * SEND - The send request was successful and SES will attempt to deliver the message to the recipient’s mail server. (If account-level or global suppression is being used, SES will still count it as a send, but delivery is suppressed.)
+        ///
+        /// * DELIVERY - SES successfully delivered the email to the recipient's mail server. Excludes deliveries to the mailbox simulator, and those from emails addressed to more than one recipient.
+        ///
+        /// * BOUNCE - Feedback received for delivery failures. Additional details about the bounce are provided in the Details object. Excludes bounces from the mailbox simulator, and those from emails addressed to more than one recipient.
+        ///
+        /// * COMPLAINT - Complaint received for the email. Additional details about the complaint are provided in the Details object. This excludes complaints from the mailbox simulator, those originating from your account-level suppression list (if enabled), and those from emails addressed to more than one recipient.
+        ///
+        /// * OPEN - Open event for emails including open trackers. Excludes opens for emails addressed to more than one recipient.
+        ///
+        /// * CLICK - Click event for emails including wrapped links. Excludes clicks for emails addressed to more than one recipient.
+        public var type: SESv2ClientTypes.EventType?
+
+        public init(
+            details: SESv2ClientTypes.EventDetails? = nil,
+            timestamp: ClientRuntime.Date? = nil,
+            type: SESv2ClientTypes.EventType? = nil
+        )
+        {
+            self.details = details
+            self.timestamp = timestamp
+            self.type = type
         }
     }
 
@@ -8356,8 +9590,17 @@ extension SESv2ClientTypes {
 }
 
 extension SESv2ClientTypes {
-    /// The status of the import job.
+    /// The status of a job.
+    ///
+    /// * CREATED – Job has just been created.
+    ///
+    /// * PROCESSING – Job is processing.
+    ///
+    /// * ERROR – An error occurred during processing.
+    ///
+    /// * COMPLETED – Job has completed processing successfully.
     public enum JobStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case cancelled
         case completed
         case created
         case failed
@@ -8366,6 +9609,7 @@ extension SESv2ClientTypes {
 
         public static var allCases: [JobStatus] {
             return [
+                .cancelled,
                 .completed,
                 .created,
                 .failed,
@@ -8379,6 +9623,7 @@ extension SESv2ClientTypes {
         }
         public var rawValue: Swift.String {
             switch self {
+            case .cancelled: return "CANCELLED"
             case .completed: return "COMPLETED"
             case .created: return "CREATED"
             case .failed: return "FAILED"
@@ -9693,6 +10938,162 @@ extension ListEmailTemplatesOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension ListExportJobsInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case exportSourceType = "ExportSourceType"
+        case jobStatus = "JobStatus"
+        case nextToken = "NextToken"
+        case pageSize = "PageSize"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let exportSourceType = self.exportSourceType {
+            try encodeContainer.encode(exportSourceType.rawValue, forKey: .exportSourceType)
+        }
+        if let jobStatus = self.jobStatus {
+            try encodeContainer.encode(jobStatus.rawValue, forKey: .jobStatus)
+        }
+        if let nextToken = self.nextToken {
+            try encodeContainer.encode(nextToken, forKey: .nextToken)
+        }
+        if let pageSize = self.pageSize {
+            try encodeContainer.encode(pageSize, forKey: .pageSize)
+        }
+    }
+}
+
+extension ListExportJobsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/v2/email/list-export-jobs"
+    }
+}
+
+/// Represents a request to list all export jobs with filters.
+public struct ListExportJobsInput: Swift.Equatable {
+    /// A value used to list export jobs that have a certain ExportSourceType.
+    public var exportSourceType: SESv2ClientTypes.ExportSourceType?
+    /// A value used to list export jobs that have a certain JobStatus.
+    public var jobStatus: SESv2ClientTypes.JobStatus?
+    /// The pagination token returned from a previous call to ListExportJobs to indicate the position in the list of export jobs.
+    public var nextToken: Swift.String?
+    /// Maximum number of export jobs to return at once. Use this parameter to paginate results. If additional export jobs exist beyond the specified limit, the NextToken element is sent in the response. Use the NextToken value in subsequent calls to ListExportJobs to retrieve additional export jobs.
+    public var pageSize: Swift.Int?
+
+    public init(
+        exportSourceType: SESv2ClientTypes.ExportSourceType? = nil,
+        jobStatus: SESv2ClientTypes.JobStatus? = nil,
+        nextToken: Swift.String? = nil,
+        pageSize: Swift.Int? = nil
+    )
+    {
+        self.exportSourceType = exportSourceType
+        self.jobStatus = jobStatus
+        self.nextToken = nextToken
+        self.pageSize = pageSize
+    }
+}
+
+struct ListExportJobsInputBody: Swift.Equatable {
+    let nextToken: Swift.String?
+    let pageSize: Swift.Int?
+    let exportSourceType: SESv2ClientTypes.ExportSourceType?
+    let jobStatus: SESv2ClientTypes.JobStatus?
+}
+
+extension ListExportJobsInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case exportSourceType = "ExportSourceType"
+        case jobStatus = "JobStatus"
+        case nextToken = "NextToken"
+        case pageSize = "PageSize"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+        let pageSizeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .pageSize)
+        pageSize = pageSizeDecoded
+        let exportSourceTypeDecoded = try containerValues.decodeIfPresent(SESv2ClientTypes.ExportSourceType.self, forKey: .exportSourceType)
+        exportSourceType = exportSourceTypeDecoded
+        let jobStatusDecoded = try containerValues.decodeIfPresent(SESv2ClientTypes.JobStatus.self, forKey: .jobStatus)
+        jobStatus = jobStatusDecoded
+    }
+}
+
+public enum ListExportJobsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension ListExportJobsOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ListExportJobsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.exportJobs = output.exportJobs
+            self.nextToken = output.nextToken
+        } else {
+            self.exportJobs = nil
+            self.nextToken = nil
+        }
+    }
+}
+
+/// An HTTP 200 response if the request succeeds, or an error message if the request fails.
+public struct ListExportJobsOutputResponse: Swift.Equatable {
+    /// A list of the export job summaries.
+    public var exportJobs: [SESv2ClientTypes.ExportJobSummary]?
+    /// A string token indicating that there might be additional export jobs available to be listed. Use this token to a subsequent call to ListExportJobs with the same parameters to retrieve the next page of export jobs.
+    public var nextToken: Swift.String?
+
+    public init(
+        exportJobs: [SESv2ClientTypes.ExportJobSummary]? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.exportJobs = exportJobs
+        self.nextToken = nextToken
+    }
+}
+
+struct ListExportJobsOutputResponseBody: Swift.Equatable {
+    let exportJobs: [SESv2ClientTypes.ExportJobSummary]?
+    let nextToken: Swift.String?
+}
+
+extension ListExportJobsOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case exportJobs = "ExportJobs"
+        case nextToken = "NextToken"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let exportJobsContainer = try containerValues.decodeIfPresent([SESv2ClientTypes.ExportJobSummary?].self, forKey: .exportJobs)
+        var exportJobsDecoded0:[SESv2ClientTypes.ExportJobSummary]? = nil
+        if let exportJobsContainer = exportJobsContainer {
+            exportJobsDecoded0 = [SESv2ClientTypes.ExportJobSummary]()
+            for structure0 in exportJobsContainer {
+                if let structure0 = structure0 {
+                    exportJobsDecoded0?.append(structure0)
+                }
+            }
+        }
+        exportJobs = exportJobsDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
 extension ListImportJobsInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case importDestinationType = "ImportDestinationType"
@@ -10589,6 +11990,240 @@ extension SESv2ClientTypes {
 
 }
 
+extension SESv2ClientTypes.MessageInsightsDataSource: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case endDate = "EndDate"
+        case exclude = "Exclude"
+        case include = "Include"
+        case maxResults = "MaxResults"
+        case startDate = "StartDate"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let endDate = self.endDate {
+            try encodeContainer.encodeTimestamp(endDate, format: .epochSeconds, forKey: .endDate)
+        }
+        if let exclude = self.exclude {
+            try encodeContainer.encode(exclude, forKey: .exclude)
+        }
+        if let include = self.include {
+            try encodeContainer.encode(include, forKey: .include)
+        }
+        if let maxResults = self.maxResults {
+            try encodeContainer.encode(maxResults, forKey: .maxResults)
+        }
+        if let startDate = self.startDate {
+            try encodeContainer.encodeTimestamp(startDate, format: .epochSeconds, forKey: .startDate)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let startDateDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .startDate)
+        startDate = startDateDecoded
+        let endDateDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .endDate)
+        endDate = endDateDecoded
+        let includeDecoded = try containerValues.decodeIfPresent(SESv2ClientTypes.MessageInsightsFilters.self, forKey: .include)
+        include = includeDecoded
+        let excludeDecoded = try containerValues.decodeIfPresent(SESv2ClientTypes.MessageInsightsFilters.self, forKey: .exclude)
+        exclude = excludeDecoded
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
+        maxResults = maxResultsDecoded
+    }
+}
+
+extension SESv2ClientTypes {
+    /// An object that contains filters applied when performing the Message Insights export.
+    public struct MessageInsightsDataSource: Swift.Equatable {
+        /// Represents the end date for the export interval as a timestamp. The end date is inclusive.
+        /// This member is required.
+        public var endDate: ClientRuntime.Date?
+        /// Filters for results to be excluded from the export file.
+        public var exclude: SESv2ClientTypes.MessageInsightsFilters?
+        /// Filters for results to be included in the export file.
+        public var include: SESv2ClientTypes.MessageInsightsFilters?
+        /// The maximum number of results.
+        public var maxResults: Swift.Int?
+        /// Represents the start date for the export interval as a timestamp. The start date is inclusive.
+        /// This member is required.
+        public var startDate: ClientRuntime.Date?
+
+        public init(
+            endDate: ClientRuntime.Date? = nil,
+            exclude: SESv2ClientTypes.MessageInsightsFilters? = nil,
+            include: SESv2ClientTypes.MessageInsightsFilters? = nil,
+            maxResults: Swift.Int? = nil,
+            startDate: ClientRuntime.Date? = nil
+        )
+        {
+            self.endDate = endDate
+            self.exclude = exclude
+            self.include = include
+            self.maxResults = maxResults
+            self.startDate = startDate
+        }
+    }
+
+}
+
+extension SESv2ClientTypes.MessageInsightsFilters: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case destination = "Destination"
+        case fromEmailAddress = "FromEmailAddress"
+        case isp = "Isp"
+        case lastDeliveryEvent = "LastDeliveryEvent"
+        case lastEngagementEvent = "LastEngagementEvent"
+        case subject = "Subject"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let destination = destination {
+            var destinationContainer = encodeContainer.nestedUnkeyedContainer(forKey: .destination)
+            for insightsemailaddress0 in destination {
+                try destinationContainer.encode(insightsemailaddress0)
+            }
+        }
+        if let fromEmailAddress = fromEmailAddress {
+            var fromEmailAddressContainer = encodeContainer.nestedUnkeyedContainer(forKey: .fromEmailAddress)
+            for insightsemailaddress0 in fromEmailAddress {
+                try fromEmailAddressContainer.encode(insightsemailaddress0)
+            }
+        }
+        if let isp = isp {
+            var ispContainer = encodeContainer.nestedUnkeyedContainer(forKey: .isp)
+            for isp0 in isp {
+                try ispContainer.encode(isp0)
+            }
+        }
+        if let lastDeliveryEvent = lastDeliveryEvent {
+            var lastDeliveryEventContainer = encodeContainer.nestedUnkeyedContainer(forKey: .lastDeliveryEvent)
+            for deliveryeventtype0 in lastDeliveryEvent {
+                try lastDeliveryEventContainer.encode(deliveryeventtype0.rawValue)
+            }
+        }
+        if let lastEngagementEvent = lastEngagementEvent {
+            var lastEngagementEventContainer = encodeContainer.nestedUnkeyedContainer(forKey: .lastEngagementEvent)
+            for engagementeventtype0 in lastEngagementEvent {
+                try lastEngagementEventContainer.encode(engagementeventtype0.rawValue)
+            }
+        }
+        if let subject = subject {
+            var subjectContainer = encodeContainer.nestedUnkeyedContainer(forKey: .subject)
+            for emailsubject0 in subject {
+                try subjectContainer.encode(emailsubject0)
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let fromEmailAddressContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .fromEmailAddress)
+        var fromEmailAddressDecoded0:[Swift.String]? = nil
+        if let fromEmailAddressContainer = fromEmailAddressContainer {
+            fromEmailAddressDecoded0 = [Swift.String]()
+            for string0 in fromEmailAddressContainer {
+                if let string0 = string0 {
+                    fromEmailAddressDecoded0?.append(string0)
+                }
+            }
+        }
+        fromEmailAddress = fromEmailAddressDecoded0
+        let destinationContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .destination)
+        var destinationDecoded0:[Swift.String]? = nil
+        if let destinationContainer = destinationContainer {
+            destinationDecoded0 = [Swift.String]()
+            for string0 in destinationContainer {
+                if let string0 = string0 {
+                    destinationDecoded0?.append(string0)
+                }
+            }
+        }
+        destination = destinationDecoded0
+        let subjectContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .subject)
+        var subjectDecoded0:[Swift.String]? = nil
+        if let subjectContainer = subjectContainer {
+            subjectDecoded0 = [Swift.String]()
+            for string0 in subjectContainer {
+                if let string0 = string0 {
+                    subjectDecoded0?.append(string0)
+                }
+            }
+        }
+        subject = subjectDecoded0
+        let ispContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .isp)
+        var ispDecoded0:[Swift.String]? = nil
+        if let ispContainer = ispContainer {
+            ispDecoded0 = [Swift.String]()
+            for string0 in ispContainer {
+                if let string0 = string0 {
+                    ispDecoded0?.append(string0)
+                }
+            }
+        }
+        isp = ispDecoded0
+        let lastDeliveryEventContainer = try containerValues.decodeIfPresent([SESv2ClientTypes.DeliveryEventType?].self, forKey: .lastDeliveryEvent)
+        var lastDeliveryEventDecoded0:[SESv2ClientTypes.DeliveryEventType]? = nil
+        if let lastDeliveryEventContainer = lastDeliveryEventContainer {
+            lastDeliveryEventDecoded0 = [SESv2ClientTypes.DeliveryEventType]()
+            for enum0 in lastDeliveryEventContainer {
+                if let enum0 = enum0 {
+                    lastDeliveryEventDecoded0?.append(enum0)
+                }
+            }
+        }
+        lastDeliveryEvent = lastDeliveryEventDecoded0
+        let lastEngagementEventContainer = try containerValues.decodeIfPresent([SESv2ClientTypes.EngagementEventType?].self, forKey: .lastEngagementEvent)
+        var lastEngagementEventDecoded0:[SESv2ClientTypes.EngagementEventType]? = nil
+        if let lastEngagementEventContainer = lastEngagementEventContainer {
+            lastEngagementEventDecoded0 = [SESv2ClientTypes.EngagementEventType]()
+            for enum0 in lastEngagementEventContainer {
+                if let enum0 = enum0 {
+                    lastEngagementEventDecoded0?.append(enum0)
+                }
+            }
+        }
+        lastEngagementEvent = lastEngagementEventDecoded0
+    }
+}
+
+extension SESv2ClientTypes {
+    /// An object containing Message Insights filters. If you specify multiple filters, the filters are joined by AND. If you specify multiple values for a filter, the values are joined by OR. Filter values are case-sensitive. FromEmailAddress, Destination, and Subject filters support partial match. A partial match is performed by using the * wildcard character placed at the beginning (suffix match), the end (prefix match) or both ends of the string (contains match). In order to match the literal characters * or \, they must be escaped using the \ character. If no wildcard character is present, an exact match is performed.
+    public struct MessageInsightsFilters: Swift.Equatable {
+        /// The recipient's email address.
+        public var destination: [Swift.String]?
+        /// The from address used to send the message.
+        public var fromEmailAddress: [Swift.String]?
+        /// The recipient's ISP (e.g., Gmail, Yahoo, etc.).
+        public var isp: [Swift.String]?
+        /// The last delivery-related event for the email, where the ordering is as follows: SEND < BOUNCE < DELIVERY < COMPLAINT.
+        public var lastDeliveryEvent: [SESv2ClientTypes.DeliveryEventType]?
+        /// The last engagement-related event for the email, where the ordering is as follows: OPEN < CLICK. Engagement events are only available if [Engagement tracking](https://docs.aws.amazon.com/ses/latest/dg/vdm-settings.html) is enabled.
+        public var lastEngagementEvent: [SESv2ClientTypes.EngagementEventType]?
+        /// The subject line of the message.
+        public var subject: [Swift.String]?
+
+        public init(
+            destination: [Swift.String]? = nil,
+            fromEmailAddress: [Swift.String]? = nil,
+            isp: [Swift.String]? = nil,
+            lastDeliveryEvent: [SESv2ClientTypes.DeliveryEventType]? = nil,
+            lastEngagementEvent: [SESv2ClientTypes.EngagementEventType]? = nil,
+            subject: [Swift.String]? = nil
+        )
+        {
+            self.destination = destination
+            self.fromEmailAddress = fromEmailAddress
+            self.isp = isp
+            self.lastDeliveryEvent = lastDeliveryEvent
+            self.lastEngagementEvent = lastEngagementEvent
+            self.subject = subject
+        }
+    }
+
+}
+
 extension MessageRejected {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -10700,6 +12335,27 @@ extension SESv2ClientTypes {
 }
 
 extension SESv2ClientTypes {
+    /// The metric to export, can be one of the following:
+    ///
+    /// * SEND - Emails sent eligible for tracking in the VDM dashboard. This excludes emails sent to the mailbox simulator and emails addressed to more than one recipient.
+    ///
+    /// * COMPLAINT - Complaints received for your account. This excludes complaints from the mailbox simulator, those originating from your account-level suppression list (if enabled), and those for emails addressed to more than one recipient
+    ///
+    /// * PERMANENT_BOUNCE - Permanent bounces - i.e., feedback received for emails sent to non-existent mailboxes. Excludes bounces from the mailbox simulator, those originating from your account-level suppression list (if enabled), and those for emails addressed to more than one recipient.
+    ///
+    /// * TRANSIENT_BOUNCE - Transient bounces - i.e., feedback received for delivery failures excluding issues with non-existent mailboxes. Excludes bounces from the mailbox simulator, and those for emails addressed to more than one recipient.
+    ///
+    /// * OPEN - Unique open events for emails including open trackers. Excludes opens for emails addressed to more than one recipient.
+    ///
+    /// * CLICK - Unique click events for emails including wrapped links. Excludes clicks for emails addressed to more than one recipient.
+    ///
+    /// * DELIVERY - Successful deliveries for email sending attempts. Excludes deliveries to the mailbox simulator and for emails addressed to more than one recipient.
+    ///
+    /// * DELIVERY_OPEN - Successful deliveries for email sending attempts. Excludes deliveries to the mailbox simulator, for emails addressed to more than one recipient, and emails without open trackers.
+    ///
+    /// * DELIVERY_CLICK - Successful deliveries for email sending attempts. Excludes deliveries to the mailbox simulator, for emails addressed to more than one recipient, and emails without click trackers.
+    ///
+    /// * DELIVERY_COMPLAINT - Successful deliveries for email sending attempts. Excludes deliveries to the mailbox simulator, for emails addressed to more than one recipient, and emails addressed to recipients hosted by ISPs with which Amazon SES does not have a feedback loop agreement.
     public enum Metric: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case click
         case complaint
@@ -10751,6 +12407,43 @@ extension SESv2ClientTypes {
             let container = try decoder.singleValueContainer()
             let rawValue = try container.decode(RawValue.self)
             self = Metric(rawValue: rawValue) ?? Metric.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension SESv2ClientTypes {
+    /// The aggregation to apply to a metric, can be one of the following:
+    ///
+    /// * VOLUME - The volume of events for this metric.
+    ///
+    /// * RATE - The rate for this metric relative to the SEND metric volume.
+    public enum MetricAggregation: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case rate
+        case volume
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [MetricAggregation] {
+            return [
+                .rate,
+                .volume,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .rate: return "RATE"
+            case .volume: return "VOLUME"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = MetricAggregation(rawValue: rawValue) ?? MetricAggregation.sdkUnknown(rawValue)
         }
     }
 }
@@ -10962,6 +12655,120 @@ extension SESv2ClientTypes {
             self = MetricNamespace(rawValue: rawValue) ?? MetricNamespace.sdkUnknown(rawValue)
         }
     }
+}
+
+extension SESv2ClientTypes.MetricsDataSource: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case dimensions = "Dimensions"
+        case endDate = "EndDate"
+        case metrics = "Metrics"
+        case namespace = "Namespace"
+        case startDate = "StartDate"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let dimensions = dimensions {
+            var dimensionsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .dimensions)
+            for (dictKey0, exportDimensions0) in dimensions {
+                var exportDimensions0Container = dimensionsContainer.nestedUnkeyedContainer(forKey: ClientRuntime.Key(stringValue: dictKey0))
+                for metricdimensionvalue1 in exportDimensions0 {
+                    try exportDimensions0Container.encode(metricdimensionvalue1)
+                }
+            }
+        }
+        if let endDate = self.endDate {
+            try encodeContainer.encodeTimestamp(endDate, format: .epochSeconds, forKey: .endDate)
+        }
+        if let metrics = metrics {
+            var metricsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .metrics)
+            for exportmetric0 in metrics {
+                try metricsContainer.encode(exportmetric0)
+            }
+        }
+        if let namespace = self.namespace {
+            try encodeContainer.encode(namespace.rawValue, forKey: .namespace)
+        }
+        if let startDate = self.startDate {
+            try encodeContainer.encodeTimestamp(startDate, format: .epochSeconds, forKey: .startDate)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let dimensionsContainer = try containerValues.decodeIfPresent([Swift.String: [Swift.String?]?].self, forKey: .dimensions)
+        var dimensionsDecoded0: [Swift.String:[Swift.String]]? = nil
+        if let dimensionsContainer = dimensionsContainer {
+            dimensionsDecoded0 = [Swift.String:[Swift.String]]()
+            for (key0, exportdimensionvalue0) in dimensionsContainer {
+                var exportdimensionvalue0Decoded0: [Swift.String]? = nil
+                if let exportdimensionvalue0 = exportdimensionvalue0 {
+                    exportdimensionvalue0Decoded0 = [Swift.String]()
+                    for string1 in exportdimensionvalue0 {
+                        if let string1 = string1 {
+                            exportdimensionvalue0Decoded0?.append(string1)
+                        }
+                    }
+                }
+                dimensionsDecoded0?[key0] = exportdimensionvalue0Decoded0
+            }
+        }
+        dimensions = dimensionsDecoded0
+        let namespaceDecoded = try containerValues.decodeIfPresent(SESv2ClientTypes.MetricNamespace.self, forKey: .namespace)
+        namespace = namespaceDecoded
+        let metricsContainer = try containerValues.decodeIfPresent([SESv2ClientTypes.ExportMetric?].self, forKey: .metrics)
+        var metricsDecoded0:[SESv2ClientTypes.ExportMetric]? = nil
+        if let metricsContainer = metricsContainer {
+            metricsDecoded0 = [SESv2ClientTypes.ExportMetric]()
+            for structure0 in metricsContainer {
+                if let structure0 = structure0 {
+                    metricsDecoded0?.append(structure0)
+                }
+            }
+        }
+        metrics = metricsDecoded0
+        let startDateDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .startDate)
+        startDate = startDateDecoded
+        let endDateDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .endDate)
+        endDate = endDateDecoded
+    }
+}
+
+extension SESv2ClientTypes {
+    /// An object that contains details about the data source for the metrics export.
+    public struct MetricsDataSource: Swift.Equatable {
+        /// An object that contains a mapping between a MetricDimensionName and MetricDimensionValue to filter metrics by. Must contain a least 1 dimension but no more than 3 unique ones.
+        /// This member is required.
+        public var dimensions: [Swift.String:[Swift.String]]?
+        /// Represents the end date for the export interval as a timestamp.
+        /// This member is required.
+        public var endDate: ClientRuntime.Date?
+        /// A list of ExportMetric objects to export.
+        /// This member is required.
+        public var metrics: [SESv2ClientTypes.ExportMetric]?
+        /// The metrics namespace - e.g., VDM.
+        /// This member is required.
+        public var namespace: SESv2ClientTypes.MetricNamespace?
+        /// Represents the start date for the export interval as a timestamp.
+        /// This member is required.
+        public var startDate: ClientRuntime.Date?
+
+        public init(
+            dimensions: [Swift.String:[Swift.String]]? = nil,
+            endDate: ClientRuntime.Date? = nil,
+            metrics: [SESv2ClientTypes.ExportMetric]? = nil,
+            namespace: SESv2ClientTypes.MetricNamespace? = nil,
+            startDate: ClientRuntime.Date? = nil
+        )
+        {
+            self.dimensions = dimensions
+            self.endDate = endDate
+            self.metrics = metrics
+            self.namespace = namespace
+            self.startDate = startDate
+        }
+    }
+
 }
 
 extension NotFoundException {

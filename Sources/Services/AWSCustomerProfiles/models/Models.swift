@@ -357,6 +357,12 @@ extension CustomerProfilesClientTypes.Address: Swift.Codable {
     }
 }
 
+extension CustomerProfilesClientTypes.Address: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CONTENT_REDACTED"
+    }
+}
+
 extension CustomerProfilesClientTypes {
     /// A generic address associated with the customer that is not mailing, shipping, or billing.
     public struct Address: Swift.Equatable {
@@ -444,6 +450,11 @@ extension CustomerProfilesClientTypes.AppflowIntegration: Swift.Codable {
         }
         batches = batchesDecoded0
     }
+}
+
+extension CustomerProfilesClientTypes.AppflowIntegration: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "AppflowIntegration(batches: \(Swift.String(describing: batches)), flowDefinition: \"CONTENT_REDACTED\")"}
 }
 
 extension CustomerProfilesClientTypes {
@@ -729,6 +740,12 @@ extension CustomerProfilesClientTypes.AttributeDetails: Swift.Codable {
         attributes = attributesDecoded0
         let expressionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .expression)
         expression = expressionDecoded
+    }
+}
+
+extension CustomerProfilesClientTypes.AttributeDetails: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CONTENT_REDACTED"
     }
 }
 
@@ -1147,6 +1164,12 @@ extension CustomerProfilesClientTypes.Conditions: Swift.Codable {
     }
 }
 
+extension CustomerProfilesClientTypes.Conditions: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CONTENT_REDACTED"
+    }
+}
+
 extension CustomerProfilesClientTypes {
     /// The conditions including range, object count, and threshold for the calculated attribute.
     public struct Conditions: Swift.Equatable {
@@ -1388,6 +1411,11 @@ extension CustomerProfilesClientTypes {
 
 }
 
+extension CreateCalculatedAttributeDefinitionInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CreateCalculatedAttributeDefinitionInput(calculatedAttributeName: \(Swift.String(describing: calculatedAttributeName)), description: \(Swift.String(describing: description)), displayName: \(Swift.String(describing: displayName)), domainName: \(Swift.String(describing: domainName)), tags: \(Swift.String(describing: tags)), attributeDetails: \"CONTENT_REDACTED\", conditions: \"CONTENT_REDACTED\", statistic: \"CONTENT_REDACTED\")"}
+}
+
 extension CreateCalculatedAttributeDefinitionInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case attributeDetails = "AttributeDetails"
@@ -1538,6 +1566,11 @@ public enum CreateCalculatedAttributeDefinitionOutputError: ClientRuntime.HttpRe
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
+}
+
+extension CreateCalculatedAttributeDefinitionOutputResponse: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CreateCalculatedAttributeDefinitionOutputResponse(calculatedAttributeName: \(Swift.String(describing: calculatedAttributeName)), createdAt: \(Swift.String(describing: createdAt)), description: \(Swift.String(describing: description)), displayName: \(Swift.String(describing: displayName)), lastUpdatedAt: \(Swift.String(describing: lastUpdatedAt)), tags: \(Swift.String(describing: tags)), attributeDetails: \"CONTENT_REDACTED\", conditions: \"CONTENT_REDACTED\", statistic: \"CONTENT_REDACTED\")"}
 }
 
 extension CreateCalculatedAttributeDefinitionOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -2292,6 +2325,11 @@ extension CreateIntegrationWorkflowOutputResponseBody: Swift.Decodable {
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
     }
+}
+
+extension CreateProfileInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CreateProfileInput(domainName: \(Swift.String(describing: domainName)), accountNumber: \"CONTENT_REDACTED\", additionalInformation: \"CONTENT_REDACTED\", address: \"CONTENT_REDACTED\", attributes: \"CONTENT_REDACTED\", billingAddress: \"CONTENT_REDACTED\", birthDate: \"CONTENT_REDACTED\", businessEmailAddress: \"CONTENT_REDACTED\", businessName: \"CONTENT_REDACTED\", businessPhoneNumber: \"CONTENT_REDACTED\", emailAddress: \"CONTENT_REDACTED\", firstName: \"CONTENT_REDACTED\", gender: \"CONTENT_REDACTED\", genderString: \"CONTENT_REDACTED\", homePhoneNumber: \"CONTENT_REDACTED\", lastName: \"CONTENT_REDACTED\", mailingAddress: \"CONTENT_REDACTED\", middleName: \"CONTENT_REDACTED\", mobilePhoneNumber: \"CONTENT_REDACTED\", partyType: \"CONTENT_REDACTED\", partyTypeString: \"CONTENT_REDACTED\", personalEmailAddress: \"CONTENT_REDACTED\", phoneNumber: \"CONTENT_REDACTED\", shippingAddress: \"CONTENT_REDACTED\")"}
 }
 
 extension CreateProfileInput: Swift.Encodable {
@@ -4381,6 +4419,12 @@ extension CustomerProfilesClientTypes.FlowDefinition: Swift.Codable {
     }
 }
 
+extension CustomerProfilesClientTypes.FlowDefinition: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CONTENT_REDACTED"
+    }
+}
+
 extension CustomerProfilesClientTypes {
     /// The configurations that control how Customer Profiles retrieves data from the source, Amazon AppFlow. Customer Profiles uses this information to create an AppFlow flow on behalf of customers.
     public struct FlowDefinition: Swift.Equatable {
@@ -4734,6 +4778,11 @@ public enum GetCalculatedAttributeDefinitionOutputError: ClientRuntime.HttpRespo
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
+}
+
+extension GetCalculatedAttributeDefinitionOutputResponse: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "GetCalculatedAttributeDefinitionOutputResponse(calculatedAttributeName: \(Swift.String(describing: calculatedAttributeName)), createdAt: \(Swift.String(describing: createdAt)), description: \(Swift.String(describing: description)), displayName: \(Swift.String(describing: displayName)), lastUpdatedAt: \(Swift.String(describing: lastUpdatedAt)), tags: \(Swift.String(describing: tags)), attributeDetails: \"CONTENT_REDACTED\", conditions: \"CONTENT_REDACTED\", statistic: \"CONTENT_REDACTED\")"}
 }
 
 extension GetCalculatedAttributeDefinitionOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -5978,6 +6027,11 @@ public enum GetProfileObjectTypeOutputError: ClientRuntime.HttpResponseErrorBind
     }
 }
 
+extension GetProfileObjectTypeOutputResponse: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "GetProfileObjectTypeOutputResponse(allowProfileCreation: \(Swift.String(describing: allowProfileCreation)), createdAt: \(Swift.String(describing: createdAt)), encryptionKey: \(Swift.String(describing: encryptionKey)), expirationDays: \(Swift.String(describing: expirationDays)), lastUpdatedAt: \(Swift.String(describing: lastUpdatedAt)), objectTypeName: \(Swift.String(describing: objectTypeName)), sourceLastUpdatedTimestampFormat: \(Swift.String(describing: sourceLastUpdatedTimestampFormat)), tags: \(Swift.String(describing: tags)), templateId: \(Swift.String(describing: templateId)), description: \"CONTENT_REDACTED\", fields: \"CONTENT_REDACTED\", keys: \"CONTENT_REDACTED\")"}
+}
+
 extension GetProfileObjectTypeOutputResponse: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -6208,6 +6262,11 @@ public enum GetProfileObjectTypeTemplateOutputError: ClientRuntime.HttpResponseE
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
+}
+
+extension GetProfileObjectTypeTemplateOutputResponse: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "GetProfileObjectTypeTemplateOutputResponse(allowProfileCreation: \(Swift.String(describing: allowProfileCreation)), sourceLastUpdatedTimestampFormat: \(Swift.String(describing: sourceLastUpdatedTimestampFormat)), sourceName: \(Swift.String(describing: sourceName)), sourceObject: \(Swift.String(describing: sourceObject)), templateId: \(Swift.String(describing: templateId)), fields: \"CONTENT_REDACTED\", keys: \"CONTENT_REDACTED\")"}
 }
 
 extension GetProfileObjectTypeTemplateOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -8983,6 +9042,11 @@ public enum ListProfileObjectTypesOutputError: ClientRuntime.HttpResponseErrorBi
     }
 }
 
+extension ListProfileObjectTypesOutputResponse: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "ListProfileObjectTypesOutputResponse(nextToken: \(Swift.String(describing: nextToken)), items: \"CONTENT_REDACTED\")"}
+}
+
 extension ListProfileObjectTypesOutputResponse: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -9177,6 +9241,11 @@ extension CustomerProfilesClientTypes.ListProfileObjectsItem: Swift.Codable {
         let objectDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .object)
         object = objectDecoded
     }
+}
+
+extension CustomerProfilesClientTypes.ListProfileObjectsItem: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "ListProfileObjectsItem(objectTypeName: \(Swift.String(describing: objectTypeName)), profileObjectUniqueKey: \(Swift.String(describing: profileObjectUniqueKey)), object: \"CONTENT_REDACTED\")"}
 }
 
 extension CustomerProfilesClientTypes {
@@ -10894,6 +10963,11 @@ extension CustomerProfilesClientTypes.Profile: Swift.Codable {
     }
 }
 
+extension CustomerProfilesClientTypes.Profile: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "Profile(foundByItems: \(Swift.String(describing: foundByItems)), profileId: \(Swift.String(describing: profileId)), accountNumber: \"CONTENT_REDACTED\", additionalInformation: \"CONTENT_REDACTED\", address: \"CONTENT_REDACTED\", attributes: \"CONTENT_REDACTED\", billingAddress: \"CONTENT_REDACTED\", birthDate: \"CONTENT_REDACTED\", businessEmailAddress: \"CONTENT_REDACTED\", businessName: \"CONTENT_REDACTED\", businessPhoneNumber: \"CONTENT_REDACTED\", emailAddress: \"CONTENT_REDACTED\", firstName: \"CONTENT_REDACTED\", gender: \"CONTENT_REDACTED\", genderString: \"CONTENT_REDACTED\", homePhoneNumber: \"CONTENT_REDACTED\", lastName: \"CONTENT_REDACTED\", mailingAddress: \"CONTENT_REDACTED\", middleName: \"CONTENT_REDACTED\", mobilePhoneNumber: \"CONTENT_REDACTED\", partyType: \"CONTENT_REDACTED\", partyTypeString: \"CONTENT_REDACTED\", personalEmailAddress: \"CONTENT_REDACTED\", phoneNumber: \"CONTENT_REDACTED\", shippingAddress: \"CONTENT_REDACTED\")"}
+}
+
 extension CustomerProfilesClientTypes {
     /// The standard profile of a customer.
     public struct Profile: Swift.Equatable {
@@ -11013,6 +11087,11 @@ extension CustomerProfilesClientTypes {
         }
     }
 
+}
+
+extension PutIntegrationInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "PutIntegrationInput(domainName: \(Swift.String(describing: domainName)), objectTypeName: \(Swift.String(describing: objectTypeName)), objectTypeNames: \(Swift.String(describing: objectTypeNames)), tags: \(Swift.String(describing: tags)), uri: \(Swift.String(describing: uri)), flowDefinition: \"CONTENT_REDACTED\")"}
 }
 
 extension PutIntegrationInput: Swift.Encodable {
@@ -11299,6 +11378,11 @@ extension PutIntegrationOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension PutProfileObjectInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "PutProfileObjectInput(domainName: \(Swift.String(describing: domainName)), objectTypeName: \(Swift.String(describing: objectTypeName)), object: \"CONTENT_REDACTED\")"}
+}
+
 extension PutProfileObjectInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case object = "Object"
@@ -11421,6 +11505,11 @@ extension PutProfileObjectOutputResponseBody: Swift.Decodable {
         let profileObjectUniqueKeyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .profileObjectUniqueKey)
         profileObjectUniqueKey = profileObjectUniqueKeyDecoded
     }
+}
+
+extension PutProfileObjectTypeInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "PutProfileObjectTypeInput(allowProfileCreation: \(Swift.String(describing: allowProfileCreation)), domainName: \(Swift.String(describing: domainName)), encryptionKey: \(Swift.String(describing: encryptionKey)), expirationDays: \(Swift.String(describing: expirationDays)), objectTypeName: \(Swift.String(describing: objectTypeName)), sourceLastUpdatedTimestampFormat: \(Swift.String(describing: sourceLastUpdatedTimestampFormat)), tags: \(Swift.String(describing: tags)), templateId: \(Swift.String(describing: templateId)), description: \"CONTENT_REDACTED\", fields: \"CONTENT_REDACTED\", keys: \"CONTENT_REDACTED\")"}
 }
 
 extension PutProfileObjectTypeInput: Swift.Encodable {
@@ -11642,6 +11731,11 @@ public enum PutProfileObjectTypeOutputError: ClientRuntime.HttpResponseErrorBind
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
+}
+
+extension PutProfileObjectTypeOutputResponse: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "PutProfileObjectTypeOutputResponse(allowProfileCreation: \(Swift.String(describing: allowProfileCreation)), createdAt: \(Swift.String(describing: createdAt)), encryptionKey: \(Swift.String(describing: encryptionKey)), expirationDays: \(Swift.String(describing: expirationDays)), lastUpdatedAt: \(Swift.String(describing: lastUpdatedAt)), objectTypeName: \(Swift.String(describing: objectTypeName)), sourceLastUpdatedTimestampFormat: \(Swift.String(describing: sourceLastUpdatedTimestampFormat)), tags: \(Swift.String(describing: tags)), templateId: \(Swift.String(describing: templateId)), description: \"CONTENT_REDACTED\", fields: \"CONTENT_REDACTED\", keys: \"CONTENT_REDACTED\")"}
 }
 
 extension PutProfileObjectTypeOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -13981,6 +14075,12 @@ extension CustomerProfilesClientTypes.UpdateAddress: Swift.Codable {
     }
 }
 
+extension CustomerProfilesClientTypes.UpdateAddress: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CONTENT_REDACTED"
+    }
+}
+
 extension CustomerProfilesClientTypes {
     /// Updates associated with the address properties of a customer profile.
     public struct UpdateAddress: Swift.Equatable {
@@ -14031,6 +14131,11 @@ extension CustomerProfilesClientTypes {
         }
     }
 
+}
+
+extension UpdateCalculatedAttributeDefinitionInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "UpdateCalculatedAttributeDefinitionInput(calculatedAttributeName: \(Swift.String(describing: calculatedAttributeName)), description: \(Swift.String(describing: description)), displayName: \(Swift.String(describing: displayName)), domainName: \(Swift.String(describing: domainName)), conditions: \"CONTENT_REDACTED\")"}
 }
 
 extension UpdateCalculatedAttributeDefinitionInput: Swift.Encodable {
@@ -14133,6 +14238,11 @@ public enum UpdateCalculatedAttributeDefinitionOutputError: ClientRuntime.HttpRe
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
+}
+
+extension UpdateCalculatedAttributeDefinitionOutputResponse: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "UpdateCalculatedAttributeDefinitionOutputResponse(calculatedAttributeName: \(Swift.String(describing: calculatedAttributeName)), createdAt: \(Swift.String(describing: createdAt)), description: \(Swift.String(describing: description)), displayName: \(Swift.String(describing: displayName)), lastUpdatedAt: \(Swift.String(describing: lastUpdatedAt)), tags: \(Swift.String(describing: tags)), attributeDetails: \"CONTENT_REDACTED\", conditions: \"CONTENT_REDACTED\", statistic: \"CONTENT_REDACTED\")"}
 }
 
 extension UpdateCalculatedAttributeDefinitionOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -14536,6 +14646,11 @@ extension UpdateDomainOutputResponseBody: Swift.Decodable {
         }
         tags = tagsDecoded0
     }
+}
+
+extension UpdateProfileInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "UpdateProfileInput(domainName: \(Swift.String(describing: domainName)), profileId: \(Swift.String(describing: profileId)), accountNumber: \"CONTENT_REDACTED\", additionalInformation: \"CONTENT_REDACTED\", address: \"CONTENT_REDACTED\", attributes: \"CONTENT_REDACTED\", billingAddress: \"CONTENT_REDACTED\", birthDate: \"CONTENT_REDACTED\", businessEmailAddress: \"CONTENT_REDACTED\", businessName: \"CONTENT_REDACTED\", businessPhoneNumber: \"CONTENT_REDACTED\", emailAddress: \"CONTENT_REDACTED\", firstName: \"CONTENT_REDACTED\", gender: \"CONTENT_REDACTED\", genderString: \"CONTENT_REDACTED\", homePhoneNumber: \"CONTENT_REDACTED\", lastName: \"CONTENT_REDACTED\", mailingAddress: \"CONTENT_REDACTED\", middleName: \"CONTENT_REDACTED\", mobilePhoneNumber: \"CONTENT_REDACTED\", partyType: \"CONTENT_REDACTED\", partyTypeString: \"CONTENT_REDACTED\", personalEmailAddress: \"CONTENT_REDACTED\", phoneNumber: \"CONTENT_REDACTED\", shippingAddress: \"CONTENT_REDACTED\")"}
 }
 
 extension UpdateProfileInput: Swift.Encodable {

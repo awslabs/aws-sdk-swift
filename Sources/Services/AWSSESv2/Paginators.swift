@@ -219,6 +219,29 @@ extension ListEmailTemplatesInput: ClientRuntime.PaginateToken {
         )}
 }
 extension SESv2Client {
+    /// Paginate over `[ListExportJobsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListExportJobsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListExportJobsOutputResponse`
+    public func listExportJobsPaginated(input: ListExportJobsInput) -> ClientRuntime.PaginatorSequence<ListExportJobsInput, ListExportJobsOutputResponse> {
+        return ClientRuntime.PaginatorSequence<ListExportJobsInput, ListExportJobsOutputResponse>(input: input, inputKey: \ListExportJobsInput.nextToken, outputKey: \ListExportJobsOutputResponse.nextToken, paginationFunction: self.listExportJobs(input:))
+    }
+}
+
+extension ListExportJobsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListExportJobsInput {
+        return ListExportJobsInput(
+            exportSourceType: self.exportSourceType,
+            jobStatus: self.jobStatus,
+            nextToken: token,
+            pageSize: self.pageSize
+        )}
+}
+extension SESv2Client {
     /// Paginate over `[ListImportJobsOutputResponse]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
