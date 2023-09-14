@@ -68,7 +68,7 @@ func addClientRuntimeDependency(_ version: Version) {
         ]
     case (false, true):
         package.dependencies += [
-            .package(url: smithySwiftURL, .branch("main"))
+            .package(url: smithySwiftURL, .branch("day/initial-messages"))
         ]
     case (false, false):
         package.dependencies += [
