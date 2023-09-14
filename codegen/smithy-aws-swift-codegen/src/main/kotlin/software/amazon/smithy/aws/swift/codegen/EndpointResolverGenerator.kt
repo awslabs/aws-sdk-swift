@@ -62,7 +62,8 @@ class EndpointResolverGenerator() {
             endpointRules?.let {
                 writer.write("private let engine: \$L", AWSClientRuntimeTypes.Core.AWSEndpointsRuleEngine)
                 // Partition definitions are embedded as a static resource in this project, for now.
-                // When Trebuchet integration is performed, partitions should be obtained from Trebuchet for every build.
+                // When Trebuchet integration is performed, partitions should be obtained from Trebuchet for every
+                // build instead of being loaded from a static file in resources.
                 val partitions = this.javaClass.getResourceAsStream("/software.amazon.smithy.aws.swift.codegen/partitions.json")
                 writer.write("private let partitions = \$S", Node.printJson(Node.parse(partitions)))
                 writer.write("private let ruleSet = \$S", Node.printJson(endpointRules.toNode()))
