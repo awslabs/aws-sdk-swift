@@ -61,7 +61,8 @@ class EndpointResolverGenerator() {
             writer.write("")
             endpointRules?.let {
                 writer.write("private let engine: \$L", AWSClientRuntimeTypes.Core.AWSEndpointsRuleEngine)
-                val partitions = AwsPartition::class.java.getResourceAsStream("/software/amazon/smithy/rulesengine/aws/language/functions/partition/partitions.json")
+//                val partitions = AwsPartition::class.java.getResourceAsStream("/software/amazon/smithy/rulesengine/aws/language/functions/partition/partitions.json")
+                val partitions = this.javaClass.getResourceAsStream("partitions.json")
                 writer.write("private let partitions = \$S", Node.printJson(Node.parse(partitions)))
                 writer.write("private let ruleSet = \$S", Node.printJson(endpointRules.toNode()))
             }
