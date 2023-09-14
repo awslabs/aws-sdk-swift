@@ -41967,6 +41967,96 @@ extension QuickSightClientTypes {
     }
 }
 
+extension QuickSightClientTypes.KPIActualValueConditionalFormatting: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case icon = "Icon"
+        case textColor = "TextColor"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let icon = self.icon {
+            try encodeContainer.encode(icon, forKey: .icon)
+        }
+        if let textColor = self.textColor {
+            try encodeContainer.encode(textColor, forKey: .textColor)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let textColorDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.ConditionalFormattingColor.self, forKey: .textColor)
+        textColor = textColorDecoded
+        let iconDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.ConditionalFormattingIcon.self, forKey: .icon)
+        icon = iconDecoded
+    }
+}
+
+extension QuickSightClientTypes {
+    /// The conditional formatting for the actual value of a KPI visual.
+    public struct KPIActualValueConditionalFormatting: Swift.Equatable {
+        /// The conditional formatting of the actual value's icon.
+        public var icon: QuickSightClientTypes.ConditionalFormattingIcon?
+        /// The conditional formatting of the actual value's text color.
+        public var textColor: QuickSightClientTypes.ConditionalFormattingColor?
+
+        public init(
+            icon: QuickSightClientTypes.ConditionalFormattingIcon? = nil,
+            textColor: QuickSightClientTypes.ConditionalFormattingColor? = nil
+        )
+        {
+            self.icon = icon
+            self.textColor = textColor
+        }
+    }
+
+}
+
+extension QuickSightClientTypes.KPIComparisonValueConditionalFormatting: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case icon = "Icon"
+        case textColor = "TextColor"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let icon = self.icon {
+            try encodeContainer.encode(icon, forKey: .icon)
+        }
+        if let textColor = self.textColor {
+            try encodeContainer.encode(textColor, forKey: .textColor)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let textColorDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.ConditionalFormattingColor.self, forKey: .textColor)
+        textColor = textColorDecoded
+        let iconDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.ConditionalFormattingIcon.self, forKey: .icon)
+        icon = iconDecoded
+    }
+}
+
+extension QuickSightClientTypes {
+    /// The conditional formatting for the comparison value of a KPI visual.
+    public struct KPIComparisonValueConditionalFormatting: Swift.Equatable {
+        /// The conditional formatting of the comparison value's icon.
+        public var icon: QuickSightClientTypes.ConditionalFormattingIcon?
+        /// The conditional formatting of the comparison value's text color.
+        public var textColor: QuickSightClientTypes.ConditionalFormattingColor?
+
+        public init(
+            icon: QuickSightClientTypes.ConditionalFormattingIcon? = nil,
+            textColor: QuickSightClientTypes.ConditionalFormattingColor? = nil
+        )
+        {
+            self.icon = icon
+            self.textColor = textColor
+        }
+    }
+
+}
+
 extension QuickSightClientTypes.KPIConditionalFormatting: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case conditionalFormattingOptions = "ConditionalFormattingOptions"
@@ -42016,12 +42106,20 @@ extension QuickSightClientTypes {
 
 extension QuickSightClientTypes.KPIConditionalFormattingOption: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case actualValue = "ActualValue"
+        case comparisonValue = "ComparisonValue"
         case primaryValue = "PrimaryValue"
         case progressBar = "ProgressBar"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let actualValue = self.actualValue {
+            try encodeContainer.encode(actualValue, forKey: .actualValue)
+        }
+        if let comparisonValue = self.comparisonValue {
+            try encodeContainer.encode(comparisonValue, forKey: .comparisonValue)
+        }
         if let primaryValue = self.primaryValue {
             try encodeContainer.encode(primaryValue, forKey: .primaryValue)
         }
@@ -42036,22 +42134,34 @@ extension QuickSightClientTypes.KPIConditionalFormattingOption: Swift.Codable {
         primaryValue = primaryValueDecoded
         let progressBarDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.KPIProgressBarConditionalFormatting.self, forKey: .progressBar)
         progressBar = progressBarDecoded
+        let actualValueDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.KPIActualValueConditionalFormatting.self, forKey: .actualValue)
+        actualValue = actualValueDecoded
+        let comparisonValueDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.KPIComparisonValueConditionalFormatting.self, forKey: .comparisonValue)
+        comparisonValue = comparisonValueDecoded
     }
 }
 
 extension QuickSightClientTypes {
     /// The conditional formatting options of a KPI visual.
     public struct KPIConditionalFormattingOption: Swift.Equatable {
+        /// The conditional formatting for the actual value of a KPI visual.
+        public var actualValue: QuickSightClientTypes.KPIActualValueConditionalFormatting?
+        /// The conditional formatting for the comparison value of a KPI visual.
+        public var comparisonValue: QuickSightClientTypes.KPIComparisonValueConditionalFormatting?
         /// The conditional formatting for the primary value of a KPI visual.
         public var primaryValue: QuickSightClientTypes.KPIPrimaryValueConditionalFormatting?
         /// The conditional formatting for the progress bar of a KPI visual.
         public var progressBar: QuickSightClientTypes.KPIProgressBarConditionalFormatting?
 
         public init(
+            actualValue: QuickSightClientTypes.KPIActualValueConditionalFormatting? = nil,
+            comparisonValue: QuickSightClientTypes.KPIComparisonValueConditionalFormatting? = nil,
             primaryValue: QuickSightClientTypes.KPIPrimaryValueConditionalFormatting? = nil,
             progressBar: QuickSightClientTypes.KPIProgressBarConditionalFormatting? = nil
         )
         {
+            self.actualValue = actualValue
+            self.comparisonValue = comparisonValue
             self.primaryValue = primaryValue
             self.progressBar = progressBar
         }
@@ -42213,7 +42323,9 @@ extension QuickSightClientTypes.KPIOptions: Swift.Codable {
         case progressBar = "ProgressBar"
         case secondaryValue = "SecondaryValue"
         case secondaryValueFontConfiguration = "SecondaryValueFontConfiguration"
+        case sparkline = "Sparkline"
         case trendArrows = "TrendArrows"
+        case visualLayoutOptions = "VisualLayoutOptions"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -42236,8 +42348,14 @@ extension QuickSightClientTypes.KPIOptions: Swift.Codable {
         if let secondaryValueFontConfiguration = self.secondaryValueFontConfiguration {
             try encodeContainer.encode(secondaryValueFontConfiguration, forKey: .secondaryValueFontConfiguration)
         }
+        if let sparkline = self.sparkline {
+            try encodeContainer.encode(sparkline, forKey: .sparkline)
+        }
         if let trendArrows = self.trendArrows {
             try encodeContainer.encode(trendArrows, forKey: .trendArrows)
+        }
+        if let visualLayoutOptions = self.visualLayoutOptions {
+            try encodeContainer.encode(visualLayoutOptions, forKey: .visualLayoutOptions)
         }
     }
 
@@ -42257,6 +42375,10 @@ extension QuickSightClientTypes.KPIOptions: Swift.Codable {
         primaryValueFontConfiguration = primaryValueFontConfigurationDecoded
         let secondaryValueFontConfigurationDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.FontConfiguration.self, forKey: .secondaryValueFontConfiguration)
         secondaryValueFontConfiguration = secondaryValueFontConfigurationDecoded
+        let sparklineDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.KPISparklineOptions.self, forKey: .sparkline)
+        sparkline = sparklineDecoded
+        let visualLayoutOptionsDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.KPIVisualLayoutOptions.self, forKey: .visualLayoutOptions)
+        visualLayoutOptions = visualLayoutOptionsDecoded
     }
 }
 
@@ -42275,8 +42397,12 @@ extension QuickSightClientTypes {
         public var secondaryValue: QuickSightClientTypes.SecondaryValueOptions?
         /// The options that determine the secondary value font configuration.
         public var secondaryValueFontConfiguration: QuickSightClientTypes.FontConfiguration?
+        /// The options that determine the visibility, color, type, and tooltip visibility of the sparkline of a KPI visual.
+        public var sparkline: QuickSightClientTypes.KPISparklineOptions?
         /// The options that determine the presentation of trend arrows in a KPI visual.
         public var trendArrows: QuickSightClientTypes.TrendArrowOptions?
+        /// The options that determine the layout a KPI visual.
+        public var visualLayoutOptions: QuickSightClientTypes.KPIVisualLayoutOptions?
 
         public init(
             comparison: QuickSightClientTypes.ComparisonConfiguration? = nil,
@@ -42285,7 +42411,9 @@ extension QuickSightClientTypes {
             progressBar: QuickSightClientTypes.ProgressBarOptions? = nil,
             secondaryValue: QuickSightClientTypes.SecondaryValueOptions? = nil,
             secondaryValueFontConfiguration: QuickSightClientTypes.FontConfiguration? = nil,
-            trendArrows: QuickSightClientTypes.TrendArrowOptions? = nil
+            sparkline: QuickSightClientTypes.KPISparklineOptions? = nil,
+            trendArrows: QuickSightClientTypes.TrendArrowOptions? = nil,
+            visualLayoutOptions: QuickSightClientTypes.KPIVisualLayoutOptions? = nil
         )
         {
             self.comparison = comparison
@@ -42294,7 +42422,9 @@ extension QuickSightClientTypes {
             self.progressBar = progressBar
             self.secondaryValue = secondaryValue
             self.secondaryValueFontConfiguration = secondaryValueFontConfiguration
+            self.sparkline = sparkline
             self.trendArrows = trendArrows
+            self.visualLayoutOptions = visualLayoutOptions
         }
     }
 
@@ -42427,6 +42557,104 @@ extension QuickSightClientTypes {
 
 }
 
+extension QuickSightClientTypes.KPISparklineOptions: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case color = "Color"
+        case tooltipVisibility = "TooltipVisibility"
+        case type = "Type"
+        case visibility = "Visibility"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let color = self.color {
+            try encodeContainer.encode(color, forKey: .color)
+        }
+        if let tooltipVisibility = self.tooltipVisibility {
+            try encodeContainer.encode(tooltipVisibility.rawValue, forKey: .tooltipVisibility)
+        }
+        if let type = self.type {
+            try encodeContainer.encode(type.rawValue, forKey: .type)
+        }
+        if let visibility = self.visibility {
+            try encodeContainer.encode(visibility.rawValue, forKey: .visibility)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let visibilityDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.Visibility.self, forKey: .visibility)
+        visibility = visibilityDecoded
+        let typeDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.KPISparklineType.self, forKey: .type)
+        type = typeDecoded
+        let colorDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .color)
+        color = colorDecoded
+        let tooltipVisibilityDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.Visibility.self, forKey: .tooltipVisibility)
+        tooltipVisibility = tooltipVisibilityDecoded
+    }
+}
+
+extension QuickSightClientTypes {
+    /// The options that determine the visibility, color, type, and tooltip visibility of the sparkline of a KPI visual.
+    public struct KPISparklineOptions: Swift.Equatable {
+        /// The color of the sparkline.
+        public var color: Swift.String?
+        /// The tooltip visibility of the sparkline.
+        public var tooltipVisibility: QuickSightClientTypes.Visibility?
+        /// The type of the sparkline.
+        /// This member is required.
+        public var type: QuickSightClientTypes.KPISparklineType?
+        /// The visibility of the sparkline.
+        public var visibility: QuickSightClientTypes.Visibility?
+
+        public init(
+            color: Swift.String? = nil,
+            tooltipVisibility: QuickSightClientTypes.Visibility? = nil,
+            type: QuickSightClientTypes.KPISparklineType? = nil,
+            visibility: QuickSightClientTypes.Visibility? = nil
+        )
+        {
+            self.color = color
+            self.tooltipVisibility = tooltipVisibility
+            self.type = type
+            self.visibility = visibility
+        }
+    }
+
+}
+
+extension QuickSightClientTypes {
+    public enum KPISparklineType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case area
+        case line
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [KPISparklineType] {
+            return [
+                .area,
+                .line,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .area: return "AREA"
+            case .line: return "LINE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = KPISparklineType(rawValue: rawValue) ?? KPISparklineType.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension QuickSightClientTypes.KPIVisual: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case actions = "Actions"
@@ -42545,6 +42773,109 @@ extension QuickSightClientTypes {
         }
     }
 
+}
+
+extension QuickSightClientTypes.KPIVisualLayoutOptions: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case standardLayout = "StandardLayout"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let standardLayout = self.standardLayout {
+            try encodeContainer.encode(standardLayout, forKey: .standardLayout)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let standardLayoutDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.KPIVisualStandardLayout.self, forKey: .standardLayout)
+        standardLayout = standardLayoutDecoded
+    }
+}
+
+extension QuickSightClientTypes {
+    /// The options that determine the layout a KPI visual.
+    public struct KPIVisualLayoutOptions: Swift.Equatable {
+        /// The standard layout of the KPI visual.
+        public var standardLayout: QuickSightClientTypes.KPIVisualStandardLayout?
+
+        public init(
+            standardLayout: QuickSightClientTypes.KPIVisualStandardLayout? = nil
+        )
+        {
+            self.standardLayout = standardLayout
+        }
+    }
+
+}
+
+extension QuickSightClientTypes.KPIVisualStandardLayout: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case type = "Type"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let type = self.type {
+            try encodeContainer.encode(type.rawValue, forKey: .type)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let typeDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.KPIVisualStandardLayoutType.self, forKey: .type)
+        type = typeDecoded
+    }
+}
+
+extension QuickSightClientTypes {
+    /// The standard layout of the KPI visual.
+    public struct KPIVisualStandardLayout: Swift.Equatable {
+        /// The standard layout type.
+        /// This member is required.
+        public var type: QuickSightClientTypes.KPIVisualStandardLayoutType?
+
+        public init(
+            type: QuickSightClientTypes.KPIVisualStandardLayoutType? = nil
+        )
+        {
+            self.type = type
+        }
+    }
+
+}
+
+extension QuickSightClientTypes {
+    public enum KPIVisualStandardLayoutType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case classic
+        case vertical
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [KPIVisualStandardLayoutType] {
+            return [
+                .classic,
+                .vertical,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .classic: return "CLASSIC"
+            case .vertical: return "VERTICAL"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = KPIVisualStandardLayoutType(rawValue: rawValue) ?? KPIVisualStandardLayoutType.sdkUnknown(rawValue)
+        }
+    }
 }
 
 extension QuickSightClientTypes.LabelOptions: Swift.Codable {

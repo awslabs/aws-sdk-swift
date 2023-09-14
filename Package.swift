@@ -169,7 +169,7 @@ func addProtocolTests() {
 // MARK: - Generated
 
 addDependencies(
-    clientRuntimeVersion: "0.28.0",
+    clientRuntimeVersion: "0.29.0",
     crtVersion: "0.13.0"
 )
 
@@ -406,6 +406,7 @@ let serviceTargets: [String] = [
     "AWSMobile",
     "AWSMq",
     "AWSNeptune",
+    "AWSNeptunedata",
     "AWSNetworkFirewall",
     "AWSNetworkManager",
     "AWSNimble",
@@ -422,6 +423,7 @@ let serviceTargets: [String] = [
     "AWSPanorama",
     "AWSPaymentCryptography",
     "AWSPaymentCryptographyData",
+    "AWSPcaConnectorAd",
     "AWSPersonalize",
     "AWSPersonalizeEvents",
     "AWSPersonalizeRuntime",

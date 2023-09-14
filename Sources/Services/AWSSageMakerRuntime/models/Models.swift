@@ -112,6 +112,80 @@ extension InternalFailureBody: Swift.Decodable {
     }
 }
 
+extension InternalStreamFailure: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message = "Message"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let message = self.message {
+            try encodeContainer.encode(message, forKey: .message)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        properties.message = messageDecoded
+    }
+}
+
+extension InternalStreamFailure {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: InternalStreamFailureBody = try responseDecoder.decode(responseBody: data)
+            self.properties.message = output.message
+        } else {
+            self.properties.message = nil
+        }
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
+    }
+}
+
+/// The stream processing failed because of an unknown error, exception or failure. Try your request again.
+public struct InternalStreamFailure: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InternalStreamFailure" }
+    public static var fault: ErrorFault { .server }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+struct InternalStreamFailureBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension InternalStreamFailureBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message = "Message"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
+}
+
 extension InvokeEndpointAsyncInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
         "InvokeEndpointAsyncInput(accept: \(Swift.String(describing: accept)), contentType: \(Swift.String(describing: contentType)), endpointName: \(Swift.String(describing: endpointName)), inferenceId: \(Swift.String(describing: inferenceId)), inputLocation: \(Swift.String(describing: inputLocation)), invocationTimeoutSeconds: \(Swift.String(describing: invocationTimeoutSeconds)), requestTTLSeconds: \(Swift.String(describing: requestTTLSeconds)), customAttributes: \"CONTENT_REDACTED\")"}
@@ -155,13 +229,13 @@ extension InvokeEndpointAsyncInput: ClientRuntime.URLPathProvider {
 }
 
 public struct InvokeEndpointAsyncInput: Swift.Equatable {
-    /// The desired MIME type of the inference in the response.
+    /// The desired MIME type of the inference response from the model container.
     public var accept: Swift.String?
     /// The MIME type of the input data in the request body.
     public var contentType: Swift.String?
     /// Provides additional information about a request for an inference submitted to a model hosted at an Amazon SageMaker endpoint. The information is an opaque value that is forwarded verbatim. You could use this value, for example, to provide an ID that you can use to track a request or to provide other metadata that a service endpoint was programmed to process. The value must consist of no more than 1024 visible US-ASCII characters as specified in [Section 3.3.6. Field Value Components](https://datatracker.ietf.org/doc/html/rfc7230#section-3.2.6) of the Hypertext Transfer Protocol (HTTP/1.1). The code in your model is responsible for setting or updating any custom attributes in the response. If your code does not set this value in the response, an empty value is returned. For example, if a custom attribute represents the trace ID, your model can prepend the custom attribute with Trace ID: in your post-processing function. This feature is currently supported in the Amazon Web Services SDKs but not in the Amazon SageMaker Python SDK.
     public var customAttributes: Swift.String?
-    /// The name of the endpoint that you specified when you created the endpoint using the [CreateEndpoint](https://docs.aws.amazon.com/sagemaker/latest/APIReference/API_CreateEndpoint.html) API.
+    /// The name of the endpoint that you specified when you created the endpoint using the [CreateEndpoint](https://docs.aws.amazon.com/sagemaker/latest/dg/API_CreateEndpoint.html) API.
     /// This member is required.
     public var endpointName: Swift.String?
     /// The identifier for the inference request. Amazon SageMaker will generate an identifier for you if none is specified.
@@ -361,14 +435,14 @@ extension InvokeEndpointInput: ClientRuntime.URLPathProvider {
 }
 
 public struct InvokeEndpointInput: Swift.Equatable {
-    /// The desired MIME type of the inference in the response.
+    /// The desired MIME type of the inference response from the model container.
     public var accept: Swift.String?
     /// Provides input data, in the format specified in the ContentType request header. Amazon SageMaker passes all of the data in the body to the model. For information about the format of the request body, see [Common Data Formats-Inference](https://docs.aws.amazon.com/sagemaker/latest/dg/cdf-inference.html).
     /// This member is required.
     public var body: ClientRuntime.Data?
     /// The MIME type of the input data in the request body.
     public var contentType: Swift.String?
-    /// Provides additional information about a request for an inference submitted to a model hosted at an Amazon SageMaker endpoint. The information is an opaque value that is forwarded verbatim. You could use this value, for example, to provide an ID that you can use to track a request or to provide other metadata that a service endpoint was programmed to process. The value must consist of no more than 1024 visible US-ASCII characters as specified in [Section 3.3.6. Field Value Components](https://tools.ietf.org/html/rfc7230#section-3.2.6) of the Hypertext Transfer Protocol (HTTP/1.1). The code in your model is responsible for setting or updating any custom attributes in the response. If your code does not set this value in the response, an empty value is returned. For example, if a custom attribute represents the trace ID, your model can prepend the custom attribute with Trace ID: in your post-processing function. This feature is currently supported in the Amazon Web Services SDKs but not in the Amazon SageMaker Python SDK.
+    /// Provides additional information about a request for an inference submitted to a model hosted at an Amazon SageMaker endpoint. The information is an opaque value that is forwarded verbatim. You could use this value, for example, to provide an ID that you can use to track a request or to provide other metadata that a service endpoint was programmed to process. The value must consist of no more than 1024 visible US-ASCII characters as specified in [Section 3.3.6. Field Value Components](https://datatracker.ietf.org/doc/html/rfc7230#section-3.2.6) of the Hypertext Transfer Protocol (HTTP/1.1). The code in your model is responsible for setting or updating any custom attributes in the response. If your code does not set this value in the response, an empty value is returned. For example, if a custom attribute represents the trace ID, your model can prepend the custom attribute with Trace ID: in your post-processing function. This feature is currently supported in the Amazon Web Services SDKs but not in the Amazon SageMaker Python SDK.
     public var customAttributes: Swift.String?
     /// An optional JMESPath expression used to override the EnableExplanations parameter of the ClarifyExplainerConfig API. See the [EnableExplanations](https://docs.aws.amazon.com/sagemaker/latest/dg/clarify-online-explainability-create-endpoint.html#clarify-online-explainability-create-endpoint-enable) section in the developer guide for more information.
     public var enableExplanations: Swift.String?
@@ -479,7 +553,7 @@ public struct InvokeEndpointOutputResponse: Swift.Equatable {
     /// Includes the inference provided by the model. For information about the format of the response body, see [Common Data Formats-Inference](https://docs.aws.amazon.com/sagemaker/latest/dg/cdf-inference.html). If the explainer is activated, the body includes the explanations provided by the model. For more information, see the Response section under [Invoke the Endpoint](https://docs.aws.amazon.com/sagemaker/latest/dg/clarify-online-explainability-invoke-endpoint.html#clarify-online-explainability-response) in the Developer Guide.
     /// This member is required.
     public var body: ClientRuntime.Data?
-    /// The MIME type of the inference returned in the response body.
+    /// The MIME type of the inference returned from the model container.
     public var contentType: Swift.String?
     /// Provides additional information in the response about the inference returned by a model hosted at an Amazon SageMaker endpoint. The information is an opaque value that is forwarded verbatim. You could use this value, for example, to return an ID received in the CustomAttributes header of a request or other metadata that a service endpoint was programmed to produce. The value must consist of no more than 1024 visible US-ASCII characters as specified in [Section 3.3.6. Field Value Components](https://tools.ietf.org/html/rfc7230#section-3.2.6) of the Hypertext Transfer Protocol (HTTP/1.1). If the customer wants the custom attribute returned, the model must set the custom attribute to be included on the way back. The code in your model is responsible for setting or updating any custom attributes in the response. If your code does not set this value in the response, an empty value is returned. For example, if a custom attribute represents the trace ID, your model can prepend the custom attribute with Trace ID: in your post-processing function. This feature is currently supported in the Amazon Web Services SDKs but not in the Amazon SageMaker Python SDK.
     public var customAttributes: Swift.String?
@@ -513,6 +587,215 @@ extension InvokeEndpointOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let bodyDecoded = try containerValues.decodeIfPresent(ClientRuntime.Data.self, forKey: .body)
         body = bodyDecoded
+    }
+}
+
+public struct InvokeEndpointWithResponseStreamInputBodyMiddleware: ClientRuntime.Middleware {
+    public let id: Swift.String = "InvokeEndpointWithResponseStreamInputBodyMiddleware"
+
+    public init() {}
+
+    public func handle<H>(context: Context,
+                  input: ClientRuntime.SerializeStepInput<InvokeEndpointWithResponseStreamInput>,
+                  next: H) async throws -> ClientRuntime.OperationOutput<InvokeEndpointWithResponseStreamOutputResponse>
+    where H: Handler,
+    Self.MInput == H.Input,
+    Self.MOutput == H.Output,
+    Self.Context == H.Context
+    {
+        if let body = input.operationInput.body {
+            let bodyData = body
+            let bodyBody = ClientRuntime.HttpBody.data(bodyData)
+            input.builder.withBody(bodyBody)
+        }
+        return try await next.handle(context: context, input: input)
+    }
+
+    public typealias MInput = ClientRuntime.SerializeStepInput<InvokeEndpointWithResponseStreamInput>
+    public typealias MOutput = ClientRuntime.OperationOutput<InvokeEndpointWithResponseStreamOutputResponse>
+    public typealias Context = ClientRuntime.HttpContext
+}
+
+extension InvokeEndpointWithResponseStreamInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "InvokeEndpointWithResponseStreamInput(accept: \(Swift.String(describing: accept)), contentType: \(Swift.String(describing: contentType)), endpointName: \(Swift.String(describing: endpointName)), inferenceId: \(Swift.String(describing: inferenceId)), targetContainerHostname: \(Swift.String(describing: targetContainerHostname)), targetVariant: \(Swift.String(describing: targetVariant)), body: \"CONTENT_REDACTED\", customAttributes: \"CONTENT_REDACTED\")"}
+}
+
+extension InvokeEndpointWithResponseStreamInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case body = "Body"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let body = self.body {
+            try encodeContainer.encode(body.base64EncodedString(), forKey: .body)
+        }
+    }
+}
+
+extension InvokeEndpointWithResponseStreamInput: ClientRuntime.HeaderProvider {
+    public var headers: ClientRuntime.Headers {
+        var items = ClientRuntime.Headers()
+        if let accept = accept {
+            items.add(Header(name: "X-Amzn-SageMaker-Accept", value: Swift.String(accept)))
+        }
+        if let contentType = contentType {
+            items.add(Header(name: "Content-Type", value: Swift.String(contentType)))
+        }
+        if let customAttributes = customAttributes {
+            items.add(Header(name: "X-Amzn-SageMaker-Custom-Attributes", value: Swift.String(customAttributes)))
+        }
+        if let inferenceId = inferenceId {
+            items.add(Header(name: "X-Amzn-SageMaker-Inference-Id", value: Swift.String(inferenceId)))
+        }
+        if let targetContainerHostname = targetContainerHostname {
+            items.add(Header(name: "X-Amzn-SageMaker-Target-Container-Hostname", value: Swift.String(targetContainerHostname)))
+        }
+        if let targetVariant = targetVariant {
+            items.add(Header(name: "X-Amzn-SageMaker-Target-Variant", value: Swift.String(targetVariant)))
+        }
+        return items
+    }
+}
+
+extension InvokeEndpointWithResponseStreamInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let endpointName = endpointName else {
+            return nil
+        }
+        return "/endpoints/\(endpointName.urlPercentEncoding())/invocations-response-stream"
+    }
+}
+
+public struct InvokeEndpointWithResponseStreamInput: Swift.Equatable {
+    /// The desired MIME type of the inference response from the model container.
+    public var accept: Swift.String?
+    /// Provides input data, in the format specified in the ContentType request header. Amazon SageMaker passes all of the data in the body to the model. For information about the format of the request body, see [Common Data Formats-Inference](https://docs.aws.amazon.com/sagemaker/latest/dg/cdf-inference.html).
+    /// This member is required.
+    public var body: ClientRuntime.Data?
+    /// The MIME type of the input data in the request body.
+    public var contentType: Swift.String?
+    /// Provides additional information about a request for an inference submitted to a model hosted at an Amazon SageMaker endpoint. The information is an opaque value that is forwarded verbatim. You could use this value, for example, to provide an ID that you can use to track a request or to provide other metadata that a service endpoint was programmed to process. The value must consist of no more than 1024 visible US-ASCII characters as specified in [Section 3.3.6. Field Value Components](https://datatracker.ietf.org/doc/html/rfc7230#section-3.2.6) of the Hypertext Transfer Protocol (HTTP/1.1). The code in your model is responsible for setting or updating any custom attributes in the response. If your code does not set this value in the response, an empty value is returned. For example, if a custom attribute represents the trace ID, your model can prepend the custom attribute with Trace ID: in your post-processing function. This feature is currently supported in the Amazon Web Services SDKs but not in the Amazon SageMaker Python SDK.
+    public var customAttributes: Swift.String?
+    /// The name of the endpoint that you specified when you created the endpoint using the [CreateEndpoint](https://docs.aws.amazon.com/sagemaker/latest/dg/API_CreateEndpoint.html) API.
+    /// This member is required.
+    public var endpointName: Swift.String?
+    /// An identifier that you assign to your request.
+    public var inferenceId: Swift.String?
+    /// If the endpoint hosts multiple containers and is configured to use direct invocation, this parameter specifies the host name of the container to invoke.
+    public var targetContainerHostname: Swift.String?
+    /// Specify the production variant to send the inference request to when invoking an endpoint that is running two or more variants. Note that this parameter overrides the default behavior for the endpoint, which is to distribute the invocation traffic based on the variant weights. For information about how to use variant targeting to perform a/b testing, see [Test models in production](https://docs.aws.amazon.com/sagemaker/latest/dg/model-ab-testing.html)
+    public var targetVariant: Swift.String?
+
+    public init(
+        accept: Swift.String? = nil,
+        body: ClientRuntime.Data? = nil,
+        contentType: Swift.String? = nil,
+        customAttributes: Swift.String? = nil,
+        endpointName: Swift.String? = nil,
+        inferenceId: Swift.String? = nil,
+        targetContainerHostname: Swift.String? = nil,
+        targetVariant: Swift.String? = nil
+    )
+    {
+        self.accept = accept
+        self.body = body
+        self.contentType = contentType
+        self.customAttributes = customAttributes
+        self.endpointName = endpointName
+        self.inferenceId = inferenceId
+        self.targetContainerHostname = targetContainerHostname
+        self.targetVariant = targetVariant
+    }
+}
+
+struct InvokeEndpointWithResponseStreamInputBody: Swift.Equatable {
+    let body: ClientRuntime.Data?
+}
+
+extension InvokeEndpointWithResponseStreamInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case body = "Body"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let bodyDecoded = try containerValues.decodeIfPresent(ClientRuntime.Data.self, forKey: .body)
+        body = bodyDecoded
+    }
+}
+
+public enum InvokeEndpointWithResponseStreamOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalFailure": return try await InternalFailure(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalStreamFailure": return try await InternalStreamFailure(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ModelError": return try await ModelError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ModelStreamError": return try await ModelStreamError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailable": return try await ServiceUnavailable(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationError": return try await ValidationError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension InvokeEndpointWithResponseStreamOutputResponse: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "InvokeEndpointWithResponseStreamOutputResponse(body: \(Swift.String(describing: body)), contentType: \(Swift.String(describing: contentType)), invokedProductionVariant: \(Swift.String(describing: invokedProductionVariant)), customAttributes: \"CONTENT_REDACTED\")"}
+}
+
+extension InvokeEndpointWithResponseStreamOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let contentTypeHeaderValue = httpResponse.headers.value(for: "X-Amzn-SageMaker-Content-Type") {
+            self.contentType = contentTypeHeaderValue
+        } else {
+            self.contentType = nil
+        }
+        if let customAttributesHeaderValue = httpResponse.headers.value(for: "X-Amzn-SageMaker-Custom-Attributes") {
+            self.customAttributes = customAttributesHeaderValue
+        } else {
+            self.customAttributes = nil
+        }
+        if let invokedProductionVariantHeaderValue = httpResponse.headers.value(for: "x-Amzn-Invoked-Production-Variant") {
+            self.invokedProductionVariant = invokedProductionVariantHeaderValue
+        } else {
+            self.invokedProductionVariant = nil
+        }
+        if case let .stream(stream) = httpResponse.body, let responseDecoder = decoder {
+            let messageDecoder = AWSClientRuntime.AWSEventStream.AWSMessageDecoder()
+            let decoderStream = ClientRuntime.EventStream.DefaultMessageDecoderStream<SageMakerRuntimeClientTypes.ResponseStream>(stream: stream, messageDecoder: messageDecoder, responseDecoder: responseDecoder)
+            self.body = decoderStream.toAsyncStream()
+        } else {
+            self.body = nil
+        }
+    }
+}
+
+public struct InvokeEndpointWithResponseStreamOutputResponse: Swift.Equatable {
+    /// A stream of payload parts. Each part contains a portion of the response for a streaming inference request.
+    /// This member is required.
+    public var body: AsyncThrowingStream<SageMakerRuntimeClientTypes.ResponseStream, Swift.Error>?
+    /// The MIME type of the inference returned from the model container.
+    public var contentType: Swift.String?
+    /// Provides additional information in the response about the inference returned by a model hosted at an Amazon SageMaker endpoint. The information is an opaque value that is forwarded verbatim. You could use this value, for example, to return an ID received in the CustomAttributes header of a request or other metadata that a service endpoint was programmed to produce. The value must consist of no more than 1024 visible US-ASCII characters as specified in [Section 3.3.6. Field Value Components](https://tools.ietf.org/html/rfc7230#section-3.2.6) of the Hypertext Transfer Protocol (HTTP/1.1). If the customer wants the custom attribute returned, the model must set the custom attribute to be included on the way back. The code in your model is responsible for setting or updating any custom attributes in the response. If your code does not set this value in the response, an empty value is returned. For example, if a custom attribute represents the trace ID, your model can prepend the custom attribute with Trace ID: in your post-processing function. This feature is currently supported in the Amazon Web Services SDKs but not in the Amazon SageMaker Python SDK.
+    public var customAttributes: Swift.String?
+    /// Identifies the production variant that was invoked.
+    public var invokedProductionVariant: Swift.String?
+
+    public init(
+        body: AsyncThrowingStream<SageMakerRuntimeClientTypes.ResponseStream, Swift.Error>? = nil,
+        contentType: Swift.String? = nil,
+        customAttributes: Swift.String? = nil,
+        invokedProductionVariant: Swift.String? = nil
+    )
+    {
+        self.body = body
+        self.contentType = contentType
+        self.customAttributes = customAttributes
+        self.invokedProductionVariant = invokedProductionVariant
     }
 }
 
@@ -654,6 +937,181 @@ extension ModelNotReadyExceptionBody: Swift.Decodable {
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
     }
+}
+
+extension ModelStreamError: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case errorCode = "ErrorCode"
+        case message = "Message"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let errorCode = self.errorCode {
+            try encodeContainer.encode(errorCode, forKey: .errorCode)
+        }
+        if let message = self.message {
+            try encodeContainer.encode(message, forKey: .message)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        properties.message = messageDecoded
+        let errorCodeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .errorCode)
+        properties.errorCode = errorCodeDecoded
+    }
+}
+
+extension ModelStreamError {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ModelStreamErrorBody = try responseDecoder.decode(responseBody: data)
+            self.properties.errorCode = output.errorCode
+            self.properties.message = output.message
+        } else {
+            self.properties.errorCode = nil
+            self.properties.message = nil
+        }
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
+    }
+}
+
+/// An error occurred while streaming the response body. This error can have the following error codes: ModelInvocationTimeExceeded The model failed to finish sending the response within the timeout period allowed by Amazon SageMaker. StreamBroken The Transmission Control Protocol (TCP) connection between the client and the model was reset or closed.
+public struct ModelStreamError: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        /// This error can have the following error codes: ModelInvocationTimeExceeded The model failed to finish sending the response within the timeout period allowed by Amazon SageMaker. StreamBroken The Transmission Control Protocol (TCP) connection between the client and the model was reset or closed.
+        public internal(set) var errorCode: Swift.String? = nil
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ModelStreamError" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        errorCode: Swift.String? = nil,
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.errorCode = errorCode
+        self.properties.message = message
+    }
+}
+
+struct ModelStreamErrorBody: Swift.Equatable {
+    let message: Swift.String?
+    let errorCode: Swift.String?
+}
+
+extension ModelStreamErrorBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case errorCode = "ErrorCode"
+        case message = "Message"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+        let errorCodeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .errorCode)
+        errorCode = errorCodeDecoded
+    }
+}
+
+extension SageMakerRuntimeClientTypes.PayloadPart: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case bytes = "Bytes"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let bytes = self.bytes {
+            try encodeContainer.encode(bytes.base64EncodedString(), forKey: .bytes)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let bytesDecoded = try containerValues.decodeIfPresent(ClientRuntime.Data.self, forKey: .bytes)
+        bytes = bytesDecoded
+    }
+}
+
+extension SageMakerRuntimeClientTypes.PayloadPart: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "PayloadPart(bytes: \"CONTENT_REDACTED\")"}
+}
+
+extension SageMakerRuntimeClientTypes {
+    /// A wrapper for pieces of the payload that's returned in response to a streaming inference request. A streaming inference response consists of one or more payload parts.
+    public struct PayloadPart: Swift.Equatable {
+        /// A blob that contains part of the response for your streaming inference request.
+        public var bytes: ClientRuntime.Data?
+
+        public init(
+            bytes: ClientRuntime.Data? = nil
+        )
+        {
+            self.bytes = bytes
+        }
+    }
+
+}
+
+extension SageMakerRuntimeClientTypes.ResponseStream: ClientRuntime.MessageUnmarshallable {
+    public init(message: ClientRuntime.EventStream.Message, decoder: ClientRuntime.ResponseDecoder) throws {
+        switch try message.type() {
+        case .event(let params):
+            switch params.eventType {
+            case "PayloadPart":
+                var event = SageMakerRuntimeClientTypes.PayloadPart()
+                event.bytes = message.payload
+                self = .payloadpart(event)
+            default:
+                self = .sdkUnknown("error processing event stream, unrecognized event: \(params.eventType)")
+            }
+        case .exception(let params):
+            let makeError: (ClientRuntime.EventStream.Message, ClientRuntime.EventStream.MessageType.ExceptionParams) throws -> Swift.Error = { message, params in
+                switch params.exceptionType {
+                case "ModelStreamError":
+                    return try decoder.decode(responseBody: message.payload) as ModelStreamError
+                case "InternalStreamFailure":
+                    return try decoder.decode(responseBody: message.payload) as InternalStreamFailure
+                default:
+                    let httpResponse = HttpResponse(body: .data(message.payload), statusCode: .ok)
+                    return AWSClientRuntime.UnknownAWSHTTPServiceError(httpResponse: httpResponse, message: "error processing event stream, unrecognized ':exceptionType': \(params.exceptionType); contentType: \(params.contentType ?? "nil")", requestID: nil, typeName: nil)
+                }
+            }
+            let error = try makeError(message, params)
+            throw error
+        case .error(let params):
+            let httpResponse = HttpResponse(body: .data(message.payload), statusCode: .ok)
+            throw AWSClientRuntime.UnknownAWSHTTPServiceError(httpResponse: httpResponse, message: "error processing event stream, unrecognized ':errorType': \(params.errorCode); message: \(params.message ?? "nil")", requestID: nil, typeName: nil)
+        case .unknown(messageType: let messageType):
+            throw ClientRuntime.ClientError.unknownError("unrecognized event stream message ':message-type': \(messageType)")
+        }
+    }
+}
+
+extension SageMakerRuntimeClientTypes {
+    /// A stream of payload parts. Each part contains a portion of the response for a streaming inference request.
+    public enum ResponseStream: Swift.Equatable {
+        /// A wrapper for pieces of the payload that's returned in response to a streaming inference request. A streaming inference response consists of one or more payload parts.
+        case payloadpart(SageMakerRuntimeClientTypes.PayloadPart)
+        case sdkUnknown(Swift.String)
+    }
+
 }
 
 extension ServiceUnavailable {

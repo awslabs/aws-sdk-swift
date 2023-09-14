@@ -2126,6 +2126,11 @@ public enum AdminInitiateAuthOutputError: ClientRuntime.HttpResponseErrorBinding
     }
 }
 
+extension AdminInitiateAuthOutputResponse: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "AdminInitiateAuthOutputResponse(authenticationResult: \(Swift.String(describing: authenticationResult)), challengeName: \(Swift.String(describing: challengeName)), challengeParameters: \(Swift.String(describing: challengeParameters)), session: \"CONTENT_REDACTED\")"}
+}
+
 extension AdminInitiateAuthOutputResponse: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -3064,7 +3069,7 @@ public struct AdminResetUserPasswordOutputResponse: Swift.Equatable {
 
 extension AdminRespondToAuthChallengeInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "AdminRespondToAuthChallengeInput(analyticsMetadata: \(Swift.String(describing: analyticsMetadata)), challengeName: \(Swift.String(describing: challengeName)), challengeResponses: \(Swift.String(describing: challengeResponses)), clientMetadata: \(Swift.String(describing: clientMetadata)), contextData: \(Swift.String(describing: contextData)), session: \(Swift.String(describing: session)), userPoolId: \(Swift.String(describing: userPoolId)), clientId: \"CONTENT_REDACTED\")"}
+        "AdminRespondToAuthChallengeInput(analyticsMetadata: \(Swift.String(describing: analyticsMetadata)), challengeName: \(Swift.String(describing: challengeName)), clientMetadata: \(Swift.String(describing: clientMetadata)), contextData: \(Swift.String(describing: contextData)), userPoolId: \(Swift.String(describing: userPoolId)), challengeResponses: \"CONTENT_REDACTED\", clientId: \"CONTENT_REDACTED\", session: \"CONTENT_REDACTED\")"}
 }
 
 extension AdminRespondToAuthChallengeInput: Swift.Encodable {
@@ -3292,6 +3297,11 @@ public enum AdminRespondToAuthChallengeOutputError: ClientRuntime.HttpResponseEr
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
+}
+
+extension AdminRespondToAuthChallengeOutputResponse: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "AdminRespondToAuthChallengeOutputResponse(authenticationResult: \(Swift.String(describing: authenticationResult)), challengeName: \(Swift.String(describing: challengeName)), challengeParameters: \(Swift.String(describing: challengeParameters)), session: \"CONTENT_REDACTED\")"}
 }
 
 extension AdminRespondToAuthChallengeOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -4454,7 +4464,7 @@ extension CognitoIdentityProviderClientTypes {
 
 extension AssociateSoftwareTokenInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "AssociateSoftwareTokenInput(session: \(Swift.String(describing: session)), accessToken: \"CONTENT_REDACTED\")"}
+        "AssociateSoftwareTokenInput(accessToken: \"CONTENT_REDACTED\", session: \"CONTENT_REDACTED\")"}
 }
 
 extension AssociateSoftwareTokenInput: Swift.Encodable {
@@ -4535,7 +4545,7 @@ public enum AssociateSoftwareTokenOutputError: ClientRuntime.HttpResponseErrorBi
 
 extension AssociateSoftwareTokenOutputResponse: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "AssociateSoftwareTokenOutputResponse(session: \(Swift.String(describing: session)), secretCode: \"CONTENT_REDACTED\")"}
+        "AssociateSoftwareTokenOutputResponse(secretCode: \"CONTENT_REDACTED\", session: \"CONTENT_REDACTED\")"}
 }
 
 extension AssociateSoftwareTokenOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -5230,7 +5240,7 @@ extension CognitoIdentityProviderClientTypes.CloudWatchLogsConfigurationType: Sw
 extension CognitoIdentityProviderClientTypes {
     /// The CloudWatch logging destination of a user pool detailed activity logging configuration.
     public struct CloudWatchLogsConfigurationType: Swift.Equatable {
-        /// The Amazon Resource Name (arn) of a CloudWatch Logs log group where your user pool sends logs. The log group must not be encrypted with Key Management Service and must be in the same Amazon Web Services account as your user pool.
+        /// The Amazon Resource Name (arn) of a CloudWatch Logs log group where your user pool sends logs. The log group must not be encrypted with Key Management Service and must be in the same Amazon Web Services account as your user pool. To send logs to log groups with a resource policy of a size greater than 5120 characters, configure a log group with a path that starts with /aws/vendedlogs. For more information, see [Enabling logging from certain Amazon Web Services services](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/AWS-logs-and-resource-policy.html).
         public var logGroupArn: Swift.String?
 
         public init(
@@ -5749,7 +5759,7 @@ extension ConfirmDeviceOutputResponseBody: Swift.Decodable {
 
 extension ConfirmForgotPasswordInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "ConfirmForgotPasswordInput(analyticsMetadata: \(Swift.String(describing: analyticsMetadata)), clientMetadata: \(Swift.String(describing: clientMetadata)), confirmationCode: \(Swift.String(describing: confirmationCode)), userContextData: \(Swift.String(describing: userContextData)), clientId: \"CONTENT_REDACTED\", password: \"CONTENT_REDACTED\", secretHash: \"CONTENT_REDACTED\", username: \"CONTENT_REDACTED\")"}
+        "ConfirmForgotPasswordInput(analyticsMetadata: \(Swift.String(describing: analyticsMetadata)), clientMetadata: \(Swift.String(describing: clientMetadata)), confirmationCode: \(Swift.String(describing: confirmationCode)), clientId: \"CONTENT_REDACTED\", password: \"CONTENT_REDACTED\", secretHash: \"CONTENT_REDACTED\", userContextData: \"CONTENT_REDACTED\", username: \"CONTENT_REDACTED\")"}
 }
 
 extension ConfirmForgotPasswordInput: Swift.Encodable {
@@ -5945,7 +5955,7 @@ public struct ConfirmForgotPasswordOutputResponse: Swift.Equatable {
 
 extension ConfirmSignUpInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "ConfirmSignUpInput(analyticsMetadata: \(Swift.String(describing: analyticsMetadata)), clientMetadata: \(Swift.String(describing: clientMetadata)), confirmationCode: \(Swift.String(describing: confirmationCode)), forceAliasCreation: \(Swift.String(describing: forceAliasCreation)), userContextData: \(Swift.String(describing: userContextData)), clientId: \"CONTENT_REDACTED\", secretHash: \"CONTENT_REDACTED\", username: \"CONTENT_REDACTED\")"}
+        "ConfirmSignUpInput(analyticsMetadata: \(Swift.String(describing: analyticsMetadata)), clientMetadata: \(Swift.String(describing: clientMetadata)), confirmationCode: \(Swift.String(describing: confirmationCode)), forceAliasCreation: \(Swift.String(describing: forceAliasCreation)), clientId: \"CONTENT_REDACTED\", secretHash: \"CONTENT_REDACTED\", userContextData: \"CONTENT_REDACTED\", username: \"CONTENT_REDACTED\")"}
 }
 
 extension ConfirmSignUpInput: Swift.Encodable {
@@ -11011,7 +11021,7 @@ public struct ForgetDeviceOutputResponse: Swift.Equatable {
 
 extension ForgotPasswordInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "ForgotPasswordInput(analyticsMetadata: \(Swift.String(describing: analyticsMetadata)), clientMetadata: \(Swift.String(describing: clientMetadata)), userContextData: \(Swift.String(describing: userContextData)), clientId: \"CONTENT_REDACTED\", secretHash: \"CONTENT_REDACTED\", username: \"CONTENT_REDACTED\")"}
+        "ForgotPasswordInput(analyticsMetadata: \(Swift.String(describing: analyticsMetadata)), clientMetadata: \(Swift.String(describing: clientMetadata)), clientId: \"CONTENT_REDACTED\", secretHash: \"CONTENT_REDACTED\", userContextData: \"CONTENT_REDACTED\", username: \"CONTENT_REDACTED\")"}
 }
 
 extension ForgotPasswordInput: Swift.Encodable {
@@ -13047,7 +13057,7 @@ extension CognitoIdentityProviderClientTypes {
 
 extension InitiateAuthInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "InitiateAuthInput(analyticsMetadata: \(Swift.String(describing: analyticsMetadata)), authFlow: \(Swift.String(describing: authFlow)), clientMetadata: \(Swift.String(describing: clientMetadata)), userContextData: \(Swift.String(describing: userContextData)), authParameters: \"CONTENT_REDACTED\", clientId: \"CONTENT_REDACTED\")"}
+        "InitiateAuthInput(analyticsMetadata: \(Swift.String(describing: analyticsMetadata)), authFlow: \(Swift.String(describing: authFlow)), clientMetadata: \(Swift.String(describing: clientMetadata)), authParameters: \"CONTENT_REDACTED\", clientId: \"CONTENT_REDACTED\", userContextData: \"CONTENT_REDACTED\")"}
 }
 
 extension InitiateAuthInput: Swift.Encodable {
@@ -13268,6 +13278,11 @@ public enum InitiateAuthOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
+}
+
+extension InitiateAuthOutputResponse: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "InitiateAuthOutputResponse(authenticationResult: \(Swift.String(describing: authenticationResult)), challengeName: \(Swift.String(describing: challengeName)), challengeParameters: \(Swift.String(describing: challengeParameters)), session: \"CONTENT_REDACTED\")"}
 }
 
 extension InitiateAuthOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -16684,7 +16699,7 @@ extension CognitoIdentityProviderClientTypes {
 
 extension ResendConfirmationCodeInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "ResendConfirmationCodeInput(analyticsMetadata: \(Swift.String(describing: analyticsMetadata)), clientMetadata: \(Swift.String(describing: clientMetadata)), userContextData: \(Swift.String(describing: userContextData)), clientId: \"CONTENT_REDACTED\", secretHash: \"CONTENT_REDACTED\", username: \"CONTENT_REDACTED\")"}
+        "ResendConfirmationCodeInput(analyticsMetadata: \(Swift.String(describing: analyticsMetadata)), clientMetadata: \(Swift.String(describing: clientMetadata)), clientId: \"CONTENT_REDACTED\", secretHash: \"CONTENT_REDACTED\", userContextData: \"CONTENT_REDACTED\", username: \"CONTENT_REDACTED\")"}
 }
 
 extension ResendConfirmationCodeInput: Swift.Encodable {
@@ -17063,7 +17078,7 @@ extension CognitoIdentityProviderClientTypes {
 
 extension RespondToAuthChallengeInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "RespondToAuthChallengeInput(analyticsMetadata: \(Swift.String(describing: analyticsMetadata)), challengeName: \(Swift.String(describing: challengeName)), challengeResponses: \(Swift.String(describing: challengeResponses)), clientMetadata: \(Swift.String(describing: clientMetadata)), session: \(Swift.String(describing: session)), userContextData: \(Swift.String(describing: userContextData)), clientId: \"CONTENT_REDACTED\")"}
+        "RespondToAuthChallengeInput(analyticsMetadata: \(Swift.String(describing: analyticsMetadata)), challengeName: \(Swift.String(describing: challengeName)), clientMetadata: \(Swift.String(describing: clientMetadata)), challengeResponses: \"CONTENT_REDACTED\", clientId: \"CONTENT_REDACTED\", session: \"CONTENT_REDACTED\", userContextData: \"CONTENT_REDACTED\")"}
 }
 
 extension RespondToAuthChallengeInput: Swift.Encodable {
@@ -17264,6 +17279,11 @@ public enum RespondToAuthChallengeOutputError: ClientRuntime.HttpResponseErrorBi
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
+}
+
+extension RespondToAuthChallengeOutputResponse: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "RespondToAuthChallengeOutputResponse(authenticationResult: \(Swift.String(describing: authenticationResult)), challengeName: \(Swift.String(describing: challengeName)), challengeParameters: \(Swift.String(describing: challengeParameters)), session: \"CONTENT_REDACTED\")"}
 }
 
 extension RespondToAuthChallengeOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -18696,7 +18716,7 @@ public struct SetUserSettingsOutputResponse: Swift.Equatable {
 
 extension SignUpInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "SignUpInput(analyticsMetadata: \(Swift.String(describing: analyticsMetadata)), clientMetadata: \(Swift.String(describing: clientMetadata)), userAttributes: \(Swift.String(describing: userAttributes)), userContextData: \(Swift.String(describing: userContextData)), validationData: \(Swift.String(describing: validationData)), clientId: \"CONTENT_REDACTED\", password: \"CONTENT_REDACTED\", secretHash: \"CONTENT_REDACTED\", username: \"CONTENT_REDACTED\")"}
+        "SignUpInput(analyticsMetadata: \(Swift.String(describing: analyticsMetadata)), clientMetadata: \(Swift.String(describing: clientMetadata)), userAttributes: \(Swift.String(describing: userAttributes)), validationData: \(Swift.String(describing: validationData)), clientId: \"CONTENT_REDACTED\", password: \"CONTENT_REDACTED\", secretHash: \"CONTENT_REDACTED\", userContextData: \"CONTENT_REDACTED\", username: \"CONTENT_REDACTED\")"}
 }
 
 extension SignUpInput: Swift.Encodable {
@@ -22325,6 +22345,12 @@ extension CognitoIdentityProviderClientTypes.UserContextDataType: Swift.Codable 
     }
 }
 
+extension CognitoIdentityProviderClientTypes.UserContextDataType: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CONTENT_REDACTED"
+    }
+}
+
 extension CognitoIdentityProviderClientTypes {
     /// Contextual data, such as the user's device fingerprint, IP address, or location, used for evaluating the risk of an unexpected event by Amazon Cognito advanced security.
     public struct UserContextDataType: Swift.Equatable {
@@ -24420,7 +24446,7 @@ extension CognitoIdentityProviderClientTypes {
 
 extension VerifySoftwareTokenInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "VerifySoftwareTokenInput(friendlyDeviceName: \(Swift.String(describing: friendlyDeviceName)), session: \(Swift.String(describing: session)), userCode: \(Swift.String(describing: userCode)), accessToken: \"CONTENT_REDACTED\")"}
+        "VerifySoftwareTokenInput(friendlyDeviceName: \(Swift.String(describing: friendlyDeviceName)), accessToken: \"CONTENT_REDACTED\", session: \"CONTENT_REDACTED\", userCode: \"CONTENT_REDACTED\")"}
 }
 
 extension VerifySoftwareTokenInput: Swift.Encodable {
@@ -24528,6 +24554,11 @@ public enum VerifySoftwareTokenOutputError: ClientRuntime.HttpResponseErrorBindi
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
+}
+
+extension VerifySoftwareTokenOutputResponse: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "VerifySoftwareTokenOutputResponse(status: \(Swift.String(describing: status)), session: \"CONTENT_REDACTED\")"}
 }
 
 extension VerifySoftwareTokenOutputResponse: ClientRuntime.HttpResponseBinding {

@@ -1672,6 +1672,7 @@ extension SimSpaceWeaverClientTypes {
     /// An Amazon S3 bucket and optional folder (object key prefix) where SimSpace Weaver creates a file.
     public struct S3Destination: Swift.Equatable {
         /// The name of an Amazon S3 bucket. For more information about buckets, see [Creating, configuring, and working with Amazon S3 buckets](https://docs.aws.amazon.com/AmazonS3/latest/userguide/creating-buckets-s3.html) in the Amazon Simple Storage Service User Guide.
+        /// This member is required.
         public var bucketName: Swift.String?
         /// A string prefix for an Amazon S3 object key. It's usually a folder name. For more information about folders in Amazon S3, see [Organizing objects in the Amazon S3 console using folders](https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-folders.html) in the Amazon Simple Storage Service User Guide.
         public var objectKeyPrefix: Swift.String?
@@ -1717,8 +1718,10 @@ extension SimSpaceWeaverClientTypes {
     /// A location in Amazon Simple Storage Service (Amazon S3) where SimSpace Weaver stores simulation data, such as your app .zip files and schema file. For more information about Amazon S3, see the [ Amazon Simple Storage Service User Guide ](https://docs.aws.amazon.com/AmazonS3/latest/userguide/Welcome.html).
     public struct S3Location: Swift.Equatable {
         /// The name of an Amazon S3 bucket. For more information about buckets, see [Creating, configuring, and working with Amazon S3 buckets](https://docs.aws.amazon.com/AmazonS3/latest/userguide/creating-buckets-s3.html) in the Amazon Simple Storage Service User Guide.
+        /// This member is required.
         public var bucketName: Swift.String?
         /// The key name of an object in Amazon S3. For more information about Amazon S3 objects and object keys, see [Uploading, downloading, and working with objects in Amazon S3](https://docs.aws.amazon.com/AmazonS3/latest/userguide/uploading-downloading-objects.html) in the Amazon Simple Storage Service User Guide.
+        /// This member is required.
         public var objectKey: Swift.String?
 
         public init(

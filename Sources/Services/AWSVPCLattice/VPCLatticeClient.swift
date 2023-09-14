@@ -414,6 +414,7 @@ extension VPCLatticeClient: VPCLatticeClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The user does not have sufficient access to perform this action.
     /// - `ConflictException` : The request conflicts with the current state of the resource. Updating or deleting a resource can cause an inconsistent state.
     /// - `InternalServerException` : An unexpected error occurred while processing the request.
     /// - `ResourceNotFoundException` : The request references a resource that does not exist.
@@ -462,7 +463,7 @@ extension VPCLatticeClient: VPCLatticeClientProtocol {
         return result
     }
 
-    /// Associates a VPC with a service network. When you associate a VPC with the service network, it enables all the resources within that VPC to be clients and communicate with other services in the service network. For more information, see [Manage VPC associations](https://docs.aws.amazon.com/vpc-lattice/latest/ug/service-network-associations.html#service-network-vpc-associations) in the Amazon VPC Lattice User Guide. You can't use this operation if there is a disassociation in progress. If the association fails, retry by deleting the association and recreating it. As a result of this operation, the association gets created in the service network account and the VPC owner account. If you add a security group to the service network and VPC association, the association must continue to always have at least one security group. You can add or edit security groups at any time. However, to remove all security groups, you must first delete the association and recreate it without security groups.
+    /// Associates a VPC with a service network. When you associate a VPC with the service network, it enables all the resources within that VPC to be clients and communicate with other services in the service network. For more information, see [Manage VPC associations](https://docs.aws.amazon.com/vpc-lattice/latest/ug/service-network-associations.html#service-network-vpc-associations) in the Amazon VPC Lattice User Guide. You can't use this operation if there is a disassociation in progress. If the association fails, retry by deleting the association and recreating it. As a result of this operation, the association gets created in the service network account and the VPC owner account. Once a security group is added to the VPC association it cannot be removed. You can add or update the security groups being used for the VPC association once a security group is attached. To remove all security groups you must reassociate the VPC.
     ///
     /// - Parameter CreateServiceNetworkVpcAssociationInput : [no documentation found]
     ///
@@ -623,7 +624,7 @@ extension VPCLatticeClient: VPCLatticeClientProtocol {
         return result
     }
 
-    /// Deletes the specified auth policy. If an auth is set to AWS_IAM and the auth policy is deleted, all requests will be denied by default. If you are trying to remove the auth policy completely, you must set the auth_type to NONE. If auth is enabled on the resource, but no auth policy is set, all requests will be denied.
+    /// Deletes the specified auth policy. If an auth is set to Amazon Web Services_IAM and the auth policy is deleted, all requests will be denied by default. If you are trying to remove the auth policy completely, you must set the auth_type to NONE. If auth is enabled on the resource, but no auth policy is set, all requests will be denied.
     ///
     /// - Parameter DeleteAuthPolicyInput : [no documentation found]
     ///
@@ -1218,7 +1219,7 @@ extension VPCLatticeClient: VPCLatticeClientProtocol {
         return result
     }
 
-    /// Retrieves information about the resource policy. The resource policy is an IAM policy created on behalf of the resource owner when they share a resource.
+    /// Retrieves information about the resource policy. The resource policy is an IAM policy created by AWS RAM on behalf of the resource owner when they share a resource.
     ///
     /// - Parameter GetResourcePolicyInput : [no documentation found]
     ///
@@ -1497,6 +1498,7 @@ extension VPCLatticeClient: VPCLatticeClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The user does not have sufficient access to perform this action.
     /// - `InternalServerException` : An unexpected error occurred while processing the request.
     /// - `ResourceNotFoundException` : The request references a resource that does not exist.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
@@ -1541,6 +1543,7 @@ extension VPCLatticeClient: VPCLatticeClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The user does not have sufficient access to perform this action.
     /// - `InternalServerException` : An unexpected error occurred while processing the request.
     /// - `ThrottlingException` : The limit on the number of requests per second was exceeded.
     /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Services service.
@@ -1857,6 +1860,7 @@ extension VPCLatticeClient: VPCLatticeClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The user does not have sufficient access to perform this action.
     /// - `InternalServerException` : An unexpected error occurred while processing the request.
     /// - `ResourceNotFoundException` : The request references a resource that does not exist.
     /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Services service.
@@ -1985,7 +1989,7 @@ extension VPCLatticeClient: VPCLatticeClientProtocol {
         return result
     }
 
-    /// Creates or updates the auth policy. The policy string in JSON must not contain newlines or blank lines.
+    /// Creates or updates the auth policy.
     ///
     /// - Parameter PutAuthPolicyInput : [no documentation found]
     ///
@@ -2188,6 +2192,7 @@ extension VPCLatticeClient: VPCLatticeClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The user does not have sufficient access to perform this action.
     /// - `InternalServerException` : An unexpected error occurred while processing the request.
     /// - `ResourceNotFoundException` : The request references a resource that does not exist.
     /// - `ValidationException` : The input does not satisfy the constraints specified by an Amazon Web Services service.
@@ -2468,7 +2473,7 @@ extension VPCLatticeClient: VPCLatticeClientProtocol {
         return result
     }
 
-    /// Updates the service network and VPC association. If you add a security group to the service network and VPC association, the association must continue to always have at least one security group. You can add or edit security groups at any time. However, to remove all security groups, you must first delete the association and recreate it without security groups.
+    /// Updates the service network and VPC association. Once you add a security group, it cannot be removed.
     ///
     /// - Parameter UpdateServiceNetworkVpcAssociationInput : [no documentation found]
     ///
@@ -2526,6 +2531,7 @@ extension VPCLatticeClient: VPCLatticeClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The user does not have sufficient access to perform this action.
     /// - `ConflictException` : The request conflicts with the current state of the resource. Updating or deleting a resource can cause an inconsistent state.
     /// - `InternalServerException` : An unexpected error occurred while processing the request.
     /// - `ResourceNotFoundException` : The request references a resource that does not exist.

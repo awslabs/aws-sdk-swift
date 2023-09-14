@@ -14979,6 +14979,45 @@ extension EC2Client: EC2ClientProtocol {
         return result
     }
 
+    /// Disables block public access for AMIs at the account level in the specified Amazon Web Services Region. This removes the block public access restriction from your account. With the restriction removed, you can publicly share your AMIs in the specified Amazon Web Services Region. The API can take up to 10 minutes to configure this setting. During this time, if you run [GetImageBlockPublicAccessState](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_GetImageBlockPublicAccessState.html), the response will be block-new-sharing. When the API has completed the configuration, the response will be unblocked. For more information, see [Block public access to your AMIs](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/sharingamis-intro.html#block-public-access-to-amis) in the Amazon EC2 User Guide.
+    ///
+    /// - Parameter DisableImageBlockPublicAccessInput : [no documentation found]
+    ///
+    /// - Returns: `DisableImageBlockPublicAccessOutputResponse` : [no documentation found]
+    public func disableImageBlockPublicAccess(input: DisableImageBlockPublicAccessInput) async throws -> DisableImageBlockPublicAccessOutputResponse
+    {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "disableImageBlockPublicAccess")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withCredentialsProvider(value: config.credentialsProvider)
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "ec2")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<DisableImageBlockPublicAccessInput, DisableImageBlockPublicAccessOutputResponse, DisableImageBlockPublicAccessOutputError>(id: "disableImageBlockPublicAccess")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DisableImageBlockPublicAccessInput, DisableImageBlockPublicAccessOutputResponse, DisableImageBlockPublicAccessOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DisableImageBlockPublicAccessInput, DisableImageBlockPublicAccessOutputResponse>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DisableImageBlockPublicAccessOutputResponse, DisableImageBlockPublicAccessOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DisableImageBlockPublicAccessInput, DisableImageBlockPublicAccessOutputResponse>(xmlName: "DisableImageBlockPublicAccessRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DisableImageBlockPublicAccessInput, DisableImageBlockPublicAccessOutputResponse>(contentType: "application/x-www-form-urlencoded"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DisableImageBlockPublicAccessOutputResponse, DisableImageBlockPublicAccessOutputError>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DisableImageBlockPublicAccessOutputResponse, DisableImageBlockPublicAccessOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DisableImageBlockPublicAccessOutputResponse, DisableImageBlockPublicAccessOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DisableImageBlockPublicAccessOutputResponse, DisableImageBlockPublicAccessOutputError>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
     /// Cancels the deprecation of the specified AMI. For more information, see [Deprecate an AMI](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ami-deprecate.html) in the Amazon EC2 User Guide.
     ///
     /// - Parameter DisableImageDeprecationInput : [no documentation found]
@@ -16005,6 +16044,45 @@ extension EC2Client: EC2ClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<EnableFastSnapshotRestoresOutputResponse, EnableFastSnapshotRestoresOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<EnableFastSnapshotRestoresOutputResponse, EnableFastSnapshotRestoresOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<EnableFastSnapshotRestoresOutputResponse, EnableFastSnapshotRestoresOutputError>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
+    /// Enables block public access for AMIs at the account level in the specified Amazon Web Services Region. This prevents the public sharing of your AMIs. However, if you already have public AMIs, they will remain publicly available. The API can take up to 10 minutes to configure this setting. During this time, if you run [GetImageBlockPublicAccessState](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_GetImageBlockPublicAccessState.html), the response will be unblocked. When the API has completed the configuration, the response will be block-new-sharing. For more information, see [Block public access to your AMIs](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/sharingamis-intro.html#block-public-access-to-amis) in the Amazon EC2 User Guide.
+    ///
+    /// - Parameter EnableImageBlockPublicAccessInput : [no documentation found]
+    ///
+    /// - Returns: `EnableImageBlockPublicAccessOutputResponse` : [no documentation found]
+    public func enableImageBlockPublicAccess(input: EnableImageBlockPublicAccessInput) async throws -> EnableImageBlockPublicAccessOutputResponse
+    {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "enableImageBlockPublicAccess")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withCredentialsProvider(value: config.credentialsProvider)
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "ec2")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<EnableImageBlockPublicAccessInput, EnableImageBlockPublicAccessOutputResponse, EnableImageBlockPublicAccessOutputError>(id: "enableImageBlockPublicAccess")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<EnableImageBlockPublicAccessInput, EnableImageBlockPublicAccessOutputResponse, EnableImageBlockPublicAccessOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<EnableImageBlockPublicAccessInput, EnableImageBlockPublicAccessOutputResponse>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<EnableImageBlockPublicAccessOutputResponse, EnableImageBlockPublicAccessOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<EnableImageBlockPublicAccessInput, EnableImageBlockPublicAccessOutputResponse>(xmlName: "EnableImageBlockPublicAccessRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<EnableImageBlockPublicAccessInput, EnableImageBlockPublicAccessOutputResponse>(contentType: "application/x-www-form-urlencoded"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, EnableImageBlockPublicAccessOutputResponse, EnableImageBlockPublicAccessOutputError>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<EnableImageBlockPublicAccessOutputResponse, EnableImageBlockPublicAccessOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<EnableImageBlockPublicAccessOutputResponse, EnableImageBlockPublicAccessOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<EnableImageBlockPublicAccessOutputResponse, EnableImageBlockPublicAccessOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -17038,6 +17116,45 @@ extension EC2Client: EC2ClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetHostReservationPurchasePreviewOutputResponse, GetHostReservationPurchasePreviewOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetHostReservationPurchasePreviewOutputResponse, GetHostReservationPurchasePreviewOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetHostReservationPurchasePreviewOutputResponse, GetHostReservationPurchasePreviewOutputError>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
+    /// Gets the current state of block public access for AMIs at the account level in the specified Amazon Web Services Region. For more information, see [Block public access to your AMIs](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/sharingamis-intro.html#block-public-access-to-amis) in the Amazon EC2 User Guide.
+    ///
+    /// - Parameter GetImageBlockPublicAccessStateInput : [no documentation found]
+    ///
+    /// - Returns: `GetImageBlockPublicAccessStateOutputResponse` : [no documentation found]
+    public func getImageBlockPublicAccessState(input: GetImageBlockPublicAccessStateInput) async throws -> GetImageBlockPublicAccessStateOutputResponse
+    {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getImageBlockPublicAccessState")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withCredentialsProvider(value: config.credentialsProvider)
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "ec2")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<GetImageBlockPublicAccessStateInput, GetImageBlockPublicAccessStateOutputResponse, GetImageBlockPublicAccessStateOutputError>(id: "getImageBlockPublicAccessState")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetImageBlockPublicAccessStateInput, GetImageBlockPublicAccessStateOutputResponse, GetImageBlockPublicAccessStateOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetImageBlockPublicAccessStateInput, GetImageBlockPublicAccessStateOutputResponse>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetImageBlockPublicAccessStateOutputResponse, GetImageBlockPublicAccessStateOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetImageBlockPublicAccessStateInput, GetImageBlockPublicAccessStateOutputResponse>(xmlName: "GetImageBlockPublicAccessStateRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetImageBlockPublicAccessStateInput, GetImageBlockPublicAccessStateOutputResponse>(contentType: "application/x-www-form-urlencoded"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetImageBlockPublicAccessStateOutputResponse, GetImageBlockPublicAccessStateOutputError>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetImageBlockPublicAccessStateOutputResponse, GetImageBlockPublicAccessStateOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetImageBlockPublicAccessStateOutputResponse, GetImageBlockPublicAccessStateOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetImageBlockPublicAccessStateOutputResponse, GetImageBlockPublicAccessStateOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }

@@ -4277,6 +4277,7 @@ extension CreateConfiguredTableOutputResponseBody: Swift.Decodable {
 extension CreateMembershipInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case collaborationIdentifier
+        case defaultResultConfiguration
         case queryLogStatus
         case tags
     }
@@ -4285,6 +4286,9 @@ extension CreateMembershipInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let collaborationIdentifier = self.collaborationIdentifier {
             try encodeContainer.encode(collaborationIdentifier, forKey: .collaborationIdentifier)
+        }
+        if let defaultResultConfiguration = self.defaultResultConfiguration {
+            try encodeContainer.encode(defaultResultConfiguration, forKey: .defaultResultConfiguration)
         }
         if let queryLogStatus = self.queryLogStatus {
             try encodeContainer.encode(queryLogStatus.rawValue, forKey: .queryLogStatus)
@@ -4308,6 +4312,8 @@ public struct CreateMembershipInput: Swift.Equatable {
     /// The unique ID for the associated collaboration.
     /// This member is required.
     public var collaborationIdentifier: Swift.String?
+    /// The default protected query result configuration as specified by the member who can receive results.
+    public var defaultResultConfiguration: CleanRoomsClientTypes.MembershipProtectedQueryResultConfiguration?
     /// An indicator as to whether query logging has been enabled or disabled for the collaboration.
     /// This member is required.
     public var queryLogStatus: CleanRoomsClientTypes.MembershipQueryLogStatus?
@@ -4316,11 +4322,13 @@ public struct CreateMembershipInput: Swift.Equatable {
 
     public init(
         collaborationIdentifier: Swift.String? = nil,
+        defaultResultConfiguration: CleanRoomsClientTypes.MembershipProtectedQueryResultConfiguration? = nil,
         queryLogStatus: CleanRoomsClientTypes.MembershipQueryLogStatus? = nil,
         tags: [Swift.String:Swift.String]? = nil
     )
     {
         self.collaborationIdentifier = collaborationIdentifier
+        self.defaultResultConfiguration = defaultResultConfiguration
         self.queryLogStatus = queryLogStatus
         self.tags = tags
     }
@@ -4330,11 +4338,13 @@ struct CreateMembershipInputBody: Swift.Equatable {
     let collaborationIdentifier: Swift.String?
     let queryLogStatus: CleanRoomsClientTypes.MembershipQueryLogStatus?
     let tags: [Swift.String:Swift.String]?
+    let defaultResultConfiguration: CleanRoomsClientTypes.MembershipProtectedQueryResultConfiguration?
 }
 
 extension CreateMembershipInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case collaborationIdentifier
+        case defaultResultConfiguration
         case queryLogStatus
         case tags
     }
@@ -4356,6 +4366,8 @@ extension CreateMembershipInputBody: Swift.Decodable {
             }
         }
         tags = tagsDecoded0
+        let defaultResultConfigurationDecoded = try containerValues.decodeIfPresent(CleanRoomsClientTypes.MembershipProtectedQueryResultConfiguration.self, forKey: .defaultResultConfiguration)
+        defaultResultConfiguration = defaultResultConfigurationDecoded
     }
 }
 
@@ -7593,6 +7605,7 @@ extension CleanRoomsClientTypes.Membership: Swift.Codable {
         case collaborationId
         case collaborationName
         case createTime
+        case defaultResultConfiguration
         case id
         case memberAbilities
         case queryLogStatus
@@ -7622,6 +7635,9 @@ extension CleanRoomsClientTypes.Membership: Swift.Codable {
         }
         if let createTime = self.createTime {
             try encodeContainer.encodeTimestamp(createTime, format: .epochSeconds, forKey: .createTime)
+        }
+        if let defaultResultConfiguration = self.defaultResultConfiguration {
+            try encodeContainer.encode(defaultResultConfiguration, forKey: .defaultResultConfiguration)
         }
         if let id = self.id {
             try encodeContainer.encode(id, forKey: .id)
@@ -7678,6 +7694,8 @@ extension CleanRoomsClientTypes.Membership: Swift.Codable {
         memberAbilities = memberAbilitiesDecoded0
         let queryLogStatusDecoded = try containerValues.decodeIfPresent(CleanRoomsClientTypes.MembershipQueryLogStatus.self, forKey: .queryLogStatus)
         queryLogStatus = queryLogStatusDecoded
+        let defaultResultConfigurationDecoded = try containerValues.decodeIfPresent(CleanRoomsClientTypes.MembershipProtectedQueryResultConfiguration.self, forKey: .defaultResultConfiguration)
+        defaultResultConfiguration = defaultResultConfigurationDecoded
     }
 }
 
@@ -7705,6 +7723,8 @@ extension CleanRoomsClientTypes {
         /// The time when the membership was created.
         /// This member is required.
         public var createTime: ClientRuntime.Date?
+        /// The default protected query result configuration as specified by the member who can receive results.
+        public var defaultResultConfiguration: CleanRoomsClientTypes.MembershipProtectedQueryResultConfiguration?
         /// The unique ID of the membership.
         /// This member is required.
         public var id: Swift.String?
@@ -7729,6 +7749,7 @@ extension CleanRoomsClientTypes {
             collaborationId: Swift.String? = nil,
             collaborationName: Swift.String? = nil,
             createTime: ClientRuntime.Date? = nil,
+            defaultResultConfiguration: CleanRoomsClientTypes.MembershipProtectedQueryResultConfiguration? = nil,
             id: Swift.String? = nil,
             memberAbilities: [CleanRoomsClientTypes.MemberAbility]? = nil,
             queryLogStatus: CleanRoomsClientTypes.MembershipQueryLogStatus? = nil,
@@ -7743,11 +7764,95 @@ extension CleanRoomsClientTypes {
             self.collaborationId = collaborationId
             self.collaborationName = collaborationName
             self.createTime = createTime
+            self.defaultResultConfiguration = defaultResultConfiguration
             self.id = id
             self.memberAbilities = memberAbilities
             self.queryLogStatus = queryLogStatus
             self.status = status
             self.updateTime = updateTime
+        }
+    }
+
+}
+
+extension CleanRoomsClientTypes.MembershipProtectedQueryOutputConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case s3
+        case sdkUnknown
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        switch self {
+            case let .s3(s3):
+                try container.encode(s3, forKey: .s3)
+            case let .sdkUnknown(sdkUnknown):
+                try container.encode(sdkUnknown, forKey: .sdkUnknown)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        let s3Decoded = try values.decodeIfPresent(CleanRoomsClientTypes.ProtectedQueryS3OutputConfiguration.self, forKey: .s3)
+        if let s3 = s3Decoded {
+            self = .s3(s3)
+            return
+        }
+        self = .sdkUnknown("")
+    }
+}
+
+extension CleanRoomsClientTypes {
+    /// Contains configurations for protected query results.
+    public enum MembershipProtectedQueryOutputConfiguration: Swift.Equatable {
+        /// Contains the configuration to write the query results to S3.
+        case s3(CleanRoomsClientTypes.ProtectedQueryS3OutputConfiguration)
+        case sdkUnknown(Swift.String)
+    }
+
+}
+
+extension CleanRoomsClientTypes.MembershipProtectedQueryResultConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case outputConfiguration
+        case roleArn
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let outputConfiguration = self.outputConfiguration {
+            try encodeContainer.encode(outputConfiguration, forKey: .outputConfiguration)
+        }
+        if let roleArn = self.roleArn {
+            try encodeContainer.encode(roleArn, forKey: .roleArn)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let outputConfigurationDecoded = try containerValues.decodeIfPresent(CleanRoomsClientTypes.MembershipProtectedQueryOutputConfiguration.self, forKey: .outputConfiguration)
+        outputConfiguration = outputConfigurationDecoded
+        let roleArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .roleArn)
+        roleArn = roleArnDecoded
+    }
+}
+
+extension CleanRoomsClientTypes {
+    /// Contains configurations for protected query results.
+    public struct MembershipProtectedQueryResultConfiguration: Swift.Equatable {
+        /// Configuration for protected query results.
+        /// This member is required.
+        public var outputConfiguration: CleanRoomsClientTypes.MembershipProtectedQueryOutputConfiguration?
+        /// The unique ARN for an IAM role that is used by Clean Rooms to write protected query results to the result location, given by the member who can receive results.
+        public var roleArn: Swift.String?
+
+        public init(
+            outputConfiguration: CleanRoomsClientTypes.MembershipProtectedQueryOutputConfiguration? = nil,
+            roleArn: Swift.String? = nil
+        )
+        {
+            self.outputConfiguration = outputConfiguration
+            self.roleArn = roleArn
         }
     }
 
@@ -8147,10 +8252,8 @@ extension CleanRoomsClientTypes {
         /// The result of the protected query.
         public var result: CleanRoomsClientTypes.ProtectedQueryResult?
         /// Contains any details needed to write the query results.
-        /// This member is required.
         public var resultConfiguration: CleanRoomsClientTypes.ProtectedQueryResultConfiguration?
         /// The protected query SQL parameters.
-        /// This member is required.
         public var sqlParameters: CleanRoomsClientTypes.ProtectedQuerySQLParameters?
         /// Statistics about protected query execution.
         public var statistics: CleanRoomsClientTypes.ProtectedQueryStatistics?
@@ -8235,6 +8338,7 @@ extension CleanRoomsClientTypes {
 
 extension CleanRoomsClientTypes.ProtectedQueryOutput: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case memberlist = "memberList"
         case s3
         case sdkUnknown
     }
@@ -8242,6 +8346,11 @@ extension CleanRoomsClientTypes.ProtectedQueryOutput: Swift.Codable {
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         switch self {
+            case let .memberlist(memberlist):
+                var memberlistContainer = container.nestedUnkeyedContainer(forKey: .memberlist)
+                for protectedquerysinglememberoutput0 in memberlist {
+                    try memberlistContainer.encode(protectedquerysinglememberoutput0)
+                }
             case let .s3(s3):
                 try container.encode(s3, forKey: .s3)
             case let .sdkUnknown(sdkUnknown):
@@ -8256,6 +8365,20 @@ extension CleanRoomsClientTypes.ProtectedQueryOutput: Swift.Codable {
             self = .s3(s3)
             return
         }
+        let memberlistContainer = try values.decodeIfPresent([CleanRoomsClientTypes.ProtectedQuerySingleMemberOutput?].self, forKey: .memberlist)
+        var memberlistDecoded0:[CleanRoomsClientTypes.ProtectedQuerySingleMemberOutput]? = nil
+        if let memberlistContainer = memberlistContainer {
+            memberlistDecoded0 = [CleanRoomsClientTypes.ProtectedQuerySingleMemberOutput]()
+            for structure0 in memberlistContainer {
+                if let structure0 = structure0 {
+                    memberlistDecoded0?.append(structure0)
+                }
+            }
+        }
+        if let memberlist = memberlistDecoded0 {
+            self = .memberlist(memberlist)
+            return
+        }
         self = .sdkUnknown("")
     }
 }
@@ -8265,6 +8388,8 @@ extension CleanRoomsClientTypes {
     public enum ProtectedQueryOutput: Swift.Equatable {
         /// If present, the output for a protected query with an `S3` output type.
         case s3(CleanRoomsClientTypes.ProtectedQueryS3Output)
+        /// The list of member Amazon Web Services account(s) that received the results of the query.
+        case memberlist([CleanRoomsClientTypes.ProtectedQuerySingleMemberOutput])
         case sdkUnknown(Swift.String)
     }
 
@@ -8540,6 +8665,42 @@ extension CleanRoomsClientTypes {
             self.analysisTemplateArn = analysisTemplateArn
             self.parameters = parameters
             self.queryString = queryString
+        }
+    }
+
+}
+
+extension CleanRoomsClientTypes.ProtectedQuerySingleMemberOutput: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountId
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let accountId = self.accountId {
+            try encodeContainer.encode(accountId, forKey: .accountId)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let accountIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .accountId)
+        accountId = accountIdDecoded
+    }
+}
+
+extension CleanRoomsClientTypes {
+    /// Details about the member who received the query result.
+    public struct ProtectedQuerySingleMemberOutput: Swift.Equatable {
+        /// The Amazon Web Services account ID of the member in the collaboration who can receive results for the query.
+        /// This member is required.
+        public var accountId: Swift.String?
+
+        public init(
+            accountId: Swift.String? = nil
+        )
+        {
+            self.accountId = accountId
         }
     }
 
@@ -9423,7 +9584,6 @@ public struct StartProtectedQueryInput: Swift.Equatable {
     /// This member is required.
     public var membershipIdentifier: Swift.String?
     /// The details needed to write the query results.
-    /// This member is required.
     public var resultConfiguration: CleanRoomsClientTypes.ProtectedQueryResultConfiguration?
     /// The protected SQL query parameters.
     /// This member is required.
@@ -10433,11 +10593,15 @@ extension UpdateConfiguredTableOutputResponseBody: Swift.Decodable {
 
 extension UpdateMembershipInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case defaultResultConfiguration
         case queryLogStatus
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let defaultResultConfiguration = self.defaultResultConfiguration {
+            try encodeContainer.encode(defaultResultConfiguration, forKey: .defaultResultConfiguration)
+        }
         if let queryLogStatus = self.queryLogStatus {
             try encodeContainer.encode(queryLogStatus.rawValue, forKey: .queryLogStatus)
         }
@@ -10454,6 +10618,8 @@ extension UpdateMembershipInput: ClientRuntime.URLPathProvider {
 }
 
 public struct UpdateMembershipInput: Swift.Equatable {
+    /// The default protected query result configuration as specified by the member who can receive results.
+    public var defaultResultConfiguration: CleanRoomsClientTypes.MembershipProtectedQueryResultConfiguration?
     /// The unique identifier of the membership.
     /// This member is required.
     public var membershipIdentifier: Swift.String?
@@ -10461,10 +10627,12 @@ public struct UpdateMembershipInput: Swift.Equatable {
     public var queryLogStatus: CleanRoomsClientTypes.MembershipQueryLogStatus?
 
     public init(
+        defaultResultConfiguration: CleanRoomsClientTypes.MembershipProtectedQueryResultConfiguration? = nil,
         membershipIdentifier: Swift.String? = nil,
         queryLogStatus: CleanRoomsClientTypes.MembershipQueryLogStatus? = nil
     )
     {
+        self.defaultResultConfiguration = defaultResultConfiguration
         self.membershipIdentifier = membershipIdentifier
         self.queryLogStatus = queryLogStatus
     }
@@ -10472,10 +10640,12 @@ public struct UpdateMembershipInput: Swift.Equatable {
 
 struct UpdateMembershipInputBody: Swift.Equatable {
     let queryLogStatus: CleanRoomsClientTypes.MembershipQueryLogStatus?
+    let defaultResultConfiguration: CleanRoomsClientTypes.MembershipProtectedQueryResultConfiguration?
 }
 
 extension UpdateMembershipInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case defaultResultConfiguration
         case queryLogStatus
     }
 
@@ -10483,6 +10653,8 @@ extension UpdateMembershipInputBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let queryLogStatusDecoded = try containerValues.decodeIfPresent(CleanRoomsClientTypes.MembershipQueryLogStatus.self, forKey: .queryLogStatus)
         queryLogStatus = queryLogStatusDecoded
+        let defaultResultConfigurationDecoded = try containerValues.decodeIfPresent(CleanRoomsClientTypes.MembershipProtectedQueryResultConfiguration.self, forKey: .defaultResultConfiguration)
+        defaultResultConfiguration = defaultResultConfigurationDecoded
     }
 }
 

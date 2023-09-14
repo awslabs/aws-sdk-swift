@@ -1200,7 +1200,7 @@ public protocol OmicsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an AWS service.
     func startReferenceImportJob(input: StartReferenceImportJobInput) async throws -> StartReferenceImportJobOutputResponse
-    /// Starts a run.
+    /// Starts a workflow run. To duplicate a run, specify the run's ID and a role ARN. The remaining parameters are copied from the previous run. The total number of runs in your account is subject to a quota per Region. To avoid needing to delete runs manually, you can set the retention mode to REMOVE. Runs with this setting are deleted automatically when the run quoata is exceeded.
     ///
     /// - Parameter StartRunInput : [no documentation found]
     ///

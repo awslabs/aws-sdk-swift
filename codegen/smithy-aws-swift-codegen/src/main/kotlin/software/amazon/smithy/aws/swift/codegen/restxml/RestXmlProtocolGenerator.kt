@@ -12,7 +12,6 @@ import software.amazon.smithy.model.shapes.Shape
 import software.amazon.smithy.model.shapes.ShapeId
 import software.amazon.smithy.model.traits.TimestampFormatTrait
 import software.amazon.smithy.swift.codegen.SwiftWriter
-import software.amazon.smithy.swift.codegen.integration.HttpProtocolTestGenerator
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 import software.amazon.smithy.swift.codegen.integration.codingKeys.CodingKeysCustomizationXmlName
 import software.amazon.smithy.swift.codegen.integration.codingKeys.CodingKeysGenerator
@@ -35,6 +34,19 @@ class RestXmlProtocolGenerator : AWSHttpBindingProtocolGenerator() {
         AWSXMLHttpResponseBindingErrorInitGeneratorFactory()
     )
     override val serdeContext = serdeContextXML
+    override val testsToIgnore = setOf(
+        "S3DefaultAddressing",
+        "S3VirtualHostAddressing",
+        "S3PathAddressing",
+        "S3VirtualHostDualstackAddressing",
+        "S3VirtualHostAccelerateAddressing",
+        "S3VirtualHostDualstackAccelerateAddressing",
+        "S3OperationAddressingPreferred",
+        "S3EscapeObjectKeyInUriLabel",
+        "S3EscapePathObjectKeyInUriLabel",
+        "SDKAppliedContentEncoding_restXml",
+        "SDKAppendedGzipAfterProvidedEncoding_restXml"
+    )
 
     override fun renderStructEncode(
         ctx: ProtocolGenerator.GenerationContext,
@@ -43,6 +55,7 @@ class RestXmlProtocolGenerator : AWSHttpBindingProtocolGenerator() {
         members: List<MemberShape>,
         writer: SwiftWriter,
         defaultTimestampFormat: TimestampFormatTrait.Format,
+        path: String
     ) {
         val encoder = StructEncodeXMLGenerator(ctx, shapeContainingMembers, members, writer, defaultTimestampFormat)
         encoder.render()
@@ -57,33 +70,10 @@ class RestXmlProtocolGenerator : AWSHttpBindingProtocolGenerator() {
         shapeMetadata: Map<ShapeMetadata, Any>,
         members: List<MemberShape>,
         writer: SwiftWriter,
-        defaultTimestampFormat: TimestampFormatTrait.Format
+        defaultTimestampFormat: TimestampFormatTrait.Format,
+        path: String
     ) {
         val decoder = RestXmlStructDecodeXMLGenerator(ctx, members, shapeMetadata, writer, defaultTimestampFormat)
         decoder.render()
-    }
-
-    override fun generateProtocolUnitTests(ctx: ProtocolGenerator.GenerationContext): Int {
-        val testsToIgnore = setOf(
-            "S3DefaultAddressing",
-            "S3VirtualHostAddressing",
-            "S3PathAddressing",
-            "S3VirtualHostDualstackAddressing",
-            "S3VirtualHostAccelerateAddressing",
-            "S3VirtualHostDualstackAccelerateAddressing",
-            "S3OperationAddressingPreferred"
-        )
-        return HttpProtocolTestGenerator(
-            ctx,
-            requestTestBuilder,
-            responseTestBuilder,
-            errorTestBuilder,
-            httpProtocolCustomizable,
-            operationMiddleware,
-            getProtocolHttpBindingResolver(ctx, defaultContentType),
-            serdeContext,
-            listOf(),
-            testsToIgnore
-        ).generateProtocolTests() + renderEndpointsTests(ctx)
     }
 }

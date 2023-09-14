@@ -2695,6 +2695,11 @@ extension GrafanaClientTypes.RoleValues: Swift.Codable {
     }
 }
 
+extension GrafanaClientTypes.RoleValues: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "RoleValues(admin: \"CONTENT_REDACTED\", editor: \"CONTENT_REDACTED\")"}
+}
+
 extension GrafanaClientTypes {
     /// This structure defines which groups defined in the SAML assertion attribute are to be mapped to the Grafana Admin and Editor roles in the workspace. SAML authenticated users not part of Admin or Editor role groups have Viewer permission over the workspace.
     public struct RoleValues: Swift.Equatable {

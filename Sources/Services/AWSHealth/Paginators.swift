@@ -85,6 +85,7 @@ extension DescribeAffectedEntitiesForOrganizationInput: ClientRuntime.PaginateTo
             locale: self.locale,
             maxResults: self.maxResults,
             nextToken: token,
+            organizationEntityAccountFilters: self.organizationEntityAccountFilters,
             organizationEntityFilters: self.organizationEntityFilters
         )}
 }

@@ -2,6 +2,73 @@
 import AWSClientRuntime
 import ClientRuntime
 
+extension HealthClientTypes.AccountEntityAggregate: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountId
+        case count
+        case statuses
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let accountId = self.accountId {
+            try encodeContainer.encode(accountId, forKey: .accountId)
+        }
+        if count != 0 {
+            try encodeContainer.encode(count, forKey: .count)
+        }
+        if let statuses = statuses {
+            var statusesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .statuses)
+            for (dictKey0, entityStatuses0) in statuses {
+                try statusesContainer.encode(entityStatuses0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let accountIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .accountId)
+        accountId = accountIdDecoded
+        let countDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .count) ?? 0
+        count = countDecoded
+        let statusesContainer = try containerValues.decodeIfPresent([Swift.String: Swift.Int?].self, forKey: .statuses)
+        var statusesDecoded0: [Swift.String:Swift.Int]? = nil
+        if let statusesContainer = statusesContainer {
+            statusesDecoded0 = [Swift.String:Swift.Int]()
+            for (key0, count0) in statusesContainer {
+                if let count0 = count0 {
+                    statusesDecoded0?[key0] = count0
+                }
+            }
+        }
+        statuses = statusesDecoded0
+    }
+}
+
+extension HealthClientTypes {
+    /// The number of entities in an account that are impacted by a specific event aggregated by the entity status codes.
+    public struct AccountEntityAggregate: Swift.Equatable {
+        /// The 12-digit Amazon Web Services account numbers that contains the affected entities.
+        public var accountId: Swift.String?
+        /// The number of entities that match the filter criteria for the specified events.
+        public var count: Swift.Int
+        /// The number of affected entities aggregated by the entity status codes.
+        public var statuses: [Swift.String:Swift.Int]?
+
+        public init(
+            accountId: Swift.String? = nil,
+            count: Swift.Int = 0,
+            statuses: [Swift.String:Swift.Int]? = nil
+        )
+        {
+            self.accountId = accountId
+            self.count = count
+            self.statuses = statuses
+        }
+    }
+
+}
+
 extension HealthClientTypes.AffectedEntity: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case awsAccountId
@@ -382,6 +449,7 @@ extension DescribeAffectedEntitiesForOrganizationInput: Swift.Encodable {
         case locale
         case maxResults
         case nextToken
+        case organizationEntityAccountFilters
         case organizationEntityFilters
     }
 
@@ -395,6 +463,12 @@ extension DescribeAffectedEntitiesForOrganizationInput: Swift.Encodable {
         }
         if let nextToken = self.nextToken {
             try encodeContainer.encode(nextToken, forKey: .nextToken)
+        }
+        if let organizationEntityAccountFilters = organizationEntityAccountFilters {
+            var organizationEntityAccountFiltersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .organizationEntityAccountFilters)
+            for entityaccountfilter0 in organizationEntityAccountFilters {
+                try organizationEntityAccountFiltersContainer.encode(entityaccountfilter0)
+            }
         }
         if let organizationEntityFilters = organizationEntityFilters {
             var organizationEntityFiltersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .organizationEntityFilters)
@@ -418,20 +492,24 @@ public struct DescribeAffectedEntitiesForOrganizationInput: Swift.Equatable {
     public var maxResults: Swift.Int?
     /// If the results of a search are large, only a portion of the results are returned, and a nextToken pagination token is returned in the response. To retrieve the next batch of results, reissue the search request and include the returned token. When all results have been returned, the response does not contain a pagination token value.
     public var nextToken: Swift.String?
+    /// A JSON set of elements including the awsAccountId, eventArn and a set of statusCodes.
+    public var organizationEntityAccountFilters: [HealthClientTypes.EntityAccountFilter]?
     /// A JSON set of elements including the awsAccountId and the eventArn.
-    /// This member is required.
+    @available(*, deprecated, message: "This property is deprecated, use organizationEntityAccountFilters instead.")
     public var organizationEntityFilters: [HealthClientTypes.EventAccountFilter]?
 
     public init(
         locale: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
+        organizationEntityAccountFilters: [HealthClientTypes.EntityAccountFilter]? = nil,
         organizationEntityFilters: [HealthClientTypes.EventAccountFilter]? = nil
     )
     {
         self.locale = locale
         self.maxResults = maxResults
         self.nextToken = nextToken
+        self.organizationEntityAccountFilters = organizationEntityAccountFilters
         self.organizationEntityFilters = organizationEntityFilters
     }
 }
@@ -441,6 +519,7 @@ struct DescribeAffectedEntitiesForOrganizationInputBody: Swift.Equatable {
     let locale: Swift.String?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
+    let organizationEntityAccountFilters: [HealthClientTypes.EntityAccountFilter]?
 }
 
 extension DescribeAffectedEntitiesForOrganizationInputBody: Swift.Decodable {
@@ -448,6 +527,7 @@ extension DescribeAffectedEntitiesForOrganizationInputBody: Swift.Decodable {
         case locale
         case maxResults
         case nextToken
+        case organizationEntityAccountFilters
         case organizationEntityFilters
     }
 
@@ -470,6 +550,17 @@ extension DescribeAffectedEntitiesForOrganizationInputBody: Swift.Decodable {
         nextToken = nextTokenDecoded
         let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
         maxResults = maxResultsDecoded
+        let organizationEntityAccountFiltersContainer = try containerValues.decodeIfPresent([HealthClientTypes.EntityAccountFilter?].self, forKey: .organizationEntityAccountFilters)
+        var organizationEntityAccountFiltersDecoded0:[HealthClientTypes.EntityAccountFilter]? = nil
+        if let organizationEntityAccountFiltersContainer = organizationEntityAccountFiltersContainer {
+            organizationEntityAccountFiltersDecoded0 = [HealthClientTypes.EntityAccountFilter]()
+            for structure0 in organizationEntityAccountFiltersContainer {
+                if let structure0 = structure0 {
+                    organizationEntityAccountFiltersDecoded0?.append(structure0)
+                }
+            }
+        }
+        organizationEntityAccountFilters = organizationEntityAccountFiltersDecoded0
     }
 }
 
@@ -715,6 +806,149 @@ extension DescribeAffectedEntitiesOutputResponseBody: Swift.Decodable {
         entities = entitiesDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+    }
+}
+
+extension DescribeEntityAggregatesForOrganizationInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case awsAccountIds
+        case eventArns
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let awsAccountIds = awsAccountIds {
+            var awsAccountIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .awsAccountIds)
+            for accountid0 in awsAccountIds {
+                try awsAccountIdsContainer.encode(accountid0)
+            }
+        }
+        if let eventArns = eventArns {
+            var eventArnsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .eventArns)
+            for eventarn0 in eventArns {
+                try eventArnsContainer.encode(eventarn0)
+            }
+        }
+    }
+}
+
+extension DescribeEntityAggregatesForOrganizationInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct DescribeEntityAggregatesForOrganizationInput: Swift.Equatable {
+    /// A list of 12-digit Amazon Web Services account numbers that contains the affected entities.
+    public var awsAccountIds: [Swift.String]?
+    /// A list of event ARNs (unique identifiers). For example: "arn:aws:health:us-east-1::event/EC2/EC2_INSTANCE_RETIREMENT_SCHEDULED/EC2_INSTANCE_RETIREMENT_SCHEDULED_ABC123-CDE456", "arn:aws:health:us-west-1::event/EBS/AWS_EBS_LOST_VOLUME/AWS_EBS_LOST_VOLUME_CHI789_JKL101"
+    /// This member is required.
+    public var eventArns: [Swift.String]?
+
+    public init(
+        awsAccountIds: [Swift.String]? = nil,
+        eventArns: [Swift.String]? = nil
+    )
+    {
+        self.awsAccountIds = awsAccountIds
+        self.eventArns = eventArns
+    }
+}
+
+struct DescribeEntityAggregatesForOrganizationInputBody: Swift.Equatable {
+    let eventArns: [Swift.String]?
+    let awsAccountIds: [Swift.String]?
+}
+
+extension DescribeEntityAggregatesForOrganizationInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case awsAccountIds
+        case eventArns
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let eventArnsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .eventArns)
+        var eventArnsDecoded0:[Swift.String]? = nil
+        if let eventArnsContainer = eventArnsContainer {
+            eventArnsDecoded0 = [Swift.String]()
+            for string0 in eventArnsContainer {
+                if let string0 = string0 {
+                    eventArnsDecoded0?.append(string0)
+                }
+            }
+        }
+        eventArns = eventArnsDecoded0
+        let awsAccountIdsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .awsAccountIds)
+        var awsAccountIdsDecoded0:[Swift.String]? = nil
+        if let awsAccountIdsContainer = awsAccountIdsContainer {
+            awsAccountIdsDecoded0 = [Swift.String]()
+            for string0 in awsAccountIdsContainer {
+                if let string0 = string0 {
+                    awsAccountIdsDecoded0?.append(string0)
+                }
+            }
+        }
+        awsAccountIds = awsAccountIdsDecoded0
+    }
+}
+
+public enum DescribeEntityAggregatesForOrganizationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension DescribeEntityAggregatesForOrganizationOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DescribeEntityAggregatesForOrganizationOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.organizationEntityAggregates = output.organizationEntityAggregates
+        } else {
+            self.organizationEntityAggregates = nil
+        }
+    }
+}
+
+public struct DescribeEntityAggregatesForOrganizationOutputResponse: Swift.Equatable {
+    /// The list of entity aggregates for each of the specified accounts that are affected by each of the specified events.
+    public var organizationEntityAggregates: [HealthClientTypes.OrganizationEntityAggregate]?
+
+    public init(
+        organizationEntityAggregates: [HealthClientTypes.OrganizationEntityAggregate]? = nil
+    )
+    {
+        self.organizationEntityAggregates = organizationEntityAggregates
+    }
+}
+
+struct DescribeEntityAggregatesForOrganizationOutputResponseBody: Swift.Equatable {
+    let organizationEntityAggregates: [HealthClientTypes.OrganizationEntityAggregate]?
+}
+
+extension DescribeEntityAggregatesForOrganizationOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case organizationEntityAggregates
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let organizationEntityAggregatesContainer = try containerValues.decodeIfPresent([HealthClientTypes.OrganizationEntityAggregate?].self, forKey: .organizationEntityAggregates)
+        var organizationEntityAggregatesDecoded0:[HealthClientTypes.OrganizationEntityAggregate]? = nil
+        if let organizationEntityAggregatesContainer = organizationEntityAggregatesContainer {
+            organizationEntityAggregatesDecoded0 = [HealthClientTypes.OrganizationEntityAggregate]()
+            for structure0 in organizationEntityAggregatesContainer {
+                if let structure0 = structure0 {
+                    organizationEntityAggregatesDecoded0?.append(structure0)
+                }
+            }
+        }
+        organizationEntityAggregates = organizationEntityAggregatesDecoded0
     }
 }
 
@@ -1930,10 +2164,79 @@ public struct EnableHealthServiceAccessForOrganizationOutputResponse: Swift.Equa
     public init() { }
 }
 
+extension HealthClientTypes.EntityAccountFilter: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case awsAccountId
+        case eventArn
+        case statusCodes
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let awsAccountId = self.awsAccountId {
+            try encodeContainer.encode(awsAccountId, forKey: .awsAccountId)
+        }
+        if let eventArn = self.eventArn {
+            try encodeContainer.encode(eventArn, forKey: .eventArn)
+        }
+        if let statusCodes = statusCodes {
+            var statusCodesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .statusCodes)
+            for entitystatuscode0 in statusCodes {
+                try statusCodesContainer.encode(entitystatuscode0.rawValue)
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let eventArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .eventArn)
+        eventArn = eventArnDecoded
+        let awsAccountIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .awsAccountId)
+        awsAccountId = awsAccountIdDecoded
+        let statusCodesContainer = try containerValues.decodeIfPresent([HealthClientTypes.EntityStatusCode?].self, forKey: .statusCodes)
+        var statusCodesDecoded0:[HealthClientTypes.EntityStatusCode]? = nil
+        if let statusCodesContainer = statusCodesContainer {
+            statusCodesDecoded0 = [HealthClientTypes.EntityStatusCode]()
+            for enum0 in statusCodesContainer {
+                if let enum0 = enum0 {
+                    statusCodesDecoded0?.append(enum0)
+                }
+            }
+        }
+        statusCodes = statusCodesDecoded0
+    }
+}
+
+extension HealthClientTypes {
+    /// A JSON set of elements including the awsAccountId, eventArn and a set of statusCodes.
+    public struct EntityAccountFilter: Swift.Equatable {
+        /// The 12-digit Amazon Web Services account numbers that contains the affected entities.
+        public var awsAccountId: Swift.String?
+        /// The unique identifier for the event. The event ARN has the arn:aws:health:event-region::event/SERVICE/EVENT_TYPE_CODE/EVENT_TYPE_PLUS_ID  format. For example, an event ARN might look like the following: arn:aws:health:us-east-1::event/EC2/EC2_INSTANCE_RETIREMENT_SCHEDULED/EC2_INSTANCE_RETIREMENT_SCHEDULED_ABC123-DEF456
+        /// This member is required.
+        public var eventArn: Swift.String?
+        /// A list of entity status codes.
+        public var statusCodes: [HealthClientTypes.EntityStatusCode]?
+
+        public init(
+            awsAccountId: Swift.String? = nil,
+            eventArn: Swift.String? = nil,
+            statusCodes: [HealthClientTypes.EntityStatusCode]? = nil
+        )
+        {
+            self.awsAccountId = awsAccountId
+            self.eventArn = eventArn
+            self.statusCodes = statusCodes
+        }
+    }
+
+}
+
 extension HealthClientTypes.EntityAggregate: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case count
         case eventArn
+        case statuses
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -1944,6 +2247,12 @@ extension HealthClientTypes.EntityAggregate: Swift.Codable {
         if let eventArn = self.eventArn {
             try encodeContainer.encode(eventArn, forKey: .eventArn)
         }
+        if let statuses = statuses {
+            var statusesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .statuses)
+            for (dictKey0, entityStatuses0) in statuses {
+                try statusesContainer.encode(entityStatuses0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
     }
 
     public init(from decoder: Swift.Decoder) throws {
@@ -1952,6 +2261,17 @@ extension HealthClientTypes.EntityAggregate: Swift.Codable {
         eventArn = eventArnDecoded
         let countDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .count) ?? 0
         count = countDecoded
+        let statusesContainer = try containerValues.decodeIfPresent([Swift.String: Swift.Int?].self, forKey: .statuses)
+        var statusesDecoded0: [Swift.String:Swift.Int]? = nil
+        if let statusesContainer = statusesContainer {
+            statusesDecoded0 = [Swift.String:Swift.Int]()
+            for (key0, count0) in statusesContainer {
+                if let count0 = count0 {
+                    statusesDecoded0?[key0] = count0
+                }
+            }
+        }
+        statuses = statusesDecoded0
     }
 }
 
@@ -1962,14 +2282,18 @@ extension HealthClientTypes {
         public var count: Swift.Int
         /// The unique identifier for the event. The event ARN has the arn:aws:health:event-region::event/SERVICE/EVENT_TYPE_CODE/EVENT_TYPE_PLUS_ID  format. For example, an event ARN might look like the following: arn:aws:health:us-east-1::event/EC2/EC2_INSTANCE_RETIREMENT_SCHEDULED/EC2_INSTANCE_RETIREMENT_SCHEDULED_ABC123-DEF456
         public var eventArn: Swift.String?
+        /// The number of affected entities aggregated by the entity status codes.
+        public var statuses: [Swift.String:Swift.Int]?
 
         public init(
             count: Swift.Int = 0,
-            eventArn: Swift.String? = nil
+            eventArn: Swift.String? = nil,
+            statuses: [Swift.String:Swift.Int]? = nil
         )
         {
             self.count = count
             self.eventArn = eventArn
+            self.statuses = statuses
         }
     }
 
@@ -2148,6 +2472,8 @@ extension HealthClientTypes {
 extension HealthClientTypes {
     public enum EntityStatusCode: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case impaired
+        case pending
+        case resolved
         case unimpaired
         case unknown
         case sdkUnknown(Swift.String)
@@ -2155,6 +2481,8 @@ extension HealthClientTypes {
         public static var allCases: [EntityStatusCode] {
             return [
                 .impaired,
+                .pending,
+                .resolved,
                 .unimpaired,
                 .unknown,
                 .sdkUnknown("")
@@ -2167,6 +2495,8 @@ extension HealthClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .impaired: return "IMPAIRED"
+            case .pending: return "PENDING"
+            case .resolved: return "RESOLVED"
             case .unimpaired: return "UNIMPAIRED"
             case .unknown: return "UNKNOWN"
             case let .sdkUnknown(s): return s
@@ -3297,6 +3627,95 @@ extension HealthClientTypes {
             self.errorMessage = errorMessage
             self.errorName = errorName
             self.eventArn = eventArn
+        }
+    }
+
+}
+
+extension HealthClientTypes.OrganizationEntityAggregate: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accounts
+        case count
+        case eventArn
+        case statuses
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let accounts = accounts {
+            var accountsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .accounts)
+            for accountentityaggregate0 in accounts {
+                try accountsContainer.encode(accountentityaggregate0)
+            }
+        }
+        if count != 0 {
+            try encodeContainer.encode(count, forKey: .count)
+        }
+        if let eventArn = self.eventArn {
+            try encodeContainer.encode(eventArn, forKey: .eventArn)
+        }
+        if let statuses = statuses {
+            var statusesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .statuses)
+            for (dictKey0, entityStatuses0) in statuses {
+                try statusesContainer.encode(entityStatuses0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let eventArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .eventArn)
+        eventArn = eventArnDecoded
+        let countDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .count) ?? 0
+        count = countDecoded
+        let statusesContainer = try containerValues.decodeIfPresent([Swift.String: Swift.Int?].self, forKey: .statuses)
+        var statusesDecoded0: [Swift.String:Swift.Int]? = nil
+        if let statusesContainer = statusesContainer {
+            statusesDecoded0 = [Swift.String:Swift.Int]()
+            for (key0, count0) in statusesContainer {
+                if let count0 = count0 {
+                    statusesDecoded0?[key0] = count0
+                }
+            }
+        }
+        statuses = statusesDecoded0
+        let accountsContainer = try containerValues.decodeIfPresent([HealthClientTypes.AccountEntityAggregate?].self, forKey: .accounts)
+        var accountsDecoded0:[HealthClientTypes.AccountEntityAggregate]? = nil
+        if let accountsContainer = accountsContainer {
+            accountsDecoded0 = [HealthClientTypes.AccountEntityAggregate]()
+            for structure0 in accountsContainer {
+                if let structure0 = structure0 {
+                    accountsDecoded0?.append(structure0)
+                }
+            }
+        }
+        accounts = accountsDecoded0
+    }
+}
+
+extension HealthClientTypes {
+    /// The aggregate results of entities affected by the specified event in your organization. The results are aggregated by the entity status codes for the specified set of accountsIDs.
+    public struct OrganizationEntityAggregate: Swift.Equatable {
+        /// A list of entity aggregates for each of the specified accounts in your organization that are affected by a specific event. If there are no awsAccountIds provided in the request, this field will be empty in the response.
+        public var accounts: [HealthClientTypes.AccountEntityAggregate]?
+        /// The number of entities for the organization that match the filter criteria for the specified events.
+        public var count: Swift.Int
+        /// A list of event ARNs (unique identifiers). For example: "arn:aws:health:us-east-1::event/EC2/EC2_INSTANCE_RETIREMENT_SCHEDULED/EC2_INSTANCE_RETIREMENT_SCHEDULED_ABC123-CDE456", "arn:aws:health:us-west-1::event/EBS/AWS_EBS_LOST_VOLUME/AWS_EBS_LOST_VOLUME_CHI789_JKL101"
+        public var eventArn: Swift.String?
+        /// The number of affected entities aggregated by the entitiy status codes.
+        public var statuses: [Swift.String:Swift.Int]?
+
+        public init(
+            accounts: [HealthClientTypes.AccountEntityAggregate]? = nil,
+            count: Swift.Int = 0,
+            eventArn: Swift.String? = nil,
+            statuses: [Swift.String:Swift.Int]? = nil
+        )
+        {
+            self.accounts = accounts
+            self.count = count
+            self.eventArn = eventArn
+            self.statuses = statuses
         }
     }
 

@@ -33,6 +33,29 @@ public protocol SageMakerRuntimeClientProtocol {
     /// - `ServiceUnavailable` : The service is unavailable. Try your call again.
     /// - `ValidationError` : Inspect your request and try again.
     func invokeEndpointAsync(input: InvokeEndpointAsyncInput) async throws -> InvokeEndpointAsyncOutputResponse
+    /// Invokes a model at the specified endpoint to return the inference response as a stream. The inference stream provides the response payload incrementally as a series of parts. Before you can get an inference stream, you must have access to a model that's deployed using Amazon SageMaker hosting services, and the container for that model must support inference streaming. For more information that can help you use this API, see the following sections in the Amazon SageMaker Developer Guide:
+    ///
+    /// * For information about how to add streaming support to a model, see [How Containers Serve Requests](https://docs.aws.amazon.com/sagemaker/latest/dg/your-algorithms-inference-code.html#your-algorithms-inference-code-how-containe-serves-requests).
+    ///
+    /// * For information about how to process the streaming response, see [Invoke real-time endpoints](https://docs.aws.amazon.com/sagemaker/latest/dg/realtime-endpoints-test-endpoints.html).
+    ///
+    ///
+    /// Amazon SageMaker strips all POST headers except those supported by the API. Amazon SageMaker might add additional headers. You should not rely on the behavior of headers outside those enumerated in the request syntax. Calls to InvokeEndpointWithResponseStream are authenticated by using Amazon Web Services Signature Version 4. For information, see [Authenticating Requests (Amazon Web Services Signature Version 4)](https://docs.aws.amazon.com/AmazonS3/latest/API/sig-v4-authenticating-requests.html) in the Amazon S3 API Reference.
+    ///
+    /// - Parameter InvokeEndpointWithResponseStreamInput : [no documentation found]
+    ///
+    /// - Returns: `InvokeEndpointWithResponseStreamOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalFailure` : An internal failure occurred.
+    /// - `InternalStreamFailure` : The stream processing failed because of an unknown error, exception or failure. Try your request again.
+    /// - `ModelError` : Model (owned by the customer in the container) returned 4xx or 5xx error code.
+    /// - `ModelStreamError` : An error occurred while streaming the response body. This error can have the following error codes: ModelInvocationTimeExceeded The model failed to finish sending the response within the timeout period allowed by Amazon SageMaker. StreamBroken The Transmission Control Protocol (TCP) connection between the client and the model was reset or closed.
+    /// - `ServiceUnavailable` : The service is unavailable. Try your call again.
+    /// - `ValidationError` : Inspect your request and try again.
+    func invokeEndpointWithResponseStream(input: InvokeEndpointWithResponseStreamInput) async throws -> InvokeEndpointWithResponseStreamOutputResponse
 }
 
 public enum SageMakerRuntimeClientTypes {}

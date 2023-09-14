@@ -362,7 +362,13 @@ public protocol ConnectClientProtocol {
     /// - `LimitExceededException` : The allowed limit for the resource has been exceeded.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
     func createPrompt(input: CreatePromptInput) async throws -> CreatePromptOutputResponse
-    /// This API is in preview release for Amazon Connect and is subject to change. Creates a new queue for the specified Amazon Connect instance. If the number being used in the input is claimed to a traffic distribution group, and you are calling this API using an instance in the Amazon Web Services Region where the traffic distribution group was created, you can use either a full phone number ARN or UUID value for the OutboundCallerIdNumberId value of the [OutboundCallerConfig](https://docs.aws.amazon.com/connect/latest/APIReference/API_OutboundCallerConfig) request body parameter. However, if the number is claimed to a traffic distribution group and you are calling this API using an instance in the alternate Amazon Web Services Region associated with the traffic distribution group, you must provide a full phone number ARN. If a UUID is provided in this scenario, you will receive a ResourceNotFoundException. Only use the phone number ARN format that doesn't contain instance in the path, for example, arn:aws:connect:us-east-1:1234567890:phone-number/uuid. This is the same ARN format that is returned when you call the [ListPhoneNumbersV2](https://docs.aws.amazon.com/connect/latest/APIReference/API_ListPhoneNumbersV2.html) API.
+    /// This API is in preview release for Amazon Connect and is subject to change. Creates a new queue for the specified Amazon Connect instance.
+    ///
+    /// * If the phone number is claimed to a traffic distribution group that was created in the same Region as the Amazon Connect instance where you are calling this API, then you can use a full phone number ARN or a UUID for OutboundCallerIdNumberId. However, if the phone number is claimed to a traffic distribution group that is in one Region, and you are calling this API from an instance in another Amazon Web Services Region that is associated with the traffic distribution group, you must provide a full phone number ARN. If a UUID is provided in this scenario, you will receive a ResourceNotFoundException.
+    ///
+    /// * Only use the phone number ARN format that doesn't contain instance in the path, for example, arn:aws:connect:us-east-1:1234567890:phone-number/uuid. This is the same ARN format that is returned when you call the [ListPhoneNumbersV2](https://docs.aws.amazon.com/connect/latest/APIReference/API_ListPhoneNumbersV2.html) API.
+    ///
+    /// * If you plan to use IAM policies to allow/deny access to this API for phone number resources claimed to a traffic distribution group, see [Allow or Deny queue API actions for phone numbers in a replica Region](https://docs.aws.amazon.com/connect/latest/adminguide/security_iam_resource-level-policy-examples.html#allow-deny-queue-actions-replica-region).
     ///
     /// - Parameter CreateQueueInput : [no documentation found]
     ///
@@ -463,7 +469,7 @@ public protocol ConnectClientProtocol {
     /// - `ServiceQuotaExceededException` : The service quota has been exceeded.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
     func createTaskTemplate(input: CreateTaskTemplateInput) async throws -> CreateTaskTemplateOutputResponse
-    /// Creates a traffic distribution group given an Amazon Connect instance that has been replicated. For more information about creating traffic distribution groups, see [Set up traffic distribution groups](https://docs.aws.amazon.com/connect/latest/adminguide/setup-traffic-distribution-groups.html) in the Amazon Connect Administrator Guide.
+    /// Creates a traffic distribution group given an Amazon Connect instance that has been replicated. You can change the SignInConfig distribution only for a default TrafficDistributionGroup (see the IsDefault parameter in the [TrafficDistributionGroup](https://docs.aws.amazon.com/connect/latest/APIReference/API_TrafficDistributionGroup.html) data type). If you call UpdateTrafficDistribution with a modified SignInConfig and a non-default TrafficDistributionGroup, an InvalidRequestException is returned. For more information about creating traffic distribution groups, see [Set up traffic distribution groups](https://docs.aws.amazon.com/connect/latest/adminguide/setup-traffic-distribution-groups.html) in the Amazon Connect Administrator Guide.
     ///
     /// - Parameter CreateTrafficDistributionGroupInput : [no documentation found]
     ///
@@ -530,6 +536,43 @@ public protocol ConnectClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
     func createUserHierarchyGroup(input: CreateUserHierarchyGroupInput) async throws -> CreateUserHierarchyGroupOutputResponse
+    /// Creates a new view with the possible status of SAVED or PUBLISHED. The views will have a unique name for each connect instance. It performs basic content validation if the status is SAVED or full content validation if the status is set to PUBLISHED. An error is returned if validation fails. It associates either the $SAVED qualifier or both of the $SAVED and $LATEST qualifiers with the provided view content based on the status. The view is idempotent if ClientToken is provided.
+    ///
+    /// - Parameter CreateViewInput : [no documentation found]
+    ///
+    /// - Returns: `CreateViewOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action.
+    /// - `DuplicateResourceException` : A resource with the specified name already exists.
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceInUseException` : That resource is already in use. Please try another.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ServiceQuotaExceededException` : The service quota has been exceeded.
+    /// - `TooManyRequestsException` : Displayed when rate-related API limits are exceeded.
+    func createView(input: CreateViewInput) async throws -> CreateViewOutputResponse
+    /// Publishes a new version of the view identifier. Versions are immutable and monotonically increasing. It returns the highest version if there is no change in content compared to that version. An error is displayed if the supplied ViewContentSha256 is different from the ViewContentSha256 of the $LATEST alias.
+    ///
+    /// - Parameter CreateViewVersionInput : [no documentation found]
+    ///
+    /// - Returns: `CreateViewVersionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action.
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceInUseException` : That resource is already in use. Please try another.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ServiceQuotaExceededException` : The service quota has been exceeded.
+    /// - `TooManyRequestsException` : Displayed when rate-related API limits are exceeded.
+    func createViewVersion(input: CreateViewVersionInput) async throws -> CreateViewVersionOutputResponse
     /// Creates a custom vocabulary associated with your Amazon Connect instance. You can set a custom vocabulary to be your default vocabulary for a given language. Contact Lens for Amazon Connect uses the default vocabulary in post-call and real-time contact analysis sessions for that language.
     ///
     /// - Parameter CreateVocabularyInput : [no documentation found]
@@ -839,6 +882,40 @@ public protocol ConnectClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
     func deleteUserHierarchyGroup(input: DeleteUserHierarchyGroupInput) async throws -> DeleteUserHierarchyGroupOutputResponse
+    /// Deletes the view entirely. It deletes the view and all associated qualifiers (versions and aliases).
+    ///
+    /// - Parameter DeleteViewInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteViewOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action.
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceInUseException` : That resource is already in use. Please try another.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `TooManyRequestsException` : Displayed when rate-related API limits are exceeded.
+    func deleteView(input: DeleteViewInput) async throws -> DeleteViewOutputResponse
+    /// Deletes the particular version specified in ViewVersion identifier.
+    ///
+    /// - Parameter DeleteViewVersionInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteViewVersionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action.
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceInUseException` : That resource is already in use. Please try another.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `TooManyRequestsException` : Displayed when rate-related API limits are exceeded.
+    func deleteViewVersion(input: DeleteViewVersionInput) async throws -> DeleteViewVersionOutputResponse
     /// Deletes the vocabulary that has the given identifier.
     ///
     /// - Parameter DeleteVocabularyInput : [no documentation found]
@@ -1168,6 +1245,22 @@ public protocol ConnectClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
     func describeUserHierarchyStructure(input: DescribeUserHierarchyStructureInput) async throws -> DescribeUserHierarchyStructureOutputResponse
+    /// Retrieves the view for the specified Amazon Connect instance and view identifier. The view identifier can be supplied as a ViewId or ARN. $SAVED needs to be supplied if a view is unpublished. The view identifier can contain an optional qualifier, for example, :$SAVED, which is either an actual version number or an Amazon Connect managed qualifier $SAVED | $LATEST. If it is not supplied, then $LATEST is assumed for customer managed views and an error is returned if there is no published content available. Version 1 is assumed for Amazon Web Services managed views.
+    ///
+    /// - Parameter DescribeViewInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeViewOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action.
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `TooManyRequestsException` : Displayed when rate-related API limits are exceeded.
+    func describeView(input: DescribeViewInput) async throws -> DescribeViewOutputResponse
     /// Describes the specified vocabulary.
     ///
     /// - Parameter DescribeVocabularyInput : [no documentation found]
@@ -1730,7 +1823,11 @@ public protocol ConnectClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
     func listLexBots(input: ListLexBotsInput) async throws -> ListLexBotsOutputResponse
-    /// Provides information about the phone numbers for the specified Amazon Connect instance. For more information about phone numbers, see [Set Up Phone Numbers for Your Contact Center](https://docs.aws.amazon.com/connect/latest/adminguide/contact-center-phone-number.html) in the Amazon Connect Administrator Guide. The phone number Arn value that is returned from each of the items in the [PhoneNumberSummaryList](https://docs.aws.amazon.com/connect/latest/APIReference/API_ListPhoneNumbers.html#connect-ListPhoneNumbers-response-PhoneNumberSummaryList) cannot be used to tag phone number resources. It will fail with a ResourceNotFoundException. Instead, use the [ListPhoneNumbersV2](https://docs.aws.amazon.com/connect/latest/APIReference/API_ListPhoneNumbersV2.html) API. It returns the new phone number ARN that can be used to tag phone number resources.
+    /// Provides information about the phone numbers for the specified Amazon Connect instance. For more information about phone numbers, see [Set Up Phone Numbers for Your Contact Center](https://docs.aws.amazon.com/connect/latest/adminguide/contact-center-phone-number.html) in the Amazon Connect Administrator Guide.
+    ///
+    /// * We recommend using [ListPhoneNumbersV2](https://docs.aws.amazon.com/connect/latest/APIReference/API_ListPhoneNumbersV2.html) to return phone number types. ListPhoneNumbers doesn't support number types UIFN, SHARED, THIRD_PARTY_TF, and THIRD_PARTY_DID. While it returns numbers of those types, it incorrectly lists them as TOLL_FREE or DID.
+    ///
+    /// * The phone number Arn value that is returned from each of the items in the [PhoneNumberSummaryList](https://docs.aws.amazon.com/connect/latest/APIReference/API_ListPhoneNumbers.html#connect-ListPhoneNumbers-response-PhoneNumberSummaryList) cannot be used to tag phone number resources. It will fail with a ResourceNotFoundException. Instead, use the [ListPhoneNumbersV2](https://docs.aws.amazon.com/connect/latest/APIReference/API_ListPhoneNumbersV2.html) API. It returns the new phone number ARN that can be used to tag phone number resources.
     ///
     /// - Parameter ListPhoneNumbersInput : [no documentation found]
     ///
@@ -2017,6 +2114,38 @@ public protocol ConnectClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
     func listUsers(input: ListUsersInput) async throws -> ListUsersOutputResponse
+    /// Returns views in the given instance. Results are sorted primarily by type, and secondarily by name.
+    ///
+    /// - Parameter ListViewsInput : [no documentation found]
+    ///
+    /// - Returns: `ListViewsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action.
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `TooManyRequestsException` : Displayed when rate-related API limits are exceeded.
+    func listViews(input: ListViewsInput) async throws -> ListViewsOutputResponse
+    /// Returns all the available versions for the specified Amazon Connect instance and view identifier. Results will be sorted from highest to lowest.
+    ///
+    /// - Parameter ListViewVersionsInput : [no documentation found]
+    ///
+    /// - Returns: `ListViewVersionsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action.
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `TooManyRequestsException` : Displayed when rate-related API limits are exceeded.
+    func listViewVersions(input: ListViewVersionsInput) async throws -> ListViewVersionsOutputResponse
     /// Initiates silent monitoring of a contact. The Contact Control Panel (CCP) of the user specified by userId will be set to silent monitoring mode on the contact.
     ///
     /// - Parameter MonitorContactInput : [no documentation found]
@@ -2354,13 +2483,16 @@ public protocol ConnectClientProtocol {
     /// - `ServiceQuotaExceededException` : The service quota has been exceeded.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
     func startTaskContact(input: StartTaskContactInput) async throws -> StartTaskContactOutputResponse
-    /// Ends the specified contact. This call does not work for the following initiation methods:
+    /// Ends the specified contact. This call does not work for voice contacts that use the following initiation methods:
     ///
     /// * DISCONNECT
     ///
     /// * TRANSFER
     ///
     /// * QUEUE_TRANSFER
+    ///
+    ///
+    /// Chat and task contacts, however, can be terminated in any state, regardless of initiation method.
     ///
     /// - Parameter StopContactInput : [no documentation found]
     ///
@@ -2369,7 +2501,7 @@ public protocol ConnectClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ContactNotFoundException` : The contact with the specified ID is not active or does not exist. Applies to Voice calls only, not to Chat, Task, or Voice Callback.
+    /// - `ContactNotFoundException` : The contact with the specified ID is not active or does not exist. Applies to Voice calls only, not to Chat or Task contacts.
     /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
     /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
     /// - `InvalidRequestException` : The request is not valid.
@@ -2812,7 +2944,13 @@ public protocol ConnectClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
     func updateQueueName(input: UpdateQueueNameInput) async throws -> UpdateQueueNameOutputResponse
-    /// This API is in preview release for Amazon Connect and is subject to change. Updates the outbound caller ID name, number, and outbound whisper flow for a specified queue. If the number being used in the input is claimed to a traffic distribution group, and you are calling this API using an instance in the Amazon Web Services Region where the traffic distribution group was created, you can use either a full phone number ARN or UUID value for the OutboundCallerIdNumberId value of the [OutboundCallerConfig](https://docs.aws.amazon.com/connect/latest/APIReference/API_OutboundCallerConfig) request body parameter. However, if the number is claimed to a traffic distribution group and you are calling this API using an instance in the alternate Amazon Web Services Region associated with the traffic distribution group, you must provide a full phone number ARN. If a UUID is provided in this scenario, you will receive a ResourceNotFoundException. Only use the phone number ARN format that doesn't contain instance in the path, for example, arn:aws:connect:us-east-1:1234567890:phone-number/uuid. This is the same ARN format that is returned when you call the [ListPhoneNumbersV2](https://docs.aws.amazon.com/connect/latest/APIReference/API_ListPhoneNumbersV2.html) API.
+    /// This API is in preview release for Amazon Connect and is subject to change. Updates the outbound caller ID name, number, and outbound whisper flow for a specified queue.
+    ///
+    /// * If the phone number is claimed to a traffic distribution group that was created in the same Region as the Amazon Connect instance where you are calling this API, then you can use a full phone number ARN or a UUID for OutboundCallerIdNumberId. However, if the phone number is claimed to a traffic distribution group that is in one Region, and you are calling this API from an instance in another Amazon Web Services Region that is associated with the traffic distribution group, you must provide a full phone number ARN. If a UUID is provided in this scenario, you will receive a ResourceNotFoundException.
+    ///
+    /// * Only use the phone number ARN format that doesn't contain instance in the path, for example, arn:aws:connect:us-east-1:1234567890:phone-number/uuid. This is the same ARN format that is returned when you call the [ListPhoneNumbersV2](https://docs.aws.amazon.com/connect/latest/APIReference/API_ListPhoneNumbersV2.html) API.
+    ///
+    /// * If you plan to use IAM policies to allow/deny access to this API for phone number resources claimed to a traffic distribution group, see [Allow or Deny queue API actions for phone numbers in a replica Region](https://docs.aws.amazon.com/connect/latest/adminguide/security_iam_resource-level-policy-examples.html#allow-deny-queue-actions-replica-region).
     ///
     /// - Parameter UpdateQueueOutboundCallerConfigInput : [no documentation found]
     ///
@@ -2995,7 +3133,7 @@ public protocol ConnectClientProtocol {
     /// - `ServiceQuotaExceededException` : The service quota has been exceeded.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
     func updateTaskTemplate(input: UpdateTaskTemplateInput) async throws -> UpdateTaskTemplateOutputResponse
-    /// Updates the traffic distribution for a given traffic distribution group. You can change the SignInConfig only for a default TrafficDistributionGroup. If you call UpdateTrafficDistribution with a modified SignInConfig and a non-default TrafficDistributionGroup, an InvalidRequestException is returned. For more information about updating a traffic distribution group, see [Update telephony traffic distribution across Amazon Web Services Regions ](https://docs.aws.amazon.com/connect/latest/adminguide/update-telephony-traffic-distribution.html) in the Amazon Connect Administrator Guide.
+    /// Updates the traffic distribution for a given traffic distribution group. You can change the SignInConfig distribution only for a default TrafficDistributionGroup (see the IsDefault parameter in the [TrafficDistributionGroup](https://docs.aws.amazon.com/connect/latest/APIReference/API_TrafficDistributionGroup.html) data type). If you call UpdateTrafficDistribution with a modified SignInConfig and a non-default TrafficDistributionGroup, an InvalidRequestException is returned. For more information about updating a traffic distribution group, see [Update telephony traffic distribution across Amazon Web Services Regions ](https://docs.aws.amazon.com/connect/latest/adminguide/update-telephony-traffic-distribution.html) in the Amazon Connect Administrator Guide.
     ///
     /// - Parameter UpdateTrafficDistributionInput : [no documentation found]
     ///
@@ -3118,6 +3256,41 @@ public protocol ConnectClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
     func updateUserSecurityProfiles(input: UpdateUserSecurityProfilesInput) async throws -> UpdateUserSecurityProfilesOutputResponse
+    /// Updates the view content of the given view identifier in the specified Amazon Connect instance. It performs content validation if Status is set to SAVED and performs full content validation if Status is PUBLISHED. Note that the $SAVED alias' content will always be updated, but the $LATEST alias' content will only be updated if Status is PUBLISHED.
+    ///
+    /// - Parameter UpdateViewContentInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateViewContentOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action.
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceInUseException` : That resource is already in use. Please try another.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `TooManyRequestsException` : Displayed when rate-related API limits are exceeded.
+    func updateViewContent(input: UpdateViewContentInput) async throws -> UpdateViewContentOutputResponse
+    /// Updates the view metadata. Note that either Name or Description must be provided.
+    ///
+    /// - Parameter UpdateViewMetadataInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateViewMetadataOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient permissions to perform this action.
+    /// - `DuplicateResourceException` : A resource with the specified name already exists.
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceInUseException` : That resource is already in use. Please try another.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `TooManyRequestsException` : Displayed when rate-related API limits are exceeded.
+    func updateViewMetadata(input: UpdateViewMetadataInput) async throws -> UpdateViewMetadataOutputResponse
 }
 
 public enum ConnectClientTypes {}

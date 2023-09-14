@@ -1214,6 +1214,70 @@ extension PaginatorSequence where Input == ListUsersInput, Output == ListUsersOu
     }
 }
 extension ConnectClient {
+    /// Paginate over `[ListViewsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListViewsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListViewsOutputResponse`
+    public func listViewsPaginated(input: ListViewsInput) -> ClientRuntime.PaginatorSequence<ListViewsInput, ListViewsOutputResponse> {
+        return ClientRuntime.PaginatorSequence<ListViewsInput, ListViewsOutputResponse>(input: input, inputKey: \ListViewsInput.nextToken, outputKey: \ListViewsOutputResponse.nextToken, paginationFunction: self.listViews(input:))
+    }
+}
+
+extension ListViewsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListViewsInput {
+        return ListViewsInput(
+            instanceId: self.instanceId,
+            maxResults: self.maxResults,
+            nextToken: token,
+            type: self.type
+        )}
+}
+
+extension PaginatorSequence where Input == ListViewsInput, Output == ListViewsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listViewsPaginated`
+    /// to access the nested member `[ConnectClientTypes.ViewSummary]`
+    /// - Returns: `[ConnectClientTypes.ViewSummary]`
+    public func viewsSummaryList() async throws -> [ConnectClientTypes.ViewSummary] {
+        return try await self.asyncCompactMap { item in item.viewsSummaryList }
+    }
+}
+extension ConnectClient {
+    /// Paginate over `[ListViewVersionsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListViewVersionsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListViewVersionsOutputResponse`
+    public func listViewVersionsPaginated(input: ListViewVersionsInput) -> ClientRuntime.PaginatorSequence<ListViewVersionsInput, ListViewVersionsOutputResponse> {
+        return ClientRuntime.PaginatorSequence<ListViewVersionsInput, ListViewVersionsOutputResponse>(input: input, inputKey: \ListViewVersionsInput.nextToken, outputKey: \ListViewVersionsOutputResponse.nextToken, paginationFunction: self.listViewVersions(input:))
+    }
+}
+
+extension ListViewVersionsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListViewVersionsInput {
+        return ListViewVersionsInput(
+            instanceId: self.instanceId,
+            maxResults: self.maxResults,
+            nextToken: token,
+            viewId: self.viewId
+        )}
+}
+
+extension PaginatorSequence where Input == ListViewVersionsInput, Output == ListViewVersionsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listViewVersionsPaginated`
+    /// to access the nested member `[ConnectClientTypes.ViewVersionSummary]`
+    /// - Returns: `[ConnectClientTypes.ViewVersionSummary]`
+    public func viewVersionSummaryList() async throws -> [ConnectClientTypes.ViewVersionSummary] {
+        return try await self.asyncCompactMap { item in item.viewVersionSummaryList }
+    }
+}
+extension ConnectClient {
     /// Paginate over `[SearchAvailablePhoneNumbersOutputResponse]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service

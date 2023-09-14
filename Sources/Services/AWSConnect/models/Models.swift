@@ -3500,7 +3500,7 @@ extension ContactNotFoundException {
     }
 }
 
-/// The contact with the specified ID is not active or does not exist. Applies to Voice calls only, not to Chat, Task, or Voice Callback.
+/// The contact with the specified ID is not active or does not exist. Applies to Voice calls only, not to Chat or Task contacts.
 public struct ContactNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
@@ -7338,6 +7338,333 @@ extension CreateUserOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension CreateViewInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CreateViewInput(clientToken: \(Swift.String(describing: clientToken)), content: \(Swift.String(describing: content)), description: \(Swift.String(describing: description)), instanceId: \(Swift.String(describing: instanceId)), status: \(Swift.String(describing: status)), tags: \(Swift.String(describing: tags)), name: \"CONTENT_REDACTED\")"}
+}
+
+extension CreateViewInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientToken = "ClientToken"
+        case content = "Content"
+        case description = "Description"
+        case name = "Name"
+        case status = "Status"
+        case tags = "Tags"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let clientToken = self.clientToken {
+            try encodeContainer.encode(clientToken, forKey: .clientToken)
+        }
+        if let content = self.content {
+            try encodeContainer.encode(content, forKey: .content)
+        }
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let status = self.status {
+            try encodeContainer.encode(status.rawValue, forKey: .status)
+        }
+        if let tags = tags {
+            var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+    }
+}
+
+extension CreateViewInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let instanceId = instanceId else {
+            return nil
+        }
+        return "/views/\(instanceId.urlPercentEncoding())"
+    }
+}
+
+public struct CreateViewInput: Swift.Equatable {
+    /// A unique Id for each create view request to avoid duplicate view creation. For example, the view is idempotent ClientToken is provided.
+    public var clientToken: Swift.String?
+    /// View content containing all content necessary to render a view except for runtime input data. The total uncompressed content has a maximum file size of 400kB.
+    /// This member is required.
+    public var content: ConnectClientTypes.ViewInputContent?
+    /// The description of the view.
+    public var description: Swift.String?
+    /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+    /// This member is required.
+    public var instanceId: Swift.String?
+    /// The name of the view.
+    /// This member is required.
+    public var name: Swift.String?
+    /// Indicates the view status as either SAVED or PUBLISHED. The PUBLISHED status will initiate validation on the content.
+    /// This member is required.
+    public var status: ConnectClientTypes.ViewStatus?
+    /// The tags associated with the view resource (not specific to view version).These tags can be used to organize, track, or control access for this resource. For example, { "tags": {"key1":"value1", "key2":"value2"} }.
+    public var tags: [Swift.String:Swift.String]?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        content: ConnectClientTypes.ViewInputContent? = nil,
+        description: Swift.String? = nil,
+        instanceId: Swift.String? = nil,
+        name: Swift.String? = nil,
+        status: ConnectClientTypes.ViewStatus? = nil,
+        tags: [Swift.String:Swift.String]? = nil
+    )
+    {
+        self.clientToken = clientToken
+        self.content = content
+        self.description = description
+        self.instanceId = instanceId
+        self.name = name
+        self.status = status
+        self.tags = tags
+    }
+}
+
+struct CreateViewInputBody: Swift.Equatable {
+    let clientToken: Swift.String?
+    let status: ConnectClientTypes.ViewStatus?
+    let content: ConnectClientTypes.ViewInputContent?
+    let description: Swift.String?
+    let name: Swift.String?
+    let tags: [Swift.String:Swift.String]?
+}
+
+extension CreateViewInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientToken = "ClientToken"
+        case content = "Content"
+        case description = "Description"
+        case name = "Name"
+        case status = "Status"
+        case tags = "Tags"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let clientTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientToken)
+        clientToken = clientTokenDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(ConnectClientTypes.ViewStatus.self, forKey: .status)
+        status = statusDecoded
+        let contentDecoded = try containerValues.decodeIfPresent(ConnectClientTypes.ViewInputContent.self, forKey: .content)
+        content = contentDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
+        var tagsDecoded0: [Swift.String:Swift.String]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, tagvalue0) in tagsContainer {
+                if let tagvalue0 = tagvalue0 {
+                    tagsDecoded0?[key0] = tagvalue0
+                }
+            }
+        }
+        tags = tagsDecoded0
+    }
+}
+
+public enum CreateViewOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DuplicateResourceException": return try await DuplicateResourceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServiceException": return try await InternalServiceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceInUseException": return try await ResourceInUseException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension CreateViewOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CreateViewOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.view = output.view
+        } else {
+            self.view = nil
+        }
+    }
+}
+
+public struct CreateViewOutputResponse: Swift.Equatable {
+    /// A view resource object. Contains metadata and content necessary to render the view.
+    public var view: ConnectClientTypes.View?
+
+    public init(
+        view: ConnectClientTypes.View? = nil
+    )
+    {
+        self.view = view
+    }
+}
+
+struct CreateViewOutputResponseBody: Swift.Equatable {
+    let view: ConnectClientTypes.View?
+}
+
+extension CreateViewOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case view = "View"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let viewDecoded = try containerValues.decodeIfPresent(ConnectClientTypes.View.self, forKey: .view)
+        view = viewDecoded
+    }
+}
+
+extension CreateViewVersionInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case versionDescription = "VersionDescription"
+        case viewContentSha256 = "ViewContentSha256"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let versionDescription = self.versionDescription {
+            try encodeContainer.encode(versionDescription, forKey: .versionDescription)
+        }
+        if let viewContentSha256 = self.viewContentSha256 {
+            try encodeContainer.encode(viewContentSha256, forKey: .viewContentSha256)
+        }
+    }
+}
+
+extension CreateViewVersionInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let instanceId = instanceId else {
+            return nil
+        }
+        guard let viewId = viewId else {
+            return nil
+        }
+        return "/views/\(instanceId.urlPercentEncoding())/\(viewId.urlPercentEncoding())/versions"
+    }
+}
+
+public struct CreateViewVersionInput: Swift.Equatable {
+    /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+    /// This member is required.
+    public var instanceId: Swift.String?
+    /// The description for the version being published.
+    public var versionDescription: Swift.String?
+    /// Indicates the checksum value of the latest published view content.
+    public var viewContentSha256: Swift.String?
+    /// The identifier of the view. Both ViewArn and ViewId can be used.
+    /// This member is required.
+    public var viewId: Swift.String?
+
+    public init(
+        instanceId: Swift.String? = nil,
+        versionDescription: Swift.String? = nil,
+        viewContentSha256: Swift.String? = nil,
+        viewId: Swift.String? = nil
+    )
+    {
+        self.instanceId = instanceId
+        self.versionDescription = versionDescription
+        self.viewContentSha256 = viewContentSha256
+        self.viewId = viewId
+    }
+}
+
+struct CreateViewVersionInputBody: Swift.Equatable {
+    let versionDescription: Swift.String?
+    let viewContentSha256: Swift.String?
+}
+
+extension CreateViewVersionInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case versionDescription = "VersionDescription"
+        case viewContentSha256 = "ViewContentSha256"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let versionDescriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .versionDescription)
+        versionDescription = versionDescriptionDecoded
+        let viewContentSha256Decoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .viewContentSha256)
+        viewContentSha256 = viewContentSha256Decoded
+    }
+}
+
+public enum CreateViewVersionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServiceException": return try await InternalServiceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceInUseException": return try await ResourceInUseException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension CreateViewVersionOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CreateViewVersionOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.view = output.view
+        } else {
+            self.view = nil
+        }
+    }
+}
+
+public struct CreateViewVersionOutputResponse: Swift.Equatable {
+    /// All view data is contained within the View object.
+    public var view: ConnectClientTypes.View?
+
+    public init(
+        view: ConnectClientTypes.View? = nil
+    )
+    {
+        self.view = view
+    }
+}
+
+struct CreateViewVersionOutputResponseBody: Swift.Equatable {
+    let view: ConnectClientTypes.View?
+}
+
+extension CreateViewVersionOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case view = "View"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let viewDecoded = try containerValues.decodeIfPresent(ConnectClientTypes.View.self, forKey: .view)
+        view = viewDecoded
+    }
+}
+
 extension CreateVocabularyInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case clientToken = "ClientToken"
@@ -9316,6 +9643,146 @@ extension DeleteUserOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 public struct DeleteUserOutputResponse: Swift.Equatable {
+
+    public init() { }
+}
+
+extension DeleteViewInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let instanceId = instanceId else {
+            return nil
+        }
+        guard let viewId = viewId else {
+            return nil
+        }
+        return "/views/\(instanceId.urlPercentEncoding())/\(viewId.urlPercentEncoding())"
+    }
+}
+
+public struct DeleteViewInput: Swift.Equatable {
+    /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+    /// This member is required.
+    public var instanceId: Swift.String?
+    /// The identifier of the view. Both ViewArn and ViewId can be used.
+    /// This member is required.
+    public var viewId: Swift.String?
+
+    public init(
+        instanceId: Swift.String? = nil,
+        viewId: Swift.String? = nil
+    )
+    {
+        self.instanceId = instanceId
+        self.viewId = viewId
+    }
+}
+
+struct DeleteViewInputBody: Swift.Equatable {
+}
+
+extension DeleteViewInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+public enum DeleteViewOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServiceException": return try await InternalServiceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceInUseException": return try await ResourceInUseException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension DeleteViewOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteViewOutputResponse: Swift.Equatable {
+
+    public init() { }
+}
+
+extension DeleteViewVersionInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let instanceId = instanceId else {
+            return nil
+        }
+        guard let viewId = viewId else {
+            return nil
+        }
+        guard let viewVersion = viewVersion else {
+            return nil
+        }
+        return "/views/\(instanceId.urlPercentEncoding())/\(viewId.urlPercentEncoding())/versions/\(viewVersion)"
+    }
+}
+
+public struct DeleteViewVersionInput: Swift.Equatable {
+    /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+    /// This member is required.
+    public var instanceId: Swift.String?
+    /// The identifier of the view. Both ViewArn and ViewId can be used.
+    /// This member is required.
+    public var viewId: Swift.String?
+    /// The version number of the view.
+    /// This member is required.
+    public var viewVersion: Swift.Int?
+
+    public init(
+        instanceId: Swift.String? = nil,
+        viewId: Swift.String? = nil,
+        viewVersion: Swift.Int? = nil
+    )
+    {
+        self.instanceId = instanceId
+        self.viewId = viewId
+        self.viewVersion = viewVersion
+    }
+}
+
+struct DeleteViewVersionInputBody: Swift.Equatable {
+}
+
+extension DeleteViewVersionInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+public enum DeleteViewVersionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServiceException": return try await InternalServiceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceInUseException": return try await ResourceInUseException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension DeleteViewVersionOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteViewVersionOutputResponse: Swift.Equatable {
 
     public init() { }
 }
@@ -11426,6 +11893,101 @@ extension DescribeUserOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let userDecoded = try containerValues.decodeIfPresent(ConnectClientTypes.User.self, forKey: .user)
         user = userDecoded
+    }
+}
+
+extension DescribeViewInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let instanceId = instanceId else {
+            return nil
+        }
+        guard let viewId = viewId else {
+            return nil
+        }
+        return "/views/\(instanceId.urlPercentEncoding())/\(viewId.urlPercentEncoding())"
+    }
+}
+
+public struct DescribeViewInput: Swift.Equatable {
+    /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+    /// This member is required.
+    public var instanceId: Swift.String?
+    /// The ViewId of the view. This must be an ARN for Amazon Web Services managed views.
+    /// This member is required.
+    public var viewId: Swift.String?
+
+    public init(
+        instanceId: Swift.String? = nil,
+        viewId: Swift.String? = nil
+    )
+    {
+        self.instanceId = instanceId
+        self.viewId = viewId
+    }
+}
+
+struct DescribeViewInputBody: Swift.Equatable {
+}
+
+extension DescribeViewInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+public enum DescribeViewOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServiceException": return try await InternalServiceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension DescribeViewOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DescribeViewOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.view = output.view
+        } else {
+            self.view = nil
+        }
+    }
+}
+
+public struct DescribeViewOutputResponse: Swift.Equatable {
+    /// All view data is contained within the View object.
+    public var view: ConnectClientTypes.View?
+
+    public init(
+        view: ConnectClientTypes.View? = nil
+    )
+    {
+        self.view = view
+    }
+}
+
+struct DescribeViewOutputResponseBody: Swift.Equatable {
+    let view: ConnectClientTypes.View?
+}
+
+extension DescribeViewOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case view = "View"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let viewDecoded = try containerValues.decodeIfPresent(ConnectClientTypes.View.self, forKey: .view)
+        view = viewDecoded
     }
 }
 
@@ -24631,6 +25193,284 @@ extension ListUsersOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension ListViewVersionsInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            if let maxResults = maxResults {
+                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+                items.append(maxResultsQueryItem)
+            }
+            return items
+        }
+    }
+}
+
+extension ListViewVersionsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let instanceId = instanceId else {
+            return nil
+        }
+        guard let viewId = viewId else {
+            return nil
+        }
+        return "/views/\(instanceId.urlPercentEncoding())/\(viewId.urlPercentEncoding())/versions"
+    }
+}
+
+public struct ListViewVersionsInput: Swift.Equatable {
+    /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+    /// This member is required.
+    public var instanceId: Swift.String?
+    /// The maximum number of results to return per page. The default MaxResult size is 100.
+    public var maxResults: Swift.Int?
+    /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
+    public var nextToken: Swift.String?
+    /// The identifier of the view. Both ViewArn and ViewId can be used.
+    /// This member is required.
+    public var viewId: Swift.String?
+
+    public init(
+        instanceId: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        viewId: Swift.String? = nil
+    )
+    {
+        self.instanceId = instanceId
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.viewId = viewId
+    }
+}
+
+struct ListViewVersionsInputBody: Swift.Equatable {
+}
+
+extension ListViewVersionsInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+public enum ListViewVersionsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServiceException": return try await InternalServiceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension ListViewVersionsOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ListViewVersionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.nextToken = output.nextToken
+            self.viewVersionSummaryList = output.viewVersionSummaryList
+        } else {
+            self.nextToken = nil
+            self.viewVersionSummaryList = nil
+        }
+    }
+}
+
+public struct ListViewVersionsOutputResponse: Swift.Equatable {
+    /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
+    public var nextToken: Swift.String?
+    /// A list of view version summaries.
+    public var viewVersionSummaryList: [ConnectClientTypes.ViewVersionSummary]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        viewVersionSummaryList: [ConnectClientTypes.ViewVersionSummary]? = nil
+    )
+    {
+        self.nextToken = nextToken
+        self.viewVersionSummaryList = viewVersionSummaryList
+    }
+}
+
+struct ListViewVersionsOutputResponseBody: Swift.Equatable {
+    let viewVersionSummaryList: [ConnectClientTypes.ViewVersionSummary]?
+    let nextToken: Swift.String?
+}
+
+extension ListViewVersionsOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case nextToken = "NextToken"
+        case viewVersionSummaryList = "ViewVersionSummaryList"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let viewVersionSummaryListContainer = try containerValues.decodeIfPresent([ConnectClientTypes.ViewVersionSummary?].self, forKey: .viewVersionSummaryList)
+        var viewVersionSummaryListDecoded0:[ConnectClientTypes.ViewVersionSummary]? = nil
+        if let viewVersionSummaryListContainer = viewVersionSummaryListContainer {
+            viewVersionSummaryListDecoded0 = [ConnectClientTypes.ViewVersionSummary]()
+            for structure0 in viewVersionSummaryListContainer {
+                if let structure0 = structure0 {
+                    viewVersionSummaryListDecoded0?.append(structure0)
+                }
+            }
+        }
+        viewVersionSummaryList = viewVersionSummaryListDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+extension ListViewsInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let type = type {
+                let typeQueryItem = ClientRuntime.URLQueryItem(name: "type".urlPercentEncoding(), value: Swift.String(type.rawValue).urlPercentEncoding())
+                items.append(typeQueryItem)
+            }
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            if let maxResults = maxResults {
+                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+                items.append(maxResultsQueryItem)
+            }
+            return items
+        }
+    }
+}
+
+extension ListViewsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let instanceId = instanceId else {
+            return nil
+        }
+        return "/views/\(instanceId.urlPercentEncoding())"
+    }
+}
+
+public struct ListViewsInput: Swift.Equatable {
+    /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+    /// This member is required.
+    public var instanceId: Swift.String?
+    /// The maximum number of results to return per page. The default MaxResult size is 100.
+    public var maxResults: Swift.Int?
+    /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
+    public var nextToken: Swift.String?
+    /// The type of the view.
+    public var type: ConnectClientTypes.ViewType?
+
+    public init(
+        instanceId: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        type: ConnectClientTypes.ViewType? = nil
+    )
+    {
+        self.instanceId = instanceId
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.type = type
+    }
+}
+
+struct ListViewsInputBody: Swift.Equatable {
+}
+
+extension ListViewsInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+public enum ListViewsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServiceException": return try await InternalServiceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension ListViewsOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ListViewsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.nextToken = output.nextToken
+            self.viewsSummaryList = output.viewsSummaryList
+        } else {
+            self.nextToken = nil
+            self.viewsSummaryList = nil
+        }
+    }
+}
+
+public struct ListViewsOutputResponse: Swift.Equatable {
+    /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
+    public var nextToken: Swift.String?
+    /// A list of view summaries.
+    public var viewsSummaryList: [ConnectClientTypes.ViewSummary]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        viewsSummaryList: [ConnectClientTypes.ViewSummary]? = nil
+    )
+    {
+        self.nextToken = nextToken
+        self.viewsSummaryList = viewsSummaryList
+    }
+}
+
+struct ListViewsOutputResponseBody: Swift.Equatable {
+    let viewsSummaryList: [ConnectClientTypes.ViewSummary]?
+    let nextToken: Swift.String?
+}
+
+extension ListViewsOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case nextToken = "NextToken"
+        case viewsSummaryList = "ViewsSummaryList"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let viewsSummaryListContainer = try containerValues.decodeIfPresent([ConnectClientTypes.ViewSummary?].self, forKey: .viewsSummaryList)
+        var viewsSummaryListDecoded0:[ConnectClientTypes.ViewSummary]? = nil
+        if let viewsSummaryListContainer = viewsSummaryListContainer {
+            viewsSummaryListDecoded0 = [ConnectClientTypes.ViewSummary]()
+            for structure0 in viewsSummaryListContainer {
+                if let structure0 = structure0 {
+                    viewsSummaryListDecoded0?.append(structure0)
+                }
+            }
+        }
+        viewsSummaryList = viewsSummaryListDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
 extension MaximumResultReturnedException {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -36099,6 +36939,61 @@ extension ConnectClientTypes {
     }
 }
 
+extension TooManyRequestsException {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: TooManyRequestsExceptionBody = try responseDecoder.decode(responseBody: data)
+            self.properties.message = output.message
+        } else {
+            self.properties.message = nil
+        }
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
+    }
+}
+
+/// Displayed when rate-related API limits are exceeded.
+public struct TooManyRequestsException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "TooManyRequestsException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+struct TooManyRequestsExceptionBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension TooManyRequestsExceptionBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message = "Message"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
+}
+
 extension ConnectClientTypes.TrafficDistributionGroup: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn = "Arn"
@@ -36183,7 +37078,7 @@ extension ConnectClientTypes {
         public var id: Swift.String?
         /// The Amazon Resource Name (ARN).
         public var instanceArn: Swift.String?
-        /// Whether this is the default traffic distribution group created during instance replication. The default traffic distribution group cannot be deleted by the DeleteTrafficDistributionGroup API. The default traffic distribution group is deleted as part of the process for deleting a replica. You can change the SignInConfig only for a default TrafficDistributionGroup. If you call UpdateTrafficDistribution with a modified SignInConfig and a non-default TrafficDistributionGroup, an InvalidRequestException is returned.
+        /// Whether this is the default traffic distribution group created during instance replication. The default traffic distribution group cannot be deleted by the DeleteTrafficDistributionGroup API. The default traffic distribution group is deleted as part of the process for deleting a replica. You can change the SignInConfig distribution only for a default TrafficDistributionGroup (see the IsDefault parameter in the [TrafficDistributionGroup](https://docs.aws.amazon.com/connect/latest/APIReference/API_TrafficDistributionGroup.html) data type). If you call UpdateTrafficDistribution with a modified SignInConfig and a non-default TrafficDistributionGroup, an InvalidRequestException is returned.
         public var isDefault: Swift.Bool
         /// The name of the traffic distribution group.
         public var name: Swift.String?
@@ -41332,6 +42227,248 @@ public struct UpdateUserSecurityProfilesOutputResponse: Swift.Equatable {
     public init() { }
 }
 
+extension UpdateViewContentInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case content = "Content"
+        case status = "Status"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let content = self.content {
+            try encodeContainer.encode(content, forKey: .content)
+        }
+        if let status = self.status {
+            try encodeContainer.encode(status.rawValue, forKey: .status)
+        }
+    }
+}
+
+extension UpdateViewContentInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let instanceId = instanceId else {
+            return nil
+        }
+        guard let viewId = viewId else {
+            return nil
+        }
+        return "/views/\(instanceId.urlPercentEncoding())/\(viewId.urlPercentEncoding())"
+    }
+}
+
+public struct UpdateViewContentInput: Swift.Equatable {
+    /// View content containing all content necessary to render a view except for runtime input data and the runtime input schema, which is auto-generated by this operation. The total uncompressed content has a maximum file size of 400kB.
+    /// This member is required.
+    public var content: ConnectClientTypes.ViewInputContent?
+    /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+    /// This member is required.
+    public var instanceId: Swift.String?
+    /// Indicates the view status as either SAVED or PUBLISHED. The PUBLISHED status will initiate validation on the content.
+    /// This member is required.
+    public var status: ConnectClientTypes.ViewStatus?
+    /// The identifier of the view. Both ViewArn and ViewId can be used.
+    /// This member is required.
+    public var viewId: Swift.String?
+
+    public init(
+        content: ConnectClientTypes.ViewInputContent? = nil,
+        instanceId: Swift.String? = nil,
+        status: ConnectClientTypes.ViewStatus? = nil,
+        viewId: Swift.String? = nil
+    )
+    {
+        self.content = content
+        self.instanceId = instanceId
+        self.status = status
+        self.viewId = viewId
+    }
+}
+
+struct UpdateViewContentInputBody: Swift.Equatable {
+    let status: ConnectClientTypes.ViewStatus?
+    let content: ConnectClientTypes.ViewInputContent?
+}
+
+extension UpdateViewContentInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case content = "Content"
+        case status = "Status"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let statusDecoded = try containerValues.decodeIfPresent(ConnectClientTypes.ViewStatus.self, forKey: .status)
+        status = statusDecoded
+        let contentDecoded = try containerValues.decodeIfPresent(ConnectClientTypes.ViewInputContent.self, forKey: .content)
+        content = contentDecoded
+    }
+}
+
+public enum UpdateViewContentOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServiceException": return try await InternalServiceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceInUseException": return try await ResourceInUseException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension UpdateViewContentOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: UpdateViewContentOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.view = output.view
+        } else {
+            self.view = nil
+        }
+    }
+}
+
+public struct UpdateViewContentOutputResponse: Swift.Equatable {
+    /// A view resource object. Contains metadata and content necessary to render the view.
+    public var view: ConnectClientTypes.View?
+
+    public init(
+        view: ConnectClientTypes.View? = nil
+    )
+    {
+        self.view = view
+    }
+}
+
+struct UpdateViewContentOutputResponseBody: Swift.Equatable {
+    let view: ConnectClientTypes.View?
+}
+
+extension UpdateViewContentOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case view = "View"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let viewDecoded = try containerValues.decodeIfPresent(ConnectClientTypes.View.self, forKey: .view)
+        view = viewDecoded
+    }
+}
+
+extension UpdateViewMetadataInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "UpdateViewMetadataInput(description: \(Swift.String(describing: description)), instanceId: \(Swift.String(describing: instanceId)), viewId: \(Swift.String(describing: viewId)), name: \"CONTENT_REDACTED\")"}
+}
+
+extension UpdateViewMetadataInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case description = "Description"
+        case name = "Name"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+    }
+}
+
+extension UpdateViewMetadataInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let instanceId = instanceId else {
+            return nil
+        }
+        guard let viewId = viewId else {
+            return nil
+        }
+        return "/views/\(instanceId.urlPercentEncoding())/\(viewId.urlPercentEncoding())/metadata"
+    }
+}
+
+public struct UpdateViewMetadataInput: Swift.Equatable {
+    /// The description of the view.
+    public var description: Swift.String?
+    /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+    /// This member is required.
+    public var instanceId: Swift.String?
+    /// The name of the view.
+    public var name: Swift.String?
+    /// The identifier of the view. Both ViewArn and ViewId can be used.
+    /// This member is required.
+    public var viewId: Swift.String?
+
+    public init(
+        description: Swift.String? = nil,
+        instanceId: Swift.String? = nil,
+        name: Swift.String? = nil,
+        viewId: Swift.String? = nil
+    )
+    {
+        self.description = description
+        self.instanceId = instanceId
+        self.name = name
+        self.viewId = viewId
+    }
+}
+
+struct UpdateViewMetadataInputBody: Swift.Equatable {
+    let name: Swift.String?
+    let description: Swift.String?
+}
+
+extension UpdateViewMetadataInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case description = "Description"
+        case name = "Name"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+    }
+}
+
+public enum UpdateViewMetadataOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DuplicateResourceException": return try await DuplicateResourceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServiceException": return try await InternalServiceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceInUseException": return try await ResourceInUseException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension UpdateViewMetadataOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct UpdateViewMetadataOutputResponse: Swift.Equatable {
+
+    public init() { }
+}
+
 extension ConnectClientTypes.UrlReference: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case name = "Name"
@@ -42559,6 +43696,561 @@ extension ConnectClientTypes {
             self.arn = arn
             self.id = id
             self.username = username
+        }
+    }
+
+}
+
+extension ConnectClientTypes.View: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case arn = "Arn"
+        case content = "Content"
+        case createdTime = "CreatedTime"
+        case description = "Description"
+        case id = "Id"
+        case lastModifiedTime = "LastModifiedTime"
+        case name = "Name"
+        case status = "Status"
+        case tags = "Tags"
+        case type = "Type"
+        case version = "Version"
+        case versionDescription = "VersionDescription"
+        case viewContentSha256 = "ViewContentSha256"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let arn = self.arn {
+            try encodeContainer.encode(arn, forKey: .arn)
+        }
+        if let content = self.content {
+            try encodeContainer.encode(content, forKey: .content)
+        }
+        if let createdTime = self.createdTime {
+            try encodeContainer.encodeTimestamp(createdTime, format: .epochSeconds, forKey: .createdTime)
+        }
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
+        if let id = self.id {
+            try encodeContainer.encode(id, forKey: .id)
+        }
+        if let lastModifiedTime = self.lastModifiedTime {
+            try encodeContainer.encodeTimestamp(lastModifiedTime, format: .epochSeconds, forKey: .lastModifiedTime)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let status = self.status {
+            try encodeContainer.encode(status.rawValue, forKey: .status)
+        }
+        if let tags = tags {
+            var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+        if let type = self.type {
+            try encodeContainer.encode(type.rawValue, forKey: .type)
+        }
+        if version != 0 {
+            try encodeContainer.encode(version, forKey: .version)
+        }
+        if let versionDescription = self.versionDescription {
+            try encodeContainer.encode(versionDescription, forKey: .versionDescription)
+        }
+        if let viewContentSha256 = self.viewContentSha256 {
+            try encodeContainer.encode(viewContentSha256, forKey: .viewContentSha256)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
+        id = idDecoded
+        let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
+        arn = arnDecoded
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(ConnectClientTypes.ViewStatus.self, forKey: .status)
+        status = statusDecoded
+        let typeDecoded = try containerValues.decodeIfPresent(ConnectClientTypes.ViewType.self, forKey: .type)
+        type = typeDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let versionDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .version) ?? 0
+        version = versionDecoded
+        let versionDescriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .versionDescription)
+        versionDescription = versionDescriptionDecoded
+        let contentDecoded = try containerValues.decodeIfPresent(ConnectClientTypes.ViewContent.self, forKey: .content)
+        content = contentDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
+        var tagsDecoded0: [Swift.String:Swift.String]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, tagvalue0) in tagsContainer {
+                if let tagvalue0 = tagvalue0 {
+                    tagsDecoded0?[key0] = tagvalue0
+                }
+            }
+        }
+        tags = tagsDecoded0
+        let createdTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .createdTime)
+        createdTime = createdTimeDecoded
+        let lastModifiedTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastModifiedTime)
+        lastModifiedTime = lastModifiedTimeDecoded
+        let viewContentSha256Decoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .viewContentSha256)
+        viewContentSha256 = viewContentSha256Decoded
+    }
+}
+
+extension ConnectClientTypes.View: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "View(arn: \(Swift.String(describing: arn)), content: \(Swift.String(describing: content)), createdTime: \(Swift.String(describing: createdTime)), description: \(Swift.String(describing: description)), id: \(Swift.String(describing: id)), lastModifiedTime: \(Swift.String(describing: lastModifiedTime)), status: \(Swift.String(describing: status)), tags: \(Swift.String(describing: tags)), type: \(Swift.String(describing: type)), version: \(Swift.String(describing: version)), versionDescription: \(Swift.String(describing: versionDescription)), viewContentSha256: \(Swift.String(describing: viewContentSha256)), name: \"CONTENT_REDACTED\")"}
+}
+
+extension ConnectClientTypes {
+    /// A view resource object. Contains metadata and content necessary to render the view.
+    public struct View: Swift.Equatable {
+        /// The Amazon Resource Name (ARN) of the view.
+        public var arn: Swift.String?
+        /// View content containing all content necessary to render a view except for runtime input data.
+        public var content: ConnectClientTypes.ViewContent?
+        /// The timestamp of when the view was created.
+        public var createdTime: ClientRuntime.Date?
+        /// The description of the view.
+        public var description: Swift.String?
+        /// The identifier of the view.
+        public var id: Swift.String?
+        /// Latest timestamp of the UpdateViewContent or CreateViewVersion operations.
+        public var lastModifiedTime: ClientRuntime.Date?
+        /// The name of the view.
+        public var name: Swift.String?
+        /// Indicates the view status as either SAVED or PUBLISHED. The PUBLISHED status will initiate validation on the content.
+        public var status: ConnectClientTypes.ViewStatus?
+        /// The tags associated with the view resource (not specific to view version).
+        public var tags: [Swift.String:Swift.String]?
+        /// The type of the view - CUSTOMER_MANAGED.
+        public var type: ConnectClientTypes.ViewType?
+        /// Current version of the view.
+        public var version: Swift.Int
+        /// The description of the version.
+        public var versionDescription: Swift.String?
+        /// Indicates the checksum value of the latest published view content.
+        public var viewContentSha256: Swift.String?
+
+        public init(
+            arn: Swift.String? = nil,
+            content: ConnectClientTypes.ViewContent? = nil,
+            createdTime: ClientRuntime.Date? = nil,
+            description: Swift.String? = nil,
+            id: Swift.String? = nil,
+            lastModifiedTime: ClientRuntime.Date? = nil,
+            name: Swift.String? = nil,
+            status: ConnectClientTypes.ViewStatus? = nil,
+            tags: [Swift.String:Swift.String]? = nil,
+            type: ConnectClientTypes.ViewType? = nil,
+            version: Swift.Int = 0,
+            versionDescription: Swift.String? = nil,
+            viewContentSha256: Swift.String? = nil
+        )
+        {
+            self.arn = arn
+            self.content = content
+            self.createdTime = createdTime
+            self.description = description
+            self.id = id
+            self.lastModifiedTime = lastModifiedTime
+            self.name = name
+            self.status = status
+            self.tags = tags
+            self.type = type
+            self.version = version
+            self.versionDescription = versionDescription
+            self.viewContentSha256 = viewContentSha256
+        }
+    }
+
+}
+
+extension ConnectClientTypes.ViewContent: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case actions = "Actions"
+        case inputSchema = "InputSchema"
+        case template = "Template"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let actions = actions {
+            var actionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .actions)
+            for viewaction0 in actions {
+                try actionsContainer.encode(viewaction0)
+            }
+        }
+        if let inputSchema = self.inputSchema {
+            try encodeContainer.encode(inputSchema, forKey: .inputSchema)
+        }
+        if let template = self.template {
+            try encodeContainer.encode(template, forKey: .template)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let inputSchemaDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .inputSchema)
+        inputSchema = inputSchemaDecoded
+        let templateDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .template)
+        template = templateDecoded
+        let actionsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .actions)
+        var actionsDecoded0:[Swift.String]? = nil
+        if let actionsContainer = actionsContainer {
+            actionsDecoded0 = [Swift.String]()
+            for string0 in actionsContainer {
+                if let string0 = string0 {
+                    actionsDecoded0?.append(string0)
+                }
+            }
+        }
+        actions = actionsDecoded0
+    }
+}
+
+extension ConnectClientTypes.ViewContent: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "ViewContent(actions: \(Swift.String(describing: actions)), template: \(Swift.String(describing: template)), inputSchema: \"CONTENT_REDACTED\")"}
+}
+
+extension ConnectClientTypes {
+    /// View content containing all content necessary to render a view except for runtime input data.
+    public struct ViewContent: Swift.Equatable {
+        /// A list of possible actions from the view.
+        public var actions: [Swift.String]?
+        /// The data schema matching data that the view template must be provided to render.
+        public var inputSchema: Swift.String?
+        /// The view template representing the structure of the view.
+        public var template: Swift.String?
+
+        public init(
+            actions: [Swift.String]? = nil,
+            inputSchema: Swift.String? = nil,
+            template: Swift.String? = nil
+        )
+        {
+            self.actions = actions
+            self.inputSchema = inputSchema
+            self.template = template
+        }
+    }
+
+}
+
+extension ConnectClientTypes.ViewInputContent: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case actions = "Actions"
+        case template = "Template"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let actions = actions {
+            var actionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .actions)
+            for viewaction0 in actions {
+                try actionsContainer.encode(viewaction0)
+            }
+        }
+        if let template = self.template {
+            try encodeContainer.encode(template, forKey: .template)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let templateDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .template)
+        template = templateDecoded
+        let actionsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .actions)
+        var actionsDecoded0:[Swift.String]? = nil
+        if let actionsContainer = actionsContainer {
+            actionsDecoded0 = [Swift.String]()
+            for string0 in actionsContainer {
+                if let string0 = string0 {
+                    actionsDecoded0?.append(string0)
+                }
+            }
+        }
+        actions = actionsDecoded0
+    }
+}
+
+extension ConnectClientTypes {
+    /// View content containing all content necessary to render a view except for runtime input data and the runtime input schema, which is auto-generated by this operation.
+    public struct ViewInputContent: Swift.Equatable {
+        /// A list of possible actions from the view.
+        public var actions: [Swift.String]?
+        /// The view template representing the structure of the view.
+        public var template: Swift.String?
+
+        public init(
+            actions: [Swift.String]? = nil,
+            template: Swift.String? = nil
+        )
+        {
+            self.actions = actions
+            self.template = template
+        }
+    }
+
+}
+
+extension ConnectClientTypes {
+    public enum ViewStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case published
+        case saved
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ViewStatus] {
+            return [
+                .published,
+                .saved,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .published: return "PUBLISHED"
+            case .saved: return "SAVED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = ViewStatus(rawValue: rawValue) ?? ViewStatus.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension ConnectClientTypes.ViewSummary: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case arn = "Arn"
+        case description = "Description"
+        case id = "Id"
+        case name = "Name"
+        case status = "Status"
+        case type = "Type"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let arn = self.arn {
+            try encodeContainer.encode(arn, forKey: .arn)
+        }
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
+        if let id = self.id {
+            try encodeContainer.encode(id, forKey: .id)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let status = self.status {
+            try encodeContainer.encode(status.rawValue, forKey: .status)
+        }
+        if let type = self.type {
+            try encodeContainer.encode(type.rawValue, forKey: .type)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
+        id = idDecoded
+        let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
+        arn = arnDecoded
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let typeDecoded = try containerValues.decodeIfPresent(ConnectClientTypes.ViewType.self, forKey: .type)
+        type = typeDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(ConnectClientTypes.ViewStatus.self, forKey: .status)
+        status = statusDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+    }
+}
+
+extension ConnectClientTypes.ViewSummary: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "ViewSummary(arn: \(Swift.String(describing: arn)), description: \(Swift.String(describing: description)), id: \(Swift.String(describing: id)), status: \(Swift.String(describing: status)), type: \(Swift.String(describing: type)), name: \"CONTENT_REDACTED\")"}
+}
+
+extension ConnectClientTypes {
+    /// A summary of a view's metadata.
+    public struct ViewSummary: Swift.Equatable {
+        /// The Amazon Resource Name (ARN) of the view.
+        public var arn: Swift.String?
+        /// The description of the view.
+        public var description: Swift.String?
+        /// The identifier of the view.
+        public var id: Swift.String?
+        /// The name of the view.
+        public var name: Swift.String?
+        /// Indicates the view status as either SAVED or PUBLISHED. The PUBLISHED status will initiate validation on the content.
+        public var status: ConnectClientTypes.ViewStatus?
+        /// The type of the view.
+        public var type: ConnectClientTypes.ViewType?
+
+        public init(
+            arn: Swift.String? = nil,
+            description: Swift.String? = nil,
+            id: Swift.String? = nil,
+            name: Swift.String? = nil,
+            status: ConnectClientTypes.ViewStatus? = nil,
+            type: ConnectClientTypes.ViewType? = nil
+        )
+        {
+            self.arn = arn
+            self.description = description
+            self.id = id
+            self.name = name
+            self.status = status
+            self.type = type
+        }
+    }
+
+}
+
+extension ConnectClientTypes {
+    public enum ViewType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case awsManaged
+        case customerManaged
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ViewType] {
+            return [
+                .awsManaged,
+                .customerManaged,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .awsManaged: return "AWS_MANAGED"
+            case .customerManaged: return "CUSTOMER_MANAGED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = ViewType(rawValue: rawValue) ?? ViewType.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension ConnectClientTypes.ViewVersionSummary: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case arn = "Arn"
+        case description = "Description"
+        case id = "Id"
+        case name = "Name"
+        case type = "Type"
+        case version = "Version"
+        case versionDescription = "VersionDescription"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let arn = self.arn {
+            try encodeContainer.encode(arn, forKey: .arn)
+        }
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
+        if let id = self.id {
+            try encodeContainer.encode(id, forKey: .id)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let type = self.type {
+            try encodeContainer.encode(type.rawValue, forKey: .type)
+        }
+        if version != 0 {
+            try encodeContainer.encode(version, forKey: .version)
+        }
+        if let versionDescription = self.versionDescription {
+            try encodeContainer.encode(versionDescription, forKey: .versionDescription)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
+        id = idDecoded
+        let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
+        arn = arnDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let typeDecoded = try containerValues.decodeIfPresent(ConnectClientTypes.ViewType.self, forKey: .type)
+        type = typeDecoded
+        let versionDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .version) ?? 0
+        version = versionDecoded
+        let versionDescriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .versionDescription)
+        versionDescription = versionDescriptionDecoded
+    }
+}
+
+extension ConnectClientTypes.ViewVersionSummary: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "ViewVersionSummary(arn: \(Swift.String(describing: arn)), description: \(Swift.String(describing: description)), id: \(Swift.String(describing: id)), type: \(Swift.String(describing: type)), version: \(Swift.String(describing: version)), versionDescription: \(Swift.String(describing: versionDescription)), name: \"CONTENT_REDACTED\")"}
+}
+
+extension ConnectClientTypes {
+    /// A summary of a view version's metadata.
+    public struct ViewVersionSummary: Swift.Equatable {
+        /// The Amazon Resource Name (ARN) of the view version.
+        public var arn: Swift.String?
+        /// The description of the view version.
+        public var description: Swift.String?
+        /// The identifier of the view version.
+        public var id: Swift.String?
+        /// The name of the view version.
+        public var name: Swift.String?
+        /// The type of the view version.
+        public var type: ConnectClientTypes.ViewType?
+        /// The sequentially incremented version of the view version.
+        public var version: Swift.Int
+        /// The description of the view version.
+        public var versionDescription: Swift.String?
+
+        public init(
+            arn: Swift.String? = nil,
+            description: Swift.String? = nil,
+            id: Swift.String? = nil,
+            name: Swift.String? = nil,
+            type: ConnectClientTypes.ViewType? = nil,
+            version: Swift.Int = 0,
+            versionDescription: Swift.String? = nil
+        )
+        {
+            self.arn = arn
+            self.description = description
+            self.id = id
+            self.name = name
+            self.type = type
+            self.version = version
+            self.versionDescription = versionDescription
         }
     }
 

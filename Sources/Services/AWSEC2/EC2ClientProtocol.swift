@@ -2342,6 +2342,12 @@ public protocol EC2ClientProtocol {
     ///
     /// - Returns: `DisableFastSnapshotRestoresOutputResponse` : [no documentation found]
     func disableFastSnapshotRestores(input: DisableFastSnapshotRestoresInput) async throws -> DisableFastSnapshotRestoresOutputResponse
+    /// Disables block public access for AMIs at the account level in the specified Amazon Web Services Region. This removes the block public access restriction from your account. With the restriction removed, you can publicly share your AMIs in the specified Amazon Web Services Region. The API can take up to 10 minutes to configure this setting. During this time, if you run [GetImageBlockPublicAccessState](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_GetImageBlockPublicAccessState.html), the response will be block-new-sharing. When the API has completed the configuration, the response will be unblocked. For more information, see [Block public access to your AMIs](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/sharingamis-intro.html#block-public-access-to-amis) in the Amazon EC2 User Guide.
+    ///
+    /// - Parameter DisableImageBlockPublicAccessInput : [no documentation found]
+    ///
+    /// - Returns: `DisableImageBlockPublicAccessOutputResponse` : [no documentation found]
+    func disableImageBlockPublicAccess(input: DisableImageBlockPublicAccessInput) async throws -> DisableImageBlockPublicAccessOutputResponse
     /// Cancels the deprecation of the specified AMI. For more information, see [Deprecate an AMI](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ami-deprecate.html) in the Amazon EC2 User Guide.
     ///
     /// - Parameter DisableImageDeprecationInput : [no documentation found]
@@ -2506,6 +2512,12 @@ public protocol EC2ClientProtocol {
     ///
     /// - Returns: `EnableFastSnapshotRestoresOutputResponse` : [no documentation found]
     func enableFastSnapshotRestores(input: EnableFastSnapshotRestoresInput) async throws -> EnableFastSnapshotRestoresOutputResponse
+    /// Enables block public access for AMIs at the account level in the specified Amazon Web Services Region. This prevents the public sharing of your AMIs. However, if you already have public AMIs, they will remain publicly available. The API can take up to 10 minutes to configure this setting. During this time, if you run [GetImageBlockPublicAccessState](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_GetImageBlockPublicAccessState.html), the response will be unblocked. When the API has completed the configuration, the response will be block-new-sharing. For more information, see [Block public access to your AMIs](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/sharingamis-intro.html#block-public-access-to-amis) in the Amazon EC2 User Guide.
+    ///
+    /// - Parameter EnableImageBlockPublicAccessInput : [no documentation found]
+    ///
+    /// - Returns: `EnableImageBlockPublicAccessOutputResponse` : [no documentation found]
+    func enableImageBlockPublicAccess(input: EnableImageBlockPublicAccessInput) async throws -> EnableImageBlockPublicAccessOutputResponse
     /// Enables deprecation of the specified AMI at the specified date and time. For more information, see [Deprecate an AMI](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ami-deprecate.html) in the Amazon EC2 User Guide.
     ///
     /// - Parameter EnableImageDeprecationInput : [no documentation found]
@@ -2673,6 +2685,12 @@ public protocol EC2ClientProtocol {
     ///
     /// - Returns: `GetHostReservationPurchasePreviewOutputResponse` : [no documentation found]
     func getHostReservationPurchasePreview(input: GetHostReservationPurchasePreviewInput) async throws -> GetHostReservationPurchasePreviewOutputResponse
+    /// Gets the current state of block public access for AMIs at the account level in the specified Amazon Web Services Region. For more information, see [Block public access to your AMIs](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/sharingamis-intro.html#block-public-access-to-amis) in the Amazon EC2 User Guide.
+    ///
+    /// - Parameter GetImageBlockPublicAccessStateInput : [no documentation found]
+    ///
+    /// - Returns: `GetImageBlockPublicAccessStateOutputResponse` : [no documentation found]
+    func getImageBlockPublicAccessState(input: GetImageBlockPublicAccessStateInput) async throws -> GetImageBlockPublicAccessStateOutputResponse
     /// Returns a list of instance types with the specified instance attributes. You can use the response to preview the instance types without launching instances. Note that the response does not consider capacity. When you specify multiple parameters, you get instance types that satisfy all of the specified parameters. If you specify multiple values for a parameter, you get instance types that satisfy any of the specified values. For more information, see [Preview instance types with specified attributes](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/spot-fleet-attribute-based-instance-type-selection.html#spotfleet-get-instance-types-from-instance-requirements), [Attribute-based instance type selection for EC2 Fleet](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-fleet-attribute-based-instance-type-selection.html), [Attribute-based instance type selection for Spot Fleet](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/spot-fleet-attribute-based-instance-type-selection.html), and [Spot placement score](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/spot-placement-score.html) in the Amazon EC2 User Guide, and [Creating an Auto Scaling group using attribute-based instance type selection](https://docs.aws.amazon.com/autoscaling/ec2/userguide/create-asg-instance-type-requirements.html) in the Amazon EC2 Auto Scaling User Guide.
     ///
     /// - Parameter GetInstanceTypesFromInstanceRequirementsInput : [no documentation found]

@@ -423,6 +423,7 @@ extension ECRClient: ECRClientProtocol {
     /// - `LifecyclePolicyNotFoundException` : The lifecycle policy could not be found, and no policy is set to the repository.
     /// - `RepositoryNotFoundException` : The specified repository could not be found. Check the spelling of the specified repository and ensure that you are performing operations on the correct registry.
     /// - `ServerException` : These errors are usually caused by a server-side issue.
+    /// - `ValidationException` : There was an exception validating this request.
     public func deleteLifecyclePolicy(input: DeleteLifecyclePolicyInput) async throws -> DeleteLifecyclePolicyOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1048,6 +1049,7 @@ extension ECRClient: ECRClientProtocol {
     /// - `LifecyclePolicyNotFoundException` : The lifecycle policy could not be found, and no policy is set to the repository.
     /// - `RepositoryNotFoundException` : The specified repository could not be found. Check the spelling of the specified repository and ensure that you are performing operations on the correct registry.
     /// - `ServerException` : These errors are usually caused by a server-side issue.
+    /// - `ValidationException` : There was an exception validating this request.
     public func getLifecyclePolicy(input: GetLifecyclePolicyInput) async throws -> GetLifecyclePolicyOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1096,6 +1098,7 @@ extension ECRClient: ECRClientProtocol {
     /// - `LifecyclePolicyPreviewNotFoundException` : There is no dry run for this repository.
     /// - `RepositoryNotFoundException` : The specified repository could not be found. Check the spelling of the specified repository and ensure that you are performing operations on the correct registry.
     /// - `ServerException` : These errors are usually caused by a server-side issue.
+    /// - `ValidationException` : There was an exception validating this request.
     public func getLifecyclePolicyPreview(input: GetLifecyclePolicyPreviewInput) async throws -> GetLifecyclePolicyPreviewOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1577,6 +1580,7 @@ extension ECRClient: ECRClientProtocol {
     /// - `InvalidParameterException` : The specified parameter is invalid. Review the available parameters for the API request.
     /// - `RepositoryNotFoundException` : The specified repository could not be found. Check the spelling of the specified repository and ensure that you are performing operations on the correct registry.
     /// - `ServerException` : These errors are usually caused by a server-side issue.
+    /// - `ValidationException` : There was an exception validating this request.
     public func putLifecyclePolicy(input: PutLifecyclePolicyInput) async throws -> PutLifecyclePolicyOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1865,6 +1869,7 @@ extension ECRClient: ECRClientProtocol {
     /// - `LifecyclePolicyPreviewInProgressException` : The previous lifecycle policy preview request has not completed. Wait and try again.
     /// - `RepositoryNotFoundException` : The specified repository could not be found. Check the spelling of the specified repository and ensure that you are performing operations on the correct registry.
     /// - `ServerException` : These errors are usually caused by a server-side issue.
+    /// - `ValidationException` : There was an exception validating this request.
     public func startLifecyclePolicyPreview(input: StartLifecyclePolicyPreviewInput) async throws -> StartLifecyclePolicyPreviewOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()

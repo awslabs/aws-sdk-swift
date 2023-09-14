@@ -5957,6 +5957,7 @@ extension RDSClient: RDSClientProtocol {
     /// - `DBClusterQuotaExceededFault` : The user attempted to create a new DB cluster and the user has already reached the maximum allowed DB cluster quota.
     /// - `DBClusterSnapshotNotFoundFault` : DBClusterSnapshotIdentifier doesn't refer to an existing DB cluster snapshot.
     /// - `DBSnapshotNotFoundFault` : DBSnapshotIdentifier doesn't refer to an existing DB snapshot.
+    /// - `DBSubnetGroupDoesNotCoverEnoughAZs` : Subnets in the DB subnet group should cover at least two Availability Zones unless there is only one Availability Zone.
     /// - `DBSubnetGroupNotFoundFault` : DBSubnetGroupName doesn't refer to an existing DB subnet group.
     /// - `DomainNotFoundFault` : Domain doesn't refer to an existing Active Directory domain.
     /// - `InsufficientDBClusterCapacityFault` : The DB cluster doesn't have enough capacity for the current operation.

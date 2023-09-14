@@ -30,7 +30,7 @@ public protocol AppRunnerClientProtocol {
     /// - `InvalidRequestException` : One or more input parameters aren't valid. Refer to the API action's document page, correct the input parameters, and try the action again.
     /// - `ServiceQuotaExceededException` : App Runner can't create this resource. You've reached your account quota for this resource type. For App Runner per-resource quotas, see [App Runner endpoints and quotas](https://docs.aws.amazon.com/general/latest/gr/apprunner.html) in the Amazon Web Services General Reference.
     func createAutoScalingConfiguration(input: CreateAutoScalingConfigurationInput) async throws -> CreateAutoScalingConfigurationOutputResponse
-    /// Create an App Runner connection resource. App Runner requires a connection resource when you create App Runner services that access private repositories from certain third-party providers. You can share a connection across multiple services. A connection resource is needed to access GitHub repositories. GitHub requires a user interface approval process through the App Runner console before you can use the connection.
+    /// Create an App Runner connection resource. App Runner requires a connection resource when you create App Runner services that access private repositories from certain third-party providers. You can share a connection across multiple services. A connection resource is needed to access GitHub and Bitbucket repositories. Both require a user interface approval process through the App Runner console before you can use the connection.
     ///
     /// - Parameter CreateConnectionInput : [no documentation found]
     ///

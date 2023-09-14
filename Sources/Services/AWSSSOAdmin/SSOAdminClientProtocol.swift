@@ -2,7 +2,7 @@
 
 import ClientRuntime
 
-/// AWS IAM Identity Center (successor to AWS Single Sign-On) helps you securely create, or connect, your workforce identities and manage their access centrally across AWS accounts and applications. IAM Identity Center is the recommended approach for workforce authentication and authorization in AWS, for organizations of any size and type. Although AWS Single Sign-On was renamed, the sso and identitystore API namespaces will continue to retain their original name for backward compatibility purposes. For more information, see [IAM Identity Center rename](https://docs.aws.amazon.com/singlesignon/latest/userguide/what-is.html#renamed). This reference guide provides information on single sign-on operations which could be used for access management of AWS accounts. For information about IAM Identity Center features, see the [IAM Identity Center User Guide](https://docs.aws.amazon.com/singlesignon/latest/userguide/what-is.html). Many operations in the IAM Identity Center APIs rely on identifiers for users and groups, known as principals. For more information about how to work with principals and principal IDs in IAM Identity Center, see the [Identity Store API Reference](https://docs.aws.amazon.com/singlesignon/latest/IdentityStoreAPIReference/welcome.html). AWS provides SDKs that consist of libraries and sample code for various programming languages and platforms (Java, Ruby, .Net, iOS, Android, and more). The SDKs provide a convenient way to create programmatic access to IAM Identity Center and other AWS services. For more information about the AWS SDKs, including how to download and install them, see [Tools for Amazon Web Services](http://aws.amazon.com/tools/).
+/// IAM Identity Center (successor to Single Sign-On) helps you securely create, or connect, your workforce identities and manage their access centrally across Amazon Web Services accounts and applications. IAM Identity Center is the recommended approach for workforce authentication and authorization in Amazon Web Services, for organizations of any size and type. IAM Identity Center uses the sso and identitystore API namespaces. This reference guide provides information on single sign-on operations which could be used for access management of Amazon Web Services accounts. For information about IAM Identity Center features, see the [IAM Identity Center User Guide](https://docs.aws.amazon.com/singlesignon/latest/userguide/what-is.html). Many operations in the IAM Identity Center APIs rely on identifiers for users and groups, known as principals. For more information about how to work with principals and principal IDs in IAM Identity Center, see the [Identity Store API Reference](https://docs.aws.amazon.com/singlesignon/latest/IdentityStoreAPIReference/welcome.html). Amazon Web Services provides SDKs that consist of libraries and sample code for various programming languages and platforms (Java, Ruby, .Net, iOS, Android, and more). The SDKs provide a convenient way to create programmatic access to IAM Identity Center and other Amazon Web Services services. For more information about the Amazon Web Services SDKs, including how to download and install them, see [Tools for Amazon Web Services](http://aws.amazon.com/tools/).
 public protocol SSOAdminClientProtocol {
     /// Attaches the specified customer managed policy to the specified [PermissionSet].
     ///
@@ -21,7 +21,7 @@ public protocol SSOAdminClientProtocol {
     /// - `ThrottlingException` : Indicates that the principal has crossed the throttling limits of the API operations.
     /// - `ValidationException` : The request failed because it contains a syntax error.
     func attachCustomerManagedPolicyReferenceToPermissionSet(input: AttachCustomerManagedPolicyReferenceToPermissionSetInput) async throws -> AttachCustomerManagedPolicyReferenceToPermissionSetOutputResponse
-    /// Attaches an AWS managed policy ARN to a permission set. If the permission set is already referenced by one or more account assignments, you will need to call [ProvisionPermissionSet] after this operation. Calling ProvisionPermissionSet applies the corresponding IAM policy updates to all assigned accounts.
+    /// Attaches an Amazon Web Services managed policy ARN to a permission set. If the permission set is already referenced by one or more account assignments, you will need to call [ProvisionPermissionSet] after this operation. Calling ProvisionPermissionSet applies the corresponding IAM policy updates to all assigned accounts.
     ///
     /// - Parameter AttachManagedPolicyToPermissionSetInput : [no documentation found]
     ///
@@ -38,7 +38,7 @@ public protocol SSOAdminClientProtocol {
     /// - `ThrottlingException` : Indicates that the principal has crossed the throttling limits of the API operations.
     /// - `ValidationException` : The request failed because it contains a syntax error.
     func attachManagedPolicyToPermissionSet(input: AttachManagedPolicyToPermissionSetInput) async throws -> AttachManagedPolicyToPermissionSetOutputResponse
-    /// Assigns access to a principal for a specified AWS account using a specified permission set. The term principal here refers to a user or group that is defined in IAM Identity Center. As part of a successful CreateAccountAssignment call, the specified permission set will automatically be provisioned to the account in the form of an IAM policy. That policy is attached to the IAM role created in IAM Identity Center. If the permission set is subsequently updated, the corresponding IAM policies attached to roles in your accounts will not be updated automatically. In this case, you must call [ProvisionPermissionSet] to make these updates. After a successful response, call DescribeAccountAssignmentCreationStatus to describe the status of an assignment creation request.
+    /// Assigns access to a principal for a specified Amazon Web Services account using a specified permission set. The term principal here refers to a user or group that is defined in IAM Identity Center. As part of a successful CreateAccountAssignment call, the specified permission set will automatically be provisioned to the account in the form of an IAM policy. That policy is attached to the IAM role created in IAM Identity Center. If the permission set is subsequently updated, the corresponding IAM policies attached to roles in your accounts will not be updated automatically. In this case, you must call [ProvisionPermissionSet] to make these updates. After a successful response, call DescribeAccountAssignmentCreationStatus to describe the status of an assignment creation request.
     ///
     /// - Parameter CreateAccountAssignmentInput : [no documentation found]
     ///
@@ -71,7 +71,7 @@ public protocol SSOAdminClientProtocol {
     /// - `ThrottlingException` : Indicates that the principal has crossed the throttling limits of the API operations.
     /// - `ValidationException` : The request failed because it contains a syntax error.
     func createInstanceAccessControlAttributeConfiguration(input: CreateInstanceAccessControlAttributeConfigurationInput) async throws -> CreateInstanceAccessControlAttributeConfigurationOutputResponse
-    /// Creates a permission set within a specified IAM Identity Center instance. To grant users and groups access to AWS account resources, use [CreateAccountAssignment].
+    /// Creates a permission set within a specified IAM Identity Center instance. To grant users and groups access to Amazon Web Services account resources, use [CreateAccountAssignment].
     ///
     /// - Parameter CreatePermissionSetInput : [no documentation found]
     ///
@@ -88,7 +88,7 @@ public protocol SSOAdminClientProtocol {
     /// - `ThrottlingException` : Indicates that the principal has crossed the throttling limits of the API operations.
     /// - `ValidationException` : The request failed because it contains a syntax error.
     func createPermissionSet(input: CreatePermissionSetInput) async throws -> CreatePermissionSetOutputResponse
-    /// Deletes a principal's access from a specified AWS account using a specified permission set. After a successful response, call DescribeAccountAssignmentCreationStatus to describe the status of an assignment deletion request.
+    /// Deletes a principal's access from a specified Amazon Web Services account using a specified permission set. After a successful response, call DescribeAccountAssignmentDeletionStatus to describe the status of an assignment deletion request.
     ///
     /// - Parameter DeleteAccountAssignmentInput : [no documentation found]
     ///
@@ -258,7 +258,7 @@ public protocol SSOAdminClientProtocol {
     /// - `ThrottlingException` : Indicates that the principal has crossed the throttling limits of the API operations.
     /// - `ValidationException` : The request failed because it contains a syntax error.
     func detachCustomerManagedPolicyReferenceFromPermissionSet(input: DetachCustomerManagedPolicyReferenceFromPermissionSetInput) async throws -> DetachCustomerManagedPolicyReferenceFromPermissionSetOutputResponse
-    /// Detaches the attached AWS managed policy ARN from the specified permission set.
+    /// Detaches the attached Amazon Web Services managed policy ARN from the specified permission set.
     ///
     /// - Parameter DetachManagedPolicyFromPermissionSetInput : [no documentation found]
     ///
@@ -304,7 +304,7 @@ public protocol SSOAdminClientProtocol {
     /// - `ThrottlingException` : Indicates that the principal has crossed the throttling limits of the API operations.
     /// - `ValidationException` : The request failed because it contains a syntax error.
     func getPermissionsBoundaryForPermissionSet(input: GetPermissionsBoundaryForPermissionSetInput) async throws -> GetPermissionsBoundaryForPermissionSetOutputResponse
-    /// Lists the status of the AWS account assignment creation requests for a specified IAM Identity Center instance.
+    /// Lists the status of the Amazon Web Services account assignment creation requests for a specified IAM Identity Center instance.
     ///
     /// - Parameter ListAccountAssignmentCreationStatusInput : [no documentation found]
     ///
@@ -319,7 +319,7 @@ public protocol SSOAdminClientProtocol {
     /// - `ThrottlingException` : Indicates that the principal has crossed the throttling limits of the API operations.
     /// - `ValidationException` : The request failed because it contains a syntax error.
     func listAccountAssignmentCreationStatus(input: ListAccountAssignmentCreationStatusInput) async throws -> ListAccountAssignmentCreationStatusOutputResponse
-    /// Lists the status of the AWS account assignment deletion requests for a specified IAM Identity Center instance.
+    /// Lists the status of the Amazon Web Services account assignment deletion requests for a specified IAM Identity Center instance.
     ///
     /// - Parameter ListAccountAssignmentDeletionStatusInput : [no documentation found]
     ///
@@ -334,7 +334,7 @@ public protocol SSOAdminClientProtocol {
     /// - `ThrottlingException` : Indicates that the principal has crossed the throttling limits of the API operations.
     /// - `ValidationException` : The request failed because it contains a syntax error.
     func listAccountAssignmentDeletionStatus(input: ListAccountAssignmentDeletionStatusInput) async throws -> ListAccountAssignmentDeletionStatusOutputResponse
-    /// Lists the assignee of the specified AWS account with the specified permission set.
+    /// Lists the assignee of the specified Amazon Web Services account with the specified permission set.
     ///
     /// - Parameter ListAccountAssignmentsInput : [no documentation found]
     ///
@@ -349,7 +349,7 @@ public protocol SSOAdminClientProtocol {
     /// - `ThrottlingException` : Indicates that the principal has crossed the throttling limits of the API operations.
     /// - `ValidationException` : The request failed because it contains a syntax error.
     func listAccountAssignments(input: ListAccountAssignmentsInput) async throws -> ListAccountAssignmentsOutputResponse
-    /// Lists all the AWS accounts where the specified permission set is provisioned.
+    /// Lists all the Amazon Web Services accounts where the specified permission set is provisioned.
     ///
     /// - Parameter ListAccountsForProvisionedPermissionSetInput : [no documentation found]
     ///
@@ -393,7 +393,7 @@ public protocol SSOAdminClientProtocol {
     /// - `ThrottlingException` : Indicates that the principal has crossed the throttling limits of the API operations.
     /// - `ValidationException` : The request failed because it contains a syntax error.
     func listInstances(input: ListInstancesInput) async throws -> ListInstancesOutputResponse
-    /// Lists the AWS managed policy that is attached to a specified permission set.
+    /// Lists the Amazon Web Services managed policy that is attached to a specified permission set.
     ///
     /// - Parameter ListManagedPoliciesInPermissionSetInput : [no documentation found]
     ///
@@ -438,7 +438,7 @@ public protocol SSOAdminClientProtocol {
     /// - `ThrottlingException` : Indicates that the principal has crossed the throttling limits of the API operations.
     /// - `ValidationException` : The request failed because it contains a syntax error.
     func listPermissionSets(input: ListPermissionSetsInput) async throws -> ListPermissionSetsOutputResponse
-    /// Lists all the permission sets that are provisioned to a specified AWS account.
+    /// Lists all the permission sets that are provisioned to a specified Amazon Web Services account.
     ///
     /// - Parameter ListPermissionSetsProvisionedToAccountInput : [no documentation found]
     ///
@@ -501,7 +501,7 @@ public protocol SSOAdminClientProtocol {
     /// - `ThrottlingException` : Indicates that the principal has crossed the throttling limits of the API operations.
     /// - `ValidationException` : The request failed because it contains a syntax error.
     func putInlinePolicyToPermissionSet(input: PutInlinePolicyToPermissionSetInput) async throws -> PutInlinePolicyToPermissionSetOutputResponse
-    /// Attaches an AWS managed or customer managed policy to the specified [PermissionSet] as a permissions boundary.
+    /// Attaches an Amazon Web Services managed or customer managed policy to the specified [PermissionSet] as a permissions boundary.
     ///
     /// - Parameter PutPermissionsBoundaryToPermissionSetInput : [no documentation found]
     ///
