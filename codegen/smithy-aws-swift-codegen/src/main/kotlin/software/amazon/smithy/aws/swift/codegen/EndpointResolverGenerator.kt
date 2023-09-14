@@ -8,10 +8,7 @@ package software.amazon.smithy.aws.swift.codegen
 import software.amazon.smithy.aws.swift.codegen.middleware.EndpointResolverMiddleware
 import software.amazon.smithy.codegen.core.Symbol
 import software.amazon.smithy.model.node.Node
-import software.amazon.smithy.rulesengine.aws.language.functions.AwsPartition
-import software.amazon.smithy.rulesengine.aws.language.functions.partition.Partitions
 import software.amazon.smithy.rulesengine.language.EndpointRuleSet
-//import software.amazon.smithy.rulesengine.language.stdlib.partition.DefaultPartitionDataProvider
 import software.amazon.smithy.rulesengine.traits.EndpointRuleSetTrait
 import software.amazon.smithy.swift.codegen.ClientRuntimeTypes
 import software.amazon.smithy.swift.codegen.MiddlewareGenerator

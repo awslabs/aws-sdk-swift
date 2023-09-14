@@ -8,7 +8,13 @@ package software.amazon.smithy.aws.swift.codegen
 import software.amazon.smithy.codegen.core.CodegenException
 import software.amazon.smithy.model.node.Node
 import software.amazon.smithy.rulesengine.language.EndpointRuleSet
-import software.amazon.smithy.rulesengine.language.evaluation.value.*
+import software.amazon.smithy.rulesengine.language.evaluation.value.ArrayValue
+import software.amazon.smithy.rulesengine.language.evaluation.value.BooleanValue
+import software.amazon.smithy.rulesengine.language.evaluation.value.EmptyValue
+import software.amazon.smithy.rulesengine.language.evaluation.value.IntegerValue
+import software.amazon.smithy.rulesengine.language.evaluation.value.RecordValue
+import software.amazon.smithy.rulesengine.language.evaluation.value.StringValue
+import software.amazon.smithy.rulesengine.language.evaluation.value.Value
 import software.amazon.smithy.rulesengine.traits.EndpointTestsTrait
 import software.amazon.smithy.swift.codegen.ClientRuntimeTypes
 import software.amazon.smithy.swift.codegen.SwiftDependency
