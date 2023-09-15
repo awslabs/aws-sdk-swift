@@ -1282,7 +1282,7 @@ public struct CreateRepositoryInput: Swift.Equatable {
     public var imageTagMutability: ECRClientTypes.ImageTagMutability?
     /// The Amazon Web Services account ID associated with the registry to create the repository. If you do not specify a registry, the default registry is assumed.
     public var registryId: Swift.String?
-    /// The name to use for the repository. The repository name may be specified on its own (such as nginx-web-app) or it can be prepended with a namespace to group the repository into a category (such as project-a/nginx-web-app).
+    /// The name to use for the repository. The repository name may be specified on its own (such as nginx-web-app) or it can be prepended with a namespace to group the repository into a category (such as project-a/nginx-web-app). The repository name must start with a letter and can only contain lowercase letters, numbers, hyphens, underscores, and forward slashes.
     /// This member is required.
     public var repositoryName: Swift.String?
     /// The metadata that you apply to the repository to help you categorize and organize them. Each tag consists of a key and an optional value, both of which you define. Tag keys can have a maximum character length of 128 characters, and tag values can have a maximum length of 256 characters.
@@ -1674,6 +1674,7 @@ public enum DeleteLifecyclePolicyOutputError: ClientRuntime.HttpResponseErrorBin
             case "LifecyclePolicyNotFoundException": return try await LifecyclePolicyNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "RepositoryNotFoundException": return try await RepositoryNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ServerException": return try await ServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
@@ -3953,6 +3954,7 @@ public enum GetLifecyclePolicyOutputError: ClientRuntime.HttpResponseErrorBindin
             case "LifecyclePolicyNotFoundException": return try await LifecyclePolicyNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "RepositoryNotFoundException": return try await RepositoryNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ServerException": return try await ServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
@@ -4157,6 +4159,7 @@ public enum GetLifecyclePolicyPreviewOutputError: ClientRuntime.HttpResponseErro
             case "LifecyclePolicyPreviewNotFoundException": return try await LifecyclePolicyPreviewNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "RepositoryNotFoundException": return try await RepositoryNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ServerException": return try await ServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
@@ -8164,6 +8167,7 @@ public enum PutLifecyclePolicyOutputError: ClientRuntime.HttpResponseErrorBindin
             case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "RepositoryNotFoundException": return try await RepositoryNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ServerException": return try await ServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
@@ -8820,7 +8824,7 @@ extension ECRClientTypes {
         /// The repository filters associated with the scanning configuration for a private registry.
         /// This member is required.
         public var repositoryFilters: [ECRClientTypes.ScanningRepositoryFilter]?
-        /// The frequency that scans are performed at for a private registry. When the ENHANCED scan type is specified, the supported scan frequencies are CONTINUOUS_SCAN and SCAN_ON_PUSH. When the BASIC scan type is specified, the SCAN_ON_PUSH and MANUAL scan frequencies are supported.
+        /// The frequency that scans are performed at for a private registry. When the ENHANCED scan type is specified, the supported scan frequencies are CONTINUOUS_SCAN and SCAN_ON_PUSH. When the BASIC scan type is specified, the SCAN_ON_PUSH scan frequency is supported. If scan on push is not specified, then the MANUAL scan frequency is set by default.
         /// This member is required.
         public var scanFrequency: ECRClientTypes.ScanFrequency?
 
@@ -9145,7 +9149,7 @@ extension ECRClientTypes {
         public var imageTagMutability: ECRClientTypes.ImageTagMutability?
         /// The Amazon Web Services account ID associated with the registry that contains the repository.
         public var registryId: Swift.String?
-        /// The Amazon Resource Name (ARN) that identifies the repository. The ARN contains the arn:aws:ecr namespace, followed by the region of the repository, Amazon Web Services account ID of the repository owner, repository namespace, and repository name. For example, arn:aws:ecr:region:012345678910:repository/test.
+        /// The Amazon Resource Name (ARN) that identifies the repository. The ARN contains the arn:aws:ecr namespace, followed by the region of the repository, Amazon Web Services account ID of the repository owner, repository namespace, and repository name. For example, arn:aws:ecr:region:012345678910:repository-namespace/repository-name.
         public var repositoryArn: Swift.String?
         /// The name of the repository.
         public var repositoryName: Swift.String?
@@ -9258,7 +9262,7 @@ extension ECRClientTypes.RepositoryFilter: Swift.Codable {
 }
 
 extension ECRClientTypes {
-    /// The filter settings used with image replication. Specifying a repository filter to a replication rule provides a method for controlling which repositories in a private registry are replicated. If no repository filter is specified, all images in the repository are replicated.
+    /// The filter settings used with image replication. Specifying a repository filter to a replication rule provides a method for controlling which repositories in a private registry are replicated. If no filters are added, the contents of all repositories are replicated.
     public struct RepositoryFilter: Swift.Equatable {
         /// The repository filter details. When the PREFIX_MATCH filter type is specified, this value is required and should be the repository name prefix to configure replication for.
         /// This member is required.
@@ -10498,6 +10502,7 @@ public enum StartLifecyclePolicyPreviewOutputError: ClientRuntime.HttpResponseEr
             case "LifecyclePolicyPreviewInProgressException": return try await LifecyclePolicyPreviewInProgressException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "RepositoryNotFoundException": return try await RepositoryNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ServerException": return try await ServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
@@ -10602,8 +10607,10 @@ extension ECRClientTypes {
     /// The metadata to apply to a resource to help you categorize and organize them. Each tag consists of a key and a value, both of which you define. Tag keys can have a maximum character length of 128 characters, and tag values can have a maximum length of 256 characters.
     public struct Tag: Swift.Equatable {
         /// One part of a key-value pair that make up a tag. A key is a general label that acts like a category for more specific tag values.
+        /// This member is required.
         public var key: Swift.String?
         /// A value acts as a descriptor within a tag category (key).
+        /// This member is required.
         public var value: Swift.String?
 
         public init(

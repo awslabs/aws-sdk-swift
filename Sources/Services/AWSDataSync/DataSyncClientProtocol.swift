@@ -186,7 +186,7 @@ public protocol DataSyncClientProtocol {
     /// - `InternalException` : This exception is thrown when an error occurs in the DataSync service.
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     func createLocationSmb(input: CreateLocationSmbInput) async throws -> CreateLocationSmbOutputResponse
-    /// Configures a task, which defines where and how DataSync transfers your data. A task includes a source location, a destination location, and the preferences for how and when you want to transfer your data (such as bandwidth limits, scheduling, among other options). If you're planning to transfer data to or from an Amazon S3 location, review [how DataSync can affect your S3 request charges](https://docs.aws.amazon.com/datasync/latest/userguide/create-s3-location.html#create-s3-location-s3-requests) and the [DataSync pricing page](http://aws.amazon.com/datasync/pricing/) before you begin.
+    /// Configures a transfer task, which defines where and how DataSync moves your data. A task includes a source location, destination location, and the options for how and when you want to transfer your data (such as bandwidth limits, scheduling, among other options). If you're planning to transfer data to or from an Amazon S3 location, review [how DataSync can affect your S3 request charges](https://docs.aws.amazon.com/datasync/latest/userguide/create-s3-location.html#create-s3-location-s3-requests) and the [DataSync pricing page](http://aws.amazon.com/datasync/pricing/) before you begin.
     ///
     /// - Parameter CreateTaskInput : CreateTaskRequest
     ///
@@ -222,7 +222,7 @@ public protocol DataSyncClientProtocol {
     /// - `InternalException` : This exception is thrown when an error occurs in the DataSync service.
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     func deleteLocation(input: DeleteLocationInput) async throws -> DeleteLocationOutputResponse
-    /// Deletes an DataSync task.
+    /// Deletes an DataSync transfer task.
     ///
     /// - Parameter DeleteTaskInput : DeleteTask
     ///
@@ -438,7 +438,7 @@ public protocol DataSyncClientProtocol {
     /// - `InternalException` : This exception is thrown when an error occurs in the DataSync service.
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     func describeTask(input: DescribeTaskInput) async throws -> DescribeTaskOutputResponse
-    /// Provides information about an DataSync transfer task that's running.
+    /// Provides information about an execution of your DataSync task. You can use this operation to help monitor the progress of an ongoing transfer or check the results of the transfer.
     ///
     /// - Parameter DescribeTaskExecutionInput : DescribeTaskExecutionRequest
     ///
@@ -570,7 +570,7 @@ public protocol DataSyncClientProtocol {
     /// - `InternalException` : This exception is thrown when an error occurs in the DataSync service.
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     func startDiscoveryJob(input: StartDiscoveryJobInput) async throws -> StartDiscoveryJobOutputResponse
-    /// Starts an DataSync task. For each task, you can only run one task execution at a time. There are several phases to a task execution. For more information, see [Task execution statuses](https://docs.aws.amazon.com/datasync/latest/userguide/working-with-task-executions.html#understand-task-execution-statuses). If you're planning to transfer data to or from an Amazon S3 location, review [how DataSync can affect your S3 request charges](https://docs.aws.amazon.com/datasync/latest/userguide/create-s3-location.html#create-s3-location-s3-requests) and the [DataSync pricing page](http://aws.amazon.com/datasync/pricing/) before you begin.
+    /// Starts an DataSync transfer task. For each task, you can only run one task execution at a time. There are several phases to a task execution. For more information, see [Task execution statuses](https://docs.aws.amazon.com/datasync/latest/userguide/working-with-task-executions.html#understand-task-execution-statuses). If you're planning to transfer data to or from an Amazon S3 location, review [how DataSync can affect your S3 request charges](https://docs.aws.amazon.com/datasync/latest/userguide/create-s3-location.html#create-s3-location-s3-requests) and the [DataSync pricing page](http://aws.amazon.com/datasync/pricing/) before you begin.
     ///
     /// - Parameter StartTaskExecutionInput : StartTaskExecutionRequest
     ///
@@ -714,7 +714,7 @@ public protocol DataSyncClientProtocol {
     /// - `InternalException` : This exception is thrown when an error occurs in the DataSync service.
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     func updateStorageSystem(input: UpdateStorageSystemInput) async throws -> UpdateStorageSystemOutputResponse
-    /// Updates the metadata associated with a task.
+    /// Updates the configuration of a DataSync transfer task.
     ///
     /// - Parameter UpdateTaskInput : UpdateTaskResponse
     ///
@@ -726,7 +726,7 @@ public protocol DataSyncClientProtocol {
     /// - `InternalException` : This exception is thrown when an error occurs in the DataSync service.
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     func updateTask(input: UpdateTaskInput) async throws -> UpdateTaskOutputResponse
-    /// Modifies a running DataSync task. Currently, the only Option that you can modify with UpdateTaskExecution is [BytesPerSecond](https://docs.aws.amazon.com/datasync/latest/userguide/API_Options.html#DataSync-Type-Options-BytesPerSecond), which throttles bandwidth for a running or queued task.
+    /// Updates the configuration of a running DataSync task execution. Currently, the only Option that you can modify with UpdateTaskExecution is [BytesPerSecond](https://docs.aws.amazon.com/datasync/latest/userguide/API_Options.html#DataSync-Type-Options-BytesPerSecond), which throttles bandwidth for a running or queued task execution.
     ///
     /// - Parameter UpdateTaskExecutionInput : [no documentation found]
     ///

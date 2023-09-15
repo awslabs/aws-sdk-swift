@@ -10386,11 +10386,13 @@ extension ElasticLoadBalancingv2ClientTypes {
         ///
         /// The following attributes are supported only by Network Load Balancers:
         ///
-        /// * deregistration_delay.connection_termination.enabled - Indicates whether the load balancer terminates connections at the end of the deregistration timeout. The value is true or false. The default is false.
+        /// * deregistration_delay.connection_termination.enabled - Indicates whether the load balancer terminates connections at the end of the deregistration timeout. The value is true or false. For new UDP/TCP_UDP target groups the default is true. Otherwise, the default is false.
         ///
         /// * preserve_client_ip.enabled - Indicates whether client IP preservation is enabled. The value is true or false. The default is disabled if the target group type is IP address and the target group protocol is TCP or TLS. Otherwise, the default is enabled. Client IP preservation cannot be disabled for UDP and TCP_UDP target groups.
         ///
         /// * proxy_protocol_v2.enabled - Indicates whether Proxy Protocol version 2 is enabled. The value is true or false. The default is false.
+        ///
+        /// * target_health_state.unhealthy.connection_termination.enabled - Indicates whether the load balancer terminates connections to unhealthy targets. The value is true or false. The default is true.
         ///
         ///
         /// The following attributes are supported only by Gateway Load Balancers:

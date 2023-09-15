@@ -10745,6 +10745,7 @@ extension RDSClientTypes.DBCluster: Swift.Codable {
         case autoMinorVersionUpgrade = "AutoMinorVersionUpgrade"
         case automaticRestartTime = "AutomaticRestartTime"
         case availabilityZones = "AvailabilityZones"
+        case awsBackupRecoveryPointArn = "AwsBackupRecoveryPointArn"
         case backtrackConsumedChangeRecords = "BacktrackConsumedChangeRecords"
         case backtrackWindow = "BacktrackWindow"
         case backupRetentionPeriod = "BackupRetentionPeriod"
@@ -10857,6 +10858,9 @@ extension RDSClientTypes.DBCluster: Swift.Codable {
                 var availabilityZonesContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("AvailabilityZones"))
                 try availabilityZonesContainer.encode("", forKey: ClientRuntime.Key(""))
             }
+        }
+        if let awsBackupRecoveryPointArn = awsBackupRecoveryPointArn {
+            try container.encode(awsBackupRecoveryPointArn, forKey: ClientRuntime.Key("AwsBackupRecoveryPointArn"))
         }
         if let backtrackConsumedChangeRecords = backtrackConsumedChangeRecords {
             try container.encode(backtrackConsumedChangeRecords, forKey: ClientRuntime.Key("BacktrackConsumedChangeRecords"))
@@ -11442,6 +11446,8 @@ extension RDSClientTypes.DBCluster: Swift.Codable {
         ioOptimizedNextAllowedModificationTime = ioOptimizedNextAllowedModificationTimeDecoded
         let localWriteForwardingStatusDecoded = try containerValues.decodeIfPresent(RDSClientTypes.LocalWriteForwardingStatus.self, forKey: .localWriteForwardingStatus)
         localWriteForwardingStatus = localWriteForwardingStatusDecoded
+        let awsBackupRecoveryPointArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .awsBackupRecoveryPointArn)
+        awsBackupRecoveryPointArn = awsBackupRecoveryPointArnDecoded
     }
 }
 
@@ -11466,6 +11472,8 @@ extension RDSClientTypes {
         public var automaticRestartTime: ClientRuntime.Date?
         /// The list of Availability Zones (AZs) where instances in the DB cluster can be created.
         public var availabilityZones: [Swift.String]?
+        /// The Amazon Resource Name (ARN) of the recovery point in Amazon Web Services Backup.
+        public var awsBackupRecoveryPointArn: Swift.String?
         /// The number of change records stored for Backtrack.
         public var backtrackConsumedChangeRecords: Swift.Int?
         /// The target backtrack window, in seconds. If this value is set to 0, backtracking is disabled for the DB cluster. Otherwise, backtracking is enabled.
@@ -11614,6 +11622,7 @@ extension RDSClientTypes {
             autoMinorVersionUpgrade: Swift.Bool = false,
             automaticRestartTime: ClientRuntime.Date? = nil,
             availabilityZones: [Swift.String]? = nil,
+            awsBackupRecoveryPointArn: Swift.String? = nil,
             backtrackConsumedChangeRecords: Swift.Int? = nil,
             backtrackWindow: Swift.Int? = nil,
             backupRetentionPeriod: Swift.Int? = nil,
@@ -11689,6 +11698,7 @@ extension RDSClientTypes {
             self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
             self.automaticRestartTime = automaticRestartTime
             self.availabilityZones = availabilityZones
+            self.awsBackupRecoveryPointArn = awsBackupRecoveryPointArn
             self.backtrackConsumedChangeRecords = backtrackConsumedChangeRecords
             self.backtrackWindow = backtrackWindow
             self.backupRetentionPeriod = backupRetentionPeriod
@@ -11816,6 +11826,7 @@ extension RDSClientTypes.DBClusterAutomatedBackup: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case allocatedStorage = "AllocatedStorage"
         case availabilityZones = "AvailabilityZones"
+        case awsBackupRecoveryPointArn = "AwsBackupRecoveryPointArn"
         case backupRetentionPeriod = "BackupRetentionPeriod"
         case clusterCreateTime = "ClusterCreateTime"
         case dbClusterArn = "DBClusterArn"
@@ -11855,6 +11866,9 @@ extension RDSClientTypes.DBClusterAutomatedBackup: Swift.Codable {
                 var availabilityZonesContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("AvailabilityZones"))
                 try availabilityZonesContainer.encode("", forKey: ClientRuntime.Key(""))
             }
+        }
+        if let awsBackupRecoveryPointArn = awsBackupRecoveryPointArn {
+            try container.encode(awsBackupRecoveryPointArn, forKey: ClientRuntime.Key("AwsBackupRecoveryPointArn"))
         }
         if let backupRetentionPeriod = backupRetentionPeriod {
             try container.encode(backupRetentionPeriod, forKey: ClientRuntime.Key("BackupRetentionPeriod"))
@@ -11986,6 +12000,8 @@ extension RDSClientTypes.DBClusterAutomatedBackup: Swift.Codable {
         storageType = storageTypeDecoded
         let iopsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .iops)
         iops = iopsDecoded
+        let awsBackupRecoveryPointArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .awsBackupRecoveryPointArn)
+        awsBackupRecoveryPointArn = awsBackupRecoveryPointArnDecoded
     }
 }
 
@@ -11996,6 +12012,8 @@ extension RDSClientTypes {
         public var allocatedStorage: Swift.Int
         /// The Availability Zones where instances in the DB cluster can be created. For information on Amazon Web Services Regions and Availability Zones, see [Regions and Availability Zones](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/Concepts.RegionsAndAvailabilityZones.html).
         public var availabilityZones: [Swift.String]?
+        /// The Amazon Resource Name (ARN) of the recovery point in Amazon Web Services Backup.
+        public var awsBackupRecoveryPointArn: Swift.String?
         /// The retention period for the automated backups.
         public var backupRetentionPeriod: Swift.Int?
         /// The time when the DB cluster was created, in Universal Coordinated Time (UTC).
@@ -12044,6 +12062,7 @@ extension RDSClientTypes {
         public init(
             allocatedStorage: Swift.Int = 0,
             availabilityZones: [Swift.String]? = nil,
+            awsBackupRecoveryPointArn: Swift.String? = nil,
             backupRetentionPeriod: Swift.Int? = nil,
             clusterCreateTime: ClientRuntime.Date? = nil,
             dbClusterArn: Swift.String? = nil,
@@ -12069,6 +12088,7 @@ extension RDSClientTypes {
         {
             self.allocatedStorage = allocatedStorage
             self.availabilityZones = availabilityZones
+            self.awsBackupRecoveryPointArn = awsBackupRecoveryPointArn
             self.backupRetentionPeriod = backupRetentionPeriod
             self.clusterCreateTime = clusterCreateTime
             self.dbClusterArn = dbClusterArn
@@ -15681,6 +15701,7 @@ extension RDSClientTypes.DBInstanceAutomatedBackup: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case allocatedStorage = "AllocatedStorage"
         case availabilityZone = "AvailabilityZone"
+        case awsBackupRecoveryPointArn = "AwsBackupRecoveryPointArn"
         case backupRetentionPeriod = "BackupRetentionPeriod"
         case backupTarget = "BackupTarget"
         case dbInstanceArn = "DBInstanceArn"
@@ -15716,6 +15737,9 @@ extension RDSClientTypes.DBInstanceAutomatedBackup: Swift.Codable {
         }
         if let availabilityZone = availabilityZone {
             try container.encode(availabilityZone, forKey: ClientRuntime.Key("AvailabilityZone"))
+        }
+        if let awsBackupRecoveryPointArn = awsBackupRecoveryPointArn {
+            try container.encode(awsBackupRecoveryPointArn, forKey: ClientRuntime.Key("AwsBackupRecoveryPointArn"))
         }
         if let backupRetentionPeriod = backupRetentionPeriod {
             try container.encode(backupRetentionPeriod, forKey: ClientRuntime.Key("BackupRetentionPeriod"))
@@ -15881,6 +15905,8 @@ extension RDSClientTypes.DBInstanceAutomatedBackup: Swift.Codable {
         backupTarget = backupTargetDecoded
         let storageThroughputDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .storageThroughput)
         storageThroughput = storageThroughputDecoded
+        let awsBackupRecoveryPointArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .awsBackupRecoveryPointArn)
+        awsBackupRecoveryPointArn = awsBackupRecoveryPointArnDecoded
     }
 }
 
@@ -15891,6 +15917,8 @@ extension RDSClientTypes {
         public var allocatedStorage: Swift.Int
         /// The Availability Zone that the automated backup was created in. For information on Amazon Web Services Regions and Availability Zones, see [Regions and Availability Zones](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Concepts.RegionsAndAvailabilityZones.html).
         public var availabilityZone: Swift.String?
+        /// The Amazon Resource Name (ARN) of the recovery point in Amazon Web Services Backup.
+        public var awsBackupRecoveryPointArn: Swift.String?
         /// The retention period for the automated backups.
         public var backupRetentionPeriod: Swift.Int?
         /// Specifies where automated backups are stored: Amazon Web Services Outposts or the Amazon Web Services Region.
@@ -15953,6 +15981,7 @@ extension RDSClientTypes {
         public init(
             allocatedStorage: Swift.Int = 0,
             availabilityZone: Swift.String? = nil,
+            awsBackupRecoveryPointArn: Swift.String? = nil,
             backupRetentionPeriod: Swift.Int? = nil,
             backupTarget: Swift.String? = nil,
             dbInstanceArn: Swift.String? = nil,
@@ -15983,6 +16012,7 @@ extension RDSClientTypes {
         {
             self.allocatedStorage = allocatedStorage
             self.availabilityZone = availabilityZone
+            self.awsBackupRecoveryPointArn = awsBackupRecoveryPointArn
             self.backupRetentionPeriod = backupRetentionPeriod
             self.backupTarget = backupTarget
             self.dbInstanceArn = dbInstanceArn
@@ -36316,6 +36346,9 @@ extension ModifyDBClusterInput: Swift.Encodable {
         if let autoMinorVersionUpgrade = autoMinorVersionUpgrade {
             try container.encode(autoMinorVersionUpgrade, forKey: ClientRuntime.Key("AutoMinorVersionUpgrade"))
         }
+        if let awsBackupRecoveryPointArn = awsBackupRecoveryPointArn {
+            try container.encode(awsBackupRecoveryPointArn, forKey: ClientRuntime.Key("AwsBackupRecoveryPointArn"))
+        }
         if let backtrackWindow = backtrackWindow {
             try container.encode(backtrackWindow, forKey: ClientRuntime.Key("BacktrackWindow"))
         }
@@ -36463,6 +36496,8 @@ public struct ModifyDBClusterInput: Swift.Equatable {
     public var applyImmediately: Swift.Bool?
     /// Specifies whether minor engine upgrades are applied automatically to the DB cluster during the maintenance window. By default, minor engine upgrades are applied automatically. Valid for Cluster Type: Multi-AZ DB clusters only
     public var autoMinorVersionUpgrade: Swift.Bool?
+    /// The Amazon Resource Name (ARN) of the recovery point in Amazon Web Services Backup.
+    public var awsBackupRecoveryPointArn: Swift.String?
     /// The target backtrack window, in seconds. To disable backtracking, set this value to 0. Valid for Cluster Type: Aurora MySQL DB clusters only Default: 0 Constraints:
     ///
     /// * If specified, this value must be set to a number from 0 to 259,200 (72 hours).
@@ -36628,6 +36663,7 @@ public struct ModifyDBClusterInput: Swift.Equatable {
         allowMajorVersionUpgrade: Swift.Bool? = nil,
         applyImmediately: Swift.Bool? = nil,
         autoMinorVersionUpgrade: Swift.Bool? = nil,
+        awsBackupRecoveryPointArn: Swift.String? = nil,
         backtrackWindow: Swift.Int? = nil,
         backupRetentionPeriod: Swift.Int? = nil,
         cloudwatchLogsExportConfiguration: RDSClientTypes.CloudwatchLogsExportConfiguration? = nil,
@@ -36672,6 +36708,7 @@ public struct ModifyDBClusterInput: Swift.Equatable {
         self.allowMajorVersionUpgrade = allowMajorVersionUpgrade
         self.applyImmediately = applyImmediately
         self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
+        self.awsBackupRecoveryPointArn = awsBackupRecoveryPointArn
         self.backtrackWindow = backtrackWindow
         self.backupRetentionPeriod = backupRetentionPeriod
         self.cloudwatchLogsExportConfiguration = cloudwatchLogsExportConfiguration
@@ -36755,6 +36792,7 @@ struct ModifyDBClusterInputBody: Swift.Equatable {
     let engineMode: Swift.String?
     let allowEngineModeChange: Swift.Bool?
     let enableLocalWriteForwarding: Swift.Bool?
+    let awsBackupRecoveryPointArn: Swift.String?
 }
 
 extension ModifyDBClusterInputBody: Swift.Decodable {
@@ -36764,6 +36802,7 @@ extension ModifyDBClusterInputBody: Swift.Decodable {
         case allowMajorVersionUpgrade = "AllowMajorVersionUpgrade"
         case applyImmediately = "ApplyImmediately"
         case autoMinorVersionUpgrade = "AutoMinorVersionUpgrade"
+        case awsBackupRecoveryPointArn = "AwsBackupRecoveryPointArn"
         case backtrackWindow = "BacktrackWindow"
         case backupRetentionPeriod = "BackupRetentionPeriod"
         case cloudwatchLogsExportConfiguration = "CloudwatchLogsExportConfiguration"
@@ -36906,6 +36945,8 @@ extension ModifyDBClusterInputBody: Swift.Decodable {
         allowEngineModeChange = allowEngineModeChangeDecoded
         let enableLocalWriteForwardingDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enableLocalWriteForwarding)
         enableLocalWriteForwarding = enableLocalWriteForwardingDecoded
+        let awsBackupRecoveryPointArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .awsBackupRecoveryPointArn)
+        awsBackupRecoveryPointArn = awsBackupRecoveryPointArnDecoded
     }
 }
 
@@ -46299,6 +46340,7 @@ public enum RestoreDBClusterFromSnapshotOutputError: ClientRuntime.HttpResponseE
             case "DBClusterQuotaExceededFault": return try await DBClusterQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "DBClusterSnapshotNotFoundFault": return try await DBClusterSnapshotNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "DBSnapshotNotFound": return try await DBSnapshotNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
+            case "DBSubnetGroupDoesNotCoverEnoughAZs": return try await DBSubnetGroupDoesNotCoverEnoughAZs(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "DBSubnetGroupNotFoundFault": return try await DBSubnetGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "DomainNotFoundFault": return try await DomainNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
             case "InsufficientDBClusterCapacityFault": return try await InsufficientDBClusterCapacityFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)

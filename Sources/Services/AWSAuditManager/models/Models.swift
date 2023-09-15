@@ -33,6 +33,11 @@ extension AuditManagerClientTypes.AWSAccount: Swift.Codable {
     }
 }
 
+extension AuditManagerClientTypes.AWSAccount: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "AWSAccount(id: \(Swift.String(describing: id)), name: \(Swift.String(describing: name)), emailAddress: \"CONTENT_REDACTED\")"}
+}
+
 extension AuditManagerClientTypes {
     /// The wrapper of Amazon Web Services account details, such as account ID or email address.
     public struct AWSAccount: Swift.Equatable {
@@ -290,6 +295,11 @@ extension AuditManagerClientTypes.Assessment: Swift.Codable {
         }
         tags = tagsDecoded0
     }
+}
+
+extension AuditManagerClientTypes.Assessment: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "Assessment(arn: \(Swift.String(describing: arn)), awsAccount: \(Swift.String(describing: awsAccount)), metadata: \(Swift.String(describing: metadata)), tags: \(Swift.String(describing: tags)), framework: \"CONTENT_REDACTED\")"}
 }
 
 extension AuditManagerClientTypes {
@@ -558,6 +568,11 @@ extension AuditManagerClientTypes.AssessmentControlSet: Swift.Codable {
         let manualEvidenceCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .manualEvidenceCount) ?? 0
         manualEvidenceCount = manualEvidenceCountDecoded
     }
+}
+
+extension AuditManagerClientTypes.AssessmentControlSet: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "AssessmentControlSet(controls: \(Swift.String(describing: controls)), delegations: \(Swift.String(describing: delegations)), description: \(Swift.String(describing: description)), id: \(Swift.String(describing: id)), manualEvidenceCount: \(Swift.String(describing: manualEvidenceCount)), status: \(Swift.String(describing: status)), systemEvidenceCount: \(Swift.String(describing: systemEvidenceCount)), roles: \"CONTENT_REDACTED\")"}
 }
 
 extension AuditManagerClientTypes {
@@ -858,6 +873,12 @@ extension AuditManagerClientTypes.AssessmentFramework: Swift.Codable {
     }
 }
 
+extension AuditManagerClientTypes.AssessmentFramework: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CONTENT_REDACTED"
+    }
+}
+
 extension AuditManagerClientTypes {
     /// The file used to structure and automate Audit Manager assessments for a given compliance standard.
     public struct AssessmentFramework: Swift.Equatable {
@@ -963,6 +984,11 @@ extension AuditManagerClientTypes.AssessmentFrameworkMetadata: Swift.Codable {
         let lastUpdatedAtDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastUpdatedAt)
         lastUpdatedAt = lastUpdatedAtDecoded
     }
+}
+
+extension AuditManagerClientTypes.AssessmentFrameworkMetadata: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "AssessmentFrameworkMetadata(arn: \(Swift.String(describing: arn)), controlSetsCount: \(Swift.String(describing: controlSetsCount)), controlsCount: \(Swift.String(describing: controlsCount)), createdAt: \(Swift.String(describing: createdAt)), description: \(Swift.String(describing: description)), id: \(Swift.String(describing: id)), lastUpdatedAt: \(Swift.String(describing: lastUpdatedAt)), logo: \(Swift.String(describing: logo)), name: \(Swift.String(describing: name)), type: \(Swift.String(describing: type)), complianceType: \"CONTENT_REDACTED\")"}
 }
 
 extension AuditManagerClientTypes {
@@ -1122,6 +1148,11 @@ extension AuditManagerClientTypes.AssessmentFrameworkShareRequest: Swift.Codable
         let complianceTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .complianceType)
         complianceType = complianceTypeDecoded
     }
+}
+
+extension AuditManagerClientTypes.AssessmentFrameworkShareRequest: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "AssessmentFrameworkShareRequest(comment: \(Swift.String(describing: comment)), creationTime: \(Swift.String(describing: creationTime)), customControlsCount: \(Swift.String(describing: customControlsCount)), destinationAccount: \(Swift.String(describing: destinationAccount)), destinationRegion: \(Swift.String(describing: destinationRegion)), expirationTime: \(Swift.String(describing: expirationTime)), frameworkDescription: \(Swift.String(describing: frameworkDescription)), frameworkId: \(Swift.String(describing: frameworkId)), frameworkName: \(Swift.String(describing: frameworkName)), id: \(Swift.String(describing: id)), lastUpdated: \(Swift.String(describing: lastUpdated)), sourceAccount: \(Swift.String(describing: sourceAccount)), standardControlsCount: \(Swift.String(describing: standardControlsCount)), status: \(Swift.String(describing: status)), complianceType: \"CONTENT_REDACTED\")"}
 }
 
 extension AuditManagerClientTypes {
@@ -1299,6 +1330,11 @@ extension AuditManagerClientTypes.AssessmentMetadata: Swift.Codable {
     }
 }
 
+extension AuditManagerClientTypes.AssessmentMetadata: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "AssessmentMetadata(creationTime: \(Swift.String(describing: creationTime)), delegations: \(Swift.String(describing: delegations)), id: \(Swift.String(describing: id)), lastUpdated: \(Swift.String(describing: lastUpdated)), status: \(Swift.String(describing: status)), assessmentReportsDestination: \"CONTENT_REDACTED\", complianceType: \"CONTENT_REDACTED\", description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\", roles: \"CONTENT_REDACTED\", scope: \"CONTENT_REDACTED\")"}
+}
+
 extension AuditManagerClientTypes {
     /// The metadata that's associated with the specified assessment.
     public struct AssessmentMetadata: Swift.Equatable {
@@ -1440,6 +1476,11 @@ extension AuditManagerClientTypes.AssessmentMetadataItem: Swift.Codable {
     }
 }
 
+extension AuditManagerClientTypes.AssessmentMetadataItem: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "AssessmentMetadataItem(creationTime: \(Swift.String(describing: creationTime)), delegations: \(Swift.String(describing: delegations)), id: \(Swift.String(describing: id)), lastUpdated: \(Swift.String(describing: lastUpdated)), status: \(Swift.String(describing: status)), complianceType: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\", roles: \"CONTENT_REDACTED\")"}
+}
+
 extension AuditManagerClientTypes {
     /// A metadata object that's associated with an assessment in Audit Manager.
     public struct AssessmentMetadataItem: Swift.Equatable {
@@ -1549,6 +1590,11 @@ extension AuditManagerClientTypes.AssessmentReport: Swift.Codable {
         let creationTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .creationTime)
         creationTime = creationTimeDecoded
     }
+}
+
+extension AuditManagerClientTypes.AssessmentReport: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "AssessmentReport(assessmentId: \(Swift.String(describing: assessmentId)), awsAccountId: \(Swift.String(describing: awsAccountId)), creationTime: \(Swift.String(describing: creationTime)), id: \(Swift.String(describing: id)), name: \(Swift.String(describing: name)), status: \(Swift.String(describing: status)), assessmentName: \"CONTENT_REDACTED\", author: \"CONTENT_REDACTED\", description: \"CONTENT_REDACTED\")"}
 }
 
 extension AuditManagerClientTypes {
@@ -1744,6 +1790,11 @@ extension AuditManagerClientTypes.AssessmentReportMetadata: Swift.Codable {
     }
 }
 
+extension AuditManagerClientTypes.AssessmentReportMetadata: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "AssessmentReportMetadata(assessmentId: \(Swift.String(describing: assessmentId)), creationTime: \(Swift.String(describing: creationTime)), id: \(Swift.String(describing: id)), name: \(Swift.String(describing: name)), status: \(Swift.String(describing: status)), assessmentName: \"CONTENT_REDACTED\", author: \"CONTENT_REDACTED\", description: \"CONTENT_REDACTED\")"}
+}
+
 extension AuditManagerClientTypes {
     /// The metadata objects that are associated with the specified assessment report.
     public struct AssessmentReportMetadata: Swift.Equatable {
@@ -1845,6 +1896,12 @@ extension AuditManagerClientTypes.AssessmentReportsDestination: Swift.Codable {
         destinationType = destinationTypeDecoded
         let destinationDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .destination)
         destination = destinationDecoded
+    }
+}
+
+extension AuditManagerClientTypes.AssessmentReportsDestination: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CONTENT_REDACTED"
     }
 }
 
@@ -2198,6 +2255,11 @@ extension AuditManagerClientTypes {
 
 }
 
+extension BatchCreateDelegationByAssessmentInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "BatchCreateDelegationByAssessmentInput(assessmentId: \(Swift.String(describing: assessmentId)), createDelegationRequests: \"CONTENT_REDACTED\")"}
+}
+
 extension BatchCreateDelegationByAssessmentInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case createDelegationRequests
@@ -2278,6 +2340,11 @@ public enum BatchCreateDelegationByAssessmentOutputError: ClientRuntime.HttpResp
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
+}
+
+extension BatchCreateDelegationByAssessmentOutputResponse: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "BatchCreateDelegationByAssessmentOutputResponse(delegations: \(Swift.String(describing: delegations)), errors: \"CONTENT_REDACTED\")"}
 }
 
 extension BatchCreateDelegationByAssessmentOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -2483,6 +2550,11 @@ public enum BatchDeleteDelegationByAssessmentOutputError: ClientRuntime.HttpResp
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
+}
+
+extension BatchDeleteDelegationByAssessmentOutputResponse: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "BatchDeleteDelegationByAssessmentOutputResponse(errors: \"CONTENT_REDACTED\")"}
 }
 
 extension BatchDeleteDelegationByAssessmentOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -3102,6 +3174,11 @@ extension AuditManagerClientTypes.Control: Swift.Codable {
     }
 }
 
+extension AuditManagerClientTypes.Control: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "Control(arn: \(Swift.String(describing: arn)), controlMappingSources: \(Swift.String(describing: controlMappingSources)), controlSources: \(Swift.String(describing: controlSources)), createdAt: \(Swift.String(describing: createdAt)), description: \(Swift.String(describing: description)), id: \(Swift.String(describing: id)), lastUpdatedAt: \(Swift.String(describing: lastUpdatedAt)), name: \(Swift.String(describing: name)), tags: \(Swift.String(describing: tags)), type: \(Swift.String(describing: type)), actionPlanInstructions: \"CONTENT_REDACTED\", actionPlanTitle: \"CONTENT_REDACTED\", createdBy: \"CONTENT_REDACTED\", lastUpdatedBy: \"CONTENT_REDACTED\", testingInformation: \"CONTENT_REDACTED\")"}
+}
+
 extension AuditManagerClientTypes {
     /// A control in Audit Manager.
     public struct Control: Swift.Equatable {
@@ -3203,6 +3280,11 @@ extension AuditManagerClientTypes.ControlComment: Swift.Codable {
         let postedDateDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .postedDate)
         postedDate = postedDateDecoded
     }
+}
+
+extension AuditManagerClientTypes.ControlComment: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "ControlComment(postedDate: \(Swift.String(describing: postedDate)), authorName: \"CONTENT_REDACTED\", commentBody: \"CONTENT_REDACTED\")"}
 }
 
 extension AuditManagerClientTypes {
@@ -3513,6 +3595,11 @@ extension AuditManagerClientTypes.ControlMappingSource: Swift.Codable {
         let troubleshootingTextDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .troubleshootingText)
         troubleshootingText = troubleshootingTextDecoded
     }
+}
+
+extension AuditManagerClientTypes.ControlMappingSource: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "ControlMappingSource(sourceDescription: \(Swift.String(describing: sourceDescription)), sourceFrequency: \(Swift.String(describing: sourceFrequency)), sourceId: \(Swift.String(describing: sourceId)), sourceKeyword: \(Swift.String(describing: sourceKeyword)), sourceName: \(Swift.String(describing: sourceName)), sourceSetUpOption: \(Swift.String(describing: sourceSetUpOption)), sourceType: \(Swift.String(describing: sourceType)), troubleshootingText: \"CONTENT_REDACTED\")"}
 }
 
 extension AuditManagerClientTypes {
@@ -3953,6 +4040,11 @@ extension AuditManagerClientTypes {
 
 }
 
+extension CreateAssessmentFrameworkInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CreateAssessmentFrameworkInput(controlSets: \(Swift.String(describing: controlSets)), description: \(Swift.String(describing: description)), name: \(Swift.String(describing: name)), tags: \(Swift.String(describing: tags)), complianceType: \"CONTENT_REDACTED\")"}
+}
+
 extension CreateAssessmentFrameworkInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case complianceType
@@ -4127,6 +4219,11 @@ extension CreateAssessmentFrameworkOutputResponseBody: Swift.Decodable {
         let frameworkDecoded = try containerValues.decodeIfPresent(AuditManagerClientTypes.Framework.self, forKey: .framework)
         framework = frameworkDecoded
     }
+}
+
+extension CreateAssessmentInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CreateAssessmentInput(frameworkId: \(Swift.String(describing: frameworkId)), tags: \(Swift.String(describing: tags)), assessmentReportsDestination: \"CONTENT_REDACTED\", description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\", roles: \"CONTENT_REDACTED\", scope: \"CONTENT_REDACTED\")"}
 }
 
 extension CreateAssessmentInput: Swift.Encodable {
@@ -4332,6 +4429,11 @@ extension CreateAssessmentOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension CreateAssessmentReportInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CreateAssessmentReportInput(assessmentId: \(Swift.String(describing: assessmentId)), name: \(Swift.String(describing: name)), queryStatement: \(Swift.String(describing: queryStatement)), description: \"CONTENT_REDACTED\")"}
+}
+
 extension CreateAssessmentReportInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case description
@@ -4464,6 +4566,11 @@ extension CreateAssessmentReportOutputResponseBody: Swift.Decodable {
         let assessmentReportDecoded = try containerValues.decodeIfPresent(AuditManagerClientTypes.AssessmentReport.self, forKey: .assessmentReport)
         assessmentReport = assessmentReportDecoded
     }
+}
+
+extension CreateControlInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CreateControlInput(controlMappingSources: \(Swift.String(describing: controlMappingSources)), description: \(Swift.String(describing: description)), name: \(Swift.String(describing: name)), tags: \(Swift.String(describing: tags)), actionPlanInstructions: \"CONTENT_REDACTED\", actionPlanTitle: \"CONTENT_REDACTED\", testingInformation: \"CONTENT_REDACTED\")"}
 }
 
 extension CreateControlInput: Swift.Encodable {
@@ -4666,6 +4773,11 @@ extension AuditManagerClientTypes.CreateControlMappingSource: Swift.Codable {
     }
 }
 
+extension AuditManagerClientTypes.CreateControlMappingSource: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CreateControlMappingSource(sourceDescription: \(Swift.String(describing: sourceDescription)), sourceFrequency: \(Swift.String(describing: sourceFrequency)), sourceKeyword: \(Swift.String(describing: sourceKeyword)), sourceName: \(Swift.String(describing: sourceName)), sourceSetUpOption: \(Swift.String(describing: sourceSetUpOption)), sourceType: \(Swift.String(describing: sourceType)), troubleshootingText: \"CONTENT_REDACTED\")"}
+}
+
 extension AuditManagerClientTypes {
     /// The control mapping fields that represent the source for evidence collection, along with related parameters and metadata. This doesn't contain mappingID.
     public struct CreateControlMappingSource: Swift.Equatable {
@@ -4804,6 +4916,11 @@ extension AuditManagerClientTypes.CreateDelegationRequest: Swift.Codable {
         let roleTypeDecoded = try containerValues.decodeIfPresent(AuditManagerClientTypes.RoleType.self, forKey: .roleType)
         roleType = roleTypeDecoded
     }
+}
+
+extension AuditManagerClientTypes.CreateDelegationRequest: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CreateDelegationRequest(controlSetId: \(Swift.String(describing: controlSetId)), roleArn: \(Swift.String(describing: roleArn)), roleType: \(Swift.String(describing: roleType)), comment: \"CONTENT_REDACTED\")"}
 }
 
 extension AuditManagerClientTypes {
@@ -4958,6 +5075,12 @@ extension AuditManagerClientTypes.Delegation: Swift.Codable {
     }
 }
 
+extension AuditManagerClientTypes.Delegation: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CONTENT_REDACTED"
+    }
+}
+
 extension AuditManagerClientTypes {
     /// The assignment of a control set to a delegate for review.
     public struct Delegation: Swift.Equatable {
@@ -5067,6 +5190,11 @@ extension AuditManagerClientTypes.DelegationMetadata: Swift.Codable {
         let controlSetNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .controlSetName)
         controlSetName = controlSetNameDecoded
     }
+}
+
+extension AuditManagerClientTypes.DelegationMetadata: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "DelegationMetadata(assessmentId: \(Swift.String(describing: assessmentId)), controlSetName: \(Swift.String(describing: controlSetName)), creationTime: \(Swift.String(describing: creationTime)), id: \(Swift.String(describing: id)), roleArn: \(Swift.String(describing: roleArn)), status: \(Swift.String(describing: status)), assessmentName: \"CONTENT_REDACTED\")"}
 }
 
 extension AuditManagerClientTypes {
@@ -6305,6 +6433,11 @@ extension AuditManagerClientTypes.Framework: Swift.Codable {
     }
 }
 
+extension AuditManagerClientTypes.Framework: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "Framework(arn: \(Swift.String(describing: arn)), controlSources: \(Swift.String(describing: controlSources)), createdAt: \(Swift.String(describing: createdAt)), description: \(Swift.String(describing: description)), id: \(Swift.String(describing: id)), lastUpdatedAt: \(Swift.String(describing: lastUpdatedAt)), logo: \(Swift.String(describing: logo)), name: \(Swift.String(describing: name)), tags: \(Swift.String(describing: tags)), type: \(Swift.String(describing: type)), complianceType: \"CONTENT_REDACTED\", controlSets: \"CONTENT_REDACTED\", createdBy: \"CONTENT_REDACTED\", lastUpdatedBy: \"CONTENT_REDACTED\")"}
+}
+
 extension AuditManagerClientTypes {
     /// The file that's used to structure and automate Audit Manager assessments for a given compliance standard.
     public struct Framework: Swift.Equatable {
@@ -6408,6 +6541,11 @@ extension AuditManagerClientTypes.FrameworkMetadata: Swift.Codable {
         let complianceTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .complianceType)
         complianceType = complianceTypeDecoded
     }
+}
+
+extension AuditManagerClientTypes.FrameworkMetadata: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "FrameworkMetadata(description: \(Swift.String(describing: description)), logo: \(Swift.String(describing: logo)), complianceType: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
 }
 
 extension AuditManagerClientTypes {
@@ -7309,6 +7447,11 @@ extension GetEvidenceByEvidenceFolderOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension GetEvidenceFileUploadUrlInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "GetEvidenceFileUploadUrlInput(fileName: \"CONTENT_REDACTED\")"}
+}
+
 extension GetEvidenceFileUploadUrlInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
         get throws {
@@ -7363,6 +7506,12 @@ public enum GetEvidenceFileUploadUrlOutputError: ClientRuntime.HttpResponseError
             case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
+    }
+}
+
+extension GetEvidenceFileUploadUrlOutputResponse: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CONTENT_REDACTED"
     }
 }
 
@@ -10129,6 +10278,11 @@ extension AuditManagerClientTypes.ManualEvidence: Swift.Codable {
     }
 }
 
+extension AuditManagerClientTypes.ManualEvidence: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "ManualEvidence(s3ResourcePath: \(Swift.String(describing: s3ResourcePath)), evidenceFileName: \"CONTENT_REDACTED\", textResponse: \"CONTENT_REDACTED\")"}
+}
+
 extension AuditManagerClientTypes {
     /// Evidence that's manually added to a control in Audit Manager. manualEvidence can be one of the following: evidenceFileName, s3ResourcePath, or textResponse.
     public struct ManualEvidence: Swift.Equatable {
@@ -10212,6 +10366,11 @@ extension AuditManagerClientTypes.Notification: Swift.Codable {
         let sourceDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .source)
         source = sourceDecoded
     }
+}
+
+extension AuditManagerClientTypes.Notification: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "Notification(assessmentId: \(Swift.String(describing: assessmentId)), controlSetId: \(Swift.String(describing: controlSetId)), controlSetName: \(Swift.String(describing: controlSetName)), description: \(Swift.String(describing: description)), eventTime: \(Swift.String(describing: eventTime)), id: \(Swift.String(describing: id)), source: \(Swift.String(describing: source)), assessmentName: \"CONTENT_REDACTED\")"}
 }
 
 extension AuditManagerClientTypes {
@@ -10792,6 +10951,12 @@ extension AuditManagerClientTypes.Scope: Swift.Codable {
     }
 }
 
+extension AuditManagerClientTypes.Scope: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CONTENT_REDACTED"
+    }
+}
+
 extension AuditManagerClientTypes {
     /// The wrapper that contains the Amazon Web Services accounts and services that are in scope for the assessment.
     public struct Scope: Swift.Equatable {
@@ -11054,6 +11219,11 @@ extension AuditManagerClientTypes.Settings: Swift.Codable {
         let defaultExportDestinationDecoded = try containerValues.decodeIfPresent(AuditManagerClientTypes.DefaultExportDestination.self, forKey: .defaultExportDestination)
         defaultExportDestination = defaultExportDestinationDecoded
     }
+}
+
+extension AuditManagerClientTypes.Settings: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "Settings(defaultExportDestination: \(Swift.String(describing: defaultExportDestination)), deregistrationPolicy: \(Swift.String(describing: deregistrationPolicy)), evidenceFinderEnablement: \(Swift.String(describing: evidenceFinderEnablement)), isAwsOrgEnabled: \(Swift.String(describing: isAwsOrgEnabled)), kmsKey: \(Swift.String(describing: kmsKey)), defaultAssessmentReportsDestination: \"CONTENT_REDACTED\", defaultProcessOwners: \"CONTENT_REDACTED\", snsTopic: \"CONTENT_REDACTED\")"}
 }
 
 extension AuditManagerClientTypes {
@@ -11835,6 +12005,11 @@ public struct UntagResourceOutputResponse: Swift.Equatable {
     public init() { }
 }
 
+extension UpdateAssessmentControlInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "UpdateAssessmentControlInput(assessmentId: \(Swift.String(describing: assessmentId)), controlId: \(Swift.String(describing: controlId)), controlSetId: \(Swift.String(describing: controlSetId)), controlStatus: \(Swift.String(describing: controlStatus)), commentBody: \"CONTENT_REDACTED\")"}
+}
+
 extension UpdateAssessmentControlInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case commentBody
@@ -11970,6 +12145,11 @@ extension UpdateAssessmentControlOutputResponseBody: Swift.Decodable {
         let controlDecoded = try containerValues.decodeIfPresent(AuditManagerClientTypes.AssessmentControl.self, forKey: .control)
         control = controlDecoded
     }
+}
+
+extension UpdateAssessmentControlSetStatusInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "UpdateAssessmentControlSetStatusInput(assessmentId: \(Swift.String(describing: assessmentId)), controlSetId: \(Swift.String(describing: controlSetId)), status: \(Swift.String(describing: status)), comment: \"CONTENT_REDACTED\")"}
 }
 
 extension UpdateAssessmentControlSetStatusInput: Swift.Encodable {
@@ -12170,6 +12350,11 @@ extension AuditManagerClientTypes {
         }
     }
 
+}
+
+extension UpdateAssessmentFrameworkInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "UpdateAssessmentFrameworkInput(controlSets: \(Swift.String(describing: controlSets)), description: \(Swift.String(describing: description)), frameworkId: \(Swift.String(describing: frameworkId)), name: \(Swift.String(describing: name)), complianceType: \"CONTENT_REDACTED\")"}
 }
 
 extension UpdateAssessmentFrameworkInput: Swift.Encodable {
@@ -12455,6 +12640,11 @@ extension UpdateAssessmentFrameworkShareOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension UpdateAssessmentInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "UpdateAssessmentInput(assessmentId: \(Swift.String(describing: assessmentId)), assessmentDescription: \"CONTENT_REDACTED\", assessmentName: \"CONTENT_REDACTED\", assessmentReportsDestination: \"CONTENT_REDACTED\", roles: \"CONTENT_REDACTED\", scope: \"CONTENT_REDACTED\")"}
+}
+
 extension UpdateAssessmentInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case assessmentDescription
@@ -12736,6 +12926,11 @@ extension UpdateAssessmentStatusOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension UpdateControlInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "UpdateControlInput(controlId: \(Swift.String(describing: controlId)), controlMappingSources: \(Swift.String(describing: controlMappingSources)), description: \(Swift.String(describing: description)), name: \(Swift.String(describing: name)), actionPlanInstructions: \"CONTENT_REDACTED\", actionPlanTitle: \"CONTENT_REDACTED\", testingInformation: \"CONTENT_REDACTED\")"}
+}
+
 extension UpdateControlInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case actionPlanInstructions
@@ -12917,6 +13112,11 @@ extension UpdateControlOutputResponseBody: Swift.Decodable {
         let controlDecoded = try containerValues.decodeIfPresent(AuditManagerClientTypes.Control.self, forKey: .control)
         control = controlDecoded
     }
+}
+
+extension UpdateSettingsInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "UpdateSettingsInput(defaultExportDestination: \(Swift.String(describing: defaultExportDestination)), deregistrationPolicy: \(Swift.String(describing: deregistrationPolicy)), evidenceFinderEnabled: \(Swift.String(describing: evidenceFinderEnabled)), kmsKey: \(Swift.String(describing: kmsKey)), snsTopic: \(Swift.String(describing: snsTopic)), defaultAssessmentReportsDestination: \"CONTENT_REDACTED\", defaultProcessOwners: \"CONTENT_REDACTED\")"}
 }
 
 extension UpdateSettingsInput: Swift.Encodable {

@@ -136,6 +136,7 @@ public protocol ChimeSDKMediaPipelinesClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `BadRequestException` : The input parameters don't match the service's restrictions.
+    /// - `ConflictException` : The request could not be processed because of conflict in the current state of the resource.
     /// - `ForbiddenException` : The client is permanently forbidden from making the request.
     /// - `NotFoundException` : One or more of the resources in the request does not exist in the system.
     /// - `ServiceFailureException` : The service encountered an unexpected error.
@@ -194,6 +195,40 @@ public protocol ChimeSDKMediaPipelinesClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func getMediaPipeline(input: GetMediaPipelineInput) async throws -> GetMediaPipelineOutputResponse
+    /// Retrieves the details of the specified speaker search task.
+    ///
+    /// - Parameter GetSpeakerSearchTaskInput : [no documentation found]
+    ///
+    /// - Returns: `GetSpeakerSearchTaskOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The input parameters don't match the service's restrictions.
+    /// - `ForbiddenException` : The client is permanently forbidden from making the request.
+    /// - `NotFoundException` : One or more of the resources in the request does not exist in the system.
+    /// - `ServiceFailureException` : The service encountered an unexpected error.
+    /// - `ServiceUnavailableException` : The service is currently unavailable.
+    /// - `ThrottledClientException` : The client exceeded its request rate limit.
+    /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
+    func getSpeakerSearchTask(input: GetSpeakerSearchTaskInput) async throws -> GetSpeakerSearchTaskOutputResponse
+    /// Retrieves the details of a voice tone analysis task.
+    ///
+    /// - Parameter GetVoiceToneAnalysisTaskInput : [no documentation found]
+    ///
+    /// - Returns: `GetVoiceToneAnalysisTaskOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The input parameters don't match the service's restrictions.
+    /// - `ForbiddenException` : The client is permanently forbidden from making the request.
+    /// - `NotFoundException` : One or more of the resources in the request does not exist in the system.
+    /// - `ServiceFailureException` : The service encountered an unexpected error.
+    /// - `ServiceUnavailableException` : The service is currently unavailable.
+    /// - `ThrottledClientException` : The client exceeded its request rate limit.
+    /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
+    func getVoiceToneAnalysisTask(input: GetVoiceToneAnalysisTaskInput) async throws -> GetVoiceToneAnalysisTaskOutputResponse
     /// Returns a list of media pipelines.
     ///
     /// - Parameter ListMediaCapturePipelinesInput : [no documentation found]
@@ -262,6 +297,78 @@ public protocol ChimeSDKMediaPipelinesClientProtocol {
     /// - `ThrottledClientException` : The client exceeded its request rate limit.
     /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
     func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
+    /// Starts a speaker search task. Before starting any speaker search tasks, you must provide all notices and obtain all consents from the speaker as required under applicable privacy and biometrics laws, and as required under the [AWS service terms](https://aws.amazon.com/service-terms/) for the Amazon Chime SDK.
+    ///
+    /// - Parameter StartSpeakerSearchTaskInput : [no documentation found]
+    ///
+    /// - Returns: `StartSpeakerSearchTaskOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The input parameters don't match the service's restrictions.
+    /// - `ConflictException` : The request could not be processed because of conflict in the current state of the resource.
+    /// - `ForbiddenException` : The client is permanently forbidden from making the request.
+    /// - `NotFoundException` : One or more of the resources in the request does not exist in the system.
+    /// - `ServiceFailureException` : The service encountered an unexpected error.
+    /// - `ServiceUnavailableException` : The service is currently unavailable.
+    /// - `ThrottledClientException` : The client exceeded its request rate limit.
+    /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
+    func startSpeakerSearchTask(input: StartSpeakerSearchTaskInput) async throws -> StartSpeakerSearchTaskOutputResponse
+    /// Starts a voice tone analysis task. For more information about voice tone analysis, see [Using Amazon Chime SDK voice analytics](https://docs.aws.amazon.com/chime-sdk/latest/dg/voice-analytics.html) in the Amazon Chime SDK Developer Guide. Before starting any voice tone analysis tasks, you must provide all notices and obtain all consents from the speaker as required under applicable privacy and biometrics laws, and as required under the [AWS service terms](https://aws.amazon.com/service-terms/) for the Amazon Chime SDK.
+    ///
+    /// - Parameter StartVoiceToneAnalysisTaskInput : [no documentation found]
+    ///
+    /// - Returns: `StartVoiceToneAnalysisTaskOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The input parameters don't match the service's restrictions.
+    /// - `ConflictException` : The request could not be processed because of conflict in the current state of the resource.
+    /// - `ForbiddenException` : The client is permanently forbidden from making the request.
+    /// - `NotFoundException` : One or more of the resources in the request does not exist in the system.
+    /// - `ServiceFailureException` : The service encountered an unexpected error.
+    /// - `ServiceUnavailableException` : The service is currently unavailable.
+    /// - `ThrottledClientException` : The client exceeded its request rate limit.
+    /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
+    func startVoiceToneAnalysisTask(input: StartVoiceToneAnalysisTaskInput) async throws -> StartVoiceToneAnalysisTaskOutputResponse
+    /// Stops a speaker search task.
+    ///
+    /// - Parameter StopSpeakerSearchTaskInput : [no documentation found]
+    ///
+    /// - Returns: `StopSpeakerSearchTaskOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The input parameters don't match the service's restrictions.
+    /// - `ConflictException` : The request could not be processed because of conflict in the current state of the resource.
+    /// - `ForbiddenException` : The client is permanently forbidden from making the request.
+    /// - `NotFoundException` : One or more of the resources in the request does not exist in the system.
+    /// - `ServiceFailureException` : The service encountered an unexpected error.
+    /// - `ServiceUnavailableException` : The service is currently unavailable.
+    /// - `ThrottledClientException` : The client exceeded its request rate limit.
+    /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
+    func stopSpeakerSearchTask(input: StopSpeakerSearchTaskInput) async throws -> StopSpeakerSearchTaskOutputResponse
+    /// Stops a voice tone analysis task.
+    ///
+    /// - Parameter StopVoiceToneAnalysisTaskInput : [no documentation found]
+    ///
+    /// - Returns: `StopVoiceToneAnalysisTaskOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The input parameters don't match the service's restrictions.
+    /// - `ConflictException` : The request could not be processed because of conflict in the current state of the resource.
+    /// - `ForbiddenException` : The client is permanently forbidden from making the request.
+    /// - `NotFoundException` : One or more of the resources in the request does not exist in the system.
+    /// - `ServiceFailureException` : The service encountered an unexpected error.
+    /// - `ServiceUnavailableException` : The service is currently unavailable.
+    /// - `ThrottledClientException` : The client exceeded its request rate limit.
+    /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
+    func stopVoiceToneAnalysisTask(input: StopVoiceToneAnalysisTaskInput) async throws -> StopVoiceToneAnalysisTaskOutputResponse
     /// The ARN of the media pipeline that you want to tag. Consists of the pipeline's endpoint region, resource ID, and pipeline ID.
     ///
     /// - Parameter TagResourceInput : [no documentation found]

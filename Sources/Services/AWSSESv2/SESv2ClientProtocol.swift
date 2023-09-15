@@ -18,6 +18,19 @@ public protocol SESv2ClientProtocol {
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
     func batchGetMetricData(input: BatchGetMetricDataInput) async throws -> BatchGetMetricDataOutputResponse
+    /// Cancels an export job.
+    ///
+    /// - Parameter CancelExportJobInput : Represents a request to cancel an export job using the export job ID.
+    ///
+    /// - Returns: `CancelExportJobOutputResponse` : An HTTP 200 response if the request succeeds, or an error message if the request fails.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The input you provided is invalid.
+    /// - `NotFoundException` : The resource you attempted to access doesn't exist.
+    /// - `TooManyRequestsException` : Too many requests have been made to the operation.
+    func cancelExportJob(input: CancelExportJobInput) async throws -> CancelExportJobOutputResponse
     /// Create a configuration set. Configuration sets are groups of rules that you can apply to the emails that you send. You apply a configuration set to an email by specifying the name of the configuration set when you call the Amazon SES API v2. When you apply a configuration set to an email, all of the rules in that configuration set are applied to the email.
     ///
     /// - Parameter CreateConfigurationSetInput : A request to create a configuration set.
@@ -171,6 +184,20 @@ public protocol SESv2ClientProtocol {
     /// - `LimitExceededException` : There are too many instances of the specified resource type.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
     func createEmailTemplate(input: CreateEmailTemplateInput) async throws -> CreateEmailTemplateOutputResponse
+    /// Creates an export job for a data source and destination. You can execute this operation no more than once per second.
+    ///
+    /// - Parameter CreateExportJobInput : Represents a request to create an export job from a data source to a data destination.
+    ///
+    /// - Returns: `CreateExportJobOutputResponse` : An HTTP 200 response if the request succeeds, or an error message if the request fails.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The input you provided is invalid.
+    /// - `LimitExceededException` : There are too many instances of the specified resource type.
+    /// - `NotFoundException` : The resource you attempted to access doesn't exist.
+    /// - `TooManyRequestsException` : Too many requests have been made to the operation.
+    func createExportJob(input: CreateExportJobInput) async throws -> CreateExportJobOutputResponse
     /// Creates an import job for a data destination.
     ///
     /// - Parameter CreateImportJobInput : Represents a request to create an import job from a data source for a data destination.
@@ -538,6 +565,19 @@ public protocol SESv2ClientProtocol {
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
     func getEmailTemplate(input: GetEmailTemplateInput) async throws -> GetEmailTemplateOutputResponse
+    /// Provides information about an export job.
+    ///
+    /// - Parameter GetExportJobInput : Represents a request to retrieve information about an export job using the export job ID.
+    ///
+    /// - Returns: `GetExportJobOutputResponse` : An HTTP 200 response if the request succeeds, or an error message if the request fails.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The input you provided is invalid.
+    /// - `NotFoundException` : The resource you attempted to access doesn't exist.
+    /// - `TooManyRequestsException` : Too many requests have been made to the operation.
+    func getExportJob(input: GetExportJobInput) async throws -> GetExportJobOutputResponse
     /// Provides information about an import job.
     ///
     /// - Parameter GetImportJobInput : Represents a request for information about an import job using the import job ID.
@@ -551,6 +591,19 @@ public protocol SESv2ClientProtocol {
     /// - `NotFoundException` : The resource you attempted to access doesn't exist.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
     func getImportJob(input: GetImportJobInput) async throws -> GetImportJobOutputResponse
+    /// Provides information about a specific message, including the from address, the subject, the recipient address, email tags, as well as events associated with the message. You can execute this operation no more than once per second.
+    ///
+    /// - Parameter GetMessageInsightsInput : A request to return information about a message.
+    ///
+    /// - Returns: `GetMessageInsightsOutputResponse` : Information about a message.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The input you provided is invalid.
+    /// - `NotFoundException` : The resource you attempted to access doesn't exist.
+    /// - `TooManyRequestsException` : Too many requests have been made to the operation.
+    func getMessageInsights(input: GetMessageInsightsInput) async throws -> GetMessageInsightsOutputResponse
     /// Retrieves information about a specific email address that's on the suppression list for your account.
     ///
     /// - Parameter GetSuppressedDestinationInput : A request to retrieve information about an email address that's on the suppression list for your account.
@@ -675,6 +728,18 @@ public protocol SESv2ClientProtocol {
     /// - `BadRequestException` : The input you provided is invalid.
     /// - `TooManyRequestsException` : Too many requests have been made to the operation.
     func listEmailTemplates(input: ListEmailTemplatesInput) async throws -> ListEmailTemplatesOutputResponse
+    /// Lists all of the export jobs.
+    ///
+    /// - Parameter ListExportJobsInput : Represents a request to list all export jobs with filters.
+    ///
+    /// - Returns: `ListExportJobsOutputResponse` : An HTTP 200 response if the request succeeds, or an error message if the request fails.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The input you provided is invalid.
+    /// - `TooManyRequestsException` : Too many requests have been made to the operation.
+    func listExportJobs(input: ListExportJobsInput) async throws -> ListExportJobsOutputResponse
     /// Lists all of the import jobs.
     ///
     /// - Parameter ListImportJobsInput : Represents a request to list all of the import jobs for a data destination within the specified maximum number of import jobs.

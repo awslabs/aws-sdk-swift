@@ -2,7 +2,7 @@
 
 import ClientRuntime
 
-/// The Identity Store service used by AWS IAM Identity Center (successor to AWS Single Sign-On) provides a single place to retrieve all of your identities (users and groups). For more information, see the [IAM Identity Center User Guide](https://docs.aws.amazon.com/singlesignon/latest/userguide/what-is.html). Although AWS Single Sign-On was renamed, the sso and identitystore API namespaces will continue to retain their original name for backward compatibility purposes. For more information, see [IAM Identity Center rename](https://docs.aws.amazon.com/singlesignon/latest/userguide/what-is.html#renamed). This reference guide describes the identity store operations that you can call programatically and includes detailed information about data types and errors.
+/// The Identity Store service used by IAM Identity Center provides a single place to retrieve all of your identities (users and groups). For more information, see the [IAM Identity Center User Guide](https://docs.aws.amazon.com/singlesignon/latest/userguide/what-is.html). This reference guide describes the identity store operations that you can call programmatically and includes detailed information about data types and errors. IAM Identity Center uses the sso and identitystore API namespaces.
 public protocol IdentitystoreClientProtocol {
     /// Creates a group within the specified identity store.
     ///
@@ -127,7 +127,7 @@ public protocol IdentitystoreClientProtocol {
     /// - `ResourceNotFoundException` : Indicates that a requested resource is not found.
     /// - `ValidationException` : The request failed because it contains a syntax error.
     func deleteUser(input: DeleteUserInput) async throws -> DeleteUserOutputResponse
-    /// Retrieves the group metadata and attributes from GroupId in an identity store.
+    /// Retrieves the group metadata and attributes from GroupId in an identity store. If you have administrator access to a member account, you can use this API from the member account. Read about [member accounts](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_access.html) in the Organizations User Guide.
     ///
     /// - Parameter DescribeGroupInput : [no documentation found]
     ///
@@ -142,7 +142,7 @@ public protocol IdentitystoreClientProtocol {
     /// - `ResourceNotFoundException` : Indicates that a requested resource is not found.
     /// - `ValidationException` : The request failed because it contains a syntax error.
     func describeGroup(input: DescribeGroupInput) async throws -> DescribeGroupOutputResponse
-    /// Retrieves membership metadata and attributes from MembershipId in an identity store.
+    /// Retrieves membership metadata and attributes from MembershipId in an identity store. If you have administrator access to a member account, you can use this API from the member account. Read about [member accounts](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_access.html) in the Organizations User Guide.
     ///
     /// - Parameter DescribeGroupMembershipInput : [no documentation found]
     ///
@@ -157,7 +157,7 @@ public protocol IdentitystoreClientProtocol {
     /// - `ResourceNotFoundException` : Indicates that a requested resource is not found.
     /// - `ValidationException` : The request failed because it contains a syntax error.
     func describeGroupMembership(input: DescribeGroupMembershipInput) async throws -> DescribeGroupMembershipOutputResponse
-    /// Retrieves the user metadata and attributes from the UserId in an identity store.
+    /// Retrieves the user metadata and attributes from the UserId in an identity store. If you have administrator access to a member account, you can use this API from the member account. Read about [member accounts](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_access.html) in the Organizations User Guide.
     ///
     /// - Parameter DescribeUserInput : [no documentation found]
     ///
@@ -172,7 +172,7 @@ public protocol IdentitystoreClientProtocol {
     /// - `ResourceNotFoundException` : Indicates that a requested resource is not found.
     /// - `ValidationException` : The request failed because it contains a syntax error.
     func describeUser(input: DescribeUserInput) async throws -> DescribeUserOutputResponse
-    /// Retrieves GroupId in an identity store.
+    /// Retrieves GroupId in an identity store. If you have administrator access to a member account, you can use this API from the member account. Read about [member accounts](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_access.html) in the Organizations User Guide.
     ///
     /// - Parameter GetGroupIdInput : [no documentation found]
     ///
@@ -187,7 +187,7 @@ public protocol IdentitystoreClientProtocol {
     /// - `ResourceNotFoundException` : Indicates that a requested resource is not found.
     /// - `ValidationException` : The request failed because it contains a syntax error.
     func getGroupId(input: GetGroupIdInput) async throws -> GetGroupIdOutputResponse
-    /// Retrieves the MembershipId in an identity store.
+    /// Retrieves the MembershipId in an identity store. If you have administrator access to a member account, you can use this API from the member account. Read about [member accounts](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_access.html) in the Organizations User Guide.
     ///
     /// - Parameter GetGroupMembershipIdInput : [no documentation found]
     ///
@@ -202,7 +202,7 @@ public protocol IdentitystoreClientProtocol {
     /// - `ResourceNotFoundException` : Indicates that a requested resource is not found.
     /// - `ValidationException` : The request failed because it contains a syntax error.
     func getGroupMembershipId(input: GetGroupMembershipIdInput) async throws -> GetGroupMembershipIdOutputResponse
-    /// Retrieves the UserId in an identity store.
+    /// Retrieves the UserId in an identity store. If you have administrator access to a member account, you can use this API from the member account. Read about [member accounts](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_access.html) in the Organizations User Guide.
     ///
     /// - Parameter GetUserIdInput : [no documentation found]
     ///
@@ -217,7 +217,7 @@ public protocol IdentitystoreClientProtocol {
     /// - `ResourceNotFoundException` : Indicates that a requested resource is not found.
     /// - `ValidationException` : The request failed because it contains a syntax error.
     func getUserId(input: GetUserIdInput) async throws -> GetUserIdOutputResponse
-    /// Checks the user's membership in all requested groups and returns if the member exists in all queried groups.
+    /// Checks the user's membership in all requested groups and returns if the member exists in all queried groups. If you have administrator access to a member account, you can use this API from the member account. Read about [member accounts](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_access.html) in the Organizations User Guide.
     ///
     /// - Parameter IsMemberInGroupsInput : [no documentation found]
     ///
@@ -232,7 +232,7 @@ public protocol IdentitystoreClientProtocol {
     /// - `ResourceNotFoundException` : Indicates that a requested resource is not found.
     /// - `ValidationException` : The request failed because it contains a syntax error.
     func isMemberInGroups(input: IsMemberInGroupsInput) async throws -> IsMemberInGroupsOutputResponse
-    /// For the specified group in the specified identity store, returns the list of all GroupMembership objects and returns results in paginated form.
+    /// For the specified group in the specified identity store, returns the list of all GroupMembership objects and returns results in paginated form. If you have administrator access to a member account, you can use this API from the member account. Read about [member accounts](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_access.html) in the Organizations User Guide.
     ///
     /// - Parameter ListGroupMembershipsInput : [no documentation found]
     ///
@@ -247,7 +247,7 @@ public protocol IdentitystoreClientProtocol {
     /// - `ResourceNotFoundException` : Indicates that a requested resource is not found.
     /// - `ValidationException` : The request failed because it contains a syntax error.
     func listGroupMemberships(input: ListGroupMembershipsInput) async throws -> ListGroupMembershipsOutputResponse
-    /// For the specified member in the specified identity store, returns the list of all GroupMembership objects and returns results in paginated form.
+    /// For the specified member in the specified identity store, returns the list of all GroupMembership objects and returns results in paginated form. If you have administrator access to a member account, you can use this API from the member account. Read about [member accounts](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_access.html) in the Organizations User Guide.
     ///
     /// - Parameter ListGroupMembershipsForMemberInput : [no documentation found]
     ///
@@ -262,7 +262,7 @@ public protocol IdentitystoreClientProtocol {
     /// - `ResourceNotFoundException` : Indicates that a requested resource is not found.
     /// - `ValidationException` : The request failed because it contains a syntax error.
     func listGroupMembershipsForMember(input: ListGroupMembershipsForMemberInput) async throws -> ListGroupMembershipsForMemberOutputResponse
-    /// Lists all groups in the identity store. Returns a paginated list of complete Group objects. Filtering for a Group by the DisplayName attribute is deprecated. Instead, use the GetGroupId API action.
+    /// Lists all groups in the identity store. Returns a paginated list of complete Group objects. Filtering for a Group by the DisplayName attribute is deprecated. Instead, use the GetGroupId API action. If you have administrator access to a member account, you can use this API from the member account. Read about [member accounts](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_access.html) in the Organizations User Guide.
     ///
     /// - Parameter ListGroupsInput : [no documentation found]
     ///
@@ -277,7 +277,7 @@ public protocol IdentitystoreClientProtocol {
     /// - `ResourceNotFoundException` : Indicates that a requested resource is not found.
     /// - `ValidationException` : The request failed because it contains a syntax error.
     func listGroups(input: ListGroupsInput) async throws -> ListGroupsOutputResponse
-    /// Lists all users in the identity store. Returns a paginated list of complete User objects. Filtering for a User by the UserName attribute is deprecated. Instead, use the GetUserId API action.
+    /// Lists all users in the identity store. Returns a paginated list of complete User objects. Filtering for a User by the UserName attribute is deprecated. Instead, use the GetUserId API action. If you have administrator access to a member account, you can use this API from the member account. Read about [member accounts](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_access.html) in the Organizations User Guide.
     ///
     /// - Parameter ListUsersInput : [no documentation found]
     ///

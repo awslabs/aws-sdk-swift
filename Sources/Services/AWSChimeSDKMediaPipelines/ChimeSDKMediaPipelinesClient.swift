@@ -464,6 +464,7 @@ extension ChimeSDKMediaPipelinesClient: ChimeSDKMediaPipelinesClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `BadRequestException` : The input parameters don't match the service's restrictions.
+    /// - `ConflictException` : The request could not be processed because of conflict in the current state of the resource.
     /// - `ForbiddenException` : The client is permanently forbidden from making the request.
     /// - `NotFoundException` : One or more of the resources in the request does not exist in the system.
     /// - `ServiceFailureException` : The service encountered an unexpected error.
@@ -638,6 +639,100 @@ extension ChimeSDKMediaPipelinesClient: ChimeSDKMediaPipelinesClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetMediaPipelineOutputResponse, GetMediaPipelineOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetMediaPipelineOutputResponse, GetMediaPipelineOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetMediaPipelineOutputResponse, GetMediaPipelineOutputError>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
+    /// Retrieves the details of the specified speaker search task.
+    ///
+    /// - Parameter GetSpeakerSearchTaskInput : [no documentation found]
+    ///
+    /// - Returns: `GetSpeakerSearchTaskOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The input parameters don't match the service's restrictions.
+    /// - `ForbiddenException` : The client is permanently forbidden from making the request.
+    /// - `NotFoundException` : One or more of the resources in the request does not exist in the system.
+    /// - `ServiceFailureException` : The service encountered an unexpected error.
+    /// - `ServiceUnavailableException` : The service is currently unavailable.
+    /// - `ThrottledClientException` : The client exceeded its request rate limit.
+    /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
+    public func getSpeakerSearchTask(input: GetSpeakerSearchTaskInput) async throws -> GetSpeakerSearchTaskOutputResponse
+    {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .get)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getSpeakerSearchTask")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withCredentialsProvider(value: config.credentialsProvider)
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "chime")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<GetSpeakerSearchTaskInput, GetSpeakerSearchTaskOutputResponse, GetSpeakerSearchTaskOutputError>(id: "getSpeakerSearchTask")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetSpeakerSearchTaskInput, GetSpeakerSearchTaskOutputResponse, GetSpeakerSearchTaskOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetSpeakerSearchTaskInput, GetSpeakerSearchTaskOutputResponse>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetSpeakerSearchTaskOutputResponse, GetSpeakerSearchTaskOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetSpeakerSearchTaskOutputResponse, GetSpeakerSearchTaskOutputError>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetSpeakerSearchTaskOutputResponse, GetSpeakerSearchTaskOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetSpeakerSearchTaskOutputResponse, GetSpeakerSearchTaskOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetSpeakerSearchTaskOutputResponse, GetSpeakerSearchTaskOutputError>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
+    /// Retrieves the details of a voice tone analysis task.
+    ///
+    /// - Parameter GetVoiceToneAnalysisTaskInput : [no documentation found]
+    ///
+    /// - Returns: `GetVoiceToneAnalysisTaskOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The input parameters don't match the service's restrictions.
+    /// - `ForbiddenException` : The client is permanently forbidden from making the request.
+    /// - `NotFoundException` : One or more of the resources in the request does not exist in the system.
+    /// - `ServiceFailureException` : The service encountered an unexpected error.
+    /// - `ServiceUnavailableException` : The service is currently unavailable.
+    /// - `ThrottledClientException` : The client exceeded its request rate limit.
+    /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
+    public func getVoiceToneAnalysisTask(input: GetVoiceToneAnalysisTaskInput) async throws -> GetVoiceToneAnalysisTaskOutputResponse
+    {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .get)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getVoiceToneAnalysisTask")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withCredentialsProvider(value: config.credentialsProvider)
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "chime")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<GetVoiceToneAnalysisTaskInput, GetVoiceToneAnalysisTaskOutputResponse, GetVoiceToneAnalysisTaskOutputError>(id: "getVoiceToneAnalysisTask")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetVoiceToneAnalysisTaskInput, GetVoiceToneAnalysisTaskOutputResponse, GetVoiceToneAnalysisTaskOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetVoiceToneAnalysisTaskInput, GetVoiceToneAnalysisTaskOutputResponse>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetVoiceToneAnalysisTaskOutputResponse, GetVoiceToneAnalysisTaskOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetVoiceToneAnalysisTaskOutputResponse, GetVoiceToneAnalysisTaskOutputError>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetVoiceToneAnalysisTaskOutputResponse, GetVoiceToneAnalysisTaskOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetVoiceToneAnalysisTaskOutputResponse, GetVoiceToneAnalysisTaskOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetVoiceToneAnalysisTaskOutputResponse, GetVoiceToneAnalysisTaskOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -830,6 +925,224 @@ extension ChimeSDKMediaPipelinesClient: ChimeSDKMediaPipelinesClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTagsForResourceOutputResponse, ListTagsForResourceOutputError>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
+    /// Starts a speaker search task. Before starting any speaker search tasks, you must provide all notices and obtain all consents from the speaker as required under applicable privacy and biometrics laws, and as required under the [AWS service terms](https://aws.amazon.com/service-terms/) for the Amazon Chime SDK.
+    ///
+    /// - Parameter StartSpeakerSearchTaskInput : [no documentation found]
+    ///
+    /// - Returns: `StartSpeakerSearchTaskOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The input parameters don't match the service's restrictions.
+    /// - `ConflictException` : The request could not be processed because of conflict in the current state of the resource.
+    /// - `ForbiddenException` : The client is permanently forbidden from making the request.
+    /// - `NotFoundException` : One or more of the resources in the request does not exist in the system.
+    /// - `ServiceFailureException` : The service encountered an unexpected error.
+    /// - `ServiceUnavailableException` : The service is currently unavailable.
+    /// - `ThrottledClientException` : The client exceeded its request rate limit.
+    /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
+    public func startSpeakerSearchTask(input: StartSpeakerSearchTaskInput) async throws -> StartSpeakerSearchTaskOutputResponse
+    {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "startSpeakerSearchTask")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withCredentialsProvider(value: config.credentialsProvider)
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "chime")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<StartSpeakerSearchTaskInput, StartSpeakerSearchTaskOutputResponse, StartSpeakerSearchTaskOutputError>(id: "startSpeakerSearchTask")
+        operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<StartSpeakerSearchTaskOutputResponse> in
+            let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
+            var copiedInput = input
+            if input.clientRequestToken == nil {
+                copiedInput.clientRequestToken = idempotencyTokenGenerator.generateToken()
+            }
+            return try await next.handle(context: context, input: copiedInput)
+        }
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartSpeakerSearchTaskInput, StartSpeakerSearchTaskOutputResponse, StartSpeakerSearchTaskOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartSpeakerSearchTaskInput, StartSpeakerSearchTaskOutputResponse>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StartSpeakerSearchTaskOutputResponse, StartSpeakerSearchTaskOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<StartSpeakerSearchTaskInput, StartSpeakerSearchTaskOutputResponse>())
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<StartSpeakerSearchTaskInput, StartSpeakerSearchTaskOutputResponse>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<StartSpeakerSearchTaskInput, StartSpeakerSearchTaskOutputResponse>(xmlName: "StartSpeakerSearchTaskRequest"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StartSpeakerSearchTaskOutputResponse, StartSpeakerSearchTaskOutputError>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartSpeakerSearchTaskOutputResponse, StartSpeakerSearchTaskOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartSpeakerSearchTaskOutputResponse, StartSpeakerSearchTaskOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartSpeakerSearchTaskOutputResponse, StartSpeakerSearchTaskOutputError>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
+    /// Starts a voice tone analysis task. For more information about voice tone analysis, see [Using Amazon Chime SDK voice analytics](https://docs.aws.amazon.com/chime-sdk/latest/dg/voice-analytics.html) in the Amazon Chime SDK Developer Guide. Before starting any voice tone analysis tasks, you must provide all notices and obtain all consents from the speaker as required under applicable privacy and biometrics laws, and as required under the [AWS service terms](https://aws.amazon.com/service-terms/) for the Amazon Chime SDK.
+    ///
+    /// - Parameter StartVoiceToneAnalysisTaskInput : [no documentation found]
+    ///
+    /// - Returns: `StartVoiceToneAnalysisTaskOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The input parameters don't match the service's restrictions.
+    /// - `ConflictException` : The request could not be processed because of conflict in the current state of the resource.
+    /// - `ForbiddenException` : The client is permanently forbidden from making the request.
+    /// - `NotFoundException` : One or more of the resources in the request does not exist in the system.
+    /// - `ServiceFailureException` : The service encountered an unexpected error.
+    /// - `ServiceUnavailableException` : The service is currently unavailable.
+    /// - `ThrottledClientException` : The client exceeded its request rate limit.
+    /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
+    public func startVoiceToneAnalysisTask(input: StartVoiceToneAnalysisTaskInput) async throws -> StartVoiceToneAnalysisTaskOutputResponse
+    {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "startVoiceToneAnalysisTask")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withCredentialsProvider(value: config.credentialsProvider)
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "chime")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<StartVoiceToneAnalysisTaskInput, StartVoiceToneAnalysisTaskOutputResponse, StartVoiceToneAnalysisTaskOutputError>(id: "startVoiceToneAnalysisTask")
+        operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<StartVoiceToneAnalysisTaskOutputResponse> in
+            let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
+            var copiedInput = input
+            if input.clientRequestToken == nil {
+                copiedInput.clientRequestToken = idempotencyTokenGenerator.generateToken()
+            }
+            return try await next.handle(context: context, input: copiedInput)
+        }
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartVoiceToneAnalysisTaskInput, StartVoiceToneAnalysisTaskOutputResponse, StartVoiceToneAnalysisTaskOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartVoiceToneAnalysisTaskInput, StartVoiceToneAnalysisTaskOutputResponse>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StartVoiceToneAnalysisTaskOutputResponse, StartVoiceToneAnalysisTaskOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<StartVoiceToneAnalysisTaskInput, StartVoiceToneAnalysisTaskOutputResponse>())
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<StartVoiceToneAnalysisTaskInput, StartVoiceToneAnalysisTaskOutputResponse>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<StartVoiceToneAnalysisTaskInput, StartVoiceToneAnalysisTaskOutputResponse>(xmlName: "StartVoiceToneAnalysisTaskRequest"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StartVoiceToneAnalysisTaskOutputResponse, StartVoiceToneAnalysisTaskOutputError>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartVoiceToneAnalysisTaskOutputResponse, StartVoiceToneAnalysisTaskOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartVoiceToneAnalysisTaskOutputResponse, StartVoiceToneAnalysisTaskOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartVoiceToneAnalysisTaskOutputResponse, StartVoiceToneAnalysisTaskOutputError>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
+    /// Stops a speaker search task.
+    ///
+    /// - Parameter StopSpeakerSearchTaskInput : [no documentation found]
+    ///
+    /// - Returns: `StopSpeakerSearchTaskOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The input parameters don't match the service's restrictions.
+    /// - `ConflictException` : The request could not be processed because of conflict in the current state of the resource.
+    /// - `ForbiddenException` : The client is permanently forbidden from making the request.
+    /// - `NotFoundException` : One or more of the resources in the request does not exist in the system.
+    /// - `ServiceFailureException` : The service encountered an unexpected error.
+    /// - `ServiceUnavailableException` : The service is currently unavailable.
+    /// - `ThrottledClientException` : The client exceeded its request rate limit.
+    /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
+    public func stopSpeakerSearchTask(input: StopSpeakerSearchTaskInput) async throws -> StopSpeakerSearchTaskOutputResponse
+    {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "stopSpeakerSearchTask")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withCredentialsProvider(value: config.credentialsProvider)
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "chime")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<StopSpeakerSearchTaskInput, StopSpeakerSearchTaskOutputResponse, StopSpeakerSearchTaskOutputError>(id: "stopSpeakerSearchTask")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StopSpeakerSearchTaskInput, StopSpeakerSearchTaskOutputResponse, StopSpeakerSearchTaskOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StopSpeakerSearchTaskInput, StopSpeakerSearchTaskOutputResponse>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StopSpeakerSearchTaskOutputResponse, StopSpeakerSearchTaskOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<StopSpeakerSearchTaskInput, StopSpeakerSearchTaskOutputResponse>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StopSpeakerSearchTaskOutputResponse, StopSpeakerSearchTaskOutputError>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StopSpeakerSearchTaskOutputResponse, StopSpeakerSearchTaskOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StopSpeakerSearchTaskOutputResponse, StopSpeakerSearchTaskOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StopSpeakerSearchTaskOutputResponse, StopSpeakerSearchTaskOutputError>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
+    /// Stops a voice tone analysis task.
+    ///
+    /// - Parameter StopVoiceToneAnalysisTaskInput : [no documentation found]
+    ///
+    /// - Returns: `StopVoiceToneAnalysisTaskOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The input parameters don't match the service's restrictions.
+    /// - `ConflictException` : The request could not be processed because of conflict in the current state of the resource.
+    /// - `ForbiddenException` : The client is permanently forbidden from making the request.
+    /// - `NotFoundException` : One or more of the resources in the request does not exist in the system.
+    /// - `ServiceFailureException` : The service encountered an unexpected error.
+    /// - `ServiceUnavailableException` : The service is currently unavailable.
+    /// - `ThrottledClientException` : The client exceeded its request rate limit.
+    /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
+    public func stopVoiceToneAnalysisTask(input: StopVoiceToneAnalysisTaskInput) async throws -> StopVoiceToneAnalysisTaskOutputResponse
+    {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "stopVoiceToneAnalysisTask")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withCredentialsProvider(value: config.credentialsProvider)
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "chime")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<StopVoiceToneAnalysisTaskInput, StopVoiceToneAnalysisTaskOutputResponse, StopVoiceToneAnalysisTaskOutputError>(id: "stopVoiceToneAnalysisTask")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StopVoiceToneAnalysisTaskInput, StopVoiceToneAnalysisTaskOutputResponse, StopVoiceToneAnalysisTaskOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StopVoiceToneAnalysisTaskInput, StopVoiceToneAnalysisTaskOutputResponse>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StopVoiceToneAnalysisTaskOutputResponse, StopVoiceToneAnalysisTaskOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<StopVoiceToneAnalysisTaskInput, StopVoiceToneAnalysisTaskOutputResponse>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StopVoiceToneAnalysisTaskOutputResponse, StopVoiceToneAnalysisTaskOutputError>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StopVoiceToneAnalysisTaskOutputResponse, StopVoiceToneAnalysisTaskOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StopVoiceToneAnalysisTaskOutputResponse, StopVoiceToneAnalysisTaskOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StopVoiceToneAnalysisTaskOutputResponse, StopVoiceToneAnalysisTaskOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }

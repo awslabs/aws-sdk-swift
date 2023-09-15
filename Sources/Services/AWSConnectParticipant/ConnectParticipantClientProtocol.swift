@@ -34,6 +34,21 @@ public protocol ConnectParticipantClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by Amazon Connect.
     func createParticipantConnection(input: CreateParticipantConnectionInput) async throws -> CreateParticipantConnectionOutputResponse
+    /// Retrieves the view for the specified view token.
+    ///
+    /// - Parameter DescribeViewInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeViewOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServerException` : This exception occurs when there is an internal failure in the Amazon Connect service.
+    /// - `ResourceNotFoundException` : The resource was not found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by Amazon Connect.
+    func describeView(input: DescribeViewInput) async throws -> DescribeViewOutputResponse
     /// Disconnects a participant. ConnectionToken is used for invoking this API instead of ParticipantToken. The Amazon Connect Participant Service APIs do not use [Signature Version 4 authentication](https://docs.aws.amazon.com/general/latest/gr/signature-version-4.html).
     ///
     /// - Parameter DisconnectParticipantInput : [no documentation found]

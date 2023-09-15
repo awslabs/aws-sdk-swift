@@ -57,6 +57,12 @@ public protocol HealthClientProtocol {
     ///
     /// - Returns: `DescribeEntityAggregatesOutputResponse` : [no documentation found]
     func describeEntityAggregates(input: DescribeEntityAggregatesInput) async throws -> DescribeEntityAggregatesOutputResponse
+    /// Returns a list of entity aggregates for your Organizations that are affected by each of the specified events.
+    ///
+    /// - Parameter DescribeEntityAggregatesForOrganizationInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeEntityAggregatesForOrganizationOutputResponse` : [no documentation found]
+    func describeEntityAggregatesForOrganization(input: DescribeEntityAggregatesForOrganizationInput) async throws -> DescribeEntityAggregatesForOrganizationOutputResponse
     /// Returns the number of events of each event type (issue, scheduled change, and account notification). If no filter is specified, the counts of all events in each category are returned. This API operation uses pagination. Specify the nextToken parameter in the next request to return more results.
     ///
     /// - Parameter DescribeEventAggregatesInput : [no documentation found]

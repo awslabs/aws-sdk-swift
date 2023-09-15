@@ -252,6 +252,46 @@ extension HealthClient: HealthClientProtocol {
         return result
     }
 
+    /// Returns a list of entity aggregates for your Organizations that are affected by each of the specified events.
+    ///
+    /// - Parameter DescribeEntityAggregatesForOrganizationInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeEntityAggregatesForOrganizationOutputResponse` : [no documentation found]
+    public func describeEntityAggregatesForOrganization(input: DescribeEntityAggregatesForOrganizationInput) async throws -> DescribeEntityAggregatesForOrganizationOutputResponse
+    {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "describeEntityAggregatesForOrganization")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withCredentialsProvider(value: config.credentialsProvider)
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "health")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<DescribeEntityAggregatesForOrganizationInput, DescribeEntityAggregatesForOrganizationOutputResponse, DescribeEntityAggregatesForOrganizationOutputError>(id: "describeEntityAggregatesForOrganization")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeEntityAggregatesForOrganizationInput, DescribeEntityAggregatesForOrganizationOutputResponse, DescribeEntityAggregatesForOrganizationOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeEntityAggregatesForOrganizationInput, DescribeEntityAggregatesForOrganizationOutputResponse>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeEntityAggregatesForOrganizationOutputResponse, DescribeEntityAggregatesForOrganizationOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeEntityAggregatesForOrganizationInput, DescribeEntityAggregatesForOrganizationOutputResponse>(xAmzTarget: "AWSHealth_20160804.DescribeEntityAggregatesForOrganization"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeEntityAggregatesForOrganizationInput, DescribeEntityAggregatesForOrganizationOutputResponse>(xmlName: "DescribeEntityAggregatesForOrganizationRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeEntityAggregatesForOrganizationInput, DescribeEntityAggregatesForOrganizationOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeEntityAggregatesForOrganizationOutputResponse, DescribeEntityAggregatesForOrganizationOutputError>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeEntityAggregatesForOrganizationOutputResponse, DescribeEntityAggregatesForOrganizationOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeEntityAggregatesForOrganizationOutputResponse, DescribeEntityAggregatesForOrganizationOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeEntityAggregatesForOrganizationOutputResponse, DescribeEntityAggregatesForOrganizationOutputError>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
     /// Returns the number of events of each event type (issue, scheduled change, and account notification). If no filter is specified, the counts of all events in each category are returned. This API operation uses pagination. Specify the nextToken parameter in the next request to return more results.
     ///
     /// - Parameter DescribeEventAggregatesInput : [no documentation found]

@@ -3521,6 +3521,7 @@ public enum CreateFlowOutputError: ClientRuntime.HttpResponseErrorBinding {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ConnectorAuthenticationException": return try await ConnectorAuthenticationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ConnectorServerException": return try await ConnectorServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
@@ -6498,6 +6499,8 @@ extension AppflowClientTypes.ExecutionResult: Swift.Codable {
         case bytesProcessed
         case bytesWritten
         case errorInfo
+        case maxPageSize
+        case numParallelProcesses
         case recordsProcessed
     }
 
@@ -6511,6 +6514,12 @@ extension AppflowClientTypes.ExecutionResult: Swift.Codable {
         }
         if let errorInfo = self.errorInfo {
             try encodeContainer.encode(errorInfo, forKey: .errorInfo)
+        }
+        if let maxPageSize = self.maxPageSize {
+            try encodeContainer.encode(maxPageSize, forKey: .maxPageSize)
+        }
+        if let numParallelProcesses = self.numParallelProcesses {
+            try encodeContainer.encode(numParallelProcesses, forKey: .numParallelProcesses)
         }
         if let recordsProcessed = self.recordsProcessed {
             try encodeContainer.encode(recordsProcessed, forKey: .recordsProcessed)
@@ -6527,6 +6536,10 @@ extension AppflowClientTypes.ExecutionResult: Swift.Codable {
         bytesWritten = bytesWrittenDecoded
         let recordsProcessedDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .recordsProcessed)
         recordsProcessed = recordsProcessedDecoded
+        let numParallelProcessesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .numParallelProcesses)
+        numParallelProcesses = numParallelProcessesDecoded
+        let maxPageSizeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxPageSize)
+        maxPageSize = maxPageSizeDecoded
     }
 }
 
@@ -6539,6 +6552,10 @@ extension AppflowClientTypes {
         public var bytesWritten: Swift.Int?
         /// Provides any error message information related to the flow run.
         public var errorInfo: AppflowClientTypes.ErrorInfo?
+        /// The maximum number of records that Amazon AppFlow receives in each page of the response from your SAP application.
+        public var maxPageSize: Swift.Int?
+        /// The number of processes that Amazon AppFlow ran at the same time when it retrieved your data.
+        public var numParallelProcesses: Swift.Int?
         /// The number of records processed in the flow run.
         public var recordsProcessed: Swift.Int?
 
@@ -6546,12 +6563,16 @@ extension AppflowClientTypes {
             bytesProcessed: Swift.Int? = nil,
             bytesWritten: Swift.Int? = nil,
             errorInfo: AppflowClientTypes.ErrorInfo? = nil,
+            maxPageSize: Swift.Int? = nil,
+            numParallelProcesses: Swift.Int? = nil,
             recordsProcessed: Swift.Int? = nil
         )
         {
             self.bytesProcessed = bytesProcessed
             self.bytesWritten = bytesWritten
             self.errorInfo = errorInfo
+            self.maxPageSize = maxPageSize
+            self.numParallelProcesses = numParallelProcesses
             self.recordsProcessed = recordsProcessed
         }
     }
@@ -11556,9 +11577,83 @@ extension AppflowClientTypes {
 
 }
 
+extension AppflowClientTypes.SAPODataPaginationConfig: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case maxPageSize
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let maxPageSize = self.maxPageSize {
+            try encodeContainer.encode(maxPageSize, forKey: .maxPageSize)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let maxPageSizeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxPageSize)
+        maxPageSize = maxPageSizeDecoded
+    }
+}
+
+extension AppflowClientTypes {
+    /// Sets the page size for each concurrent process that transfers OData records from your SAP instance. A concurrent process is query that retrieves a batch of records as part of a flow run. Amazon AppFlow can run multiple concurrent processes in parallel to transfer data faster.
+    public struct SAPODataPaginationConfig: Swift.Equatable {
+        /// The maximum number of records that Amazon AppFlow receives in each page of the response from your SAP application. For transfers of OData records, the maximum page size is 3,000. For transfers of data that comes from an ODP provider, the maximum page size is 10,000.
+        /// This member is required.
+        public var maxPageSize: Swift.Int?
+
+        public init(
+            maxPageSize: Swift.Int? = nil
+        )
+        {
+            self.maxPageSize = maxPageSize
+        }
+    }
+
+}
+
+extension AppflowClientTypes.SAPODataParallelismConfig: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case maxParallelism
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let maxParallelism = self.maxParallelism {
+            try encodeContainer.encode(maxParallelism, forKey: .maxParallelism)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let maxParallelismDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxParallelism)
+        maxParallelism = maxParallelismDecoded
+    }
+}
+
+extension AppflowClientTypes {
+    /// Sets the number of concurrent processes that transfer OData records from your SAP instance. A concurrent process is query that retrieves a batch of records as part of a flow run. Amazon AppFlow can run multiple concurrent processes in parallel to transfer data faster.
+    public struct SAPODataParallelismConfig: Swift.Equatable {
+        /// The maximum number of processes that Amazon AppFlow runs at the same time when it retrieves your data from your SAP application.
+        /// This member is required.
+        public var maxParallelism: Swift.Int?
+
+        public init(
+            maxParallelism: Swift.Int? = nil
+        )
+        {
+            self.maxParallelism = maxParallelism
+        }
+    }
+
+}
+
 extension AppflowClientTypes.SAPODataSourceProperties: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case objectPath
+        case paginationConfig
+        case parallelismConfig
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -11566,12 +11661,22 @@ extension AppflowClientTypes.SAPODataSourceProperties: Swift.Codable {
         if let objectPath = self.objectPath {
             try encodeContainer.encode(objectPath, forKey: .objectPath)
         }
+        if let paginationConfig = self.paginationConfig {
+            try encodeContainer.encode(paginationConfig, forKey: .paginationConfig)
+        }
+        if let parallelismConfig = self.parallelismConfig {
+            try encodeContainer.encode(parallelismConfig, forKey: .parallelismConfig)
+        }
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let objectPathDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .objectPath)
         objectPath = objectPathDecoded
+        let parallelismConfigDecoded = try containerValues.decodeIfPresent(AppflowClientTypes.SAPODataParallelismConfig.self, forKey: .parallelismConfig)
+        parallelismConfig = parallelismConfigDecoded
+        let paginationConfigDecoded = try containerValues.decodeIfPresent(AppflowClientTypes.SAPODataPaginationConfig.self, forKey: .paginationConfig)
+        paginationConfig = paginationConfigDecoded
     }
 }
 
@@ -11580,12 +11685,20 @@ extension AppflowClientTypes {
     public struct SAPODataSourceProperties: Swift.Equatable {
         /// The object path specified in the SAPOData flow source.
         public var objectPath: Swift.String?
+        /// Sets the page size for each concurrent process that transfers OData records from your SAP instance.
+        public var paginationConfig: AppflowClientTypes.SAPODataPaginationConfig?
+        /// Sets the number of concurrent processes that transfers OData records from your SAP instance.
+        public var parallelismConfig: AppflowClientTypes.SAPODataParallelismConfig?
 
         public init(
-            objectPath: Swift.String? = nil
+            objectPath: Swift.String? = nil,
+            paginationConfig: AppflowClientTypes.SAPODataPaginationConfig? = nil,
+            parallelismConfig: AppflowClientTypes.SAPODataParallelismConfig? = nil
         )
         {
             self.objectPath = objectPath
+            self.paginationConfig = paginationConfig
+            self.parallelismConfig = parallelismConfig
         }
     }
 
@@ -12364,12 +12477,16 @@ extension AppflowClientTypes {
 
 extension AppflowClientTypes.ServiceNowConnectorProfileCredentials: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case oAuth2Credentials
         case password
         case username
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let oAuth2Credentials = self.oAuth2Credentials {
+            try encodeContainer.encode(oAuth2Credentials, forKey: .oAuth2Credentials)
+        }
         if let password = self.password {
             try encodeContainer.encode(password, forKey: .password)
         }
@@ -12384,29 +12501,33 @@ extension AppflowClientTypes.ServiceNowConnectorProfileCredentials: Swift.Codabl
         username = usernameDecoded
         let passwordDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .password)
         password = passwordDecoded
+        let oAuth2CredentialsDecoded = try containerValues.decodeIfPresent(AppflowClientTypes.OAuth2Credentials.self, forKey: .oAuth2Credentials)
+        oAuth2Credentials = oAuth2CredentialsDecoded
     }
 }
 
 extension AppflowClientTypes.ServiceNowConnectorProfileCredentials: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "ServiceNowConnectorProfileCredentials(username: \(Swift.String(describing: username)), password: \"CONTENT_REDACTED\")"}
+        "ServiceNowConnectorProfileCredentials(oAuth2Credentials: \(Swift.String(describing: oAuth2Credentials)), username: \(Swift.String(describing: username)), password: \"CONTENT_REDACTED\")"}
 }
 
 extension AppflowClientTypes {
     /// The connector-specific profile credentials required when using ServiceNow.
     public struct ServiceNowConnectorProfileCredentials: Swift.Equatable {
+        /// The OAuth 2.0 credentials required to authenticate the user.
+        public var oAuth2Credentials: AppflowClientTypes.OAuth2Credentials?
         /// The password that corresponds to the user name.
-        /// This member is required.
         public var password: Swift.String?
         /// The name of the user.
-        /// This member is required.
         public var username: Swift.String?
 
         public init(
+            oAuth2Credentials: AppflowClientTypes.OAuth2Credentials? = nil,
             password: Swift.String? = nil,
             username: Swift.String? = nil
         )
         {
+            self.oAuth2Credentials = oAuth2Credentials
             self.password = password
             self.username = username
         }
@@ -15237,6 +15358,7 @@ public enum UpdateFlowOutputError: ClientRuntime.HttpResponseErrorBinding {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ConnectorAuthenticationException": return try await ConnectorAuthenticationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ConnectorServerException": return try await ConnectorServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)

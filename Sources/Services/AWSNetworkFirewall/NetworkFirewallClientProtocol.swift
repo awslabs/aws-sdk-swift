@@ -145,7 +145,7 @@ public protocol NetworkFirewallClientProtocol {
     /// - `LimitExceededException` : Unable to perform the operation because doing so would violate a limit setting.
     /// - `ThrottlingException` : Unable to process the request due to throttling limitations.
     func createRuleGroup(input: CreateRuleGroupInput) async throws -> CreateRuleGroupOutputResponse
-    /// Creates an Network Firewall TLS inspection configuration. A TLS inspection configuration contains the Certificate Manager certificate references that Network Firewall uses to decrypt and re-encrypt inbound traffic. After you create a TLS inspection configuration, you associate it with a firewall policy. To update the settings for a TLS inspection configuration, use [UpdateTLSInspectionConfiguration]. To manage a TLS inspection configuration's tags, use the standard Amazon Web Services resource tagging operations, [ListTagsForResource], [TagResource], and [UntagResource]. To retrieve information about TLS inspection configurations, use [ListTLSInspectionConfigurations] and [DescribeTLSInspectionConfiguration]. For more information about TLS inspection configurations, see [Decrypting SSL/TLS traffic with TLS inspection configurations](https://docs.aws.amazon.com/network-firewall/latest/developerguide/tls-inspection.html) in the Network Firewall Developer Guide.
+    /// Creates an Network Firewall TLS inspection configuration. A TLS inspection configuration contains the Certificate Manager certificate references that Network Firewall uses to decrypt and re-encrypt inbound traffic. After you create a TLS inspection configuration, you associate it with a new firewall policy. To update the settings for a TLS inspection configuration, use [UpdateTLSInspectionConfiguration]. To manage a TLS inspection configuration's tags, use the standard Amazon Web Services resource tagging operations, [ListTagsForResource], [TagResource], and [UntagResource]. To retrieve information about TLS inspection configurations, use [ListTLSInspectionConfigurations] and [DescribeTLSInspectionConfiguration]. For more information about TLS inspection configurations, see [Decrypting SSL/TLS traffic with TLS inspection configurations](https://docs.aws.amazon.com/network-firewall/latest/developerguide/tls-inspection.html) in the Network Firewall Developer Guide.
     ///
     /// - Parameter CreateTLSInspectionConfigurationInput : [no documentation found]
     ///
@@ -154,6 +154,7 @@ public protocol NetworkFirewallClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
+    /// - `InsufficientCapacityException` : Amazon Web Services doesn't currently have enough available capacity to fulfill your request. Try your request later.
     /// - `InternalServerError` : Your request is valid, but Network Firewall couldn’t perform the operation because of a system problem. Retry your request.
     /// - `InvalidRequestException` : The operation failed because of a problem with your request. Examples include:
     ///
@@ -162,6 +163,7 @@ public protocol NetworkFirewallClientProtocol {
     /// * You tried to update a property with a value that isn't among the available types.
     ///
     /// * Your request references an ARN that is malformed, or corresponds to a resource that isn't valid in the context of the request.
+    /// - `LimitExceededException` : Unable to perform the operation because doing so would violate a limit setting.
     /// - `ThrottlingException` : Unable to process the request due to throttling limitations.
     func createTLSInspectionConfiguration(input: CreateTLSInspectionConfigurationInput) async throws -> CreateTLSInspectionConfigurationOutputResponse
     /// Deletes the specified [Firewall] and its [FirewallStatus]. This operation requires the firewall's DeleteProtection flag to be FALSE. You can't revert this operation. You can check whether a firewall is in use by reviewing the route tables for the Availability Zones where you have firewall subnet mappings. Retrieve the subnet mappings by calling [DescribeFirewall]. You define and update the route tables through Amazon VPC. As needed, update the route tables for the zones to remove the firewall endpoints. When the route tables no longer use the firewall endpoints, you can remove the firewall safely. To delete a firewall, remove the delete protection if you need to using [UpdateFirewallDeleteProtection], then delete the firewall by calling [DeleteFirewall].

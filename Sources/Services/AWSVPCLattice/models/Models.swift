@@ -1576,6 +1576,7 @@ public enum CreateServiceNetworkServiceAssociationOutputError: ClientRuntime.Htt
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
@@ -3552,7 +3553,7 @@ public struct GetAuthPolicyOutputResponse: Swift.Equatable {
     public var lastUpdatedAt: ClientRuntime.Date?
     /// The auth policy.
     public var policy: Swift.String?
-    /// The state of the auth policy. The auth policy is only active when the auth type is set to AWS_IAM. If you provide a policy, then authentication and authorization decisions are made based on this policy and the client's IAM policy. If the auth type is NONE, then any auth policy you provide will remain inactive. For more information, see [Create a service network](https://docs.aws.amazon.com/vpc-lattice/latest/ug/service-networks.html#create-service-network) in the Amazon VPC Lattice User Guide.
+    /// The state of the auth policy. The auth policy is only active when the auth type is set to Amazon Web Services_IAM. If you provide a policy, then authentication and authorization decisions are made based on this policy and the client's IAM policy. If the auth type is NONE, then any auth policy you provide will remain inactive. For more information, see [Create a service network](https://docs.aws.amazon.com/vpc-lattice/latest/ug/service-networks.html#create-service-network) in the Amazon VPC Lattice User Guide.
     public var state: VPCLatticeClientTypes.AuthPolicyState?
 
     public init(
@@ -3791,7 +3792,7 @@ extension GetResourcePolicyInput: ClientRuntime.URLPathProvider {
 }
 
 public struct GetResourcePolicyInput: Swift.Equatable {
-    /// The Amazon Resource Name (ARN) of the service network or service.
+    /// An IAM policy.
     /// This member is required.
     public var resourceArn: Swift.String?
 
@@ -3840,7 +3841,7 @@ extension GetResourcePolicyOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 public struct GetResourcePolicyOutputResponse: Swift.Equatable {
-    /// An IAM policy.
+    /// The Amazon Resource Name (ARN) of the service network or service.
     public var policy: Swift.String?
 
     public init(
@@ -4878,6 +4879,7 @@ public enum GetTargetGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
@@ -5475,6 +5477,40 @@ extension VPCLatticeClientTypes {
     }
 }
 
+extension VPCLatticeClientTypes {
+    public enum LambdaEventStructureVersion: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        /// This is the default lambda event structure version
+        case v1
+        /// Indicates use of lambda event structure version 2
+        case v2
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [LambdaEventStructureVersion] {
+            return [
+                .v1,
+                .v2,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .v1: return "V1"
+            case .v2: return "V2"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = LambdaEventStructureVersion(rawValue: rawValue) ?? LambdaEventStructureVersion.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension ListAccessLogSubscriptionsInput: ClientRuntime.QueryItemProvider {
     public var queryItems: [ClientRuntime.URLQueryItem] {
         get throws {
@@ -5539,6 +5575,7 @@ public enum ListAccessLogSubscriptionsOutputError: ClientRuntime.HttpResponseErr
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
@@ -6432,6 +6469,7 @@ public enum ListTagsForResourceOutputError: ClientRuntime.HttpResponseErrorBindi
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
@@ -7075,7 +7113,7 @@ extension PutAuthPolicyInput: ClientRuntime.URLPathProvider {
 }
 
 public struct PutAuthPolicyInput: Swift.Equatable {
-    /// The auth policy. The policy string in JSON must not contain newlines or blank lines.
+    /// The auth policy.
     /// This member is required.
     public var policy: Swift.String?
     /// The ID or Amazon Resource Name (ARN) of the service network or service for which the policy is created.
@@ -7138,9 +7176,9 @@ extension PutAuthPolicyOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 public struct PutAuthPolicyOutputResponse: Swift.Equatable {
-    /// The auth policy. The policy string in JSON must not contain newlines or blank lines.
+    /// The auth policy.
     public var policy: Swift.String?
-    /// The state of the auth policy. The auth policy is only active when the auth type is set to AWS_IAM. If you provide a policy, then authentication and authorization decisions are made based on this policy and the client's IAM policy. If the Auth type is NONE, then, any auth policy you provide will remain inactive. For more information, see [Create a service network](https://docs.aws.amazon.com/vpc-lattice/latest/ug/service-networks.html#create-service-network) in the Amazon VPC Lattice User Guide.
+    /// The state of the auth policy. The auth policy is only active when the auth type is set to Amazon Web Services_IAM. If you provide a policy, then authentication and authorization decisions are made based on this policy and the client's IAM policy. If the Auth type is NONE, then, any auth policy you provide will remain inactive. For more information, see [Create a service network](https://docs.aws.amazon.com/vpc-lattice/latest/ug/service-networks.html#create-service-network) in the Amazon VPC Lattice User Guide.
     public var state: VPCLatticeClientTypes.AuthPolicyState?
 
     public init(
@@ -7196,7 +7234,7 @@ extension PutResourcePolicyInput: ClientRuntime.URLPathProvider {
 }
 
 public struct PutResourcePolicyInput: Swift.Equatable {
-    /// An IAM policy. The policy string in JSON must not contain newlines or blank lines.
+    /// An IAM policy.
     /// This member is required.
     public var policy: Swift.String?
     /// The ID or Amazon Resource Name (ARN) of the service network or service for which the policy is created.
@@ -8813,6 +8851,7 @@ extension VPCLatticeClientTypes.TargetGroupConfig: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case healthCheck
         case ipAddressType
+        case lambdaEventStructureVersion
         case port
         case `protocol` = "protocol"
         case protocolVersion
@@ -8826,6 +8865,9 @@ extension VPCLatticeClientTypes.TargetGroupConfig: Swift.Codable {
         }
         if let ipAddressType = self.ipAddressType {
             try encodeContainer.encode(ipAddressType.rawValue, forKey: .ipAddressType)
+        }
+        if let lambdaEventStructureVersion = self.lambdaEventStructureVersion {
+            try encodeContainer.encode(lambdaEventStructureVersion.rawValue, forKey: .lambdaEventStructureVersion)
         }
         if let port = self.port {
             try encodeContainer.encode(port, forKey: .port)
@@ -8855,6 +8897,8 @@ extension VPCLatticeClientTypes.TargetGroupConfig: Swift.Codable {
         vpcIdentifier = vpcIdentifierDecoded
         let healthCheckDecoded = try containerValues.decodeIfPresent(VPCLatticeClientTypes.HealthCheckConfig.self, forKey: .healthCheck)
         healthCheck = healthCheckDecoded
+        let lambdaEventStructureVersionDecoded = try containerValues.decodeIfPresent(VPCLatticeClientTypes.LambdaEventStructureVersion.self, forKey: .lambdaEventStructureVersion)
+        lambdaEventStructureVersion = lambdaEventStructureVersionDecoded
     }
 }
 
@@ -8865,21 +8909,21 @@ extension VPCLatticeClientTypes {
         public var healthCheck: VPCLatticeClientTypes.HealthCheckConfig?
         /// The type of IP address used for the target group. The possible values are ipv4 and ipv6. This is an optional parameter. If not specified, the IP address type defaults to ipv4.
         public var ipAddressType: VPCLatticeClientTypes.IpAddressType?
+        /// Lambda event structure version
+        public var lambdaEventStructureVersion: VPCLatticeClientTypes.LambdaEventStructureVersion?
         /// The port on which the targets are listening. For HTTP, the default is 80. For HTTPS, the default is 443
-        /// This member is required.
         public var port: Swift.Int?
         /// The protocol to use for routing traffic to the targets. Default is the protocol of a target group.
-        /// This member is required.
         public var `protocol`: VPCLatticeClientTypes.TargetGroupProtocol?
         /// The protocol version. Default value is HTTP1.
         public var protocolVersion: VPCLatticeClientTypes.TargetGroupProtocolVersion?
         /// The ID of the VPC.
-        /// This member is required.
         public var vpcIdentifier: Swift.String?
 
         public init(
             healthCheck: VPCLatticeClientTypes.HealthCheckConfig? = nil,
             ipAddressType: VPCLatticeClientTypes.IpAddressType? = nil,
+            lambdaEventStructureVersion: VPCLatticeClientTypes.LambdaEventStructureVersion? = nil,
             port: Swift.Int? = nil,
             `protocol`: VPCLatticeClientTypes.TargetGroupProtocol? = nil,
             protocolVersion: VPCLatticeClientTypes.TargetGroupProtocolVersion? = nil,
@@ -8888,6 +8932,7 @@ extension VPCLatticeClientTypes {
         {
             self.healthCheck = healthCheck
             self.ipAddressType = ipAddressType
+            self.lambdaEventStructureVersion = lambdaEventStructureVersion
             self.port = port
             self.`protocol` = `protocol`
             self.protocolVersion = protocolVersion
@@ -9021,6 +9066,7 @@ extension VPCLatticeClientTypes.TargetGroupSummary: Swift.Codable {
         case createdAt
         case id
         case ipAddressType
+        case lambdaEventStructureVersion
         case lastUpdatedAt
         case name
         case port
@@ -9044,6 +9090,9 @@ extension VPCLatticeClientTypes.TargetGroupSummary: Swift.Codable {
         }
         if let ipAddressType = self.ipAddressType {
             try encodeContainer.encode(ipAddressType.rawValue, forKey: .ipAddressType)
+        }
+        if let lambdaEventStructureVersion = self.lambdaEventStructureVersion {
+            try encodeContainer.encode(lambdaEventStructureVersion.rawValue, forKey: .lambdaEventStructureVersion)
         }
         if let lastUpdatedAt = self.lastUpdatedAt {
             try encodeContainer.encodeTimestamp(lastUpdatedAt, format: .dateTime, forKey: .lastUpdatedAt)
@@ -9109,6 +9158,8 @@ extension VPCLatticeClientTypes.TargetGroupSummary: Swift.Codable {
             }
         }
         serviceArns = serviceArnsDecoded0
+        let lambdaEventStructureVersionDecoded = try containerValues.decodeIfPresent(VPCLatticeClientTypes.LambdaEventStructureVersion.self, forKey: .lambdaEventStructureVersion)
+        lambdaEventStructureVersion = lambdaEventStructureVersionDecoded
     }
 }
 
@@ -9123,6 +9174,8 @@ extension VPCLatticeClientTypes {
         public var id: Swift.String?
         /// The type of IP address used for the target group. The possible values are ipv4 and ipv6. This is an optional parameter. If not specified, the IP address type defaults to ipv4.
         public var ipAddressType: VPCLatticeClientTypes.IpAddressType?
+        /// Lambda event structure version
+        public var lambdaEventStructureVersion: VPCLatticeClientTypes.LambdaEventStructureVersion?
         /// The date and time that the target group was last updated, specified in ISO-8601 format.
         public var lastUpdatedAt: ClientRuntime.Date?
         /// The name of the target group.
@@ -9145,6 +9198,7 @@ extension VPCLatticeClientTypes {
             createdAt: ClientRuntime.Date? = nil,
             id: Swift.String? = nil,
             ipAddressType: VPCLatticeClientTypes.IpAddressType? = nil,
+            lambdaEventStructureVersion: VPCLatticeClientTypes.LambdaEventStructureVersion? = nil,
             lastUpdatedAt: ClientRuntime.Date? = nil,
             name: Swift.String? = nil,
             port: Swift.Int? = nil,
@@ -9159,6 +9213,7 @@ extension VPCLatticeClientTypes {
             self.createdAt = createdAt
             self.id = id
             self.ipAddressType = ipAddressType
+            self.lambdaEventStructureVersion = lambdaEventStructureVersion
             self.lastUpdatedAt = lastUpdatedAt
             self.name = name
             self.port = port
@@ -9484,6 +9539,7 @@ public enum UntagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
@@ -10303,7 +10359,7 @@ extension UpdateServiceNetworkVpcAssociationInput: ClientRuntime.URLPathProvider
 }
 
 public struct UpdateServiceNetworkVpcAssociationInput: Swift.Equatable {
-    /// The IDs of the security groups.
+    /// The IDs of the security groups. Once you add a security group, it cannot be removed.
     /// This member is required.
     public var securityGroupIds: [Swift.String]?
     /// The ID or Amazon Resource Name (ARN) of the association.
@@ -10617,6 +10673,7 @@ public enum UpdateTargetGroupOutputError: ClientRuntime.HttpResponseErrorBinding
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)

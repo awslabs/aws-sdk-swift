@@ -122,6 +122,7 @@ public protocol ECRClientProtocol {
     /// - `LifecyclePolicyNotFoundException` : The lifecycle policy could not be found, and no policy is set to the repository.
     /// - `RepositoryNotFoundException` : The specified repository could not be found. Check the spelling of the specified repository and ensure that you are performing operations on the correct registry.
     /// - `ServerException` : These errors are usually caused by a server-side issue.
+    /// - `ValidationException` : There was an exception validating this request.
     func deleteLifecyclePolicy(input: DeleteLifecyclePolicyInput) async throws -> DeleteLifecyclePolicyOutputResponse
     /// Deletes a pull through cache rule.
     ///
@@ -305,6 +306,7 @@ public protocol ECRClientProtocol {
     /// - `LifecyclePolicyNotFoundException` : The lifecycle policy could not be found, and no policy is set to the repository.
     /// - `RepositoryNotFoundException` : The specified repository could not be found. Check the spelling of the specified repository and ensure that you are performing operations on the correct registry.
     /// - `ServerException` : These errors are usually caused by a server-side issue.
+    /// - `ValidationException` : There was an exception validating this request.
     func getLifecyclePolicy(input: GetLifecyclePolicyInput) async throws -> GetLifecyclePolicyOutputResponse
     /// Retrieves the results of the lifecycle policy preview request for the specified repository.
     ///
@@ -319,6 +321,7 @@ public protocol ECRClientProtocol {
     /// - `LifecyclePolicyPreviewNotFoundException` : There is no dry run for this repository.
     /// - `RepositoryNotFoundException` : The specified repository could not be found. Check the spelling of the specified repository and ensure that you are performing operations on the correct registry.
     /// - `ServerException` : These errors are usually caused by a server-side issue.
+    /// - `ValidationException` : There was an exception validating this request.
     func getLifecyclePolicyPreview(input: GetLifecyclePolicyPreviewInput) async throws -> GetLifecyclePolicyPreviewOutputResponse
     /// Retrieves the permissions policy for a registry.
     ///
@@ -460,6 +463,7 @@ public protocol ECRClientProtocol {
     /// - `InvalidParameterException` : The specified parameter is invalid. Review the available parameters for the API request.
     /// - `RepositoryNotFoundException` : The specified repository could not be found. Check the spelling of the specified repository and ensure that you are performing operations on the correct registry.
     /// - `ServerException` : These errors are usually caused by a server-side issue.
+    /// - `ValidationException` : There was an exception validating this request.
     func putLifecyclePolicy(input: PutLifecyclePolicyInput) async throws -> PutLifecyclePolicyOutputResponse
     /// Creates or updates the permissions policy for your registry. A registry policy is used to specify permissions for another Amazon Web Services account and is used when configuring cross-account replication. For more information, see [Registry permissions](https://docs.aws.amazon.com/AmazonECR/latest/userguide/registry-permissions.html) in the Amazon Elastic Container Registry User Guide.
     ///
@@ -544,6 +548,7 @@ public protocol ECRClientProtocol {
     /// - `LifecyclePolicyPreviewInProgressException` : The previous lifecycle policy preview request has not completed. Wait and try again.
     /// - `RepositoryNotFoundException` : The specified repository could not be found. Check the spelling of the specified repository and ensure that you are performing operations on the correct registry.
     /// - `ServerException` : These errors are usually caused by a server-side issue.
+    /// - `ValidationException` : There was an exception validating this request.
     func startLifecyclePolicyPreview(input: StartLifecyclePolicyPreviewInput) async throws -> StartLifecyclePolicyPreviewOutputResponse
     /// Adds specified tags to a resource with the specified ARN. Existing tags on a resource are not changed if they are not specified in the request parameters.
     ///

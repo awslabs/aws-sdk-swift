@@ -394,7 +394,7 @@ extension IdentitystoreClient: IdentitystoreClientProtocol {
         return result
     }
 
-    /// Retrieves the group metadata and attributes from GroupId in an identity store.
+    /// Retrieves the group metadata and attributes from GroupId in an identity store. If you have administrator access to a member account, you can use this API from the member account. Read about [member accounts](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_access.html) in the Organizations User Guide.
     ///
     /// - Parameter DescribeGroupInput : [no documentation found]
     ///
@@ -443,7 +443,7 @@ extension IdentitystoreClient: IdentitystoreClientProtocol {
         return result
     }
 
-    /// Retrieves membership metadata and attributes from MembershipId in an identity store.
+    /// Retrieves membership metadata and attributes from MembershipId in an identity store. If you have administrator access to a member account, you can use this API from the member account. Read about [member accounts](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_access.html) in the Organizations User Guide.
     ///
     /// - Parameter DescribeGroupMembershipInput : [no documentation found]
     ///
@@ -492,7 +492,7 @@ extension IdentitystoreClient: IdentitystoreClientProtocol {
         return result
     }
 
-    /// Retrieves the user metadata and attributes from the UserId in an identity store.
+    /// Retrieves the user metadata and attributes from the UserId in an identity store. If you have administrator access to a member account, you can use this API from the member account. Read about [member accounts](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_access.html) in the Organizations User Guide.
     ///
     /// - Parameter DescribeUserInput : [no documentation found]
     ///
@@ -541,7 +541,7 @@ extension IdentitystoreClient: IdentitystoreClientProtocol {
         return result
     }
 
-    /// Retrieves GroupId in an identity store.
+    /// Retrieves GroupId in an identity store. If you have administrator access to a member account, you can use this API from the member account. Read about [member accounts](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_access.html) in the Organizations User Guide.
     ///
     /// - Parameter GetGroupIdInput : [no documentation found]
     ///
@@ -590,7 +590,7 @@ extension IdentitystoreClient: IdentitystoreClientProtocol {
         return result
     }
 
-    /// Retrieves the MembershipId in an identity store.
+    /// Retrieves the MembershipId in an identity store. If you have administrator access to a member account, you can use this API from the member account. Read about [member accounts](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_access.html) in the Organizations User Guide.
     ///
     /// - Parameter GetGroupMembershipIdInput : [no documentation found]
     ///
@@ -639,7 +639,7 @@ extension IdentitystoreClient: IdentitystoreClientProtocol {
         return result
     }
 
-    /// Retrieves the UserId in an identity store.
+    /// Retrieves the UserId in an identity store. If you have administrator access to a member account, you can use this API from the member account. Read about [member accounts](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_access.html) in the Organizations User Guide.
     ///
     /// - Parameter GetUserIdInput : [no documentation found]
     ///
@@ -688,7 +688,7 @@ extension IdentitystoreClient: IdentitystoreClientProtocol {
         return result
     }
 
-    /// Checks the user's membership in all requested groups and returns if the member exists in all queried groups.
+    /// Checks the user's membership in all requested groups and returns if the member exists in all queried groups. If you have administrator access to a member account, you can use this API from the member account. Read about [member accounts](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_access.html) in the Organizations User Guide.
     ///
     /// - Parameter IsMemberInGroupsInput : [no documentation found]
     ///
@@ -737,7 +737,7 @@ extension IdentitystoreClient: IdentitystoreClientProtocol {
         return result
     }
 
-    /// For the specified group in the specified identity store, returns the list of all GroupMembership objects and returns results in paginated form.
+    /// For the specified group in the specified identity store, returns the list of all GroupMembership objects and returns results in paginated form. If you have administrator access to a member account, you can use this API from the member account. Read about [member accounts](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_access.html) in the Organizations User Guide.
     ///
     /// - Parameter ListGroupMembershipsInput : [no documentation found]
     ///
@@ -786,7 +786,7 @@ extension IdentitystoreClient: IdentitystoreClientProtocol {
         return result
     }
 
-    /// For the specified member in the specified identity store, returns the list of all GroupMembership objects and returns results in paginated form.
+    /// For the specified member in the specified identity store, returns the list of all GroupMembership objects and returns results in paginated form. If you have administrator access to a member account, you can use this API from the member account. Read about [member accounts](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_access.html) in the Organizations User Guide.
     ///
     /// - Parameter ListGroupMembershipsForMemberInput : [no documentation found]
     ///
@@ -835,7 +835,7 @@ extension IdentitystoreClient: IdentitystoreClientProtocol {
         return result
     }
 
-    /// Lists all groups in the identity store. Returns a paginated list of complete Group objects. Filtering for a Group by the DisplayName attribute is deprecated. Instead, use the GetGroupId API action.
+    /// Lists all groups in the identity store. Returns a paginated list of complete Group objects. Filtering for a Group by the DisplayName attribute is deprecated. Instead, use the GetGroupId API action. If you have administrator access to a member account, you can use this API from the member account. Read about [member accounts](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_access.html) in the Organizations User Guide.
     ///
     /// - Parameter ListGroupsInput : [no documentation found]
     ///
@@ -884,7 +884,7 @@ extension IdentitystoreClient: IdentitystoreClientProtocol {
         return result
     }
 
-    /// Lists all users in the identity store. Returns a paginated list of complete User objects. Filtering for a User by the UserName attribute is deprecated. Instead, use the GetUserId API action.
+    /// Lists all users in the identity store. Returns a paginated list of complete User objects. Filtering for a User by the UserName attribute is deprecated. Instead, use the GetUserId API action. If you have administrator access to a member account, you can use this API from the member account. Read about [member accounts](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_accounts_access.html) in the Organizations User Guide.
     ///
     /// - Parameter ListUsersInput : [no documentation found]
     ///

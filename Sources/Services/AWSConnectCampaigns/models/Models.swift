@@ -67,6 +67,41 @@ extension AccessDeniedExceptionBody: Swift.Decodable {
     }
 }
 
+extension ConnectCampaignsClientTypes.AgentlessDialerConfig: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case dialingCapacity
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let dialingCapacity = self.dialingCapacity {
+            try encodeContainer.encode(dialingCapacity, forKey: .dialingCapacity)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let dialingCapacityDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .dialingCapacity)
+        dialingCapacity = dialingCapacityDecoded
+    }
+}
+
+extension ConnectCampaignsClientTypes {
+    /// Agentless Dialer config
+    public struct AgentlessDialerConfig: Swift.Equatable {
+        /// Allocates dialing capacity for this campaign between multiple active campaigns
+        public var dialingCapacity: Swift.Double?
+
+        public init(
+            dialingCapacity: Swift.Double? = nil
+        )
+        {
+            self.dialingCapacity = dialingCapacity
+        }
+    }
+
+}
+
 extension ConnectCampaignsClientTypes.AnswerMachineDetectionConfig: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case enableAnswerMachineDetection
@@ -977,6 +1012,7 @@ extension ConnectCampaignsClientTypes {
 
 extension ConnectCampaignsClientTypes.DialerConfig: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case agentlessdialerconfig = "agentlessDialerConfig"
         case predictivedialerconfig = "predictiveDialerConfig"
         case progressivedialerconfig = "progressiveDialerConfig"
         case sdkUnknown
@@ -985,6 +1021,8 @@ extension ConnectCampaignsClientTypes.DialerConfig: Swift.Codable {
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         switch self {
+            case let .agentlessdialerconfig(agentlessdialerconfig):
+                try container.encode(agentlessdialerconfig, forKey: .agentlessdialerconfig)
             case let .predictivedialerconfig(predictivedialerconfig):
                 try container.encode(predictivedialerconfig, forKey: .predictivedialerconfig)
             case let .progressivedialerconfig(progressivedialerconfig):
@@ -1006,6 +1044,11 @@ extension ConnectCampaignsClientTypes.DialerConfig: Swift.Codable {
             self = .predictivedialerconfig(predictivedialerconfig)
             return
         }
+        let agentlessdialerconfigDecoded = try values.decodeIfPresent(ConnectCampaignsClientTypes.AgentlessDialerConfig.self, forKey: .agentlessdialerconfig)
+        if let agentlessdialerconfig = agentlessdialerconfigDecoded {
+            self = .agentlessdialerconfig(agentlessdialerconfig)
+            return
+        }
         self = .sdkUnknown("")
     }
 }
@@ -1017,6 +1060,8 @@ extension ConnectCampaignsClientTypes {
         case progressivedialerconfig(ConnectCampaignsClientTypes.ProgressiveDialerConfig)
         /// Predictive Dialer config
         case predictivedialerconfig(ConnectCampaignsClientTypes.PredictiveDialerConfig)
+        /// Agentless Dialer config
+        case agentlessdialerconfig(ConnectCampaignsClientTypes.AgentlessDialerConfig)
         case sdkUnknown(Swift.String)
     }
 
@@ -2456,7 +2501,6 @@ extension ConnectCampaignsClientTypes {
         /// This member is required.
         public var connectContactFlowId: Swift.String?
         /// The queue for the call. If you specify a queue, the phone displayed for caller ID is the phone number specified in the queue. If you do not specify a queue, the queue defined in the contact flow is used. If you do not specify a queue, you must specify a source phone number.
-        /// This member is required.
         public var connectQueueId: Swift.String?
         /// The phone number associated with the Amazon Connect instance, in E.164 format. If you do not specify a source phone number, you must specify a queue.
         public var connectSourcePhoneNumber: Swift.String?
@@ -2539,6 +2583,7 @@ public struct PauseCampaignOutputResponse: Swift.Equatable {
 extension ConnectCampaignsClientTypes.PredictiveDialerConfig: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case bandwidthAllocation
+        case dialingCapacity
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -2546,12 +2591,17 @@ extension ConnectCampaignsClientTypes.PredictiveDialerConfig: Swift.Codable {
         if let bandwidthAllocation = self.bandwidthAllocation {
             try encodeContainer.encode(bandwidthAllocation, forKey: .bandwidthAllocation)
         }
+        if let dialingCapacity = self.dialingCapacity {
+            try encodeContainer.encode(dialingCapacity, forKey: .dialingCapacity)
+        }
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let bandwidthAllocationDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .bandwidthAllocation)
         bandwidthAllocation = bandwidthAllocationDecoded
+        let dialingCapacityDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .dialingCapacity)
+        dialingCapacity = dialingCapacityDecoded
     }
 }
 
@@ -2561,12 +2611,16 @@ extension ConnectCampaignsClientTypes {
         /// The bandwidth allocation of a queue resource.
         /// This member is required.
         public var bandwidthAllocation: Swift.Double?
+        /// Allocates dialing capacity for this campaign between multiple active campaigns
+        public var dialingCapacity: Swift.Double?
 
         public init(
-            bandwidthAllocation: Swift.Double? = nil
+            bandwidthAllocation: Swift.Double? = nil,
+            dialingCapacity: Swift.Double? = nil
         )
         {
             self.bandwidthAllocation = bandwidthAllocation
+            self.dialingCapacity = dialingCapacity
         }
     }
 
@@ -2575,6 +2629,7 @@ extension ConnectCampaignsClientTypes {
 extension ConnectCampaignsClientTypes.ProgressiveDialerConfig: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case bandwidthAllocation
+        case dialingCapacity
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -2582,12 +2637,17 @@ extension ConnectCampaignsClientTypes.ProgressiveDialerConfig: Swift.Codable {
         if let bandwidthAllocation = self.bandwidthAllocation {
             try encodeContainer.encode(bandwidthAllocation, forKey: .bandwidthAllocation)
         }
+        if let dialingCapacity = self.dialingCapacity {
+            try encodeContainer.encode(dialingCapacity, forKey: .dialingCapacity)
+        }
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let bandwidthAllocationDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .bandwidthAllocation)
         bandwidthAllocation = bandwidthAllocationDecoded
+        let dialingCapacityDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .dialingCapacity)
+        dialingCapacity = dialingCapacityDecoded
     }
 }
 
@@ -2597,12 +2657,16 @@ extension ConnectCampaignsClientTypes {
         /// The bandwidth allocation of a queue resource.
         /// This member is required.
         public var bandwidthAllocation: Swift.Double?
+        /// Allocates dialing capacity for this campaign between multiple active campaigns
+        public var dialingCapacity: Swift.Double?
 
         public init(
-            bandwidthAllocation: Swift.Double? = nil
+            bandwidthAllocation: Swift.Double? = nil,
+            dialingCapacity: Swift.Double? = nil
         )
         {
             self.bandwidthAllocation = bandwidthAllocation
+            self.dialingCapacity = dialingCapacity
         }
     }
 

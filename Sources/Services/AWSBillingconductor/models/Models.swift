@@ -2327,6 +2327,7 @@ extension BillingconductorClientTypes {
 extension BillingconductorClientTypes.CustomLineItemChargeDetails: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case flat = "Flat"
+        case lineItemFilters = "LineItemFilters"
         case percentage = "Percentage"
         case type = "Type"
     }
@@ -2335,6 +2336,12 @@ extension BillingconductorClientTypes.CustomLineItemChargeDetails: Swift.Codable
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let flat = self.flat {
             try encodeContainer.encode(flat, forKey: .flat)
+        }
+        if let lineItemFilters = lineItemFilters {
+            var lineItemFiltersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .lineItemFilters)
+            for lineitemfilter0 in lineItemFilters {
+                try lineItemFiltersContainer.encode(lineitemfilter0)
+            }
         }
         if let percentage = self.percentage {
             try encodeContainer.encode(percentage, forKey: .percentage)
@@ -2352,6 +2359,17 @@ extension BillingconductorClientTypes.CustomLineItemChargeDetails: Swift.Codable
         percentage = percentageDecoded
         let typeDecoded = try containerValues.decodeIfPresent(BillingconductorClientTypes.CustomLineItemType.self, forKey: .type)
         type = typeDecoded
+        let lineItemFiltersContainer = try containerValues.decodeIfPresent([BillingconductorClientTypes.LineItemFilter?].self, forKey: .lineItemFilters)
+        var lineItemFiltersDecoded0:[BillingconductorClientTypes.LineItemFilter]? = nil
+        if let lineItemFiltersContainer = lineItemFiltersContainer {
+            lineItemFiltersDecoded0 = [BillingconductorClientTypes.LineItemFilter]()
+            for structure0 in lineItemFiltersContainer {
+                if let structure0 = structure0 {
+                    lineItemFiltersDecoded0?.append(structure0)
+                }
+            }
+        }
+        lineItemFilters = lineItemFiltersDecoded0
     }
 }
 
@@ -2360,6 +2378,8 @@ extension BillingconductorClientTypes {
     public struct CustomLineItemChargeDetails: Swift.Equatable {
         /// A CustomLineItemFlatChargeDetails that describes the charge details of a flat custom line item.
         public var flat: BillingconductorClientTypes.CustomLineItemFlatChargeDetails?
+        /// A representation of the line item filter.
+        public var lineItemFilters: [BillingconductorClientTypes.LineItemFilter]?
         /// A CustomLineItemPercentageChargeDetails that describes the charge details of a percentage custom line item.
         public var percentage: BillingconductorClientTypes.CustomLineItemPercentageChargeDetails?
         /// The type of the custom line item that indicates whether the charge is a fee or credit.
@@ -2368,11 +2388,13 @@ extension BillingconductorClientTypes {
 
         public init(
             flat: BillingconductorClientTypes.CustomLineItemFlatChargeDetails? = nil,
+            lineItemFilters: [BillingconductorClientTypes.LineItemFilter]? = nil,
             percentage: BillingconductorClientTypes.CustomLineItemPercentageChargeDetails? = nil,
             type: BillingconductorClientTypes.CustomLineItemType? = nil
         )
         {
             self.flat = flat
+            self.lineItemFilters = lineItemFilters
             self.percentage = percentage
             self.type = type
         }
@@ -3655,6 +3677,134 @@ extension InternalServerExceptionBody: Swift.Decodable {
     }
 }
 
+extension BillingconductorClientTypes.LineItemFilter: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case attribute = "Attribute"
+        case matchOption = "MatchOption"
+        case values = "Values"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let attribute = self.attribute {
+            try encodeContainer.encode(attribute.rawValue, forKey: .attribute)
+        }
+        if let matchOption = self.matchOption {
+            try encodeContainer.encode(matchOption.rawValue, forKey: .matchOption)
+        }
+        if let values = values {
+            var valuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .values)
+            for lineitemfiltervalue0 in values {
+                try valuesContainer.encode(lineitemfiltervalue0.rawValue)
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let attributeDecoded = try containerValues.decodeIfPresent(BillingconductorClientTypes.LineItemFilterAttributeName.self, forKey: .attribute)
+        attribute = attributeDecoded
+        let matchOptionDecoded = try containerValues.decodeIfPresent(BillingconductorClientTypes.MatchOption.self, forKey: .matchOption)
+        matchOption = matchOptionDecoded
+        let valuesContainer = try containerValues.decodeIfPresent([BillingconductorClientTypes.LineItemFilterValue?].self, forKey: .values)
+        var valuesDecoded0:[BillingconductorClientTypes.LineItemFilterValue]? = nil
+        if let valuesContainer = valuesContainer {
+            valuesDecoded0 = [BillingconductorClientTypes.LineItemFilterValue]()
+            for string0 in valuesContainer {
+                if let string0 = string0 {
+                    valuesDecoded0?.append(string0)
+                }
+            }
+        }
+        values = valuesDecoded0
+    }
+}
+
+extension BillingconductorClientTypes {
+    /// A representation of the line item filter for your custom line item. You can use line item filters to include or exclude specific resource values from the billing group's total cost. For example, if you create a custom line item and you want to filter out a value, such as Savings Plan discounts, you can update LineItemFilter to exclude it.
+    public struct LineItemFilter: Swift.Equatable {
+        /// The attribute of the line item filter. This specifies what attribute that you can filter on.
+        /// This member is required.
+        public var attribute: BillingconductorClientTypes.LineItemFilterAttributeName?
+        /// The match criteria of the line item filter. This parameter specifies whether not to include the resource value from the billing group total cost.
+        /// This member is required.
+        public var matchOption: BillingconductorClientTypes.MatchOption?
+        /// The values of the line item filter. This specifies the values to filter on. Currently, you can only exclude Savings Plan discounts.
+        /// This member is required.
+        public var values: [BillingconductorClientTypes.LineItemFilterValue]?
+
+        public init(
+            attribute: BillingconductorClientTypes.LineItemFilterAttributeName? = nil,
+            matchOption: BillingconductorClientTypes.MatchOption? = nil,
+            values: [BillingconductorClientTypes.LineItemFilterValue]? = nil
+        )
+        {
+            self.attribute = attribute
+            self.matchOption = matchOption
+            self.values = values
+        }
+    }
+
+}
+
+extension BillingconductorClientTypes {
+    public enum LineItemFilterAttributeName: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case lineItemType
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [LineItemFilterAttributeName] {
+            return [
+                .lineItemType,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .lineItemType: return "LINE_ITEM_TYPE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = LineItemFilterAttributeName(rawValue: rawValue) ?? LineItemFilterAttributeName.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension BillingconductorClientTypes {
+    public enum LineItemFilterValue: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case savingsPlanNegation
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [LineItemFilterValue] {
+            return [
+                .savingsPlanNegation,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .savingsPlanNegation: return "SAVINGS_PLAN_NEGATION"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = LineItemFilterValue(rawValue: rawValue) ?? LineItemFilterValue.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension BillingconductorClientTypes.ListAccountAssociationsFilter: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case accountId = "AccountId"
@@ -4355,6 +4505,7 @@ extension ListBillingGroupsOutputResponseBody: Swift.Decodable {
 extension BillingconductorClientTypes.ListCustomLineItemChargeDetails: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case flat = "Flat"
+        case lineItemFilters = "LineItemFilters"
         case percentage = "Percentage"
         case type = "Type"
     }
@@ -4363,6 +4514,12 @@ extension BillingconductorClientTypes.ListCustomLineItemChargeDetails: Swift.Cod
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let flat = self.flat {
             try encodeContainer.encode(flat, forKey: .flat)
+        }
+        if let lineItemFilters = lineItemFilters {
+            var lineItemFiltersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .lineItemFilters)
+            for lineitemfilter0 in lineItemFilters {
+                try lineItemFiltersContainer.encode(lineitemfilter0)
+            }
         }
         if let percentage = self.percentage {
             try encodeContainer.encode(percentage, forKey: .percentage)
@@ -4380,6 +4537,17 @@ extension BillingconductorClientTypes.ListCustomLineItemChargeDetails: Swift.Cod
         percentage = percentageDecoded
         let typeDecoded = try containerValues.decodeIfPresent(BillingconductorClientTypes.CustomLineItemType.self, forKey: .type)
         type = typeDecoded
+        let lineItemFiltersContainer = try containerValues.decodeIfPresent([BillingconductorClientTypes.LineItemFilter?].self, forKey: .lineItemFilters)
+        var lineItemFiltersDecoded0:[BillingconductorClientTypes.LineItemFilter]? = nil
+        if let lineItemFiltersContainer = lineItemFiltersContainer {
+            lineItemFiltersDecoded0 = [BillingconductorClientTypes.LineItemFilter]()
+            for structure0 in lineItemFiltersContainer {
+                if let structure0 = structure0 {
+                    lineItemFiltersDecoded0?.append(structure0)
+                }
+            }
+        }
+        lineItemFilters = lineItemFiltersDecoded0
     }
 }
 
@@ -4388,6 +4556,8 @@ extension BillingconductorClientTypes {
     public struct ListCustomLineItemChargeDetails: Swift.Equatable {
         /// A ListCustomLineItemFlatChargeDetails that describes the charge details of a flat custom line item.
         public var flat: BillingconductorClientTypes.ListCustomLineItemFlatChargeDetails?
+        /// A representation of the line item filter.
+        public var lineItemFilters: [BillingconductorClientTypes.LineItemFilter]?
         /// A ListCustomLineItemPercentageChargeDetails that describes the charge details of a percentage custom line item.
         public var percentage: BillingconductorClientTypes.ListCustomLineItemPercentageChargeDetails?
         /// The type of the custom line item that indicates whether the charge is a fee or credit.
@@ -4396,11 +4566,13 @@ extension BillingconductorClientTypes {
 
         public init(
             flat: BillingconductorClientTypes.ListCustomLineItemFlatChargeDetails? = nil,
+            lineItemFilters: [BillingconductorClientTypes.LineItemFilter]? = nil,
             percentage: BillingconductorClientTypes.ListCustomLineItemPercentageChargeDetails? = nil,
             type: BillingconductorClientTypes.CustomLineItemType? = nil
         )
         {
             self.flat = flat
+            self.lineItemFilters = lineItemFilters
             self.percentage = percentage
             self.type = type
         }
@@ -6112,6 +6284,35 @@ extension ListTagsForResourceOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension BillingconductorClientTypes {
+    public enum MatchOption: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case notEqual
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [MatchOption] {
+            return [
+                .notEqual,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .notEqual: return "NOT_EQUAL"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = MatchOption(rawValue: rawValue) ?? MatchOption.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension BillingconductorClientTypes.PricingPlanListElement: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn = "Arn"
@@ -7195,6 +7396,7 @@ extension UpdateBillingGroupOutputResponseBody: Swift.Decodable {
 extension BillingconductorClientTypes.UpdateCustomLineItemChargeDetails: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case flat = "Flat"
+        case lineItemFilters = "LineItemFilters"
         case percentage = "Percentage"
     }
 
@@ -7202,6 +7404,12 @@ extension BillingconductorClientTypes.UpdateCustomLineItemChargeDetails: Swift.C
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let flat = self.flat {
             try encodeContainer.encode(flat, forKey: .flat)
+        }
+        if let lineItemFilters = lineItemFilters {
+            var lineItemFiltersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .lineItemFilters)
+            for lineitemfilter0 in lineItemFilters {
+                try lineItemFiltersContainer.encode(lineitemfilter0)
+            }
         }
         if let percentage = self.percentage {
             try encodeContainer.encode(percentage, forKey: .percentage)
@@ -7214,6 +7422,17 @@ extension BillingconductorClientTypes.UpdateCustomLineItemChargeDetails: Swift.C
         flat = flatDecoded
         let percentageDecoded = try containerValues.decodeIfPresent(BillingconductorClientTypes.UpdateCustomLineItemPercentageChargeDetails.self, forKey: .percentage)
         percentage = percentageDecoded
+        let lineItemFiltersContainer = try containerValues.decodeIfPresent([BillingconductorClientTypes.LineItemFilter?].self, forKey: .lineItemFilters)
+        var lineItemFiltersDecoded0:[BillingconductorClientTypes.LineItemFilter]? = nil
+        if let lineItemFiltersContainer = lineItemFiltersContainer {
+            lineItemFiltersDecoded0 = [BillingconductorClientTypes.LineItemFilter]()
+            for structure0 in lineItemFiltersContainer {
+                if let structure0 = structure0 {
+                    lineItemFiltersDecoded0?.append(structure0)
+                }
+            }
+        }
+        lineItemFilters = lineItemFiltersDecoded0
     }
 }
 
@@ -7222,15 +7441,19 @@ extension BillingconductorClientTypes {
     public struct UpdateCustomLineItemChargeDetails: Swift.Equatable {
         /// An UpdateCustomLineItemFlatChargeDetails that describes the new charge details of a flat custom line item.
         public var flat: BillingconductorClientTypes.UpdateCustomLineItemFlatChargeDetails?
+        /// A representation of the line item filter.
+        public var lineItemFilters: [BillingconductorClientTypes.LineItemFilter]?
         /// An UpdateCustomLineItemPercentageChargeDetails that describes the new charge details of a percentage custom line item.
         public var percentage: BillingconductorClientTypes.UpdateCustomLineItemPercentageChargeDetails?
 
         public init(
             flat: BillingconductorClientTypes.UpdateCustomLineItemFlatChargeDetails? = nil,
+            lineItemFilters: [BillingconductorClientTypes.LineItemFilter]? = nil,
             percentage: BillingconductorClientTypes.UpdateCustomLineItemPercentageChargeDetails? = nil
         )
         {
             self.flat = flat
+            self.lineItemFilters = lineItemFilters
             self.percentage = percentage
         }
     }

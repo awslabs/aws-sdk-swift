@@ -225,6 +225,7 @@ extension ComputeOptimizerClientTypes.AutoScalingGroupRecommendation: Swift.Coda
         case autoScalingGroupArn
         case autoScalingGroupName
         case currentConfiguration
+        case currentInstanceGpuInfo
         case currentPerformanceRisk
         case effectiveRecommendationPreferences
         case finding
@@ -248,6 +249,9 @@ extension ComputeOptimizerClientTypes.AutoScalingGroupRecommendation: Swift.Coda
         }
         if let currentConfiguration = self.currentConfiguration {
             try encodeContainer.encode(currentConfiguration, forKey: .currentConfiguration)
+        }
+        if let currentInstanceGpuInfo = self.currentInstanceGpuInfo {
+            try encodeContainer.encode(currentInstanceGpuInfo, forKey: .currentInstanceGpuInfo)
         }
         if let currentPerformanceRisk = self.currentPerformanceRisk {
             try encodeContainer.encode(currentPerformanceRisk.rawValue, forKey: .currentPerformanceRisk)
@@ -337,6 +341,8 @@ extension ComputeOptimizerClientTypes.AutoScalingGroupRecommendation: Swift.Coda
             }
         }
         inferredWorkloadTypes = inferredWorkloadTypesDecoded0
+        let currentInstanceGpuInfoDecoded = try containerValues.decodeIfPresent(ComputeOptimizerClientTypes.GpuInfo.self, forKey: .currentInstanceGpuInfo)
+        currentInstanceGpuInfo = currentInstanceGpuInfoDecoded
     }
 }
 
@@ -351,6 +357,8 @@ extension ComputeOptimizerClientTypes {
         public var autoScalingGroupName: Swift.String?
         /// An array of objects that describe the current configuration of the Auto Scaling group.
         public var currentConfiguration: ComputeOptimizerClientTypes.AutoScalingGroupConfiguration?
+        /// Describes the GPU accelerator settings for the current instance type of the Auto Scaling group.
+        public var currentInstanceGpuInfo: ComputeOptimizerClientTypes.GpuInfo?
         /// The risk of the current Auto Scaling group not meeting the performance needs of its workloads. The higher the risk, the more likely the current Auto Scaling group configuration has insufficient capacity and cannot meet workload requirements.
         public var currentPerformanceRisk: ComputeOptimizerClientTypes.CurrentPerformanceRisk?
         /// An object that describes the effective recommendation preferences for the Auto Scaling group.
@@ -395,6 +403,7 @@ extension ComputeOptimizerClientTypes {
             autoScalingGroupArn: Swift.String? = nil,
             autoScalingGroupName: Swift.String? = nil,
             currentConfiguration: ComputeOptimizerClientTypes.AutoScalingGroupConfiguration? = nil,
+            currentInstanceGpuInfo: ComputeOptimizerClientTypes.GpuInfo? = nil,
             currentPerformanceRisk: ComputeOptimizerClientTypes.CurrentPerformanceRisk? = nil,
             effectiveRecommendationPreferences: ComputeOptimizerClientTypes.EffectiveRecommendationPreferences? = nil,
             finding: ComputeOptimizerClientTypes.Finding? = nil,
@@ -409,6 +418,7 @@ extension ComputeOptimizerClientTypes {
             self.autoScalingGroupArn = autoScalingGroupArn
             self.autoScalingGroupName = autoScalingGroupName
             self.currentConfiguration = currentConfiguration
+            self.currentInstanceGpuInfo = currentInstanceGpuInfo
             self.currentPerformanceRisk = currentPerformanceRisk
             self.effectiveRecommendationPreferences = effectiveRecommendationPreferences
             self.finding = finding
@@ -425,6 +435,7 @@ extension ComputeOptimizerClientTypes {
 extension ComputeOptimizerClientTypes.AutoScalingGroupRecommendationOption: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case configuration
+        case instanceGpuInfo
         case migrationEffort
         case performanceRisk
         case projectedUtilizationMetrics
@@ -436,6 +447,9 @@ extension ComputeOptimizerClientTypes.AutoScalingGroupRecommendationOption: Swif
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let configuration = self.configuration {
             try encodeContainer.encode(configuration, forKey: .configuration)
+        }
+        if let instanceGpuInfo = self.instanceGpuInfo {
+            try encodeContainer.encode(instanceGpuInfo, forKey: .instanceGpuInfo)
         }
         if let migrationEffort = self.migrationEffort {
             try encodeContainer.encode(migrationEffort.rawValue, forKey: .migrationEffort)
@@ -480,6 +494,8 @@ extension ComputeOptimizerClientTypes.AutoScalingGroupRecommendationOption: Swif
         savingsOpportunity = savingsOpportunityDecoded
         let migrationEffortDecoded = try containerValues.decodeIfPresent(ComputeOptimizerClientTypes.MigrationEffort.self, forKey: .migrationEffort)
         migrationEffort = migrationEffortDecoded
+        let instanceGpuInfoDecoded = try containerValues.decodeIfPresent(ComputeOptimizerClientTypes.GpuInfo.self, forKey: .instanceGpuInfo)
+        instanceGpuInfo = instanceGpuInfoDecoded
     }
 }
 
@@ -488,6 +504,8 @@ extension ComputeOptimizerClientTypes {
     public struct AutoScalingGroupRecommendationOption: Swift.Equatable {
         /// An array of objects that describe an Auto Scaling group configuration.
         public var configuration: ComputeOptimizerClientTypes.AutoScalingGroupConfiguration?
+        /// Describes the GPU accelerator settings for the recommended instance type of the Auto Scaling group.
+        public var instanceGpuInfo: ComputeOptimizerClientTypes.GpuInfo?
         /// The level of effort required to migrate from the current instance type to the recommended instance type. For example, the migration effort is Low if Amazon EMR is the inferred workload type and an Amazon Web Services Graviton instance type is recommended. The migration effort is Medium if a workload type couldn't be inferred but an Amazon Web Services Graviton instance type is recommended. The migration effort is VeryLow if both the current and recommended instance types are of the same CPU architecture.
         public var migrationEffort: ComputeOptimizerClientTypes.MigrationEffort?
         /// The performance risk of the Auto Scaling group configuration recommendation. Performance risk indicates the likelihood of the recommended instance type not meeting the resource needs of your workload. Compute Optimizer calculates an individual performance risk score for each specification of the recommended instance, including CPU, memory, EBS throughput, EBS IOPS, disk throughput, disk IOPS, network throughput, and network PPS. The performance risk of the recommended instance is calculated as the maximum performance risk score across the analyzed resource specifications. The value ranges from 0 - 4, with 0 meaning that the recommended resource is predicted to always provide enough hardware capability. The higher the performance risk is, the more likely you should validate whether the recommendation will meet the performance requirements of your workload before migrating your resource.
@@ -501,6 +519,7 @@ extension ComputeOptimizerClientTypes {
 
         public init(
             configuration: ComputeOptimizerClientTypes.AutoScalingGroupConfiguration? = nil,
+            instanceGpuInfo: ComputeOptimizerClientTypes.GpuInfo? = nil,
             migrationEffort: ComputeOptimizerClientTypes.MigrationEffort? = nil,
             performanceRisk: Swift.Double = 0.0,
             projectedUtilizationMetrics: [ComputeOptimizerClientTypes.UtilizationMetric]? = nil,
@@ -509,6 +528,7 @@ extension ComputeOptimizerClientTypes {
         )
         {
             self.configuration = configuration
+            self.instanceGpuInfo = instanceGpuInfo
             self.migrationEffort = migrationEffort
             self.performanceRisk = performanceRisk
             self.projectedUtilizationMetrics = projectedUtilizationMetrics
@@ -3766,6 +3786,7 @@ extension ComputeOptimizerClientTypes {
         case currentConfigurationInstanceType
         case currentConfigurationMaxSize
         case currentConfigurationMinSize
+        case currentInstanceGpuInfo
         case currentMemory
         case currentNetwork
         case currentOnDemandPrice
@@ -3787,12 +3808,15 @@ extension ComputeOptimizerClientTypes {
         case recommendationOptionsConfigurationMinSize
         case recommendationOptionsEstimatedMonthlySavingsCurrency
         case recommendationOptionsEstimatedMonthlySavingsValue
+        case recommendationOptionsInstanceGpuInfo
         case recommendationOptionsMemory
         case recommendationOptionsMigrationEffort
         case recommendationOptionsNetwork
         case recommendationOptionsOnDemandPrice
         case recommendationOptionsPerformanceRisk
         case recommendationOptionsProjectedUtilizationMetricsCpuMaximum
+        case recommendationOptionsProjectedUtilizationMetricsGpuMaximum
+        case recommendationOptionsProjectedUtilizationMetricsGpuMemoryMaximum
         case recommendationOptionsProjectedUtilizationMetricsMemoryMaximum
         case recommendationOptionsSavingsOpportunityPercentage
         case recommendationOptionsStandardOneYearNoUpfrontReservedPrice
@@ -3808,6 +3832,8 @@ extension ComputeOptimizerClientTypes {
         case utilizationMetricsEbsReadOpsPerSecondMaximum
         case utilizationMetricsEbsWriteBytesPerSecondMaximum
         case utilizationMetricsEbsWriteOpsPerSecondMaximum
+        case utilizationMetricsGpuMemoryPercentageMaximum
+        case utilizationMetricsGpuPercentageMaximum
         case utilizationMetricsMemoryMaximum
         case utilizationMetricsNetworkInBytesPerSecondMaximum
         case utilizationMetricsNetworkOutBytesPerSecondMaximum
@@ -3824,6 +3850,7 @@ extension ComputeOptimizerClientTypes {
                 .currentConfigurationInstanceType,
                 .currentConfigurationMaxSize,
                 .currentConfigurationMinSize,
+                .currentInstanceGpuInfo,
                 .currentMemory,
                 .currentNetwork,
                 .currentOnDemandPrice,
@@ -3845,12 +3872,15 @@ extension ComputeOptimizerClientTypes {
                 .recommendationOptionsConfigurationMinSize,
                 .recommendationOptionsEstimatedMonthlySavingsCurrency,
                 .recommendationOptionsEstimatedMonthlySavingsValue,
+                .recommendationOptionsInstanceGpuInfo,
                 .recommendationOptionsMemory,
                 .recommendationOptionsMigrationEffort,
                 .recommendationOptionsNetwork,
                 .recommendationOptionsOnDemandPrice,
                 .recommendationOptionsPerformanceRisk,
                 .recommendationOptionsProjectedUtilizationMetricsCpuMaximum,
+                .recommendationOptionsProjectedUtilizationMetricsGpuMaximum,
+                .recommendationOptionsProjectedUtilizationMetricsGpuMemoryMaximum,
                 .recommendationOptionsProjectedUtilizationMetricsMemoryMaximum,
                 .recommendationOptionsSavingsOpportunityPercentage,
                 .recommendationOptionsStandardOneYearNoUpfrontReservedPrice,
@@ -3866,6 +3896,8 @@ extension ComputeOptimizerClientTypes {
                 .utilizationMetricsEbsReadOpsPerSecondMaximum,
                 .utilizationMetricsEbsWriteBytesPerSecondMaximum,
                 .utilizationMetricsEbsWriteOpsPerSecondMaximum,
+                .utilizationMetricsGpuMemoryPercentageMaximum,
+                .utilizationMetricsGpuPercentageMaximum,
                 .utilizationMetricsMemoryMaximum,
                 .utilizationMetricsNetworkInBytesPerSecondMaximum,
                 .utilizationMetricsNetworkOutBytesPerSecondMaximum,
@@ -3887,6 +3919,7 @@ extension ComputeOptimizerClientTypes {
             case .currentConfigurationInstanceType: return "CurrentConfigurationInstanceType"
             case .currentConfigurationMaxSize: return "CurrentConfigurationMaxSize"
             case .currentConfigurationMinSize: return "CurrentConfigurationMinSize"
+            case .currentInstanceGpuInfo: return "CurrentInstanceGpuInfo"
             case .currentMemory: return "CurrentMemory"
             case .currentNetwork: return "CurrentNetwork"
             case .currentOnDemandPrice: return "CurrentOnDemandPrice"
@@ -3908,12 +3941,15 @@ extension ComputeOptimizerClientTypes {
             case .recommendationOptionsConfigurationMinSize: return "RecommendationOptionsConfigurationMinSize"
             case .recommendationOptionsEstimatedMonthlySavingsCurrency: return "RecommendationOptionsEstimatedMonthlySavingsCurrency"
             case .recommendationOptionsEstimatedMonthlySavingsValue: return "RecommendationOptionsEstimatedMonthlySavingsValue"
+            case .recommendationOptionsInstanceGpuInfo: return "RecommendationOptionsInstanceGpuInfo"
             case .recommendationOptionsMemory: return "RecommendationOptionsMemory"
             case .recommendationOptionsMigrationEffort: return "RecommendationOptionsMigrationEffort"
             case .recommendationOptionsNetwork: return "RecommendationOptionsNetwork"
             case .recommendationOptionsOnDemandPrice: return "RecommendationOptionsOnDemandPrice"
             case .recommendationOptionsPerformanceRisk: return "RecommendationOptionsPerformanceRisk"
             case .recommendationOptionsProjectedUtilizationMetricsCpuMaximum: return "RecommendationOptionsProjectedUtilizationMetricsCpuMaximum"
+            case .recommendationOptionsProjectedUtilizationMetricsGpuMaximum: return "RecommendationOptionsProjectedUtilizationMetricsGpuPercentageMaximum"
+            case .recommendationOptionsProjectedUtilizationMetricsGpuMemoryMaximum: return "RecommendationOptionsProjectedUtilizationMetricsGpuMemoryPercentageMaximum"
             case .recommendationOptionsProjectedUtilizationMetricsMemoryMaximum: return "RecommendationOptionsProjectedUtilizationMetricsMemoryMaximum"
             case .recommendationOptionsSavingsOpportunityPercentage: return "RecommendationOptionsSavingsOpportunityPercentage"
             case .recommendationOptionsStandardOneYearNoUpfrontReservedPrice: return "RecommendationOptionsStandardOneYearNoUpfrontReservedPrice"
@@ -3929,6 +3965,8 @@ extension ComputeOptimizerClientTypes {
             case .utilizationMetricsEbsReadOpsPerSecondMaximum: return "UtilizationMetricsEbsReadOpsPerSecondMaximum"
             case .utilizationMetricsEbsWriteBytesPerSecondMaximum: return "UtilizationMetricsEbsWriteBytesPerSecondMaximum"
             case .utilizationMetricsEbsWriteOpsPerSecondMaximum: return "UtilizationMetricsEbsWriteOpsPerSecondMaximum"
+            case .utilizationMetricsGpuMemoryPercentageMaximum: return "UtilizationMetricsGpuMemoryPercentageMaximum"
+            case .utilizationMetricsGpuPercentageMaximum: return "UtilizationMetricsGpuPercentageMaximum"
             case .utilizationMetricsMemoryMaximum: return "UtilizationMetricsMemoryMaximum"
             case .utilizationMetricsNetworkInBytesPerSecondMaximum: return "UtilizationMetricsNetworkInBytesPerSecondMaximum"
             case .utilizationMetricsNetworkOutBytesPerSecondMaximum: return "UtilizationMetricsNetworkOutBytesPerSecondMaximum"
@@ -4046,6 +4084,7 @@ extension ComputeOptimizerClientTypes {
 extension ComputeOptimizerClientTypes {
     public enum ExportableInstanceField: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case accountId
+        case currentInstanceGpuInfo
         case currentInstanceType
         case currentMemory
         case currentNetwork
@@ -4063,6 +4102,7 @@ extension ComputeOptimizerClientTypes {
         case externalMetricStatusReason
         case finding
         case findingReasonCodes
+        case idle
         case inferredWorkloadTypes
         case instanceArn
         case instanceName
@@ -4073,6 +4113,7 @@ extension ComputeOptimizerClientTypes {
         case recommendationsSourcesRecommendationSourceType
         case recommendationOptionsEstimatedMonthlySavingsCurrency
         case recommendationOptionsEstimatedMonthlySavingsValue
+        case recommendationOptionsInstanceGpuInfo
         case recommendationOptionsInstanceType
         case recommendationOptionsMemory
         case recommendationOptionsMigrationEffort
@@ -4081,6 +4122,8 @@ extension ComputeOptimizerClientTypes {
         case recommendationOptionsPerformanceRisk
         case recommendationOptionsPlatformDifferences
         case recommendationOptionsProjectedUtilizationMetricsCpuMaximum
+        case recommendationOptionsProjectedUtilizationMetricsGpuMemoryPercentageMaximum
+        case recommendationOptionsProjectedUtilizationMetricsGpuPercentageMaximum
         case recommendationOptionsProjectedUtilizationMetricsMemoryMaximum
         case recommendationOptionsSavingsOpportunityPercentage
         case recommendationOptionsStandardOneYearNoUpfrontReservedPrice
@@ -4097,6 +4140,8 @@ extension ComputeOptimizerClientTypes {
         case utilizationMetricsEbsReadOpsPerSecondMaximum
         case utilizationMetricsEbsWriteBytesPerSecondMaximum
         case utilizationMetricsEbsWriteOpsPerSecondMaximum
+        case utilizationMetricsGpuMemoryPercentageMaximum
+        case utilizationMetricsGpuPercentageMaximum
         case utilizationMetricsMemoryMaximum
         case utilizationMetricsNetworkInBytesPerSecondMaximum
         case utilizationMetricsNetworkOutBytesPerSecondMaximum
@@ -4107,6 +4152,7 @@ extension ComputeOptimizerClientTypes {
         public static var allCases: [ExportableInstanceField] {
             return [
                 .accountId,
+                .currentInstanceGpuInfo,
                 .currentInstanceType,
                 .currentMemory,
                 .currentNetwork,
@@ -4124,6 +4170,7 @@ extension ComputeOptimizerClientTypes {
                 .externalMetricStatusReason,
                 .finding,
                 .findingReasonCodes,
+                .idle,
                 .inferredWorkloadTypes,
                 .instanceArn,
                 .instanceName,
@@ -4134,6 +4181,7 @@ extension ComputeOptimizerClientTypes {
                 .recommendationsSourcesRecommendationSourceType,
                 .recommendationOptionsEstimatedMonthlySavingsCurrency,
                 .recommendationOptionsEstimatedMonthlySavingsValue,
+                .recommendationOptionsInstanceGpuInfo,
                 .recommendationOptionsInstanceType,
                 .recommendationOptionsMemory,
                 .recommendationOptionsMigrationEffort,
@@ -4142,6 +4190,8 @@ extension ComputeOptimizerClientTypes {
                 .recommendationOptionsPerformanceRisk,
                 .recommendationOptionsPlatformDifferences,
                 .recommendationOptionsProjectedUtilizationMetricsCpuMaximum,
+                .recommendationOptionsProjectedUtilizationMetricsGpuMemoryPercentageMaximum,
+                .recommendationOptionsProjectedUtilizationMetricsGpuPercentageMaximum,
                 .recommendationOptionsProjectedUtilizationMetricsMemoryMaximum,
                 .recommendationOptionsSavingsOpportunityPercentage,
                 .recommendationOptionsStandardOneYearNoUpfrontReservedPrice,
@@ -4158,6 +4208,8 @@ extension ComputeOptimizerClientTypes {
                 .utilizationMetricsEbsReadOpsPerSecondMaximum,
                 .utilizationMetricsEbsWriteBytesPerSecondMaximum,
                 .utilizationMetricsEbsWriteOpsPerSecondMaximum,
+                .utilizationMetricsGpuMemoryPercentageMaximum,
+                .utilizationMetricsGpuPercentageMaximum,
                 .utilizationMetricsMemoryMaximum,
                 .utilizationMetricsNetworkInBytesPerSecondMaximum,
                 .utilizationMetricsNetworkOutBytesPerSecondMaximum,
@@ -4173,6 +4225,7 @@ extension ComputeOptimizerClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .accountId: return "AccountId"
+            case .currentInstanceGpuInfo: return "CurrentInstanceGpuInfo"
             case .currentInstanceType: return "CurrentInstanceType"
             case .currentMemory: return "CurrentMemory"
             case .currentNetwork: return "CurrentNetwork"
@@ -4190,6 +4243,7 @@ extension ComputeOptimizerClientTypes {
             case .externalMetricStatusReason: return "ExternalMetricStatusReason"
             case .finding: return "Finding"
             case .findingReasonCodes: return "FindingReasonCodes"
+            case .idle: return "Idle"
             case .inferredWorkloadTypes: return "InferredWorkloadTypes"
             case .instanceArn: return "InstanceArn"
             case .instanceName: return "InstanceName"
@@ -4200,6 +4254,7 @@ extension ComputeOptimizerClientTypes {
             case .recommendationsSourcesRecommendationSourceType: return "RecommendationsSourcesRecommendationSourceType"
             case .recommendationOptionsEstimatedMonthlySavingsCurrency: return "RecommendationOptionsEstimatedMonthlySavingsCurrency"
             case .recommendationOptionsEstimatedMonthlySavingsValue: return "RecommendationOptionsEstimatedMonthlySavingsValue"
+            case .recommendationOptionsInstanceGpuInfo: return "RecommendationOptionsInstanceGpuInfo"
             case .recommendationOptionsInstanceType: return "RecommendationOptionsInstanceType"
             case .recommendationOptionsMemory: return "RecommendationOptionsMemory"
             case .recommendationOptionsMigrationEffort: return "RecommendationOptionsMigrationEffort"
@@ -4208,6 +4263,8 @@ extension ComputeOptimizerClientTypes {
             case .recommendationOptionsPerformanceRisk: return "RecommendationOptionsPerformanceRisk"
             case .recommendationOptionsPlatformDifferences: return "RecommendationOptionsPlatformDifferences"
             case .recommendationOptionsProjectedUtilizationMetricsCpuMaximum: return "RecommendationOptionsProjectedUtilizationMetricsCpuMaximum"
+            case .recommendationOptionsProjectedUtilizationMetricsGpuMemoryPercentageMaximum: return "RecommendationOptionsProjectedUtilizationMetricsGpuMemoryPercentageMaximum"
+            case .recommendationOptionsProjectedUtilizationMetricsGpuPercentageMaximum: return "RecommendationOptionsProjectedUtilizationMetricsGpuPercentageMaximum"
             case .recommendationOptionsProjectedUtilizationMetricsMemoryMaximum: return "RecommendationOptionsProjectedUtilizationMetricsMemoryMaximum"
             case .recommendationOptionsSavingsOpportunityPercentage: return "RecommendationOptionsSavingsOpportunityPercentage"
             case .recommendationOptionsStandardOneYearNoUpfrontReservedPrice: return "RecommendationOptionsStandardOneYearNoUpfrontReservedPrice"
@@ -4224,6 +4281,8 @@ extension ComputeOptimizerClientTypes {
             case .utilizationMetricsEbsReadOpsPerSecondMaximum: return "UtilizationMetricsEbsReadOpsPerSecondMaximum"
             case .utilizationMetricsEbsWriteBytesPerSecondMaximum: return "UtilizationMetricsEbsWriteBytesPerSecondMaximum"
             case .utilizationMetricsEbsWriteOpsPerSecondMaximum: return "UtilizationMetricsEbsWriteOpsPerSecondMaximum"
+            case .utilizationMetricsGpuMemoryPercentageMaximum: return "UtilizationMetricsGpuMemoryPercentageMaximum"
+            case .utilizationMetricsGpuPercentageMaximum: return "UtilizationMetricsGpuPercentageMaximum"
             case .utilizationMetricsMemoryMaximum: return "UtilizationMetricsMemoryMaximum"
             case .utilizationMetricsNetworkInBytesPerSecondMaximum: return "UtilizationMetricsNetworkInBytesPerSecondMaximum"
             case .utilizationMetricsNetworkOutBytesPerSecondMaximum: return "UtilizationMetricsNetworkOutBytesPerSecondMaximum"
@@ -4439,6 +4498,7 @@ extension ComputeOptimizerClientTypes {
 extension ComputeOptimizerClientTypes {
     public enum ExportableVolumeField: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case accountId
+        case currentConfigurationRootVolume
         case currentConfigurationVolumeBaselineIops
         case currentConfigurationVolumeBaselineThroughput
         case currentConfigurationVolumeBurstIops
@@ -4473,6 +4533,7 @@ extension ComputeOptimizerClientTypes {
         public static var allCases: [ExportableVolumeField] {
             return [
                 .accountId,
+                .currentConfigurationRootVolume,
                 .currentConfigurationVolumeBaselineIops,
                 .currentConfigurationVolumeBaselineThroughput,
                 .currentConfigurationVolumeBurstIops,
@@ -4512,6 +4573,7 @@ extension ComputeOptimizerClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .accountId: return "AccountId"
+            case .currentConfigurationRootVolume: return "CurrentConfigurationRootVolume"
             case .currentConfigurationVolumeBaselineIops: return "CurrentConfigurationVolumeBaselineIOPS"
             case .currentConfigurationVolumeBaselineThroughput: return "CurrentConfigurationVolumeBaselineThroughput"
             case .currentConfigurationVolumeBurstIops: return "CurrentConfigurationVolumeBurstIOPS"
@@ -7446,6 +7508,98 @@ extension GetRecommendationSummariesOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension ComputeOptimizerClientTypes.Gpu: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case gpuCount
+        case gpuMemorySizeInMiB
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if gpuCount != 0 {
+            try encodeContainer.encode(gpuCount, forKey: .gpuCount)
+        }
+        if gpuMemorySizeInMiB != 0 {
+            try encodeContainer.encode(gpuMemorySizeInMiB, forKey: .gpuMemorySizeInMiB)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let gpuCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .gpuCount) ?? 0
+        gpuCount = gpuCountDecoded
+        let gpuMemorySizeInMiBDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .gpuMemorySizeInMiB) ?? 0
+        gpuMemorySizeInMiB = gpuMemorySizeInMiBDecoded
+    }
+}
+
+extension ComputeOptimizerClientTypes {
+    /// Describes the GPU accelerators for the instance type.
+    public struct Gpu: Swift.Equatable {
+        /// The number of GPUs for the instance type.
+        public var gpuCount: Swift.Int
+        /// The total size of the memory for the GPU accelerators for the instance type, in MiB.
+        public var gpuMemorySizeInMiB: Swift.Int
+
+        public init(
+            gpuCount: Swift.Int = 0,
+            gpuMemorySizeInMiB: Swift.Int = 0
+        )
+        {
+            self.gpuCount = gpuCount
+            self.gpuMemorySizeInMiB = gpuMemorySizeInMiB
+        }
+    }
+
+}
+
+extension ComputeOptimizerClientTypes.GpuInfo: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case gpus
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let gpus = gpus {
+            var gpusContainer = encodeContainer.nestedUnkeyedContainer(forKey: .gpus)
+            for gpu0 in gpus {
+                try gpusContainer.encode(gpu0)
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let gpusContainer = try containerValues.decodeIfPresent([ComputeOptimizerClientTypes.Gpu?].self, forKey: .gpus)
+        var gpusDecoded0:[ComputeOptimizerClientTypes.Gpu]? = nil
+        if let gpusContainer = gpusContainer {
+            gpusDecoded0 = [ComputeOptimizerClientTypes.Gpu]()
+            for structure0 in gpusContainer {
+                if let structure0 = structure0 {
+                    gpusDecoded0?.append(structure0)
+                }
+            }
+        }
+        gpus = gpusDecoded0
+    }
+}
+
+extension ComputeOptimizerClientTypes {
+    /// Describes the GPU accelerator settings for the instance type.
+    public struct GpuInfo: Swift.Equatable {
+        /// Describes the GPU accelerators for the instance type.
+        public var gpus: [ComputeOptimizerClientTypes.Gpu]?
+
+        public init(
+            gpus: [ComputeOptimizerClientTypes.Gpu]? = nil
+        )
+        {
+            self.gpus = gpus
+        }
+    }
+
+}
+
 extension ComputeOptimizerClientTypes.InferredWorkloadSaving: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case estimatedMonthlySavings
@@ -7606,15 +7760,49 @@ extension ComputeOptimizerClientTypes {
     }
 }
 
+extension ComputeOptimizerClientTypes {
+    public enum InstanceIdle: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case `false`
+        case `true`
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [InstanceIdle] {
+            return [
+                .false,
+                .true,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .false: return "False"
+            case .true: return "True"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = InstanceIdle(rawValue: rawValue) ?? InstanceIdle.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension ComputeOptimizerClientTypes.InstanceRecommendation: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case accountId
+        case currentInstanceGpuInfo
         case currentInstanceType
         case currentPerformanceRisk
         case effectiveRecommendationPreferences
         case externalMetricStatus
         case finding
         case findingReasonCodes
+        case idle
         case inferredWorkloadTypes
         case instanceArn
         case instanceName
@@ -7631,6 +7819,9 @@ extension ComputeOptimizerClientTypes.InstanceRecommendation: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let accountId = self.accountId {
             try encodeContainer.encode(accountId, forKey: .accountId)
+        }
+        if let currentInstanceGpuInfo = self.currentInstanceGpuInfo {
+            try encodeContainer.encode(currentInstanceGpuInfo, forKey: .currentInstanceGpuInfo)
         }
         if let currentInstanceType = self.currentInstanceType {
             try encodeContainer.encode(currentInstanceType, forKey: .currentInstanceType)
@@ -7652,6 +7843,9 @@ extension ComputeOptimizerClientTypes.InstanceRecommendation: Swift.Codable {
             for instancerecommendationfindingreasoncode0 in findingReasonCodes {
                 try findingReasonCodesContainer.encode(instancerecommendationfindingreasoncode0.rawValue)
             }
+        }
+        if let idle = self.idle {
+            try encodeContainer.encode(idle.rawValue, forKey: .idle)
         }
         if let inferredWorkloadTypes = inferredWorkloadTypes {
             var inferredWorkloadTypesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .inferredWorkloadTypes)
@@ -7790,6 +7984,10 @@ extension ComputeOptimizerClientTypes.InstanceRecommendation: Swift.Codable {
         tags = tagsDecoded0
         let externalMetricStatusDecoded = try containerValues.decodeIfPresent(ComputeOptimizerClientTypes.ExternalMetricStatus.self, forKey: .externalMetricStatus)
         externalMetricStatus = externalMetricStatusDecoded
+        let currentInstanceGpuInfoDecoded = try containerValues.decodeIfPresent(ComputeOptimizerClientTypes.GpuInfo.self, forKey: .currentInstanceGpuInfo)
+        currentInstanceGpuInfo = currentInstanceGpuInfoDecoded
+        let idleDecoded = try containerValues.decodeIfPresent(ComputeOptimizerClientTypes.InstanceIdle.self, forKey: .idle)
+        idle = idleDecoded
     }
 }
 
@@ -7798,6 +7996,8 @@ extension ComputeOptimizerClientTypes {
     public struct InstanceRecommendation: Swift.Equatable {
         /// The Amazon Web Services account ID of the instance.
         public var accountId: Swift.String?
+        /// Describes the GPU accelerator settings for the current instance type.
+        public var currentInstanceGpuInfo: ComputeOptimizerClientTypes.GpuInfo?
         /// The instance type of the current instance.
         public var currentInstanceType: Swift.String?
         /// The risk of the current instance not meeting the performance needs of its workloads. The higher the risk, the more likely the current instance cannot meet the performance requirements of its workload.
@@ -7851,6 +8051,8 @@ extension ComputeOptimizerClientTypes {
         ///
         /// For more information about instance metrics, see [List the available CloudWatch metrics for your instances](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/viewing_metrics_with_cloudwatch.html) in the Amazon Elastic Compute Cloud User Guide. For more information about EBS volume metrics, see [Amazon CloudWatch metrics for Amazon EBS](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using_cloudwatch_ebs.html) in the Amazon Elastic Compute Cloud User Guide.
         public var findingReasonCodes: [ComputeOptimizerClientTypes.InstanceRecommendationFindingReasonCode]?
+        /// Describes if an Amazon EC2 instance is idle.
+        public var idle: ComputeOptimizerClientTypes.InstanceIdle?
         /// The applications that might be running on the instance as inferred by Compute Optimizer. Compute Optimizer can infer if one of the following applications might be running on the instance:
         ///
         /// * AmazonEmr - Infers that Amazon EMR might be running on the instance.
@@ -7892,12 +8094,14 @@ extension ComputeOptimizerClientTypes {
 
         public init(
             accountId: Swift.String? = nil,
+            currentInstanceGpuInfo: ComputeOptimizerClientTypes.GpuInfo? = nil,
             currentInstanceType: Swift.String? = nil,
             currentPerformanceRisk: ComputeOptimizerClientTypes.CurrentPerformanceRisk? = nil,
             effectiveRecommendationPreferences: ComputeOptimizerClientTypes.EffectiveRecommendationPreferences? = nil,
             externalMetricStatus: ComputeOptimizerClientTypes.ExternalMetricStatus? = nil,
             finding: ComputeOptimizerClientTypes.Finding? = nil,
             findingReasonCodes: [ComputeOptimizerClientTypes.InstanceRecommendationFindingReasonCode]? = nil,
+            idle: ComputeOptimizerClientTypes.InstanceIdle? = nil,
             inferredWorkloadTypes: [ComputeOptimizerClientTypes.InferredWorkloadType]? = nil,
             instanceArn: Swift.String? = nil,
             instanceName: Swift.String? = nil,
@@ -7911,12 +8115,14 @@ extension ComputeOptimizerClientTypes {
         )
         {
             self.accountId = accountId
+            self.currentInstanceGpuInfo = currentInstanceGpuInfo
             self.currentInstanceType = currentInstanceType
             self.currentPerformanceRisk = currentPerformanceRisk
             self.effectiveRecommendationPreferences = effectiveRecommendationPreferences
             self.externalMetricStatus = externalMetricStatus
             self.finding = finding
             self.findingReasonCodes = findingReasonCodes
+            self.idle = idle
             self.inferredWorkloadTypes = inferredWorkloadTypes
             self.instanceArn = instanceArn
             self.instanceName = instanceName
@@ -7944,6 +8150,10 @@ extension ComputeOptimizerClientTypes {
         case ebsIopsUnderProvisioned
         case ebsThroughputOverProvisioned
         case ebsThroughputUnderProvisioned
+        case gpuMemoryOverProvisioned
+        case gpuMemoryUnderProvisioned
+        case gpuOverProvisioned
+        case gpuUnderProvisioned
         case memoryOverProvisioned
         case memoryUnderProvisioned
         case networkBandwidthOverProvisioned
@@ -7964,6 +8174,10 @@ extension ComputeOptimizerClientTypes {
                 .ebsIopsUnderProvisioned,
                 .ebsThroughputOverProvisioned,
                 .ebsThroughputUnderProvisioned,
+                .gpuMemoryOverProvisioned,
+                .gpuMemoryUnderProvisioned,
+                .gpuOverProvisioned,
+                .gpuUnderProvisioned,
                 .memoryOverProvisioned,
                 .memoryUnderProvisioned,
                 .networkBandwidthOverProvisioned,
@@ -7989,6 +8203,10 @@ extension ComputeOptimizerClientTypes {
             case .ebsIopsUnderProvisioned: return "EBSIOPSUnderprovisioned"
             case .ebsThroughputOverProvisioned: return "EBSThroughputOverprovisioned"
             case .ebsThroughputUnderProvisioned: return "EBSThroughputUnderprovisioned"
+            case .gpuMemoryOverProvisioned: return "GPUMemoryOverprovisioned"
+            case .gpuMemoryUnderProvisioned: return "GPUMemoryUnderprovisioned"
+            case .gpuOverProvisioned: return "GPUOverprovisioned"
+            case .gpuUnderProvisioned: return "GPUUnderprovisioned"
             case .memoryOverProvisioned: return "MemoryOverprovisioned"
             case .memoryUnderProvisioned: return "MemoryUnderprovisioned"
             case .networkBandwidthOverProvisioned: return "NetworkBandwidthOverprovisioned"
@@ -8008,6 +8226,7 @@ extension ComputeOptimizerClientTypes {
 
 extension ComputeOptimizerClientTypes.InstanceRecommendationOption: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case instanceGpuInfo
         case instanceType
         case migrationEffort
         case performanceRisk
@@ -8019,6 +8238,9 @@ extension ComputeOptimizerClientTypes.InstanceRecommendationOption: Swift.Codabl
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let instanceGpuInfo = self.instanceGpuInfo {
+            try encodeContainer.encode(instanceGpuInfo, forKey: .instanceGpuInfo)
+        }
         if let instanceType = self.instanceType {
             try encodeContainer.encode(instanceType, forKey: .instanceType)
         }
@@ -8082,12 +8304,16 @@ extension ComputeOptimizerClientTypes.InstanceRecommendationOption: Swift.Codabl
         savingsOpportunity = savingsOpportunityDecoded
         let migrationEffortDecoded = try containerValues.decodeIfPresent(ComputeOptimizerClientTypes.MigrationEffort.self, forKey: .migrationEffort)
         migrationEffort = migrationEffortDecoded
+        let instanceGpuInfoDecoded = try containerValues.decodeIfPresent(ComputeOptimizerClientTypes.GpuInfo.self, forKey: .instanceGpuInfo)
+        instanceGpuInfo = instanceGpuInfoDecoded
     }
 }
 
 extension ComputeOptimizerClientTypes {
     /// Describes a recommendation option for an Amazon EC2 instance.
     public struct InstanceRecommendationOption: Swift.Equatable {
+        /// Describes the GPU accelerator settings for the recommended instance type.
+        public var instanceGpuInfo: ComputeOptimizerClientTypes.GpuInfo?
         /// The instance type of the instance recommendation.
         public var instanceType: Swift.String?
         /// The level of effort required to migrate from the current instance type to the recommended instance type. For example, the migration effort is Low if Amazon EMR is the inferred workload type and an Amazon Web Services Graviton instance type is recommended. The migration effort is Medium if a workload type couldn't be inferred but an Amazon Web Services Graviton instance type is recommended. The migration effort is VeryLow if both the current and recommended instance types are of the same CPU architecture.
@@ -8116,6 +8342,7 @@ extension ComputeOptimizerClientTypes {
         public var savingsOpportunity: ComputeOptimizerClientTypes.SavingsOpportunity?
 
         public init(
+            instanceGpuInfo: ComputeOptimizerClientTypes.GpuInfo? = nil,
             instanceType: Swift.String? = nil,
             migrationEffort: ComputeOptimizerClientTypes.MigrationEffort? = nil,
             performanceRisk: Swift.Double = 0.0,
@@ -8125,6 +8352,7 @@ extension ComputeOptimizerClientTypes {
             savingsOpportunity: ComputeOptimizerClientTypes.SavingsOpportunity? = nil
         )
         {
+            self.instanceGpuInfo = instanceGpuInfo
             self.instanceType = instanceType
             self.migrationEffort = migrationEffort
             self.performanceRisk = performanceRisk
@@ -9860,6 +10088,8 @@ extension ComputeOptimizerClientTypes {
         case ebsReadOpsPerSecond
         case ebsWriteBytesPerSecond
         case ebsWriteOpsPerSecond
+        case gpuMemoryPercentage
+        case gpuPercentage
         case memory
         case networkInBytesPerSecond
         case networkOutBytesPerSecond
@@ -9878,6 +10108,8 @@ extension ComputeOptimizerClientTypes {
                 .ebsReadOpsPerSecond,
                 .ebsWriteBytesPerSecond,
                 .ebsWriteOpsPerSecond,
+                .gpuMemoryPercentage,
+                .gpuPercentage,
                 .memory,
                 .networkInBytesPerSecond,
                 .networkOutBytesPerSecond,
@@ -9901,6 +10133,8 @@ extension ComputeOptimizerClientTypes {
             case .ebsReadOpsPerSecond: return "EBS_READ_OPS_PER_SECOND"
             case .ebsWriteBytesPerSecond: return "EBS_WRITE_BYTES_PER_SECOND"
             case .ebsWriteOpsPerSecond: return "EBS_WRITE_OPS_PER_SECOND"
+            case .gpuMemoryPercentage: return "GPU_MEMORY_PERCENTAGE"
+            case .gpuPercentage: return "GPU_PERCENTAGE"
             case .memory: return "Memory"
             case .networkInBytesPerSecond: return "NETWORK_IN_BYTES_PER_SECOND"
             case .networkOutBytesPerSecond: return "NETWORK_OUT_BYTES_PER_SECOND"
@@ -10271,13 +10505,17 @@ extension ComputeOptimizerClientTypes.ProjectedMetric: Swift.Codable {
 }
 
 extension ComputeOptimizerClientTypes {
-    /// Describes a projected utilization metric of a recommendation option, such as an Amazon EC2 instance. This represents the projected utilization of a recommendation option had you used that resource during the analyzed period. Compare the utilization metric data of your resource against its projected utilization metric data to determine the performance difference between your current resource and the recommended option. The Cpu and Memory metrics are the only projected utilization metrics returned when you run the [GetEC2RecommendationProjectedMetrics] action. Additionally, the Memory metric is returned only for resources that have the unified CloudWatch agent installed on them. For more information, see [Enabling Memory Utilization with the CloudWatch Agent](https://docs.aws.amazon.com/compute-optimizer/latest/ug/metrics.html#cw-agent).
+    /// Describes a projected utilization metric of a recommendation option, such as an Amazon EC2 instance. This represents the projected utilization of a recommendation option had you used that resource during the analyzed period. Compare the utilization metric data of your resource against its projected utilization metric data to determine the performance difference between your current resource and the recommended option. The Cpu, Memory, GPU, and GPU_MEMORY metrics are the only projected utilization metrics returned when you run the [GetEC2RecommendationProjectedMetrics] action. Additionally, these metrics are only returned for resources with the unified CloudWatch agent installed on them. For more information, see [Enabling Memory Utilization with the CloudWatch Agent](https://docs.aws.amazon.com/compute-optimizer/latest/ug/metrics.html#cw-agent) and [Enabling NVIDIA GPU utilization with the CloudWatch Agent](https://docs.aws.amazon.com/compute-optimizer/latest/ug/metrics.html#nvidia-cw-agent).
     public struct ProjectedMetric: Swift.Equatable {
         /// The name of the projected utilization metric. The following projected utilization metrics are returned:
         ///
-        /// * Cpu - The projected percentage of allocated EC2 compute units that would be in use on the recommendation option had you used that resource during the analyzed period. This metric identifies the processing power required to run an application on the recommendation option. Depending on the instance type, tools in your operating system can show a lower percentage than CloudWatch when the instance is not allocated a full processor core. Units: Percent
+        /// * Cpu - The projected percentage of allocated EC2 compute units that would be in use on the recommendation option had you used that resource during the analyzed period. This metric identifies the processing power required to run an application on the recommendation option. Depending on the instance type, tools in your operating system can show a lower percentage than CloudWatch when the instance is not allocated a full processor core.
         ///
-        /// * Memory - The percentage of memory that would be in use on the recommendation option had you used that resource during the analyzed period. This metric identifies the amount of memory required to run an application on the recommendation option. Units: Percent The Memory metric is returned only for resources that have the unified CloudWatch agent installed on them. For more information, see [Enabling Memory Utilization with the CloudWatch Agent](https://docs.aws.amazon.com/compute-optimizer/latest/ug/metrics.html#cw-agent).
+        /// * Memory - The percentage of memory that would be in use on the recommendation option had you used that resource during the analyzed period. This metric identifies the amount of memory required to run an application on the recommendation option. Units: Percent The Memory metric is only returned for resources with the unified CloudWatch agent installed on them. For more information, see [Enabling Memory Utilization with the CloudWatch Agent](https://docs.aws.amazon.com/compute-optimizer/latest/ug/metrics.html#cw-agent).
+        ///
+        /// * GPU - The projected percentage of allocated GPUs if you adjust your configurations to Compute Optimizer's recommendation option.
+        ///
+        /// * GPU_MEMORY - The projected percentage of total GPU memory if you adjust your configurations to Compute Optimizer's recommendation option. The GPU and GPU_MEMORY metrics are only returned for resources with the unified CloudWatch Agent installed on them. For more information, see [Enabling NVIDIA GPU utilization with the CloudWatch Agent](https://docs.aws.amazon.com/compute-optimizer/latest/ug/metrics.html#nvidia-cw-agent).
         public var name: ComputeOptimizerClientTypes.MetricName?
         /// The timestamps of the projected utilization metric.
         public var timestamps: [ClientRuntime.Date]?
@@ -10894,7 +11132,7 @@ extension ComputeOptimizerClientTypes {
         public var accountId: Swift.String?
         /// An object that describes the performance risk ratings for a given resource type.
         public var currentPerformanceRiskRatings: ComputeOptimizerClientTypes.CurrentPerformanceRiskRatings?
-        /// An array of objects that describes the estimated monthly saving amounts for the instances running on the specified inferredWorkloadTypes. The array contains the top three savings opportunites for the instances running inferred workload types.
+        /// An array of objects that describes the estimated monthly saving amounts for the instances running on the specified inferredWorkloadTypes. The array contains the top five savings opportunites for the instances that run inferred workload types.
         public var inferredWorkloadSavings: [ComputeOptimizerClientTypes.InferredWorkloadSaving]?
         /// The resource type that the recommendation summary applies to.
         public var recommendationResourceType: ComputeOptimizerClientTypes.RecommendationSourceType?
@@ -11859,6 +12097,10 @@ extension ComputeOptimizerClientTypes {
         /// * Cpu - The percentage of allocated EC2 compute units that are currently in use on the instance. This metric identifies the processing power required to run an application on the instance. Depending on the instance type, tools in your operating system can show a lower percentage than CloudWatch when the instance is not allocated a full processor core. Units: Percent
         ///
         /// * Memory - The percentage of memory that is currently in use on the instance. This metric identifies the amount of memory required to run an application on the instance. Units: Percent The Memory metric is returned only for resources that have the unified CloudWatch agent installed on them. For more information, see [Enabling Memory Utilization with the CloudWatch Agent](https://docs.aws.amazon.com/compute-optimizer/latest/ug/metrics.html#cw-agent).
+        ///
+        /// * GPU - The percentage of allocated GPUs that currently run on the instance.
+        ///
+        /// * GPU_MEMORY - The percentage of total GPU memory that currently runs on the instance. The GPU and GPU_MEMORY metrics are only returned for resources with the unified CloudWatch Agent installed on them. For more information, see [Enabling NVIDIA GPU utilization with the CloudWatch Agent](https://docs.aws.amazon.com/compute-optimizer/latest/ug/metrics.html#nvidia-cw-agent).
         ///
         /// * EBS_READ_OPS_PER_SECOND - The completed read operations from all EBS volumes attached to the instance in a specified period of time. Unit: Count
         ///

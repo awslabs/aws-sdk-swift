@@ -1420,7 +1420,7 @@ public struct CreateTLSInspectionConfigurationInput: Swift.Equatable {
     public var encryptionConfiguration: NetworkFirewallClientTypes.EncryptionConfiguration?
     /// The key:value pairs to associate with the resource.
     public var tags: [NetworkFirewallClientTypes.Tag]?
-    /// The object that defines a TLS inspection configuration. This, along with [TLSInspectionConfigurationResponse], define the TLS inspection configuration. You can retrieve all objects for a TLS inspection configuration by calling [DescribeTLSInspectionConfiguration]. Network Firewall uses a TLS inspection configuration to decrypt traffic. Network Firewall re-encrypts the traffic before sending it to its destination. To use a TLS inspection configuration, you add it to a Network Firewall firewall policy, then you apply the firewall policy to a firewall. Network Firewall acts as a proxy service to decrypt and inspect inbound traffic. You can reference a TLS inspection configuration from more than one firewall policy, and you can use a firewall policy in more than one firewall. For more information about using TLS inspection configurations, see [Decrypting SSL/TLS traffic with TLS inspection configurations](https://docs.aws.amazon.com/network-firewall/latest/developerguide/tls-inspection.html) in the Network Firewall Developer Guide.
+    /// The object that defines a TLS inspection configuration. This, along with [TLSInspectionConfigurationResponse], define the TLS inspection configuration. You can retrieve all objects for a TLS inspection configuration by calling [DescribeTLSInspectionConfiguration]. Network Firewall uses a TLS inspection configuration to decrypt traffic. Network Firewall re-encrypts the traffic before sending it to its destination. To use a TLS inspection configuration, you add it to a new Network Firewall firewall policy, then you apply the firewall policy to a firewall. Network Firewall acts as a proxy service to decrypt and inspect inbound traffic. You can reference a TLS inspection configuration from more than one firewall policy, and you can use a firewall policy in more than one firewall. For more information about using TLS inspection configurations, see [Decrypting SSL/TLS traffic with TLS inspection configurations](https://docs.aws.amazon.com/network-firewall/latest/developerguide/tls-inspection.html) in the Network Firewall Developer Guide.
     /// This member is required.
     public var tlsInspectionConfiguration: NetworkFirewallClientTypes.TLSInspectionConfiguration?
     /// The descriptive name of the TLS inspection configuration. You can't change the name of a TLS inspection configuration after you create it.
@@ -1489,8 +1489,10 @@ public enum CreateTLSInspectionConfigurationOutputError: ClientRuntime.HttpRespo
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
+            case "InsufficientCapacityException": return try await InsufficientCapacityException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
@@ -3074,7 +3076,7 @@ extension DescribeTLSInspectionConfigurationOutputResponse: ClientRuntime.HttpRe
 }
 
 public struct DescribeTLSInspectionConfigurationOutputResponse: Swift.Equatable {
-    /// The object that defines a TLS inspection configuration. This, along with [TLSInspectionConfigurationResponse], define the TLS inspection configuration. You can retrieve all objects for a TLS inspection configuration by calling [DescribeTLSInspectionConfiguration]. Network Firewall uses a TLS inspection configuration to decrypt traffic. Network Firewall re-encrypts the traffic before sending it to its destination. To use a TLS inspection configuration, you add it to a Network Firewall firewall policy, then you apply the firewall policy to a firewall. Network Firewall acts as a proxy service to decrypt and inspect inbound traffic. You can reference a TLS inspection configuration from more than one firewall policy, and you can use a firewall policy in more than one firewall. For more information about using TLS inspection configurations, see [Decrypting SSL/TLS traffic with TLS inspection configurations](https://docs.aws.amazon.com/network-firewall/latest/developerguide/tls-inspection.html) in the Network Firewall Developer Guide.
+    /// The object that defines a TLS inspection configuration. This, along with [TLSInspectionConfigurationResponse], define the TLS inspection configuration. You can retrieve all objects for a TLS inspection configuration by calling [DescribeTLSInspectionConfiguration]. Network Firewall uses a TLS inspection configuration to decrypt traffic. Network Firewall re-encrypts the traffic before sending it to its destination. To use a TLS inspection configuration, you add it to a new Network Firewall firewall policy, then you apply the firewall policy to a firewall. Network Firewall acts as a proxy service to decrypt and inspect inbound traffic. You can reference a TLS inspection configuration from more than one firewall policy, and you can use a firewall policy in more than one firewall. For more information about using TLS inspection configurations, see [Decrypting SSL/TLS traffic with TLS inspection configurations](https://docs.aws.amazon.com/network-firewall/latest/developerguide/tls-inspection.html) in the Network Firewall Developer Guide.
     public var tlsInspectionConfiguration: NetworkFirewallClientTypes.TLSInspectionConfiguration?
     /// The high-level properties of a TLS inspection configuration. This, along with the [TLSInspectionConfiguration], define the TLS inspection configuration. You can retrieve all objects for a TLS inspection configuration by calling [DescribeTLSInspectionConfiguration].
     /// This member is required.
@@ -7056,10 +7058,10 @@ extension NetworkFirewallClientTypes.RuleOption: Swift.Codable {
 extension NetworkFirewallClientTypes {
     /// Additional settings for a stateful rule. This is part of the [StatefulRule] configuration.
     public struct RuleOption: Swift.Equatable {
-        ///
+        /// The keyword for the Suricata compatible rule option. You must include a sid (signature ID), and can optionally include other keywords. For information about Suricata compatible keywords, see [Rule options](https://suricata.readthedocs.io/en/suricata-6.0.9/rules/intro.html#rule-options) in the Suricata documentation.
         /// This member is required.
         public var keyword: Swift.String?
-        ///
+        /// The settings of the Suricata compatible rule option. Rule options have zero or more setting values, and the number of possible and required settings depends on the Keyword. For more information about the settings for specific options, see [Rule options](https://suricata.readthedocs.io/en/suricata-6.0.9/rules/intro.html#rule-options).
         public var settings: [Swift.String]?
 
         public init(
@@ -7231,7 +7233,7 @@ extension NetworkFirewallClientTypes {
         public var rulesSourceList: NetworkFirewallClientTypes.RulesSourceList?
         /// Stateful inspection criteria, provided in Suricata compatible intrusion prevention system (IPS) rules. Suricata is an open-source network IPS that includes a standard rule-based language for network traffic inspection. These rules contain the inspection criteria and the action to take for traffic that matches the criteria, so this type of rule group doesn't have a separate action setting.
         public var rulesString: Swift.String?
-        /// An array of individual stateful rules inspection criteria to be used together in a stateful rule group. Use this option to specify simple Suricata rules with protocol, source and destination, ports, direction, and rule options. For information about the Suricata Rules format, see [Rules Format](https://suricata.readthedocs.iorules/intro.html#).
+        /// An array of individual stateful rules inspection criteria to be used together in a stateful rule group. Use this option to specify simple Suricata rules with protocol, source and destination, ports, direction, and rule options. For information about the Suricata Rules format, see [Rules Format](https://suricata.readthedocs.io/en/suricata-6.0.9/rules/intro.html).
         public var statefulRules: [NetworkFirewallClientTypes.StatefulRule]?
         /// Stateless inspection criteria to be used in a stateless rule group.
         public var statelessRulesAndCustomActions: NetworkFirewallClientTypes.StatelessRulesAndCustomActions?
@@ -7755,7 +7757,7 @@ extension NetworkFirewallClientTypes.StatefulRule: Swift.Codable {
 }
 
 extension NetworkFirewallClientTypes {
-    /// A single Suricata rules specification, for use in a stateful rule group. Use this option to specify a simple Suricata rule with protocol, source and destination, ports, direction, and rule options. For information about the Suricata Rules format, see [Rules Format](https://suricata.readthedocs.iorules/intro.html#).
+    /// A single Suricata rules specification, for use in a stateful rule group. Use this option to specify a simple Suricata rule with protocol, source and destination, ports, direction, and rule options. For information about the Suricata Rules format, see [Rules Format](https://suricata.readthedocs.io/en/suricata-6.0.9/rules/intro.html).
     public struct StatefulRule: Swift.Equatable {
         /// Defines what Network Firewall should do with the packets in a traffic flow when the flow matches the stateful rule criteria. For all actions, Network Firewall performs the specified action and discontinues stateful inspection of the traffic flow. The actions for a stateful rule are defined as follows:
         ///
@@ -7764,8 +7766,6 @@ extension NetworkFirewallClientTypes {
         /// * DROP - Blocks the packets from going to the intended destination and sends an alert log message, if alert logging is configured in the [Firewall][LoggingConfiguration].
         ///
         /// * ALERT - Permits the packets to go to the intended destination and sends an alert log message, if alert logging is configured in the [Firewall][LoggingConfiguration]. You can use this action to test a rule that you intend to use to drop traffic. You can enable the rule with ALERT action, verify in the logs that the rule is filtering as you want, then change the action to DROP.
-        ///
-        /// * REJECT - Drops TCP traffic that matches the conditions of the stateful rule, and sends a TCP reset packet back to sender of the packet. A TCP reset packet is a packet with no payload and a RST bit contained in the TCP header flags. Also sends an alert log mesage if alert logging is configured in the [Firewall][LoggingConfiguration]. REJECT isn't currently available for use with IMAP and FTP protocols.
         /// This member is required.
         public var action: NetworkFirewallClientTypes.StatefulAction?
         /// The stateful inspection criteria for this rule, used to inspect traffic flows.
@@ -8495,7 +8495,7 @@ extension NetworkFirewallClientTypes.TLSInspectionConfiguration: Swift.Codable {
 }
 
 extension NetworkFirewallClientTypes {
-    /// The object that defines a TLS inspection configuration. This, along with [TLSInspectionConfigurationResponse], define the TLS inspection configuration. You can retrieve all objects for a TLS inspection configuration by calling [DescribeTLSInspectionConfiguration]. Network Firewall uses a TLS inspection configuration to decrypt traffic. Network Firewall re-encrypts the traffic before sending it to its destination. To use a TLS inspection configuration, you add it to a Network Firewall firewall policy, then you apply the firewall policy to a firewall. Network Firewall acts as a proxy service to decrypt and inspect inbound traffic. You can reference a TLS inspection configuration from more than one firewall policy, and you can use a firewall policy in more than one firewall. For more information about using TLS inspection configurations, see [Decrypting SSL/TLS traffic with TLS inspection configurations](https://docs.aws.amazon.com/network-firewall/latest/developerguide/tls-inspection.html) in the Network Firewall Developer Guide.
+    /// The object that defines a TLS inspection configuration. This, along with [TLSInspectionConfigurationResponse], define the TLS inspection configuration. You can retrieve all objects for a TLS inspection configuration by calling [DescribeTLSInspectionConfiguration]. Network Firewall uses a TLS inspection configuration to decrypt traffic. Network Firewall re-encrypts the traffic before sending it to its destination. To use a TLS inspection configuration, you add it to a new Network Firewall firewall policy, then you apply the firewall policy to a firewall. Network Firewall acts as a proxy service to decrypt and inspect inbound traffic. You can reference a TLS inspection configuration from more than one firewall policy, and you can use a firewall policy in more than one firewall. For more information about using TLS inspection configurations, see [Decrypting SSL/TLS traffic with TLS inspection configurations](https://docs.aws.amazon.com/network-firewall/latest/developerguide/tls-inspection.html) in the Network Firewall Developer Guide.
     public struct TLSInspectionConfiguration: Swift.Equatable {
         /// Lists the server certificate configurations that are associated with the TLS configuration.
         public var serverCertificateConfigurations: [NetworkFirewallClientTypes.ServerCertificateConfiguration]?
@@ -9882,7 +9882,7 @@ public struct UpdateFirewallPolicyInput: Swift.Equatable {
     public var dryRun: Swift.Bool?
     /// A complex type that contains settings for encryption of your firewall policy resources.
     public var encryptionConfiguration: NetworkFirewallClientTypes.EncryptionConfiguration?
-    /// The updated firewall policy to use for the firewall.
+    /// The updated firewall policy to use for the firewall. You can't add or remove a [TLSInspectionConfiguration] after you create a firewall policy. However, you can replace an existing TLS inspection configuration with another TLSInspectionConfiguration.
     /// This member is required.
     public var firewallPolicy: NetworkFirewallClientTypes.FirewallPolicy?
     /// The Amazon Resource Name (ARN) of the firewall policy. You must specify the ARN or the name, and you can specify both.
@@ -10604,7 +10604,7 @@ public struct UpdateTLSInspectionConfigurationInput: Swift.Equatable {
     public var description: Swift.String?
     /// A complex type that contains the Amazon Web Services KMS encryption configuration settings for your TLS inspection configuration.
     public var encryptionConfiguration: NetworkFirewallClientTypes.EncryptionConfiguration?
-    /// The object that defines a TLS inspection configuration. This, along with [TLSInspectionConfigurationResponse], define the TLS inspection configuration. You can retrieve all objects for a TLS inspection configuration by calling [DescribeTLSInspectionConfiguration]. Network Firewall uses a TLS inspection configuration to decrypt traffic. Network Firewall re-encrypts the traffic before sending it to its destination. To use a TLS inspection configuration, you add it to a Network Firewall firewall policy, then you apply the firewall policy to a firewall. Network Firewall acts as a proxy service to decrypt and inspect inbound traffic. You can reference a TLS inspection configuration from more than one firewall policy, and you can use a firewall policy in more than one firewall. For more information about using TLS inspection configurations, see [Decrypting SSL/TLS traffic with TLS inspection configurations](https://docs.aws.amazon.com/network-firewall/latest/developerguide/tls-inspection.html) in the Network Firewall Developer Guide.
+    /// The object that defines a TLS inspection configuration. This, along with [TLSInspectionConfigurationResponse], define the TLS inspection configuration. You can retrieve all objects for a TLS inspection configuration by calling [DescribeTLSInspectionConfiguration]. Network Firewall uses a TLS inspection configuration to decrypt traffic. Network Firewall re-encrypts the traffic before sending it to its destination. To use a TLS inspection configuration, you add it to a new Network Firewall firewall policy, then you apply the firewall policy to a firewall. Network Firewall acts as a proxy service to decrypt and inspect inbound traffic. You can reference a TLS inspection configuration from more than one firewall policy, and you can use a firewall policy in more than one firewall. For more information about using TLS inspection configurations, see [Decrypting SSL/TLS traffic with TLS inspection configurations](https://docs.aws.amazon.com/network-firewall/latest/developerguide/tls-inspection.html) in the Network Firewall Developer Guide.
     /// This member is required.
     public var tlsInspectionConfiguration: NetworkFirewallClientTypes.TLSInspectionConfiguration?
     /// The Amazon Resource Name (ARN) of the TLS inspection configuration.

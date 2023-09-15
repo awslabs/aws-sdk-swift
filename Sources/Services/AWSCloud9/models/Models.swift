@@ -339,6 +339,8 @@ public struct CreateEnvironmentEC2Input: Swift.Equatable {
     ///
     /// * Ubuntu 18.04: ubuntu-18.04-x86_64
     ///
+    /// * Ubuntu 22.04: ubuntu-22.04-x86_64
+    ///
     ///
     /// SSM paths
     ///
@@ -347,6 +349,8 @@ public struct CreateEnvironmentEC2Input: Swift.Equatable {
     /// * Amazon Linux 2: resolve:ssm:/aws/service/cloud9/amis/amazonlinux-2-x86_64
     ///
     /// * Ubuntu 18.04: resolve:ssm:/aws/service/cloud9/amis/ubuntu-18.04-x86_64
+    ///
+    /// * Ubuntu 22.04: resolve:ssm:/aws/service/cloud9/amis/ubuntu-22.04-x86_64
     public var imageId: Swift.String?
     /// The type of instance to connect to the environment (for example, t2.micro).
     /// This member is required.
