@@ -9,11 +9,11 @@ import Foundation
 import XCTest
 import AWSS3
 import AWSClientRuntime
-import AWSSSO
+import AWSSSOAdmin
 
 /* Prerequisites to run the SSO credentials provider integration test(s):
  *
- * 1. Enable AWS Organization for the AWS account used for integration test if it hasn't been already.
+ * 1. Enable IAM Identity Center AWS Organization for the AWS account used for integration test if it hasn't been already.
  * 2. Create a permission set (for S3::listBuckets) in IAM Identity Center.
  * 3. Create a user in IAM Identity Center, and retrieve username, password, and SSO start URL (these are needed for step 4, aws sso configure).
  * 4. Give the created user access to your AWS account with the created permission set.
@@ -21,25 +21,34 @@ import AWSSSO
  * 6. Create SSO token using AWS CLI (aws sso login --profile <profile-name-set-during-aws-sso-configure>).
  * 7. Run the test.
  *
- * Steps 2, 3, 4 will be taken care of by the test's setUp(), using AWS credentials fetched by default credentials provider chain.
- *
- * In effect, you'll need to:
- *  - Do step 1 manually
- *  - Run the test, and have setUp() handle steps 2, 3, 4 then fail (due to no valid SSO token)
- *  - Do step 5 & 6 manually
- *  - Run the test
- *
- * Only step 6 has to be re-done more than once, as SSO token may have expired before you run the test again.
+ * Only step 1 has to be done manually in the AWS account console you're using to run this integration test.
  */
 class SSOCredentialsProviderTests : XCTestCase {
     var client: S3Client!
+    var ssoClient: SSOAdminClient!
+    
+    private var username: String = ""
+    private var password: String = ""
+    private var startUrl: String = ""
+    
+    private var iamIdentityCenterInstanceArn: String = ""
+    private var permissionSetArn: String = ""
+    private var userArn: String = ""
+    
         
     override func setUp() async throws {
-        createPermissionSet()
-        let userData = createUser()
-        giveAccountAccessToUserUsingPermissionSet()
+        // Use default credentials provider chain
+        ssoClient = try await SSOClient()
+        try await createPermissionSet()
+        try await createUser()
+        try await giveAccountAccessToUserUsingPermissionSet()
         
-        setUpClient()
+        // Use AWS CLI for these
+        try await configureSSOConfig()
+        try await ssoLoginAndCreateToken()
+        
+        // This client uses SSO credentials provider to call S3::listBuckets operation
+        try await setUpClient()
     }
 
     // This test calls listBuckets() and forces S3Client to use SSOCredentialsProvider
@@ -53,22 +62,26 @@ class SSOCredentialsProviderTests : XCTestCase {
     
     /* HELPER METHODS */
     private func createPermissionSet() async throws {
+        if let response = try await ssoClient.listInstances(input: ListInstancesInput()) as! ListInstancesOutputResponse, response.instances != nil {
+            iamIdentityCenterInstanceArn = response.instances
+            
+        }
         
     }
     
-    private func createUser() async throws -> SSOUserData {
+    private func createUser() async throws {
         
     }
     
-    private func giveAccountAccessToUserUsingPermissionSet() {
+    private func giveAccountAccessToUserUsingPermissionSet() async throws {
         
     }
     
-    private func configureSSOConfig(userData: SSOUserData) {
+    private func configureSSOConfig() async throws {
         
     }
     
-    private func ssoLogin() {
+    private func ssoLoginAndCreateToken() async throws {
         
     }
     
@@ -85,12 +98,5 @@ class SSOCredentialsProviderTests : XCTestCase {
 
         // Initialize our S3 client with the specified configuration
         client = S3Client(config: testConfig)
-    }
-    
-    /* HELPER DATA STRUCT */
-    private struct SSOUserData {
-        val username: String
-        val password: String
-        val startUrl: String
     }
 }
