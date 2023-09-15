@@ -29,10 +29,6 @@ dependencies {
 data class CodegenTest(val service: String, val module: String, val extraConfig: String? = null)
 val codegenTests = listOf(
     CodegenTest(
-        "aws.protocoltests.restjson#RestJson",
-        "aws-restjson"
-    ),
-    CodegenTest(
         "aws.protocoltests.restjson#RestJsonExtras",
         "rest_json_extras"
     ),
