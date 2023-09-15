@@ -24,6 +24,8 @@ class Ec2QueryHttpResponseBindingErrorGeneratorTests {
             public enum GreetingWithErrorsOutputError: ClientRuntime.HttpResponseErrorBinding {
                 public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
                     let ec2QueryError = try await Ec2QueryError(httpResponse: httpResponse)
+                    let serviceError = try await EC2ProtocolClientTypes.makeServiceError(httpResponse, decoder, ec2QueryError)
+                    if let error = serviceError { return error }
                     switch ec2QueryError.errorCode {
                         case "ComplexError": return try await ComplexError(httpResponse: httpResponse, decoder: decoder, message: ec2QueryError.message, requestID: ec2QueryError.requestId)
                         case "InvalidGreeting": return try await InvalidGreeting(httpResponse: httpResponse, decoder: decoder, message: ec2QueryError.message, requestID: ec2QueryError.requestId)
@@ -96,13 +98,34 @@ class Ec2QueryHttpResponseBindingErrorGeneratorTests {
             """.trimIndent()
         contents.shouldContainOnlyOnce(expectedContents)
     }
+
+    @Test
+    fun `005 AwsEc2+ServiceErrorHelperMethod AWSHttpServiceError`() {
+        val context = setupTests("ec2query/query-error.smithy", "aws.protocoltests.ec2#AwsEc2")
+        val contents = TestContextGenerator.getFileContents(context.manifest, "/Example/models/AwsEc2+ServiceErrorHelperMethod.swift")
+        contents.shouldSyntacticSanityCheck()
+        val expectedContents =
+            """
+            extension EC2ProtocolClientTypes {
+                static func makeServiceError(_ httpResponse: ClientRuntime.HttpResponse, _ decoder: ClientRuntime.ResponseDecoder? = nil, _ error: AWSClientRuntime.Ec2QueryError) async throws -> Swift.Error? {
+                    switch error.errorCode {
+                        case "ExampleServiceError": return try await ExampleServiceError(httpResponse: httpResponse, decoder: decoder, message: error.message, requestID: error.requestId)
+                        default: return nil
+                    }
+                }
+            }
+            """.trimIndent()
+        contents.shouldContainOnlyOnce(expectedContents)
+    }
+
     private fun setupTests(smithyFile: String, serviceShapeId: String): TestContext {
         val context =
             TestContextGenerator.initContextFrom(smithyFile, serviceShapeId, Ec2QueryTrait.ID)
 
-        val generator = Ec2QueryProtocolGenerator()
-        generator.generateDeserializers(context.ctx)
-        generator.generateCodableConformanceForNestedTypes(context.ctx)
+        Ec2QueryProtocolGenerator().run {
+            generateDeserializers(context.ctx)
+            generateCodableConformanceForNestedTypes(context.ctx)
+        }
         context.ctx.delegator.flushWriters()
         return context
     }
