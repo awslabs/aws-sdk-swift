@@ -47,7 +47,9 @@ extension AWSEventStream {
                     self.logger.debug("onComplete")
                     let message = EventStream.Message(headers: self.decodededHeaders.toHeaders(),
                                                       payload: self.decodedPayload)
-                    if (message.headers.contains(EventStream.Header(name: ":event-type", value: .string("initial-response")))) {
+                    if message.headers.contains(
+                        EventStream.Header(name: ":event-type", value: .string("initial-response"))
+                    ) {
                         self.initialMessage = message.payload
                         self.onInitialResponseReceived?(self.initialMessage)
                         self.didProcessInitialMessage = true
