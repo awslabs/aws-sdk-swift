@@ -145,7 +145,6 @@ func addProtocolTests() {
         .init(name: "GlacierTestSDK", sourcePath: "\(baseDir)/glacier"),
         .init(name: "MachineLearningTestSDK", sourcePath: "\(baseDir)/machinelearning"),
         .init(name: "S3TestSDK", sourcePath: "\(baseDir)/s3"),
-        .init(name: "aws_restjson", sourcePath: "\(baseDirLocal)/aws-restjson"),
         .init(name: "rest_json_extras", sourcePath: "\(baseDirLocal)/rest_json_extras"),
         .init(name: "Waiters", sourcePath: "\(baseDirLocal)/Waiters", testPath: "codegen/protocol-test-codegen-local/Tests"),
     ]
