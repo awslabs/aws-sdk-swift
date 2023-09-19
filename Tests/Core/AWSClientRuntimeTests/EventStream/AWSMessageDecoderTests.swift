@@ -30,6 +30,13 @@ final class AWSMessageDecoderTests: XCTestCase {
         XCTAssertEqual(validMessageNoHeaders, decodedMessage)
     }
 
+    func testDecode_MessageWithInitialResponse() {
+        try! sut.feed(data: validInitialResponseMessageData)
+        let decodedMessage = try! sut.message()
+        // initialResponse message should not be added to the messageBuffer
+        XCTAssertNil(decodedMessage)
+    }
+
     func testEndOfStream_StreamClosed() {
         try! sut.feed(data: validMessageDataNoHeaders[0..<validMessageDataNoHeaders.count-1])
         XCTAssertThrowsError(try sut.endOfStream()) { error in
@@ -39,5 +46,17 @@ final class AWSMessageDecoderTests: XCTestCase {
 
             XCTAssertEqual("Stream ended before message was complete", message)
         }
+    }
+
+    func testAwaitInitialResponse_MessageWithInitialResponse() async {
+        try! sut.feed(data: validInitialResponseMessageData)
+        guard let initialResponse = await sut.awaitInitialResponse() else {
+            XCTFail("Error!")
+            return
+        }
+        XCTAssertEqual(
+            String(data: validInitialResponseMessage.payload, encoding: .utf8),
+            String(data: initialResponse, encoding: .utf8)
+        )
     }
 }
