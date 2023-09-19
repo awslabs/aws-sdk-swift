@@ -50,7 +50,9 @@ public struct ECSCredentialsProvider: CredentialsSourcedByCRT {
             host = absoluteHost
             pathAndQuery = absolutePathAndQuery
         } else {
-            throw ClientError.pathCreationFailed("Failed to retrieve either relative or absolute URI! URI may be malformed.")
+            throw ClientError.pathCreationFailed(
+                "Failed to retrieve either relative or absolute URI! URI may be malformed."
+            )
         }
 
         self.crtCredentialsProvider = try CRTCredentialsProvider(source: .ecs(
@@ -77,7 +79,7 @@ private func retrieveHostPathAndQuery(from url: URL) throws -> (String, String) 
 }
 
 private func isValidAbsoluteURI(_ uri: String?) -> Bool {
-    guard let validUri = uri, let _ = URL(string: validUri)?.host else {
+    guard let validUri = uri, URL(string: validUri)?.host != nil else {
         return false
     }
     return true
