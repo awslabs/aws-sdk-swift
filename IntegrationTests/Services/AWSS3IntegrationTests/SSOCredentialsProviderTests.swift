@@ -18,7 +18,7 @@ import AWSSSOAdmin
  *
  * [Automatic]
  * 2. Create a read-only permission set in IAM Identity Center called "SSOCredProvIntegTestPermSet".
- 
+ *
  * [Manual]
  * 3. Create a user in IAM Identity Center.
  * 4. Give the created user access to your AWS account with the created permission set.
@@ -33,6 +33,8 @@ import AWSSSOAdmin
 class SSOCredentialsProviderTests : XCTestCase {
     var client: S3Client!
     var ssoClient: SSOAdminClient!
+    // Change this region string to the region where AWS SSO instance is in.
+    let region = "us-west-2"
     
     private var iamIdentityCenterInstanceArn: String = ""
     private let permissionSetName = "SSOCredProvIntegTestPermSet"
@@ -42,7 +44,7 @@ class SSOCredentialsProviderTests : XCTestCase {
         
     override func setUp() async throws {
         // Use default credentials provider chain for setup
-        ssoClient = try await SSOClient()
+        ssoClient = try SSOAdminClient(region: "us-west-2")
         try await createPermissionSetIfNeeded()
         
         // Create a S3 client that uses SSO credentials provider
@@ -61,36 +63,31 @@ class SSOCredentialsProviderTests : XCTestCase {
     /* HELPER METHODS */
     private func createPermissionSetIfNeeded() async throws {
         // Get IAM identity center instanceArn
-        if let response = try await ssoClient.listInstances(input: ListInstancesInput()) as? ListInstancesOutputResponse {
-            iamIdentityCenterInstanceArn = response.instances![0].instanceArn
-        }
+        let listInstancesOutput = try await ssoClient.listInstances(input: ListInstancesInput())
+        iamIdentityCenterInstanceArn = listInstancesOutput.instances![0].instanceArn!
         
-        // Check if permission set for this integ test is already present. Save its arn and return if it already exists.
-        let output = try await ssoClient.listPermissionSets(input: ListPermissionSetsInput(instanceArn: iamIdentityCenterInstanceArn)) as? ListPermissionSetsOutputResponse
-        guard let output = output, sets = output.permissionSets else {
-            throw Error("Failed to retrieve list of pre-existing permission sets from IAM Identity Center.")
-        }
-        if sets.contains(permissionSetName) {
-            // Set permission set instanceArn
-            let idx = sets.firstIndex(where: $0 == permissionSetName)
-            permissionSetArn = sets[idx]
-            return
-        }
-        
-        // Otherwise, create permission set and save its ARN
-        if let response = try await ssoClient.createPermissionSet(input: CreatePermissionSetInput(
+        do {
+            // Create permission set and save its ARN
+            let createPermissionSetOutput = try await ssoClient.createPermissionSet(input: CreatePermissionSetInput(
                 description: "Permission set for testing SSO credentials provider.",
                 instanceArn: iamIdentityCenterInstanceArn,
                 name: permissionSetName
-        )) as? CreatePermissionSetOutputResponse {
-            permissionSetArn = response.permissionSet!.permissionSetArn!
+            ))
+            permissionSetArn = createPermissionSetOutput.permissionSet!.permissionSetArn!
+            
+            
+            // Attach ReadOnly AWS-managed policy to the created permission set
+            let _ = try await ssoClient.attachManagedPolicyToPermissionSet(input: AttachManagedPolicyToPermissionSetInput(
+                instanceArn: iamIdentityCenterInstanceArn,
+                managedPolicyArn: awsReadOnlyPolicy,
+                permissionSetArn: permissionSetArn))
+        } catch let error as AWSSSOAdmin.ConflictException {
+            if error.message == "PermissionSet with name \(permissionSetName) already exists." {
+                return
+            } else {
+                throw error
+            }
         }
-        
-        // Attach ReadOnly AWS-managed policy to the created permission set
-        let _ = try await ssoClient.attachManagedPolicyToPermissionSet(input: AttachManagedPolicyToPermissionSetInput(
-            instanceArn: iamIdentityCenterInstanceArn,
-            managedPolicyArn: awsReadOnlyPolicy,
-            permissionSetArn: permissionSetArn))
     }
     
     private func setUpClient() async throws {
@@ -100,6 +97,7 @@ class SSOCredentialsProviderTests : XCTestCase {
         // Setup S3ClientConfiguration to use SSOCredentialsProvider
         let testConfig = try await S3Client.S3ClientConfiguration()
         testConfig.credentialsProvider = SSOCredentialsProvider
+        testConfig.region = region
 
         // Initialize our S3 client with the specified configuration
         client = S3Client(config: testConfig)
