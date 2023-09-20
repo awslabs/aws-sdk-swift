@@ -64,8 +64,10 @@ class SSOCredentialsProviderTests : XCTestCase {
         try await getIamIdentityCenterArn()
         
         do {
-            // Create permission set with read-only policy
+            // Create permission set
             try await createPermissionSet()
+            // Attach policy to permissino set just created
+            try await attachReadOnlyPolicyToPermSet()
         } catch let error as AWSSSOAdmin.ConflictException {
             // Catch error if permission set has already been created from previous run of this integ test
             if let message = error.message, message.contains("\(permissionSetName) already exists") {
@@ -96,9 +98,6 @@ class SSOCredentialsProviderTests : XCTestCase {
             throw ClientError.dataNotFound("Permission set arn could not be retrieved after creation.")
         }
         permissionSetArn = permSetArn
-        
-        // Attach policy to permissino set just created
-        try await attachReadOnlyPolicyToPermSet()
     }
     
     private func attachReadOnlyPolicyToPermSet() async throws {
