@@ -43,6 +43,7 @@ class SSOCredentialsProviderTests : XCTestCase {
     
         
     override func setUp() async throws {
+        try await super.setUp()
         // Use default credentials provider chain for setup
         ssoClient = try SSOAdminClient(region: "us-west-2")
         try await createPermissionSetIfNeeded()
@@ -54,10 +55,6 @@ class SSOCredentialsProviderTests : XCTestCase {
     // The test calls listBuckets() and forces S3Client to use SSOCredentialsProvider
     func test_listBuckets() async throws {
         _ = try await client.listBuckets(input: ListBucketsInput())
-    }
-    
-    override func tearDown() async throws {
-        // No action required.
     }
     
     /* HELPER METHODS */
@@ -82,7 +79,7 @@ class SSOCredentialsProviderTests : XCTestCase {
                 managedPolicyArn: awsReadOnlyPolicy,
                 permissionSetArn: permissionSetArn))
         } catch let error as AWSSSOAdmin.ConflictException {
-            if error.message == "PermissionSet with name \(permissionSetName) already exists." {
+            if let message = error.message, message.contains("\(permissionSetName) already exists") {
                 return
             } else {
                 throw error
