@@ -39,6 +39,7 @@ rm codegen/protocol-test-codegen/build/smithyprojections/protocol-test-codegen/s
 # Now do the same for local protocol tests
 rm codegen/protocol-test-codegen-local/build/smithyprojections/protocol-test-codegen-local/aws-restjson/swift-codegen/Package.swift
 rm codegen/protocol-test-codegen-local/build/smithyprojections/protocol-test-codegen-local/rest_json_extras/swift-codegen/Package.swift
+rm codegen/protocol-test-codegen-local/build/smithyprojections/protocol-test-codegen-local/AwsQueryExtras/swift-codegen/Package.swift
 rm codegen/protocol-test-codegen-local/build/smithyprojections/protocol-test-codegen-local/Waiters/swift-codegen/Package.swift
 
 # Regenerate the Package.swift with protocol tests included
