@@ -61,24 +61,27 @@ class SSOCredentialsProviderTests : XCTestCase {
     /* HELPER METHODS */
     private func createPermissionSetIfNeeded() async throws {
         // Get IAM identity center instanceArn
-        let listInstancesOutput = try await ssoClient.listInstances(input: ListInstancesInput())
-        guard let iamCenterInstances = listInstancesOutput.instances, let iamCenterArn = iamCenterInstances[0].instanceArn else {
-            throw ClientError.dataNotFound("No IAM Identity Center instance found for the account."
-                             + "Ensure that AWS organization is enabled for the account you're using to run the integration test.")
-        }
-        iamIdentityCenterInstanceArn = iamCenterArn
+        try await getIamIdentityCenterArn()
         
         do {
-            // Create permission set and attach AWS managed read-only policy
+            // Create permission set with read-only policy
             try await createPermissionSet()
         } catch let error as AWSSSOAdmin.ConflictException {
             // Catch error if permission set has already been created from previous run of this integ test
             if let message = error.message, message.contains("\(permissionSetName) already exists") {
                 return
-            } else {
-                throw error
             }
+            throw error
         }
+    }
+    
+    private func getIamIdentityCenterArn() async throws {
+        // Get IAM identity center instanceArn
+        let listInstancesOutput = try await ssoClient.listInstances(input: ListInstancesInput())
+        guard let iamCenterInstances = listInstancesOutput.instances, let iamCenterArn = iamCenterInstances[0].instanceArn else {
+            throw ClientError.dataNotFound("No IAM Identity Center instance found. Check AWS organization is enabled for the account.")
+        }
+        iamIdentityCenterInstanceArn = iamCenterArn
     }
     
     private func createPermissionSet() async throws {
@@ -87,13 +90,18 @@ class SSOCredentialsProviderTests : XCTestCase {
             description: "Permission set for testing SSO credentials provider.",
             instanceArn: iamIdentityCenterInstanceArn,
             name: permissionSetName
+            
         ))
-        
         guard let permSet = createPermissionSetOutput.permissionSet, let permSetArn = permSet.permissionSetArn else {
             throw ClientError.dataNotFound("Permission set arn could not be retrieved after creation.")
         }
         permissionSetArn = permSetArn
         
+        // Attach policy to permissino set just created
+        try await attachReadOnlyPolicyToPermSet()
+    }
+    
+    private func attachReadOnlyPolicyToPermSet() async throws {
         // Attach ReadOnly AWS-managed policy to the created permission set
         _ = try await ssoClient.attachManagedPolicyToPermissionSet(input: AttachManagedPolicyToPermissionSetInput(
             instanceArn: iamIdentityCenterInstanceArn,
