@@ -106,11 +106,24 @@ func addServiceTarget(_ name: String) {
 
 func addIntegrationTestTarget(_ name: String) {
     let integrationTestName = "\(name)IntegrationTests"
+    var additionalDependencies: [PackageDescription.Target.Dependency] = []
+    var exclusions: [String] = []
+    switch name {
+    case "AWSECS":
+        additionalDependencies = ["AWSCloudWatchLogs", "AWSEC2",  "AWSIAM", "AWSSTS"]
+        exclusions = [
+            "README.md",
+            "Resources/ECSIntegTestApp/"
+        ]
+    default:
+        break
+    }
     package.targets += [
         .testTarget(
             name: integrationTestName,
-            dependencies: [.crt, .clientRuntime, .awsClientRuntime, .byName(name: name), .smithyTestUtils],
+            dependencies: [.crt, .clientRuntime, .awsClientRuntime, .byName(name: name), .smithyTestUtils] + additionalDependencies,
             path: "./IntegrationTests/Services/\(integrationTestName)",
+            exclude: exclusions,
             resources: [.process("Resources")]
         )
     ]
@@ -147,6 +160,7 @@ func addProtocolTests() {
         .init(name: "S3TestSDK", sourcePath: "\(baseDir)/s3"),
         .init(name: "aws_restjson", sourcePath: "\(baseDirLocal)/aws-restjson"),
         .init(name: "rest_json_extras", sourcePath: "\(baseDirLocal)/rest_json_extras"),
+        .init(name: "AwsQueryExtras", sourcePath: "\(baseDirLocal)/AwsQueryExtras"),
         .init(name: "Waiters", sourcePath: "\(baseDirLocal)/Waiters", testPath: "codegen/protocol-test-codegen-local/Tests"),
     ]
     for protocolTest in protocolTests {
