@@ -117,6 +117,8 @@ func addIntegrationTestTarget(_ name: String) {
             "README.md",
             "Resources/ECSIntegTestApp/"
         ]
+    case "AWSS3":
+        additionalDependencies = ["AWSSSOAdmin"]
     default:
         break
     }
