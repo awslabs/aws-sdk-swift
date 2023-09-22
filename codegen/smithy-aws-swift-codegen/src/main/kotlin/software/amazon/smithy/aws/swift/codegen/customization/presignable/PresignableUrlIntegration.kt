@@ -8,6 +8,7 @@ import software.amazon.smithy.aws.swift.codegen.SigningAlgorithm
 import software.amazon.smithy.aws.swift.codegen.customization.InputTypeGETQueryItemMiddleware
 import software.amazon.smithy.aws.swift.codegen.middleware.AWSSigningMiddleware
 import software.amazon.smithy.aws.swift.codegen.middleware.InputTypeGETQueryItemMiddlewareRenderable
+import software.amazon.smithy.aws.swift.codegen.middleware.PutObjectPresignedURLMiddlewareRenderable
 import software.amazon.smithy.codegen.core.Symbol
 import software.amazon.smithy.model.Model
 import software.amazon.smithy.model.knowledge.OperationIndex
@@ -160,10 +161,15 @@ class PresignableUrlIntegration(private val presignedOperations: Map<String, Set
             )
             operationMiddlewareCopy.appendMiddleware(op, AWSSigningMiddleware(context.model, context.symbolProvider, params))
         }
-
-        if (op.id.toString() != "com.amazonaws.s3#PutObject") {
-            operationMiddlewareCopy.removeMiddleware(op, MiddlewareStep.SERIALIZESTEP, "OperationInputBodyMiddleware")
-            operationMiddlewareCopy.appendMiddleware(op, InputTypeGETQueryItemMiddlewareRenderable(inputSymbol))
+        when (op.id.toString()) {
+            "com.amazonaws.s3#GetObject", "com.amazonaws.polly#SynthesizeSpeech" -> {
+                operationMiddlewareCopy.removeMiddleware(op, MiddlewareStep.SERIALIZESTEP, "OperationInputBodyMiddleware")
+                operationMiddlewareCopy.appendMiddleware(op, InputTypeGETQueryItemMiddlewareRenderable(inputSymbol))
+            }
+            "com.amazonaws.s3#PutObject" -> {
+                operationMiddlewareCopy.removeMiddleware(op, MiddlewareStep.SERIALIZESTEP, "OperationInputBodyMiddleware")
+                operationMiddlewareCopy.appendMiddleware(op, PutObjectPresignedURLMiddlewareRenderable())
+            }
         }
 
         return operationMiddlewareCopy

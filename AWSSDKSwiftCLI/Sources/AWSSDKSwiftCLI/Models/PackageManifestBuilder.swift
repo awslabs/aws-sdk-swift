@@ -13,6 +13,7 @@ struct PackageManifestBuilder {
     struct Service {
         let name: String
         let includeIntegrationTests: Bool
+        let includeCustomizations: Bool
     }
 
     let clientRuntimeVersion: Version
@@ -83,6 +84,9 @@ struct PackageManifestBuilder {
             // Add the generated content that defines the dependencies' versions
             buildDependencies(),
             "",
+            // Add the generated content that defines the list of services with customizations
+            buildServiceCustomizations(),
+            "",
             // Add the generated content that defines the list of services to include
             buildServiceTargets(),
             "",
@@ -119,7 +123,17 @@ struct PackageManifestBuilder {
         )
         """
     }
-    
+
+    private func buildServiceCustomizations() -> String {
+        let customizedServices = services.filter { $0.includeCustomizations }
+        var lines: [String] = []
+        lines += ["let serviceTargetsWithCustomizations: [String] = ["]
+        lines += customizedServices.map { "    \($0.name.wrappedInQuotes())," }
+        lines += ["]"]
+
+        return lines.joined(separator: .newline)
+    }
+
     /// Builds the list of services to include.
     /// This generates an array of strings, where the each item is a name of a service
     /// and calls the `addServiceTarget` for each item.
@@ -142,8 +156,8 @@ struct PackageManifestBuilder {
         lines += services.map { "    \($0.name.wrappedInQuotes())," }
         lines += ["]"]
         lines += [""]
-        lines += ["\(propertyName).forEach(addServiceTarget)"]
-        
+        lines += ["\(propertyName).forEach { addServiceTarget(name: $0, customize: serviceTargetsWithCustomizations.contains($0)) }"]
+
         return lines.joined(separator: .newline)
     }
 

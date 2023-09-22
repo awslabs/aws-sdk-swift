@@ -28,12 +28,13 @@ final class S3URLEncodingTests: S3XCTestCase {
         }
     }
 
-    func test_presignPutObject_putsAllKeys() async throws {
+    func test_presignedURL_putObject_putsAllKeysWithMetadata() async throws {
         let config = try await S3Client.S3ClientConfiguration(region: region)
         for key in keys {
-            let input = PutObjectInput(body: .data(Data()), bucket: bucketName, key: key)
+            let input = PutObjectInput(body: .data(Data()), bucket: bucketName, key: key, metadata: ["filename": key])
             let presignedURLOrNil = try await input.presignURL(config: config, expiration: 30.0)
             let presignedURL = try XCTUnwrap(presignedURLOrNil)
+            print("***URL: \(presignedURL)")
             var urlRequest = URLRequest(url: presignedURL)
             urlRequest.httpMethod = "PUT"
             urlRequest.httpBody = Data()
@@ -41,5 +42,10 @@ final class S3URLEncodingTests: S3XCTestCase {
         }
         let createdKeys = Set(try await listBucketKeys())
         XCTAssertTrue(createdKeys.isSuperset(of: keys))
+        for key in keys {
+            let input = HeadObjectInput(bucket: bucketName, key: key)
+            let output = try await client.headObject(input: input)
+            XCTAssertEqual(output.metadata?["filename"], key)
+        }
     }
 }

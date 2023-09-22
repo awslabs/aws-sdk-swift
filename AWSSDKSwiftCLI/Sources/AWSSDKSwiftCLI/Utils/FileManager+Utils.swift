@@ -36,6 +36,17 @@ extension FileManager {
             .filter { !$0.hasPrefix(".") }
     }
 
+    /// Returns the list of customized services.
+    /// A service is considered customized if it has a folder by the service's name in `Sources/Customizations`.
+    ///
+    /// - Returns: The list of customized services.
+    func customizedServices() throws -> [String] {
+        try FileManager.default
+            .contentsOfDirectory(atPath: "Sources/Customizations")
+            .sorted()
+            .filter { !$0.hasPrefix(".") }
+    }
+
     /// Returns the list of integration tests.
     ///
     /// - Returns: The list of integration tests.
