@@ -85,18 +85,16 @@ func addCRTDependency(_ version: Version) {
 
 // MARK: - Services
 
-func addServiceTarget(name: String, customize: Bool) {
+func addServiceTarget(_ name: String) {
     let testName = "\(name)Tests"
     package.products += [
         .library(name: name, targets: [name]),
     ]
-    let customizationPath = customize ? "Customizations/\(name)" : nil
     package.targets += [
         .target(
             name: name,
             dependencies: [.clientRuntime, .awsClientRuntime],
-            path: "Sources",
-            sources: ["Services/\(name)", customizationPath].compactMap { $0 }
+            path: "./Sources/Services/\(name)"
         ),
         .testTarget(
             name: "\(testName)",

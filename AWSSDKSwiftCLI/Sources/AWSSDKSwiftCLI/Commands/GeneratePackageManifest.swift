@@ -98,12 +98,10 @@ struct GeneratePackageManifest {
     func generatePackageManifestContents() throws -> String {
         let versions = try resolveVersions()
         let servicesWithIntegrationTests = try includeIntegrationTests ? resolveServicesWithIntegrationTests() : []
-        let servicesWithCustomizations = try resolveServicesWithCustomizations()
         let services = try resolveServices().map {
             PackageManifestBuilder.Service(
                 name: $0,
-                includeIntegrationTests: servicesWithIntegrationTests.contains($0),
-                includeCustomizations: servicesWithCustomizations.contains($0)
+                includeIntegrationTests: servicesWithIntegrationTests.contains($0)
             )
         }
         log("Creating package manifest contents...")
@@ -189,17 +187,6 @@ struct GeneratePackageManifest {
         }
         log("Resolved list of services: \(resolvedServices.count)")
         return resolvedServices
-    }
-
-    /// Returns the list of customized services to include in the package manifest.
-    /// Specifically, this returns the list of services that exist within `Sources/Customizations`.
-    ///
-    /// - Returns: The list of services to include in the package manifest
-    func resolveServicesWithCustomizations() throws -> [String] {
-        log("Resolving customized services that exist within Sources/Customizations...")
-        let resolvedCustomizedServices = try FileManager.default.enabledServices()
-        log("Resolved list of services: \(resolvedCustomizedServices.count)")
-        return resolvedCustomizedServices
     }
 
     /// Returns the list of services to include in the package manifest.
