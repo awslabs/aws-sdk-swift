@@ -11,8 +11,6 @@ import Foundation
 
 ///  A credentials provider that caches the credentials sourced from the provided credentials provider.
 public struct CachedCredentialsProvider: CredentialsSourcedByCRT {
-    public typealias T = Credentials
-    
     let crtCredentialsProvider: CRTCredentialsProvider
 
     /// Creates a credentials provider that caches the credentials sourced from the provided credentials provider.
@@ -30,13 +28,5 @@ public struct CachedCredentialsProvider: CredentialsSourcedByCRT {
             source: try source.getCRTCredentialsProvider(),
             refreshTime: refreshTime
         ))
-    }
-    
-    /// Returns AWS Credentials.
-    ///
-    /// - Parameters:
-    ///   - identityProperties: Heterogeneous bag of properties that contain additional data required to resolve identity, if any.
-    public func getIdentity(identityProperties: ClientRuntime.Attributes? = nil) async throws -> Credentials {
-        return try await Credentials(crtCredentials: crtCredentialsProvider.getCredentials())
     }
 }

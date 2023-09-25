@@ -16,8 +16,6 @@ import Foundation
 ///
 /// For more information see [Assume role credential provider](https://docs.aws.amazon.com/sdkref/latest/guide/feature-assume-role-credentials.html)
 public struct STSAssumeRoleCredentialsProvider: CredentialsSourcedByCRT {
-    public typealias T = Credentials
-    
     let crtCredentialsProvider: CRTCredentialsProvider
 
     /// Creates a credential provider that uses another provider to assume a role from the AWS Security Token Service (STS).
@@ -41,13 +39,5 @@ public struct STSAssumeRoleCredentialsProvider: CredentialsSourcedByCRT {
             sessionName: sessionName,
             duration: durationSeconds
         ))
-    }
-    
-    /// Returns AWS Credentials.
-    ///
-    /// - Parameters:
-    ///   - identityProperties: Heterogeneous bag of properties that contain additional data required to resolve identity, if any.
-    public func getIdentity(identityProperties: ClientRuntime.Attributes? = nil) async throws -> Credentials {
-        return try await Credentials(crtCredentials: crtCredentialsProvider.getCredentials())
     }
 }

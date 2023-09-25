@@ -21,8 +21,6 @@ import Foundation
 ///
 /// The credentials retrieved from the chain are cached for 15 minutes.
 public struct DefaultChainCredentialsProvider: CredentialsSourcedByCRT {
-    public typealias T = Credentials
-
     let crtCredentialsProvider: CRTCredentialsProvider
 
     /// Creates a credential provider that uses the default AWS credential provider chain used by most AWS SDKs.
@@ -37,13 +35,5 @@ public struct DefaultChainCredentialsProvider: CredentialsSourcedByCRT {
             bootstrap: SDKDefaultIO.shared.clientBootstrap,
             fileBasedConfiguration: fileBasedConfig
         ))
-    }
-    
-    /// Returns AWS Credentials.
-    ///
-    /// - Parameters:
-    ///   - identityProperties: Heterogeneous bag of properties that contain additional data required to resolve identity, if any.
-    public func getIdentity(identityProperties: ClientRuntime.Attributes? = nil) async throws -> Credentials {
-        return try await Credentials(crtCredentials: crtCredentialsProvider.getCredentials())
     }
 }
