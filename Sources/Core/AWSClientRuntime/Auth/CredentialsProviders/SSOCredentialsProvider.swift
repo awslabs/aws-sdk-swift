@@ -11,6 +11,8 @@ import ClientRuntime
 /// A credentials provider that sources credentials using GetRoleCredentialsRequest to the AWS Single Sign-On Service to maintain short-lived sessions.
 /// [Details link](https://docs.aws.amazon.com/sdkref/latest/guide/feature-sso-credentials.html)
 public struct SSOCredentialsProvider: CredentialsSourcedByCRT {
+    public typealias T = Credentials
+    
     let crtCredentialsProvider: CRTCredentialsProvider
 
     /// - Parameters:
@@ -32,5 +34,13 @@ public struct SSOCredentialsProvider: CredentialsSourcedByCRT {
             fileBasedConfiguration: fileBasedConfig,
             profileFileNameOverride: profileName
         ))
+    }
+    
+    /// Returns AWS Credentials.
+    ///
+    /// - Parameters:
+    ///   - identityProperties: Heterogeneous bag of properties that contain additional data required to resolve identity, if any.
+    public func getIdentity(identityProperties: ClientRuntime.Attributes? = nil) async throws -> Credentials {
+        return try await Credentials(crtCredentials: crtCredentialsProvider.getCredentials())
     }
 }

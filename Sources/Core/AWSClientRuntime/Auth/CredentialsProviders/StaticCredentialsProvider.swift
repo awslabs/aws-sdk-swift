@@ -11,6 +11,8 @@ import Foundation
 
 /// A credentials provider that provides a fixed set of credentials
 public struct StaticCredentialsProvider: CredentialsSourcedByCRT {
+    public typealias T = Credentials
+    
     private let credentials: Credentials
     let crtCredentialsProvider: CRTCredentialsProvider
 
@@ -26,5 +28,13 @@ public struct StaticCredentialsProvider: CredentialsSourcedByCRT {
             secret: credentials.secret,
             sessionToken: credentials.sessionToken
         ))
+    }
+    
+    /// Returns AWS Credentials.
+    ///
+    /// - Parameters:
+    ///   - identityProperties: Heterogeneous bag of properties that contain additional data required to resolve identity, if any.
+    public func getIdentity(identityProperties: ClientRuntime.Attributes? = nil) async throws -> Credentials {
+        return try await Credentials(crtCredentials: crtCredentialsProvider.getCredentials())
     }
 }

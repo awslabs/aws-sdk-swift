@@ -26,7 +26,7 @@ public extension Credentials {
         self.init(
             accessKey: accessKey,
             secret: secret,
-            expirationTimeout: crtCredentials.getExpiration(),
+            expiration: crtCredentials.getExpiration(),
             sessionToken: crtCredentials.getSessionToken()
         )
     }
@@ -39,7 +39,7 @@ public extension CRTCredentials {
             accessKey: credentials.accessKey,
             secret: credentials.secret,
             sessionToken: credentials.sessionToken,
-            expiration: credentials.expirationTimeout
+            expiration: credentials.expiration
         )
     }
 }

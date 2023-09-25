@@ -23,7 +23,7 @@ class ProcessCredentialsProviderTests: XCTestCase {
             configFilePath: configPath,
             credentialsFilePath: credentialsPath
         )
-        let credentials = try await subject.getCredentials()
+        let credentials = try await subject.getIdentity()
 
         XCTAssertEqual("AccessKey123", credentials.accessKey)
         XCTAssertEqual("SecretAccessKey123", credentials.secret)
@@ -36,7 +36,7 @@ class ProcessCredentialsProviderTests: XCTestCase {
             configFilePath: configPath,
             credentialsFilePath: credentialsPath
         )
-        let credentials = try await subject.getCredentials()
+        let credentials = try await subject.getIdentity()
 
         XCTAssertEqual("AccessKey123", credentials.accessKey)
         XCTAssertEqual("SecretAccessKey123", credentials.secret)

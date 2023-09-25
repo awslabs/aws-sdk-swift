@@ -16,6 +16,8 @@ import Foundation
 ///
 /// For more information see [Assume role credential provider](https://docs.aws.amazon.com/sdkref/latest/guide/feature-assume-role-credentials.html)
 public struct STSAssumeRoleCredentialsProvider: CredentialsSourcedByCRT {
+    public typealias T = Credentials
+    
     let crtCredentialsProvider: CRTCredentialsProvider
 
     /// Creates a credential provider that uses another provider to assume a role from the AWS Security Token Service (STS).
@@ -26,7 +28,7 @@ public struct STSAssumeRoleCredentialsProvider: CredentialsSourcedByCRT {
     ///   - sessionName: The name to associate with the session. This is used to uniquely identify a session when the same role is assumed by different principals or for different reasons. In cross-account scenarios, the session name is visible to, and can be logged by the account that owns the role. The role session name is also in the ARN of the assumed role principal.
     ///   - durationSeconds: The expiry duration of the STS credentials. Defaults to 15 minutes if not set.
     public init(
-        credentialsProvider: CredentialsProviding,
+        credentialsProvider: any CredentialsProviding,
         roleArn: String,
         sessionName: String,
         durationSeconds: TimeInterval = .minutes(15)
@@ -39,5 +41,13 @@ public struct STSAssumeRoleCredentialsProvider: CredentialsSourcedByCRT {
             sessionName: sessionName,
             duration: durationSeconds
         ))
+    }
+    
+    /// Returns AWS Credentials.
+    ///
+    /// - Parameters:
+    ///   - identityProperties: Heterogeneous bag of properties that contain additional data required to resolve identity, if any.
+    public func getIdentity(identityProperties: ClientRuntime.Attributes? = nil) async throws -> Credentials {
+        return try await Credentials(crtCredentials: crtCredentialsProvider.getCredentials())
     }
 }

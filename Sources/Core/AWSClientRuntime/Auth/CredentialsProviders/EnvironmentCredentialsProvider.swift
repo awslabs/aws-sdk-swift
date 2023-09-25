@@ -14,6 +14,8 @@ import Foundation
 /// - `AWS_SECRET_ACCESS_KEY`
 /// - `AWS_SESSION_TOKEN`
 public struct EnvironmentCredentialsProvider: CredentialsSourcedByCRT {
+    public typealias T = Credentials
+    
     let crtCredentialsProvider: CRTCredentialsProvider
 
     /// Creates a credentials provider that sources credentials from the following environment variables:
@@ -22,5 +24,13 @@ public struct EnvironmentCredentialsProvider: CredentialsSourcedByCRT {
     /// - `AWS_SESSION_TOKEN`
     public init() throws {
         self.crtCredentialsProvider = try CRTCredentialsProvider(source: .environment())
+    }
+    
+    /// Returns AWS Credentials.
+    ///
+    /// - Parameters:
+    ///   - identityProperties: Heterogeneous bag of properties that contain additional data required to resolve identity, if any.
+    public func getIdentity(identityProperties: ClientRuntime.Attributes? = nil) async throws -> Credentials {
+        return try await Credentials(crtCredentials: crtCredentialsProvider.getCredentials())
     }
 }

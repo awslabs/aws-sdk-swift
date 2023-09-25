@@ -40,6 +40,8 @@ import Foundation
 ///
 /// For more complex configurations see [Configuration and credential file settings](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-files.html)
 public struct ProfileCredentialsProvider: CredentialsSourcedByCRT {
+    public typealias T = Credentials
+    
     let crtCredentialsProvider: CRTCredentialsProvider
 
     /// Creates a credentials provider that gets credentials from a profile in `~/.aws/config` or the shared credentials file `~/.aws/credentials`.
@@ -62,5 +64,13 @@ public struct ProfileCredentialsProvider: CredentialsSourcedByCRT {
             fileBasedConfiguration: fileBasedConfig,
             profileFileNameOverride: profileName
         ))
+    }
+    
+    /// Returns AWS Credentials.
+    ///
+    /// - Parameters:
+    ///   - identityProperties: Heterogeneous bag of properties that contain additional data required to resolve identity, if any.
+    public func getIdentity(identityProperties: ClientRuntime.Attributes? = nil) async throws -> Credentials {
+        return try await Credentials(crtCredentials: crtCredentialsProvider.getCredentials())
     }
 }

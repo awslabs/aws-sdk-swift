@@ -14,7 +14,7 @@ protocol CredentialsSourcedByCRT: CredentialsProviding {
 }
 
 extension CredentialsSourcedByCRT {
-    public func getCredentials() async throws -> Credentials {
+    public func getIdentity(identityProperties: Attributes? = nil) async throws -> Credentials {
         let crtCredentials = try await crtCredentialsProvider.getCredentials()
         return try .init(crtCredentials: crtCredentials)
     }

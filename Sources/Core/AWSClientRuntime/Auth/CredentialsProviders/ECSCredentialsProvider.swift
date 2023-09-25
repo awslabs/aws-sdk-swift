@@ -11,6 +11,8 @@ import Foundation
 
 /// A credentials provider that sources credentials from ECS container metadata
 public struct ECSCredentialsProvider: CredentialsSourcedByCRT {
+    public typealias T = Credentials
+    
     let crtCredentialsProvider: CRTCredentialsProvider
     /// Creates a credential provider that sources credentials from ECS container metadata
     /// ECS creds provider can be used to access creds via either relative uri to a fixed endpoint http://169.254.170.2,
@@ -60,6 +62,14 @@ public struct ECSCredentialsProvider: CredentialsSourcedByCRT {
             pathAndQuery: pathAndQuery,
             host: host
         ))
+    }
+    
+    /// Returns AWS Credentials.
+    ///
+    /// - Parameters:
+    ///   - identityProperties: Heterogeneous bag of properties that contain additional data required to resolve identity, if any.
+    public func getIdentity(identityProperties: ClientRuntime.Attributes? = nil) async throws -> Credentials {
+        return try await Credentials(crtCredentials: crtCredentialsProvider.getCredentials())
     }
 }
 

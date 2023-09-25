@@ -26,6 +26,8 @@ import Foundation
 /// }
 /// Version here identifies the command output format version.
 public struct ProcessCredentialsProvider: CredentialsSourcedByCRT {
+    public typealias T = Credentials
+    
     let crtCredentialsProvider: CRTCredentialsProvider
 
     /// Creates a credentials provider that gets credentials from running a command or process.
@@ -47,5 +49,13 @@ public struct ProcessCredentialsProvider: CredentialsSourcedByCRT {
             fileBasedConfiguration: fileBasedConfig,
             profileFileNameOverride: profileName
         ))
+    }
+    
+    /// Returns AWS Credentials.
+    ///
+    /// - Parameters:
+    ///   - identityProperties: Heterogeneous bag of properties that contain additional data required to resolve identity, if any.
+    public func getIdentity(identityProperties: ClientRuntime.Attributes? = nil) async throws -> Credentials {
+        return try await Credentials(crtCredentials: crtCredentialsProvider.getCredentials())
     }
 }
