@@ -22,13 +22,15 @@ class PutObjectPresignedURLMiddleware(
     }
 
     override fun generateMiddlewareClosure() {
-        writer.write("let metadata = input.operationInput.metadata ?? [:]")
-        writer.openBlock("for (metadataKey, metadataValue) in metadata {", "}") {
-            writer.openBlock("let queryItem = URLQueryItem(", ")") {
-                writer.write("name: \"x-amz-meta-\\(metadataKey.urlPercentEncoding())\",")
-                writer.write("value: metadataValue.urlPercentEncoding()")
+        writer.apply {
+            write("let metadata = input.operationInput.metadata ?? [:]")
+            openBlock("for (metadataKey, metadataValue) in metadata {", "}") {
+                openBlock("let queryItem = URLQueryItem(", ")") {
+                    write("name: \"x-amz-meta-\\(metadataKey.urlPercentEncoding())\",")
+                    write("value: metadataValue.urlPercentEncoding()")
+                }
+                write("input.builder.withQueryItem(queryItem)")
             }
-            writer.write("input.builder.withQueryItem(queryItem)")
         }
     }
 }
