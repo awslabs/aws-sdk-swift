@@ -68,11 +68,11 @@ func addClientRuntimeDependency(_ version: Version) {
         ]
     case (false, true):
         package.dependencies += [
-            .package(url: smithySwiftURL, .branch("day/expose-timeout"))
+            .package(url: smithySwiftURL, .branch("main"))
         ]
     case (false, false):
         package.dependencies += [
-            .package(url: smithySwiftURL, .exact(version))
+            .package(url: smithySwiftURL, .branch("day/expose-timeout"))
         ]
     }
 }
