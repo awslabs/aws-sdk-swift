@@ -50,6 +50,55 @@ class PresignableUrlIntegrationTests {
         contents.shouldContainOnlyOnce(expectedContents)
     }
 
+    @Test
+    fun `S3 PutObject operation stack contains the PutObjectPresignedURLMiddleware`() {
+        val context = setupTests("presign-urls-s3.smithy", "com.amazonaws.s3#AmazonS3")
+        val contents = TestContextGenerator.getFileContents(context.manifest, "/Example/models/PutObjectInput+Presigner.swift")
+        contents.shouldSyntacticSanityCheck()
+        val expectedContents = """
+        operation.serializeStep.intercept(position: .after, middleware: PutObjectPresignedURLMiddleware())
+        """
+        contents.shouldContainOnlyOnce(expectedContents)
+    }
+
+    @Test
+    fun `S3 PutObject's PutObjectPresignedURLMiddleware is rendered`() {
+        val context = setupTests("presign-urls-s3.smithy", "com.amazonaws.s3#AmazonS3")
+        val contents = TestContextGenerator.getFileContents(context.manifest, "/Example/models/PutObjectInput+QueryItemMiddlewareForPresignUrl.swift")
+        contents.shouldSyntacticSanityCheck()
+        val expectedContents = """
+public struct PutObjectPresignedURLMiddleware: ClientRuntime.Middleware {
+    public let id: Swift.String = "PutObjectPresignedURLMiddleware"
+
+    public init() {}
+
+    public func handle<H>(context: Context,
+                  input: ClientRuntime.SerializeStepInput<PutObjectInput>,
+                  next: H) async throws -> ClientRuntime.OperationOutput<PutObjectOutputResponse>
+    where H: Handler,
+    Self.MInput == H.Input,
+    Self.MOutput == H.Output,
+    Self.Context == H.Context
+    {
+        let metadata = input.operationInput.metadata ?? [:]
+        for (metadataKey, metadataValue) in metadata {
+            let queryItem = URLQueryItem(
+                name: "x-amz-meta-\(metadataKey.urlPercentEncoding())",
+                value: metadataValue.urlPercentEncoding()
+            )
+            input.builder.withQueryItem(queryItem)
+        }
+        return try await next.handle(context: context, input: input)
+    }
+
+    public typealias MInput = ClientRuntime.SerializeStepInput<PutObjectInput>
+    public typealias MOutput = ClientRuntime.OperationOutput<PutObjectOutputResponse>
+    public typealias Context = ClientRuntime.HttpContext
+}
+"""
+        contents.shouldContainOnlyOnce(expectedContents)
+    }
+
     private fun setupTests(smithyFile: String, serviceShapeId: String): TestContext {
         val context = TestContextGenerator.initContextFrom(smithyFile, serviceShapeId, RestXmlTrait.ID)
         val presigner = PresignableUrlIntegration()
