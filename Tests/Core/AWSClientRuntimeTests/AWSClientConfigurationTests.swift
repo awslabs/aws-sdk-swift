@@ -67,7 +67,7 @@ class AWSClientConfigurationTests: XCTestCase {
     // MARK: - Timeout
 
     func test_async_configureTimeoutOptionsFromParams() throws {
-        let customTimeout = 10_000
+        let customTimeout: UInt32 = 10_000
         let subject = try Subject(region: region, connectTimeoutMs: customTimeout)
         XCTAssertEqual(subject.connectTimeoutMs, customTimeout)
     }
