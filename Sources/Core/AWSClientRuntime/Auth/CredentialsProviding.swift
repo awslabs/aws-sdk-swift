@@ -18,4 +18,9 @@ extension CredentialsProviding {
         let providerSourcedByCRT = try self as? (any CredentialsSourcedByCRT) ?? CustomCredentialsProvider(self)
         return providerSourcedByCRT.crtCredentialsProvider
     }
+    
+    public func getIdentity(identityProperties: Attributes? = nil) async throws -> Credentials {
+        let crtCredentials = try await getCRTCredentialsProvider().getCredentials()
+        return try .init(crtCredentials: crtCredentials)
+    }
 }
