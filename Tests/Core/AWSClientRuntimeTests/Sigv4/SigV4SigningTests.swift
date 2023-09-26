@@ -117,7 +117,7 @@ class MyCustomCredentialsProvider: AWSClientRuntime.CredentialsProviding {
         self.init(credentials: AWSCredentials(
             accessKey: "AKIDEXAMPLE",
             secret: "wJalrXUtnFEMI/K7MDENG+bPxRfiCYEXAMPLEKEY",
-            expirationTimeout: .init(timeIntervalSinceNow: 30)
+            expiration: .init(timeIntervalSinceNow: 30)
         ))
     }
     
@@ -125,7 +125,7 @@ class MyCustomCredentialsProvider: AWSClientRuntime.CredentialsProviding {
         return AWSCredentials(
             accessKey: "AKIDEXAMPLE",
             secret: "wJalrXUtnFEMI/K7MDENG+bPxRfiCYEXAMPLEKEY",
-            expirationTimeout: .init(timeIntervalSinceNow: 30)
+            expiration: .init(timeIntervalSinceNow: 30)
         )
     }
 }
