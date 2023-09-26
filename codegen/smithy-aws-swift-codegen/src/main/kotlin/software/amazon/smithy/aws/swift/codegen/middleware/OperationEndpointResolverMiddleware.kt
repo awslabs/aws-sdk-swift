@@ -107,7 +107,7 @@ class OperationEndpointResolverMiddleware(
             }
             clientContextParam != null -> {
                 when {
-                    param.defaultValue.isPresent -> {
+                    param.default.isPresent -> {
                         "config.serviceSpecific.${param.name.toString().toLowerCamelCase()} ?? ${param.defaultValueLiteral}"
                     }
                     else -> {
@@ -119,7 +119,7 @@ class OperationEndpointResolverMiddleware(
                 return when {
                     param.isRequired -> {
                         when {
-                            param.defaultValue.isPresent -> {
+                            param.default.isPresent -> {
                                 "config.${param.name.toString().toLowerCamelCase()} ?? ${param.defaultValueLiteral}"
                             }
                             else -> {
@@ -131,7 +131,7 @@ class OperationEndpointResolverMiddleware(
                             }
                         }
                     }
-                    param.defaultValue.isPresent -> {
+                    param.default.isPresent -> {
                         "config.${param.name.toString().toLowerCamelCase()} ?? ${param.defaultValueLiteral}"
                     }
                     else -> {
@@ -150,7 +150,7 @@ class OperationEndpointResolverMiddleware(
 private val Parameter.defaultValueLiteral: String
     get() {
         return when (type) {
-            ParameterType.BOOLEAN -> defaultValue.get().toString()
-            ParameterType.STRING -> "\"${defaultValue.get()}\""
+            ParameterType.BOOLEAN -> default.get().toString()
+            ParameterType.STRING -> "\"${default.get()}\""
         }
     }

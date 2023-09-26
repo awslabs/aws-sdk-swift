@@ -45,7 +45,8 @@ class RestXmlProtocolGenerator : AWSHttpBindingProtocolGenerator() {
         "S3EscapeObjectKeyInUriLabel",
         "S3EscapePathObjectKeyInUriLabel",
         "SDKAppliedContentEncoding_restXml",
-        "SDKAppendedGzipAfterProvidedEncoding_restXml"
+        "SDKAppendedGzipAfterProvidedEncoding_restXml",
+        "S3OperationNoErrorWrappingResponse"
     )
 
     override fun renderStructEncode(
