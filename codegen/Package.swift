@@ -55,12 +55,13 @@ appendLibTarget(name: "S3TestSDK", path: "\(baseDir)/s3")
 appendTstTarget(name: "S3TestSDKTests", path: "\(baseDir)/s3", dependency: "S3TestSDK")
 
 //Local tests
-appendLibTarget(name: "aws_restjson", path: "\(baseDirLocal)/aws-restjson")
-appendTstTarget(name: "aws_restjsonTests", path: "\(baseDirLocal)/aws-restjson", dependency: "aws_restjson")
 appendLibTarget(name: "rest_json_extras", path: "\(baseDirLocal)/rest_json_extras")
 appendTstTarget(name: "rest_json_extrasTests", path: "\(baseDirLocal)/rest_json_extras", dependency: "rest_json_extras")
 appendLibTarget(name: "AwsQueryExtras", path: "\(baseDirLocal)/AwsQueryExtras")
 appendTstTarget(name: "AwsQueryExtrasTests", path: "\(baseDirLocal)/AwsQueryExtras", dependency: "AwsQueryExtras")
+appendLibTarget(name: "EventStream", path: "\(baseDirLocal)/EventStream")
+// EventStream has a Smithy definition, but no tests defined yet.
+//appendTstTarget(name: "EventStreamTests", path: "\(baseDirLocal)/EventStream", dependency: "EventStream")
 appendLibTarget(name: "Waiters", path: "\(baseDirLocal)/Waiters")
 appendTstTarget(name: "WaitersTests", path: "./protocol-test-codegen-local/Tests", dependency: "Waiters")
 

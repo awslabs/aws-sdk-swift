@@ -33,7 +33,7 @@ apply ExampleService @endpointRuleSet({
         boolFoo: {type: "boolean", required: true},
         boolBar: {type: "boolean"},
         boolBaz: {type: "string"},
-        region: {type: "string", builtIn: "SDK::Region", required: true},
+        region: {type: "string", builtIn: "AWS::Region", required: true},
     },
     rules: []
 })
