@@ -17,7 +17,7 @@ public struct Credentials: Identity {
     let accessKey: String
     let secret: String
     let sessionToken: String?
-    public var expiration: ClientRuntime.Date?
+    public let expiration: ClientRuntime.Date?
 
     /// Creates credentials with the specified keys and optionally an expiration and session token.
     ///
