@@ -8,7 +8,7 @@
 import ClientRuntime
 
 /// A type that can provide credentials for authenticating with an AWS service
-public protocol CredentialsProviding: IdentityResolver where IdType == Credentials {}
+public protocol CredentialsProviding: IdentityResolver where IdObj == Credentials {}
 
 extension CredentialsProviding {
     /// Returns the underlying `CRTCredentialsProvider`.
