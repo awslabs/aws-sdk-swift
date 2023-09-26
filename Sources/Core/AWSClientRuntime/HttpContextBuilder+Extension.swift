@@ -63,7 +63,7 @@ extension HttpContext {
                                  shouldNormalizeURIPath: false,
                                  omitSessionToken: false)
 
-        return AWSSigningConfig(credentials: credentials as? AWSCredentials,
+        return AWSSigningConfig(credentials: credentials,
                                 signedBodyValue: .empty, // there is no body, only payload needs to be signed
                                 flags: flags,
                                 date: date,

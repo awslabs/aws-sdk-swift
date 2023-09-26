@@ -17,6 +17,6 @@ struct CredentialsProvidingCRTAdapter: CRTCredentialsProviding {
 
     func getCredentials() async throws -> CRTCredentials {
         let credentials = try await credentialsProvider.getIdentity(identityProperties: Attributes())
-        return try .init(credentials: credentials as! Credentials)
+        return try .init(credentials: credentials)
     }
 }

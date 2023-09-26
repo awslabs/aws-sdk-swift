@@ -29,7 +29,7 @@ public class AWSSigV4Signer {
             let signedBodyHeader: AWSSignedBodyHeader = .none
             let signedBodyValue: AWSSignedBodyValue = .empty
             let signingConfig = AWSSigningConfig(
-                credentials: credentials as? AWSCredentials,
+                credentials: credentials,
                 expiration: expiration,
                 signedBodyHeader: signedBodyHeader,
                 signedBodyValue: signedBodyValue,
