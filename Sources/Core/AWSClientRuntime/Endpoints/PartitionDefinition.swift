@@ -16,7 +16,7 @@ public let partitionJSON = """
   "partitions": [
     {
       "id": "aws",
-      "regionRegex": "^(us|eu|ap|sa|ca|me|af)-\\w+-\\d+$",
+      "regionRegex": "^(us|eu|ap|sa|ca|me|af)-\\\\w+-\\\\d+$",
       "regions": {
         "af-south-1": {},
         "ap-east-1": {},
@@ -54,7 +54,7 @@ public let partitionJSON = """
     },
     {
       "id": "aws-us-gov",
-      "regionRegex": "^us\\-gov\\-\\w+\\-\\d+$",
+      "regionRegex": "^us\\\\-gov\\\\-\\\\w+\\\\-\\\\d+$",
       "regions": {
         "us-gov-west-1": {},
         "us-gov-east-1": {},
@@ -71,7 +71,7 @@ public let partitionJSON = """
     },
     {
       "id": "aws-cn",
-      "regionRegex": "^cn\\-\\w+\\-\\d+$",
+      "regionRegex": "^cn\\\\-\\\\w+\\\\-\\\\d+$",
       "regions": {
         "cn-north-1": {},
         "cn-northwest-1": {},
@@ -88,7 +88,7 @@ public let partitionJSON = """
     },
     {
       "id": "aws-iso",
-      "regionRegex": "^us\\-iso\\-\\w+\\-\\d+$",
+      "regionRegex": "^us\\\\-iso\\\\-\\\\w+\\\\-\\\\d+$",
       "outputs": {
         "name": "aws-iso",
         "dnsSuffix": "c2s.ic.gov",
@@ -105,7 +105,7 @@ public let partitionJSON = """
     },
     {
       "id": "aws-iso-b",
-      "regionRegex": "^us\\-isob\\-\\w+\\-\\d+$",
+      "regionRegex": "^us\\\\-isob\\\\-\\\\w+\\\\-\\\\d+$",
       "outputs": {
         "name": "aws-iso-b",
         "dnsSuffix": "sc2s.sgov.gov",
