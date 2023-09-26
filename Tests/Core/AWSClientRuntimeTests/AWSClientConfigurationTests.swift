@@ -66,7 +66,19 @@ class AWSClientConfigurationTests: XCTestCase {
 
     // MARK: - Timeout
 
-    func test_async_configureTimeoutOptionsFromParams() throws {
+    func test_sync_defaultTimeout() throws {
+        let subject = try Subject(region: region)
+
+#if os(iOS) || os(watchOS)
+        // default in smithy-swift Sources/ClientRuntime/Networking/Http/CRT/CRTClientEngine.swift#L57
+        XCTAssertEqual(subject.connectTimeoutMs, 30_000)
+#else
+        // default in SocketOptions class
+        XCTAssertEqual(subject.connectTimeoutMs, 3_000)
+#endif
+    }
+
+    func test_sync_configureTimeoutOptionsFromParams() throws {
         let customTimeout: UInt32 = 10_000
         let subject = try Subject(region: region, connectTimeoutMs: customTimeout)
         XCTAssertEqual(subject.connectTimeoutMs, customTimeout)

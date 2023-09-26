@@ -104,7 +104,7 @@ public class AWSClientConfiguration<ServiceSpecificConfiguration: AWSServiceSpec
 
     /// The timeout for a request in milliseconds
     ///
-    /// If none is provided the client will use default values based on the operation system.
+    /// If none is provided the client will use default values based on the platform.
     public var connectTimeoutMs: UInt32?
 
     /// Internal designated init
