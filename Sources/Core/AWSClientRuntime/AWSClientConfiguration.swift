@@ -102,6 +102,11 @@ public class AWSClientConfiguration<ServiceSpecificConfiguration: AWSServiceSpec
     /// This structure is custom code-generated for each AWS service.
     public var serviceSpecific: ServiceSpecificConfiguration
 
+    /// The timeout for a request in milliseconds
+    ///
+    /// If none is provided the client will use default values based on the platform.
+    public var connectTimeoutMs: UInt32?
+
     /// Internal designated init
     /// All convenience inits should call this.
     private init(
@@ -115,7 +120,8 @@ public class AWSClientConfiguration<ServiceSpecificConfiguration: AWSServiceSpec
         _ useFIPS: Swift.Bool?,
         _ retryStrategyOptions: RetryStrategyOptions?,
         _ appID: String?,
-        _ awsRetryMode: AWSRetryMode
+        _ awsRetryMode: AWSRetryMode,
+        _ connectTimeoutMs: UInt32? = nil
     ) throws {
         typealias RuntimeConfigType =
             DefaultSDKRuntimeConfiguration<DefaultRetryStrategy, DefaultRetryErrorInfoProvider>
@@ -128,8 +134,13 @@ public class AWSClientConfiguration<ServiceSpecificConfiguration: AWSServiceSpec
         self.useDualStack = useDualStack
         self.useFIPS = useFIPS
         self.clientLogMode = RuntimeConfigType.defaultClientLogMode
+        self.connectTimeoutMs = connectTimeoutMs
         self.httpClientConfiguration = RuntimeConfigType.defaultHttpClientConfiguration
-        self.httpClientEngine = RuntimeConfigType.defaultHttpClientEngine
+        if let connectTimeoutMs = self.connectTimeoutMs {
+            self.httpClientEngine = RuntimeConfigType.httpClientEngineWithTimeout(timeoutMs: connectTimeoutMs)
+        } else {
+            self.httpClientEngine = RuntimeConfigType.defaultHttpClientEngine
+        }
         self.idempotencyTokenGenerator = RuntimeConfigType.defaultIdempotencyTokenGenerator
         self.logger = RuntimeConfigType.defaultLogger(clientName: self.serviceSpecific.clientName)
         self.retryStrategyOptions = retryStrategyOptions ?? RuntimeConfigType.defaultRetryStrategyOptions
@@ -162,7 +173,8 @@ extension AWSClientConfiguration {
         useFIPS: Swift.Bool? = nil,
         retryMode: AWSRetryMode? = nil,
         maxAttempts: Int? = nil,
-        appID: String? = nil
+        appID: String? = nil,
+        connectTimeoutMs: UInt32? = nil
     ) async throws {
         let fileBasedConfig = try await CRTFileBasedConfiguration.makeAsync()
         let resolvedRegionResolver = try regionResolver ?? DefaultRegionResolver { _, _ in fileBasedConfig }
@@ -200,7 +212,8 @@ extension AWSClientConfiguration {
             useFIPS,
             retryStrategyOptions,
             resolvedAppID,
-            resolvedAWSRetryMode
+            resolvedAWSRetryMode,
+            connectTimeoutMs
         )
     }
 
@@ -214,7 +227,8 @@ extension AWSClientConfiguration {
         useFIPS: Swift.Bool? = nil,
         retryMode: AWSRetryMode? = nil,
         maxAttempts: Int? = nil,
-        appID: String? = nil
+        appID: String? = nil,
+        connectTimeoutMs: UInt32? = nil
     ) throws {
         let fileBasedConfig = try CRTFileBasedConfiguration.make()
         let resolvedCredentialsProvider: CredentialsProviding
@@ -245,7 +259,8 @@ extension AWSClientConfiguration {
             useFIPS,
             retryStrategyOptions,
             resolvedAppID,
-            resolvedAWSRetryMode
+            resolvedAWSRetryMode,
+            connectTimeoutMs
         )
     }
 
