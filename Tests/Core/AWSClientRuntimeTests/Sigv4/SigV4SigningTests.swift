@@ -121,7 +121,7 @@ class MyCustomCredentialsProvider: AWSClientRuntime.CredentialsProviding {
         ))
     }
     
-    func getCredentials() async throws -> AWSClientRuntime.AWSCredentials {
+    func getIdentity(identityProperties: Attributes?) async throws -> AWSClientRuntime.AWSCredentials {
         return AWSCredentials(
             accessKey: "AKIDEXAMPLE",
             secret: "wJalrXUtnFEMI/K7MDENG+bPxRfiCYEXAMPLEKEY",

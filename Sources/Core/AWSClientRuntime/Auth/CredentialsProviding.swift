@@ -20,7 +20,7 @@ extension CredentialsProviding {
     }
     
     public func getIdentity(identityProperties: Attributes? = nil) async throws -> Credentials {
-        let crtCredentials = try await getCRTCredentialsProvider().getCredentials()
+        let crtCredentials = try await self.getCRTCredentialsProvider().getCredentials()
         return try .init(crtCredentials: crtCredentials)
     }
 }
