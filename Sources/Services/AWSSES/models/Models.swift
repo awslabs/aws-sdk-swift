@@ -7783,7 +7783,7 @@ extension SESClientTypes.MessageDsn: Swift.Codable {
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
         if let arrivalDate = arrivalDate {
-            try container.encodeTimestamp(arrivalDate, format: .dateTime, forKey: ClientRuntime.Key("arrivalDate"))
+            try container.encodeTimestamp(arrivalDate, format: .dateTime, forKey: ClientRuntime.Key("ArrivalDate"))
         }
         if let extensionFields = extensionFields {
             if !extensionFields.isEmpty {
@@ -8712,7 +8712,7 @@ extension SESClientTypes.ReceiptRuleSetMetadata: Swift.Codable {
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
         if let createdTimestamp = createdTimestamp {
-            try container.encodeTimestamp(createdTimestamp, format: .dateTime, forKey: ClientRuntime.Key("createdTimestamp"))
+            try container.encodeTimestamp(createdTimestamp, format: .dateTime, forKey: ClientRuntime.Key("CreatedTimestamp"))
         }
         if let name = name {
             try container.encode(name, forKey: ClientRuntime.Key("Name"))
@@ -8789,7 +8789,7 @@ extension SESClientTypes.RecipientDsnFields: Swift.Codable {
             try container.encode(finalRecipient, forKey: ClientRuntime.Key("FinalRecipient"))
         }
         if let lastAttemptDate = lastAttemptDate {
-            try container.encodeTimestamp(lastAttemptDate, format: .dateTime, forKey: ClientRuntime.Key("lastAttemptDate"))
+            try container.encodeTimestamp(lastAttemptDate, format: .dateTime, forKey: ClientRuntime.Key("LastAttemptDate"))
         }
         if let remoteMta = remoteMta {
             try container.encode(remoteMta, forKey: ClientRuntime.Key("RemoteMta"))
@@ -8994,7 +8994,7 @@ extension SESClientTypes.ReputationOptions: Swift.Codable {
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
         if let lastFreshStart = lastFreshStart {
-            try container.encodeTimestamp(lastFreshStart, format: .dateTime, forKey: ClientRuntime.Key("lastFreshStart"))
+            try container.encodeTimestamp(lastFreshStart, format: .dateTime, forKey: ClientRuntime.Key("LastFreshStart"))
         }
         if reputationMetricsEnabled != false {
             try container.encode(reputationMetricsEnabled, forKey: ClientRuntime.Key("ReputationMetricsEnabled"))
@@ -9997,7 +9997,7 @@ extension SESClientTypes.SendDataPoint: Swift.Codable {
             try container.encode(rejects, forKey: ClientRuntime.Key("Rejects"))
         }
         if let timestamp = timestamp {
-            try container.encodeTimestamp(timestamp, format: .dateTime, forKey: ClientRuntime.Key("timestamp"))
+            try container.encodeTimestamp(timestamp, format: .dateTime, forKey: ClientRuntime.Key("Timestamp"))
         }
     }
 
@@ -11610,7 +11610,7 @@ extension SESClientTypes.TemplateMetadata: Swift.Codable {
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
         if let createdTimestamp = createdTimestamp {
-            try container.encodeTimestamp(createdTimestamp, format: .dateTime, forKey: ClientRuntime.Key("createdTimestamp"))
+            try container.encodeTimestamp(createdTimestamp, format: .dateTime, forKey: ClientRuntime.Key("CreatedTimestamp"))
         }
         if let name = name {
             try container.encode(name, forKey: ClientRuntime.Key("Name"))

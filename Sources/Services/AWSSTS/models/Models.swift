@@ -964,7 +964,7 @@ extension STSClientTypes.Credentials: Swift.Codable {
             try container.encode(accessKeyId, forKey: ClientRuntime.Key("AccessKeyId"))
         }
         if let expiration = expiration {
-            try container.encodeTimestamp(expiration, format: .dateTime, forKey: ClientRuntime.Key("expiration"))
+            try container.encodeTimestamp(expiration, format: .dateTime, forKey: ClientRuntime.Key("Expiration"))
         }
         if let secretAccessKey = secretAccessKey {
             try container.encode(secretAccessKey, forKey: ClientRuntime.Key("SecretAccessKey"))

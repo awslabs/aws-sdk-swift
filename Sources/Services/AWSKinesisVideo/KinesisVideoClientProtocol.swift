@@ -151,7 +151,7 @@ public protocol KinesisVideoClientProtocol {
     /// - `InvalidArgumentException` : The value for this input parameter is invalid.
     /// - `ResourceNotFoundException` : Amazon Kinesis Video Streams can't find the stream that you specified.
     func describeMappedResourceConfiguration(input: DescribeMappedResourceConfigurationInput) async throws -> DescribeMappedResourceConfigurationOutputResponse
-    /// Returns the most current information about the channel. Specify the ChannelName or ChannelARN in the input.
+    /// This API is related to [WebRTC Ingestion](https://docs.aws.amazon.com/kinesisvideostreams-webrtc-dg/latest/devguide/webrtc-ingestion.html) and is only available in the us-west-2 region. Returns the most current information about the channel. Specify the ChannelName or ChannelARN in the input.
     ///
     /// - Parameter DescribeMediaStorageConfigurationInput : [no documentation found]
     ///
@@ -309,7 +309,7 @@ public protocol KinesisVideoClientProtocol {
     /// - `NotAuthorizedException` : The caller is not authorized to perform this operation.
     /// - `ResourceNotFoundException` : Amazon Kinesis Video Streams can't find the stream that you specified.
     func listTagsForStream(input: ListTagsForStreamInput) async throws -> ListTagsForStreamOutputResponse
-    /// An asynchronous API that updates a stream’s existing edge configuration. The Kinesis Video Stream will sync the stream’s edge configuration with the Edge Agent IoT Greengrass component that runs on an IoT Hub Device, setup at your premise. The time to sync can vary and depends on the connectivity of the Hub Device. The SyncStatus will be updated as the edge configuration is acknowledged, and synced with the Edge Agent. If this API is invoked for the first time, a new edge configuration will be created for the stream, and the sync status will be set to SYNCING. You will have to wait for the sync status to reach a terminal state such as: IN_SYNC, or SYNC_FAILED, before using this API again. If you invoke this API during the syncing process, a ResourceInUseException will be thrown. The connectivity of the stream’s edge configuration and the Edge Agent will be retried for 15 minutes. After 15 minutes, the status will transition into the SYNC_FAILED state.
+    /// An asynchronous API that updates a stream’s existing edge configuration. The Kinesis Video Stream will sync the stream’s edge configuration with the Edge Agent IoT Greengrass component that runs on an IoT Hub Device, setup at your premise. The time to sync can vary and depends on the connectivity of the Hub Device. The SyncStatus will be updated as the edge configuration is acknowledged, and synced with the Edge Agent. If this API is invoked for the first time, a new edge configuration will be created for the stream, and the sync status will be set to SYNCING. You will have to wait for the sync status to reach a terminal state such as: IN_SYNC, or SYNC_FAILED, before using this API again. If you invoke this API during the syncing process, a ResourceInUseException will be thrown. The connectivity of the stream’s edge configuration and the Edge Agent will be retried for 15 minutes. After 15 minutes, the status will transition into the SYNC_FAILED state. To move an edge configuration from one device to another, use [DeleteEdgeConfiguration] to delete the current edge configuration. You can then invoke StartEdgeConfigurationUpdate with an updated Hub Device ARN.
     ///
     /// - Parameter StartEdgeConfigurationUpdateInput : [no documentation found]
     ///
@@ -439,7 +439,7 @@ public protocol KinesisVideoClientProtocol {
     /// * The DescribeStream or DescribeSignalingChannel API to determine the status of the resource.
     /// - `ResourceNotFoundException` : Amazon Kinesis Video Streams can't find the stream that you specified.
     func updateImageGenerationConfiguration(input: UpdateImageGenerationConfigurationInput) async throws -> UpdateImageGenerationConfigurationOutputResponse
-    /// Associates a SignalingChannel to a stream to store the media. There are two signaling modes that can specified :
+    /// This API is related to [WebRTC Ingestion](https://docs.aws.amazon.com/kinesisvideostreams-webrtc-dg/latest/devguide/webrtc-ingestion.html) and is only available in the us-west-2 region. Associates a SignalingChannel to a stream to store the media. There are two signaling modes that can specified :
     ///
     /// * If the StorageStatus is disabled, no data will be stored, and the StreamARN parameter will not be needed.
     ///

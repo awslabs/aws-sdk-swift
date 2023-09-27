@@ -692,6 +692,7 @@ extension OutpostsClientTypes {
 extension OutpostsClientTypes.ComputeAttributes: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case hostId = "HostId"
+        case instanceFamilies = "InstanceFamilies"
         case state = "State"
     }
 
@@ -699,6 +700,12 @@ extension OutpostsClientTypes.ComputeAttributes: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let hostId = self.hostId {
             try encodeContainer.encode(hostId, forKey: .hostId)
+        }
+        if let instanceFamilies = instanceFamilies {
+            var instanceFamiliesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .instanceFamilies)
+            for instancefamilyname0 in instanceFamilies {
+                try instanceFamiliesContainer.encode(instancefamilyname0)
+            }
         }
         if let state = self.state {
             try encodeContainer.encode(state.rawValue, forKey: .state)
@@ -711,6 +718,17 @@ extension OutpostsClientTypes.ComputeAttributes: Swift.Codable {
         hostId = hostIdDecoded
         let stateDecoded = try containerValues.decodeIfPresent(OutpostsClientTypes.ComputeAssetState.self, forKey: .state)
         state = stateDecoded
+        let instanceFamiliesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .instanceFamilies)
+        var instanceFamiliesDecoded0:[Swift.String]? = nil
+        if let instanceFamiliesContainer = instanceFamiliesContainer {
+            instanceFamiliesDecoded0 = [Swift.String]()
+            for string0 in instanceFamiliesContainer {
+                if let string0 = string0 {
+                    instanceFamiliesDecoded0?.append(string0)
+                }
+            }
+        }
+        instanceFamilies = instanceFamiliesDecoded0
     }
 }
 
@@ -719,6 +737,8 @@ extension OutpostsClientTypes {
     public struct ComputeAttributes: Swift.Equatable {
         /// The host ID of the Dedicated Host on the asset.
         public var hostId: Swift.String?
+        /// A list of the names of instance families that are currently associated with a given asset.
+        public var instanceFamilies: [Swift.String]?
         /// The state.
         ///
         /// * ACTIVE - The asset is available and can provide capacity for new compute resources.
@@ -730,10 +750,12 @@ extension OutpostsClientTypes {
 
         public init(
             hostId: Swift.String? = nil,
+            instanceFamilies: [Swift.String]? = nil,
             state: OutpostsClientTypes.ComputeAssetState? = nil
         )
         {
             self.hostId = hostId
+            self.instanceFamilies = instanceFamilies
             self.state = state
         }
     }
@@ -2522,7 +2544,7 @@ extension OutpostsClientTypes {
         public var lineItemId: Swift.String?
         /// The ID of the previous line item.
         public var previousLineItemId: Swift.String?
-        /// The ID of the previous order item.
+        /// The ID of the previous order.
         public var previousOrderId: Swift.String?
         /// The quantity of the line item.
         public var quantity: Swift.Int
@@ -3782,7 +3804,7 @@ extension OutpostsClientTypes {
         public var orderId: Swift.String?
         /// The submission date for the order.
         public var orderSubmissionDate: ClientRuntime.Date?
-        /// Type of order.
+        /// The type of order.
         public var orderType: OutpostsClientTypes.OrderType?
         /// The ID of the Outpost in the order.
         public var outpostId: Swift.String?

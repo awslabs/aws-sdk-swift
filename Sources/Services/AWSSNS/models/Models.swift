@@ -4843,7 +4843,7 @@ extension SNSClientTypes.PhoneNumberInformation: Swift.Codable {
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
         if let createdAt = createdAt {
-            try container.encodeTimestamp(createdAt, format: .dateTime, forKey: ClientRuntime.Key("createdAt"))
+            try container.encodeTimestamp(createdAt, format: .dateTime, forKey: ClientRuntime.Key("CreatedAt"))
         }
         if let iso2CountryCode = iso2CountryCode {
             try container.encode(iso2CountryCode, forKey: ClientRuntime.Key("Iso2CountryCode"))

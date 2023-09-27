@@ -306,13 +306,13 @@ extension AutoScalingClientTypes.Activity: Swift.Codable {
             try container.encode(details, forKey: ClientRuntime.Key("Details"))
         }
         if let endTime = endTime {
-            try container.encodeTimestamp(endTime, format: .dateTime, forKey: ClientRuntime.Key("endTime"))
+            try container.encodeTimestamp(endTime, format: .dateTime, forKey: ClientRuntime.Key("EndTime"))
         }
         if progress != 0 {
             try container.encode(progress, forKey: ClientRuntime.Key("Progress"))
         }
         if let startTime = startTime {
-            try container.encodeTimestamp(startTime, format: .dateTime, forKey: ClientRuntime.Key("startTime"))
+            try container.encodeTimestamp(startTime, format: .dateTime, forKey: ClientRuntime.Key("StartTime"))
         }
         if let statusCode = statusCode {
             try container.encode(statusCode, forKey: ClientRuntime.Key("StatusCode"))
@@ -1096,7 +1096,7 @@ extension AutoScalingClientTypes.AutoScalingGroup: Swift.Codable {
             try container.encode(context, forKey: ClientRuntime.Key("Context"))
         }
         if let createdTime = createdTime {
-            try container.encodeTimestamp(createdTime, format: .dateTime, forKey: ClientRuntime.Key("createdTime"))
+            try container.encodeTimestamp(createdTime, format: .dateTime, forKey: ClientRuntime.Key("CreatedTime"))
         }
         if let defaultCooldown = defaultCooldown {
             try container.encode(defaultCooldown, forKey: ClientRuntime.Key("DefaultCooldown"))
@@ -6696,7 +6696,7 @@ extension DescribeScheduledActionsInput: Swift.Encodable {
             try container.encode(autoScalingGroupName, forKey: ClientRuntime.Key("AutoScalingGroupName"))
         }
         if let endTime = endTime {
-            try container.encodeTimestamp(endTime, format: .dateTime, forKey: ClientRuntime.Key("endTime"))
+            try container.encodeTimestamp(endTime, format: .dateTime, forKey: ClientRuntime.Key("EndTime"))
         }
         if let maxRecords = maxRecords {
             try container.encode(maxRecords, forKey: ClientRuntime.Key("MaxRecords"))
@@ -6717,7 +6717,7 @@ extension DescribeScheduledActionsInput: Swift.Encodable {
             }
         }
         if let startTime = startTime {
-            try container.encodeTimestamp(startTime, format: .dateTime, forKey: ClientRuntime.Key("startTime"))
+            try container.encodeTimestamp(startTime, format: .dateTime, forKey: ClientRuntime.Key("StartTime"))
         }
         try container.encode("DescribeScheduledActions", forKey:ClientRuntime.Key("Action"))
         try container.encode("2011-01-01", forKey:ClientRuntime.Key("Version"))
@@ -9076,13 +9076,13 @@ extension GetPredictiveScalingForecastInput: Swift.Encodable {
             try container.encode(autoScalingGroupName, forKey: ClientRuntime.Key("AutoScalingGroupName"))
         }
         if let endTime = endTime {
-            try container.encodeTimestamp(endTime, format: .dateTime, forKey: ClientRuntime.Key("endTime"))
+            try container.encodeTimestamp(endTime, format: .dateTime, forKey: ClientRuntime.Key("EndTime"))
         }
         if let policyName = policyName {
             try container.encode(policyName, forKey: ClientRuntime.Key("PolicyName"))
         }
         if let startTime = startTime {
-            try container.encodeTimestamp(startTime, format: .dateTime, forKey: ClientRuntime.Key("startTime"))
+            try container.encodeTimestamp(startTime, format: .dateTime, forKey: ClientRuntime.Key("StartTime"))
         }
         try container.encode("GetPredictiveScalingForecast", forKey:ClientRuntime.Key("Action"))
         try container.encode("2011-01-01", forKey:ClientRuntime.Key("Version"))
@@ -9573,7 +9573,7 @@ extension AutoScalingClientTypes.InstanceRefresh: Swift.Codable {
             try container.encode(desiredConfiguration, forKey: ClientRuntime.Key("DesiredConfiguration"))
         }
         if let endTime = endTime {
-            try container.encodeTimestamp(endTime, format: .dateTime, forKey: ClientRuntime.Key("endTime"))
+            try container.encodeTimestamp(endTime, format: .dateTime, forKey: ClientRuntime.Key("EndTime"))
         }
         if let instanceRefreshId = instanceRefreshId {
             try container.encode(instanceRefreshId, forKey: ClientRuntime.Key("InstanceRefreshId"))
@@ -9594,7 +9594,7 @@ extension AutoScalingClientTypes.InstanceRefresh: Swift.Codable {
             try container.encode(rollbackDetails, forKey: ClientRuntime.Key("RollbackDetails"))
         }
         if let startTime = startTime {
-            try container.encodeTimestamp(startTime, format: .dateTime, forKey: ClientRuntime.Key("startTime"))
+            try container.encodeTimestamp(startTime, format: .dateTime, forKey: ClientRuntime.Key("StartTime"))
         }
         if let status = status {
             try container.encode(status, forKey: ClientRuntime.Key("Status"))
@@ -10771,7 +10771,7 @@ extension AutoScalingClientTypes.LaunchConfiguration: Swift.Codable {
             }
         }
         if let createdTime = createdTime {
-            try container.encodeTimestamp(createdTime, format: .dateTime, forKey: ClientRuntime.Key("createdTime"))
+            try container.encodeTimestamp(createdTime, format: .dateTime, forKey: ClientRuntime.Key("CreatedTime"))
         }
         if let ebsOptimized = ebsOptimized {
             try container.encode(ebsOptimized, forKey: ClientRuntime.Key("EbsOptimized"))
@@ -14065,7 +14065,7 @@ extension PutScheduledUpdateGroupActionInput: Swift.Encodable {
             try container.encode(desiredCapacity, forKey: ClientRuntime.Key("DesiredCapacity"))
         }
         if let endTime = endTime {
-            try container.encodeTimestamp(endTime, format: .dateTime, forKey: ClientRuntime.Key("endTime"))
+            try container.encodeTimestamp(endTime, format: .dateTime, forKey: ClientRuntime.Key("EndTime"))
         }
         if let maxSize = maxSize {
             try container.encode(maxSize, forKey: ClientRuntime.Key("MaxSize"))
@@ -14080,10 +14080,10 @@ extension PutScheduledUpdateGroupActionInput: Swift.Encodable {
             try container.encode(scheduledActionName, forKey: ClientRuntime.Key("ScheduledActionName"))
         }
         if let startTime = startTime {
-            try container.encodeTimestamp(startTime, format: .dateTime, forKey: ClientRuntime.Key("startTime"))
+            try container.encodeTimestamp(startTime, format: .dateTime, forKey: ClientRuntime.Key("StartTime"))
         }
         if let time = time {
-            try container.encodeTimestamp(time, format: .dateTime, forKey: ClientRuntime.Key("time"))
+            try container.encodeTimestamp(time, format: .dateTime, forKey: ClientRuntime.Key("Time"))
         }
         if let timeZone = timeZone {
             try container.encode(timeZone, forKey: ClientRuntime.Key("TimeZone"))
@@ -14872,7 +14872,7 @@ extension AutoScalingClientTypes.RollbackDetails: Swift.Codable {
             try container.encode(rollbackReason, forKey: ClientRuntime.Key("RollbackReason"))
         }
         if let rollbackStartTime = rollbackStartTime {
-            try container.encodeTimestamp(rollbackStartTime, format: .dateTime, forKey: ClientRuntime.Key("rollbackStartTime"))
+            try container.encodeTimestamp(rollbackStartTime, format: .dateTime, forKey: ClientRuntime.Key("RollbackStartTime"))
         }
     }
 
@@ -15451,7 +15451,7 @@ extension AutoScalingClientTypes.ScheduledUpdateGroupAction: Swift.Codable {
             try container.encode(desiredCapacity, forKey: ClientRuntime.Key("DesiredCapacity"))
         }
         if let endTime = endTime {
-            try container.encodeTimestamp(endTime, format: .dateTime, forKey: ClientRuntime.Key("endTime"))
+            try container.encodeTimestamp(endTime, format: .dateTime, forKey: ClientRuntime.Key("EndTime"))
         }
         if let maxSize = maxSize {
             try container.encode(maxSize, forKey: ClientRuntime.Key("MaxSize"))
@@ -15469,10 +15469,10 @@ extension AutoScalingClientTypes.ScheduledUpdateGroupAction: Swift.Codable {
             try container.encode(scheduledActionName, forKey: ClientRuntime.Key("ScheduledActionName"))
         }
         if let startTime = startTime {
-            try container.encodeTimestamp(startTime, format: .dateTime, forKey: ClientRuntime.Key("startTime"))
+            try container.encodeTimestamp(startTime, format: .dateTime, forKey: ClientRuntime.Key("StartTime"))
         }
         if let time = time {
-            try container.encodeTimestamp(time, format: .dateTime, forKey: ClientRuntime.Key("time"))
+            try container.encodeTimestamp(time, format: .dateTime, forKey: ClientRuntime.Key("Time"))
         }
         if let timeZone = timeZone {
             try container.encode(timeZone, forKey: ClientRuntime.Key("TimeZone"))
@@ -15580,7 +15580,7 @@ extension AutoScalingClientTypes.ScheduledUpdateGroupActionRequest: Swift.Codabl
             try container.encode(desiredCapacity, forKey: ClientRuntime.Key("DesiredCapacity"))
         }
         if let endTime = endTime {
-            try container.encodeTimestamp(endTime, format: .dateTime, forKey: ClientRuntime.Key("endTime"))
+            try container.encodeTimestamp(endTime, format: .dateTime, forKey: ClientRuntime.Key("EndTime"))
         }
         if let maxSize = maxSize {
             try container.encode(maxSize, forKey: ClientRuntime.Key("MaxSize"))
@@ -15595,7 +15595,7 @@ extension AutoScalingClientTypes.ScheduledUpdateGroupActionRequest: Swift.Codabl
             try container.encode(scheduledActionName, forKey: ClientRuntime.Key("ScheduledActionName"))
         }
         if let startTime = startTime {
-            try container.encodeTimestamp(startTime, format: .dateTime, forKey: ClientRuntime.Key("startTime"))
+            try container.encodeTimestamp(startTime, format: .dateTime, forKey: ClientRuntime.Key("StartTime"))
         }
         if let timeZone = timeZone {
             try container.encode(timeZone, forKey: ClientRuntime.Key("TimeZone"))

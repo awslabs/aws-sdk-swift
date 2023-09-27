@@ -50,7 +50,7 @@ extension IAMClientTypes.AccessDetail: Swift.Codable {
             try container.encode(entityPath, forKey: ClientRuntime.Key("EntityPath"))
         }
         if let lastAuthenticatedTime = lastAuthenticatedTime {
-            try container.encodeTimestamp(lastAuthenticatedTime, format: .dateTime, forKey: ClientRuntime.Key("lastAuthenticatedTime"))
+            try container.encodeTimestamp(lastAuthenticatedTime, format: .dateTime, forKey: ClientRuntime.Key("LastAuthenticatedTime"))
         }
         if let region = region {
             try container.encode(region, forKey: ClientRuntime.Key("Region"))
@@ -136,7 +136,7 @@ extension IAMClientTypes.AccessKey: Swift.Codable {
             try container.encode(accessKeyId, forKey: ClientRuntime.Key("AccessKeyId"))
         }
         if let createDate = createDate {
-            try container.encodeTimestamp(createDate, format: .dateTime, forKey: ClientRuntime.Key("createDate"))
+            try container.encodeTimestamp(createDate, format: .dateTime, forKey: ClientRuntime.Key("CreateDate"))
         }
         if let secretAccessKey = secretAccessKey {
             try container.encode(secretAccessKey, forKey: ClientRuntime.Key("SecretAccessKey"))
@@ -215,7 +215,7 @@ extension IAMClientTypes.AccessKeyLastUsed: Swift.Codable {
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
         if let lastUsedDate = lastUsedDate {
-            try container.encodeTimestamp(lastUsedDate, format: .dateTime, forKey: ClientRuntime.Key("lastUsedDate"))
+            try container.encodeTimestamp(lastUsedDate, format: .dateTime, forKey: ClientRuntime.Key("LastUsedDate"))
         }
         if let region = region {
             try container.encode(region, forKey: ClientRuntime.Key("Region"))
@@ -298,7 +298,7 @@ extension IAMClientTypes.AccessKeyMetadata: Swift.Codable {
             try container.encode(accessKeyId, forKey: ClientRuntime.Key("AccessKeyId"))
         }
         if let createDate = createDate {
-            try container.encodeTimestamp(createDate, format: .dateTime, forKey: ClientRuntime.Key("createDate"))
+            try container.encodeTimestamp(createDate, format: .dateTime, forKey: ClientRuntime.Key("CreateDate"))
         }
         if let status = status {
             try container.encode(status, forKey: ClientRuntime.Key("Status"))
@@ -5936,7 +5936,7 @@ extension IAMClientTypes.EntityDetails: Swift.Codable {
             try container.encode(entityInfo, forKey: ClientRuntime.Key("EntityInfo"))
         }
         if let lastAuthenticated = lastAuthenticated {
-            try container.encodeTimestamp(lastAuthenticated, format: .dateTime, forKey: ClientRuntime.Key("lastAuthenticated"))
+            try container.encodeTimestamp(lastAuthenticated, format: .dateTime, forKey: ClientRuntime.Key("LastAuthenticated"))
         }
     }
 
@@ -10362,7 +10362,7 @@ extension IAMClientTypes.Group: Swift.Codable {
             try container.encode(arn, forKey: ClientRuntime.Key("Arn"))
         }
         if let createDate = createDate {
-            try container.encodeTimestamp(createDate, format: .dateTime, forKey: ClientRuntime.Key("createDate"))
+            try container.encodeTimestamp(createDate, format: .dateTime, forKey: ClientRuntime.Key("CreateDate"))
         }
         if let groupId = groupId {
             try container.encode(groupId, forKey: ClientRuntime.Key("GroupId"))
@@ -10462,7 +10462,7 @@ extension IAMClientTypes.GroupDetail: Swift.Codable {
             }
         }
         if let createDate = createDate {
-            try container.encodeTimestamp(createDate, format: .dateTime, forKey: ClientRuntime.Key("createDate"))
+            try container.encodeTimestamp(createDate, format: .dateTime, forKey: ClientRuntime.Key("CreateDate"))
         }
         if let groupId = groupId {
             try container.encode(groupId, forKey: ClientRuntime.Key("GroupId"))
@@ -10597,7 +10597,7 @@ extension IAMClientTypes.InstanceProfile: Swift.Codable {
             try container.encode(arn, forKey: ClientRuntime.Key("Arn"))
         }
         if let createDate = createDate {
-            try container.encodeTimestamp(createDate, format: .dateTime, forKey: ClientRuntime.Key("createDate"))
+            try container.encodeTimestamp(createDate, format: .dateTime, forKey: ClientRuntime.Key("CreateDate"))
         }
         if let instanceProfileId = instanceProfileId {
             try container.encode(instanceProfileId, forKey: ClientRuntime.Key("InstanceProfileId"))
@@ -16605,7 +16605,7 @@ extension IAMClientTypes.LoginProfile: Swift.Codable {
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
         if let createDate = createDate {
-            try container.encodeTimestamp(createDate, format: .dateTime, forKey: ClientRuntime.Key("createDate"))
+            try container.encodeTimestamp(createDate, format: .dateTime, forKey: ClientRuntime.Key("CreateDate"))
         }
         if passwordResetRequired != false {
             try container.encode(passwordResetRequired, forKey: ClientRuntime.Key("PasswordResetRequired"))
@@ -16662,7 +16662,7 @@ extension IAMClientTypes.MFADevice: Swift.Codable {
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
         if let enableDate = enableDate {
-            try container.encodeTimestamp(enableDate, format: .dateTime, forKey: ClientRuntime.Key("enableDate"))
+            try container.encodeTimestamp(enableDate, format: .dateTime, forKey: ClientRuntime.Key("EnableDate"))
         }
         if let serialNumber = serialNumber {
             try container.encode(serialNumber, forKey: ClientRuntime.Key("SerialNumber"))
@@ -16843,7 +16843,7 @@ extension IAMClientTypes.ManagedPolicyDetail: Swift.Codable {
             try container.encode(attachmentCount, forKey: ClientRuntime.Key("AttachmentCount"))
         }
         if let createDate = createDate {
-            try container.encodeTimestamp(createDate, format: .dateTime, forKey: ClientRuntime.Key("createDate"))
+            try container.encodeTimestamp(createDate, format: .dateTime, forKey: ClientRuntime.Key("CreateDate"))
         }
         if let defaultVersionId = defaultVersionId {
             try container.encode(defaultVersionId, forKey: ClientRuntime.Key("DefaultVersionId"))
@@ -16879,7 +16879,7 @@ extension IAMClientTypes.ManagedPolicyDetail: Swift.Codable {
             }
         }
         if let updateDate = updateDate {
-            try container.encodeTimestamp(updateDate, format: .dateTime, forKey: ClientRuntime.Key("updateDate"))
+            try container.encodeTimestamp(updateDate, format: .dateTime, forKey: ClientRuntime.Key("UpdateDate"))
         }
     }
 
@@ -17381,7 +17381,7 @@ extension IAMClientTypes.Policy: Swift.Codable {
             try container.encode(attachmentCount, forKey: ClientRuntime.Key("AttachmentCount"))
         }
         if let createDate = createDate {
-            try container.encodeTimestamp(createDate, format: .dateTime, forKey: ClientRuntime.Key("createDate"))
+            try container.encodeTimestamp(createDate, format: .dateTime, forKey: ClientRuntime.Key("CreateDate"))
         }
         if let defaultVersionId = defaultVersionId {
             try container.encode(defaultVersionId, forKey: ClientRuntime.Key("DefaultVersionId"))
@@ -17417,7 +17417,7 @@ extension IAMClientTypes.Policy: Swift.Codable {
             }
         }
         if let updateDate = updateDate {
-            try container.encodeTimestamp(updateDate, format: .dateTime, forKey: ClientRuntime.Key("updateDate"))
+            try container.encodeTimestamp(updateDate, format: .dateTime, forKey: ClientRuntime.Key("UpdateDate"))
         }
     }
 
@@ -18120,7 +18120,7 @@ extension IAMClientTypes.PolicyVersion: Swift.Codable {
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
         if let createDate = createDate {
-            try container.encodeTimestamp(createDate, format: .dateTime, forKey: ClientRuntime.Key("createDate"))
+            try container.encodeTimestamp(createDate, format: .dateTime, forKey: ClientRuntime.Key("CreateDate"))
         }
         if let document = document {
             try container.encode(document, forKey: ClientRuntime.Key("Document"))
@@ -19442,7 +19442,7 @@ extension IAMClientTypes.Role: Swift.Codable {
             try container.encode(assumeRolePolicyDocument, forKey: ClientRuntime.Key("AssumeRolePolicyDocument"))
         }
         if let createDate = createDate {
-            try container.encodeTimestamp(createDate, format: .dateTime, forKey: ClientRuntime.Key("createDate"))
+            try container.encodeTimestamp(createDate, format: .dateTime, forKey: ClientRuntime.Key("CreateDate"))
         }
         if let description = description {
             try container.encode(description, forKey: ClientRuntime.Key("Description"))
@@ -19621,7 +19621,7 @@ extension IAMClientTypes.RoleDetail: Swift.Codable {
             }
         }
         if let createDate = createDate {
-            try container.encodeTimestamp(createDate, format: .dateTime, forKey: ClientRuntime.Key("createDate"))
+            try container.encodeTimestamp(createDate, format: .dateTime, forKey: ClientRuntime.Key("CreateDate"))
         }
         if let instanceProfileList = instanceProfileList {
             if !instanceProfileList.isEmpty {
@@ -19842,7 +19842,7 @@ extension IAMClientTypes.RoleLastUsed: Swift.Codable {
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
         if let lastUsedDate = lastUsedDate {
-            try container.encodeTimestamp(lastUsedDate, format: .dateTime, forKey: ClientRuntime.Key("lastUsedDate"))
+            try container.encodeTimestamp(lastUsedDate, format: .dateTime, forKey: ClientRuntime.Key("LastUsedDate"))
         }
         if let region = region {
             try container.encode(region, forKey: ClientRuntime.Key("Region"))
@@ -19962,10 +19962,10 @@ extension IAMClientTypes.SAMLProviderListEntry: Swift.Codable {
             try container.encode(arn, forKey: ClientRuntime.Key("Arn"))
         }
         if let createDate = createDate {
-            try container.encodeTimestamp(createDate, format: .dateTime, forKey: ClientRuntime.Key("createDate"))
+            try container.encodeTimestamp(createDate, format: .dateTime, forKey: ClientRuntime.Key("CreateDate"))
         }
         if let validUntil = validUntil {
-            try container.encodeTimestamp(validUntil, format: .dateTime, forKey: ClientRuntime.Key("validUntil"))
+            try container.encodeTimestamp(validUntil, format: .dateTime, forKey: ClientRuntime.Key("ValidUntil"))
         }
     }
 
@@ -20029,7 +20029,7 @@ extension IAMClientTypes.SSHPublicKey: Swift.Codable {
             try container.encode(status, forKey: ClientRuntime.Key("Status"))
         }
         if let uploadDate = uploadDate {
-            try container.encodeTimestamp(uploadDate, format: .dateTime, forKey: ClientRuntime.Key("uploadDate"))
+            try container.encodeTimestamp(uploadDate, format: .dateTime, forKey: ClientRuntime.Key("UploadDate"))
         }
         if let userName = userName {
             try container.encode(userName, forKey: ClientRuntime.Key("UserName"))
@@ -20111,7 +20111,7 @@ extension IAMClientTypes.SSHPublicKeyMetadata: Swift.Codable {
             try container.encode(status, forKey: ClientRuntime.Key("Status"))
         }
         if let uploadDate = uploadDate {
-            try container.encodeTimestamp(uploadDate, format: .dateTime, forKey: ClientRuntime.Key("uploadDate"))
+            try container.encodeTimestamp(uploadDate, format: .dateTime, forKey: ClientRuntime.Key("UploadDate"))
         }
         if let userName = userName {
             try container.encode(userName, forKey: ClientRuntime.Key("UserName"))
@@ -20272,7 +20272,7 @@ extension IAMClientTypes.ServerCertificateMetadata: Swift.Codable {
             try container.encode(arn, forKey: ClientRuntime.Key("Arn"))
         }
         if let expiration = expiration {
-            try container.encodeTimestamp(expiration, format: .dateTime, forKey: ClientRuntime.Key("expiration"))
+            try container.encodeTimestamp(expiration, format: .dateTime, forKey: ClientRuntime.Key("Expiration"))
         }
         if let path = path {
             try container.encode(path, forKey: ClientRuntime.Key("Path"))
@@ -20284,7 +20284,7 @@ extension IAMClientTypes.ServerCertificateMetadata: Swift.Codable {
             try container.encode(serverCertificateName, forKey: ClientRuntime.Key("ServerCertificateName"))
         }
         if let uploadDate = uploadDate {
-            try container.encodeTimestamp(uploadDate, format: .dateTime, forKey: ClientRuntime.Key("uploadDate"))
+            try container.encodeTimestamp(uploadDate, format: .dateTime, forKey: ClientRuntime.Key("UploadDate"))
         }
     }
 
@@ -20413,7 +20413,7 @@ extension IAMClientTypes.ServiceLastAccessed: Swift.Codable {
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
         if let lastAuthenticated = lastAuthenticated {
-            try container.encodeTimestamp(lastAuthenticated, format: .dateTime, forKey: ClientRuntime.Key("lastAuthenticated"))
+            try container.encodeTimestamp(lastAuthenticated, format: .dateTime, forKey: ClientRuntime.Key("LastAuthenticated"))
         }
         if let lastAuthenticatedEntity = lastAuthenticatedEntity {
             try container.encode(lastAuthenticatedEntity, forKey: ClientRuntime.Key("LastAuthenticatedEntity"))
@@ -20590,7 +20590,7 @@ extension IAMClientTypes.ServiceSpecificCredential: Swift.Codable {
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
         if let createDate = createDate {
-            try container.encodeTimestamp(createDate, format: .dateTime, forKey: ClientRuntime.Key("createDate"))
+            try container.encodeTimestamp(createDate, format: .dateTime, forKey: ClientRuntime.Key("CreateDate"))
         }
         if let serviceName = serviceName {
             try container.encode(serviceName, forKey: ClientRuntime.Key("ServiceName"))
@@ -20696,7 +20696,7 @@ extension IAMClientTypes.ServiceSpecificCredentialMetadata: Swift.Codable {
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
         if let createDate = createDate {
-            try container.encodeTimestamp(createDate, format: .dateTime, forKey: ClientRuntime.Key("createDate"))
+            try container.encodeTimestamp(createDate, format: .dateTime, forKey: ClientRuntime.Key("CreateDate"))
         }
         if let serviceName = serviceName {
             try container.encode(serviceName, forKey: ClientRuntime.Key("ServiceName"))
@@ -20942,7 +20942,7 @@ extension IAMClientTypes.SigningCertificate: Swift.Codable {
             try container.encode(status, forKey: ClientRuntime.Key("Status"))
         }
         if let uploadDate = uploadDate {
-            try container.encodeTimestamp(uploadDate, format: .dateTime, forKey: ClientRuntime.Key("uploadDate"))
+            try container.encodeTimestamp(uploadDate, format: .dateTime, forKey: ClientRuntime.Key("UploadDate"))
         }
         if let userName = userName {
             try container.encode(userName, forKey: ClientRuntime.Key("UserName"))
@@ -22994,7 +22994,7 @@ extension IAMClientTypes.TrackedActionLastAccessed: Swift.Codable {
             try container.encode(lastAccessedRegion, forKey: ClientRuntime.Key("LastAccessedRegion"))
         }
         if let lastAccessedTime = lastAccessedTime {
-            try container.encodeTimestamp(lastAccessedTime, format: .dateTime, forKey: ClientRuntime.Key("lastAccessedTime"))
+            try container.encodeTimestamp(lastAccessedTime, format: .dateTime, forKey: ClientRuntime.Key("LastAccessedTime"))
         }
     }
 
@@ -25905,10 +25905,10 @@ extension IAMClientTypes.User: Swift.Codable {
             try container.encode(arn, forKey: ClientRuntime.Key("Arn"))
         }
         if let createDate = createDate {
-            try container.encodeTimestamp(createDate, format: .dateTime, forKey: ClientRuntime.Key("createDate"))
+            try container.encodeTimestamp(createDate, format: .dateTime, forKey: ClientRuntime.Key("CreateDate"))
         }
         if let passwordLastUsed = passwordLastUsed {
-            try container.encodeTimestamp(passwordLastUsed, format: .dateTime, forKey: ClientRuntime.Key("passwordLastUsed"))
+            try container.encodeTimestamp(passwordLastUsed, format: .dateTime, forKey: ClientRuntime.Key("PasswordLastUsed"))
         }
         if let path = path {
             try container.encode(path, forKey: ClientRuntime.Key("Path"))
@@ -26068,7 +26068,7 @@ extension IAMClientTypes.UserDetail: Swift.Codable {
             }
         }
         if let createDate = createDate {
-            try container.encodeTimestamp(createDate, format: .dateTime, forKey: ClientRuntime.Key("createDate"))
+            try container.encodeTimestamp(createDate, format: .dateTime, forKey: ClientRuntime.Key("CreateDate"))
         }
         if let groupList = groupList {
             if !groupList.isEmpty {
@@ -26281,7 +26281,7 @@ extension IAMClientTypes.VirtualMFADevice: Swift.Codable {
             try container.encode(base32StringSeed.base64EncodedString(), forKey: ClientRuntime.Key("Base32StringSeed"))
         }
         if let enableDate = enableDate {
-            try container.encodeTimestamp(enableDate, format: .dateTime, forKey: ClientRuntime.Key("enableDate"))
+            try container.encodeTimestamp(enableDate, format: .dateTime, forKey: ClientRuntime.Key("EnableDate"))
         }
         if let qrCodePNG = qrCodePNG {
             try container.encode(qrCodePNG.base64EncodedString(), forKey: ClientRuntime.Key("QRCodePNG"))

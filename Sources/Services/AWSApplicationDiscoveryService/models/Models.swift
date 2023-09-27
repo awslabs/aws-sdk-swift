@@ -219,6 +219,12 @@ extension ApplicationDiscoveryClientTypes.AgentNetworkInfo: Swift.Codable {
     }
 }
 
+extension ApplicationDiscoveryClientTypes.AgentNetworkInfo: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CONTENT_REDACTED"
+    }
+}
+
 extension ApplicationDiscoveryClientTypes {
     /// Network details about the host where the agent/collector resides.
     public struct AgentNetworkInfo: Swift.Equatable {

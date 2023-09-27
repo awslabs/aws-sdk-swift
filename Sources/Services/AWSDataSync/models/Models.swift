@@ -11164,7 +11164,7 @@ extension DataSyncClientTypes {
         public var skipped: DataSyncClientTypes.ReportOverride?
         /// Specifies the level of reporting for the files, objects, and directories that DataSync attempted to transfer.
         public var transferred: DataSyncClientTypes.ReportOverride?
-        /// Specifies the level of reporting for the files, objects, and directories that DataSync attempted to verify at the end of your transfer. This only applies if you [configure your task](https://docs.aws.amazon.com/datasync/latest/userguide/configure-data-verification-options.html) to verify data during and after the transfer (which DataSync does by default).
+        /// Specifies the level of reporting for the files, objects, and directories that DataSync attempted to verify at the end of your transfer.
         public var verified: DataSyncClientTypes.ReportOverride?
 
         public init(

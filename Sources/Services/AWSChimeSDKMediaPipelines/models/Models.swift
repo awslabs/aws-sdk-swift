@@ -2738,6 +2738,350 @@ extension CreateMediaLiveConnectorPipelineOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension CreateMediaPipelineKinesisVideoStreamPoolInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CreateMediaPipelineKinesisVideoStreamPoolInput(poolName: \(Swift.String(describing: poolName)), streamConfiguration: \(Swift.String(describing: streamConfiguration)), tags: \(Swift.String(describing: tags)), clientRequestToken: \"CONTENT_REDACTED\")"}
+}
+
+extension CreateMediaPipelineKinesisVideoStreamPoolInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientRequestToken = "ClientRequestToken"
+        case poolName = "PoolName"
+        case streamConfiguration = "StreamConfiguration"
+        case tags = "Tags"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let clientRequestToken = self.clientRequestToken {
+            try encodeContainer.encode(clientRequestToken, forKey: .clientRequestToken)
+        }
+        if let poolName = self.poolName {
+            try encodeContainer.encode(poolName, forKey: .poolName)
+        }
+        if let streamConfiguration = self.streamConfiguration {
+            try encodeContainer.encode(streamConfiguration, forKey: .streamConfiguration)
+        }
+        if let tags = tags {
+            var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
+            }
+        }
+    }
+}
+
+extension CreateMediaPipelineKinesisVideoStreamPoolInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/media-pipeline-kinesis-video-stream-pools"
+    }
+}
+
+public struct CreateMediaPipelineKinesisVideoStreamPoolInput: Swift.Equatable {
+    /// The token assigned to the client making the request.
+    public var clientRequestToken: Swift.String?
+    /// The name of the video stream pool.
+    /// This member is required.
+    public var poolName: Swift.String?
+    /// The configuration settings for the video stream.
+    /// This member is required.
+    public var streamConfiguration: ChimeSDKMediaPipelinesClientTypes.KinesisVideoStreamConfiguration?
+    /// The tags assigned to the video stream pool.
+    public var tags: [ChimeSDKMediaPipelinesClientTypes.Tag]?
+
+    public init(
+        clientRequestToken: Swift.String? = nil,
+        poolName: Swift.String? = nil,
+        streamConfiguration: ChimeSDKMediaPipelinesClientTypes.KinesisVideoStreamConfiguration? = nil,
+        tags: [ChimeSDKMediaPipelinesClientTypes.Tag]? = nil
+    )
+    {
+        self.clientRequestToken = clientRequestToken
+        self.poolName = poolName
+        self.streamConfiguration = streamConfiguration
+        self.tags = tags
+    }
+}
+
+struct CreateMediaPipelineKinesisVideoStreamPoolInputBody: Swift.Equatable {
+    let streamConfiguration: ChimeSDKMediaPipelinesClientTypes.KinesisVideoStreamConfiguration?
+    let poolName: Swift.String?
+    let clientRequestToken: Swift.String?
+    let tags: [ChimeSDKMediaPipelinesClientTypes.Tag]?
+}
+
+extension CreateMediaPipelineKinesisVideoStreamPoolInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientRequestToken = "ClientRequestToken"
+        case poolName = "PoolName"
+        case streamConfiguration = "StreamConfiguration"
+        case tags = "Tags"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let streamConfigurationDecoded = try containerValues.decodeIfPresent(ChimeSDKMediaPipelinesClientTypes.KinesisVideoStreamConfiguration.self, forKey: .streamConfiguration)
+        streamConfiguration = streamConfigurationDecoded
+        let poolNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .poolName)
+        poolName = poolNameDecoded
+        let clientRequestTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientRequestToken)
+        clientRequestToken = clientRequestTokenDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([ChimeSDKMediaPipelinesClientTypes.Tag?].self, forKey: .tags)
+        var tagsDecoded0:[ChimeSDKMediaPipelinesClientTypes.Tag]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [ChimeSDKMediaPipelinesClientTypes.Tag]()
+            for structure0 in tagsContainer {
+                if let structure0 = structure0 {
+                    tagsDecoded0?.append(structure0)
+                }
+            }
+        }
+        tags = tagsDecoded0
+    }
+}
+
+public enum CreateMediaPipelineKinesisVideoStreamPoolOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceLimitExceededException": return try await ResourceLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceFailureException": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottledClientException": return try await ThrottledClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnauthorizedClientException": return try await UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension CreateMediaPipelineKinesisVideoStreamPoolOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CreateMediaPipelineKinesisVideoStreamPoolOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.kinesisVideoStreamPoolConfiguration = output.kinesisVideoStreamPoolConfiguration
+        } else {
+            self.kinesisVideoStreamPoolConfiguration = nil
+        }
+    }
+}
+
+public struct CreateMediaPipelineKinesisVideoStreamPoolOutputResponse: Swift.Equatable {
+    /// The configuration for the Kinesis video stream pool.
+    public var kinesisVideoStreamPoolConfiguration: ChimeSDKMediaPipelinesClientTypes.KinesisVideoStreamPoolConfiguration?
+
+    public init(
+        kinesisVideoStreamPoolConfiguration: ChimeSDKMediaPipelinesClientTypes.KinesisVideoStreamPoolConfiguration? = nil
+    )
+    {
+        self.kinesisVideoStreamPoolConfiguration = kinesisVideoStreamPoolConfiguration
+    }
+}
+
+struct CreateMediaPipelineKinesisVideoStreamPoolOutputResponseBody: Swift.Equatable {
+    let kinesisVideoStreamPoolConfiguration: ChimeSDKMediaPipelinesClientTypes.KinesisVideoStreamPoolConfiguration?
+}
+
+extension CreateMediaPipelineKinesisVideoStreamPoolOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case kinesisVideoStreamPoolConfiguration = "KinesisVideoStreamPoolConfiguration"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let kinesisVideoStreamPoolConfigurationDecoded = try containerValues.decodeIfPresent(ChimeSDKMediaPipelinesClientTypes.KinesisVideoStreamPoolConfiguration.self, forKey: .kinesisVideoStreamPoolConfiguration)
+        kinesisVideoStreamPoolConfiguration = kinesisVideoStreamPoolConfigurationDecoded
+    }
+}
+
+extension CreateMediaStreamPipelineInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CreateMediaStreamPipelineInput(sinks: \(Swift.String(describing: sinks)), sources: \(Swift.String(describing: sources)), tags: \(Swift.String(describing: tags)), clientRequestToken: \"CONTENT_REDACTED\")"}
+}
+
+extension CreateMediaStreamPipelineInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientRequestToken = "ClientRequestToken"
+        case sinks = "Sinks"
+        case sources = "Sources"
+        case tags = "Tags"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let clientRequestToken = self.clientRequestToken {
+            try encodeContainer.encode(clientRequestToken, forKey: .clientRequestToken)
+        }
+        if let sinks = sinks {
+            var sinksContainer = encodeContainer.nestedUnkeyedContainer(forKey: .sinks)
+            for mediastreamsink0 in sinks {
+                try sinksContainer.encode(mediastreamsink0)
+            }
+        }
+        if let sources = sources {
+            var sourcesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .sources)
+            for mediastreamsource0 in sources {
+                try sourcesContainer.encode(mediastreamsource0)
+            }
+        }
+        if let tags = tags {
+            var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
+            }
+        }
+    }
+}
+
+extension CreateMediaStreamPipelineInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/sdk-media-stream-pipelines"
+    }
+}
+
+public struct CreateMediaStreamPipelineInput: Swift.Equatable {
+    /// The token assigned to the client making the request.
+    public var clientRequestToken: Swift.String?
+    /// The data sink for the media pipeline.
+    /// This member is required.
+    public var sinks: [ChimeSDKMediaPipelinesClientTypes.MediaStreamSink]?
+    /// The data sources for the media pipeline.
+    /// This member is required.
+    public var sources: [ChimeSDKMediaPipelinesClientTypes.MediaStreamSource]?
+    /// The tags assigned to the media pipeline.
+    public var tags: [ChimeSDKMediaPipelinesClientTypes.Tag]?
+
+    public init(
+        clientRequestToken: Swift.String? = nil,
+        sinks: [ChimeSDKMediaPipelinesClientTypes.MediaStreamSink]? = nil,
+        sources: [ChimeSDKMediaPipelinesClientTypes.MediaStreamSource]? = nil,
+        tags: [ChimeSDKMediaPipelinesClientTypes.Tag]? = nil
+    )
+    {
+        self.clientRequestToken = clientRequestToken
+        self.sinks = sinks
+        self.sources = sources
+        self.tags = tags
+    }
+}
+
+struct CreateMediaStreamPipelineInputBody: Swift.Equatable {
+    let sources: [ChimeSDKMediaPipelinesClientTypes.MediaStreamSource]?
+    let sinks: [ChimeSDKMediaPipelinesClientTypes.MediaStreamSink]?
+    let clientRequestToken: Swift.String?
+    let tags: [ChimeSDKMediaPipelinesClientTypes.Tag]?
+}
+
+extension CreateMediaStreamPipelineInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientRequestToken = "ClientRequestToken"
+        case sinks = "Sinks"
+        case sources = "Sources"
+        case tags = "Tags"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let sourcesContainer = try containerValues.decodeIfPresent([ChimeSDKMediaPipelinesClientTypes.MediaStreamSource?].self, forKey: .sources)
+        var sourcesDecoded0:[ChimeSDKMediaPipelinesClientTypes.MediaStreamSource]? = nil
+        if let sourcesContainer = sourcesContainer {
+            sourcesDecoded0 = [ChimeSDKMediaPipelinesClientTypes.MediaStreamSource]()
+            for structure0 in sourcesContainer {
+                if let structure0 = structure0 {
+                    sourcesDecoded0?.append(structure0)
+                }
+            }
+        }
+        sources = sourcesDecoded0
+        let sinksContainer = try containerValues.decodeIfPresent([ChimeSDKMediaPipelinesClientTypes.MediaStreamSink?].self, forKey: .sinks)
+        var sinksDecoded0:[ChimeSDKMediaPipelinesClientTypes.MediaStreamSink]? = nil
+        if let sinksContainer = sinksContainer {
+            sinksDecoded0 = [ChimeSDKMediaPipelinesClientTypes.MediaStreamSink]()
+            for structure0 in sinksContainer {
+                if let structure0 = structure0 {
+                    sinksDecoded0?.append(structure0)
+                }
+            }
+        }
+        sinks = sinksDecoded0
+        let clientRequestTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientRequestToken)
+        clientRequestToken = clientRequestTokenDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([ChimeSDKMediaPipelinesClientTypes.Tag?].self, forKey: .tags)
+        var tagsDecoded0:[ChimeSDKMediaPipelinesClientTypes.Tag]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [ChimeSDKMediaPipelinesClientTypes.Tag]()
+            for structure0 in tagsContainer {
+                if let structure0 = structure0 {
+                    tagsDecoded0?.append(structure0)
+                }
+            }
+        }
+        tags = tagsDecoded0
+    }
+}
+
+public enum CreateMediaStreamPipelineOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceLimitExceededException": return try await ResourceLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceFailureException": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottledClientException": return try await ThrottledClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnauthorizedClientException": return try await UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension CreateMediaStreamPipelineOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CreateMediaStreamPipelineOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.mediaStreamPipeline = output.mediaStreamPipeline
+        } else {
+            self.mediaStreamPipeline = nil
+        }
+    }
+}
+
+public struct CreateMediaStreamPipelineOutputResponse: Swift.Equatable {
+    /// The requested media pipeline.
+    public var mediaStreamPipeline: ChimeSDKMediaPipelinesClientTypes.MediaStreamPipeline?
+
+    public init(
+        mediaStreamPipeline: ChimeSDKMediaPipelinesClientTypes.MediaStreamPipeline? = nil
+    )
+    {
+        self.mediaStreamPipeline = mediaStreamPipeline
+    }
+}
+
+struct CreateMediaStreamPipelineOutputResponseBody: Swift.Equatable {
+    let mediaStreamPipeline: ChimeSDKMediaPipelinesClientTypes.MediaStreamPipeline?
+}
+
+extension CreateMediaStreamPipelineOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case mediaStreamPipeline = "MediaStreamPipeline"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let mediaStreamPipelineDecoded = try containerValues.decodeIfPresent(ChimeSDKMediaPipelinesClientTypes.MediaStreamPipeline.self, forKey: .mediaStreamPipeline)
+        mediaStreamPipeline = mediaStreamPipelineDecoded
+    }
+}
+
 extension ChimeSDKMediaPipelinesClientTypes.DataChannelConcatenationConfiguration: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case state = "State"
@@ -2920,6 +3264,65 @@ extension DeleteMediaPipelineInputBody: Swift.Decodable {
 
     public init(from decoder: Swift.Decoder) throws {
     }
+}
+
+extension DeleteMediaPipelineKinesisVideoStreamPoolInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let identifier = identifier else {
+            return nil
+        }
+        return "/media-pipeline-kinesis-video-stream-pools/\(identifier.urlPercentEncoding())"
+    }
+}
+
+public struct DeleteMediaPipelineKinesisVideoStreamPoolInput: Swift.Equatable {
+    /// The ID of the pool being deleted.
+    /// This member is required.
+    public var identifier: Swift.String?
+
+    public init(
+        identifier: Swift.String? = nil
+    )
+    {
+        self.identifier = identifier
+    }
+}
+
+struct DeleteMediaPipelineKinesisVideoStreamPoolInputBody: Swift.Equatable {
+}
+
+extension DeleteMediaPipelineKinesisVideoStreamPoolInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+public enum DeleteMediaPipelineKinesisVideoStreamPoolOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceFailureException": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottledClientException": return try await ThrottledClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnauthorizedClientException": return try await UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension DeleteMediaPipelineKinesisVideoStreamPoolOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteMediaPipelineKinesisVideoStreamPoolOutputResponse: Swift.Equatable {
+
+    public init() { }
 }
 
 public enum DeleteMediaPipelineOutputError: ClientRuntime.HttpResponseErrorBinding {
@@ -3368,6 +3771,94 @@ extension GetMediaPipelineInputBody: Swift.Decodable {
     }
 }
 
+extension GetMediaPipelineKinesisVideoStreamPoolInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let identifier = identifier else {
+            return nil
+        }
+        return "/media-pipeline-kinesis-video-stream-pools/\(identifier.urlPercentEncoding())"
+    }
+}
+
+public struct GetMediaPipelineKinesisVideoStreamPoolInput: Swift.Equatable {
+    /// The ID of the video stream pool.
+    /// This member is required.
+    public var identifier: Swift.String?
+
+    public init(
+        identifier: Swift.String? = nil
+    )
+    {
+        self.identifier = identifier
+    }
+}
+
+struct GetMediaPipelineKinesisVideoStreamPoolInputBody: Swift.Equatable {
+}
+
+extension GetMediaPipelineKinesisVideoStreamPoolInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+public enum GetMediaPipelineKinesisVideoStreamPoolOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceFailureException": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottledClientException": return try await ThrottledClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnauthorizedClientException": return try await UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension GetMediaPipelineKinesisVideoStreamPoolOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetMediaPipelineKinesisVideoStreamPoolOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.kinesisVideoStreamPoolConfiguration = output.kinesisVideoStreamPoolConfiguration
+        } else {
+            self.kinesisVideoStreamPoolConfiguration = nil
+        }
+    }
+}
+
+public struct GetMediaPipelineKinesisVideoStreamPoolOutputResponse: Swift.Equatable {
+    /// The video stream pool configuration object.
+    public var kinesisVideoStreamPoolConfiguration: ChimeSDKMediaPipelinesClientTypes.KinesisVideoStreamPoolConfiguration?
+
+    public init(
+        kinesisVideoStreamPoolConfiguration: ChimeSDKMediaPipelinesClientTypes.KinesisVideoStreamPoolConfiguration? = nil
+    )
+    {
+        self.kinesisVideoStreamPoolConfiguration = kinesisVideoStreamPoolConfiguration
+    }
+}
+
+struct GetMediaPipelineKinesisVideoStreamPoolOutputResponseBody: Swift.Equatable {
+    let kinesisVideoStreamPoolConfiguration: ChimeSDKMediaPipelinesClientTypes.KinesisVideoStreamPoolConfiguration?
+}
+
+extension GetMediaPipelineKinesisVideoStreamPoolOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case kinesisVideoStreamPoolConfiguration = "KinesisVideoStreamPoolConfiguration"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let kinesisVideoStreamPoolConfigurationDecoded = try containerValues.decodeIfPresent(ChimeSDKMediaPipelinesClientTypes.KinesisVideoStreamPoolConfiguration.self, forKey: .kinesisVideoStreamPoolConfiguration)
+        kinesisVideoStreamPoolConfiguration = kinesisVideoStreamPoolConfigurationDecoded
+    }
+}
+
 public enum GetMediaPipelineOutputError: ClientRuntime.HttpResponseErrorBinding {
     public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
@@ -3537,7 +4028,7 @@ public struct GetVoiceToneAnalysisTaskInput: Swift.Equatable {
     /// The unique identifier of the resource to be updated. Valid values include the ID and ARN of the media insights pipeline.
     /// This member is required.
     public var identifier: Swift.String?
-    /// The ID of the voice tone anlysis task.
+    /// The ID of the voice tone analysis task.
     /// This member is required.
     public var voiceToneAnalysisTaskId: Swift.String?
 
@@ -3797,7 +4288,7 @@ extension ChimeSDKMediaPipelinesClientTypes.HorizontalLayoutConfiguration: Swift
 extension ChimeSDKMediaPipelinesClientTypes {
     /// Defines the configuration settings for the horizontal layout.
     public struct HorizontalLayoutConfiguration: Swift.Equatable {
-        /// Sets the aspect ratio of the video tiles, such as 16:9.
+        /// Specifies the aspect ratio of all video tiles.
         public var tileAspectRatio: Swift.String?
         /// The maximum number of video tiles to display.
         public var tileCount: Swift.Int?
@@ -3994,6 +4485,298 @@ extension ChimeSDKMediaPipelinesClientTypes {
         )
         {
             self.insightsTarget = insightsTarget
+        }
+    }
+
+}
+
+extension ChimeSDKMediaPipelinesClientTypes.KinesisVideoStreamConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case dataRetentionInHours = "DataRetentionInHours"
+        case region = "Region"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let dataRetentionInHours = self.dataRetentionInHours {
+            try encodeContainer.encode(dataRetentionInHours, forKey: .dataRetentionInHours)
+        }
+        if let region = self.region {
+            try encodeContainer.encode(region, forKey: .region)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let regionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .region)
+        region = regionDecoded
+        let dataRetentionInHoursDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .dataRetentionInHours)
+        dataRetentionInHours = dataRetentionInHoursDecoded
+    }
+}
+
+extension ChimeSDKMediaPipelinesClientTypes {
+    /// The configuration of an Kinesis video stream.
+    public struct KinesisVideoStreamConfiguration: Swift.Equatable {
+        /// The amount of time that data is retained.
+        public var dataRetentionInHours: Swift.Int?
+        /// The Amazon Web Services Region of the video stream.
+        /// This member is required.
+        public var region: Swift.String?
+
+        public init(
+            dataRetentionInHours: Swift.Int? = nil,
+            region: Swift.String? = nil
+        )
+        {
+            self.dataRetentionInHours = dataRetentionInHours
+            self.region = region
+        }
+    }
+
+}
+
+extension ChimeSDKMediaPipelinesClientTypes.KinesisVideoStreamConfigurationUpdate: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case dataRetentionInHours = "DataRetentionInHours"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let dataRetentionInHours = self.dataRetentionInHours {
+            try encodeContainer.encode(dataRetentionInHours, forKey: .dataRetentionInHours)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let dataRetentionInHoursDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .dataRetentionInHours)
+        dataRetentionInHours = dataRetentionInHoursDecoded
+    }
+}
+
+extension ChimeSDKMediaPipelinesClientTypes {
+    /// The updated Kinesis video stream configuration object.
+    public struct KinesisVideoStreamConfigurationUpdate: Swift.Equatable {
+        /// The updated time that data is retained.
+        public var dataRetentionInHours: Swift.Int?
+
+        public init(
+            dataRetentionInHours: Swift.Int? = nil
+        )
+        {
+            self.dataRetentionInHours = dataRetentionInHours
+        }
+    }
+
+}
+
+extension ChimeSDKMediaPipelinesClientTypes.KinesisVideoStreamPoolConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case createdTimestamp = "CreatedTimestamp"
+        case poolArn = "PoolArn"
+        case poolId = "PoolId"
+        case poolName = "PoolName"
+        case poolSize = "PoolSize"
+        case poolStatus = "PoolStatus"
+        case streamConfiguration = "StreamConfiguration"
+        case updatedTimestamp = "UpdatedTimestamp"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let createdTimestamp = self.createdTimestamp {
+            try encodeContainer.encodeTimestamp(createdTimestamp, format: .dateTime, forKey: .createdTimestamp)
+        }
+        if let poolArn = self.poolArn {
+            try encodeContainer.encode(poolArn, forKey: .poolArn)
+        }
+        if let poolId = self.poolId {
+            try encodeContainer.encode(poolId, forKey: .poolId)
+        }
+        if let poolName = self.poolName {
+            try encodeContainer.encode(poolName, forKey: .poolName)
+        }
+        if let poolSize = self.poolSize {
+            try encodeContainer.encode(poolSize, forKey: .poolSize)
+        }
+        if let poolStatus = self.poolStatus {
+            try encodeContainer.encode(poolStatus.rawValue, forKey: .poolStatus)
+        }
+        if let streamConfiguration = self.streamConfiguration {
+            try encodeContainer.encode(streamConfiguration, forKey: .streamConfiguration)
+        }
+        if let updatedTimestamp = self.updatedTimestamp {
+            try encodeContainer.encodeTimestamp(updatedTimestamp, format: .dateTime, forKey: .updatedTimestamp)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let poolArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .poolArn)
+        poolArn = poolArnDecoded
+        let poolNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .poolName)
+        poolName = poolNameDecoded
+        let poolIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .poolId)
+        poolId = poolIdDecoded
+        let poolStatusDecoded = try containerValues.decodeIfPresent(ChimeSDKMediaPipelinesClientTypes.KinesisVideoStreamPoolStatus.self, forKey: .poolStatus)
+        poolStatus = poolStatusDecoded
+        let poolSizeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .poolSize)
+        poolSize = poolSizeDecoded
+        let streamConfigurationDecoded = try containerValues.decodeIfPresent(ChimeSDKMediaPipelinesClientTypes.KinesisVideoStreamConfiguration.self, forKey: .streamConfiguration)
+        streamConfiguration = streamConfigurationDecoded
+        let createdTimestampDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .createdTimestamp)
+        createdTimestamp = createdTimestampDecoded
+        let updatedTimestampDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .updatedTimestamp)
+        updatedTimestamp = updatedTimestampDecoded
+    }
+}
+
+extension ChimeSDKMediaPipelinesClientTypes.KinesisVideoStreamPoolConfiguration: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "KinesisVideoStreamPoolConfiguration(createdTimestamp: \(Swift.String(describing: createdTimestamp)), poolId: \(Swift.String(describing: poolId)), poolName: \(Swift.String(describing: poolName)), poolSize: \(Swift.String(describing: poolSize)), poolStatus: \(Swift.String(describing: poolStatus)), streamConfiguration: \(Swift.String(describing: streamConfiguration)), updatedTimestamp: \(Swift.String(describing: updatedTimestamp)), poolArn: \"CONTENT_REDACTED\")"}
+}
+
+extension ChimeSDKMediaPipelinesClientTypes {
+    /// The video stream pool configuration object.
+    public struct KinesisVideoStreamPoolConfiguration: Swift.Equatable {
+        /// The time at which the configuration was created.
+        public var createdTimestamp: ClientRuntime.Date?
+        /// The ARN of the video stream pool configuration.
+        public var poolArn: Swift.String?
+        /// The ID of the video stream pool in the configuration.
+        public var poolId: Swift.String?
+        /// The name of the video stream pool configuration.
+        public var poolName: Swift.String?
+        /// The size of the video stream pool in the configuration.
+        public var poolSize: Swift.Int?
+        /// The status of the video stream pool in the configuration.
+        public var poolStatus: ChimeSDKMediaPipelinesClientTypes.KinesisVideoStreamPoolStatus?
+        /// The Kinesis video stream pool configuration object.
+        public var streamConfiguration: ChimeSDKMediaPipelinesClientTypes.KinesisVideoStreamConfiguration?
+        /// The time at which the configuration was updated.
+        public var updatedTimestamp: ClientRuntime.Date?
+
+        public init(
+            createdTimestamp: ClientRuntime.Date? = nil,
+            poolArn: Swift.String? = nil,
+            poolId: Swift.String? = nil,
+            poolName: Swift.String? = nil,
+            poolSize: Swift.Int? = nil,
+            poolStatus: ChimeSDKMediaPipelinesClientTypes.KinesisVideoStreamPoolStatus? = nil,
+            streamConfiguration: ChimeSDKMediaPipelinesClientTypes.KinesisVideoStreamConfiguration? = nil,
+            updatedTimestamp: ClientRuntime.Date? = nil
+        )
+        {
+            self.createdTimestamp = createdTimestamp
+            self.poolArn = poolArn
+            self.poolId = poolId
+            self.poolName = poolName
+            self.poolSize = poolSize
+            self.poolStatus = poolStatus
+            self.streamConfiguration = streamConfiguration
+            self.updatedTimestamp = updatedTimestamp
+        }
+    }
+
+}
+
+extension ChimeSDKMediaPipelinesClientTypes {
+    public enum KinesisVideoStreamPoolStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case active
+        case creating
+        case deleting
+        case failed
+        case updating
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [KinesisVideoStreamPoolStatus] {
+            return [
+                .active,
+                .creating,
+                .deleting,
+                .failed,
+                .updating,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "ACTIVE"
+            case .creating: return "CREATING"
+            case .deleting: return "DELETING"
+            case .failed: return "FAILED"
+            case .updating: return "UPDATING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = KinesisVideoStreamPoolStatus(rawValue: rawValue) ?? KinesisVideoStreamPoolStatus.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension ChimeSDKMediaPipelinesClientTypes.KinesisVideoStreamPoolSummary: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case poolArn = "PoolArn"
+        case poolId = "PoolId"
+        case poolName = "PoolName"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let poolArn = self.poolArn {
+            try encodeContainer.encode(poolArn, forKey: .poolArn)
+        }
+        if let poolId = self.poolId {
+            try encodeContainer.encode(poolId, forKey: .poolId)
+        }
+        if let poolName = self.poolName {
+            try encodeContainer.encode(poolName, forKey: .poolName)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let poolNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .poolName)
+        poolName = poolNameDecoded
+        let poolIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .poolId)
+        poolId = poolIdDecoded
+        let poolArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .poolArn)
+        poolArn = poolArnDecoded
+    }
+}
+
+extension ChimeSDKMediaPipelinesClientTypes.KinesisVideoStreamPoolSummary: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "KinesisVideoStreamPoolSummary(poolId: \(Swift.String(describing: poolId)), poolName: \(Swift.String(describing: poolName)), poolArn: \"CONTENT_REDACTED\")"}
+}
+
+extension ChimeSDKMediaPipelinesClientTypes {
+    /// A summary of the Kinesis video stream pool.
+    public struct KinesisVideoStreamPoolSummary: Swift.Equatable {
+        /// The ARN of the video stream pool.
+        public var poolArn: Swift.String?
+        /// The ID of the video stream pool.
+        public var poolId: Swift.String?
+        /// The name of the video stream pool.
+        public var poolName: Swift.String?
+
+        public init(
+            poolArn: Swift.String? = nil,
+            poolId: Swift.String? = nil,
+            poolName: Swift.String? = nil
+        )
+        {
+            self.poolArn = poolArn
+            self.poolId = poolId
+            self.poolName = poolName
         }
     }
 
@@ -4497,6 +5280,130 @@ extension ListMediaInsightsPipelineConfigurationsOutputResponseBody: Swift.Decod
             }
         }
         mediaInsightsPipelineConfigurations = mediaInsightsPipelineConfigurationsDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+extension ListMediaPipelineKinesisVideoStreamPoolsInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let nextToken = nextToken {
+                let nextTokenQueryItem = ClientRuntime.URLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+                items.append(nextTokenQueryItem)
+            }
+            if let maxResults = maxResults {
+                let maxResultsQueryItem = ClientRuntime.URLQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+                items.append(maxResultsQueryItem)
+            }
+            return items
+        }
+    }
+}
+
+extension ListMediaPipelineKinesisVideoStreamPoolsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/media-pipeline-kinesis-video-stream-pools"
+    }
+}
+
+public struct ListMediaPipelineKinesisVideoStreamPoolsInput: Swift.Equatable {
+    /// The maximum number of results to return in a single call.
+    public var maxResults: Swift.Int?
+    /// The token used to return the next page of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+struct ListMediaPipelineKinesisVideoStreamPoolsInputBody: Swift.Equatable {
+}
+
+extension ListMediaPipelineKinesisVideoStreamPoolsInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+public enum ListMediaPipelineKinesisVideoStreamPoolsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceLimitExceededException": return try await ResourceLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceFailureException": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottledClientException": return try await ThrottledClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnauthorizedClientException": return try await UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension ListMediaPipelineKinesisVideoStreamPoolsOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ListMediaPipelineKinesisVideoStreamPoolsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.kinesisVideoStreamPools = output.kinesisVideoStreamPools
+            self.nextToken = output.nextToken
+        } else {
+            self.kinesisVideoStreamPools = nil
+            self.nextToken = nil
+        }
+    }
+}
+
+public struct ListMediaPipelineKinesisVideoStreamPoolsOutputResponse: Swift.Equatable {
+    /// The list of video stream pools.
+    public var kinesisVideoStreamPools: [ChimeSDKMediaPipelinesClientTypes.KinesisVideoStreamPoolSummary]?
+    /// The token used to return the next page of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        kinesisVideoStreamPools: [ChimeSDKMediaPipelinesClientTypes.KinesisVideoStreamPoolSummary]? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.kinesisVideoStreamPools = kinesisVideoStreamPools
+        self.nextToken = nextToken
+    }
+}
+
+struct ListMediaPipelineKinesisVideoStreamPoolsOutputResponseBody: Swift.Equatable {
+    let kinesisVideoStreamPools: [ChimeSDKMediaPipelinesClientTypes.KinesisVideoStreamPoolSummary]?
+    let nextToken: Swift.String?
+}
+
+extension ListMediaPipelineKinesisVideoStreamPoolsOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case kinesisVideoStreamPools = "KinesisVideoStreamPools"
+        case nextToken = "NextToken"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let kinesisVideoStreamPoolsContainer = try containerValues.decodeIfPresent([ChimeSDKMediaPipelinesClientTypes.KinesisVideoStreamPoolSummary?].self, forKey: .kinesisVideoStreamPools)
+        var kinesisVideoStreamPoolsDecoded0:[ChimeSDKMediaPipelinesClientTypes.KinesisVideoStreamPoolSummary]? = nil
+        if let kinesisVideoStreamPoolsContainer = kinesisVideoStreamPoolsContainer {
+            kinesisVideoStreamPoolsDecoded0 = [ChimeSDKMediaPipelinesClientTypes.KinesisVideoStreamPoolSummary]()
+            for structure0 in kinesisVideoStreamPoolsContainer {
+                if let structure0 = structure0 {
+                    kinesisVideoStreamPoolsDecoded0?.append(structure0)
+                }
+            }
+        }
+        kinesisVideoStreamPools = kinesisVideoStreamPoolsDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
     }
@@ -6040,6 +6947,7 @@ extension ChimeSDKMediaPipelinesClientTypes.MediaPipeline: Swift.Codable {
         case mediaConcatenationPipeline = "MediaConcatenationPipeline"
         case mediaInsightsPipeline = "MediaInsightsPipeline"
         case mediaLiveConnectorPipeline = "MediaLiveConnectorPipeline"
+        case mediaStreamPipeline = "MediaStreamPipeline"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -6056,6 +6964,9 @@ extension ChimeSDKMediaPipelinesClientTypes.MediaPipeline: Swift.Codable {
         if let mediaLiveConnectorPipeline = self.mediaLiveConnectorPipeline {
             try encodeContainer.encode(mediaLiveConnectorPipeline, forKey: .mediaLiveConnectorPipeline)
         }
+        if let mediaStreamPipeline = self.mediaStreamPipeline {
+            try encodeContainer.encode(mediaStreamPipeline, forKey: .mediaStreamPipeline)
+        }
     }
 
     public init(from decoder: Swift.Decoder) throws {
@@ -6068,6 +6979,8 @@ extension ChimeSDKMediaPipelinesClientTypes.MediaPipeline: Swift.Codable {
         mediaConcatenationPipeline = mediaConcatenationPipelineDecoded
         let mediaInsightsPipelineDecoded = try containerValues.decodeIfPresent(ChimeSDKMediaPipelinesClientTypes.MediaInsightsPipeline.self, forKey: .mediaInsightsPipeline)
         mediaInsightsPipeline = mediaInsightsPipelineDecoded
+        let mediaStreamPipelineDecoded = try containerValues.decodeIfPresent(ChimeSDKMediaPipelinesClientTypes.MediaStreamPipeline.self, forKey: .mediaStreamPipeline)
+        mediaStreamPipeline = mediaStreamPipelineDecoded
     }
 }
 
@@ -6082,18 +6995,22 @@ extension ChimeSDKMediaPipelinesClientTypes {
         public var mediaInsightsPipeline: ChimeSDKMediaPipelinesClientTypes.MediaInsightsPipeline?
         /// The connector pipeline of the media pipeline.
         public var mediaLiveConnectorPipeline: ChimeSDKMediaPipelinesClientTypes.MediaLiveConnectorPipeline?
+        /// Designates a media pipeline as a media stream pipeline.
+        public var mediaStreamPipeline: ChimeSDKMediaPipelinesClientTypes.MediaStreamPipeline?
 
         public init(
             mediaCapturePipeline: ChimeSDKMediaPipelinesClientTypes.MediaCapturePipeline? = nil,
             mediaConcatenationPipeline: ChimeSDKMediaPipelinesClientTypes.MediaConcatenationPipeline? = nil,
             mediaInsightsPipeline: ChimeSDKMediaPipelinesClientTypes.MediaInsightsPipeline? = nil,
-            mediaLiveConnectorPipeline: ChimeSDKMediaPipelinesClientTypes.MediaLiveConnectorPipeline? = nil
+            mediaLiveConnectorPipeline: ChimeSDKMediaPipelinesClientTypes.MediaLiveConnectorPipeline? = nil,
+            mediaStreamPipeline: ChimeSDKMediaPipelinesClientTypes.MediaStreamPipeline? = nil
         )
         {
             self.mediaCapturePipeline = mediaCapturePipeline
             self.mediaConcatenationPipeline = mediaConcatenationPipeline
             self.mediaInsightsPipeline = mediaInsightsPipeline
             self.mediaLiveConnectorPipeline = mediaLiveConnectorPipeline
+            self.mediaStreamPipeline = mediaStreamPipeline
         }
     }
 
@@ -6371,6 +7288,312 @@ extension ChimeSDKMediaPipelinesClientTypes {
             let container = try decoder.singleValueContainer()
             let rawValue = try container.decode(RawValue.self)
             self = MediaPipelineTaskStatus(rawValue: rawValue) ?? MediaPipelineTaskStatus.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension ChimeSDKMediaPipelinesClientTypes.MediaStreamPipeline: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case createdTimestamp = "CreatedTimestamp"
+        case mediaPipelineArn = "MediaPipelineArn"
+        case mediaPipelineId = "MediaPipelineId"
+        case sinks = "Sinks"
+        case sources = "Sources"
+        case status = "Status"
+        case updatedTimestamp = "UpdatedTimestamp"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let createdTimestamp = self.createdTimestamp {
+            try encodeContainer.encodeTimestamp(createdTimestamp, format: .dateTime, forKey: .createdTimestamp)
+        }
+        if let mediaPipelineArn = self.mediaPipelineArn {
+            try encodeContainer.encode(mediaPipelineArn, forKey: .mediaPipelineArn)
+        }
+        if let mediaPipelineId = self.mediaPipelineId {
+            try encodeContainer.encode(mediaPipelineId, forKey: .mediaPipelineId)
+        }
+        if let sinks = sinks {
+            var sinksContainer = encodeContainer.nestedUnkeyedContainer(forKey: .sinks)
+            for mediastreamsink0 in sinks {
+                try sinksContainer.encode(mediastreamsink0)
+            }
+        }
+        if let sources = sources {
+            var sourcesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .sources)
+            for mediastreamsource0 in sources {
+                try sourcesContainer.encode(mediastreamsource0)
+            }
+        }
+        if let status = self.status {
+            try encodeContainer.encode(status.rawValue, forKey: .status)
+        }
+        if let updatedTimestamp = self.updatedTimestamp {
+            try encodeContainer.encodeTimestamp(updatedTimestamp, format: .dateTime, forKey: .updatedTimestamp)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let mediaPipelineIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .mediaPipelineId)
+        mediaPipelineId = mediaPipelineIdDecoded
+        let mediaPipelineArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .mediaPipelineArn)
+        mediaPipelineArn = mediaPipelineArnDecoded
+        let createdTimestampDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .createdTimestamp)
+        createdTimestamp = createdTimestampDecoded
+        let updatedTimestampDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .updatedTimestamp)
+        updatedTimestamp = updatedTimestampDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(ChimeSDKMediaPipelinesClientTypes.MediaPipelineStatus.self, forKey: .status)
+        status = statusDecoded
+        let sourcesContainer = try containerValues.decodeIfPresent([ChimeSDKMediaPipelinesClientTypes.MediaStreamSource?].self, forKey: .sources)
+        var sourcesDecoded0:[ChimeSDKMediaPipelinesClientTypes.MediaStreamSource]? = nil
+        if let sourcesContainer = sourcesContainer {
+            sourcesDecoded0 = [ChimeSDKMediaPipelinesClientTypes.MediaStreamSource]()
+            for structure0 in sourcesContainer {
+                if let structure0 = structure0 {
+                    sourcesDecoded0?.append(structure0)
+                }
+            }
+        }
+        sources = sourcesDecoded0
+        let sinksContainer = try containerValues.decodeIfPresent([ChimeSDKMediaPipelinesClientTypes.MediaStreamSink?].self, forKey: .sinks)
+        var sinksDecoded0:[ChimeSDKMediaPipelinesClientTypes.MediaStreamSink]? = nil
+        if let sinksContainer = sinksContainer {
+            sinksDecoded0 = [ChimeSDKMediaPipelinesClientTypes.MediaStreamSink]()
+            for structure0 in sinksContainer {
+                if let structure0 = structure0 {
+                    sinksDecoded0?.append(structure0)
+                }
+            }
+        }
+        sinks = sinksDecoded0
+    }
+}
+
+extension ChimeSDKMediaPipelinesClientTypes {
+    /// Structure that contains the settings for a media stream pipeline.
+    public struct MediaStreamPipeline: Swift.Equatable {
+        /// The time at which the media stream pipeline was created.
+        public var createdTimestamp: ClientRuntime.Date?
+        /// The ARN of the media stream pipeline.
+        public var mediaPipelineArn: Swift.String?
+        /// The ID of the media stream pipeline
+        public var mediaPipelineId: Swift.String?
+        /// The media stream pipeline's data sinks.
+        public var sinks: [ChimeSDKMediaPipelinesClientTypes.MediaStreamSink]?
+        /// The media stream pipeline's data sources.
+        public var sources: [ChimeSDKMediaPipelinesClientTypes.MediaStreamSource]?
+        /// The status of the media stream pipeline.
+        public var status: ChimeSDKMediaPipelinesClientTypes.MediaPipelineStatus?
+        /// The time at which the media stream pipeline was updated.
+        public var updatedTimestamp: ClientRuntime.Date?
+
+        public init(
+            createdTimestamp: ClientRuntime.Date? = nil,
+            mediaPipelineArn: Swift.String? = nil,
+            mediaPipelineId: Swift.String? = nil,
+            sinks: [ChimeSDKMediaPipelinesClientTypes.MediaStreamSink]? = nil,
+            sources: [ChimeSDKMediaPipelinesClientTypes.MediaStreamSource]? = nil,
+            status: ChimeSDKMediaPipelinesClientTypes.MediaPipelineStatus? = nil,
+            updatedTimestamp: ClientRuntime.Date? = nil
+        )
+        {
+            self.createdTimestamp = createdTimestamp
+            self.mediaPipelineArn = mediaPipelineArn
+            self.mediaPipelineId = mediaPipelineId
+            self.sinks = sinks
+            self.sources = sources
+            self.status = status
+            self.updatedTimestamp = updatedTimestamp
+        }
+    }
+
+}
+
+extension ChimeSDKMediaPipelinesClientTypes {
+    public enum MediaStreamPipelineSinkType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case kinesisvideostreampool
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [MediaStreamPipelineSinkType] {
+            return [
+                .kinesisvideostreampool,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .kinesisvideostreampool: return "KinesisVideoStreamPool"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = MediaStreamPipelineSinkType(rawValue: rawValue) ?? MediaStreamPipelineSinkType.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension ChimeSDKMediaPipelinesClientTypes.MediaStreamSink: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case mediaStreamType = "MediaStreamType"
+        case reservedStreamCapacity = "ReservedStreamCapacity"
+        case sinkArn = "SinkArn"
+        case sinkType = "SinkType"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let mediaStreamType = self.mediaStreamType {
+            try encodeContainer.encode(mediaStreamType.rawValue, forKey: .mediaStreamType)
+        }
+        if let reservedStreamCapacity = self.reservedStreamCapacity {
+            try encodeContainer.encode(reservedStreamCapacity, forKey: .reservedStreamCapacity)
+        }
+        if let sinkArn = self.sinkArn {
+            try encodeContainer.encode(sinkArn, forKey: .sinkArn)
+        }
+        if let sinkType = self.sinkType {
+            try encodeContainer.encode(sinkType.rawValue, forKey: .sinkType)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let sinkArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sinkArn)
+        sinkArn = sinkArnDecoded
+        let sinkTypeDecoded = try containerValues.decodeIfPresent(ChimeSDKMediaPipelinesClientTypes.MediaStreamPipelineSinkType.self, forKey: .sinkType)
+        sinkType = sinkTypeDecoded
+        let reservedStreamCapacityDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .reservedStreamCapacity)
+        reservedStreamCapacity = reservedStreamCapacityDecoded
+        let mediaStreamTypeDecoded = try containerValues.decodeIfPresent(ChimeSDKMediaPipelinesClientTypes.MediaStreamType.self, forKey: .mediaStreamType)
+        mediaStreamType = mediaStreamTypeDecoded
+    }
+}
+
+extension ChimeSDKMediaPipelinesClientTypes.MediaStreamSink: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "MediaStreamSink(mediaStreamType: \(Swift.String(describing: mediaStreamType)), reservedStreamCapacity: \(Swift.String(describing: reservedStreamCapacity)), sinkType: \(Swift.String(describing: sinkType)), sinkArn: \"CONTENT_REDACTED\")"}
+}
+
+extension ChimeSDKMediaPipelinesClientTypes {
+    /// Structure that contains the settings for a media stream sink.
+    public struct MediaStreamSink: Swift.Equatable {
+        /// The media stream sink's media stream type.
+        /// This member is required.
+        public var mediaStreamType: ChimeSDKMediaPipelinesClientTypes.MediaStreamType?
+        /// Specifies the number of streams that the sink can accept.
+        /// This member is required.
+        public var reservedStreamCapacity: Swift.Int?
+        /// The ARN of the media stream sink.
+        /// This member is required.
+        public var sinkArn: Swift.String?
+        /// The media stream sink's type.
+        /// This member is required.
+        public var sinkType: ChimeSDKMediaPipelinesClientTypes.MediaStreamPipelineSinkType?
+
+        public init(
+            mediaStreamType: ChimeSDKMediaPipelinesClientTypes.MediaStreamType? = nil,
+            reservedStreamCapacity: Swift.Int? = nil,
+            sinkArn: Swift.String? = nil,
+            sinkType: ChimeSDKMediaPipelinesClientTypes.MediaStreamPipelineSinkType? = nil
+        )
+        {
+            self.mediaStreamType = mediaStreamType
+            self.reservedStreamCapacity = reservedStreamCapacity
+            self.sinkArn = sinkArn
+            self.sinkType = sinkType
+        }
+    }
+
+}
+
+extension ChimeSDKMediaPipelinesClientTypes.MediaStreamSource: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case sourceArn = "SourceArn"
+        case sourceType = "SourceType"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let sourceArn = self.sourceArn {
+            try encodeContainer.encode(sourceArn, forKey: .sourceArn)
+        }
+        if let sourceType = self.sourceType {
+            try encodeContainer.encode(sourceType.rawValue, forKey: .sourceType)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let sourceTypeDecoded = try containerValues.decodeIfPresent(ChimeSDKMediaPipelinesClientTypes.MediaPipelineSourceType.self, forKey: .sourceType)
+        sourceType = sourceTypeDecoded
+        let sourceArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sourceArn)
+        sourceArn = sourceArnDecoded
+    }
+}
+
+extension ChimeSDKMediaPipelinesClientTypes.MediaStreamSource: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "MediaStreamSource(sourceType: \(Swift.String(describing: sourceType)), sourceArn: \"CONTENT_REDACTED\")"}
+}
+
+extension ChimeSDKMediaPipelinesClientTypes {
+    /// Structure that contains the settings for media stream sources.
+    public struct MediaStreamSource: Swift.Equatable {
+        /// The ARN of the media stream source.
+        /// This member is required.
+        public var sourceArn: Swift.String?
+        /// The type of media stream source.
+        /// This member is required.
+        public var sourceType: ChimeSDKMediaPipelinesClientTypes.MediaPipelineSourceType?
+
+        public init(
+            sourceArn: Swift.String? = nil,
+            sourceType: ChimeSDKMediaPipelinesClientTypes.MediaPipelineSourceType? = nil
+        )
+        {
+            self.sourceArn = sourceArn
+            self.sourceType = sourceType
+        }
+    }
+
+}
+
+extension ChimeSDKMediaPipelinesClientTypes {
+    public enum MediaStreamType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case individualaudio
+        case mixedaudio
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [MediaStreamType] {
+            return [
+                .individualaudio,
+                .mixedaudio,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .individualaudio: return "IndividualAudio"
+            case .mixedaudio: return "MixedAudio"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = MediaStreamType(rawValue: rawValue) ?? MediaStreamType.sdkUnknown(rawValue)
         }
     }
 }
@@ -8993,6 +10216,119 @@ extension UpdateMediaInsightsPipelineStatusOutputResponse: ClientRuntime.HttpRes
 public struct UpdateMediaInsightsPipelineStatusOutputResponse: Swift.Equatable {
 
     public init() { }
+}
+
+extension UpdateMediaPipelineKinesisVideoStreamPoolInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case streamConfiguration = "StreamConfiguration"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let streamConfiguration = self.streamConfiguration {
+            try encodeContainer.encode(streamConfiguration, forKey: .streamConfiguration)
+        }
+    }
+}
+
+extension UpdateMediaPipelineKinesisVideoStreamPoolInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        guard let identifier = identifier else {
+            return nil
+        }
+        return "/media-pipeline-kinesis-video-stream-pools/\(identifier.urlPercentEncoding())"
+    }
+}
+
+public struct UpdateMediaPipelineKinesisVideoStreamPoolInput: Swift.Equatable {
+    /// The ID of the video stream pool.
+    /// This member is required.
+    public var identifier: Swift.String?
+    /// The configuration settings for the video stream.
+    public var streamConfiguration: ChimeSDKMediaPipelinesClientTypes.KinesisVideoStreamConfigurationUpdate?
+
+    public init(
+        identifier: Swift.String? = nil,
+        streamConfiguration: ChimeSDKMediaPipelinesClientTypes.KinesisVideoStreamConfigurationUpdate? = nil
+    )
+    {
+        self.identifier = identifier
+        self.streamConfiguration = streamConfiguration
+    }
+}
+
+struct UpdateMediaPipelineKinesisVideoStreamPoolInputBody: Swift.Equatable {
+    let streamConfiguration: ChimeSDKMediaPipelinesClientTypes.KinesisVideoStreamConfigurationUpdate?
+}
+
+extension UpdateMediaPipelineKinesisVideoStreamPoolInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case streamConfiguration = "StreamConfiguration"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let streamConfigurationDecoded = try containerValues.decodeIfPresent(ChimeSDKMediaPipelinesClientTypes.KinesisVideoStreamConfigurationUpdate.self, forKey: .streamConfiguration)
+        streamConfiguration = streamConfigurationDecoded
+    }
+}
+
+public enum UpdateMediaPipelineKinesisVideoStreamPoolOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceFailureException": return try await ServiceFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottledClientException": return try await ThrottledClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnauthorizedClientException": return try await UnauthorizedClientException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension UpdateMediaPipelineKinesisVideoStreamPoolOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: UpdateMediaPipelineKinesisVideoStreamPoolOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.kinesisVideoStreamPoolConfiguration = output.kinesisVideoStreamPoolConfiguration
+        } else {
+            self.kinesisVideoStreamPoolConfiguration = nil
+        }
+    }
+}
+
+public struct UpdateMediaPipelineKinesisVideoStreamPoolOutputResponse: Swift.Equatable {
+    /// The video stream pool configuration object.
+    public var kinesisVideoStreamPoolConfiguration: ChimeSDKMediaPipelinesClientTypes.KinesisVideoStreamPoolConfiguration?
+
+    public init(
+        kinesisVideoStreamPoolConfiguration: ChimeSDKMediaPipelinesClientTypes.KinesisVideoStreamPoolConfiguration? = nil
+    )
+    {
+        self.kinesisVideoStreamPoolConfiguration = kinesisVideoStreamPoolConfiguration
+    }
+}
+
+struct UpdateMediaPipelineKinesisVideoStreamPoolOutputResponseBody: Swift.Equatable {
+    let kinesisVideoStreamPoolConfiguration: ChimeSDKMediaPipelinesClientTypes.KinesisVideoStreamPoolConfiguration?
+}
+
+extension UpdateMediaPipelineKinesisVideoStreamPoolOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case kinesisVideoStreamPoolConfiguration = "KinesisVideoStreamPoolConfiguration"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let kinesisVideoStreamPoolConfigurationDecoded = try containerValues.decodeIfPresent(ChimeSDKMediaPipelinesClientTypes.KinesisVideoStreamPoolConfiguration.self, forKey: .kinesisVideoStreamPoolConfiguration)
+        kinesisVideoStreamPoolConfiguration = kinesisVideoStreamPoolConfigurationDecoded
+    }
 }
 
 extension ChimeSDKMediaPipelinesClientTypes.VerticalLayoutConfiguration: Swift.Codable {

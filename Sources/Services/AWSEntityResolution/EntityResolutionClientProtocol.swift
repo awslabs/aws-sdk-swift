@@ -2,7 +2,7 @@
 
 import ClientRuntime
 
-/// Welcome to the AWS Entity Resolution API Reference. AWS Entity Resolution is an AWS service that provides pre-configured entity resolution capabilities that enable developers and analysts at advertising and marketing companies to build an accurate and complete view of their consumers. With AWS Entity Resolution, you have the ability to match source records containing consumer identifiers, such as name, email address, and phone number. This holds true even when these records have incomplete or conflicting identifiers. For example, AWS Entity Resolution can effectively match a source record from a customer relationship management (CRM) system, which includes account information like first name, last name, postal address, phone number, and email address, with a source record from a marketing system containing campaign information, such as username and email address. To learn more about AWS Entity Resolution concepts, procedures, and best practices, see the [AWS Entity Resolution User Guide](https://docs.aws.amazon.com/entityresolution/latest/userguide/what-is-service.html).
+/// Welcome to the Entity Resolution API Reference. Entity Resolution is an Amazon Web Services service that provides pre-configured entity resolution capabilities that enable developers and analysts at advertising and marketing companies to build an accurate and complete view of their consumers. With Entity Resolution, you can match source records containing consumer identifiers, such as name, email address, and phone number. This is true even when these records have incomplete or conflicting identifiers. For example, Entity Resolution can effectively match a source record from a customer relationship management (CRM) system with a source record from a marketing system containing campaign information. To learn more about Entity Resolution concepts, procedures, and best practices, see the [Entity Resolution User Guide](https://docs.aws.amazon.com/entityresolution/latest/userguide/what-is-service.html).
 public protocol EntityResolutionClientProtocol {
     /// Creates a MatchingWorkflow object which stores the configuration of the data processing job to be run. It is important to note that there should not be a pre-existing MatchingWorkflow with the same name. To modify an existing workflow, utilize the UpdateMatchingWorkflow API.
     ///
@@ -15,10 +15,10 @@ public protocol EntityResolutionClientProtocol {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action. HTTP Status Code: 403
     /// - `ConflictException` : The request could not be processed because of conflict in the current state of the resource. Example: Workflow already exists, Schema already exists, Workflow is currently running, etc. HTTP Status Code: 400
-    /// - `ExceedsLimitException` : The request was rejected because it attempted to create resources beyond the current AWS Entity Resolution account limits. The error message describes the limit exceeded. HTTP Status Code: 402
-    /// - `InternalServerException` : This exception occurs when there is an internal failure in the AWS Entity Resolution service. HTTP Status Code: 500
+    /// - `ExceedsLimitException` : The request was rejected because it attempted to create resources beyond the current Entity Resolution account limits. The error message describes the limit exceeded. HTTP Status Code: 402
+    /// - `InternalServerException` : This exception occurs when there is an internal failure in the Entity Resolution service. HTTP Status Code: 500
     /// - `ThrottlingException` : The request was denied due to request throttling. HTTP Status Code: 429
-    /// - `ValidationException` : The input fails to satisfy the constraints specified by AWS Entity Resolution. HTTP Status Code: 400
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by Entity Resolution. HTTP Status Code: 400
     func createMatchingWorkflow(input: CreateMatchingWorkflowInput) async throws -> CreateMatchingWorkflowOutputResponse
     /// Creates a schema mapping, which defines the schema of the input customer records table. The SchemaMapping also provides Entity Resolution with some metadata about the table, such as the attribute types of the columns and which columns to match on.
     ///
@@ -31,10 +31,10 @@ public protocol EntityResolutionClientProtocol {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action. HTTP Status Code: 403
     /// - `ConflictException` : The request could not be processed because of conflict in the current state of the resource. Example: Workflow already exists, Schema already exists, Workflow is currently running, etc. HTTP Status Code: 400
-    /// - `ExceedsLimitException` : The request was rejected because it attempted to create resources beyond the current AWS Entity Resolution account limits. The error message describes the limit exceeded. HTTP Status Code: 402
-    /// - `InternalServerException` : This exception occurs when there is an internal failure in the AWS Entity Resolution service. HTTP Status Code: 500
+    /// - `ExceedsLimitException` : The request was rejected because it attempted to create resources beyond the current Entity Resolution account limits. The error message describes the limit exceeded. HTTP Status Code: 402
+    /// - `InternalServerException` : This exception occurs when there is an internal failure in the Entity Resolution service. HTTP Status Code: 500
     /// - `ThrottlingException` : The request was denied due to request throttling. HTTP Status Code: 429
-    /// - `ValidationException` : The input fails to satisfy the constraints specified by AWS Entity Resolution. HTTP Status Code: 400
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by Entity Resolution. HTTP Status Code: 400
     func createSchemaMapping(input: CreateSchemaMappingInput) async throws -> CreateSchemaMappingOutputResponse
     /// Deletes the MatchingWorkflow with a given name. This operation will succeed even if a workflow with the given name does not exist.
     ///
@@ -46,9 +46,9 @@ public protocol EntityResolutionClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action. HTTP Status Code: 403
-    /// - `InternalServerException` : This exception occurs when there is an internal failure in the AWS Entity Resolution service. HTTP Status Code: 500
+    /// - `InternalServerException` : This exception occurs when there is an internal failure in the Entity Resolution service. HTTP Status Code: 500
     /// - `ThrottlingException` : The request was denied due to request throttling. HTTP Status Code: 429
-    /// - `ValidationException` : The input fails to satisfy the constraints specified by AWS Entity Resolution. HTTP Status Code: 400
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by Entity Resolution. HTTP Status Code: 400
     func deleteMatchingWorkflow(input: DeleteMatchingWorkflowInput) async throws -> DeleteMatchingWorkflowOutputResponse
     /// Deletes the SchemaMapping with a given name. This operation will succeed even if a schema with the given name does not exist. This operation will fail if there is a DataIntegrationWorkflow object that references the SchemaMapping in the workflow's InputSourceConfig.
     ///
@@ -61,9 +61,9 @@ public protocol EntityResolutionClientProtocol {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action. HTTP Status Code: 403
     /// - `ConflictException` : The request could not be processed because of conflict in the current state of the resource. Example: Workflow already exists, Schema already exists, Workflow is currently running, etc. HTTP Status Code: 400
-    /// - `InternalServerException` : This exception occurs when there is an internal failure in the AWS Entity Resolution service. HTTP Status Code: 500
+    /// - `InternalServerException` : This exception occurs when there is an internal failure in the Entity Resolution service. HTTP Status Code: 500
     /// - `ThrottlingException` : The request was denied due to request throttling. HTTP Status Code: 429
-    /// - `ValidationException` : The input fails to satisfy the constraints specified by AWS Entity Resolution. HTTP Status Code: 400
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by Entity Resolution. HTTP Status Code: 400
     func deleteSchemaMapping(input: DeleteSchemaMappingInput) async throws -> DeleteSchemaMappingOutputResponse
     /// Returns the corresponding Match ID of a customer record if the record has been processed.
     ///
@@ -75,10 +75,10 @@ public protocol EntityResolutionClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action. HTTP Status Code: 403
-    /// - `InternalServerException` : This exception occurs when there is an internal failure in the AWS Entity Resolution service. HTTP Status Code: 500
+    /// - `InternalServerException` : This exception occurs when there is an internal failure in the Entity Resolution service. HTTP Status Code: 500
     /// - `ResourceNotFoundException` : The resource could not be found. HTTP Status Code: 404
     /// - `ThrottlingException` : The request was denied due to request throttling. HTTP Status Code: 429
-    /// - `ValidationException` : The input fails to satisfy the constraints specified by AWS Entity Resolution. HTTP Status Code: 400
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by Entity Resolution. HTTP Status Code: 400
     func getMatchId(input: GetMatchIdInput) async throws -> GetMatchIdOutputResponse
     /// Gets the status, metrics, and errors (if there are any) that are associated with a job.
     ///
@@ -90,10 +90,10 @@ public protocol EntityResolutionClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action. HTTP Status Code: 403
-    /// - `InternalServerException` : This exception occurs when there is an internal failure in the AWS Entity Resolution service. HTTP Status Code: 500
+    /// - `InternalServerException` : This exception occurs when there is an internal failure in the Entity Resolution service. HTTP Status Code: 500
     /// - `ResourceNotFoundException` : The resource could not be found. HTTP Status Code: 404
     /// - `ThrottlingException` : The request was denied due to request throttling. HTTP Status Code: 429
-    /// - `ValidationException` : The input fails to satisfy the constraints specified by AWS Entity Resolution. HTTP Status Code: 400
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by Entity Resolution. HTTP Status Code: 400
     func getMatchingJob(input: GetMatchingJobInput) async throws -> GetMatchingJobOutputResponse
     /// Returns the MatchingWorkflow with a given name, if it exists.
     ///
@@ -105,10 +105,10 @@ public protocol EntityResolutionClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action. HTTP Status Code: 403
-    /// - `InternalServerException` : This exception occurs when there is an internal failure in the AWS Entity Resolution service. HTTP Status Code: 500
+    /// - `InternalServerException` : This exception occurs when there is an internal failure in the Entity Resolution service. HTTP Status Code: 500
     /// - `ResourceNotFoundException` : The resource could not be found. HTTP Status Code: 404
     /// - `ThrottlingException` : The request was denied due to request throttling. HTTP Status Code: 429
-    /// - `ValidationException` : The input fails to satisfy the constraints specified by AWS Entity Resolution. HTTP Status Code: 400
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by Entity Resolution. HTTP Status Code: 400
     func getMatchingWorkflow(input: GetMatchingWorkflowInput) async throws -> GetMatchingWorkflowOutputResponse
     /// Returns the SchemaMapping of a given name.
     ///
@@ -120,10 +120,10 @@ public protocol EntityResolutionClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action. HTTP Status Code: 403
-    /// - `InternalServerException` : This exception occurs when there is an internal failure in the AWS Entity Resolution service. HTTP Status Code: 500
+    /// - `InternalServerException` : This exception occurs when there is an internal failure in the Entity Resolution service. HTTP Status Code: 500
     /// - `ResourceNotFoundException` : The resource could not be found. HTTP Status Code: 404
     /// - `ThrottlingException` : The request was denied due to request throttling. HTTP Status Code: 429
-    /// - `ValidationException` : The input fails to satisfy the constraints specified by AWS Entity Resolution. HTTP Status Code: 400
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by Entity Resolution. HTTP Status Code: 400
     func getSchemaMapping(input: GetSchemaMappingInput) async throws -> GetSchemaMappingOutputResponse
     /// Lists all jobs for a given workflow.
     ///
@@ -135,12 +135,12 @@ public protocol EntityResolutionClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action. HTTP Status Code: 403
-    /// - `InternalServerException` : This exception occurs when there is an internal failure in the AWS Entity Resolution service. HTTP Status Code: 500
+    /// - `InternalServerException` : This exception occurs when there is an internal failure in the Entity Resolution service. HTTP Status Code: 500
     /// - `ResourceNotFoundException` : The resource could not be found. HTTP Status Code: 404
     /// - `ThrottlingException` : The request was denied due to request throttling. HTTP Status Code: 429
-    /// - `ValidationException` : The input fails to satisfy the constraints specified by AWS Entity Resolution. HTTP Status Code: 400
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by Entity Resolution. HTTP Status Code: 400
     func listMatchingJobs(input: ListMatchingJobsInput) async throws -> ListMatchingJobsOutputResponse
-    /// Returns a list of all the MatchingWorkflows that have been created for an AWS account.
+    /// Returns a list of all the MatchingWorkflows that have been created for an Amazon Web Services account.
     ///
     /// - Parameter ListMatchingWorkflowsInput : [no documentation found]
     ///
@@ -150,11 +150,11 @@ public protocol EntityResolutionClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action. HTTP Status Code: 403
-    /// - `InternalServerException` : This exception occurs when there is an internal failure in the AWS Entity Resolution service. HTTP Status Code: 500
+    /// - `InternalServerException` : This exception occurs when there is an internal failure in the Entity Resolution service. HTTP Status Code: 500
     /// - `ThrottlingException` : The request was denied due to request throttling. HTTP Status Code: 429
-    /// - `ValidationException` : The input fails to satisfy the constraints specified by AWS Entity Resolution. HTTP Status Code: 400
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by Entity Resolution. HTTP Status Code: 400
     func listMatchingWorkflows(input: ListMatchingWorkflowsInput) async throws -> ListMatchingWorkflowsOutputResponse
-    /// Returns a list of all the SchemaMappings that have been created for an AWS account.
+    /// Returns a list of all the SchemaMappings that have been created for an Amazon Web Services account.
     ///
     /// - Parameter ListSchemaMappingsInput : [no documentation found]
     ///
@@ -164,11 +164,11 @@ public protocol EntityResolutionClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action. HTTP Status Code: 403
-    /// - `InternalServerException` : This exception occurs when there is an internal failure in the AWS Entity Resolution service. HTTP Status Code: 500
+    /// - `InternalServerException` : This exception occurs when there is an internal failure in the Entity Resolution service. HTTP Status Code: 500
     /// - `ThrottlingException` : The request was denied due to request throttling. HTTP Status Code: 429
-    /// - `ValidationException` : The input fails to satisfy the constraints specified by AWS Entity Resolution. HTTP Status Code: 400
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by Entity Resolution. HTTP Status Code: 400
     func listSchemaMappings(input: ListSchemaMappingsInput) async throws -> ListSchemaMappingsOutputResponse
-    /// Displays the tags associated with an AWS Entity Resolution resource. In Entity Resolution, SchemaMapping, and MatchingWorkflow can be tagged.
+    /// Displays the tags associated with an Entity Resolution resource. In Entity Resolution, SchemaMapping, and MatchingWorkflow can be tagged.
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
     ///
@@ -177,9 +177,9 @@ public protocol EntityResolutionClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InternalServerException` : This exception occurs when there is an internal failure in the AWS Entity Resolution service. HTTP Status Code: 500
+    /// - `InternalServerException` : This exception occurs when there is an internal failure in the Entity Resolution service. HTTP Status Code: 500
     /// - `ResourceNotFoundException` : The resource could not be found. HTTP Status Code: 404
-    /// - `ValidationException` : The input fails to satisfy the constraints specified by AWS Entity Resolution. HTTP Status Code: 400
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by Entity Resolution. HTTP Status Code: 400
     func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
     /// Starts the MatchingJob of a workflow. The workflow must have previously been created using the CreateMatchingWorkflow endpoint.
     ///
@@ -192,13 +192,13 @@ public protocol EntityResolutionClientProtocol {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action. HTTP Status Code: 403
     /// - `ConflictException` : The request could not be processed because of conflict in the current state of the resource. Example: Workflow already exists, Schema already exists, Workflow is currently running, etc. HTTP Status Code: 400
-    /// - `ExceedsLimitException` : The request was rejected because it attempted to create resources beyond the current AWS Entity Resolution account limits. The error message describes the limit exceeded. HTTP Status Code: 402
-    /// - `InternalServerException` : This exception occurs when there is an internal failure in the AWS Entity Resolution service. HTTP Status Code: 500
+    /// - `ExceedsLimitException` : The request was rejected because it attempted to create resources beyond the current Entity Resolution account limits. The error message describes the limit exceeded. HTTP Status Code: 402
+    /// - `InternalServerException` : This exception occurs when there is an internal failure in the Entity Resolution service. HTTP Status Code: 500
     /// - `ResourceNotFoundException` : The resource could not be found. HTTP Status Code: 404
     /// - `ThrottlingException` : The request was denied due to request throttling. HTTP Status Code: 429
-    /// - `ValidationException` : The input fails to satisfy the constraints specified by AWS Entity Resolution. HTTP Status Code: 400
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by Entity Resolution. HTTP Status Code: 400
     func startMatchingJob(input: StartMatchingJobInput) async throws -> StartMatchingJobOutputResponse
-    /// Assigns one or more tags (key-value pairs) to the specified AWS Entity Resolution resource. Tags can help you organize and categorize your resources. You can also use them to scope user permissions by granting a user permission to access or change only resources with certain tag values. In Entity Resolution, SchemaMapping, and MatchingWorkflow can be tagged. Tags don't have any semantic meaning to AWS and are interpreted strictly as strings of characters. You can use the TagResource action with a resource that already has tags. If you specify a new tag key, this tag is appended to the list of tags associated with the resource. If you specify a tag key that is already associated with the resource, the new tag value that you specify replaces the previous value for that tag.
+    /// Assigns one or more tags (key-value pairs) to the specified Entity Resolution resource. Tags can help you organize and categorize your resources. You can also use them to scope user permissions by granting a user permission to access or change only resources with certain tag values. In Entity Resolution, SchemaMapping and MatchingWorkflow can be tagged. Tags don't have any semantic meaning to Amazon Web Services and are interpreted strictly as strings of characters. You can use the TagResource action with a resource that already has tags. If you specify a new tag key, this tag is appended to the list of tags associated with the resource. If you specify a tag key that is already associated with the resource, the new tag value that you specify replaces the previous value for that tag.
     ///
     /// - Parameter TagResourceInput : [no documentation found]
     ///
@@ -207,11 +207,11 @@ public protocol EntityResolutionClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InternalServerException` : This exception occurs when there is an internal failure in the AWS Entity Resolution service. HTTP Status Code: 500
+    /// - `InternalServerException` : This exception occurs when there is an internal failure in the Entity Resolution service. HTTP Status Code: 500
     /// - `ResourceNotFoundException` : The resource could not be found. HTTP Status Code: 404
-    /// - `ValidationException` : The input fails to satisfy the constraints specified by AWS Entity Resolution. HTTP Status Code: 400
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by Entity Resolution. HTTP Status Code: 400
     func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
-    /// Removes one or more tags from the specified AWS Entity Resolution resource. In Entity Resolution, SchemaMapping, and MatchingWorkflow can be tagged.
+    /// Removes one or more tags from the specified Entity Resolution resource. In Entity Resolution, SchemaMapping, and MatchingWorkflow can be tagged.
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
     ///
@@ -220,7 +220,7 @@ public protocol EntityResolutionClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InternalServerException` : This exception occurs when there is an internal failure in the AWS Entity Resolution service. HTTP Status Code: 500
+    /// - `InternalServerException` : This exception occurs when there is an internal failure in the Entity Resolution service. HTTP Status Code: 500
     /// - `ResourceNotFoundException` : The resource could not be found. HTTP Status Code: 404
     func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
     /// Updates an existing MatchingWorkflow. This method is identical to CreateMatchingWorkflow, except it uses an HTTP PUT request instead of a POST request, and the MatchingWorkflow must already exist for the method to succeed.
@@ -233,10 +233,10 @@ public protocol EntityResolutionClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action. HTTP Status Code: 403
-    /// - `InternalServerException` : This exception occurs when there is an internal failure in the AWS Entity Resolution service. HTTP Status Code: 500
+    /// - `InternalServerException` : This exception occurs when there is an internal failure in the Entity Resolution service. HTTP Status Code: 500
     /// - `ResourceNotFoundException` : The resource could not be found. HTTP Status Code: 404
     /// - `ThrottlingException` : The request was denied due to request throttling. HTTP Status Code: 429
-    /// - `ValidationException` : The input fails to satisfy the constraints specified by AWS Entity Resolution. HTTP Status Code: 400
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by Entity Resolution. HTTP Status Code: 400
     func updateMatchingWorkflow(input: UpdateMatchingWorkflowInput) async throws -> UpdateMatchingWorkflowOutputResponse
 }
 

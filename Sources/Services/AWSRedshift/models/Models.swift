@@ -849,7 +849,7 @@ extension RedshiftClientTypes.Association: Swift.Codable {
             try container.encode(customDomainCertificateArn, forKey: ClientRuntime.Key("CustomDomainCertificateArn"))
         }
         if let customDomainCertificateExpiryDate = customDomainCertificateExpiryDate {
-            try container.encodeTimestamp(customDomainCertificateExpiryDate, format: .dateTime, forKey: ClientRuntime.Key("customDomainCertificateExpiryDate"))
+            try container.encodeTimestamp(customDomainCertificateExpiryDate, format: .dateTime, forKey: ClientRuntime.Key("CustomDomainCertificateExpiryDate"))
         }
     }
 
@@ -3043,7 +3043,7 @@ extension RedshiftClientTypes.Cluster: Swift.Codable {
             try container.encode(clusterAvailabilityStatus, forKey: ClientRuntime.Key("ClusterAvailabilityStatus"))
         }
         if let clusterCreateTime = clusterCreateTime {
-            try container.encodeTimestamp(clusterCreateTime, format: .dateTime, forKey: ClientRuntime.Key("clusterCreateTime"))
+            try container.encodeTimestamp(clusterCreateTime, format: .dateTime, forKey: ClientRuntime.Key("ClusterCreateTime"))
         }
         if let clusterIdentifier = clusterIdentifier {
             try container.encode(clusterIdentifier, forKey: ClientRuntime.Key("ClusterIdentifier"))
@@ -3109,7 +3109,7 @@ extension RedshiftClientTypes.Cluster: Swift.Codable {
             try container.encode(customDomainCertificateArn, forKey: ClientRuntime.Key("CustomDomainCertificateArn"))
         }
         if let customDomainCertificateExpiryDate = customDomainCertificateExpiryDate {
-            try container.encodeTimestamp(customDomainCertificateExpiryDate, format: .dateTime, forKey: ClientRuntime.Key("customDomainCertificateExpiryDate"))
+            try container.encodeTimestamp(customDomainCertificateExpiryDate, format: .dateTime, forKey: ClientRuntime.Key("CustomDomainCertificateExpiryDate"))
         }
         if let customDomainName = customDomainName {
             try container.encode(customDomainName, forKey: ClientRuntime.Key("CustomDomainName"))
@@ -3151,7 +3151,7 @@ extension RedshiftClientTypes.Cluster: Swift.Codable {
             try container.encode(enhancedVpcRouting, forKey: ClientRuntime.Key("EnhancedVpcRouting"))
         }
         if let expectedNextSnapshotScheduleTime = expectedNextSnapshotScheduleTime {
-            try container.encodeTimestamp(expectedNextSnapshotScheduleTime, format: .dateTime, forKey: ClientRuntime.Key("expectedNextSnapshotScheduleTime"))
+            try container.encodeTimestamp(expectedNextSnapshotScheduleTime, format: .dateTime, forKey: ClientRuntime.Key("ExpectedNextSnapshotScheduleTime"))
         }
         if let expectedNextSnapshotScheduleTimeStatus = expectedNextSnapshotScheduleTimeStatus {
             try container.encode(expectedNextSnapshotScheduleTimeStatus, forKey: ClientRuntime.Key("ExpectedNextSnapshotScheduleTimeStatus"))
@@ -3187,7 +3187,7 @@ extension RedshiftClientTypes.Cluster: Swift.Codable {
             try container.encode(modifyStatus, forKey: ClientRuntime.Key("ModifyStatus"))
         }
         if let nextMaintenanceWindowStartTime = nextMaintenanceWindowStartTime {
-            try container.encodeTimestamp(nextMaintenanceWindowStartTime, format: .dateTime, forKey: ClientRuntime.Key("nextMaintenanceWindowStartTime"))
+            try container.encodeTimestamp(nextMaintenanceWindowStartTime, format: .dateTime, forKey: ClientRuntime.Key("NextMaintenanceWindowStartTime"))
         }
         if let nodeType = nodeType {
             try container.encode(nodeType, forKey: ClientRuntime.Key("NodeType"))
@@ -3920,7 +3920,7 @@ extension RedshiftClientTypes.ClusterDbRevision: Swift.Codable {
             try container.encode(currentDatabaseRevision, forKey: ClientRuntime.Key("CurrentDatabaseRevision"))
         }
         if let databaseRevisionReleaseDate = databaseRevisionReleaseDate {
-            try container.encodeTimestamp(databaseRevisionReleaseDate, format: .dateTime, forKey: ClientRuntime.Key("databaseRevisionReleaseDate"))
+            try container.encodeTimestamp(databaseRevisionReleaseDate, format: .dateTime, forKey: ClientRuntime.Key("DatabaseRevisionReleaseDate"))
         }
         if let revisionTargets = revisionTargets {
             if !revisionTargets.isEmpty {
@@ -8387,7 +8387,7 @@ extension CreateScheduledActionInput: Swift.Encodable {
             try container.encode(enable, forKey: ClientRuntime.Key("Enable"))
         }
         if let endTime = endTime {
-            try container.encodeTimestamp(endTime, format: .dateTime, forKey: ClientRuntime.Key("endTime"))
+            try container.encodeTimestamp(endTime, format: .dateTime, forKey: ClientRuntime.Key("EndTime"))
         }
         if let iamRole = iamRole {
             try container.encode(iamRole, forKey: ClientRuntime.Key("IamRole"))
@@ -8402,7 +8402,7 @@ extension CreateScheduledActionInput: Swift.Encodable {
             try container.encode(scheduledActionName, forKey: ClientRuntime.Key("ScheduledActionName"))
         }
         if let startTime = startTime {
-            try container.encodeTimestamp(startTime, format: .dateTime, forKey: ClientRuntime.Key("startTime"))
+            try container.encodeTimestamp(startTime, format: .dateTime, forKey: ClientRuntime.Key("StartTime"))
         }
         if let targetAction = targetAction {
             try container.encode(targetAction, forKey: ClientRuntime.Key("TargetAction"))
@@ -9784,13 +9784,13 @@ extension RedshiftClientTypes.DataShareAssociation: Swift.Codable {
             try container.encode(consumerRegion, forKey: ClientRuntime.Key("ConsumerRegion"))
         }
         if let createdDate = createdDate {
-            try container.encodeTimestamp(createdDate, format: .dateTime, forKey: ClientRuntime.Key("createdDate"))
+            try container.encodeTimestamp(createdDate, format: .dateTime, forKey: ClientRuntime.Key("CreatedDate"))
         }
         if let status = status {
             try container.encode(status, forKey: ClientRuntime.Key("Status"))
         }
         if let statusChangeDate = statusChangeDate {
-            try container.encodeTimestamp(statusChangeDate, format: .dateTime, forKey: ClientRuntime.Key("statusChangeDate"))
+            try container.encodeTimestamp(statusChangeDate, format: .dateTime, forKey: ClientRuntime.Key("StatusChangeDate"))
         }
     }
 
@@ -10300,13 +10300,13 @@ extension RedshiftClientTypes.DeferredMaintenanceWindow: Swift.Codable {
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
         if let deferMaintenanceEndTime = deferMaintenanceEndTime {
-            try container.encodeTimestamp(deferMaintenanceEndTime, format: .dateTime, forKey: ClientRuntime.Key("deferMaintenanceEndTime"))
+            try container.encodeTimestamp(deferMaintenanceEndTime, format: .dateTime, forKey: ClientRuntime.Key("DeferMaintenanceEndTime"))
         }
         if let deferMaintenanceIdentifier = deferMaintenanceIdentifier {
             try container.encode(deferMaintenanceIdentifier, forKey: ClientRuntime.Key("DeferMaintenanceIdentifier"))
         }
         if let deferMaintenanceStartTime = deferMaintenanceStartTime {
-            try container.encodeTimestamp(deferMaintenanceStartTime, format: .dateTime, forKey: ClientRuntime.Key("deferMaintenanceStartTime"))
+            try container.encodeTimestamp(deferMaintenanceStartTime, format: .dateTime, forKey: ClientRuntime.Key("DeferMaintenanceStartTime"))
         }
     }
 
@@ -13077,7 +13077,7 @@ extension DescribeClusterSnapshotsInput: Swift.Encodable {
             try container.encode(clusterIdentifier, forKey: ClientRuntime.Key("ClusterIdentifier"))
         }
         if let endTime = endTime {
-            try container.encodeTimestamp(endTime, format: .dateTime, forKey: ClientRuntime.Key("endTime"))
+            try container.encodeTimestamp(endTime, format: .dateTime, forKey: ClientRuntime.Key("EndTime"))
         }
         if let marker = marker {
             try container.encode(marker, forKey: ClientRuntime.Key("Marker"))
@@ -13110,7 +13110,7 @@ extension DescribeClusterSnapshotsInput: Swift.Encodable {
             }
         }
         if let startTime = startTime {
-            try container.encodeTimestamp(startTime, format: .dateTime, forKey: ClientRuntime.Key("startTime"))
+            try container.encodeTimestamp(startTime, format: .dateTime, forKey: ClientRuntime.Key("StartTime"))
         }
         if let tagKeys = tagKeys {
             if !tagKeys.isEmpty {
@@ -15590,7 +15590,7 @@ extension DescribeEventsInput: Swift.Encodable {
             try container.encode(duration, forKey: ClientRuntime.Key("Duration"))
         }
         if let endTime = endTime {
-            try container.encodeTimestamp(endTime, format: .dateTime, forKey: ClientRuntime.Key("endTime"))
+            try container.encodeTimestamp(endTime, format: .dateTime, forKey: ClientRuntime.Key("EndTime"))
         }
         if let marker = marker {
             try container.encode(marker, forKey: ClientRuntime.Key("Marker"))
@@ -15605,7 +15605,7 @@ extension DescribeEventsInput: Swift.Encodable {
             try container.encode(sourceType, forKey: ClientRuntime.Key("SourceType"))
         }
         if let startTime = startTime {
-            try container.encodeTimestamp(startTime, format: .dateTime, forKey: ClientRuntime.Key("startTime"))
+            try container.encodeTimestamp(startTime, format: .dateTime, forKey: ClientRuntime.Key("StartTime"))
         }
         try container.encode("DescribeEvents", forKey:ClientRuntime.Key("Action"))
         try container.encode("2012-12-01", forKey:ClientRuntime.Key("Version"))
@@ -17719,7 +17719,7 @@ extension DescribeScheduledActionsInput: Swift.Encodable {
             try container.encode(active, forKey: ClientRuntime.Key("Active"))
         }
         if let endTime = endTime {
-            try container.encodeTimestamp(endTime, format: .dateTime, forKey: ClientRuntime.Key("endTime"))
+            try container.encodeTimestamp(endTime, format: .dateTime, forKey: ClientRuntime.Key("EndTime"))
         }
         if let filters = filters {
             if !filters.isEmpty {
@@ -17743,7 +17743,7 @@ extension DescribeScheduledActionsInput: Swift.Encodable {
             try container.encode(scheduledActionName, forKey: ClientRuntime.Key("ScheduledActionName"))
         }
         if let startTime = startTime {
-            try container.encodeTimestamp(startTime, format: .dateTime, forKey: ClientRuntime.Key("startTime"))
+            try container.encodeTimestamp(startTime, format: .dateTime, forKey: ClientRuntime.Key("StartTime"))
         }
         if let targetActionType = targetActionType {
             try container.encode(targetActionType, forKey: ClientRuntime.Key("TargetActionType"))
@@ -20274,7 +20274,7 @@ extension RedshiftClientTypes.EndpointAccess: Swift.Codable {
             try container.encode(clusterIdentifier, forKey: ClientRuntime.Key("ClusterIdentifier"))
         }
         if let endpointCreateTime = endpointCreateTime {
-            try container.encodeTimestamp(endpointCreateTime, format: .dateTime, forKey: ClientRuntime.Key("endpointCreateTime"))
+            try container.encodeTimestamp(endpointCreateTime, format: .dateTime, forKey: ClientRuntime.Key("EndpointCreateTime"))
         }
         if let endpointName = endpointName {
             try container.encode(endpointName, forKey: ClientRuntime.Key("EndpointName"))
@@ -20487,7 +20487,7 @@ extension RedshiftClientTypes.EndpointAuthorization: Swift.Codable {
             }
         }
         if let authorizeTime = authorizeTime {
-            try container.encodeTimestamp(authorizeTime, format: .dateTime, forKey: ClientRuntime.Key("authorizeTime"))
+            try container.encodeTimestamp(authorizeTime, format: .dateTime, forKey: ClientRuntime.Key("AuthorizeTime"))
         }
         if let clusterIdentifier = clusterIdentifier {
             try container.encode(clusterIdentifier, forKey: ClientRuntime.Key("ClusterIdentifier"))
@@ -20935,7 +20935,7 @@ extension RedshiftClientTypes.Event: Swift.Codable {
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
         if let date = date {
-            try container.encodeTimestamp(date, format: .dateTime, forKey: ClientRuntime.Key("date"))
+            try container.encodeTimestamp(date, format: .dateTime, forKey: ClientRuntime.Key("Date"))
         }
         if let eventCategories = eventCategories {
             if !eventCategories.isEmpty {
@@ -21267,7 +21267,7 @@ extension RedshiftClientTypes.EventSubscription: Swift.Codable {
             try container.encode(status, forKey: ClientRuntime.Key("Status"))
         }
         if let subscriptionCreationTime = subscriptionCreationTime {
-            try container.encodeTimestamp(subscriptionCreationTime, format: .dateTime, forKey: ClientRuntime.Key("subscriptionCreationTime"))
+            try container.encodeTimestamp(subscriptionCreationTime, format: .dateTime, forKey: ClientRuntime.Key("SubscriptionCreationTime"))
         }
         if let tags = tags {
             if !tags.isEmpty {
@@ -25822,13 +25822,13 @@ extension ModifyClusterMaintenanceInput: Swift.Encodable {
             try container.encode(deferMaintenanceDuration, forKey: ClientRuntime.Key("DeferMaintenanceDuration"))
         }
         if let deferMaintenanceEndTime = deferMaintenanceEndTime {
-            try container.encodeTimestamp(deferMaintenanceEndTime, format: .dateTime, forKey: ClientRuntime.Key("deferMaintenanceEndTime"))
+            try container.encodeTimestamp(deferMaintenanceEndTime, format: .dateTime, forKey: ClientRuntime.Key("DeferMaintenanceEndTime"))
         }
         if let deferMaintenanceIdentifier = deferMaintenanceIdentifier {
             try container.encode(deferMaintenanceIdentifier, forKey: ClientRuntime.Key("DeferMaintenanceIdentifier"))
         }
         if let deferMaintenanceStartTime = deferMaintenanceStartTime {
-            try container.encodeTimestamp(deferMaintenanceStartTime, format: .dateTime, forKey: ClientRuntime.Key("deferMaintenanceStartTime"))
+            try container.encodeTimestamp(deferMaintenanceStartTime, format: .dateTime, forKey: ClientRuntime.Key("DeferMaintenanceStartTime"))
         }
         try container.encode("ModifyClusterMaintenance", forKey:ClientRuntime.Key("Action"))
         try container.encode("2012-12-01", forKey:ClientRuntime.Key("Version"))
@@ -27173,7 +27173,7 @@ extension ModifyScheduledActionInput: Swift.Encodable {
             try container.encode(enable, forKey: ClientRuntime.Key("Enable"))
         }
         if let endTime = endTime {
-            try container.encodeTimestamp(endTime, format: .dateTime, forKey: ClientRuntime.Key("endTime"))
+            try container.encodeTimestamp(endTime, format: .dateTime, forKey: ClientRuntime.Key("EndTime"))
         }
         if let iamRole = iamRole {
             try container.encode(iamRole, forKey: ClientRuntime.Key("IamRole"))
@@ -27188,7 +27188,7 @@ extension ModifyScheduledActionInput: Swift.Encodable {
             try container.encode(scheduledActionName, forKey: ClientRuntime.Key("ScheduledActionName"))
         }
         if let startTime = startTime {
-            try container.encodeTimestamp(startTime, format: .dateTime, forKey: ClientRuntime.Key("startTime"))
+            try container.encodeTimestamp(startTime, format: .dateTime, forKey: ClientRuntime.Key("StartTime"))
         }
         if let targetAction = targetAction {
             try container.encode(targetAction, forKey: ClientRuntime.Key("TargetAction"))
@@ -28703,7 +28703,7 @@ extension RedshiftClientTypes.PartnerIntegrationInfo: Swift.Codable {
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
         if let createdAt = createdAt {
-            try container.encodeTimestamp(createdAt, format: .dateTime, forKey: ClientRuntime.Key("createdAt"))
+            try container.encodeTimestamp(createdAt, format: .dateTime, forKey: ClientRuntime.Key("CreatedAt"))
         }
         if let databaseName = databaseName {
             try container.encode(databaseName, forKey: ClientRuntime.Key("DatabaseName"))
@@ -28718,7 +28718,7 @@ extension RedshiftClientTypes.PartnerIntegrationInfo: Swift.Codable {
             try container.encode(statusMessage, forKey: ClientRuntime.Key("StatusMessage"))
         }
         if let updatedAt = updatedAt {
-            try container.encodeTimestamp(updatedAt, format: .dateTime, forKey: ClientRuntime.Key("updatedAt"))
+            try container.encodeTimestamp(updatedAt, format: .dateTime, forKey: ClientRuntime.Key("UpdatedAt"))
         }
     }
 
@@ -29606,7 +29606,7 @@ extension RedshiftClientTypes.ReservedNode: Swift.Codable {
             try container.encode(reservedNodeOfferingType, forKey: ClientRuntime.Key("ReservedNodeOfferingType"))
         }
         if let startTime = startTime {
-            try container.encodeTimestamp(startTime, format: .dateTime, forKey: ClientRuntime.Key("startTime"))
+            try container.encodeTimestamp(startTime, format: .dateTime, forKey: ClientRuntime.Key("StartTime"))
         }
         if let state = state {
             try container.encode(state, forKey: ClientRuntime.Key("State"))
@@ -30003,7 +30003,7 @@ extension RedshiftClientTypes.ReservedNodeExchangeStatus: Swift.Codable {
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
         if let requestTime = requestTime {
-            try container.encodeTimestamp(requestTime, format: .dateTime, forKey: ClientRuntime.Key("requestTime"))
+            try container.encodeTimestamp(requestTime, format: .dateTime, forKey: ClientRuntime.Key("RequestTime"))
         }
         if let reservedNodeExchangeRequestId = reservedNodeExchangeRequestId {
             try container.encode(reservedNodeExchangeRequestId, forKey: ClientRuntime.Key("ReservedNodeExchangeRequestId"))
@@ -32071,7 +32071,7 @@ extension RedshiftClientTypes.RevisionTarget: Swift.Codable {
             try container.encode(databaseRevision, forKey: ClientRuntime.Key("DatabaseRevision"))
         }
         if let databaseRevisionReleaseDate = databaseRevisionReleaseDate {
-            try container.encodeTimestamp(databaseRevisionReleaseDate, format: .dateTime, forKey: ClientRuntime.Key("databaseRevisionReleaseDate"))
+            try container.encodeTimestamp(databaseRevisionReleaseDate, format: .dateTime, forKey: ClientRuntime.Key("DatabaseRevisionReleaseDate"))
         }
         if let description = description {
             try container.encode(description, forKey: ClientRuntime.Key("Description"))
@@ -33006,7 +33006,7 @@ extension RedshiftClientTypes.ScheduledAction: Swift.Codable {
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
         if let endTime = endTime {
-            try container.encodeTimestamp(endTime, format: .dateTime, forKey: ClientRuntime.Key("endTime"))
+            try container.encodeTimestamp(endTime, format: .dateTime, forKey: ClientRuntime.Key("EndTime"))
         }
         if let iamRole = iamRole {
             try container.encode(iamRole, forKey: ClientRuntime.Key("IamRole"))
@@ -33033,7 +33033,7 @@ extension RedshiftClientTypes.ScheduledAction: Swift.Codable {
             try container.encode(scheduledActionName, forKey: ClientRuntime.Key("ScheduledActionName"))
         }
         if let startTime = startTime {
-            try container.encodeTimestamp(startTime, format: .dateTime, forKey: ClientRuntime.Key("startTime"))
+            try container.encodeTimestamp(startTime, format: .dateTime, forKey: ClientRuntime.Key("StartTime"))
         }
         if let state = state {
             try container.encode(state, forKey: ClientRuntime.Key("State"))
@@ -33636,7 +33636,7 @@ extension RedshiftClientTypes.Snapshot: Swift.Codable {
             try container.encode(Swift.String(backupProgressInMegaBytes), forKey: ClientRuntime.Key("BackupProgressInMegaBytes"))
         }
         if let clusterCreateTime = clusterCreateTime {
-            try container.encodeTimestamp(clusterCreateTime, format: .dateTime, forKey: ClientRuntime.Key("clusterCreateTime"))
+            try container.encodeTimestamp(clusterCreateTime, format: .dateTime, forKey: ClientRuntime.Key("ClusterCreateTime"))
         }
         if let clusterIdentifier = clusterIdentifier {
             try container.encode(clusterIdentifier, forKey: ClientRuntime.Key("ClusterIdentifier"))
@@ -33708,13 +33708,13 @@ extension RedshiftClientTypes.Snapshot: Swift.Codable {
             }
         }
         if let snapshotCreateTime = snapshotCreateTime {
-            try container.encodeTimestamp(snapshotCreateTime, format: .dateTime, forKey: ClientRuntime.Key("snapshotCreateTime"))
+            try container.encodeTimestamp(snapshotCreateTime, format: .dateTime, forKey: ClientRuntime.Key("SnapshotCreateTime"))
         }
         if let snapshotIdentifier = snapshotIdentifier {
             try container.encode(snapshotIdentifier, forKey: ClientRuntime.Key("SnapshotIdentifier"))
         }
         if let snapshotRetentionStartTime = snapshotRetentionStartTime {
-            try container.encodeTimestamp(snapshotRetentionStartTime, format: .dateTime, forKey: ClientRuntime.Key("snapshotRetentionStartTime"))
+            try container.encodeTimestamp(snapshotRetentionStartTime, format: .dateTime, forKey: ClientRuntime.Key("SnapshotRetentionStartTime"))
         }
         if let snapshotType = snapshotType {
             try container.encode(snapshotType, forKey: ClientRuntime.Key("SnapshotType"))
@@ -35706,7 +35706,7 @@ extension RedshiftClientTypes.TableRestoreStatus: Swift.Codable {
             try container.encode(progressInMegaBytes, forKey: ClientRuntime.Key("ProgressInMegaBytes"))
         }
         if let requestTime = requestTime {
-            try container.encodeTimestamp(requestTime, format: .dateTime, forKey: ClientRuntime.Key("requestTime"))
+            try container.encodeTimestamp(requestTime, format: .dateTime, forKey: ClientRuntime.Key("RequestTime"))
         }
         if let snapshotIdentifier = snapshotIdentifier {
             try container.encode(snapshotIdentifier, forKey: ClientRuntime.Key("SnapshotIdentifier"))

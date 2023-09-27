@@ -288,7 +288,8 @@ extension FinspacedataClientTypes.AwsCredentials: Swift.Codable {
 
 extension FinspacedataClientTypes.AwsCredentials: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "AwsCredentials(accessKeyId: \(Swift.String(describing: accessKeyId)), expiration: \(Swift.String(describing: expiration)), secretAccessKey: \"CONTENT_REDACTED\", sessionToken: \"CONTENT_REDACTED\")"}
+        "CONTENT_REDACTED"
+    }
 }
 
 extension FinspacedataClientTypes {
@@ -1583,7 +1584,7 @@ extension CreateUserInput: Swift.CustomDebugStringConvertible {
 
 extension CreateUserInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
-        case apiAccess = "ApiAccess"
+        case apiAccess
         case apiAccessPrincipalArn
         case clientToken
         case emailAddress
@@ -1682,7 +1683,7 @@ struct CreateUserInputBody: Swift.Equatable {
 
 extension CreateUserInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
-        case apiAccess = "ApiAccess"
+        case apiAccess
         case apiAccessPrincipalArn
         case clientToken
         case emailAddress
@@ -1794,6 +1795,12 @@ extension FinspacedataClientTypes.Credentials: Swift.Codable {
         secretAccessKey = secretAccessKeyDecoded
         let sessionTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sessionToken)
         sessionToken = sessionTokenDecoded
+    }
+}
+
+extension FinspacedataClientTypes.Credentials: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CONTENT_REDACTED"
     }
 }
 
@@ -2693,7 +2700,7 @@ extension DisableUserInput: ClientRuntime.URLPathProvider {
 public struct DisableUserInput: Swift.Equatable {
     /// A token that ensures idempotency. This token expires in 10 minutes.
     public var clientToken: Swift.String?
-    /// The unique identifier for the user account that you want to disable.
+    /// The unique identifier for the user that you want to deactivate.
     /// This member is required.
     public var userId: Swift.String?
 
@@ -2752,7 +2759,7 @@ extension DisableUserOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 public struct DisableUserOutputResponse: Swift.Equatable {
-    /// The unique identifier for the disabled user account.
+    /// The unique identifier for the deactivated user.
     public var userId: Swift.String?
 
     public init(
@@ -2910,7 +2917,7 @@ extension EnableUserInput: ClientRuntime.URLPathProvider {
 public struct EnableUserInput: Swift.Equatable {
     /// A token that ensures idempotency. This token expires in 10 minutes.
     public var clientToken: Swift.String?
-    /// The unique identifier for the user account that you want to enable.
+    /// The unique identifier for the user that you want to activate.
     /// This member is required.
     public var userId: Swift.String?
 
@@ -2970,7 +2977,7 @@ extension EnableUserOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 public struct EnableUserOutputResponse: Swift.Equatable {
-    /// The unique identifier for the enabled user account.
+    /// The unique identifier for the active user.
     public var userId: Swift.String?
 
     public init(
@@ -3807,6 +3814,11 @@ public enum GetExternalDataViewAccessDetailsOutputError: ClientRuntime.HttpRespo
     }
 }
 
+extension GetExternalDataViewAccessDetailsOutputResponse: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "GetExternalDataViewAccessDetailsOutputResponse(s3Location: \(Swift.String(describing: s3Location)), credentials: \"CONTENT_REDACTED\")"}
+}
+
 extension GetExternalDataViewAccessDetailsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -4009,6 +4021,11 @@ public enum GetProgrammaticAccessCredentialsOutputError: ClientRuntime.HttpRespo
     }
 }
 
+extension GetProgrammaticAccessCredentialsOutputResponse: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "GetProgrammaticAccessCredentialsOutputResponse(durationInMinutes: \(Swift.String(describing: durationInMinutes)), credentials: \"CONTENT_REDACTED\")"}
+}
+
 extension GetProgrammaticAccessCredentialsOutputResponse: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -4156,29 +4173,29 @@ public struct GetUserOutputResponse: Swift.Equatable {
     public var apiAccess: FinspacedataClientTypes.ApiAccess?
     /// The ARN identifier of an AWS user or role that is allowed to call the GetProgrammaticAccessCredentials API to obtain a credentials token for a specific FinSpace user. This must be an IAM role within your FinSpace account.
     public var apiAccessPrincipalArn: Swift.String?
-    /// The timestamp at which the user account was created in FinSpace. The value is determined as epoch time in milliseconds.
+    /// The timestamp at which the user was created in FinSpace. The value is determined as epoch time in milliseconds.
     public var createTime: Swift.Int
     /// The email address that is associated with the user.
     public var emailAddress: Swift.String?
     /// The first name of the user.
     public var firstName: Swift.String?
-    /// Describes the last time the user account was disabled. The value is determined as epoch time in milliseconds.
+    /// Describes the last time the user was deactivated. The value is determined as epoch time in milliseconds.
     public var lastDisabledTime: Swift.Int
-    /// Describes the last time the user account was enabled. The value is determined as epoch time in milliseconds.
+    /// Describes the last time the user was activated. The value is determined as epoch time in milliseconds.
     public var lastEnabledTime: Swift.Int
     /// Describes the last time that the user logged into their account. The value is determined as epoch time in milliseconds.
     public var lastLoginTime: Swift.Int
-    /// Describes the last time the user account was updated. The value is determined as epoch time in milliseconds.
+    /// Describes the last time the user details were updated. The value is determined as epoch time in milliseconds.
     public var lastModifiedTime: Swift.Int
     /// The last name of the user.
     public var lastName: Swift.String?
-    /// The current status of the user account.
+    /// The current status of the user.
     ///
-    /// * CREATING – The user account creation is in progress.
+    /// * CREATING – The creation is in progress.
     ///
-    /// * ENABLED – The user account is created and is currently active.
+    /// * ENABLED – The user is created and is currently active.
     ///
-    /// * DISABLED – The user account is currently inactive.
+    /// * DISABLED – The user is currently inactive.
     public var status: FinspacedataClientTypes.UserStatus?
     /// Indicates the type of user.
     ///
@@ -4189,7 +4206,7 @@ public struct GetUserOutputResponse: Swift.Equatable {
     ///
     /// * APP_USER – A user with specific permissions in FinSpace. The users are assigned permissions by adding them to a permission group.
     public var type: FinspacedataClientTypes.UserType?
-    /// The unique identifier for the user account that is retrieved.
+    /// The unique identifier for the user that is retrieved.
     public var userId: Swift.String?
 
     public init(
@@ -5425,7 +5442,7 @@ extension ListUsersOutputResponse: ClientRuntime.HttpResponseBinding {
 public struct ListUsersOutputResponse: Swift.Equatable {
     /// A token that indicates where a results page should begin.
     public var nextToken: Swift.String?
-    /// A list of all the user accounts.
+    /// A list of all the users.
     public var users: [FinspacedataClientTypes.User]?
 
     public init(
@@ -5596,11 +5613,11 @@ extension FinspacedataClientTypes {
         public var description: Swift.String?
         /// Describes the last time the permission group was updated. The value is determined as epoch time in milliseconds.
         public var lastModifiedTime: Swift.Int
-        /// Indicates the status of the user account within a permission group.
+        /// Indicates the status of the user within a permission group.
         ///
-        /// * ADDITION_IN_PROGRESS – The user account is currently being added to the permission group.
+        /// * ADDITION_IN_PROGRESS – The user is currently being added to the permission group.
         ///
-        /// * ADDITION_SUCCESS – The user account is successfully added to the permission group.
+        /// * ADDITION_SUCCESS – The user is successfully added to the permission group.
         ///
         /// * REMOVAL_IN_PROGRESS – The user is currently being removed from the permission group.
         public var membershipStatus: FinspacedataClientTypes.PermissionGroupMembershipStatus?
@@ -5668,13 +5685,13 @@ extension FinspacedataClientTypes.PermissionGroupByUser: Swift.CustomDebugString
 }
 
 extension FinspacedataClientTypes {
-    /// The structure of a permission group associated with a user account.
+    /// The structure of a permission group associated with a user.
     public struct PermissionGroupByUser: Swift.Equatable {
-        /// Indicates the status of the user account within a permission group.
+        /// Indicates the status of the user within a permission group.
         ///
-        /// * ADDITION_IN_PROGRESS – The user account is currently being added to the permission group.
+        /// * ADDITION_IN_PROGRESS – The user is currently being added to the permission group.
         ///
-        /// * ADDITION_SUCCESS – The user account is successfully added to the permission group.
+        /// * ADDITION_SUCCESS – The user is successfully added to the permission group.
         ///
         /// * REMOVAL_IN_PROGRESS – The user is currently being removed from the permission group.
         public var membershipStatus: FinspacedataClientTypes.PermissionGroupMembershipStatus?
@@ -5880,7 +5897,7 @@ extension ResetUserPasswordOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 public struct ResetUserPasswordOutputResponse: Swift.Equatable {
-    /// A randomly generated temporary password for the requested user account. This password expires in 7 days.
+    /// A randomly generated temporary password for the requested user. This password expires in 7 days.
     public var temporaryPassword: Swift.String?
     /// The unique identifier of the user that a new password is generated for.
     public var userId: Swift.String?
@@ -6818,7 +6835,7 @@ public struct UpdateUserInput: Swift.Equatable {
     ///
     /// * APP_USER – A user with specific permissions in FinSpace. The users are assigned permissions by adding them to a permission group.
     public var type: FinspacedataClientTypes.UserType?
-    /// The unique identifier for the user account to update.
+    /// The unique identifier for the user that you want to update.
     /// This member is required.
     public var userId: Swift.String?
 
@@ -6907,7 +6924,7 @@ extension UpdateUserOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 public struct UpdateUserOutputResponse: Swift.Equatable {
-    /// The unique identifier of the updated user account.
+    /// The unique identifier of the updated user.
     public var userId: Swift.String?
 
     public init(
@@ -7031,7 +7048,7 @@ extension FinspacedataClientTypes.User: Swift.CustomDebugStringConvertible {
 }
 
 extension FinspacedataClientTypes {
-    /// The details of the user account.
+    /// The details of the user.
     public struct User: Swift.Equatable {
         /// Indicates whether the user can use the GetProgrammaticAccessCredentials API to obtain credentials that can then be used to access other FinSpace Data API operations.
         ///
@@ -7041,29 +7058,29 @@ extension FinspacedataClientTypes {
         public var apiAccess: FinspacedataClientTypes.ApiAccess?
         /// The ARN identifier of an AWS user or role that is allowed to call the GetProgrammaticAccessCredentials API to obtain a credentials token for a specific FinSpace user. This must be an IAM role within your FinSpace account.
         public var apiAccessPrincipalArn: Swift.String?
-        /// The timestamp at which the user account was created in FinSpace. The value is determined as epoch time in milliseconds.
+        /// The timestamp at which the user was created in FinSpace. The value is determined as epoch time in milliseconds.
         public var createTime: Swift.Int
         /// The email address of the user. The email address serves as a uniquer identifier for each user and cannot be changed after it's created.
         public var emailAddress: Swift.String?
         /// The first name of the user.
         public var firstName: Swift.String?
-        /// Describes the last time the user account was disabled. The value is determined as epoch time in milliseconds.
+        /// Describes the last time the user was deactivated. The value is determined as epoch time in milliseconds.
         public var lastDisabledTime: Swift.Int
-        /// Describes the last time the user account was enabled. The value is determined as epoch time in milliseconds.
+        /// Describes the last time the user was activated. The value is determined as epoch time in milliseconds.
         public var lastEnabledTime: Swift.Int
         /// Describes the last time that the user logged into their account. The value is determined as epoch time in milliseconds.
         public var lastLoginTime: Swift.Int
-        /// Describes the last time the user account was updated. The value is determined as epoch time in milliseconds.
+        /// Describes the last time the user was updated. The value is determined as epoch time in milliseconds.
         public var lastModifiedTime: Swift.Int
         /// The last name of the user.
         public var lastName: Swift.String?
-        /// The current status of the user account.
+        /// The current status of the user.
         ///
-        /// * CREATING – The user account creation is in progress.
+        /// * CREATING – The user creation is in progress.
         ///
-        /// * ENABLED – The user account is created and is currently active.
+        /// * ENABLED – The user is created and is currently active.
         ///
-        /// * DISABLED – The user account is currently inactive.
+        /// * DISABLED – The user is currently inactive.
         public var status: FinspacedataClientTypes.UserStatus?
         /// Indicates the type of user.
         ///
@@ -7181,7 +7198,7 @@ extension FinspacedataClientTypes.UserByPermissionGroup: Swift.CustomDebugString
 }
 
 extension FinspacedataClientTypes {
-    /// The structure of a user account associated with a permission group.
+    /// The structure of a user associated with a permission group.
     public struct UserByPermissionGroup: Swift.Equatable {
         /// Indicates whether the user can access FinSpace API operations.
         ///
@@ -7197,21 +7214,21 @@ extension FinspacedataClientTypes {
         public var firstName: Swift.String?
         /// The last name of the user.
         public var lastName: Swift.String?
-        /// Indicates the status of the user account within a permission group.
+        /// Indicates the status of the user within a permission group.
         ///
-        /// * ADDITION_IN_PROGRESS – The user account is currently being added to the permission group.
+        /// * ADDITION_IN_PROGRESS – The user is currently being added to the permission group.
         ///
-        /// * ADDITION_SUCCESS – The user account is successfully added to the permission group.
+        /// * ADDITION_SUCCESS – The user is successfully added to the permission group.
         ///
         /// * REMOVAL_IN_PROGRESS – The user is currently being removed from the permission group.
         public var membershipStatus: FinspacedataClientTypes.PermissionGroupMembershipStatus?
-        /// The current status of the user account.
+        /// The current status of the user.
         ///
-        /// * CREATING – The user account creation is in progress.
+        /// * CREATING – The user creation is in progress.
         ///
-        /// * ENABLED – The user account is created and is currently active.
+        /// * ENABLED – The user is created and is currently active.
         ///
-        /// * DISABLED – The user account is currently inactive.
+        /// * DISABLED – The user is currently inactive.
         public var status: FinspacedataClientTypes.UserStatus?
         /// Indicates the type of user.
         ///

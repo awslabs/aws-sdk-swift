@@ -1771,6 +1771,7 @@ extension GuardDutyClientTypes.CoverageEksClusterDetails: Swift.Codable {
         case clusterName = "clusterName"
         case compatibleNodes = "compatibleNodes"
         case coveredNodes = "coveredNodes"
+        case managementType = "managementType"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -1787,6 +1788,9 @@ extension GuardDutyClientTypes.CoverageEksClusterDetails: Swift.Codable {
         if coveredNodes != 0 {
             try encodeContainer.encode(coveredNodes, forKey: .coveredNodes)
         }
+        if let managementType = self.managementType {
+            try encodeContainer.encode(managementType.rawValue, forKey: .managementType)
+        }
     }
 
     public init(from decoder: Swift.Decoder) throws {
@@ -1799,6 +1803,8 @@ extension GuardDutyClientTypes.CoverageEksClusterDetails: Swift.Codable {
         compatibleNodes = compatibleNodesDecoded
         let addonDetailsDecoded = try containerValues.decodeIfPresent(GuardDutyClientTypes.AddonDetails.self, forKey: .addonDetails)
         addonDetails = addonDetailsDecoded
+        let managementTypeDecoded = try containerValues.decodeIfPresent(GuardDutyClientTypes.ManagementType.self, forKey: .managementType)
+        managementType = managementTypeDecoded
     }
 }
 
@@ -1813,18 +1819,22 @@ extension GuardDutyClientTypes {
         public var compatibleNodes: Swift.Int
         /// Represents the nodes within the EKS cluster that have a HEALTHY coverage status.
         public var coveredNodes: Swift.Int
+        /// Indicates how the Amazon EKS add-on GuardDuty agent is managed for this EKS cluster. AUTO_MANAGED indicates GuardDuty deploys and manages updates for this resource. MANUAL indicates that you are responsible to deploy, update, and manage the Amazon EKS add-on GuardDuty agent for this resource.
+        public var managementType: GuardDutyClientTypes.ManagementType?
 
         public init(
             addonDetails: GuardDutyClientTypes.AddonDetails? = nil,
             clusterName: Swift.String? = nil,
             compatibleNodes: Swift.Int = 0,
-            coveredNodes: Swift.Int = 0
+            coveredNodes: Swift.Int = 0,
+            managementType: GuardDutyClientTypes.ManagementType? = nil
         )
         {
             self.addonDetails = addonDetails
             self.clusterName = clusterName
             self.compatibleNodes = compatibleNodes
             self.coveredNodes = coveredNodes
+            self.managementType = managementType
         }
     }
 
@@ -1974,7 +1984,7 @@ extension GuardDutyClientTypes.CoverageFilterCriterion: Swift.Codable {
 extension GuardDutyClientTypes {
     /// Represents a condition that when matched will be added to the response of the operation.
     public struct CoverageFilterCriterion: Swift.Equatable {
-        /// An enum value representing possible filter fields.
+        /// An enum value representing possible filter fields. Replace the enum value CLUSTER_NAME with EKS_CLUSTER_NAME. CLUSTER_NAME has been deprecated.
         public var criterionKey: GuardDutyClientTypes.CoverageFilterCriterionKey?
         /// Contains information about the condition.
         public var filterCondition: GuardDutyClientTypes.CoverageFilterCondition?
@@ -1997,6 +2007,8 @@ extension GuardDutyClientTypes {
         case addonVersion
         case clusterName
         case coverageStatus
+        case eksClusterName
+        case managementType
         case resourceType
         case sdkUnknown(Swift.String)
 
@@ -2006,6 +2018,8 @@ extension GuardDutyClientTypes {
                 .addonVersion,
                 .clusterName,
                 .coverageStatus,
+                .eksClusterName,
+                .managementType,
                 .resourceType,
                 .sdkUnknown("")
             ]
@@ -2020,6 +2034,8 @@ extension GuardDutyClientTypes {
             case .addonVersion: return "ADDON_VERSION"
             case .clusterName: return "CLUSTER_NAME"
             case .coverageStatus: return "COVERAGE_STATUS"
+            case .eksClusterName: return "EKS_CLUSTER_NAME"
+            case .managementType: return "MANAGEMENT_TYPE"
             case .resourceType: return "RESOURCE_TYPE"
             case let .sdkUnknown(s): return s
             }
@@ -2200,7 +2216,7 @@ extension GuardDutyClientTypes.CoverageSortCriteria: Swift.Codable {
 extension GuardDutyClientTypes {
     /// Information about the sorting criteria used in the coverage statistics.
     public struct CoverageSortCriteria: Swift.Equatable {
-        /// Represents the field name used to sort the coverage details.
+        /// Represents the field name used to sort the coverage details. Replace the enum value CLUSTER_NAME with EKS_CLUSTER_NAME. CLUSTER_NAME has been deprecated.
         public var attributeName: GuardDutyClientTypes.CoverageSortKey?
         /// The order in which the sorted findings are to be displayed.
         public var orderBy: GuardDutyClientTypes.OrderBy?
@@ -2223,6 +2239,7 @@ extension GuardDutyClientTypes {
         case addonVersion
         case clusterName
         case coverageStatus
+        case eksClusterName
         case issue
         case updatedAt
         case sdkUnknown(Swift.String)
@@ -2233,6 +2250,7 @@ extension GuardDutyClientTypes {
                 .addonVersion,
                 .clusterName,
                 .coverageStatus,
+                .eksClusterName,
                 .issue,
                 .updatedAt,
                 .sdkUnknown("")
@@ -2248,6 +2266,7 @@ extension GuardDutyClientTypes {
             case .addonVersion: return "ADDON_VERSION"
             case .clusterName: return "CLUSTER_NAME"
             case .coverageStatus: return "COVERAGE_STATUS"
+            case .eksClusterName: return "EKS_CLUSTER_NAME"
             case .issue: return "ISSUE"
             case .updatedAt: return "UPDATED_AT"
             case let .sdkUnknown(s): return s
@@ -5087,9 +5106,9 @@ public struct DescribeOrganizationConfigurationOutputResponse: Swift.Equatable {
     ///
     /// * NEW: Indicates that when a new account joins the organization, they will have GuardDuty enabled automatically.
     ///
-    /// * ALL: Indicates that all accounts in the Amazon Web Services Organization have GuardDuty enabled automatically. This includes NEW accounts that join the organization and accounts that may have been suspended or removed from the organization in GuardDuty.
+    /// * ALL: Indicates that all accounts in the organization have GuardDuty enabled automatically. This includes NEW accounts that join the organization and accounts that may have been suspended or removed from the organization in GuardDuty.
     ///
-    /// * NONE: Indicates that GuardDuty will not be automatically enabled for any accounts in the organization. GuardDuty must be managed for each account individually by the administrator.
+    /// * NONE: Indicates that GuardDuty will not be automatically enabled for any account in the organization. The administrator must manage GuardDuty for each account in the organization individually.
     public var autoEnableOrganizationMembers: GuardDutyClientTypes.AutoEnableMembers?
     /// Describes which data sources are enabled automatically for member accounts.
     @available(*, deprecated, message: "This parameter is deprecated, use Features instead")
@@ -6852,7 +6871,7 @@ extension EnableOrganizationAdminAccountInput: ClientRuntime.URLPathProvider {
 }
 
 public struct EnableOrganizationAdminAccountInput: Swift.Equatable {
-    /// The Amazon Web Services Account ID for the organization account to be enabled as a GuardDuty delegated administrator.
+    /// The Amazon Web Services account ID for the organization account to be enabled as a GuardDuty delegated administrator.
     /// This member is required.
     public var adminAccountId: Swift.String?
 
@@ -7204,7 +7223,7 @@ extension GuardDutyClientTypes.FilterCriterion: Swift.Codable {
 extension GuardDutyClientTypes {
     /// Represents a condition that when matched will be added to the response of the operation. Irrespective of using any filter criteria, an administrator account can view the scan entries for all of its member accounts. However, each member account can view the scan entries only for their own account.
     public struct FilterCriterion: Swift.Equatable {
-        /// An enum value representing possible scan properties to match with given scan entries.
+        /// An enum value representing possible scan properties to match with given scan entries. Replace the enum value CLUSTER_NAME with EKS_CLUSTER_NAME. CLUSTER_NAME has been deprecated.
         public var criterionKey: GuardDutyClientTypes.CriterionKey?
         /// Contains information about the condition.
         public var filterCondition: GuardDutyClientTypes.FilterCondition?
@@ -7325,7 +7344,7 @@ extension GuardDutyClientTypes.Finding: Swift.Codable {
 }
 
 extension GuardDutyClientTypes {
-    /// Contains information about the finding, which is generated when abnormal or suspicious activity is detected.
+    /// Contains information about the finding that is generated when abnormal or suspicious activity is detected.
     public struct Finding: Swift.Equatable {
         /// The ID of the account in which the finding was generated.
         /// This member is required.
@@ -12977,6 +12996,38 @@ extension GuardDutyClientTypes {
 
 }
 
+extension GuardDutyClientTypes {
+    public enum ManagementType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case autoManaged
+        case manual
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ManagementType] {
+            return [
+                .autoManaged,
+                .manual,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .autoManaged: return "AUTO_MANAGED"
+            case .manual: return "MANUAL"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = ManagementType(rawValue: rawValue) ?? ManagementType.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension GuardDutyClientTypes.Master: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case accountId = "accountId"
@@ -13954,7 +14005,13 @@ extension GuardDutyClientTypes.OrganizationAdditionalConfiguration: Swift.Codabl
 extension GuardDutyClientTypes {
     /// A list of additional configurations which will be configured for the organization.
     public struct OrganizationAdditionalConfiguration: Swift.Equatable {
-        /// The status of the additional configuration that will be configured for the organization.
+        /// The status of the additional configuration that will be configured for the organization. Use one of the following values to configure the feature status for the entire organization:
+        ///
+        /// * NEW: Indicates that when a new account joins the organization, they will have the additional configuration enabled automatically.
+        ///
+        /// * ALL: Indicates that all accounts in the organization have the additional configuration enabled automatically. This includes NEW accounts that join the organization and accounts that may have been suspended or removed from the organization in GuardDuty. It may take up to 24 hours to update the configuration for all the member accounts.
+        ///
+        /// * NONE: Indicates that the additional configuration will not be automatically enabled for any account in the organization. The administrator must manage the additional configuration for each account individually.
         public var autoEnable: GuardDutyClientTypes.OrgFeatureStatus?
         /// The name of the additional configuration that will be configured for the organization.
         public var name: GuardDutyClientTypes.OrgFeatureAdditionalConfiguration?
@@ -13999,7 +14056,13 @@ extension GuardDutyClientTypes.OrganizationAdditionalConfigurationResult: Swift.
 extension GuardDutyClientTypes {
     /// A list of additional configuration which will be configured for the organization.
     public struct OrganizationAdditionalConfigurationResult: Swift.Equatable {
-        /// Describes how The status of the additional configuration that are configured for the member accounts within the organization. If you set AutoEnable to NEW, a feature will be configured for only the new accounts when they join the organization. If you set AutoEnable to NONE, no feature will be configured for the accounts when they join the organization.
+        /// Describes the status of the additional configuration that is configured for the member accounts within the organization. One of the following values is the status for the entire organization:
+        ///
+        /// * NEW: Indicates that when a new account joins the organization, they will have the additional configuration enabled automatically.
+        ///
+        /// * ALL: Indicates that all accounts in the organization have the additional configuration enabled automatically. This includes NEW accounts that join the organization and accounts that may have been suspended or removed from the organization in GuardDuty. It may take up to 24 hours to update the configuration for all the member accounts.
+        ///
+        /// * NONE: Indicates that the additional configuration will not be automatically enabled for any account in the organization. The administrator must manage the additional configuration for each account individually.
         public var autoEnable: GuardDutyClientTypes.OrgFeatureStatus?
         /// The name of the additional configuration that is configured for the member accounts within the organization.
         public var name: GuardDutyClientTypes.OrgFeatureAdditionalConfiguration?
@@ -14245,7 +14308,13 @@ extension GuardDutyClientTypes {
     public struct OrganizationFeatureConfiguration: Swift.Equatable {
         /// The additional information that will be configured for the organization.
         public var additionalConfiguration: [GuardDutyClientTypes.OrganizationAdditionalConfiguration]?
-        /// The status of the feature that will be configured for the organization.
+        /// Describes the status of the feature that is configured for the member accounts within the organization. One of the following values is the status for the entire organization:
+        ///
+        /// * NEW: Indicates that when a new account joins the organization, they will have the feature enabled automatically.
+        ///
+        /// * ALL: Indicates that all accounts in the organization have the feature enabled automatically. This includes NEW accounts that join the organization and accounts that may have been suspended or removed from the organization in GuardDuty. It may take up to 24 hours to update the configuration for all the member accounts.
+        ///
+        /// * NONE: Indicates that the feature will not be automatically enabled for any account in the organization. The administrator must manage the feature for each account individually.
         public var autoEnable: GuardDutyClientTypes.OrgFeatureStatus?
         /// The name of the feature that will be configured for the organization.
         public var name: GuardDutyClientTypes.OrgFeature?
@@ -14312,7 +14381,13 @@ extension GuardDutyClientTypes {
     public struct OrganizationFeatureConfigurationResult: Swift.Equatable {
         /// The additional configuration that is configured for the member accounts within the organization.
         public var additionalConfiguration: [GuardDutyClientTypes.OrganizationAdditionalConfigurationResult]?
-        /// Describes how The status of the feature that are configured for the member accounts within the organization. If you set AutoEnable to NEW, a feature will be configured for only the new accounts when they join the organization. If you set AutoEnable to NONE, no feature will be configured for the accounts when they join the organization.
+        /// Describes the status of the feature that is configured for the member accounts within the organization.
+        ///
+        /// * NEW: Indicates that when a new account joins the organization, they will have the feature enabled automatically.
+        ///
+        /// * ALL: Indicates that all accounts in the organization have the feature enabled automatically. This includes NEW accounts that join the organization and accounts that may have been suspended or removed from the organization in GuardDuty.
+        ///
+        /// * NONE: Indicates that the feature will not be automatically enabled for any account in the organization. In this case, each account will be managed individually by the administrator.
         public var autoEnable: GuardDutyClientTypes.OrgFeatureStatus?
         /// The name of the feature that is configured for the member accounts within the organization.
         public var name: GuardDutyClientTypes.OrgFeature?
@@ -16578,12 +16653,12 @@ extension GuardDutyClientTypes.ScanConditionPair: Swift.Codable {
 }
 
 extension GuardDutyClientTypes {
-    /// Represents key, value pair to be matched against given resource property.
+    /// Represents the key:value pair to be matched against given resource property.
     public struct ScanConditionPair: Swift.Equatable {
-        /// Represents key in the map condition.
+        /// Represents the key in the map condition.
         /// This member is required.
         public var key: Swift.String?
-        /// Represents optional value in the map condition. If not specified, only key will be matched.
+        /// Represents optional value in the map condition. If not specified, only the key will be matched.
         public var value: Swift.String?
 
         public init(
@@ -19392,16 +19467,16 @@ extension UpdateOrganizationConfigurationInput: ClientRuntime.URLPathProvider {
 }
 
 public struct UpdateOrganizationConfigurationInput: Swift.Equatable {
-    /// Indicates whether to automatically enable member accounts in the organization. Even though this is still supported, we recommend using AutoEnableOrganizationMembers to achieve the similar results.
+    /// Represents whether or not to automatically enable member accounts in the organization. Even though this is still supported, we recommend using AutoEnableOrganizationMembers to achieve the similar results. You must provide a value for either autoEnableOrganizationMembers or autoEnable.
     @available(*, deprecated, message: "This field is deprecated, use AutoEnableOrganizationMembers instead")
     public var autoEnable: Swift.Bool?
-    /// Indicates the auto-enablement configuration of GuardDuty for the member accounts in the organization.
+    /// Indicates the auto-enablement configuration of GuardDuty for the member accounts in the organization. You must provide a value for either autoEnableOrganizationMembers or autoEnable. Use one of the following configuration values for autoEnableOrganizationMembers:
     ///
     /// * NEW: Indicates that when a new account joins the organization, they will have GuardDuty enabled automatically.
     ///
-    /// * ALL: Indicates that all accounts in the Amazon Web Services Organization have GuardDuty enabled automatically. This includes NEW accounts that join the organization and accounts that may have been suspended or removed from the organization in GuardDuty.
+    /// * ALL: Indicates that all accounts in the organization have GuardDuty enabled automatically. This includes NEW accounts that join the organization and accounts that may have been suspended or removed from the organization in GuardDuty. It may take up to 24 hours to update the configuration for all the member accounts.
     ///
-    /// * NONE: Indicates that GuardDuty will not be automatically enabled for any accounts in the organization. GuardDuty must be managed for each account individually by the administrator.
+    /// * NONE: Indicates that GuardDuty will not be automatically enabled for any account in the organization. The administrator must manage GuardDuty for each account in the organization individually.
     public var autoEnableOrganizationMembers: GuardDutyClientTypes.AutoEnableMembers?
     /// Describes which data sources will be updated.
     @available(*, deprecated, message: "This parameter is deprecated, use Features instead")

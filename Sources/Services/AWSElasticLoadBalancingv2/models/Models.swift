@@ -5997,7 +5997,7 @@ extension ElasticLoadBalancingv2ClientTypes.LoadBalancer: Swift.Codable {
             try container.encode(canonicalHostedZoneId, forKey: ClientRuntime.Key("CanonicalHostedZoneId"))
         }
         if let createdTime = createdTime {
-            try container.encodeTimestamp(createdTime, format: .dateTime, forKey: ClientRuntime.Key("createdTime"))
+            try container.encodeTimestamp(createdTime, format: .dateTime, forKey: ClientRuntime.Key("CreatedTime"))
         }
         if let customerOwnedIpv4Pool = customerOwnedIpv4Pool {
             try container.encode(customerOwnedIpv4Pool, forKey: ClientRuntime.Key("CustomerOwnedIpv4Pool"))

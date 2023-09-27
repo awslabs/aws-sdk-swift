@@ -4977,7 +4977,7 @@ extension CloudSearchClientTypes.OptionStatus: Swift.Codable {
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
         if let creationDate = creationDate {
-            try container.encodeTimestamp(creationDate, format: .dateTime, forKey: ClientRuntime.Key("creationDate"))
+            try container.encodeTimestamp(creationDate, format: .dateTime, forKey: ClientRuntime.Key("CreationDate"))
         }
         if let pendingDeletion = pendingDeletion {
             try container.encode(pendingDeletion, forKey: ClientRuntime.Key("PendingDeletion"))
@@ -4986,7 +4986,7 @@ extension CloudSearchClientTypes.OptionStatus: Swift.Codable {
             try container.encode(state, forKey: ClientRuntime.Key("State"))
         }
         if let updateDate = updateDate {
-            try container.encodeTimestamp(updateDate, format: .dateTime, forKey: ClientRuntime.Key("updateDate"))
+            try container.encodeTimestamp(updateDate, format: .dateTime, forKey: ClientRuntime.Key("UpdateDate"))
         }
         if updateVersion != 0 {
             try container.encode(updateVersion, forKey: ClientRuntime.Key("UpdateVersion"))

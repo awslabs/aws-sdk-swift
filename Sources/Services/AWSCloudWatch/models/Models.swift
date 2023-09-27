@@ -65,7 +65,7 @@ extension CloudWatchClientTypes.AlarmHistoryItem: Swift.Codable {
             try container.encode(historySummary, forKey: ClientRuntime.Key("HistorySummary"))
         }
         if let timestamp = timestamp {
-            try container.encodeTimestamp(timestamp, format: .dateTime, forKey: ClientRuntime.Key("timestamp"))
+            try container.encodeTimestamp(timestamp, format: .dateTime, forKey: ClientRuntime.Key("Timestamp"))
         }
     }
 
@@ -533,7 +533,7 @@ extension CloudWatchClientTypes.CompositeAlarm: Swift.Codable {
             try container.encode(alarmArn, forKey: ClientRuntime.Key("AlarmArn"))
         }
         if let alarmConfigurationUpdatedTimestamp = alarmConfigurationUpdatedTimestamp {
-            try container.encodeTimestamp(alarmConfigurationUpdatedTimestamp, format: .dateTime, forKey: ClientRuntime.Key("alarmConfigurationUpdatedTimestamp"))
+            try container.encodeTimestamp(alarmConfigurationUpdatedTimestamp, format: .dateTime, forKey: ClientRuntime.Key("AlarmConfigurationUpdatedTimestamp"))
         }
         if let alarmDescription = alarmDescription {
             try container.encode(alarmDescription, forKey: ClientRuntime.Key("AlarmDescription"))
@@ -575,10 +575,10 @@ extension CloudWatchClientTypes.CompositeAlarm: Swift.Codable {
             try container.encode(stateReasonData, forKey: ClientRuntime.Key("StateReasonData"))
         }
         if let stateTransitionedTimestamp = stateTransitionedTimestamp {
-            try container.encodeTimestamp(stateTransitionedTimestamp, format: .dateTime, forKey: ClientRuntime.Key("stateTransitionedTimestamp"))
+            try container.encodeTimestamp(stateTransitionedTimestamp, format: .dateTime, forKey: ClientRuntime.Key("StateTransitionedTimestamp"))
         }
         if let stateUpdatedTimestamp = stateUpdatedTimestamp {
-            try container.encodeTimestamp(stateUpdatedTimestamp, format: .dateTime, forKey: ClientRuntime.Key("stateUpdatedTimestamp"))
+            try container.encodeTimestamp(stateUpdatedTimestamp, format: .dateTime, forKey: ClientRuntime.Key("StateUpdatedTimestamp"))
         }
         if let stateValue = stateValue {
             try container.encode(stateValue, forKey: ClientRuntime.Key("StateValue"))
@@ -838,7 +838,7 @@ extension CloudWatchClientTypes.DashboardEntry: Swift.Codable {
             try container.encode(dashboardName, forKey: ClientRuntime.Key("DashboardName"))
         }
         if let lastModified = lastModified {
-            try container.encodeTimestamp(lastModified, format: .dateTime, forKey: ClientRuntime.Key("lastModified"))
+            try container.encodeTimestamp(lastModified, format: .dateTime, forKey: ClientRuntime.Key("LastModified"))
         }
         if size != 0 {
             try container.encode(size, forKey: ClientRuntime.Key("Size"))
@@ -1107,7 +1107,7 @@ extension CloudWatchClientTypes.Datapoint: Swift.Codable {
             try container.encode(sum, forKey: ClientRuntime.Key("Sum"))
         }
         if let timestamp = timestamp {
-            try container.encodeTimestamp(timestamp, format: .dateTime, forKey: ClientRuntime.Key("timestamp"))
+            try container.encodeTimestamp(timestamp, format: .dateTime, forKey: ClientRuntime.Key("Timestamp"))
         }
         if let unit = unit {
             try container.encode(unit, forKey: ClientRuntime.Key("Unit"))
@@ -1790,7 +1790,7 @@ extension DescribeAlarmHistoryInput: Swift.Encodable {
             }
         }
         if let endDate = endDate {
-            try container.encodeTimestamp(endDate, format: .dateTime, forKey: ClientRuntime.Key("endDate"))
+            try container.encodeTimestamp(endDate, format: .dateTime, forKey: ClientRuntime.Key("EndDate"))
         }
         if let historyItemType = historyItemType {
             try container.encode(historyItemType, forKey: ClientRuntime.Key("HistoryItemType"))
@@ -1805,7 +1805,7 @@ extension DescribeAlarmHistoryInput: Swift.Encodable {
             try container.encode(scanBy, forKey: ClientRuntime.Key("ScanBy"))
         }
         if let startDate = startDate {
-            try container.encodeTimestamp(startDate, format: .dateTime, forKey: ClientRuntime.Key("startDate"))
+            try container.encodeTimestamp(startDate, format: .dateTime, forKey: ClientRuntime.Key("StartDate"))
         }
         try container.encode("DescribeAlarmHistory", forKey:ClientRuntime.Key("Action"))
         try container.encode("2010-08-01", forKey:ClientRuntime.Key("Version"))
@@ -3570,7 +3570,7 @@ extension GetInsightRuleReportInput: Swift.Encodable {
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
         if let endTime = endTime {
-            try container.encodeTimestamp(endTime, format: .dateTime, forKey: ClientRuntime.Key("endTime"))
+            try container.encodeTimestamp(endTime, format: .dateTime, forKey: ClientRuntime.Key("EndTime"))
         }
         if let maxContributorCount = maxContributorCount {
             try container.encode(maxContributorCount, forKey: ClientRuntime.Key("MaxContributorCount"))
@@ -3597,7 +3597,7 @@ extension GetInsightRuleReportInput: Swift.Encodable {
             try container.encode(ruleName, forKey: ClientRuntime.Key("RuleName"))
         }
         if let startTime = startTime {
-            try container.encodeTimestamp(startTime, format: .dateTime, forKey: ClientRuntime.Key("startTime"))
+            try container.encodeTimestamp(startTime, format: .dateTime, forKey: ClientRuntime.Key("StartTime"))
         }
         try container.encode("GetInsightRuleReport", forKey:ClientRuntime.Key("Action"))
         try container.encode("2010-08-01", forKey:ClientRuntime.Key("Version"))
@@ -3879,7 +3879,7 @@ extension GetMetricDataInput: Swift.Encodable {
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
         if let endTime = endTime {
-            try container.encodeTimestamp(endTime, format: .dateTime, forKey: ClientRuntime.Key("endTime"))
+            try container.encodeTimestamp(endTime, format: .dateTime, forKey: ClientRuntime.Key("EndTime"))
         }
         if let labelOptions = labelOptions {
             try container.encode(labelOptions, forKey: ClientRuntime.Key("LabelOptions"))
@@ -3906,7 +3906,7 @@ extension GetMetricDataInput: Swift.Encodable {
             try container.encode(scanBy, forKey: ClientRuntime.Key("ScanBy"))
         }
         if let startTime = startTime {
-            try container.encodeTimestamp(startTime, format: .dateTime, forKey: ClientRuntime.Key("startTime"))
+            try container.encodeTimestamp(startTime, format: .dateTime, forKey: ClientRuntime.Key("StartTime"))
         }
         try container.encode("GetMetricData", forKey:ClientRuntime.Key("Action"))
         try container.encode("2010-08-01", forKey:ClientRuntime.Key("Version"))
@@ -4145,7 +4145,7 @@ extension GetMetricStatisticsInput: Swift.Encodable {
             }
         }
         if let endTime = endTime {
-            try container.encodeTimestamp(endTime, format: .dateTime, forKey: ClientRuntime.Key("endTime"))
+            try container.encodeTimestamp(endTime, format: .dateTime, forKey: ClientRuntime.Key("EndTime"))
         }
         if let extendedStatistics = extendedStatistics {
             if !extendedStatistics.isEmpty {
@@ -4169,7 +4169,7 @@ extension GetMetricStatisticsInput: Swift.Encodable {
             try container.encode(period, forKey: ClientRuntime.Key("Period"))
         }
         if let startTime = startTime {
-            try container.encodeTimestamp(startTime, format: .dateTime, forKey: ClientRuntime.Key("startTime"))
+            try container.encodeTimestamp(startTime, format: .dateTime, forKey: ClientRuntime.Key("StartTime"))
         }
         if let statistics = statistics {
             if !statistics.isEmpty {
@@ -5078,7 +5078,7 @@ extension CloudWatchClientTypes.InsightRuleContributorDatapoint: Swift.Codable {
             try container.encode(approximateValue, forKey: ClientRuntime.Key("ApproximateValue"))
         }
         if let timestamp = timestamp {
-            try container.encodeTimestamp(timestamp, format: .dateTime, forKey: ClientRuntime.Key("timestamp"))
+            try container.encodeTimestamp(timestamp, format: .dateTime, forKey: ClientRuntime.Key("Timestamp"))
         }
     }
 
@@ -5146,7 +5146,7 @@ extension CloudWatchClientTypes.InsightRuleMetricDatapoint: Swift.Codable {
             try container.encode(sum, forKey: ClientRuntime.Key("Sum"))
         }
         if let timestamp = timestamp {
-            try container.encodeTimestamp(timestamp, format: .dateTime, forKey: ClientRuntime.Key("timestamp"))
+            try container.encodeTimestamp(timestamp, format: .dateTime, forKey: ClientRuntime.Key("Timestamp"))
         }
         if let uniqueContributors = uniqueContributors {
             try container.encode(uniqueContributors, forKey: ClientRuntime.Key("UniqueContributors"))
@@ -6782,7 +6782,7 @@ extension CloudWatchClientTypes.MetricAlarm: Swift.Codable {
             try container.encode(alarmArn, forKey: ClientRuntime.Key("AlarmArn"))
         }
         if let alarmConfigurationUpdatedTimestamp = alarmConfigurationUpdatedTimestamp {
-            try container.encodeTimestamp(alarmConfigurationUpdatedTimestamp, format: .dateTime, forKey: ClientRuntime.Key("alarmConfigurationUpdatedTimestamp"))
+            try container.encodeTimestamp(alarmConfigurationUpdatedTimestamp, format: .dateTime, forKey: ClientRuntime.Key("AlarmConfigurationUpdatedTimestamp"))
         }
         if let alarmDescription = alarmDescription {
             try container.encode(alarmDescription, forKey: ClientRuntime.Key("AlarmDescription"))
@@ -6872,10 +6872,10 @@ extension CloudWatchClientTypes.MetricAlarm: Swift.Codable {
             try container.encode(stateReasonData, forKey: ClientRuntime.Key("StateReasonData"))
         }
         if let stateTransitionedTimestamp = stateTransitionedTimestamp {
-            try container.encodeTimestamp(stateTransitionedTimestamp, format: .dateTime, forKey: ClientRuntime.Key("stateTransitionedTimestamp"))
+            try container.encodeTimestamp(stateTransitionedTimestamp, format: .dateTime, forKey: ClientRuntime.Key("StateTransitionedTimestamp"))
         }
         if let stateUpdatedTimestamp = stateUpdatedTimestamp {
-            try container.encodeTimestamp(stateUpdatedTimestamp, format: .dateTime, forKey: ClientRuntime.Key("stateUpdatedTimestamp"))
+            try container.encodeTimestamp(stateUpdatedTimestamp, format: .dateTime, forKey: ClientRuntime.Key("StateUpdatedTimestamp"))
         }
         if let stateValue = stateValue {
             try container.encode(stateValue, forKey: ClientRuntime.Key("StateValue"))
@@ -7481,7 +7481,7 @@ extension CloudWatchClientTypes.MetricDatum: Swift.Codable {
             try container.encode(storageResolution, forKey: ClientRuntime.Key("StorageResolution"))
         }
         if let timestamp = timestamp {
-            try container.encodeTimestamp(timestamp, format: .dateTime, forKey: ClientRuntime.Key("timestamp"))
+            try container.encodeTimestamp(timestamp, format: .dateTime, forKey: ClientRuntime.Key("Timestamp"))
         }
         if let unit = unit {
             try container.encode(unit, forKey: ClientRuntime.Key("Unit"))
@@ -7778,13 +7778,13 @@ extension CloudWatchClientTypes.MetricStreamEntry: Swift.Codable {
             try container.encode(arn, forKey: ClientRuntime.Key("Arn"))
         }
         if let creationDate = creationDate {
-            try container.encodeTimestamp(creationDate, format: .dateTime, forKey: ClientRuntime.Key("creationDate"))
+            try container.encodeTimestamp(creationDate, format: .dateTime, forKey: ClientRuntime.Key("CreationDate"))
         }
         if let firehoseArn = firehoseArn {
             try container.encode(firehoseArn, forKey: ClientRuntime.Key("FirehoseArn"))
         }
         if let lastUpdateDate = lastUpdateDate {
-            try container.encodeTimestamp(lastUpdateDate, format: .dateTime, forKey: ClientRuntime.Key("lastUpdateDate"))
+            try container.encodeTimestamp(lastUpdateDate, format: .dateTime, forKey: ClientRuntime.Key("LastUpdateDate"))
         }
         if let name = name {
             try container.encode(name, forKey: ClientRuntime.Key("Name"))
@@ -10110,10 +10110,10 @@ extension CloudWatchClientTypes.Range: Swift.Codable {
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
         if let endTime = endTime {
-            try container.encodeTimestamp(endTime, format: .dateTime, forKey: ClientRuntime.Key("endTime"))
+            try container.encodeTimestamp(endTime, format: .dateTime, forKey: ClientRuntime.Key("EndTime"))
         }
         if let startTime = startTime {
-            try container.encodeTimestamp(startTime, format: .dateTime, forKey: ClientRuntime.Key("startTime"))
+            try container.encodeTimestamp(startTime, format: .dateTime, forKey: ClientRuntime.Key("StartTime"))
         }
     }
 

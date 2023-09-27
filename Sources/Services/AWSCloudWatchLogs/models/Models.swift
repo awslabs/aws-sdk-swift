@@ -6800,6 +6800,7 @@ public struct PutMetricFilterOutputResponse: Swift.Equatable {
 
 extension PutQueryDefinitionInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientToken
         case logGroupNames
         case name
         case queryDefinitionId
@@ -6808,6 +6809,9 @@ extension PutQueryDefinitionInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let clientToken = self.clientToken {
+            try encodeContainer.encode(clientToken, forKey: .clientToken)
+        }
         if let logGroupNames = logGroupNames {
             var logGroupNamesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .logGroupNames)
             for loggroupname0 in logGroupNames {
@@ -6833,6 +6837,8 @@ extension PutQueryDefinitionInput: ClientRuntime.URLPathProvider {
 }
 
 public struct PutQueryDefinitionInput: Swift.Equatable {
+    /// Used as an idempotency token, to avoid returning an exception if the service receives the same request twice because of a network error.
+    public var clientToken: Swift.String?
     /// Use this parameter to include specific log groups as part of your query definition. If you are updating a query definition and you omit this parameter, then the updated definition will contain no log groups.
     public var logGroupNames: [Swift.String]?
     /// A name for the query definition. If you are saving numerous query definitions, we recommend that you name them. This way, you can find the ones you want by using the first part of the name as a filter in the queryDefinitionNamePrefix parameter of [DescribeQueryDefinitions](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_DescribeQueryDefinitions.html).
@@ -6845,12 +6851,14 @@ public struct PutQueryDefinitionInput: Swift.Equatable {
     public var queryString: Swift.String?
 
     public init(
+        clientToken: Swift.String? = nil,
         logGroupNames: [Swift.String]? = nil,
         name: Swift.String? = nil,
         queryDefinitionId: Swift.String? = nil,
         queryString: Swift.String? = nil
     )
     {
+        self.clientToken = clientToken
         self.logGroupNames = logGroupNames
         self.name = name
         self.queryDefinitionId = queryDefinitionId
@@ -6863,10 +6871,12 @@ struct PutQueryDefinitionInputBody: Swift.Equatable {
     let queryDefinitionId: Swift.String?
     let logGroupNames: [Swift.String]?
     let queryString: Swift.String?
+    let clientToken: Swift.String?
 }
 
 extension PutQueryDefinitionInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientToken
         case logGroupNames
         case name
         case queryDefinitionId
@@ -6892,6 +6902,8 @@ extension PutQueryDefinitionInputBody: Swift.Decodable {
         logGroupNames = logGroupNamesDecoded0
         let queryStringDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .queryString)
         queryString = queryStringDecoded
+        let clientTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientToken)
+        clientToken = clientTokenDecoded
     }
 }
 

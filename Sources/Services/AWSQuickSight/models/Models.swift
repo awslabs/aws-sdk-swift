@@ -49618,6 +49618,7 @@ extension QuickSightClientTypes {
         case analysis
         case dashboard
         case dataset
+        case topic
         case sdkUnknown(Swift.String)
 
         public static var allCases: [MemberType] {
@@ -49625,6 +49626,7 @@ extension QuickSightClientTypes {
                 .analysis,
                 .dashboard,
                 .dataset,
+                .topic,
                 .sdkUnknown("")
             ]
         }
@@ -49637,6 +49639,7 @@ extension QuickSightClientTypes {
             case .analysis: return "ANALYSIS"
             case .dashboard: return "DASHBOARD"
             case .dataset: return "DATASET"
+            case .topic: return "TOPIC"
             case let .sdkUnknown(s): return s
             }
         }
@@ -57949,6 +57952,7 @@ extension RegisterUserInput: Swift.Encodable {
         case iamArn = "IamArn"
         case identityType = "IdentityType"
         case sessionName = "SessionName"
+        case tags = "Tags"
         case userName = "UserName"
         case userRole = "UserRole"
     }
@@ -57978,6 +57982,12 @@ extension RegisterUserInput: Swift.Encodable {
         }
         if let sessionName = self.sessionName {
             try encodeContainer.encode(sessionName, forKey: .sessionName)
+        }
+        if let tags = tags {
+            var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
+            }
         }
         if let userName = self.userName {
             try encodeContainer.encode(userName, forKey: .userName)
@@ -58044,6 +58054,8 @@ public struct RegisterUserInput: Swift.Equatable {
     public var namespace: Swift.String?
     /// You need to use this parameter only when you register one or more users using an assumed IAM role. You don't need to provide the session name for other scenarios, for example when you are registering an IAM user or an Amazon QuickSight user. You can register multiple users using the same IAM role if each user has a different session name. For more information on assuming IAM roles, see [assume-role](https://docs.aws.amazon.com/cli/latest/reference/sts/assume-role.html) in the CLI Reference.
     public var sessionName: Swift.String?
+    /// The tags to associate with the user.
+    public var tags: [QuickSightClientTypes.Tag]?
     /// The Amazon QuickSight user name that you want to create for the user you are registering.
     public var userName: Swift.String?
     /// The Amazon QuickSight role for the user. The user role can be one of the following:
@@ -58071,6 +58083,7 @@ public struct RegisterUserInput: Swift.Equatable {
         identityType: QuickSightClientTypes.IdentityType? = nil,
         namespace: Swift.String? = nil,
         sessionName: Swift.String? = nil,
+        tags: [QuickSightClientTypes.Tag]? = nil,
         userName: Swift.String? = nil,
         userRole: QuickSightClientTypes.UserRole? = nil
     )
@@ -58085,6 +58098,7 @@ public struct RegisterUserInput: Swift.Equatable {
         self.identityType = identityType
         self.namespace = namespace
         self.sessionName = sessionName
+        self.tags = tags
         self.userName = userName
         self.userRole = userRole
     }
@@ -58101,6 +58115,7 @@ struct RegisterUserInputBody: Swift.Equatable {
     let externalLoginFederationProviderType: Swift.String?
     let customFederationProviderUrl: Swift.String?
     let externalLoginId: Swift.String?
+    let tags: [QuickSightClientTypes.Tag]?
 }
 
 extension RegisterUserInputBody: Swift.Decodable {
@@ -58113,6 +58128,7 @@ extension RegisterUserInputBody: Swift.Decodable {
         case iamArn = "IamArn"
         case identityType = "IdentityType"
         case sessionName = "SessionName"
+        case tags = "Tags"
         case userName = "UserName"
         case userRole = "UserRole"
     }
@@ -58139,6 +58155,17 @@ extension RegisterUserInputBody: Swift.Decodable {
         customFederationProviderUrl = customFederationProviderUrlDecoded
         let externalLoginIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .externalLoginId)
         externalLoginId = externalLoginIdDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([QuickSightClientTypes.Tag?].self, forKey: .tags)
+        var tagsDecoded0:[QuickSightClientTypes.Tag]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [QuickSightClientTypes.Tag]()
+            for structure0 in tagsContainer {
+                if let structure0 = structure0 {
+                    tagsDecoded0?.append(structure0)
+                }
+            }
+        }
+        tags = tagsDecoded0
     }
 }
 

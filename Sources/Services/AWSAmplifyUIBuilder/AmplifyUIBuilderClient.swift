@@ -364,7 +364,7 @@ extension AmplifyUIBuilderClient: AmplifyUIBuilderClientProtocol {
         return result
     }
 
-    /// Exchanges an access code for a token.
+    /// This is for internal use. Amplify uses this action to exchange an access code for a token.
     ///
     /// - Parameter ExchangeCodeForTokenInput : [no documentation found]
     ///
@@ -970,7 +970,7 @@ extension AmplifyUIBuilderClient: AmplifyUIBuilderClientProtocol {
         return result
     }
 
-    /// Refreshes a previously issued access token that might have expired.
+    /// This is for internal use. Amplify uses this action to refresh a previously issued access token that might have expired.
     ///
     /// - Parameter RefreshTokenInput : [no documentation found]
     ///

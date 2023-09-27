@@ -4875,7 +4875,7 @@ extension ElasticLoadBalancingClientTypes.LoadBalancerDescription: Swift.Codable
             try container.encode(canonicalHostedZoneNameID, forKey: ClientRuntime.Key("CanonicalHostedZoneNameID"))
         }
         if let createdTime = createdTime {
-            try container.encodeTimestamp(createdTime, format: .dateTime, forKey: ClientRuntime.Key("createdTime"))
+            try container.encodeTimestamp(createdTime, format: .dateTime, forKey: ClientRuntime.Key("CreatedTime"))
         }
         if let dnsName = dnsName {
             try container.encode(dnsName, forKey: ClientRuntime.Key("DNSName"))

@@ -8378,6 +8378,7 @@ extension XRayClientTypes.TraceSummary: Swift.Codable {
         case responseTimeRootCauses = "ResponseTimeRootCauses"
         case revision = "Revision"
         case serviceIds = "ServiceIds"
+        case startTime = "StartTime"
         case users = "Users"
     }
 
@@ -8467,6 +8468,9 @@ extension XRayClientTypes.TraceSummary: Swift.Codable {
                 try serviceIdsContainer.encode(serviceid0)
             }
         }
+        if let startTime = self.startTime {
+            try encodeContainer.encodeTimestamp(startTime, format: .epochSeconds, forKey: .startTime)
+        }
         if let users = users {
             var usersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .users)
             for traceuser0 in users {
@@ -8479,6 +8483,8 @@ extension XRayClientTypes.TraceSummary: Swift.Codable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
         id = idDecoded
+        let startTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .startTime)
+        startTime = startTimeDecoded
         let durationDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .duration)
         duration = durationDecoded
         let responseTimeDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .responseTime)
@@ -8649,6 +8655,8 @@ extension XRayClientTypes {
         public var revision: Swift.Int
         /// Service IDs from the trace's segment documents.
         public var serviceIds: [XRayClientTypes.ServiceId]?
+        /// The start time of a trace, based on the earliest trace segment start time.
+        public var startTime: ClientRuntime.Date?
         /// Users from the trace's segment documents.
         public var users: [XRayClientTypes.TraceUser]?
 
@@ -8672,6 +8680,7 @@ extension XRayClientTypes {
             responseTimeRootCauses: [XRayClientTypes.ResponseTimeRootCause]? = nil,
             revision: Swift.Int = 0,
             serviceIds: [XRayClientTypes.ServiceId]? = nil,
+            startTime: ClientRuntime.Date? = nil,
             users: [XRayClientTypes.TraceUser]? = nil
         )
         {
@@ -8694,6 +8703,7 @@ extension XRayClientTypes {
             self.responseTimeRootCauses = responseTimeRootCauses
             self.revision = revision
             self.serviceIds = serviceIds
+            self.startTime = startTime
             self.users = users
         }
     }
