@@ -70,8 +70,8 @@ class Route53InvalidBatchErrorIntegrationTests {
         contents.shouldSyntacticSanityCheck()
         val expectedContents =
             """
-            public enum ChangeResourceRecordSetsOutputError: ClientRuntime.HttpResponseErrorBinding {
-                public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+            enum ChangeResourceRecordSetsOutputError: ClientRuntime.HttpResponseErrorBinding {
+                static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
                     if let customBatchError = try await CustomInvalidBatchError.makeFromHttpResponse(httpResponse) {
                         return InvalidChangeBatch(
                             customError: customBatchError,
