@@ -17,7 +17,7 @@ jobs:
       matrix:
         # This matrix runs tests on iOS sim & Mac, on oldest & newest supported Xcodes
         runner:
-          - macos-12
+          - macos-13
           - macos-14
         xcode:
           - Xcode_14.0
@@ -26,11 +26,6 @@ jobs:
           - 'platform=iOS Simulator,OS=15.2,name=iPhone 13'
           - 'platform=iOS Simulator,OS=16.4,name=iPhone 14'
           - 'platform=OS X'
-        exclude:
-          - runner: macos-12
-            xcode: Xcode_15.0
-          - runner: macos-14
-            xcode: Xcode_14.0
     steps:
       - name: Checkout aws-sdk-swift
         uses: actions/checkout@v3
