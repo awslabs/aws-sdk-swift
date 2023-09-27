@@ -76,13 +76,13 @@ class AWSJsonHttpResponseBindingErrorGenerator : HttpResponseBindingErrorGenerat
                 addImport(SwiftDependency.CLIENT_RUNTIME.target)
 
                 openBlock(
-                    "public enum \$L: \$N {",
+                    "enum \$L: \$N {",
                     "}",
                     operationErrorName,
                     ClientRuntimeTypes.Http.HttpResponseErrorBinding
                 ) {
                     openBlock(
-                        "public static func makeError(httpResponse: \$N, decoder: \$D) async throws -> \$N {", "}",
+                        "static func makeError(httpResponse: \$N, decoder: \$D) async throws -> \$N {", "}",
                         ClientRuntimeTypes.Http.HttpResponse,
                         ClientRuntimeTypes.Serde.ResponseDecoder,
                         SwiftTypes.Error

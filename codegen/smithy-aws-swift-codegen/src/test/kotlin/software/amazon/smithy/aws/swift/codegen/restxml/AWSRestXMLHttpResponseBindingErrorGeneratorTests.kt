@@ -22,8 +22,8 @@ class AWSRestXMLHttpResponseBindingErrorGeneratorTests {
         contents.shouldSyntacticSanityCheck()
         val expectedContents =
             """
-            public enum GreetingWithErrorsOutputError: ClientRuntime.HttpResponseErrorBinding {
-                public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+            enum GreetingWithErrorsOutputError: ClientRuntime.HttpResponseErrorBinding {
+                static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
                     let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
                     let serviceError = try await RestXmlerrorsClientTypes.makeServiceError(httpResponse, decoder, restXMLError)
                     if let error = serviceError { return error }
