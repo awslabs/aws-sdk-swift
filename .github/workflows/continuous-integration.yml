@@ -17,7 +17,7 @@ jobs:
       matrix:
         # This matrix runs tests on iOS sim & Mac, on oldest & newest supported Xcodes
         runner:
-          - macos-12.5
+          - macos-12
           - macos-13
         xcode:
           - Xcode_14.0.1
@@ -28,7 +28,7 @@ jobs:
           - 'platform=OS X'
         exclude:
           # Don't run old macOS with new Xcode
-          - runner: macos-12.5
+          - runner: macos-12
             xcode: Xcode_15.0
           # Don't run new macOS with old Xcode
           - runner: macos-13
