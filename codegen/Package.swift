@@ -1,4 +1,4 @@
-// swift-tools-version:5.7.0
+// swift-tools-version:5.5.0
 
 /*
  * Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.

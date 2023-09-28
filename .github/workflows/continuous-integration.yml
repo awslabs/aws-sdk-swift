@@ -23,7 +23,7 @@ jobs:
           - Xcode_14.0.1
           - Xcode_15.0
         destination:
-          - 'platform=iOS Simulator,OS=16.2,name=iPhone 13'
+          - 'platform=iOS Simulator,OS=16.0,name=iPhone 13'
           - 'platform=iOS Simulator,OS=17.0,name=iPhone 14'
           - 'platform=OS X'
         exclude:
@@ -32,6 +32,12 @@ jobs:
             xcode: Xcode_15.0
           # Don't run new macOS with old Xcode
           - runner: macos-13
+            xcode: Xcode_14.0.1
+          # Don't run old iOS simulator with new Xcode
+          - destination: 'platform=iOS Simulator,OS=16.0,name=iPhone 13'
+            xcode: Xcode_15.0
+          # Don't run new iOS simulator with old Xcode
+          - destination: 'platform=iOS Simulator,OS=17.0,name=iPhone 14'
             xcode: Xcode_14.0.1
     steps:
       - name: Checkout aws-sdk-swift

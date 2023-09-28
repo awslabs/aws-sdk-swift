@@ -56,7 +56,7 @@ $ swift package init --type executable
 
 2. Edit your new package's `Package.swift` file to read:
 ```
-// swift-tools-version: 5.7
+// swift-tools-version: 5.5
 
 import PackageDescription
 
