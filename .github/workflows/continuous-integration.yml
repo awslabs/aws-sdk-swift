@@ -20,7 +20,7 @@ jobs:
           - macos-12.5
           - macos-13
         xcode:
-          - Xcode_14.0
+          - Xcode_14.3.1
           - Xcode_15.0
         destination:
           - 'platform=iOS Simulator,OS=15.2,name=iPhone 13'
