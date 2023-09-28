@@ -17,7 +17,7 @@ jobs:
       matrix:
         # This matrix runs tests on iOS sim & Mac, on oldest & newest supported Xcodes
         runner:
-          - macos-12
+          - macos-12.5
           - macos-13
         xcode:
           - Xcode_14.0.1
