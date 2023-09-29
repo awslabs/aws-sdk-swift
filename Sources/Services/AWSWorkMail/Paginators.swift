@@ -96,6 +96,31 @@ extension WorkMailClient {
 extension ListGroupsInput: ClientRuntime.PaginateToken {
     public func usingPaginationToken(_ token: Swift.String) -> ListGroupsInput {
         return ListGroupsInput(
+            filters: self.filters,
+            maxResults: self.maxResults,
+            nextToken: token,
+            organizationId: self.organizationId
+        )}
+}
+extension WorkMailClient {
+    /// Paginate over `[ListGroupsForEntityOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListGroupsForEntityInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListGroupsForEntityOutputResponse`
+    public func listGroupsForEntityPaginated(input: ListGroupsForEntityInput) -> ClientRuntime.PaginatorSequence<ListGroupsForEntityInput, ListGroupsForEntityOutputResponse> {
+        return ClientRuntime.PaginatorSequence<ListGroupsForEntityInput, ListGroupsForEntityOutputResponse>(input: input, inputKey: \ListGroupsForEntityInput.nextToken, outputKey: \ListGroupsForEntityOutputResponse.nextToken, paginationFunction: self.listGroupsForEntity(input:))
+    }
+}
+
+extension ListGroupsForEntityInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListGroupsForEntityInput {
+        return ListGroupsForEntityInput(
+            entityId: self.entityId,
+            filters: self.filters,
             maxResults: self.maxResults,
             nextToken: token,
             organizationId: self.organizationId
@@ -275,6 +300,7 @@ extension WorkMailClient {
 extension ListResourcesInput: ClientRuntime.PaginateToken {
     public func usingPaginationToken(_ token: Swift.String) -> ListResourcesInput {
         return ListResourcesInput(
+            filters: self.filters,
             maxResults: self.maxResults,
             nextToken: token,
             organizationId: self.organizationId
@@ -297,6 +323,7 @@ extension WorkMailClient {
 extension ListUsersInput: ClientRuntime.PaginateToken {
     public func usingPaginationToken(_ token: Swift.String) -> ListUsersInput {
         return ListUsersInput(
+            filters: self.filters,
             maxResults: self.maxResults,
             nextToken: token,
             organizationId: self.organizationId

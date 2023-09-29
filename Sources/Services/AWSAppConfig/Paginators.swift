@@ -23,6 +23,15 @@ extension ListApplicationsInput: ClientRuntime.PaginateToken {
             nextToken: token
         )}
 }
+
+extension PaginatorSequence where Input == ListApplicationsInput, Output == ListApplicationsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listApplicationsPaginated`
+    /// to access the nested member `[AppConfigClientTypes.Application]`
+    /// - Returns: `[AppConfigClientTypes.Application]`
+    public func items() async throws -> [AppConfigClientTypes.Application] {
+        return try await self.asyncCompactMap { item in item.items }
+    }
+}
 extension AppConfigClient {
     /// Paginate over `[ListConfigurationProfilesOutputResponse]` results.
     ///
@@ -45,6 +54,15 @@ extension ListConfigurationProfilesInput: ClientRuntime.PaginateToken {
             nextToken: token,
             type: self.type
         )}
+}
+
+extension PaginatorSequence where Input == ListConfigurationProfilesInput, Output == ListConfigurationProfilesOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listConfigurationProfilesPaginated`
+    /// to access the nested member `[AppConfigClientTypes.ConfigurationProfileSummary]`
+    /// - Returns: `[AppConfigClientTypes.ConfigurationProfileSummary]`
+    public func items() async throws -> [AppConfigClientTypes.ConfigurationProfileSummary] {
+        return try await self.asyncCompactMap { item in item.items }
+    }
 }
 extension AppConfigClient {
     /// Paginate over `[ListDeploymentsOutputResponse]` results.
@@ -69,6 +87,15 @@ extension ListDeploymentsInput: ClientRuntime.PaginateToken {
             nextToken: token
         )}
 }
+
+extension PaginatorSequence where Input == ListDeploymentsInput, Output == ListDeploymentsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listDeploymentsPaginated`
+    /// to access the nested member `[AppConfigClientTypes.DeploymentSummary]`
+    /// - Returns: `[AppConfigClientTypes.DeploymentSummary]`
+    public func items() async throws -> [AppConfigClientTypes.DeploymentSummary] {
+        return try await self.asyncCompactMap { item in item.items }
+    }
+}
 extension AppConfigClient {
     /// Paginate over `[ListDeploymentStrategiesOutputResponse]` results.
     ///
@@ -89,6 +116,15 @@ extension ListDeploymentStrategiesInput: ClientRuntime.PaginateToken {
             maxResults: self.maxResults,
             nextToken: token
         )}
+}
+
+extension PaginatorSequence where Input == ListDeploymentStrategiesInput, Output == ListDeploymentStrategiesOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listDeploymentStrategiesPaginated`
+    /// to access the nested member `[AppConfigClientTypes.DeploymentStrategy]`
+    /// - Returns: `[AppConfigClientTypes.DeploymentStrategy]`
+    public func items() async throws -> [AppConfigClientTypes.DeploymentStrategy] {
+        return try await self.asyncCompactMap { item in item.items }
+    }
 }
 extension AppConfigClient {
     /// Paginate over `[ListEnvironmentsOutputResponse]` results.
@@ -111,6 +147,15 @@ extension ListEnvironmentsInput: ClientRuntime.PaginateToken {
             maxResults: self.maxResults,
             nextToken: token
         )}
+}
+
+extension PaginatorSequence where Input == ListEnvironmentsInput, Output == ListEnvironmentsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listEnvironmentsPaginated`
+    /// to access the nested member `[AppConfigClientTypes.Environment]`
+    /// - Returns: `[AppConfigClientTypes.Environment]`
+    public func items() async throws -> [AppConfigClientTypes.Environment] {
+        return try await self.asyncCompactMap { item in item.items }
+    }
 }
 extension AppConfigClient {
     /// Paginate over `[ListExtensionAssociationsOutputResponse]` results.
@@ -136,6 +181,15 @@ extension ListExtensionAssociationsInput: ClientRuntime.PaginateToken {
             resourceIdentifier: self.resourceIdentifier
         )}
 }
+
+extension PaginatorSequence where Input == ListExtensionAssociationsInput, Output == ListExtensionAssociationsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listExtensionAssociationsPaginated`
+    /// to access the nested member `[AppConfigClientTypes.ExtensionAssociationSummary]`
+    /// - Returns: `[AppConfigClientTypes.ExtensionAssociationSummary]`
+    public func items() async throws -> [AppConfigClientTypes.ExtensionAssociationSummary] {
+        return try await self.asyncCompactMap { item in item.items }
+    }
+}
 extension AppConfigClient {
     /// Paginate over `[ListExtensionsOutputResponse]` results.
     ///
@@ -157,6 +211,15 @@ extension ListExtensionsInput: ClientRuntime.PaginateToken {
             name: self.name,
             nextToken: token
         )}
+}
+
+extension PaginatorSequence where Input == ListExtensionsInput, Output == ListExtensionsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listExtensionsPaginated`
+    /// to access the nested member `[AppConfigClientTypes.ExtensionSummary]`
+    /// - Returns: `[AppConfigClientTypes.ExtensionSummary]`
+    public func items() async throws -> [AppConfigClientTypes.ExtensionSummary] {
+        return try await self.asyncCompactMap { item in item.items }
+    }
 }
 extension AppConfigClient {
     /// Paginate over `[ListHostedConfigurationVersionsOutputResponse]` results.
@@ -181,4 +244,13 @@ extension ListHostedConfigurationVersionsInput: ClientRuntime.PaginateToken {
             nextToken: token,
             versionLabel: self.versionLabel
         )}
+}
+
+extension PaginatorSequence where Input == ListHostedConfigurationVersionsInput, Output == ListHostedConfigurationVersionsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listHostedConfigurationVersionsPaginated`
+    /// to access the nested member `[AppConfigClientTypes.HostedConfigurationVersionSummary]`
+    /// - Returns: `[AppConfigClientTypes.HostedConfigurationVersionSummary]`
+    public func items() async throws -> [AppConfigClientTypes.HostedConfigurationVersionSummary] {
+        return try await self.asyncCompactMap { item in item.items }
+    }
 }

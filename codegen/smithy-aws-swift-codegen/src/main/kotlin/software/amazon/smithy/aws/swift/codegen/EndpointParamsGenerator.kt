@@ -71,7 +71,7 @@ fun Parameter.toSymbol(): Symbol {
         builder = builder.boxed()
     }
 
-    defaultValue.ifPresent { defaultValue ->
+    default.ifPresent { defaultValue ->
         builder.defaultValue(defaultValue.toString())
     }
 

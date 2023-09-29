@@ -27,7 +27,7 @@ let package = Package(
                 .process("Resources/Package.Base.swift")
             ],
             swiftSettings: [
-                .unsafeFlags(["-package-description-version", "5.5"])
+                .unsafeFlags(["-package-description-version", "5.7"])
             ]
         ),
         .testTarget(

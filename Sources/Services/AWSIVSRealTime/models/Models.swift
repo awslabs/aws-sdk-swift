@@ -2210,7 +2210,7 @@ extension IVSRealTimeClientTypes.ParticipantToken: Swift.CustomDebugStringConver
 }
 
 extension IVSRealTimeClientTypes {
-    /// Object specifying a participant token in a stage.
+    /// Object specifying a participant token in a stage. Important: Treat tokens as opaque; i.e., do not build functionality based on token contents. The format of tokens could change in the future.
     public struct ParticipantToken: Swift.Equatable {
         /// Application-provided attributes to encode into the token and attach to a stage. This field is exposed to all stage participants and should not be used for personally identifying, confidential, or sensitive information.
         public var attributes: [Swift.String:Swift.String]?

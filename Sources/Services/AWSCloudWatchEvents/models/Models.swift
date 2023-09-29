@@ -1264,6 +1264,11 @@ extension CloudWatchEventsClientTypes.ConnectionBodyParameter: Swift.Codable {
     }
 }
 
+extension CloudWatchEventsClientTypes.ConnectionBodyParameter: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "ConnectionBodyParameter(isValueSecret: \(Swift.String(describing: isValueSecret)), key: \(Swift.String(describing: key)), value: \"CONTENT_REDACTED\")"}
+}
+
 extension CloudWatchEventsClientTypes {
     /// Additional parameter included in the body. You can include up to 100 additional body parameters per request. An event payload cannot exceed 64 KB.
     public struct ConnectionBodyParameter: Swift.Equatable {
@@ -1317,6 +1322,11 @@ extension CloudWatchEventsClientTypes.ConnectionHeaderParameter: Swift.Codable {
         let isValueSecretDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isValueSecret) ?? false
         isValueSecret = isValueSecretDecoded
     }
+}
+
+extension CloudWatchEventsClientTypes.ConnectionHeaderParameter: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "ConnectionHeaderParameter(isValueSecret: \(Swift.String(describing: isValueSecret)), key: \(Swift.String(describing: key)), value: \"CONTENT_REDACTED\")"}
 }
 
 extension CloudWatchEventsClientTypes {
@@ -1598,6 +1608,11 @@ extension CloudWatchEventsClientTypes.ConnectionQueryStringParameter: Swift.Coda
         let isValueSecretDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isValueSecret) ?? false
         isValueSecret = isValueSecretDecoded
     }
+}
+
+extension CloudWatchEventsClientTypes.ConnectionQueryStringParameter: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "ConnectionQueryStringParameter(isValueSecret: \(Swift.String(describing: isValueSecret)), key: \(Swift.String(describing: key)), value: \"CONTENT_REDACTED\")"}
 }
 
 extension CloudWatchEventsClientTypes {
@@ -2074,6 +2089,11 @@ extension CloudWatchEventsClientTypes.CreateConnectionApiKeyAuthRequestParameter
     }
 }
 
+extension CloudWatchEventsClientTypes.CreateConnectionApiKeyAuthRequestParameters: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CreateConnectionApiKeyAuthRequestParameters(apiKeyName: \(Swift.String(describing: apiKeyName)), apiKeyValue: \"CONTENT_REDACTED\")"}
+}
+
 extension CloudWatchEventsClientTypes {
     /// Contains the API key authorization parameters for the connection.
     public struct CreateConnectionApiKeyAuthRequestParameters: Swift.Equatable {
@@ -2184,6 +2204,11 @@ extension CloudWatchEventsClientTypes.CreateConnectionBasicAuthRequestParameters
         let passwordDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .password)
         password = passwordDecoded
     }
+}
+
+extension CloudWatchEventsClientTypes.CreateConnectionBasicAuthRequestParameters: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CreateConnectionBasicAuthRequestParameters(username: \(Swift.String(describing: username)), password: \"CONTENT_REDACTED\")"}
 }
 
 extension CloudWatchEventsClientTypes {
@@ -2317,6 +2342,11 @@ extension CloudWatchEventsClientTypes.CreateConnectionOAuthClientRequestParamete
         let clientSecretDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientSecret)
         clientSecret = clientSecretDecoded
     }
+}
+
+extension CloudWatchEventsClientTypes.CreateConnectionOAuthClientRequestParameters: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CreateConnectionOAuthClientRequestParameters(clientID: \(Swift.String(describing: clientID)), clientSecret: \"CONTENT_REDACTED\")"}
 }
 
 extension CloudWatchEventsClientTypes {
@@ -11687,6 +11717,11 @@ extension CloudWatchEventsClientTypes.UpdateConnectionApiKeyAuthRequestParameter
     }
 }
 
+extension CloudWatchEventsClientTypes.UpdateConnectionApiKeyAuthRequestParameters: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "UpdateConnectionApiKeyAuthRequestParameters(apiKeyName: \(Swift.String(describing: apiKeyName)), apiKeyValue: \"CONTENT_REDACTED\")"}
+}
+
 extension CloudWatchEventsClientTypes {
     /// Contains the API key authorization parameters to use to update the connection.
     public struct UpdateConnectionApiKeyAuthRequestParameters: Swift.Equatable {
@@ -11795,6 +11830,11 @@ extension CloudWatchEventsClientTypes.UpdateConnectionBasicAuthRequestParameters
         let passwordDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .password)
         password = passwordDecoded
     }
+}
+
+extension CloudWatchEventsClientTypes.UpdateConnectionBasicAuthRequestParameters: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "UpdateConnectionBasicAuthRequestParameters(username: \(Swift.String(describing: username)), password: \"CONTENT_REDACTED\")"}
 }
 
 extension CloudWatchEventsClientTypes {
@@ -11924,6 +11964,11 @@ extension CloudWatchEventsClientTypes.UpdateConnectionOAuthClientRequestParamete
         let clientSecretDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientSecret)
         clientSecret = clientSecretDecoded
     }
+}
+
+extension CloudWatchEventsClientTypes.UpdateConnectionOAuthClientRequestParameters: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "UpdateConnectionOAuthClientRequestParameters(clientID: \(Swift.String(describing: clientID)), clientSecret: \"CONTENT_REDACTED\")"}
 }
 
 extension CloudWatchEventsClientTypes {

@@ -220,10 +220,10 @@ extension ElasticBeanstalkClientTypes.ApplicationDescription: Swift.Codable {
             }
         }
         if let dateCreated = dateCreated {
-            try container.encodeTimestamp(dateCreated, format: .dateTime, forKey: ClientRuntime.Key("dateCreated"))
+            try container.encodeTimestamp(dateCreated, format: .dateTime, forKey: ClientRuntime.Key("DateCreated"))
         }
         if let dateUpdated = dateUpdated {
-            try container.encodeTimestamp(dateUpdated, format: .dateTime, forKey: ClientRuntime.Key("dateUpdated"))
+            try container.encodeTimestamp(dateUpdated, format: .dateTime, forKey: ClientRuntime.Key("DateUpdated"))
         }
         if let description = description {
             try container.encode(description, forKey: ClientRuntime.Key("Description"))
@@ -480,10 +480,10 @@ extension ElasticBeanstalkClientTypes.ApplicationVersionDescription: Swift.Codab
             try container.encode(buildArn, forKey: ClientRuntime.Key("BuildArn"))
         }
         if let dateCreated = dateCreated {
-            try container.encodeTimestamp(dateCreated, format: .dateTime, forKey: ClientRuntime.Key("dateCreated"))
+            try container.encodeTimestamp(dateCreated, format: .dateTime, forKey: ClientRuntime.Key("DateCreated"))
         }
         if let dateUpdated = dateUpdated {
-            try container.encodeTimestamp(dateUpdated, format: .dateTime, forKey: ClientRuntime.Key("dateUpdated"))
+            try container.encodeTimestamp(dateUpdated, format: .dateTime, forKey: ClientRuntime.Key("DateUpdated"))
         }
         if let description = description {
             try container.encode(description, forKey: ClientRuntime.Key("Description"))
@@ -1874,10 +1874,10 @@ extension ElasticBeanstalkClientTypes.ConfigurationSettingsDescription: Swift.Co
             try container.encode(applicationName, forKey: ClientRuntime.Key("ApplicationName"))
         }
         if let dateCreated = dateCreated {
-            try container.encodeTimestamp(dateCreated, format: .dateTime, forKey: ClientRuntime.Key("dateCreated"))
+            try container.encodeTimestamp(dateCreated, format: .dateTime, forKey: ClientRuntime.Key("DateCreated"))
         }
         if let dateUpdated = dateUpdated {
-            try container.encodeTimestamp(dateUpdated, format: .dateTime, forKey: ClientRuntime.Key("dateUpdated"))
+            try container.encodeTimestamp(dateUpdated, format: .dateTime, forKey: ClientRuntime.Key("DateUpdated"))
         }
         if let deploymentStatus = deploymentStatus {
             try container.encode(deploymentStatus, forKey: ClientRuntime.Key("DeploymentStatus"))
@@ -4083,7 +4083,7 @@ extension ElasticBeanstalkClientTypes.Deployment: Swift.Codable {
             try container.encode(deploymentId, forKey: ClientRuntime.Key("DeploymentId"))
         }
         if let deploymentTime = deploymentTime {
-            try container.encodeTimestamp(deploymentTime, format: .dateTime, forKey: ClientRuntime.Key("deploymentTime"))
+            try container.encodeTimestamp(deploymentTime, format: .dateTime, forKey: ClientRuntime.Key("DeploymentTime"))
         }
         if let status = status {
             try container.encode(status, forKey: ClientRuntime.Key("Status"))
@@ -5559,7 +5559,7 @@ extension DescribeEnvironmentsInput: Swift.Encodable {
             try container.encode(includeDeleted, forKey: ClientRuntime.Key("IncludeDeleted"))
         }
         if let includedDeletedBackTo = includedDeletedBackTo {
-            try container.encodeTimestamp(includedDeletedBackTo, format: .dateTime, forKey: ClientRuntime.Key("includedDeletedBackTo"))
+            try container.encodeTimestamp(includedDeletedBackTo, format: .dateTime, forKey: ClientRuntime.Key("IncludedDeletedBackTo"))
         }
         if let maxRecords = maxRecords {
             try container.encode(maxRecords, forKey: ClientRuntime.Key("MaxRecords"))
@@ -5785,7 +5785,7 @@ extension DescribeEventsInput: Swift.Encodable {
             try container.encode(applicationName, forKey: ClientRuntime.Key("ApplicationName"))
         }
         if let endTime = endTime {
-            try container.encodeTimestamp(endTime, format: .dateTime, forKey: ClientRuntime.Key("endTime"))
+            try container.encodeTimestamp(endTime, format: .dateTime, forKey: ClientRuntime.Key("EndTime"))
         }
         if let environmentId = environmentId {
             try container.encode(environmentId, forKey: ClientRuntime.Key("EnvironmentId"))
@@ -5809,7 +5809,7 @@ extension DescribeEventsInput: Swift.Encodable {
             try container.encode(severity, forKey: ClientRuntime.Key("Severity"))
         }
         if let startTime = startTime {
-            try container.encodeTimestamp(startTime, format: .dateTime, forKey: ClientRuntime.Key("startTime"))
+            try container.encodeTimestamp(startTime, format: .dateTime, forKey: ClientRuntime.Key("StartTime"))
         }
         if let templateName = templateName {
             try container.encode(templateName, forKey: ClientRuntime.Key("TemplateName"))
@@ -6474,10 +6474,10 @@ extension ElasticBeanstalkClientTypes.EnvironmentDescription: Swift.Codable {
             try container.encode(cname, forKey: ClientRuntime.Key("CNAME"))
         }
         if let dateCreated = dateCreated {
-            try container.encodeTimestamp(dateCreated, format: .dateTime, forKey: ClientRuntime.Key("dateCreated"))
+            try container.encodeTimestamp(dateCreated, format: .dateTime, forKey: ClientRuntime.Key("DateCreated"))
         }
         if let dateUpdated = dateUpdated {
-            try container.encodeTimestamp(dateUpdated, format: .dateTime, forKey: ClientRuntime.Key("dateUpdated"))
+            try container.encodeTimestamp(dateUpdated, format: .dateTime, forKey: ClientRuntime.Key("DateUpdated"))
         }
         if let description = description {
             try container.encode(description, forKey: ClientRuntime.Key("Description"))
@@ -6880,7 +6880,7 @@ extension ElasticBeanstalkClientTypes.EnvironmentInfoDescription: Swift.Codable 
             try container.encode(message, forKey: ClientRuntime.Key("Message"))
         }
         if let sampleTimestamp = sampleTimestamp {
-            try container.encodeTimestamp(sampleTimestamp, format: .dateTime, forKey: ClientRuntime.Key("sampleTimestamp"))
+            try container.encodeTimestamp(sampleTimestamp, format: .dateTime, forKey: ClientRuntime.Key("SampleTimestamp"))
         }
     }
 
@@ -7459,7 +7459,7 @@ extension ElasticBeanstalkClientTypes.EventDescription: Swift.Codable {
             try container.encode(environmentName, forKey: ClientRuntime.Key("EnvironmentName"))
         }
         if let eventDate = eventDate {
-            try container.encodeTimestamp(eventDate, format: .dateTime, forKey: ClientRuntime.Key("eventDate"))
+            try container.encodeTimestamp(eventDate, format: .dateTime, forKey: ClientRuntime.Key("EventDate"))
         }
         if let message = message {
             try container.encode(message, forKey: ClientRuntime.Key("Message"))
@@ -8929,7 +8929,7 @@ extension ElasticBeanstalkClientTypes.ManagedAction: Swift.Codable {
             try container.encode(status, forKey: ClientRuntime.Key("Status"))
         }
         if let windowStartTime = windowStartTime {
-            try container.encodeTimestamp(windowStartTime, format: .dateTime, forKey: ClientRuntime.Key("windowStartTime"))
+            try container.encodeTimestamp(windowStartTime, format: .dateTime, forKey: ClientRuntime.Key("WindowStartTime"))
         }
     }
 
@@ -9004,7 +9004,7 @@ extension ElasticBeanstalkClientTypes.ManagedActionHistoryItem: Swift.Codable {
             try container.encode(actionType, forKey: ClientRuntime.Key("ActionType"))
         }
         if let executedTime = executedTime {
-            try container.encodeTimestamp(executedTime, format: .dateTime, forKey: ClientRuntime.Key("executedTime"))
+            try container.encodeTimestamp(executedTime, format: .dateTime, forKey: ClientRuntime.Key("ExecutedTime"))
         }
         if let failureDescription = failureDescription {
             try container.encode(failureDescription, forKey: ClientRuntime.Key("FailureDescription"))
@@ -9013,7 +9013,7 @@ extension ElasticBeanstalkClientTypes.ManagedActionHistoryItem: Swift.Codable {
             try container.encode(failureType, forKey: ClientRuntime.Key("FailureType"))
         }
         if let finishedTime = finishedTime {
-            try container.encodeTimestamp(finishedTime, format: .dateTime, forKey: ClientRuntime.Key("finishedTime"))
+            try container.encodeTimestamp(finishedTime, format: .dateTime, forKey: ClientRuntime.Key("FinishedTime"))
         }
         if let status = status {
             try container.encode(status, forKey: ClientRuntime.Key("Status"))
@@ -9548,10 +9548,10 @@ extension ElasticBeanstalkClientTypes.PlatformDescription: Swift.Codable {
             }
         }
         if let dateCreated = dateCreated {
-            try container.encodeTimestamp(dateCreated, format: .dateTime, forKey: ClientRuntime.Key("dateCreated"))
+            try container.encodeTimestamp(dateCreated, format: .dateTime, forKey: ClientRuntime.Key("DateCreated"))
         }
         if let dateUpdated = dateUpdated {
-            try container.encodeTimestamp(dateUpdated, format: .dateTime, forKey: ClientRuntime.Key("dateUpdated"))
+            try container.encodeTimestamp(dateUpdated, format: .dateTime, forKey: ClientRuntime.Key("DateUpdated"))
         }
         if let description = description {
             try container.encode(description, forKey: ClientRuntime.Key("Description"))
@@ -11280,7 +11280,7 @@ extension ElasticBeanstalkClientTypes.SingleInstanceHealth: Swift.Codable {
             try container.encode(instanceType, forKey: ClientRuntime.Key("InstanceType"))
         }
         if let launchedAt = launchedAt {
-            try container.encodeTimestamp(launchedAt, format: .dateTime, forKey: ClientRuntime.Key("launchedAt"))
+            try container.encodeTimestamp(launchedAt, format: .dateTime, forKey: ClientRuntime.Key("LaunchedAt"))
         }
         if let system = system {
             try container.encode(system, forKey: ClientRuntime.Key("System"))

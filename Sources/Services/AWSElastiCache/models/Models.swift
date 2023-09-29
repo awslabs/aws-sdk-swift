@@ -1265,13 +1265,13 @@ extension ElastiCacheClientTypes.CacheCluster: Swift.Codable {
             try container.encode(authTokenEnabled, forKey: ClientRuntime.Key("AuthTokenEnabled"))
         }
         if let authTokenLastModifiedDate = authTokenLastModifiedDate {
-            try container.encodeTimestamp(authTokenLastModifiedDate, format: .dateTime, forKey: ClientRuntime.Key("authTokenLastModifiedDate"))
+            try container.encodeTimestamp(authTokenLastModifiedDate, format: .dateTime, forKey: ClientRuntime.Key("AuthTokenLastModifiedDate"))
         }
         if autoMinorVersionUpgrade != false {
             try container.encode(autoMinorVersionUpgrade, forKey: ClientRuntime.Key("AutoMinorVersionUpgrade"))
         }
         if let cacheClusterCreateTime = cacheClusterCreateTime {
-            try container.encodeTimestamp(cacheClusterCreateTime, format: .dateTime, forKey: ClientRuntime.Key("cacheClusterCreateTime"))
+            try container.encodeTimestamp(cacheClusterCreateTime, format: .dateTime, forKey: ClientRuntime.Key("CacheClusterCreateTime"))
         }
         if let cacheClusterId = cacheClusterId {
             try container.encode(cacheClusterId, forKey: ClientRuntime.Key("CacheClusterId"))
@@ -1929,7 +1929,7 @@ extension ElastiCacheClientTypes.CacheNode: Swift.Codable {
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
         if let cacheNodeCreateTime = cacheNodeCreateTime {
-            try container.encodeTimestamp(cacheNodeCreateTime, format: .dateTime, forKey: ClientRuntime.Key("cacheNodeCreateTime"))
+            try container.encodeTimestamp(cacheNodeCreateTime, format: .dateTime, forKey: ClientRuntime.Key("CacheNodeCreateTime"))
         }
         if let cacheNodeId = cacheNodeId {
             try container.encode(cacheNodeId, forKey: ClientRuntime.Key("CacheNodeId"))
@@ -2262,25 +2262,25 @@ extension ElastiCacheClientTypes.CacheNodeUpdateStatus: Swift.Codable {
             try container.encode(cacheNodeId, forKey: ClientRuntime.Key("CacheNodeId"))
         }
         if let nodeDeletionDate = nodeDeletionDate {
-            try container.encodeTimestamp(nodeDeletionDate, format: .dateTime, forKey: ClientRuntime.Key("nodeDeletionDate"))
+            try container.encodeTimestamp(nodeDeletionDate, format: .dateTime, forKey: ClientRuntime.Key("NodeDeletionDate"))
         }
         if let nodeUpdateEndDate = nodeUpdateEndDate {
-            try container.encodeTimestamp(nodeUpdateEndDate, format: .dateTime, forKey: ClientRuntime.Key("nodeUpdateEndDate"))
+            try container.encodeTimestamp(nodeUpdateEndDate, format: .dateTime, forKey: ClientRuntime.Key("NodeUpdateEndDate"))
         }
         if let nodeUpdateInitiatedBy = nodeUpdateInitiatedBy {
             try container.encode(nodeUpdateInitiatedBy, forKey: ClientRuntime.Key("NodeUpdateInitiatedBy"))
         }
         if let nodeUpdateInitiatedDate = nodeUpdateInitiatedDate {
-            try container.encodeTimestamp(nodeUpdateInitiatedDate, format: .dateTime, forKey: ClientRuntime.Key("nodeUpdateInitiatedDate"))
+            try container.encodeTimestamp(nodeUpdateInitiatedDate, format: .dateTime, forKey: ClientRuntime.Key("NodeUpdateInitiatedDate"))
         }
         if let nodeUpdateStartDate = nodeUpdateStartDate {
-            try container.encodeTimestamp(nodeUpdateStartDate, format: .dateTime, forKey: ClientRuntime.Key("nodeUpdateStartDate"))
+            try container.encodeTimestamp(nodeUpdateStartDate, format: .dateTime, forKey: ClientRuntime.Key("NodeUpdateStartDate"))
         }
         if let nodeUpdateStatus = nodeUpdateStatus {
             try container.encode(nodeUpdateStatus, forKey: ClientRuntime.Key("NodeUpdateStatus"))
         }
         if let nodeUpdateStatusModifiedDate = nodeUpdateStatusModifiedDate {
-            try container.encodeTimestamp(nodeUpdateStatusModifiedDate, format: .dateTime, forKey: ClientRuntime.Key("nodeUpdateStatusModifiedDate"))
+            try container.encodeTimestamp(nodeUpdateStatusModifiedDate, format: .dateTime, forKey: ClientRuntime.Key("NodeUpdateStatusModifiedDate"))
         }
     }
 
@@ -9663,7 +9663,7 @@ extension DescribeEventsInput: Swift.Encodable {
             try container.encode(duration, forKey: ClientRuntime.Key("Duration"))
         }
         if let endTime = endTime {
-            try container.encodeTimestamp(endTime, format: .dateTime, forKey: ClientRuntime.Key("endTime"))
+            try container.encodeTimestamp(endTime, format: .dateTime, forKey: ClientRuntime.Key("EndTime"))
         }
         if let marker = marker {
             try container.encode(marker, forKey: ClientRuntime.Key("Marker"))
@@ -9678,7 +9678,7 @@ extension DescribeEventsInput: Swift.Encodable {
             try container.encode(sourceType, forKey: ClientRuntime.Key("SourceType"))
         }
         if let startTime = startTime {
-            try container.encodeTimestamp(startTime, format: .dateTime, forKey: ClientRuntime.Key("startTime"))
+            try container.encodeTimestamp(startTime, format: .dateTime, forKey: ClientRuntime.Key("StartTime"))
         }
         try container.encode("DescribeEvents", forKey:ClientRuntime.Key("Action"))
         try container.encode("2015-02-02", forKey:ClientRuntime.Key("Version"))
@@ -12162,7 +12162,7 @@ extension ElastiCacheClientTypes.Event: Swift.Codable {
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
         if let date = date {
-            try container.encodeTimestamp(date, format: .dateTime, forKey: ClientRuntime.Key("date"))
+            try container.encodeTimestamp(date, format: .dateTime, forKey: ClientRuntime.Key("Date"))
         }
         if let message = message {
             try container.encode(message, forKey: ClientRuntime.Key("Message"))
@@ -17570,25 +17570,25 @@ extension ElastiCacheClientTypes.NodeGroupMemberUpdateStatus: Swift.Codable {
             try container.encode(cacheNodeId, forKey: ClientRuntime.Key("CacheNodeId"))
         }
         if let nodeDeletionDate = nodeDeletionDate {
-            try container.encodeTimestamp(nodeDeletionDate, format: .dateTime, forKey: ClientRuntime.Key("nodeDeletionDate"))
+            try container.encodeTimestamp(nodeDeletionDate, format: .dateTime, forKey: ClientRuntime.Key("NodeDeletionDate"))
         }
         if let nodeUpdateEndDate = nodeUpdateEndDate {
-            try container.encodeTimestamp(nodeUpdateEndDate, format: .dateTime, forKey: ClientRuntime.Key("nodeUpdateEndDate"))
+            try container.encodeTimestamp(nodeUpdateEndDate, format: .dateTime, forKey: ClientRuntime.Key("NodeUpdateEndDate"))
         }
         if let nodeUpdateInitiatedBy = nodeUpdateInitiatedBy {
             try container.encode(nodeUpdateInitiatedBy, forKey: ClientRuntime.Key("NodeUpdateInitiatedBy"))
         }
         if let nodeUpdateInitiatedDate = nodeUpdateInitiatedDate {
-            try container.encodeTimestamp(nodeUpdateInitiatedDate, format: .dateTime, forKey: ClientRuntime.Key("nodeUpdateInitiatedDate"))
+            try container.encodeTimestamp(nodeUpdateInitiatedDate, format: .dateTime, forKey: ClientRuntime.Key("NodeUpdateInitiatedDate"))
         }
         if let nodeUpdateStartDate = nodeUpdateStartDate {
-            try container.encodeTimestamp(nodeUpdateStartDate, format: .dateTime, forKey: ClientRuntime.Key("nodeUpdateStartDate"))
+            try container.encodeTimestamp(nodeUpdateStartDate, format: .dateTime, forKey: ClientRuntime.Key("NodeUpdateStartDate"))
         }
         if let nodeUpdateStatus = nodeUpdateStatus {
             try container.encode(nodeUpdateStatus, forKey: ClientRuntime.Key("NodeUpdateStatus"))
         }
         if let nodeUpdateStatusModifiedDate = nodeUpdateStatusModifiedDate {
-            try container.encodeTimestamp(nodeUpdateStatusModifiedDate, format: .dateTime, forKey: ClientRuntime.Key("nodeUpdateStatusModifiedDate"))
+            try container.encodeTimestamp(nodeUpdateStatusModifiedDate, format: .dateTime, forKey: ClientRuntime.Key("NodeUpdateStatusModifiedDate"))
         }
     }
 
@@ -17967,7 +17967,7 @@ extension ElastiCacheClientTypes.NodeSnapshot: Swift.Codable {
             try container.encode(cacheClusterId, forKey: ClientRuntime.Key("CacheClusterId"))
         }
         if let cacheNodeCreateTime = cacheNodeCreateTime {
-            try container.encodeTimestamp(cacheNodeCreateTime, format: .dateTime, forKey: ClientRuntime.Key("cacheNodeCreateTime"))
+            try container.encodeTimestamp(cacheNodeCreateTime, format: .dateTime, forKey: ClientRuntime.Key("CacheNodeCreateTime"))
         }
         if let cacheNodeId = cacheNodeId {
             try container.encode(cacheNodeId, forKey: ClientRuntime.Key("CacheNodeId"))
@@ -17982,7 +17982,7 @@ extension ElastiCacheClientTypes.NodeSnapshot: Swift.Codable {
             try container.encode(nodeGroupId, forKey: ClientRuntime.Key("NodeGroupId"))
         }
         if let snapshotCreateTime = snapshotCreateTime {
-            try container.encodeTimestamp(snapshotCreateTime, format: .dateTime, forKey: ClientRuntime.Key("snapshotCreateTime"))
+            try container.encodeTimestamp(snapshotCreateTime, format: .dateTime, forKey: ClientRuntime.Key("SnapshotCreateTime"))
         }
     }
 
@@ -19430,7 +19430,7 @@ extension ElastiCacheClientTypes.ReplicationGroup: Swift.Codable {
             try container.encode(authTokenEnabled, forKey: ClientRuntime.Key("AuthTokenEnabled"))
         }
         if let authTokenLastModifiedDate = authTokenLastModifiedDate {
-            try container.encodeTimestamp(authTokenLastModifiedDate, format: .dateTime, forKey: ClientRuntime.Key("authTokenLastModifiedDate"))
+            try container.encodeTimestamp(authTokenLastModifiedDate, format: .dateTime, forKey: ClientRuntime.Key("AuthTokenLastModifiedDate"))
         }
         if autoMinorVersionUpgrade != false {
             try container.encode(autoMinorVersionUpgrade, forKey: ClientRuntime.Key("AutoMinorVersionUpgrade"))
@@ -19523,7 +19523,7 @@ extension ElastiCacheClientTypes.ReplicationGroup: Swift.Codable {
             try container.encode(pendingModifiedValues, forKey: ClientRuntime.Key("PendingModifiedValues"))
         }
         if let replicationGroupCreateTime = replicationGroupCreateTime {
-            try container.encodeTimestamp(replicationGroupCreateTime, format: .dateTime, forKey: ClientRuntime.Key("replicationGroupCreateTime"))
+            try container.encodeTimestamp(replicationGroupCreateTime, format: .dateTime, forKey: ClientRuntime.Key("ReplicationGroupCreateTime"))
         }
         if let replicationGroupId = replicationGroupId {
             try container.encode(replicationGroupId, forKey: ClientRuntime.Key("ReplicationGroupId"))
@@ -20264,7 +20264,7 @@ extension ElastiCacheClientTypes.ReservedCacheNode: Swift.Codable {
             try container.encode(reservedCacheNodesOfferingId, forKey: ClientRuntime.Key("ReservedCacheNodesOfferingId"))
         }
         if let startTime = startTime {
-            try container.encodeTimestamp(startTime, format: .dateTime, forKey: ClientRuntime.Key("startTime"))
+            try container.encodeTimestamp(startTime, format: .dateTime, forKey: ClientRuntime.Key("StartTime"))
         }
         if let state = state {
             try container.encode(state, forKey: ClientRuntime.Key("State"))
@@ -21337,16 +21337,16 @@ extension ElastiCacheClientTypes.ServiceUpdate: Swift.Codable {
             try container.encode(serviceUpdateDescription, forKey: ClientRuntime.Key("ServiceUpdateDescription"))
         }
         if let serviceUpdateEndDate = serviceUpdateEndDate {
-            try container.encodeTimestamp(serviceUpdateEndDate, format: .dateTime, forKey: ClientRuntime.Key("serviceUpdateEndDate"))
+            try container.encodeTimestamp(serviceUpdateEndDate, format: .dateTime, forKey: ClientRuntime.Key("ServiceUpdateEndDate"))
         }
         if let serviceUpdateName = serviceUpdateName {
             try container.encode(serviceUpdateName, forKey: ClientRuntime.Key("ServiceUpdateName"))
         }
         if let serviceUpdateRecommendedApplyByDate = serviceUpdateRecommendedApplyByDate {
-            try container.encodeTimestamp(serviceUpdateRecommendedApplyByDate, format: .dateTime, forKey: ClientRuntime.Key("serviceUpdateRecommendedApplyByDate"))
+            try container.encodeTimestamp(serviceUpdateRecommendedApplyByDate, format: .dateTime, forKey: ClientRuntime.Key("ServiceUpdateRecommendedApplyByDate"))
         }
         if let serviceUpdateReleaseDate = serviceUpdateReleaseDate {
-            try container.encodeTimestamp(serviceUpdateReleaseDate, format: .dateTime, forKey: ClientRuntime.Key("serviceUpdateReleaseDate"))
+            try container.encodeTimestamp(serviceUpdateReleaseDate, format: .dateTime, forKey: ClientRuntime.Key("ServiceUpdateReleaseDate"))
         }
         if let serviceUpdateSeverity = serviceUpdateSeverity {
             try container.encode(serviceUpdateSeverity, forKey: ClientRuntime.Key("ServiceUpdateSeverity"))
@@ -21718,7 +21718,7 @@ extension ElastiCacheClientTypes.Snapshot: Swift.Codable {
             try container.encode(automaticFailover, forKey: ClientRuntime.Key("AutomaticFailover"))
         }
         if let cacheClusterCreateTime = cacheClusterCreateTime {
-            try container.encodeTimestamp(cacheClusterCreateTime, format: .dateTime, forKey: ClientRuntime.Key("cacheClusterCreateTime"))
+            try container.encodeTimestamp(cacheClusterCreateTime, format: .dateTime, forKey: ClientRuntime.Key("CacheClusterCreateTime"))
         }
         if let cacheClusterId = cacheClusterId {
             try container.encode(cacheClusterId, forKey: ClientRuntime.Key("CacheClusterId"))
@@ -23174,10 +23174,10 @@ extension ElastiCacheClientTypes.TimeRangeFilter: Swift.Codable {
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
         if let endTime = endTime {
-            try container.encodeTimestamp(endTime, format: .dateTime, forKey: ClientRuntime.Key("endTime"))
+            try container.encodeTimestamp(endTime, format: .dateTime, forKey: ClientRuntime.Key("EndTime"))
         }
         if let startTime = startTime {
-            try container.encodeTimestamp(startTime, format: .dateTime, forKey: ClientRuntime.Key("startTime"))
+            try container.encodeTimestamp(startTime, format: .dateTime, forKey: ClientRuntime.Key("StartTime"))
         }
     }
 
@@ -23383,10 +23383,10 @@ extension ElastiCacheClientTypes.UpdateAction: Swift.Codable {
             try container.encode(serviceUpdateName, forKey: ClientRuntime.Key("ServiceUpdateName"))
         }
         if let serviceUpdateRecommendedApplyByDate = serviceUpdateRecommendedApplyByDate {
-            try container.encodeTimestamp(serviceUpdateRecommendedApplyByDate, format: .dateTime, forKey: ClientRuntime.Key("serviceUpdateRecommendedApplyByDate"))
+            try container.encodeTimestamp(serviceUpdateRecommendedApplyByDate, format: .dateTime, forKey: ClientRuntime.Key("ServiceUpdateRecommendedApplyByDate"))
         }
         if let serviceUpdateReleaseDate = serviceUpdateReleaseDate {
-            try container.encodeTimestamp(serviceUpdateReleaseDate, format: .dateTime, forKey: ClientRuntime.Key("serviceUpdateReleaseDate"))
+            try container.encodeTimestamp(serviceUpdateReleaseDate, format: .dateTime, forKey: ClientRuntime.Key("ServiceUpdateReleaseDate"))
         }
         if let serviceUpdateSeverity = serviceUpdateSeverity {
             try container.encode(serviceUpdateSeverity, forKey: ClientRuntime.Key("ServiceUpdateSeverity"))
@@ -23401,13 +23401,13 @@ extension ElastiCacheClientTypes.UpdateAction: Swift.Codable {
             try container.encode(slaMet, forKey: ClientRuntime.Key("SlaMet"))
         }
         if let updateActionAvailableDate = updateActionAvailableDate {
-            try container.encodeTimestamp(updateActionAvailableDate, format: .dateTime, forKey: ClientRuntime.Key("updateActionAvailableDate"))
+            try container.encodeTimestamp(updateActionAvailableDate, format: .dateTime, forKey: ClientRuntime.Key("UpdateActionAvailableDate"))
         }
         if let updateActionStatus = updateActionStatus {
             try container.encode(updateActionStatus, forKey: ClientRuntime.Key("UpdateActionStatus"))
         }
         if let updateActionStatusModifiedDate = updateActionStatusModifiedDate {
-            try container.encodeTimestamp(updateActionStatusModifiedDate, format: .dateTime, forKey: ClientRuntime.Key("updateActionStatusModifiedDate"))
+            try container.encodeTimestamp(updateActionStatusModifiedDate, format: .dateTime, forKey: ClientRuntime.Key("UpdateActionStatusModifiedDate"))
         }
     }
 

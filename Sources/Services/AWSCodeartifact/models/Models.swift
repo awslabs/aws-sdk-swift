@@ -5860,6 +5860,7 @@ extension CodeartifactClientTypes {
         case npm
         case nuget
         case pypi
+        case swift
         case sdkUnknown(Swift.String)
 
         public static var allCases: [PackageFormat] {
@@ -5869,6 +5870,7 @@ extension CodeartifactClientTypes {
                 .npm,
                 .nuget,
                 .pypi,
+                .swift,
                 .sdkUnknown("")
             ]
         }
@@ -5883,6 +5885,7 @@ extension CodeartifactClientTypes {
             case .npm: return "npm"
             case .nuget: return "nuget"
             case .pypi: return "pypi"
+            case .swift: return "swift"
             case let .sdkUnknown(s): return s
             }
         }

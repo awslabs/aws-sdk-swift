@@ -21,8 +21,8 @@ class AWSJsonHttpResponseBindingErrorGeneratorTests {
         contents.shouldSyntacticSanityCheck()
         val expectedContents =
             """
-            public enum GreetingWithErrorsOutputError: ClientRuntime.HttpResponseErrorBinding {
-                public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+            enum GreetingWithErrorsOutputError: ClientRuntime.HttpResponseErrorBinding {
+                static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
                     let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
                     let requestID = httpResponse.requestId
                     let serviceError = try await Json10ProtocolClientTypes.makeServiceError(httpResponse, decoder, restJSONError, requestID)

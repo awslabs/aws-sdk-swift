@@ -2684,7 +2684,7 @@ extension KinesisVideoClientTypes {
         /// The origin of the Server or Producer timestamps to use to generate the images.
         /// This member is required.
         public var imageSelectorType: KinesisVideoClientTypes.ImageSelectorType?
-        /// The time interval in milliseconds (ms) at which the images need to be generated from the stream. The minimum value that can be provided is 33 ms, because a camera that generates content at 30 FPS would create a frame every 33.3 ms. If the timestamp range is less than the sampling interval, the Image from the StartTimestamp will be returned if available.
+        /// The time interval in milliseconds (ms) at which the images need to be generated from the stream. The minimum value that can be provided is 200 ms. If the timestamp range is less than the sampling interval, the Image from the StartTimestamp will be returned if available.
         /// This member is required.
         public var samplingInterval: Swift.Int?
         /// Indicates whether the ContinuousImageGenerationConfigurations API is enabled or disabled.

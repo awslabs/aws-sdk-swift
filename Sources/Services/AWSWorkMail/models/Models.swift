@@ -345,13 +345,25 @@ extension AssociateDelegateToResourceInput: ClientRuntime.URLPathProvider {
 }
 
 public struct AssociateDelegateToResourceInput: Swift.Equatable {
-    /// The member (user or group) to associate to the resource.
+    /// The member (user or group) to associate to the resource. The entity ID can accept UserId or GroupID, Username or Groupname, or email.
+    ///
+    /// * Entity: 12345678-1234-1234-1234-123456789012 or S-1-1-12-1234567890-123456789-123456789-1234
+    ///
+    /// * Email address: entity@domain.tld
+    ///
+    /// * Entity: entity
     /// This member is required.
     public var entityId: Swift.String?
     /// The organization under which the resource exists.
     /// This member is required.
     public var organizationId: Swift.String?
-    /// The resource for which members (users or groups) are associated.
+    /// The resource for which members (users or groups) are associated. The identifier can accept ResourceId, Resourcename, or email. The following identity formats are available:
+    ///
+    /// * Resource ID: r-0123456789a0123456789b0123456789
+    ///
+    /// * Email address: resource@domain.tld
+    ///
+    /// * Resource name: resource
     /// This member is required.
     public var resourceId: Swift.String?
 
@@ -401,6 +413,7 @@ public enum AssociateDelegateToResourceOutputError: ClientRuntime.HttpResponseEr
             case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "OrganizationNotFoundException": return try await OrganizationNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "OrganizationStateException": return try await OrganizationStateException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnsupportedOperationException": return try await UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
@@ -444,10 +457,22 @@ extension AssociateMemberToGroupInput: ClientRuntime.URLPathProvider {
 }
 
 public struct AssociateMemberToGroupInput: Swift.Equatable {
-    /// The group to which the member (user or group) is associated.
+    /// The group to which the member (user or group) is associated. The identifier can accept GroupId, Groupname, or email. The following identity formats are available:
+    ///
+    /// * Group ID: 12345678-1234-1234-1234-123456789012 or S-1-1-12-1234567890-123456789-123456789-1234
+    ///
+    /// * Email address: group@domain.tld
+    ///
+    /// * Group name: group
     /// This member is required.
     public var groupId: Swift.String?
-    /// The member (user or group) to associate to the group.
+    /// The member (user or group) to associate to the group. The member ID can accept UserID or GroupId, Username or Groupname, or email.
+    ///
+    /// * Member: 12345678-1234-1234-1234-123456789012 or S-1-1-12-1234567890-123456789-123456789-1234
+    ///
+    /// * Email address: member@domain.tld
+    ///
+    /// * Member name: member
     /// This member is required.
     public var memberId: Swift.String?
     /// The organization under which the group exists.
@@ -1140,12 +1165,16 @@ public struct CreateAvailabilityConfigurationOutputResponse: Swift.Equatable {
 
 extension CreateGroupInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case hiddenFromGlobalAddressList = "HiddenFromGlobalAddressList"
         case name = "Name"
         case organizationId = "OrganizationId"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let hiddenFromGlobalAddressList = self.hiddenFromGlobalAddressList {
+            try encodeContainer.encode(hiddenFromGlobalAddressList, forKey: .hiddenFromGlobalAddressList)
+        }
         if let name = self.name {
             try encodeContainer.encode(name, forKey: .name)
         }
@@ -1162,6 +1191,8 @@ extension CreateGroupInput: ClientRuntime.URLPathProvider {
 }
 
 public struct CreateGroupInput: Swift.Equatable {
+    /// If this parameter is enabled, the group will be hidden from the address book.
+    public var hiddenFromGlobalAddressList: Swift.Bool?
     /// The name of the group.
     /// This member is required.
     public var name: Swift.String?
@@ -1170,10 +1201,12 @@ public struct CreateGroupInput: Swift.Equatable {
     public var organizationId: Swift.String?
 
     public init(
+        hiddenFromGlobalAddressList: Swift.Bool? = nil,
         name: Swift.String? = nil,
         organizationId: Swift.String? = nil
     )
     {
+        self.hiddenFromGlobalAddressList = hiddenFromGlobalAddressList
         self.name = name
         self.organizationId = organizationId
     }
@@ -1182,10 +1215,12 @@ public struct CreateGroupInput: Swift.Equatable {
 struct CreateGroupInputBody: Swift.Equatable {
     let organizationId: Swift.String?
     let name: Swift.String?
+    let hiddenFromGlobalAddressList: Swift.Bool?
 }
 
 extension CreateGroupInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case hiddenFromGlobalAddressList = "HiddenFromGlobalAddressList"
         case name = "Name"
         case organizationId = "OrganizationId"
     }
@@ -1196,6 +1231,8 @@ extension CreateGroupInputBody: Swift.Decodable {
         organizationId = organizationIdDecoded
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
+        let hiddenFromGlobalAddressListDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .hiddenFromGlobalAddressList)
+        hiddenFromGlobalAddressList = hiddenFromGlobalAddressListDecoded
     }
 }
 
@@ -1957,6 +1994,8 @@ extension CreateOrganizationOutputResponseBody: Swift.Decodable {
 
 extension CreateResourceInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case description = "Description"
+        case hiddenFromGlobalAddressList = "HiddenFromGlobalAddressList"
         case name = "Name"
         case organizationId = "OrganizationId"
         case type = "Type"
@@ -1964,6 +2003,12 @@ extension CreateResourceInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
+        if let hiddenFromGlobalAddressList = self.hiddenFromGlobalAddressList {
+            try encodeContainer.encode(hiddenFromGlobalAddressList, forKey: .hiddenFromGlobalAddressList)
+        }
         if let name = self.name {
             try encodeContainer.encode(name, forKey: .name)
         }
@@ -1983,6 +2028,10 @@ extension CreateResourceInput: ClientRuntime.URLPathProvider {
 }
 
 public struct CreateResourceInput: Swift.Equatable {
+    /// Resource description.
+    public var description: Swift.String?
+    /// If this parameter is enabled, the resource will be hidden from the address book.
+    public var hiddenFromGlobalAddressList: Swift.Bool?
     /// The name of the new resource.
     /// This member is required.
     public var name: Swift.String?
@@ -1994,11 +2043,15 @@ public struct CreateResourceInput: Swift.Equatable {
     public var type: WorkMailClientTypes.ResourceType?
 
     public init(
+        description: Swift.String? = nil,
+        hiddenFromGlobalAddressList: Swift.Bool? = nil,
         name: Swift.String? = nil,
         organizationId: Swift.String? = nil,
         type: WorkMailClientTypes.ResourceType? = nil
     )
     {
+        self.description = description
+        self.hiddenFromGlobalAddressList = hiddenFromGlobalAddressList
         self.name = name
         self.organizationId = organizationId
         self.type = type
@@ -2009,10 +2062,14 @@ struct CreateResourceInputBody: Swift.Equatable {
     let organizationId: Swift.String?
     let name: Swift.String?
     let type: WorkMailClientTypes.ResourceType?
+    let description: Swift.String?
+    let hiddenFromGlobalAddressList: Swift.Bool?
 }
 
 extension CreateResourceInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case description = "Description"
+        case hiddenFromGlobalAddressList = "HiddenFromGlobalAddressList"
         case name = "Name"
         case organizationId = "OrganizationId"
         case type = "Type"
@@ -2026,6 +2083,10 @@ extension CreateResourceInputBody: Swift.Decodable {
         name = nameDecoded
         let typeDecoded = try containerValues.decodeIfPresent(WorkMailClientTypes.ResourceType.self, forKey: .type)
         type = typeDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let hiddenFromGlobalAddressListDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .hiddenFromGlobalAddressList)
+        hiddenFromGlobalAddressList = hiddenFromGlobalAddressListDecoded
     }
 }
 
@@ -2041,6 +2102,7 @@ public enum CreateResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "OrganizationNotFoundException": return try await OrganizationNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "OrganizationStateException": return try await OrganizationStateException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ReservedNameException": return try await ReservedNameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnsupportedOperationException": return try await UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
@@ -2088,21 +2150,34 @@ extension CreateResourceOutputResponseBody: Swift.Decodable {
 
 extension CreateUserInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateUserInput(displayName: \(Swift.String(describing: displayName)), name: \(Swift.String(describing: name)), organizationId: \(Swift.String(describing: organizationId)), password: \"CONTENT_REDACTED\")"}
+        "CreateUserInput(hiddenFromGlobalAddressList: \(Swift.String(describing: hiddenFromGlobalAddressList)), name: \(Swift.String(describing: name)), organizationId: \(Swift.String(describing: organizationId)), role: \(Swift.String(describing: role)), displayName: \"CONTENT_REDACTED\", firstName: \"CONTENT_REDACTED\", lastName: \"CONTENT_REDACTED\", password: \"CONTENT_REDACTED\")"}
 }
 
 extension CreateUserInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case displayName = "DisplayName"
+        case firstName = "FirstName"
+        case hiddenFromGlobalAddressList = "HiddenFromGlobalAddressList"
+        case lastName = "LastName"
         case name = "Name"
         case organizationId = "OrganizationId"
         case password = "Password"
+        case role = "Role"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let displayName = self.displayName {
             try encodeContainer.encode(displayName, forKey: .displayName)
+        }
+        if let firstName = self.firstName {
+            try encodeContainer.encode(firstName, forKey: .firstName)
+        }
+        if let hiddenFromGlobalAddressList = self.hiddenFromGlobalAddressList {
+            try encodeContainer.encode(hiddenFromGlobalAddressList, forKey: .hiddenFromGlobalAddressList)
+        }
+        if let lastName = self.lastName {
+            try encodeContainer.encode(lastName, forKey: .lastName)
         }
         if let name = self.name {
             try encodeContainer.encode(name, forKey: .name)
@@ -2112,6 +2187,9 @@ extension CreateUserInput: Swift.Encodable {
         }
         if let password = self.password {
             try encodeContainer.encode(password, forKey: .password)
+        }
+        if let role = self.role {
+            try encodeContainer.encode(role.rawValue, forKey: .role)
         }
     }
 }
@@ -2126,6 +2204,12 @@ public struct CreateUserInput: Swift.Equatable {
     /// The display name for the new user.
     /// This member is required.
     public var displayName: Swift.String?
+    /// The first name of the new user.
+    public var firstName: Swift.String?
+    /// If this parameter is enabled, the user will be hidden from the address book.
+    public var hiddenFromGlobalAddressList: Swift.Bool?
+    /// The last name of the new user.
+    public var lastName: Swift.String?
     /// The name for the new user. WorkMail directory user names have a maximum length of 64. All others have a maximum length of 20.
     /// This member is required.
     public var name: Swift.String?
@@ -2133,20 +2217,29 @@ public struct CreateUserInput: Swift.Equatable {
     /// This member is required.
     public var organizationId: Swift.String?
     /// The password for the new user.
-    /// This member is required.
     public var password: Swift.String?
+    /// The role of the new user. You cannot pass SYSTEM_USER or RESOURCE role in a single request. When a user role is not selected, the default role of USER is selected.
+    public var role: WorkMailClientTypes.UserRole?
 
     public init(
         displayName: Swift.String? = nil,
+        firstName: Swift.String? = nil,
+        hiddenFromGlobalAddressList: Swift.Bool? = nil,
+        lastName: Swift.String? = nil,
         name: Swift.String? = nil,
         organizationId: Swift.String? = nil,
-        password: Swift.String? = nil
+        password: Swift.String? = nil,
+        role: WorkMailClientTypes.UserRole? = nil
     )
     {
         self.displayName = displayName
+        self.firstName = firstName
+        self.hiddenFromGlobalAddressList = hiddenFromGlobalAddressList
+        self.lastName = lastName
         self.name = name
         self.organizationId = organizationId
         self.password = password
+        self.role = role
     }
 }
 
@@ -2155,14 +2248,22 @@ struct CreateUserInputBody: Swift.Equatable {
     let name: Swift.String?
     let displayName: Swift.String?
     let password: Swift.String?
+    let role: WorkMailClientTypes.UserRole?
+    let firstName: Swift.String?
+    let lastName: Swift.String?
+    let hiddenFromGlobalAddressList: Swift.Bool?
 }
 
 extension CreateUserInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case displayName = "DisplayName"
+        case firstName = "FirstName"
+        case hiddenFromGlobalAddressList = "HiddenFromGlobalAddressList"
+        case lastName = "LastName"
         case name = "Name"
         case organizationId = "OrganizationId"
         case password = "Password"
+        case role = "Role"
     }
 
     public init(from decoder: Swift.Decoder) throws {
@@ -2175,6 +2276,14 @@ extension CreateUserInputBody: Swift.Decodable {
         displayName = displayNameDecoded
         let passwordDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .password)
         password = passwordDecoded
+        let roleDecoded = try containerValues.decodeIfPresent(WorkMailClientTypes.UserRole.self, forKey: .role)
+        role = roleDecoded
+        let firstNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .firstName)
+        firstName = firstNameDecoded
+        let lastNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .lastName)
+        lastName = lastNameDecoded
+        let hiddenFromGlobalAddressListDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .hiddenFromGlobalAddressList)
+        hiddenFromGlobalAddressList = hiddenFromGlobalAddressListDecoded
     }
 }
 
@@ -2644,7 +2753,11 @@ extension DeleteGroupInput: ClientRuntime.URLPathProvider {
 }
 
 public struct DeleteGroupInput: Swift.Equatable {
-    /// The identifier of the group to be deleted.
+    /// The identifier of the group to be deleted. The identifier can be the GroupId, or Groupname. The following identity formats are available:
+    ///
+    /// * Group ID: 12345678-1234-1234-1234-123456789012 or S-1-1-12-1234567890-123456789-123456789-1234
+    ///
+    /// * Group name: group
     /// This member is required.
     public var groupId: Swift.String?
     /// The organization that contains the group.
@@ -2820,10 +2933,22 @@ extension DeleteMailboxPermissionsInput: ClientRuntime.URLPathProvider {
 }
 
 public struct DeleteMailboxPermissionsInput: Swift.Equatable {
-    /// The identifier of the member (user or group) that owns the mailbox.
+    /// The identifier of the entity that owns the mailbox. The identifier can be UserId or Group Id, Username or Groupname, or email.
+    ///
+    /// * Entity ID: 12345678-1234-1234-1234-123456789012, r-0123456789a0123456789b0123456789, or S-1-1-12-1234567890-123456789-123456789-1234
+    ///
+    /// * Email address: entity@domain.tld
+    ///
+    /// * Entity name: entity
     /// This member is required.
     public var entityId: Swift.String?
-    /// The identifier of the member (user or group) for which to delete granted permissions.
+    /// The identifier of the entity for which to delete granted permissions. The identifier can be UserId, ResourceID, or Group Id, Username or Groupname, or email.
+    ///
+    /// * Grantee ID: 12345678-1234-1234-1234-123456789012,r-0123456789a0123456789b0123456789, or S-1-1-12-1234567890-123456789-123456789-1234
+    ///
+    /// * Email address: grantee@domain.tld
+    ///
+    /// * Grantee name: grantee
     /// This member is required.
     public var granteeId: Swift.String?
     /// The identifier of the organization under which the member (user or group) exists.
@@ -3083,6 +3208,7 @@ extension DeleteOrganizationInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case clientToken = "ClientToken"
         case deleteDirectory = "DeleteDirectory"
+        case forceDelete = "ForceDelete"
         case organizationId = "OrganizationId"
     }
 
@@ -3093,6 +3219,9 @@ extension DeleteOrganizationInput: Swift.Encodable {
         }
         if let deleteDirectory = self.deleteDirectory {
             try encodeContainer.encode(deleteDirectory, forKey: .deleteDirectory)
+        }
+        if let forceDelete = self.forceDelete {
+            try encodeContainer.encode(forceDelete, forKey: .forceDelete)
         }
         if let organizationId = self.organizationId {
             try encodeContainer.encode(organizationId, forKey: .organizationId)
@@ -3112,6 +3241,8 @@ public struct DeleteOrganizationInput: Swift.Equatable {
     /// If true, deletes the AWS Directory Service directory associated with the organization.
     /// This member is required.
     public var deleteDirectory: Swift.Bool?
+    /// Deletes a WorkMail organization even if the organization has enabled users.
+    public var forceDelete: Swift.Bool?
     /// The organization ID.
     /// This member is required.
     public var organizationId: Swift.String?
@@ -3119,11 +3250,13 @@ public struct DeleteOrganizationInput: Swift.Equatable {
     public init(
         clientToken: Swift.String? = nil,
         deleteDirectory: Swift.Bool? = nil,
+        forceDelete: Swift.Bool? = nil,
         organizationId: Swift.String? = nil
     )
     {
         self.clientToken = clientToken
         self.deleteDirectory = deleteDirectory
+        self.forceDelete = forceDelete
         self.organizationId = organizationId
     }
 }
@@ -3132,12 +3265,14 @@ struct DeleteOrganizationInputBody: Swift.Equatable {
     let clientToken: Swift.String?
     let organizationId: Swift.String?
     let deleteDirectory: Swift.Bool?
+    let forceDelete: Swift.Bool?
 }
 
 extension DeleteOrganizationInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case clientToken = "ClientToken"
         case deleteDirectory = "DeleteDirectory"
+        case forceDelete = "ForceDelete"
         case organizationId = "OrganizationId"
     }
 
@@ -3149,6 +3284,8 @@ extension DeleteOrganizationInputBody: Swift.Decodable {
         organizationId = organizationIdDecoded
         let deleteDirectoryDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .deleteDirectory)
         deleteDirectory = deleteDirectoryDecoded
+        let forceDeleteDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .forceDelete)
+        forceDelete = forceDeleteDecoded
     }
 }
 
@@ -3242,7 +3379,11 @@ public struct DeleteResourceInput: Swift.Equatable {
     /// The identifier associated with the organization from which the resource is deleted.
     /// This member is required.
     public var organizationId: Swift.String?
-    /// The identifier of the resource to be deleted.
+    /// The identifier of the resource to be deleted. The identifier can accept ResourceId, or Resourcename. The following identity formats are available:
+    ///
+    /// * Resource ID: r-0123456789a0123456789b0123456789
+    ///
+    /// * Resource name: resource
     /// This member is required.
     public var resourceId: Swift.String?
 
@@ -3285,6 +3426,7 @@ public enum DeleteResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "OrganizationNotFoundException": return try await OrganizationNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "OrganizationStateException": return try await OrganizationStateException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnsupportedOperationException": return try await UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
@@ -3411,7 +3553,11 @@ public struct DeleteUserInput: Swift.Equatable {
     /// The organization that contains the user to be deleted.
     /// This member is required.
     public var organizationId: Swift.String?
-    /// The identifier of the user to be deleted.
+    /// The identifier of the user to be deleted. The identifier can be the UserId or Username. The following identity formats are available:
+    ///
+    /// * User ID: 12345678-1234-1234-1234-123456789012 or S-1-1-12-1234567890-123456789-123456789-1234
+    ///
+    /// * User name: user
     /// This member is required.
     public var userId: Swift.String?
 
@@ -3496,7 +3642,13 @@ extension DeregisterFromWorkMailInput: ClientRuntime.URLPathProvider {
 }
 
 public struct DeregisterFromWorkMailInput: Swift.Equatable {
-    /// The identifier for the member (user or group) to be updated.
+    /// The identifier for the member to be updated. The identifier can be UserId, ResourceId, or Group Id, Username, Resourcename, or Groupname, or email.
+    ///
+    /// * Entity ID: 12345678-1234-1234-1234-123456789012, r-0123456789a0123456789b0123456789, or S-1-1-12-1234567890-123456789-123456789-1234
+    ///
+    /// * Email address: entity@domain.tld
+    ///
+    /// * Entity name: entity
     /// This member is required.
     public var entityId: Swift.String?
     /// The identifier for the organization under which the WorkMail entity exists.
@@ -3756,6 +3908,141 @@ extension DescribeEmailMonitoringConfigurationOutputResponseBody: Swift.Decodabl
     }
 }
 
+extension DescribeEntityInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case email = "Email"
+        case organizationId = "OrganizationId"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let email = self.email {
+            try encodeContainer.encode(email, forKey: .email)
+        }
+        if let organizationId = self.organizationId {
+            try encodeContainer.encode(organizationId, forKey: .organizationId)
+        }
+    }
+}
+
+extension DescribeEntityInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct DescribeEntityInput: Swift.Equatable {
+    /// The email under which the entity exists.
+    /// This member is required.
+    public var email: Swift.String?
+    /// The identifier for the organization under which the entity exists.
+    /// This member is required.
+    public var organizationId: Swift.String?
+
+    public init(
+        email: Swift.String? = nil,
+        organizationId: Swift.String? = nil
+    )
+    {
+        self.email = email
+        self.organizationId = organizationId
+    }
+}
+
+struct DescribeEntityInputBody: Swift.Equatable {
+    let organizationId: Swift.String?
+    let email: Swift.String?
+}
+
+extension DescribeEntityInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case email = "Email"
+        case organizationId = "OrganizationId"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let organizationIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .organizationId)
+        organizationId = organizationIdDecoded
+        let emailDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .email)
+        email = emailDecoded
+    }
+}
+
+public enum DescribeEntityOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "EntityNotFoundException": return try await EntityNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OrganizationNotFoundException": return try await OrganizationNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OrganizationStateException": return try await OrganizationStateException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension DescribeEntityOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DescribeEntityOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.entityId = output.entityId
+            self.name = output.name
+            self.type = output.type
+        } else {
+            self.entityId = nil
+            self.name = nil
+            self.type = nil
+        }
+    }
+}
+
+public struct DescribeEntityOutputResponse: Swift.Equatable {
+    /// The entity ID under which the entity exists.
+    public var entityId: Swift.String?
+    /// Username, GroupName, or ResourceName based on entity type.
+    public var name: Swift.String?
+    /// Entity type.
+    public var type: WorkMailClientTypes.EntityType?
+
+    public init(
+        entityId: Swift.String? = nil,
+        name: Swift.String? = nil,
+        type: WorkMailClientTypes.EntityType? = nil
+    )
+    {
+        self.entityId = entityId
+        self.name = name
+        self.type = type
+    }
+}
+
+struct DescribeEntityOutputResponseBody: Swift.Equatable {
+    let entityId: Swift.String?
+    let name: Swift.String?
+    let type: WorkMailClientTypes.EntityType?
+}
+
+extension DescribeEntityOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case entityId = "EntityId"
+        case name = "Name"
+        case type = "Type"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let entityIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .entityId)
+        entityId = entityIdDecoded
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let typeDecoded = try containerValues.decodeIfPresent(WorkMailClientTypes.EntityType.self, forKey: .type)
+        type = typeDecoded
+    }
+}
+
 extension DescribeGroupInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case groupId = "GroupId"
@@ -3780,7 +4067,13 @@ extension DescribeGroupInput: ClientRuntime.URLPathProvider {
 }
 
 public struct DescribeGroupInput: Swift.Equatable {
-    /// The identifier for the group to be described.
+    /// The identifier for the group to be described. The identifier can accept GroupId, Groupname, or email. The following identity formats are available:
+    ///
+    /// * Group ID: 12345678-1234-1234-1234-123456789012 or S-1-1-12-1234567890-123456789-123456789-1234
+    ///
+    /// * Email address: group@domain.tld
+    ///
+    /// * Group name: group
     /// This member is required.
     public var groupId: Swift.String?
     /// The identifier for the organization under which the group exists.
@@ -3840,6 +4133,7 @@ extension DescribeGroupOutputResponse: ClientRuntime.HttpResponseBinding {
             self.email = output.email
             self.enabledDate = output.enabledDate
             self.groupId = output.groupId
+            self.hiddenFromGlobalAddressList = output.hiddenFromGlobalAddressList
             self.name = output.name
             self.state = output.state
         } else {
@@ -3847,6 +4141,7 @@ extension DescribeGroupOutputResponse: ClientRuntime.HttpResponseBinding {
             self.email = nil
             self.enabledDate = nil
             self.groupId = nil
+            self.hiddenFromGlobalAddressList = false
             self.name = nil
             self.state = nil
         }
@@ -3862,6 +4157,8 @@ public struct DescribeGroupOutputResponse: Swift.Equatable {
     public var enabledDate: ClientRuntime.Date?
     /// The identifier of the described group.
     public var groupId: Swift.String?
+    /// If the value is set to true, the group is hidden from the address book.
+    public var hiddenFromGlobalAddressList: Swift.Bool
     /// The name of the described group.
     public var name: Swift.String?
     /// The state of the user: enabled (registered to WorkMail) or disabled (deregistered or never registered to WorkMail).
@@ -3872,6 +4169,7 @@ public struct DescribeGroupOutputResponse: Swift.Equatable {
         email: Swift.String? = nil,
         enabledDate: ClientRuntime.Date? = nil,
         groupId: Swift.String? = nil,
+        hiddenFromGlobalAddressList: Swift.Bool = false,
         name: Swift.String? = nil,
         state: WorkMailClientTypes.EntityState? = nil
     )
@@ -3880,6 +4178,7 @@ public struct DescribeGroupOutputResponse: Swift.Equatable {
         self.email = email
         self.enabledDate = enabledDate
         self.groupId = groupId
+        self.hiddenFromGlobalAddressList = hiddenFromGlobalAddressList
         self.name = name
         self.state = state
     }
@@ -3892,6 +4191,7 @@ struct DescribeGroupOutputResponseBody: Swift.Equatable {
     let state: WorkMailClientTypes.EntityState?
     let enabledDate: ClientRuntime.Date?
     let disabledDate: ClientRuntime.Date?
+    let hiddenFromGlobalAddressList: Swift.Bool
 }
 
 extension DescribeGroupOutputResponseBody: Swift.Decodable {
@@ -3900,6 +4200,7 @@ extension DescribeGroupOutputResponseBody: Swift.Decodable {
         case email = "Email"
         case enabledDate = "EnabledDate"
         case groupId = "GroupId"
+        case hiddenFromGlobalAddressList = "HiddenFromGlobalAddressList"
         case name = "Name"
         case state = "State"
     }
@@ -3918,6 +4219,8 @@ extension DescribeGroupOutputResponseBody: Swift.Decodable {
         enabledDate = enabledDateDecoded
         let disabledDateDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .disabledDate)
         disabledDate = disabledDateDecoded
+        let hiddenFromGlobalAddressListDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .hiddenFromGlobalAddressList) ?? false
+        hiddenFromGlobalAddressList = hiddenFromGlobalAddressListDecoded
     }
 }
 
@@ -4318,6 +4621,8 @@ extension DescribeOrganizationOutputResponse: ClientRuntime.HttpResponseBinding 
             self.directoryId = output.directoryId
             self.directoryType = output.directoryType
             self.errorMessage = output.errorMessage
+            self.interoperabilityEnabled = output.interoperabilityEnabled
+            self.migrationAdmin = output.migrationAdmin
             self.organizationId = output.organizationId
             self.state = output.state
         } else {
@@ -4328,6 +4633,8 @@ extension DescribeOrganizationOutputResponse: ClientRuntime.HttpResponseBinding 
             self.directoryId = nil
             self.directoryType = nil
             self.errorMessage = nil
+            self.interoperabilityEnabled = false
+            self.migrationAdmin = nil
             self.organizationId = nil
             self.state = nil
         }
@@ -4349,6 +4656,10 @@ public struct DescribeOrganizationOutputResponse: Swift.Equatable {
     public var directoryType: Swift.String?
     /// (Optional) The error message indicating if unexpected behavior was encountered with regards to the organization.
     public var errorMessage: Swift.String?
+    /// Indicates if interoperability is enabled for this organization.
+    public var interoperabilityEnabled: Swift.Bool
+    /// The user ID of the migration admin if migration is enabled for the organization.
+    public var migrationAdmin: Swift.String?
     /// The identifier of an organization.
     public var organizationId: Swift.String?
     /// The state of an organization.
@@ -4362,6 +4673,8 @@ public struct DescribeOrganizationOutputResponse: Swift.Equatable {
         directoryId: Swift.String? = nil,
         directoryType: Swift.String? = nil,
         errorMessage: Swift.String? = nil,
+        interoperabilityEnabled: Swift.Bool = false,
+        migrationAdmin: Swift.String? = nil,
         organizationId: Swift.String? = nil,
         state: Swift.String? = nil
     )
@@ -4373,6 +4686,8 @@ public struct DescribeOrganizationOutputResponse: Swift.Equatable {
         self.directoryId = directoryId
         self.directoryType = directoryType
         self.errorMessage = errorMessage
+        self.interoperabilityEnabled = interoperabilityEnabled
+        self.migrationAdmin = migrationAdmin
         self.organizationId = organizationId
         self.state = state
     }
@@ -4388,6 +4703,8 @@ struct DescribeOrganizationOutputResponseBody: Swift.Equatable {
     let completedDate: ClientRuntime.Date?
     let errorMessage: Swift.String?
     let arn: Swift.String?
+    let migrationAdmin: Swift.String?
+    let interoperabilityEnabled: Swift.Bool
 }
 
 extension DescribeOrganizationOutputResponseBody: Swift.Decodable {
@@ -4399,6 +4716,8 @@ extension DescribeOrganizationOutputResponseBody: Swift.Decodable {
         case directoryId = "DirectoryId"
         case directoryType = "DirectoryType"
         case errorMessage = "ErrorMessage"
+        case interoperabilityEnabled = "InteroperabilityEnabled"
+        case migrationAdmin = "MigrationAdmin"
         case organizationId = "OrganizationId"
         case state = "State"
     }
@@ -4423,6 +4742,10 @@ extension DescribeOrganizationOutputResponseBody: Swift.Decodable {
         errorMessage = errorMessageDecoded
         let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
         arn = arnDecoded
+        let migrationAdminDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .migrationAdmin)
+        migrationAdmin = migrationAdminDecoded
+        let interoperabilityEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .interoperabilityEnabled) ?? false
+        interoperabilityEnabled = interoperabilityEnabledDecoded
     }
 }
 
@@ -4453,7 +4776,13 @@ public struct DescribeResourceInput: Swift.Equatable {
     /// The identifier associated with the organization for which the resource is described.
     /// This member is required.
     public var organizationId: Swift.String?
-    /// The identifier of the resource to be described.
+    /// The identifier of the resource to be described. The identifier can accept ResourceId, Resourcename, or email. The following identity formats are available:
+    ///
+    /// * Resource ID: r-0123456789a0123456789b0123456789
+    ///
+    /// * Email address: resource@domain.tld
+    ///
+    /// * Resource name: resource
     /// This member is required.
     public var resourceId: Swift.String?
 
@@ -4496,6 +4825,7 @@ public enum DescribeResourceOutputError: ClientRuntime.HttpResponseErrorBinding 
             case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "OrganizationNotFoundException": return try await OrganizationNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "OrganizationStateException": return try await OrganizationStateException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnsupportedOperationException": return try await UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
@@ -4507,18 +4837,22 @@ extension DescribeResourceOutputResponse: ClientRuntime.HttpResponseBinding {
             let responseDecoder = decoder {
             let output: DescribeResourceOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.bookingOptions = output.bookingOptions
+            self.description = output.description
             self.disabledDate = output.disabledDate
             self.email = output.email
             self.enabledDate = output.enabledDate
+            self.hiddenFromGlobalAddressList = output.hiddenFromGlobalAddressList
             self.name = output.name
             self.resourceId = output.resourceId
             self.state = output.state
             self.type = output.type
         } else {
             self.bookingOptions = nil
+            self.description = nil
             self.disabledDate = nil
             self.email = nil
             self.enabledDate = nil
+            self.hiddenFromGlobalAddressList = false
             self.name = nil
             self.resourceId = nil
             self.state = nil
@@ -4530,12 +4864,16 @@ extension DescribeResourceOutputResponse: ClientRuntime.HttpResponseBinding {
 public struct DescribeResourceOutputResponse: Swift.Equatable {
     /// The booking options for the described resource.
     public var bookingOptions: WorkMailClientTypes.BookingOptions?
+    /// Description of the resource.
+    public var description: Swift.String?
     /// The date and time when a resource was disabled from WorkMail, in UNIX epoch time format.
     public var disabledDate: ClientRuntime.Date?
     /// The email of the described resource.
     public var email: Swift.String?
     /// The date and time when a resource was enabled for WorkMail, in UNIX epoch time format.
     public var enabledDate: ClientRuntime.Date?
+    /// If enabled, the resource is hidden from the global address list.
+    public var hiddenFromGlobalAddressList: Swift.Bool
     /// The name of the described resource.
     public var name: Swift.String?
     /// The identifier of the described resource.
@@ -4547,9 +4885,11 @@ public struct DescribeResourceOutputResponse: Swift.Equatable {
 
     public init(
         bookingOptions: WorkMailClientTypes.BookingOptions? = nil,
+        description: Swift.String? = nil,
         disabledDate: ClientRuntime.Date? = nil,
         email: Swift.String? = nil,
         enabledDate: ClientRuntime.Date? = nil,
+        hiddenFromGlobalAddressList: Swift.Bool = false,
         name: Swift.String? = nil,
         resourceId: Swift.String? = nil,
         state: WorkMailClientTypes.EntityState? = nil,
@@ -4557,9 +4897,11 @@ public struct DescribeResourceOutputResponse: Swift.Equatable {
     )
     {
         self.bookingOptions = bookingOptions
+        self.description = description
         self.disabledDate = disabledDate
         self.email = email
         self.enabledDate = enabledDate
+        self.hiddenFromGlobalAddressList = hiddenFromGlobalAddressList
         self.name = name
         self.resourceId = resourceId
         self.state = state
@@ -4576,14 +4918,18 @@ struct DescribeResourceOutputResponseBody: Swift.Equatable {
     let state: WorkMailClientTypes.EntityState?
     let enabledDate: ClientRuntime.Date?
     let disabledDate: ClientRuntime.Date?
+    let description: Swift.String?
+    let hiddenFromGlobalAddressList: Swift.Bool
 }
 
 extension DescribeResourceOutputResponseBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case bookingOptions = "BookingOptions"
+        case description = "Description"
         case disabledDate = "DisabledDate"
         case email = "Email"
         case enabledDate = "EnabledDate"
+        case hiddenFromGlobalAddressList = "HiddenFromGlobalAddressList"
         case name = "Name"
         case resourceId = "ResourceId"
         case state = "State"
@@ -4608,6 +4954,10 @@ extension DescribeResourceOutputResponseBody: Swift.Decodable {
         enabledDate = enabledDateDecoded
         let disabledDateDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .disabledDate)
         disabledDate = disabledDateDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let hiddenFromGlobalAddressListDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .hiddenFromGlobalAddressList) ?? false
+        hiddenFromGlobalAddressList = hiddenFromGlobalAddressListDecoded
     }
 }
 
@@ -4638,7 +4988,13 @@ public struct DescribeUserInput: Swift.Equatable {
     /// The identifier for the organization under which the user exists.
     /// This member is required.
     public var organizationId: Swift.String?
-    /// The identifier for the user to be described.
+    /// The identifier for the user to be described. The identifier can be the UserId, Username, or email. The following identity formats are available:
+    ///
+    /// * User ID: 12345678-1234-1234-1234-123456789012 or S-1-1-12-1234567890-123456789-123456789-1234
+    ///
+    /// * Email address: user@domain.tld
+    ///
+    /// * User name: user
     /// This member is required.
     public var userId: Swift.String?
 
@@ -4686,33 +5042,76 @@ public enum DescribeUserOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+extension DescribeUserOutputResponse: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "DescribeUserOutputResponse(disabledDate: \(Swift.String(describing: disabledDate)), email: \(Swift.String(describing: email)), enabledDate: \(Swift.String(describing: enabledDate)), hiddenFromGlobalAddressList: \(Swift.String(describing: hiddenFromGlobalAddressList)), mailboxDeprovisionedDate: \(Swift.String(describing: mailboxDeprovisionedDate)), mailboxProvisionedDate: \(Swift.String(describing: mailboxProvisionedDate)), name: \(Swift.String(describing: name)), state: \(Swift.String(describing: state)), userId: \(Swift.String(describing: userId)), userRole: \(Swift.String(describing: userRole)), city: \"CONTENT_REDACTED\", company: \"CONTENT_REDACTED\", country: \"CONTENT_REDACTED\", department: \"CONTENT_REDACTED\", displayName: \"CONTENT_REDACTED\", firstName: \"CONTENT_REDACTED\", initials: \"CONTENT_REDACTED\", jobTitle: \"CONTENT_REDACTED\", lastName: \"CONTENT_REDACTED\", office: \"CONTENT_REDACTED\", street: \"CONTENT_REDACTED\", telephone: \"CONTENT_REDACTED\", zipCode: \"CONTENT_REDACTED\")"}
+}
+
 extension DescribeUserOutputResponse: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeUserOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.city = output.city
+            self.company = output.company
+            self.country = output.country
+            self.department = output.department
             self.disabledDate = output.disabledDate
             self.displayName = output.displayName
             self.email = output.email
             self.enabledDate = output.enabledDate
+            self.firstName = output.firstName
+            self.hiddenFromGlobalAddressList = output.hiddenFromGlobalAddressList
+            self.initials = output.initials
+            self.jobTitle = output.jobTitle
+            self.lastName = output.lastName
+            self.mailboxDeprovisionedDate = output.mailboxDeprovisionedDate
+            self.mailboxProvisionedDate = output.mailboxProvisionedDate
             self.name = output.name
+            self.office = output.office
             self.state = output.state
+            self.street = output.street
+            self.telephone = output.telephone
             self.userId = output.userId
             self.userRole = output.userRole
+            self.zipCode = output.zipCode
         } else {
+            self.city = nil
+            self.company = nil
+            self.country = nil
+            self.department = nil
             self.disabledDate = nil
             self.displayName = nil
             self.email = nil
             self.enabledDate = nil
+            self.firstName = nil
+            self.hiddenFromGlobalAddressList = false
+            self.initials = nil
+            self.jobTitle = nil
+            self.lastName = nil
+            self.mailboxDeprovisionedDate = nil
+            self.mailboxProvisionedDate = nil
             self.name = nil
+            self.office = nil
             self.state = nil
+            self.street = nil
+            self.telephone = nil
             self.userId = nil
             self.userRole = nil
+            self.zipCode = nil
         }
     }
 }
 
 public struct DescribeUserOutputResponse: Swift.Equatable {
+    /// City where the user is located.
+    public var city: Swift.String?
+    /// Company of the user.
+    public var company: Swift.String?
+    /// Country where the user is located.
+    public var country: Swift.String?
+    /// Department of the user.
+    public var department: Swift.String?
     /// The date and time at which the user was disabled for WorkMail usage, in UNIX epoch time format.
     public var disabledDate: ClientRuntime.Date?
     /// The display name of the user.
@@ -4721,34 +5120,86 @@ public struct DescribeUserOutputResponse: Swift.Equatable {
     public var email: Swift.String?
     /// The date and time at which the user was enabled for WorkMailusage, in UNIX epoch time format.
     public var enabledDate: ClientRuntime.Date?
+    /// First name of the user.
+    public var firstName: Swift.String?
+    /// If enabled, the user is hidden from the global address list.
+    public var hiddenFromGlobalAddressList: Swift.Bool
+    /// Initials of the user.
+    public var initials: Swift.String?
+    /// Job title of the user.
+    public var jobTitle: Swift.String?
+    /// Last name of the user.
+    public var lastName: Swift.String?
+    /// The date when the mailbox was removed for the user.
+    public var mailboxDeprovisionedDate: ClientRuntime.Date?
+    /// The date when the mailbox was created for the user.
+    public var mailboxProvisionedDate: ClientRuntime.Date?
     /// The name for the user.
     public var name: Swift.String?
+    /// Office where the user is located.
+    public var office: Swift.String?
     /// The state of a user: enabled (registered to WorkMail) or disabled (deregistered or never registered to WorkMail).
     public var state: WorkMailClientTypes.EntityState?
+    /// Street where the user is located.
+    public var street: Swift.String?
+    /// User's contact number.
+    public var telephone: Swift.String?
     /// The identifier for the described user.
     public var userId: Swift.String?
-    /// In certain cases, other entities are modeled as users. If interoperability is enabled, resources are imported into WorkMail as users. Because different WorkMail organizations rely on different directory types, administrators can distinguish between an unregistered user (account is disabled and has a user role) and the directory administrators. The values are USER, RESOURCE, and SYSTEM_USER.
+    /// In certain cases, other entities are modeled as users. If interoperability is enabled, resources are imported into WorkMail as users. Because different WorkMail organizations rely on different directory types, administrators can distinguish between an unregistered user (account is disabled and has a user role) and the directory administrators. The values are USER, RESOURCE, SYSTEM_USER, and REMOTE_USER.
     public var userRole: WorkMailClientTypes.UserRole?
+    /// Zip code of the user.
+    public var zipCode: Swift.String?
 
     public init(
+        city: Swift.String? = nil,
+        company: Swift.String? = nil,
+        country: Swift.String? = nil,
+        department: Swift.String? = nil,
         disabledDate: ClientRuntime.Date? = nil,
         displayName: Swift.String? = nil,
         email: Swift.String? = nil,
         enabledDate: ClientRuntime.Date? = nil,
+        firstName: Swift.String? = nil,
+        hiddenFromGlobalAddressList: Swift.Bool = false,
+        initials: Swift.String? = nil,
+        jobTitle: Swift.String? = nil,
+        lastName: Swift.String? = nil,
+        mailboxDeprovisionedDate: ClientRuntime.Date? = nil,
+        mailboxProvisionedDate: ClientRuntime.Date? = nil,
         name: Swift.String? = nil,
+        office: Swift.String? = nil,
         state: WorkMailClientTypes.EntityState? = nil,
+        street: Swift.String? = nil,
+        telephone: Swift.String? = nil,
         userId: Swift.String? = nil,
-        userRole: WorkMailClientTypes.UserRole? = nil
+        userRole: WorkMailClientTypes.UserRole? = nil,
+        zipCode: Swift.String? = nil
     )
     {
+        self.city = city
+        self.company = company
+        self.country = country
+        self.department = department
         self.disabledDate = disabledDate
         self.displayName = displayName
         self.email = email
         self.enabledDate = enabledDate
+        self.firstName = firstName
+        self.hiddenFromGlobalAddressList = hiddenFromGlobalAddressList
+        self.initials = initials
+        self.jobTitle = jobTitle
+        self.lastName = lastName
+        self.mailboxDeprovisionedDate = mailboxDeprovisionedDate
+        self.mailboxProvisionedDate = mailboxProvisionedDate
         self.name = name
+        self.office = office
         self.state = state
+        self.street = street
+        self.telephone = telephone
         self.userId = userId
         self.userRole = userRole
+        self.zipCode = zipCode
     }
 }
 
@@ -4761,18 +5212,48 @@ struct DescribeUserOutputResponseBody: Swift.Equatable {
     let userRole: WorkMailClientTypes.UserRole?
     let enabledDate: ClientRuntime.Date?
     let disabledDate: ClientRuntime.Date?
+    let mailboxProvisionedDate: ClientRuntime.Date?
+    let mailboxDeprovisionedDate: ClientRuntime.Date?
+    let firstName: Swift.String?
+    let lastName: Swift.String?
+    let hiddenFromGlobalAddressList: Swift.Bool
+    let initials: Swift.String?
+    let telephone: Swift.String?
+    let street: Swift.String?
+    let jobTitle: Swift.String?
+    let city: Swift.String?
+    let company: Swift.String?
+    let zipCode: Swift.String?
+    let department: Swift.String?
+    let country: Swift.String?
+    let office: Swift.String?
 }
 
 extension DescribeUserOutputResponseBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case city = "City"
+        case company = "Company"
+        case country = "Country"
+        case department = "Department"
         case disabledDate = "DisabledDate"
         case displayName = "DisplayName"
         case email = "Email"
         case enabledDate = "EnabledDate"
+        case firstName = "FirstName"
+        case hiddenFromGlobalAddressList = "HiddenFromGlobalAddressList"
+        case initials = "Initials"
+        case jobTitle = "JobTitle"
+        case lastName = "LastName"
+        case mailboxDeprovisionedDate = "MailboxDeprovisionedDate"
+        case mailboxProvisionedDate = "MailboxProvisionedDate"
         case name = "Name"
+        case office = "Office"
         case state = "State"
+        case street = "Street"
+        case telephone = "Telephone"
         case userId = "UserId"
         case userRole = "UserRole"
+        case zipCode = "ZipCode"
     }
 
     public init(from decoder: Swift.Decoder) throws {
@@ -4793,6 +5274,36 @@ extension DescribeUserOutputResponseBody: Swift.Decodable {
         enabledDate = enabledDateDecoded
         let disabledDateDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .disabledDate)
         disabledDate = disabledDateDecoded
+        let mailboxProvisionedDateDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .mailboxProvisionedDate)
+        mailboxProvisionedDate = mailboxProvisionedDateDecoded
+        let mailboxDeprovisionedDateDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .mailboxDeprovisionedDate)
+        mailboxDeprovisionedDate = mailboxDeprovisionedDateDecoded
+        let firstNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .firstName)
+        firstName = firstNameDecoded
+        let lastNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .lastName)
+        lastName = lastNameDecoded
+        let hiddenFromGlobalAddressListDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .hiddenFromGlobalAddressList) ?? false
+        hiddenFromGlobalAddressList = hiddenFromGlobalAddressListDecoded
+        let initialsDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .initials)
+        initials = initialsDecoded
+        let telephoneDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .telephone)
+        telephone = telephoneDecoded
+        let streetDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .street)
+        street = streetDecoded
+        let jobTitleDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .jobTitle)
+        jobTitle = jobTitleDecoded
+        let cityDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .city)
+        city = cityDecoded
+        let companyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .company)
+        company = companyDecoded
+        let zipCodeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .zipCode)
+        zipCode = zipCodeDecoded
+        let departmentDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .department)
+        department = departmentDecoded
+        let countryDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .country)
+        country = countryDecoded
+        let officeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .office)
+        office = officeDecoded
     }
 }
 
@@ -4989,13 +5500,25 @@ extension DisassociateDelegateFromResourceInput: ClientRuntime.URLPathProvider {
 }
 
 public struct DisassociateDelegateFromResourceInput: Swift.Equatable {
-    /// The identifier for the member (user, group) to be removed from the resource's delegates.
+    /// The identifier for the member (user, group) to be removed from the resource's delegates. The entity ID can accept UserId or GroupID, Username or Groupname, or email.
+    ///
+    /// * Entity: 12345678-1234-1234-1234-123456789012 or S-1-1-12-1234567890-123456789-123456789-1234
+    ///
+    /// * Email address: entity@domain.tld
+    ///
+    /// * Entity: entity
     /// This member is required.
     public var entityId: Swift.String?
     /// The identifier for the organization under which the resource exists.
     /// This member is required.
     public var organizationId: Swift.String?
-    /// The identifier of the resource from which delegates' set members are removed.
+    /// The identifier of the resource from which delegates' set members are removed. The identifier can accept ResourceId, Resourcename, or email. The following identity formats are available:
+    ///
+    /// * Resource ID: r-0123456789a0123456789b0123456789
+    ///
+    /// * Email address: resource@domain.tld
+    ///
+    /// * Resource name: resource
     /// This member is required.
     public var resourceId: Swift.String?
 
@@ -5045,6 +5568,7 @@ public enum DisassociateDelegateFromResourceOutputError: ClientRuntime.HttpRespo
             case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "OrganizationNotFoundException": return try await OrganizationNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "OrganizationStateException": return try await OrganizationStateException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnsupportedOperationException": return try await UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
@@ -5088,10 +5612,22 @@ extension DisassociateMemberFromGroupInput: ClientRuntime.URLPathProvider {
 }
 
 public struct DisassociateMemberFromGroupInput: Swift.Equatable {
-    /// The identifier for the group from which members are removed.
+    /// The identifier for the group from which members are removed. The identifier can accept GroupId, Groupname, or email. The following identity formats are available:
+    ///
+    /// * Group ID: 12345678-1234-1234-1234-123456789012 or S-1-1-12-1234567890-123456789-123456789-1234
+    ///
+    /// * Email address: group@domain.tld
+    ///
+    /// * Group name: group
     /// This member is required.
     public var groupId: Swift.String?
-    /// The identifier for the member to be removed to the group.
+    /// The identifier for the member to be removed from the group. The member ID can accept UserID or GroupId, Username or Groupname, or email.
+    ///
+    /// * Member ID: 12345678-1234-1234-1234-123456789012 or S-1-1-12-1234567890-123456789-123456789-1234
+    ///
+    /// * Email address: member@domain.tld
+    ///
+    /// * Member name: member
     /// This member is required.
     public var memberId: Swift.String?
     /// The identifier for the organization under which the group exists.
@@ -5281,6 +5817,7 @@ extension WorkMailClientTypes {
     /// The domain to associate with an WorkMail organization. When you configure a domain hosted in Amazon Route 53 (Route 53), all recommended DNS records are added to the organization when you create it. For more information, see [Adding a domain](https://docs.aws.amazon.com/workmail/latest/adminguide/add_domain.html) in the WorkMail Administrator Guide.
     public struct Domain: Swift.Equatable {
         /// The fully qualified domain name.
+        /// This member is required.
         public var domainName: Swift.String?
         /// The hosted zone ID for a domain hosted in Route 53. Required when configuring a domain hosted in Route 53.
         public var hostedZoneId: Swift.String?
@@ -5549,6 +6086,41 @@ extension EntityStateExceptionBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
+    }
+}
+
+extension WorkMailClientTypes {
+    public enum EntityType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case group
+        case resource
+        case user
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [EntityType] {
+            return [
+                .group,
+                .resource,
+                .user,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .group: return "GROUP"
+            case .resource: return "RESOURCE"
+            case .user: return "USER"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = EntityType(rawValue: rawValue) ?? EntityType.sdkUnknown(rawValue)
+        }
     }
 }
 
@@ -6566,7 +7138,13 @@ public struct GetMailboxDetailsInput: Swift.Equatable {
     /// The identifier for the organization that contains the user whose mailbox details are being requested.
     /// This member is required.
     public var organizationId: Swift.String?
-    /// The identifier for the user whose mailbox details are being requested.
+    /// The identifier for the user whose mailbox details are being requested. The identifier can be the UserId, Username, or email. The following identity formats are available:
+    ///
+    /// * User ID: 12345678-1234-1234-1234-123456789012 or S-1-1-12-1234567890-123456789-123456789-1234
+    ///
+    /// * Email address: user@domain.tld
+    ///
+    /// * User name: user
     /// This member is required.
     public var userId: Swift.String?
 
@@ -6606,6 +7184,7 @@ public enum GetMailboxDetailsOutputError: ClientRuntime.HttpResponseErrorBinding
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
             case "EntityNotFoundException": return try await EntityNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "OrganizationNotFoundException": return try await OrganizationNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "OrganizationStateException": return try await OrganizationStateException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
@@ -7096,6 +7675,51 @@ extension WorkMailClientTypes {
             self.id = id
             self.name = name
             self.state = state
+        }
+    }
+
+}
+
+extension WorkMailClientTypes.GroupIdentifier: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case groupId = "GroupId"
+        case groupName = "GroupName"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let groupId = self.groupId {
+            try encodeContainer.encode(groupId, forKey: .groupId)
+        }
+        if let groupName = self.groupName {
+            try encodeContainer.encode(groupName, forKey: .groupName)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let groupIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .groupId)
+        groupId = groupIdDecoded
+        let groupNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .groupName)
+        groupName = groupNameDecoded
+    }
+}
+
+extension WorkMailClientTypes {
+    /// The identifier that contains the Group ID and name of a group.
+    public struct GroupIdentifier: Swift.Equatable {
+        /// Group ID that matched the group.
+        public var groupId: Swift.String?
+        /// Group name that matched the group.
+        public var groupName: Swift.String?
+
+        public init(
+            groupId: Swift.String? = nil,
+            groupName: Swift.String? = nil
+        )
+        {
+            self.groupId = groupId
+            self.groupName = groupName
         }
     }
 
@@ -8118,7 +8742,13 @@ extension ListGroupMembersInput: ClientRuntime.URLPathProvider {
 }
 
 public struct ListGroupMembersInput: Swift.Equatable {
-    /// The identifier for the group to which the members (users or groups) are associated.
+    /// The identifier for the group to which the members (users or groups) are associated. The identifier can accept GroupId, Groupname, or email. The following identity formats are available:
+    ///
+    /// * Group ID: 12345678-1234-1234-1234-123456789012 or S-1-1-12-1234567890-123456789-123456789-1234
+    ///
+    /// * Email address: group@domain.tld
+    ///
+    /// * Group name: group
     /// This member is required.
     public var groupId: Swift.String?
     /// The maximum number of results to return in a single call.
@@ -8245,8 +8875,100 @@ extension ListGroupMembersOutputResponseBody: Swift.Decodable {
     }
 }
 
-extension ListGroupsInput: Swift.Encodable {
+extension WorkMailClientTypes.ListGroupsFilters: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case namePrefix = "NamePrefix"
+        case primaryEmailPrefix = "PrimaryEmailPrefix"
+        case state = "State"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let namePrefix = self.namePrefix {
+            try encodeContainer.encode(namePrefix, forKey: .namePrefix)
+        }
+        if let primaryEmailPrefix = self.primaryEmailPrefix {
+            try encodeContainer.encode(primaryEmailPrefix, forKey: .primaryEmailPrefix)
+        }
+        if let state = self.state {
+            try encodeContainer.encode(state.rawValue, forKey: .state)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let namePrefixDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .namePrefix)
+        namePrefix = namePrefixDecoded
+        let primaryEmailPrefixDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .primaryEmailPrefix)
+        primaryEmailPrefix = primaryEmailPrefixDecoded
+        let stateDecoded = try containerValues.decodeIfPresent(WorkMailClientTypes.EntityState.self, forKey: .state)
+        state = stateDecoded
+    }
+}
+
+extension WorkMailClientTypes {
+    /// Filtering options for ListGroups operation. This is only used as input to Operation.
+    public struct ListGroupsFilters: Swift.Equatable {
+        /// Filters only groups with the provided name prefix.
+        public var namePrefix: Swift.String?
+        /// Filters only groups with the provided primary email prefix.
+        public var primaryEmailPrefix: Swift.String?
+        /// Filters only groups with the provided state.
+        public var state: WorkMailClientTypes.EntityState?
+
+        public init(
+            namePrefix: Swift.String? = nil,
+            primaryEmailPrefix: Swift.String? = nil,
+            state: WorkMailClientTypes.EntityState? = nil
+        )
+        {
+            self.namePrefix = namePrefix
+            self.primaryEmailPrefix = primaryEmailPrefix
+            self.state = state
+        }
+    }
+
+}
+
+extension WorkMailClientTypes.ListGroupsForEntityFilters: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case groupNamePrefix = "GroupNamePrefix"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let groupNamePrefix = self.groupNamePrefix {
+            try encodeContainer.encode(groupNamePrefix, forKey: .groupNamePrefix)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let groupNamePrefixDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .groupNamePrefix)
+        groupNamePrefix = groupNamePrefixDecoded
+    }
+}
+
+extension WorkMailClientTypes {
+    /// Filtering options for ListGroupsForEntity operation. This is only used as input to Operation.
+    public struct ListGroupsForEntityFilters: Swift.Equatable {
+        /// Filters only group names that start with the provided name prefix.
+        public var groupNamePrefix: Swift.String?
+
+        public init(
+            groupNamePrefix: Swift.String? = nil
+        )
+        {
+            self.groupNamePrefix = groupNamePrefix
+        }
+    }
+
+}
+
+extension ListGroupsForEntityInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case entityId = "EntityId"
+        case filters = "Filters"
         case maxResults = "MaxResults"
         case nextToken = "NextToken"
         case organizationId = "OrganizationId"
@@ -8254,6 +8976,185 @@ extension ListGroupsInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let entityId = self.entityId {
+            try encodeContainer.encode(entityId, forKey: .entityId)
+        }
+        if let filters = self.filters {
+            try encodeContainer.encode(filters, forKey: .filters)
+        }
+        if let maxResults = self.maxResults {
+            try encodeContainer.encode(maxResults, forKey: .maxResults)
+        }
+        if let nextToken = self.nextToken {
+            try encodeContainer.encode(nextToken, forKey: .nextToken)
+        }
+        if let organizationId = self.organizationId {
+            try encodeContainer.encode(organizationId, forKey: .organizationId)
+        }
+    }
+}
+
+extension ListGroupsForEntityInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct ListGroupsForEntityInput: Swift.Equatable {
+    /// The identifier for the entity. The entity ID can accept UserId or GroupID, Username or Groupname, or email.
+    ///
+    /// * Entity ID: 12345678-1234-1234-1234-123456789012 or S-1-1-12-1234567890-123456789-123456789-1234
+    ///
+    /// * Email address: entity@domain.tld
+    ///
+    /// * Entity name: entity
+    /// This member is required.
+    public var entityId: Swift.String?
+    /// Limit the search results based on the filter criteria.
+    public var filters: WorkMailClientTypes.ListGroupsForEntityFilters?
+    /// The maximum number of results to return in a single call.
+    public var maxResults: Swift.Int?
+    /// The token to use to retrieve the next page of results. The first call does not contain any tokens.
+    public var nextToken: Swift.String?
+    /// The identifier for the organization under which the entity exists.
+    /// This member is required.
+    public var organizationId: Swift.String?
+
+    public init(
+        entityId: Swift.String? = nil,
+        filters: WorkMailClientTypes.ListGroupsForEntityFilters? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        organizationId: Swift.String? = nil
+    )
+    {
+        self.entityId = entityId
+        self.filters = filters
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.organizationId = organizationId
+    }
+}
+
+struct ListGroupsForEntityInputBody: Swift.Equatable {
+    let organizationId: Swift.String?
+    let entityId: Swift.String?
+    let filters: WorkMailClientTypes.ListGroupsForEntityFilters?
+    let nextToken: Swift.String?
+    let maxResults: Swift.Int?
+}
+
+extension ListGroupsForEntityInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case entityId = "EntityId"
+        case filters = "Filters"
+        case maxResults = "MaxResults"
+        case nextToken = "NextToken"
+        case organizationId = "OrganizationId"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let organizationIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .organizationId)
+        organizationId = organizationIdDecoded
+        let entityIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .entityId)
+        entityId = entityIdDecoded
+        let filtersDecoded = try containerValues.decodeIfPresent(WorkMailClientTypes.ListGroupsForEntityFilters.self, forKey: .filters)
+        filters = filtersDecoded
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
+        maxResults = maxResultsDecoded
+    }
+}
+
+public enum ListGroupsForEntityOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "EntityNotFoundException": return try await EntityNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "EntityStateException": return try await EntityStateException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OrganizationNotFoundException": return try await OrganizationNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OrganizationStateException": return try await OrganizationStateException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension ListGroupsForEntityOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ListGroupsForEntityOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.groups = output.groups
+            self.nextToken = output.nextToken
+        } else {
+            self.groups = nil
+            self.nextToken = nil
+        }
+    }
+}
+
+public struct ListGroupsForEntityOutputResponse: Swift.Equatable {
+    /// The overview of groups in an organization.
+    public var groups: [WorkMailClientTypes.GroupIdentifier]?
+    /// The token to use to retrieve the next page of results. This value is `null` when there are no more results to return.
+    public var nextToken: Swift.String?
+
+    public init(
+        groups: [WorkMailClientTypes.GroupIdentifier]? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.groups = groups
+        self.nextToken = nextToken
+    }
+}
+
+struct ListGroupsForEntityOutputResponseBody: Swift.Equatable {
+    let groups: [WorkMailClientTypes.GroupIdentifier]?
+    let nextToken: Swift.String?
+}
+
+extension ListGroupsForEntityOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case groups = "Groups"
+        case nextToken = "NextToken"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let groupsContainer = try containerValues.decodeIfPresent([WorkMailClientTypes.GroupIdentifier?].self, forKey: .groups)
+        var groupsDecoded0:[WorkMailClientTypes.GroupIdentifier]? = nil
+        if let groupsContainer = groupsContainer {
+            groupsDecoded0 = [WorkMailClientTypes.GroupIdentifier]()
+            for structure0 in groupsContainer {
+                if let structure0 = structure0 {
+                    groupsDecoded0?.append(structure0)
+                }
+            }
+        }
+        groups = groupsDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+extension ListGroupsInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case filters = "Filters"
+        case maxResults = "MaxResults"
+        case nextToken = "NextToken"
+        case organizationId = "OrganizationId"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let filters = self.filters {
+            try encodeContainer.encode(filters, forKey: .filters)
+        }
         if let maxResults = self.maxResults {
             try encodeContainer.encode(maxResults, forKey: .maxResults)
         }
@@ -8273,6 +9174,8 @@ extension ListGroupsInput: ClientRuntime.URLPathProvider {
 }
 
 public struct ListGroupsInput: Swift.Equatable {
+    /// Limit the search results based on the filter criteria. Only one filter per request is supported.
+    public var filters: WorkMailClientTypes.ListGroupsFilters?
     /// The maximum number of results to return in a single call.
     public var maxResults: Swift.Int?
     /// The token to use to retrieve the next page of results. The first call does not contain any tokens.
@@ -8282,11 +9185,13 @@ public struct ListGroupsInput: Swift.Equatable {
     public var organizationId: Swift.String?
 
     public init(
+        filters: WorkMailClientTypes.ListGroupsFilters? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         organizationId: Swift.String? = nil
     )
     {
+        self.filters = filters
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.organizationId = organizationId
@@ -8297,10 +9202,12 @@ struct ListGroupsInputBody: Swift.Equatable {
     let organizationId: Swift.String?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
+    let filters: WorkMailClientTypes.ListGroupsFilters?
 }
 
 extension ListGroupsInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case filters = "Filters"
         case maxResults = "MaxResults"
         case nextToken = "NextToken"
         case organizationId = "OrganizationId"
@@ -8314,6 +9221,8 @@ extension ListGroupsInputBody: Swift.Decodable {
         nextToken = nextTokenDecoded
         let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
         maxResults = maxResultsDecoded
+        let filtersDecoded = try containerValues.decodeIfPresent(WorkMailClientTypes.ListGroupsFilters.self, forKey: .filters)
+        filters = filtersDecoded
     }
 }
 
@@ -8854,7 +9763,13 @@ extension ListMailboxPermissionsInput: ClientRuntime.URLPathProvider {
 }
 
 public struct ListMailboxPermissionsInput: Swift.Equatable {
-    /// The identifier of the user, group, or resource for which to list mailbox permissions.
+    /// The identifier of the user, or resource for which to list mailbox permissions. The entity ID can accept UserId or ResourceId, Username or Resourcename, or email.
+    ///
+    /// * Entity ID: 12345678-1234-1234-1234-123456789012, or r-0123456789a0123456789b0123456789
+    ///
+    /// * Email address: entity@domain.tld
+    ///
+    /// * Entity name: entity
     /// This member is required.
     public var entityId: Swift.String?
     /// The maximum number of results to return in a single call.
@@ -9433,7 +10348,13 @@ public struct ListResourceDelegatesInput: Swift.Equatable {
     /// The identifier for the organization that contains the resource for which delegates are listed.
     /// This member is required.
     public var organizationId: Swift.String?
-    /// The identifier for the resource whose delegates are listed.
+    /// The identifier for the resource whose delegates are listed. The identifier can accept ResourceId, Resourcename, or email. The following identity formats are available:
+    ///
+    /// * Resource ID: r-0123456789a0123456789b0123456789
+    ///
+    /// * Email address: resource@domain.tld
+    ///
+    /// * Resource name: resource
     /// This member is required.
     public var resourceId: Swift.String?
 
@@ -9489,6 +10410,7 @@ public enum ListResourceDelegatesOutputError: ClientRuntime.HttpResponseErrorBin
             case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "OrganizationNotFoundException": return try await OrganizationNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "OrganizationStateException": return try await OrganizationStateException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnsupportedOperationException": return try await UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
@@ -9553,8 +10475,64 @@ extension ListResourceDelegatesOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension WorkMailClientTypes.ListResourcesFilters: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case namePrefix = "NamePrefix"
+        case primaryEmailPrefix = "PrimaryEmailPrefix"
+        case state = "State"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let namePrefix = self.namePrefix {
+            try encodeContainer.encode(namePrefix, forKey: .namePrefix)
+        }
+        if let primaryEmailPrefix = self.primaryEmailPrefix {
+            try encodeContainer.encode(primaryEmailPrefix, forKey: .primaryEmailPrefix)
+        }
+        if let state = self.state {
+            try encodeContainer.encode(state.rawValue, forKey: .state)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let namePrefixDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .namePrefix)
+        namePrefix = namePrefixDecoded
+        let primaryEmailPrefixDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .primaryEmailPrefix)
+        primaryEmailPrefix = primaryEmailPrefixDecoded
+        let stateDecoded = try containerValues.decodeIfPresent(WorkMailClientTypes.EntityState.self, forKey: .state)
+        state = stateDecoded
+    }
+}
+
+extension WorkMailClientTypes {
+    /// Filtering options for ListResources operation. This is only used as input to Operation.
+    public struct ListResourcesFilters: Swift.Equatable {
+        /// Filters only resource that start with the entered name prefix .
+        public var namePrefix: Swift.String?
+        /// Filters only resource with the provided primary email prefix.
+        public var primaryEmailPrefix: Swift.String?
+        /// Filters only resource with the provided state.
+        public var state: WorkMailClientTypes.EntityState?
+
+        public init(
+            namePrefix: Swift.String? = nil,
+            primaryEmailPrefix: Swift.String? = nil,
+            state: WorkMailClientTypes.EntityState? = nil
+        )
+        {
+            self.namePrefix = namePrefix
+            self.primaryEmailPrefix = primaryEmailPrefix
+            self.state = state
+        }
+    }
+
+}
+
 extension ListResourcesInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case filters = "Filters"
         case maxResults = "MaxResults"
         case nextToken = "NextToken"
         case organizationId = "OrganizationId"
@@ -9562,6 +10540,9 @@ extension ListResourcesInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let filters = self.filters {
+            try encodeContainer.encode(filters, forKey: .filters)
+        }
         if let maxResults = self.maxResults {
             try encodeContainer.encode(maxResults, forKey: .maxResults)
         }
@@ -9581,6 +10562,8 @@ extension ListResourcesInput: ClientRuntime.URLPathProvider {
 }
 
 public struct ListResourcesInput: Swift.Equatable {
+    /// Limit the resource search results based on the filter criteria. You can only use one filter per request.
+    public var filters: WorkMailClientTypes.ListResourcesFilters?
     /// The maximum number of results to return in a single call.
     public var maxResults: Swift.Int?
     /// The token to use to retrieve the next page of results. The first call does not contain any tokens.
@@ -9590,11 +10573,13 @@ public struct ListResourcesInput: Swift.Equatable {
     public var organizationId: Swift.String?
 
     public init(
+        filters: WorkMailClientTypes.ListResourcesFilters? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         organizationId: Swift.String? = nil
     )
     {
+        self.filters = filters
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.organizationId = organizationId
@@ -9605,10 +10590,12 @@ struct ListResourcesInputBody: Swift.Equatable {
     let organizationId: Swift.String?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
+    let filters: WorkMailClientTypes.ListResourcesFilters?
 }
 
 extension ListResourcesInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case filters = "Filters"
         case maxResults = "MaxResults"
         case nextToken = "NextToken"
         case organizationId = "OrganizationId"
@@ -9622,6 +10609,8 @@ extension ListResourcesInputBody: Swift.Decodable {
         nextToken = nextTokenDecoded
         let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
         maxResults = maxResultsDecoded
+        let filtersDecoded = try containerValues.decodeIfPresent(WorkMailClientTypes.ListResourcesFilters.self, forKey: .filters)
+        filters = filtersDecoded
     }
 }
 
@@ -9633,6 +10622,7 @@ public enum ListResourcesOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "OrganizationNotFoundException": return try await OrganizationNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "OrganizationStateException": return try await OrganizationStateException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnsupportedOperationException": return try await UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
@@ -9805,8 +10795,79 @@ extension ListTagsForResourceOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension WorkMailClientTypes.ListUsersFilters: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case displayNamePrefix = "DisplayNamePrefix"
+        case primaryEmailPrefix = "PrimaryEmailPrefix"
+        case state = "State"
+        case usernamePrefix = "UsernamePrefix"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let displayNamePrefix = self.displayNamePrefix {
+            try encodeContainer.encode(displayNamePrefix, forKey: .displayNamePrefix)
+        }
+        if let primaryEmailPrefix = self.primaryEmailPrefix {
+            try encodeContainer.encode(primaryEmailPrefix, forKey: .primaryEmailPrefix)
+        }
+        if let state = self.state {
+            try encodeContainer.encode(state.rawValue, forKey: .state)
+        }
+        if let usernamePrefix = self.usernamePrefix {
+            try encodeContainer.encode(usernamePrefix, forKey: .usernamePrefix)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let usernamePrefixDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .usernamePrefix)
+        usernamePrefix = usernamePrefixDecoded
+        let displayNamePrefixDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .displayNamePrefix)
+        displayNamePrefix = displayNamePrefixDecoded
+        let primaryEmailPrefixDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .primaryEmailPrefix)
+        primaryEmailPrefix = primaryEmailPrefixDecoded
+        let stateDecoded = try containerValues.decodeIfPresent(WorkMailClientTypes.EntityState.self, forKey: .state)
+        state = stateDecoded
+    }
+}
+
+extension WorkMailClientTypes.ListUsersFilters: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "ListUsersFilters(primaryEmailPrefix: \(Swift.String(describing: primaryEmailPrefix)), state: \(Swift.String(describing: state)), usernamePrefix: \(Swift.String(describing: usernamePrefix)), displayNamePrefix: \"CONTENT_REDACTED\")"}
+}
+
+extension WorkMailClientTypes {
+    /// Filtering options for ListUsers operation. This is only used as input to Operation.
+    public struct ListUsersFilters: Swift.Equatable {
+        /// Filters only users with the provided display name prefix.
+        public var displayNamePrefix: Swift.String?
+        /// Filters only users with the provided email prefix.
+        public var primaryEmailPrefix: Swift.String?
+        /// Filters only users with the provided state.
+        public var state: WorkMailClientTypes.EntityState?
+        /// Filters only users with the provided username prefix.
+        public var usernamePrefix: Swift.String?
+
+        public init(
+            displayNamePrefix: Swift.String? = nil,
+            primaryEmailPrefix: Swift.String? = nil,
+            state: WorkMailClientTypes.EntityState? = nil,
+            usernamePrefix: Swift.String? = nil
+        )
+        {
+            self.displayNamePrefix = displayNamePrefix
+            self.primaryEmailPrefix = primaryEmailPrefix
+            self.state = state
+            self.usernamePrefix = usernamePrefix
+        }
+    }
+
+}
+
 extension ListUsersInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case filters = "Filters"
         case maxResults = "MaxResults"
         case nextToken = "NextToken"
         case organizationId = "OrganizationId"
@@ -9814,6 +10875,9 @@ extension ListUsersInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let filters = self.filters {
+            try encodeContainer.encode(filters, forKey: .filters)
+        }
         if let maxResults = self.maxResults {
             try encodeContainer.encode(maxResults, forKey: .maxResults)
         }
@@ -9833,6 +10897,8 @@ extension ListUsersInput: ClientRuntime.URLPathProvider {
 }
 
 public struct ListUsersInput: Swift.Equatable {
+    /// Limit the user search results based on the filter criteria. You can only use one filter per request.
+    public var filters: WorkMailClientTypes.ListUsersFilters?
     /// The maximum number of results to return in a single call.
     public var maxResults: Swift.Int?
     /// The token to use to retrieve the next page of results. The first call does not contain any tokens.
@@ -9842,11 +10908,13 @@ public struct ListUsersInput: Swift.Equatable {
     public var organizationId: Swift.String?
 
     public init(
+        filters: WorkMailClientTypes.ListUsersFilters? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         organizationId: Swift.String? = nil
     )
     {
+        self.filters = filters
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.organizationId = organizationId
@@ -9857,10 +10925,12 @@ struct ListUsersInputBody: Swift.Equatable {
     let organizationId: Swift.String?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
+    let filters: WorkMailClientTypes.ListUsersFilters?
 }
 
 extension ListUsersInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case filters = "Filters"
         case maxResults = "MaxResults"
         case nextToken = "NextToken"
         case organizationId = "OrganizationId"
@@ -9874,6 +10944,8 @@ extension ListUsersInputBody: Swift.Decodable {
         nextToken = nextTokenDecoded
         let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
         maxResults = maxResultsDecoded
+        let filtersDecoded = try containerValues.decodeIfPresent(WorkMailClientTypes.ListUsersFilters.self, forKey: .filters)
+        filters = filtersDecoded
     }
 }
 
@@ -11718,10 +12790,22 @@ extension PutMailboxPermissionsInput: ClientRuntime.URLPathProvider {
 }
 
 public struct PutMailboxPermissionsInput: Swift.Equatable {
-    /// The identifier of the user, group, or resource for which to update mailbox permissions.
+    /// The identifier of the user or resource for which to update mailbox permissions. The identifier can be UserId, ResourceID, or Group Id, Username, Resourcename, or Groupname, or email.
+    ///
+    /// * Entity ID: 12345678-1234-1234-1234-123456789012, r-0123456789a0123456789b0123456789, or S-1-1-12-1234567890-123456789-123456789-1234
+    ///
+    /// * Email address: entity@domain.tld
+    ///
+    /// * Entity name: entity
     /// This member is required.
     public var entityId: Swift.String?
-    /// The identifier of the user, group, or resource to which to grant the permissions.
+    /// The identifier of the user, group, or resource to which to grant the permissions. The identifier can be UserId, ResourceID, or Group Id, Username, Resourcename, or Groupname, or email.
+    ///
+    /// * Grantee ID: 12345678-1234-1234-1234-123456789012, r-0123456789a0123456789b0123456789, or S-1-1-12-1234567890-123456789-123456789-1234
+    ///
+    /// * Email address: grantee@domain.tld
+    ///
+    /// * Grantee name: grantee
     /// This member is required.
     public var granteeId: Swift.String?
     /// The identifier of the organization under which the user, group, or resource exists.
@@ -12250,7 +13334,11 @@ public struct RegisterToWorkMailInput: Swift.Equatable {
     /// The email for the user, group, or resource to be updated.
     /// This member is required.
     public var email: Swift.String?
-    /// The identifier for the user, group, or resource to be updated.
+    /// The identifier for the user, group, or resource to be updated. The identifier can accept UserId, ResourceId, or GroupId, or Username, Resourcename, or Groupname. The following identity formats are available:
+    ///
+    /// * Entity ID: 12345678-1234-1234-1234-123456789012, r-0123456789a0123456789b0123456789, or S-1-1-12-1234567890-123456789-123456789-1234
+    ///
+    /// * Entity name: entity
     /// This member is required.
     public var entityId: Swift.String?
     /// The identifier for the organization under which the user, group, or resource exists.
@@ -12489,6 +13577,7 @@ public struct ResetPasswordOutputResponse: Swift.Equatable {
 
 extension WorkMailClientTypes.Resource: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case description = "Description"
         case disabledDate = "DisabledDate"
         case email = "Email"
         case enabledDate = "EnabledDate"
@@ -12500,6 +13589,9 @@ extension WorkMailClientTypes.Resource: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
         if let disabledDate = self.disabledDate {
             try encodeContainer.encodeTimestamp(disabledDate, format: .epochSeconds, forKey: .disabledDate)
         }
@@ -12539,12 +13631,16 @@ extension WorkMailClientTypes.Resource: Swift.Codable {
         enabledDate = enabledDateDecoded
         let disabledDateDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .disabledDate)
         disabledDate = disabledDateDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
     }
 }
 
 extension WorkMailClientTypes {
     /// The representation of a resource.
     public struct Resource: Swift.Equatable {
+        /// Resource description.
+        public var description: Swift.String?
         /// The date indicating when the resource was disabled from WorkMail use.
         public var disabledDate: ClientRuntime.Date?
         /// The email of the resource.
@@ -12561,6 +13657,7 @@ extension WorkMailClientTypes {
         public var type: WorkMailClientTypes.ResourceType?
 
         public init(
+            description: Swift.String? = nil,
             disabledDate: ClientRuntime.Date? = nil,
             email: Swift.String? = nil,
             enabledDate: ClientRuntime.Date? = nil,
@@ -12570,6 +13667,7 @@ extension WorkMailClientTypes {
             type: WorkMailClientTypes.ResourceType? = nil
         )
         {
+            self.description = description
             self.disabledDate = disabledDate
             self.email = email
             self.enabledDate = enabledDate
@@ -12757,7 +13855,13 @@ public struct StartMailboxExportJobInput: Swift.Equatable {
     public var clientToken: Swift.String?
     /// The mailbox export job description.
     public var description: Swift.String?
-    /// The identifier of the user or resource associated with the mailbox.
+    /// The identifier of the user or resource associated with the mailbox. The identifier can accept UserId or ResourceId, Username or Resourcename, or email. The following identity formats are available:
+    ///
+    /// * Entity ID: 12345678-1234-1234-1234-123456789012, r-0123456789a0123456789b0123456789 , or S-1-1-12-1234567890-123456789-123456789-1234
+    ///
+    /// * Email address: entity@domain.tld
+    ///
+    /// * Entity name: entity
     /// This member is required.
     public var entityId: Swift.String?
     /// The Amazon Resource Name (ARN) of the symmetric AWS Key Management Service (AWS KMS) key that encrypts the exported mailbox content.
@@ -13022,6 +14126,7 @@ public enum TagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
+            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "OrganizationStateException": return try await OrganizationStateException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "TooManyTagsException": return try await TooManyTagsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
@@ -13587,6 +14692,111 @@ public struct UpdateDefaultMailDomainOutputResponse: Swift.Equatable {
     public init() { }
 }
 
+extension UpdateGroupInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case groupId = "GroupId"
+        case hiddenFromGlobalAddressList = "HiddenFromGlobalAddressList"
+        case organizationId = "OrganizationId"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let groupId = self.groupId {
+            try encodeContainer.encode(groupId, forKey: .groupId)
+        }
+        if let hiddenFromGlobalAddressList = self.hiddenFromGlobalAddressList {
+            try encodeContainer.encode(hiddenFromGlobalAddressList, forKey: .hiddenFromGlobalAddressList)
+        }
+        if let organizationId = self.organizationId {
+            try encodeContainer.encode(organizationId, forKey: .organizationId)
+        }
+    }
+}
+
+extension UpdateGroupInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct UpdateGroupInput: Swift.Equatable {
+    /// The identifier for the group to be updated. The identifier can accept GroupId, Groupname, or email. The following identity formats are available:
+    ///
+    /// * Group ID: 12345678-1234-1234-1234-123456789012 or S-1-1-12-1234567890-123456789-123456789-1234
+    ///
+    /// * Email address: group@domain.tld
+    ///
+    /// * Group name: group
+    /// This member is required.
+    public var groupId: Swift.String?
+    /// If enabled, the group is hidden from the global address list.
+    public var hiddenFromGlobalAddressList: Swift.Bool?
+    /// The identifier for the organization under which the group exists.
+    /// This member is required.
+    public var organizationId: Swift.String?
+
+    public init(
+        groupId: Swift.String? = nil,
+        hiddenFromGlobalAddressList: Swift.Bool? = nil,
+        organizationId: Swift.String? = nil
+    )
+    {
+        self.groupId = groupId
+        self.hiddenFromGlobalAddressList = hiddenFromGlobalAddressList
+        self.organizationId = organizationId
+    }
+}
+
+struct UpdateGroupInputBody: Swift.Equatable {
+    let organizationId: Swift.String?
+    let groupId: Swift.String?
+    let hiddenFromGlobalAddressList: Swift.Bool?
+}
+
+extension UpdateGroupInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case groupId = "GroupId"
+        case hiddenFromGlobalAddressList = "HiddenFromGlobalAddressList"
+        case organizationId = "OrganizationId"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let organizationIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .organizationId)
+        organizationId = organizationIdDecoded
+        let groupIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .groupId)
+        groupId = groupIdDecoded
+        let hiddenFromGlobalAddressListDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .hiddenFromGlobalAddressList)
+        hiddenFromGlobalAddressList = hiddenFromGlobalAddressListDecoded
+    }
+}
+
+public enum UpdateGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "EntityNotFoundException": return try await EntityNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "EntityStateException": return try await EntityStateException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OrganizationNotFoundException": return try await OrganizationNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OrganizationStateException": return try await OrganizationStateException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnsupportedOperationException": return try await UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension UpdateGroupOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct UpdateGroupOutputResponse: Swift.Equatable {
+
+    public init() { }
+}
+
 extension UpdateImpersonationRoleInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case description = "Description"
@@ -13772,7 +14982,13 @@ public struct UpdateMailboxQuotaInput: Swift.Equatable {
     /// The identifier for the organization that contains the user for whom to update the mailbox quota.
     /// This member is required.
     public var organizationId: Swift.String?
-    /// The identifer for the user for whom to update the mailbox quota.
+    /// The identifer for the user for whom to update the mailbox quota. The identifier can be the UserId, Username, or email. The following identity formats are available:
+    ///
+    /// * User ID: 12345678-1234-1234-1234-123456789012 or S-1-1-12-1234567890-123456789-123456789-1234
+    ///
+    /// * Email address: user@domain.tld
+    ///
+    /// * User name: user
     /// This member is required.
     public var userId: Swift.String?
 
@@ -14183,7 +15399,13 @@ public struct UpdatePrimaryEmailAddressInput: Swift.Equatable {
     /// The value of the email to be updated as primary.
     /// This member is required.
     public var email: Swift.String?
-    /// The user, group, or resource to update.
+    /// The user, group, or resource to update. The identifier can accept UseriD, ResourceId, or GroupId, Username, Resourcename, or Groupname, or email. The following identity formats are available:
+    ///
+    /// * Entity ID: 12345678-1234-1234-1234-123456789012, r-0123456789a0123456789b0123456789, or S-1-1-12-1234567890-123456789-123456789-1234
+    ///
+    /// * Email address: entity@domain.tld
+    ///
+    /// * Entity name: entity
     /// This member is required.
     public var entityId: Swift.String?
     /// The organization that contains the user, group, or resource to update.
@@ -14260,15 +15482,24 @@ public struct UpdatePrimaryEmailAddressOutputResponse: Swift.Equatable {
 extension UpdateResourceInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case bookingOptions = "BookingOptions"
+        case description = "Description"
+        case hiddenFromGlobalAddressList = "HiddenFromGlobalAddressList"
         case name = "Name"
         case organizationId = "OrganizationId"
         case resourceId = "ResourceId"
+        case type = "Type"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let bookingOptions = self.bookingOptions {
             try encodeContainer.encode(bookingOptions, forKey: .bookingOptions)
+        }
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
+        if let hiddenFromGlobalAddressList = self.hiddenFromGlobalAddressList {
+            try encodeContainer.encode(hiddenFromGlobalAddressList, forKey: .hiddenFromGlobalAddressList)
         }
         if let name = self.name {
             try encodeContainer.encode(name, forKey: .name)
@@ -14278,6 +15509,9 @@ extension UpdateResourceInput: Swift.Encodable {
         }
         if let resourceId = self.resourceId {
             try encodeContainer.encode(resourceId, forKey: .resourceId)
+        }
+        if let type = self.type {
+            try encodeContainer.encode(type.rawValue, forKey: .type)
         }
     }
 }
@@ -14291,26 +15525,44 @@ extension UpdateResourceInput: ClientRuntime.URLPathProvider {
 public struct UpdateResourceInput: Swift.Equatable {
     /// The resource's booking options to be updated.
     public var bookingOptions: WorkMailClientTypes.BookingOptions?
+    /// Updates the resource description.
+    public var description: Swift.String?
+    /// If enabled, the resource is hidden from the global address list.
+    public var hiddenFromGlobalAddressList: Swift.Bool?
     /// The name of the resource to be updated.
     public var name: Swift.String?
     /// The identifier associated with the organization for which the resource is updated.
     /// This member is required.
     public var organizationId: Swift.String?
-    /// The identifier of the resource to be updated.
+    /// The identifier of the resource to be updated. The identifier can accept ResourceId, Resourcename, or email. The following identity formats are available:
+    ///
+    /// * Resource ID: r-0123456789a0123456789b0123456789
+    ///
+    /// * Email address: resource@domain.tld
+    ///
+    /// * Resource name: resource
     /// This member is required.
     public var resourceId: Swift.String?
+    /// Updates the resource type.
+    public var type: WorkMailClientTypes.ResourceType?
 
     public init(
         bookingOptions: WorkMailClientTypes.BookingOptions? = nil,
+        description: Swift.String? = nil,
+        hiddenFromGlobalAddressList: Swift.Bool? = nil,
         name: Swift.String? = nil,
         organizationId: Swift.String? = nil,
-        resourceId: Swift.String? = nil
+        resourceId: Swift.String? = nil,
+        type: WorkMailClientTypes.ResourceType? = nil
     )
     {
         self.bookingOptions = bookingOptions
+        self.description = description
+        self.hiddenFromGlobalAddressList = hiddenFromGlobalAddressList
         self.name = name
         self.organizationId = organizationId
         self.resourceId = resourceId
+        self.type = type
     }
 }
 
@@ -14319,14 +15571,20 @@ struct UpdateResourceInputBody: Swift.Equatable {
     let resourceId: Swift.String?
     let name: Swift.String?
     let bookingOptions: WorkMailClientTypes.BookingOptions?
+    let description: Swift.String?
+    let type: WorkMailClientTypes.ResourceType?
+    let hiddenFromGlobalAddressList: Swift.Bool?
 }
 
 extension UpdateResourceInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case bookingOptions = "BookingOptions"
+        case description = "Description"
+        case hiddenFromGlobalAddressList = "HiddenFromGlobalAddressList"
         case name = "Name"
         case organizationId = "OrganizationId"
         case resourceId = "ResourceId"
+        case type = "Type"
     }
 
     public init(from decoder: Swift.Decoder) throws {
@@ -14339,6 +15597,12 @@ extension UpdateResourceInputBody: Swift.Decodable {
         name = nameDecoded
         let bookingOptionsDecoded = try containerValues.decodeIfPresent(WorkMailClientTypes.BookingOptions.self, forKey: .bookingOptions)
         bookingOptions = bookingOptionsDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let typeDecoded = try containerValues.decodeIfPresent(WorkMailClientTypes.ResourceType.self, forKey: .type)
+        type = typeDecoded
+        let hiddenFromGlobalAddressListDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .hiddenFromGlobalAddressList)
+        hiddenFromGlobalAddressList = hiddenFromGlobalAddressListDecoded
     }
 }
 
@@ -14352,11 +15616,13 @@ public enum UpdateResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "EntityNotFoundException": return try await EntityNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "EntityStateException": return try await EntityStateException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InvalidConfigurationException": return try await InvalidConfigurationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "MailDomainNotFoundException": return try await MailDomainNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "MailDomainStateException": return try await MailDomainStateException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "NameAvailabilityException": return try await NameAvailabilityException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "OrganizationNotFoundException": return try await OrganizationNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "OrganizationStateException": return try await OrganizationStateException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnsupportedOperationException": return try await UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
@@ -14368,6 +15634,286 @@ extension UpdateResourceOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 public struct UpdateResourceOutputResponse: Swift.Equatable {
+
+    public init() { }
+}
+
+extension UpdateUserInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "UpdateUserInput(hiddenFromGlobalAddressList: \(Swift.String(describing: hiddenFromGlobalAddressList)), organizationId: \(Swift.String(describing: organizationId)), role: \(Swift.String(describing: role)), userId: \(Swift.String(describing: userId)), city: \"CONTENT_REDACTED\", company: \"CONTENT_REDACTED\", country: \"CONTENT_REDACTED\", department: \"CONTENT_REDACTED\", displayName: \"CONTENT_REDACTED\", firstName: \"CONTENT_REDACTED\", initials: \"CONTENT_REDACTED\", jobTitle: \"CONTENT_REDACTED\", lastName: \"CONTENT_REDACTED\", office: \"CONTENT_REDACTED\", street: \"CONTENT_REDACTED\", telephone: \"CONTENT_REDACTED\", zipCode: \"CONTENT_REDACTED\")"}
+}
+
+extension UpdateUserInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case city = "City"
+        case company = "Company"
+        case country = "Country"
+        case department = "Department"
+        case displayName = "DisplayName"
+        case firstName = "FirstName"
+        case hiddenFromGlobalAddressList = "HiddenFromGlobalAddressList"
+        case initials = "Initials"
+        case jobTitle = "JobTitle"
+        case lastName = "LastName"
+        case office = "Office"
+        case organizationId = "OrganizationId"
+        case role = "Role"
+        case street = "Street"
+        case telephone = "Telephone"
+        case userId = "UserId"
+        case zipCode = "ZipCode"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let city = self.city {
+            try encodeContainer.encode(city, forKey: .city)
+        }
+        if let company = self.company {
+            try encodeContainer.encode(company, forKey: .company)
+        }
+        if let country = self.country {
+            try encodeContainer.encode(country, forKey: .country)
+        }
+        if let department = self.department {
+            try encodeContainer.encode(department, forKey: .department)
+        }
+        if let displayName = self.displayName {
+            try encodeContainer.encode(displayName, forKey: .displayName)
+        }
+        if let firstName = self.firstName {
+            try encodeContainer.encode(firstName, forKey: .firstName)
+        }
+        if let hiddenFromGlobalAddressList = self.hiddenFromGlobalAddressList {
+            try encodeContainer.encode(hiddenFromGlobalAddressList, forKey: .hiddenFromGlobalAddressList)
+        }
+        if let initials = self.initials {
+            try encodeContainer.encode(initials, forKey: .initials)
+        }
+        if let jobTitle = self.jobTitle {
+            try encodeContainer.encode(jobTitle, forKey: .jobTitle)
+        }
+        if let lastName = self.lastName {
+            try encodeContainer.encode(lastName, forKey: .lastName)
+        }
+        if let office = self.office {
+            try encodeContainer.encode(office, forKey: .office)
+        }
+        if let organizationId = self.organizationId {
+            try encodeContainer.encode(organizationId, forKey: .organizationId)
+        }
+        if let role = self.role {
+            try encodeContainer.encode(role.rawValue, forKey: .role)
+        }
+        if let street = self.street {
+            try encodeContainer.encode(street, forKey: .street)
+        }
+        if let telephone = self.telephone {
+            try encodeContainer.encode(telephone, forKey: .telephone)
+        }
+        if let userId = self.userId {
+            try encodeContainer.encode(userId, forKey: .userId)
+        }
+        if let zipCode = self.zipCode {
+            try encodeContainer.encode(zipCode, forKey: .zipCode)
+        }
+    }
+}
+
+extension UpdateUserInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct UpdateUserInput: Swift.Equatable {
+    /// Updates the user's city.
+    public var city: Swift.String?
+    /// Updates the user's company.
+    public var company: Swift.String?
+    /// Updates the user's country.
+    public var country: Swift.String?
+    /// Updates the user's department.
+    public var department: Swift.String?
+    /// Updates the display name of the user.
+    public var displayName: Swift.String?
+    /// Updates the user's first name.
+    public var firstName: Swift.String?
+    /// If enabled, the user is hidden from the global address list.
+    public var hiddenFromGlobalAddressList: Swift.Bool?
+    /// Updates the user's initials.
+    public var initials: Swift.String?
+    /// Updates the user's job title.
+    public var jobTitle: Swift.String?
+    /// Updates the user's last name.
+    public var lastName: Swift.String?
+    /// Updates the user's office.
+    public var office: Swift.String?
+    /// The identifier for the organization under which the user exists.
+    /// This member is required.
+    public var organizationId: Swift.String?
+    /// Updates the user role. You cannot pass SYSTEM_USER or RESOURCE.
+    public var role: WorkMailClientTypes.UserRole?
+    /// Updates the user's street address.
+    public var street: Swift.String?
+    /// Updates the user's contact details.
+    public var telephone: Swift.String?
+    /// The identifier for the user to be updated. The identifier can be the UserId, Username, or email. The following identity formats are available:
+    ///
+    /// * User ID: 12345678-1234-1234-1234-123456789012 or S-1-1-12-1234567890-123456789-123456789-1234
+    ///
+    /// * Email address: user@domain.tld
+    ///
+    /// * User name: user
+    /// This member is required.
+    public var userId: Swift.String?
+    /// Updates the user's zipcode.
+    public var zipCode: Swift.String?
+
+    public init(
+        city: Swift.String? = nil,
+        company: Swift.String? = nil,
+        country: Swift.String? = nil,
+        department: Swift.String? = nil,
+        displayName: Swift.String? = nil,
+        firstName: Swift.String? = nil,
+        hiddenFromGlobalAddressList: Swift.Bool? = nil,
+        initials: Swift.String? = nil,
+        jobTitle: Swift.String? = nil,
+        lastName: Swift.String? = nil,
+        office: Swift.String? = nil,
+        organizationId: Swift.String? = nil,
+        role: WorkMailClientTypes.UserRole? = nil,
+        street: Swift.String? = nil,
+        telephone: Swift.String? = nil,
+        userId: Swift.String? = nil,
+        zipCode: Swift.String? = nil
+    )
+    {
+        self.city = city
+        self.company = company
+        self.country = country
+        self.department = department
+        self.displayName = displayName
+        self.firstName = firstName
+        self.hiddenFromGlobalAddressList = hiddenFromGlobalAddressList
+        self.initials = initials
+        self.jobTitle = jobTitle
+        self.lastName = lastName
+        self.office = office
+        self.organizationId = organizationId
+        self.role = role
+        self.street = street
+        self.telephone = telephone
+        self.userId = userId
+        self.zipCode = zipCode
+    }
+}
+
+struct UpdateUserInputBody: Swift.Equatable {
+    let organizationId: Swift.String?
+    let userId: Swift.String?
+    let role: WorkMailClientTypes.UserRole?
+    let displayName: Swift.String?
+    let firstName: Swift.String?
+    let lastName: Swift.String?
+    let hiddenFromGlobalAddressList: Swift.Bool?
+    let initials: Swift.String?
+    let telephone: Swift.String?
+    let street: Swift.String?
+    let jobTitle: Swift.String?
+    let city: Swift.String?
+    let company: Swift.String?
+    let zipCode: Swift.String?
+    let department: Swift.String?
+    let country: Swift.String?
+    let office: Swift.String?
+}
+
+extension UpdateUserInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case city = "City"
+        case company = "Company"
+        case country = "Country"
+        case department = "Department"
+        case displayName = "DisplayName"
+        case firstName = "FirstName"
+        case hiddenFromGlobalAddressList = "HiddenFromGlobalAddressList"
+        case initials = "Initials"
+        case jobTitle = "JobTitle"
+        case lastName = "LastName"
+        case office = "Office"
+        case organizationId = "OrganizationId"
+        case role = "Role"
+        case street = "Street"
+        case telephone = "Telephone"
+        case userId = "UserId"
+        case zipCode = "ZipCode"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let organizationIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .organizationId)
+        organizationId = organizationIdDecoded
+        let userIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .userId)
+        userId = userIdDecoded
+        let roleDecoded = try containerValues.decodeIfPresent(WorkMailClientTypes.UserRole.self, forKey: .role)
+        role = roleDecoded
+        let displayNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .displayName)
+        displayName = displayNameDecoded
+        let firstNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .firstName)
+        firstName = firstNameDecoded
+        let lastNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .lastName)
+        lastName = lastNameDecoded
+        let hiddenFromGlobalAddressListDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .hiddenFromGlobalAddressList)
+        hiddenFromGlobalAddressList = hiddenFromGlobalAddressListDecoded
+        let initialsDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .initials)
+        initials = initialsDecoded
+        let telephoneDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .telephone)
+        telephone = telephoneDecoded
+        let streetDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .street)
+        street = streetDecoded
+        let jobTitleDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .jobTitle)
+        jobTitle = jobTitleDecoded
+        let cityDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .city)
+        city = cityDecoded
+        let companyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .company)
+        company = companyDecoded
+        let zipCodeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .zipCode)
+        zipCode = zipCodeDecoded
+        let departmentDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .department)
+        department = departmentDecoded
+        let countryDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .country)
+        country = countryDecoded
+        let officeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .office)
+        office = officeDecoded
+    }
+}
+
+public enum UpdateUserOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "DirectoryServiceAuthenticationFailedException": return try await DirectoryServiceAuthenticationFailedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DirectoryUnavailableException": return try await DirectoryUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "EntityNotFoundException": return try await EntityNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "EntityStateException": return try await EntityStateException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OrganizationNotFoundException": return try await OrganizationNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OrganizationStateException": return try await OrganizationStateException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnsupportedOperationException": return try await UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension UpdateUserOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct UpdateUserOutputResponse: Swift.Equatable {
 
     public init() { }
 }
@@ -14479,6 +16025,7 @@ extension WorkMailClientTypes {
 
 extension WorkMailClientTypes {
     public enum UserRole: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case remoteUser
         case resource
         case systemUser
         case user
@@ -14486,6 +16033,7 @@ extension WorkMailClientTypes {
 
         public static var allCases: [UserRole] {
             return [
+                .remoteUser,
                 .resource,
                 .systemUser,
                 .user,
@@ -14498,6 +16046,7 @@ extension WorkMailClientTypes {
         }
         public var rawValue: Swift.String {
             switch self {
+            case .remoteUser: return "REMOTE_USER"
             case .resource: return "RESOURCE"
             case .systemUser: return "SYSTEM_USER"
             case .user: return "USER"

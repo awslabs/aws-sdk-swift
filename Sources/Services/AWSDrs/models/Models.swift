@@ -598,7 +598,7 @@ extension CreateExtendedSourceServerOutputResponseBody: Swift.Decodable {
 
 extension CreateLaunchConfigurationTemplateInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateLaunchConfigurationTemplateInput(copyPrivateIp: \(Swift.String(describing: copyPrivateIp)), copyTags: \(Swift.String(describing: copyTags)), exportBucketArn: \(Swift.String(describing: exportBucketArn)), launchDisposition: \(Swift.String(describing: launchDisposition)), licensing: \(Swift.String(describing: licensing)), targetInstanceTypeRightSizingMethod: \(Swift.String(describing: targetInstanceTypeRightSizingMethod)), tags: \"CONTENT_REDACTED\")"}
+        "CreateLaunchConfigurationTemplateInput(copyPrivateIp: \(Swift.String(describing: copyPrivateIp)), copyTags: \(Swift.String(describing: copyTags)), exportBucketArn: \(Swift.String(describing: exportBucketArn)), launchDisposition: \(Swift.String(describing: launchDisposition)), licensing: \(Swift.String(describing: licensing)), postLaunchEnabled: \(Swift.String(describing: postLaunchEnabled)), targetInstanceTypeRightSizingMethod: \(Swift.String(describing: targetInstanceTypeRightSizingMethod)), tags: \"CONTENT_REDACTED\")"}
 }
 
 extension CreateLaunchConfigurationTemplateInput: Swift.Encodable {
@@ -608,6 +608,7 @@ extension CreateLaunchConfigurationTemplateInput: Swift.Encodable {
         case exportBucketArn
         case launchDisposition
         case licensing
+        case postLaunchEnabled
         case tags
         case targetInstanceTypeRightSizingMethod
     }
@@ -628,6 +629,9 @@ extension CreateLaunchConfigurationTemplateInput: Swift.Encodable {
         }
         if let licensing = self.licensing {
             try encodeContainer.encode(licensing, forKey: .licensing)
+        }
+        if let postLaunchEnabled = self.postLaunchEnabled {
+            try encodeContainer.encode(postLaunchEnabled, forKey: .postLaunchEnabled)
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
@@ -658,6 +662,8 @@ public struct CreateLaunchConfigurationTemplateInput: Swift.Equatable {
     public var launchDisposition: DrsClientTypes.LaunchDisposition?
     /// Licensing.
     public var licensing: DrsClientTypes.Licensing?
+    /// Whether we want to activate post-launch actions.
+    public var postLaunchEnabled: Swift.Bool?
     /// Request to associate tags during creation of a Launch Configuration Template.
     public var tags: [Swift.String:Swift.String]?
     /// Target instance type right-sizing method.
@@ -669,6 +675,7 @@ public struct CreateLaunchConfigurationTemplateInput: Swift.Equatable {
         exportBucketArn: Swift.String? = nil,
         launchDisposition: DrsClientTypes.LaunchDisposition? = nil,
         licensing: DrsClientTypes.Licensing? = nil,
+        postLaunchEnabled: Swift.Bool? = nil,
         tags: [Swift.String:Swift.String]? = nil,
         targetInstanceTypeRightSizingMethod: DrsClientTypes.TargetInstanceTypeRightSizingMethod? = nil
     )
@@ -678,6 +685,7 @@ public struct CreateLaunchConfigurationTemplateInput: Swift.Equatable {
         self.exportBucketArn = exportBucketArn
         self.launchDisposition = launchDisposition
         self.licensing = licensing
+        self.postLaunchEnabled = postLaunchEnabled
         self.tags = tags
         self.targetInstanceTypeRightSizingMethod = targetInstanceTypeRightSizingMethod
     }
@@ -691,6 +699,7 @@ struct CreateLaunchConfigurationTemplateInputBody: Swift.Equatable {
     let copyTags: Swift.Bool?
     let licensing: DrsClientTypes.Licensing?
     let exportBucketArn: Swift.String?
+    let postLaunchEnabled: Swift.Bool?
 }
 
 extension CreateLaunchConfigurationTemplateInputBody: Swift.Decodable {
@@ -700,6 +709,7 @@ extension CreateLaunchConfigurationTemplateInputBody: Swift.Decodable {
         case exportBucketArn
         case launchDisposition
         case licensing
+        case postLaunchEnabled
         case tags
         case targetInstanceTypeRightSizingMethod
     }
@@ -729,6 +739,8 @@ extension CreateLaunchConfigurationTemplateInputBody: Swift.Decodable {
         licensing = licensingDecoded
         let exportBucketArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .exportBucketArn)
         exportBucketArn = exportBucketArnDecoded
+        let postLaunchEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .postLaunchEnabled)
+        postLaunchEnabled = postLaunchEnabledDecoded
     }
 }
 
@@ -2118,6 +2130,92 @@ extension DeleteJobOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 public struct DeleteJobOutputResponse: Swift.Equatable {
+
+    public init() { }
+}
+
+extension DeleteLaunchActionInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case actionId
+        case resourceId
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let actionId = self.actionId {
+            try encodeContainer.encode(actionId, forKey: .actionId)
+        }
+        if let resourceId = self.resourceId {
+            try encodeContainer.encode(resourceId, forKey: .resourceId)
+        }
+    }
+}
+
+extension DeleteLaunchActionInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/DeleteLaunchAction"
+    }
+}
+
+public struct DeleteLaunchActionInput: Swift.Equatable {
+    /// Launch action Id.
+    /// This member is required.
+    public var actionId: Swift.String?
+    /// Launch configuration template Id or Source Server Id
+    /// This member is required.
+    public var resourceId: Swift.String?
+
+    public init(
+        actionId: Swift.String? = nil,
+        resourceId: Swift.String? = nil
+    )
+    {
+        self.actionId = actionId
+        self.resourceId = resourceId
+    }
+}
+
+struct DeleteLaunchActionInputBody: Swift.Equatable {
+    let resourceId: Swift.String?
+    let actionId: Swift.String?
+}
+
+extension DeleteLaunchActionInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case actionId
+        case resourceId
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let resourceIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceId)
+        resourceId = resourceIdDecoded
+        let actionIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .actionId)
+        actionId = actionIdDecoded
+    }
+}
+
+public enum DeleteLaunchActionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UninitializedAccountException": return try await UninitializedAccountException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension DeleteLaunchActionOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteLaunchActionOutputResponse: Swift.Equatable {
 
     public init() { }
 }
@@ -4972,6 +5070,7 @@ extension GetLaunchConfigurationOutputResponse: ClientRuntime.HttpResponseBindin
             self.launchDisposition = output.launchDisposition
             self.licensing = output.licensing
             self.name = output.name
+            self.postLaunchEnabled = output.postLaunchEnabled
             self.sourceServerID = output.sourceServerID
             self.targetInstanceTypeRightSizingMethod = output.targetInstanceTypeRightSizingMethod
         } else {
@@ -4981,6 +5080,7 @@ extension GetLaunchConfigurationOutputResponse: ClientRuntime.HttpResponseBindin
             self.launchDisposition = nil
             self.licensing = nil
             self.name = nil
+            self.postLaunchEnabled = nil
             self.sourceServerID = nil
             self.targetInstanceTypeRightSizingMethod = nil
         }
@@ -5000,6 +5100,8 @@ public struct GetLaunchConfigurationOutputResponse: Swift.Equatable {
     public var licensing: DrsClientTypes.Licensing?
     /// The name of the launch configuration.
     public var name: Swift.String?
+    /// Whether we want to activate post-launch actions for the Source Server.
+    public var postLaunchEnabled: Swift.Bool?
     /// The ID of the Source Server for this launch configuration.
     public var sourceServerID: Swift.String?
     /// Whether Elastic Disaster Recovery should try to automatically choose the instance type that best matches the OS, CPU, and RAM of your Source Server.
@@ -5012,6 +5114,7 @@ public struct GetLaunchConfigurationOutputResponse: Swift.Equatable {
         launchDisposition: DrsClientTypes.LaunchDisposition? = nil,
         licensing: DrsClientTypes.Licensing? = nil,
         name: Swift.String? = nil,
+        postLaunchEnabled: Swift.Bool? = nil,
         sourceServerID: Swift.String? = nil,
         targetInstanceTypeRightSizingMethod: DrsClientTypes.TargetInstanceTypeRightSizingMethod? = nil
     )
@@ -5022,6 +5125,7 @@ public struct GetLaunchConfigurationOutputResponse: Swift.Equatable {
         self.launchDisposition = launchDisposition
         self.licensing = licensing
         self.name = name
+        self.postLaunchEnabled = postLaunchEnabled
         self.sourceServerID = sourceServerID
         self.targetInstanceTypeRightSizingMethod = targetInstanceTypeRightSizingMethod
     }
@@ -5036,6 +5140,7 @@ struct GetLaunchConfigurationOutputResponseBody: Swift.Equatable {
     let copyPrivateIp: Swift.Bool?
     let copyTags: Swift.Bool?
     let licensing: DrsClientTypes.Licensing?
+    let postLaunchEnabled: Swift.Bool?
 }
 
 extension GetLaunchConfigurationOutputResponseBody: Swift.Decodable {
@@ -5046,6 +5151,7 @@ extension GetLaunchConfigurationOutputResponseBody: Swift.Decodable {
         case launchDisposition
         case licensing
         case name
+        case postLaunchEnabled
         case sourceServerID
         case targetInstanceTypeRightSizingMethod
     }
@@ -5068,6 +5174,8 @@ extension GetLaunchConfigurationOutputResponseBody: Swift.Decodable {
         copyTags = copyTagsDecoded
         let licensingDecoded = try containerValues.decodeIfPresent(DrsClientTypes.Licensing.self, forKey: .licensing)
         licensing = licensingDecoded
+        let postLaunchEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .postLaunchEnabled)
+        postLaunchEnabled = postLaunchEnabledDecoded
     }
 }
 
@@ -6156,6 +6264,508 @@ extension DrsClientTypes {
     }
 }
 
+extension DrsClientTypes.LaunchAction: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case actionCode
+        case actionId
+        case actionVersion
+        case active
+        case category
+        case description
+        case name
+        case `optional` = "optional"
+        case order
+        case parameters
+        case type
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let actionCode = self.actionCode {
+            try encodeContainer.encode(actionCode, forKey: .actionCode)
+        }
+        if let actionId = self.actionId {
+            try encodeContainer.encode(actionId, forKey: .actionId)
+        }
+        if let actionVersion = self.actionVersion {
+            try encodeContainer.encode(actionVersion, forKey: .actionVersion)
+        }
+        if let active = self.active {
+            try encodeContainer.encode(active, forKey: .active)
+        }
+        if let category = self.category {
+            try encodeContainer.encode(category.rawValue, forKey: .category)
+        }
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let `optional` = self.`optional` {
+            try encodeContainer.encode(`optional`, forKey: .`optional`)
+        }
+        if order != 0 {
+            try encodeContainer.encode(order, forKey: .order)
+        }
+        if let parameters = parameters {
+            var parametersContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .parameters)
+            for (dictKey0, launchActionParameters0) in parameters {
+                try parametersContainer.encode(launchActionParameters0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+        if let type = self.type {
+            try encodeContainer.encode(type.rawValue, forKey: .type)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let actionIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .actionId)
+        actionId = actionIdDecoded
+        let actionCodeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .actionCode)
+        actionCode = actionCodeDecoded
+        let typeDecoded = try containerValues.decodeIfPresent(DrsClientTypes.LaunchActionType.self, forKey: .type)
+        type = typeDecoded
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let activeDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .active)
+        active = activeDecoded
+        let orderDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .order) ?? 0
+        order = orderDecoded
+        let actionVersionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .actionVersion)
+        actionVersion = actionVersionDecoded
+        let optionalDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .optional)
+        `optional` = optionalDecoded
+        let parametersContainer = try containerValues.decodeIfPresent([Swift.String: DrsClientTypes.LaunchActionParameter?].self, forKey: .parameters)
+        var parametersDecoded0: [Swift.String:DrsClientTypes.LaunchActionParameter]? = nil
+        if let parametersContainer = parametersContainer {
+            parametersDecoded0 = [Swift.String:DrsClientTypes.LaunchActionParameter]()
+            for (key0, launchactionparameter0) in parametersContainer {
+                if let launchactionparameter0 = launchactionparameter0 {
+                    parametersDecoded0?[key0] = launchactionparameter0
+                }
+            }
+        }
+        parameters = parametersDecoded0
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let categoryDecoded = try containerValues.decodeIfPresent(DrsClientTypes.LaunchActionCategory.self, forKey: .category)
+        category = categoryDecoded
+    }
+}
+
+extension DrsClientTypes {
+    /// Launch action.
+    public struct LaunchAction: Swift.Equatable {
+        /// Launch action code.
+        public var actionCode: Swift.String?
+        /// Launch action Id.
+        public var actionId: Swift.String?
+        /// Launch action version.
+        public var actionVersion: Swift.String?
+        /// Whether the launch action is active.
+        public var active: Swift.Bool?
+        /// Launch action category.
+        public var category: DrsClientTypes.LaunchActionCategory?
+        /// Launch action description.
+        public var description: Swift.String?
+        /// Launch action name.
+        public var name: Swift.String?
+        /// Whether the launch will not be marked as failed if this action fails.
+        public var `optional`: Swift.Bool?
+        /// Launch action order.
+        public var order: Swift.Int
+        /// Launch action parameters.
+        public var parameters: [Swift.String:DrsClientTypes.LaunchActionParameter]?
+        /// Launch action type.
+        public var type: DrsClientTypes.LaunchActionType?
+
+        public init(
+            actionCode: Swift.String? = nil,
+            actionId: Swift.String? = nil,
+            actionVersion: Swift.String? = nil,
+            active: Swift.Bool? = nil,
+            category: DrsClientTypes.LaunchActionCategory? = nil,
+            description: Swift.String? = nil,
+            name: Swift.String? = nil,
+            `optional`: Swift.Bool? = nil,
+            order: Swift.Int = 0,
+            parameters: [Swift.String:DrsClientTypes.LaunchActionParameter]? = nil,
+            type: DrsClientTypes.LaunchActionType? = nil
+        )
+        {
+            self.actionCode = actionCode
+            self.actionId = actionId
+            self.actionVersion = actionVersion
+            self.active = active
+            self.category = category
+            self.description = description
+            self.name = name
+            self.`optional` = `optional`
+            self.order = order
+            self.parameters = parameters
+            self.type = type
+        }
+    }
+
+}
+
+extension DrsClientTypes {
+    /// Launch action category.
+    public enum LaunchActionCategory: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case configuration
+        case monitoring
+        case other
+        case security
+        case validation
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [LaunchActionCategory] {
+            return [
+                .configuration,
+                .monitoring,
+                .other,
+                .security,
+                .validation,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .configuration: return "CONFIGURATION"
+            case .monitoring: return "MONITORING"
+            case .other: return "OTHER"
+            case .security: return "SECURITY"
+            case .validation: return "VALIDATION"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = LaunchActionCategory(rawValue: rawValue) ?? LaunchActionCategory.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension DrsClientTypes.LaunchActionParameter: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case type
+        case value
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let type = self.type {
+            try encodeContainer.encode(type.rawValue, forKey: .type)
+        }
+        if let value = self.value {
+            try encodeContainer.encode(value, forKey: .value)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let valueDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .value)
+        value = valueDecoded
+        let typeDecoded = try containerValues.decodeIfPresent(DrsClientTypes.LaunchActionParameterType.self, forKey: .type)
+        type = typeDecoded
+    }
+}
+
+extension DrsClientTypes {
+    /// Launch action parameter.
+    public struct LaunchActionParameter: Swift.Equatable {
+        /// Type.
+        public var type: DrsClientTypes.LaunchActionParameterType?
+        /// Value.
+        public var value: Swift.String?
+
+        public init(
+            type: DrsClientTypes.LaunchActionParameterType? = nil,
+            value: Swift.String? = nil
+        )
+        {
+            self.type = type
+            self.value = value
+        }
+    }
+
+}
+
+extension DrsClientTypes {
+    public enum LaunchActionParameterType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case `dynamic`
+        case ssmStore
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [LaunchActionParameterType] {
+            return [
+                .dynamic,
+                .ssmStore,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .dynamic: return "DYNAMIC"
+            case .ssmStore: return "SSM_STORE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = LaunchActionParameterType(rawValue: rawValue) ?? LaunchActionParameterType.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension DrsClientTypes.LaunchActionRun: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case action
+        case failureReason
+        case runId
+        case status
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let action = self.action {
+            try encodeContainer.encode(action, forKey: .action)
+        }
+        if let failureReason = self.failureReason {
+            try encodeContainer.encode(failureReason, forKey: .failureReason)
+        }
+        if let runId = self.runId {
+            try encodeContainer.encode(runId, forKey: .runId)
+        }
+        if let status = self.status {
+            try encodeContainer.encode(status.rawValue, forKey: .status)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let actionDecoded = try containerValues.decodeIfPresent(DrsClientTypes.LaunchAction.self, forKey: .action)
+        action = actionDecoded
+        let runIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .runId)
+        runId = runIdDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(DrsClientTypes.LaunchActionRunStatus.self, forKey: .status)
+        status = statusDecoded
+        let failureReasonDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .failureReason)
+        failureReason = failureReasonDecoded
+    }
+}
+
+extension DrsClientTypes {
+    /// Launch action run.
+    public struct LaunchActionRun: Swift.Equatable {
+        /// Action.
+        public var action: DrsClientTypes.LaunchAction?
+        /// Failure reason.
+        public var failureReason: Swift.String?
+        /// Run Id.
+        public var runId: Swift.String?
+        /// Run status.
+        public var status: DrsClientTypes.LaunchActionRunStatus?
+
+        public init(
+            action: DrsClientTypes.LaunchAction? = nil,
+            failureReason: Swift.String? = nil,
+            runId: Swift.String? = nil,
+            status: DrsClientTypes.LaunchActionRunStatus? = nil
+        )
+        {
+            self.action = action
+            self.failureReason = failureReason
+            self.runId = runId
+            self.status = status
+        }
+    }
+
+}
+
+extension DrsClientTypes {
+    public enum LaunchActionRunStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case failed
+        case inProgress
+        case succeeded
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [LaunchActionRunStatus] {
+            return [
+                .failed,
+                .inProgress,
+                .succeeded,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .failed: return "FAILED"
+            case .inProgress: return "IN_PROGRESS"
+            case .succeeded: return "SUCCEEDED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = LaunchActionRunStatus(rawValue: rawValue) ?? LaunchActionRunStatus.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension DrsClientTypes {
+    public enum LaunchActionType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case ssmAutomation
+        case ssmCommand
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [LaunchActionType] {
+            return [
+                .ssmAutomation,
+                .ssmCommand,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .ssmAutomation: return "SSM_AUTOMATION"
+            case .ssmCommand: return "SSM_COMMAND"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = LaunchActionType(rawValue: rawValue) ?? LaunchActionType.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension DrsClientTypes.LaunchActionsRequestFilters: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case actionIds
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let actionIds = actionIds {
+            var actionIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .actionIds)
+            for launchactionid0 in actionIds {
+                try actionIdsContainer.encode(launchactionid0)
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let actionIdsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .actionIds)
+        var actionIdsDecoded0:[Swift.String]? = nil
+        if let actionIdsContainer = actionIdsContainer {
+            actionIdsDecoded0 = [Swift.String]()
+            for string0 in actionIdsContainer {
+                if let string0 = string0 {
+                    actionIdsDecoded0?.append(string0)
+                }
+            }
+        }
+        actionIds = actionIdsDecoded0
+    }
+}
+
+extension DrsClientTypes {
+    /// Resource launch actions filter.
+    public struct LaunchActionsRequestFilters: Swift.Equatable {
+        /// Launch actions Ids.
+        public var actionIds: [Swift.String]?
+
+        public init(
+            actionIds: [Swift.String]? = nil
+        )
+        {
+            self.actionIds = actionIds
+        }
+    }
+
+}
+
+extension DrsClientTypes.LaunchActionsStatus: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case runs
+        case ssmAgentDiscoveryDatetime
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let runs = runs {
+            var runsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .runs)
+            for launchactionrun0 in runs {
+                try runsContainer.encode(launchactionrun0)
+            }
+        }
+        if let ssmAgentDiscoveryDatetime = self.ssmAgentDiscoveryDatetime {
+            try encodeContainer.encode(ssmAgentDiscoveryDatetime, forKey: .ssmAgentDiscoveryDatetime)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let ssmAgentDiscoveryDatetimeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .ssmAgentDiscoveryDatetime)
+        ssmAgentDiscoveryDatetime = ssmAgentDiscoveryDatetimeDecoded
+        let runsContainer = try containerValues.decodeIfPresent([DrsClientTypes.LaunchActionRun?].self, forKey: .runs)
+        var runsDecoded0:[DrsClientTypes.LaunchActionRun]? = nil
+        if let runsContainer = runsContainer {
+            runsDecoded0 = [DrsClientTypes.LaunchActionRun]()
+            for structure0 in runsContainer {
+                if let structure0 = structure0 {
+                    runsDecoded0?.append(structure0)
+                }
+            }
+        }
+        runs = runsDecoded0
+    }
+}
+
+extension DrsClientTypes {
+    /// Launch actions status.
+    public struct LaunchActionsStatus: Swift.Equatable {
+        /// List of post launch action status.
+        public var runs: [DrsClientTypes.LaunchActionRun]?
+        /// Time where the AWS Systems Manager was detected as running on the launched instance.
+        public var ssmAgentDiscoveryDatetime: Swift.String?
+
+        public init(
+            runs: [DrsClientTypes.LaunchActionRun]? = nil,
+            ssmAgentDiscoveryDatetime: Swift.String? = nil
+        )
+        {
+            self.runs = runs
+            self.ssmAgentDiscoveryDatetime = ssmAgentDiscoveryDatetime
+        }
+    }
+
+}
+
 extension DrsClientTypes.LaunchConfigurationTemplate: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn
@@ -6165,6 +6775,7 @@ extension DrsClientTypes.LaunchConfigurationTemplate: Swift.Codable {
         case launchConfigurationTemplateID
         case launchDisposition
         case licensing
+        case postLaunchEnabled
         case tags
         case targetInstanceTypeRightSizingMethod
     }
@@ -6191,6 +6802,9 @@ extension DrsClientTypes.LaunchConfigurationTemplate: Swift.Codable {
         }
         if let licensing = self.licensing {
             try encodeContainer.encode(licensing, forKey: .licensing)
+        }
+        if let postLaunchEnabled = self.postLaunchEnabled {
+            try encodeContainer.encode(postLaunchEnabled, forKey: .postLaunchEnabled)
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
@@ -6232,12 +6846,14 @@ extension DrsClientTypes.LaunchConfigurationTemplate: Swift.Codable {
         licensing = licensingDecoded
         let exportBucketArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .exportBucketArn)
         exportBucketArn = exportBucketArnDecoded
+        let postLaunchEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .postLaunchEnabled)
+        postLaunchEnabled = postLaunchEnabledDecoded
     }
 }
 
 extension DrsClientTypes.LaunchConfigurationTemplate: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "LaunchConfigurationTemplate(arn: \(Swift.String(describing: arn)), copyPrivateIp: \(Swift.String(describing: copyPrivateIp)), copyTags: \(Swift.String(describing: copyTags)), exportBucketArn: \(Swift.String(describing: exportBucketArn)), launchConfigurationTemplateID: \(Swift.String(describing: launchConfigurationTemplateID)), launchDisposition: \(Swift.String(describing: launchDisposition)), licensing: \(Swift.String(describing: licensing)), targetInstanceTypeRightSizingMethod: \(Swift.String(describing: targetInstanceTypeRightSizingMethod)), tags: \"CONTENT_REDACTED\")"}
+        "LaunchConfigurationTemplate(arn: \(Swift.String(describing: arn)), copyPrivateIp: \(Swift.String(describing: copyPrivateIp)), copyTags: \(Swift.String(describing: copyTags)), exportBucketArn: \(Swift.String(describing: exportBucketArn)), launchConfigurationTemplateID: \(Swift.String(describing: launchConfigurationTemplateID)), launchDisposition: \(Swift.String(describing: launchDisposition)), licensing: \(Swift.String(describing: licensing)), postLaunchEnabled: \(Swift.String(describing: postLaunchEnabled)), targetInstanceTypeRightSizingMethod: \(Swift.String(describing: targetInstanceTypeRightSizingMethod)), tags: \"CONTENT_REDACTED\")"}
 }
 
 extension DrsClientTypes {
@@ -6257,6 +6873,8 @@ extension DrsClientTypes {
         public var launchDisposition: DrsClientTypes.LaunchDisposition?
         /// Licensing.
         public var licensing: DrsClientTypes.Licensing?
+        /// Post-launch actions activated.
+        public var postLaunchEnabled: Swift.Bool?
         /// Tags of the Launch Configuration Template.
         public var tags: [Swift.String:Swift.String]?
         /// Target instance type right-sizing method.
@@ -6270,6 +6888,7 @@ extension DrsClientTypes {
             launchConfigurationTemplateID: Swift.String? = nil,
             launchDisposition: DrsClientTypes.LaunchDisposition? = nil,
             licensing: DrsClientTypes.Licensing? = nil,
+            postLaunchEnabled: Swift.Bool? = nil,
             tags: [Swift.String:Swift.String]? = nil,
             targetInstanceTypeRightSizingMethod: DrsClientTypes.TargetInstanceTypeRightSizingMethod? = nil
         )
@@ -6281,6 +6900,7 @@ extension DrsClientTypes {
             self.launchConfigurationTemplateID = launchConfigurationTemplateID
             self.launchDisposition = launchDisposition
             self.licensing = licensing
+            self.postLaunchEnabled = postLaunchEnabled
             self.tags = tags
             self.targetInstanceTypeRightSizingMethod = targetInstanceTypeRightSizingMethod
         }
@@ -6705,6 +7325,164 @@ extension ListExtensibleSourceServersOutputResponseBody: Swift.Decodable {
         var itemsDecoded0:[DrsClientTypes.StagingSourceServer]? = nil
         if let itemsContainer = itemsContainer {
             itemsDecoded0 = [DrsClientTypes.StagingSourceServer]()
+            for structure0 in itemsContainer {
+                if let structure0 = structure0 {
+                    itemsDecoded0?.append(structure0)
+                }
+            }
+        }
+        items = itemsDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+extension ListLaunchActionsInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case filters
+        case maxResults
+        case nextToken
+        case resourceId
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let filters = self.filters {
+            try encodeContainer.encode(filters, forKey: .filters)
+        }
+        if let maxResults = self.maxResults {
+            try encodeContainer.encode(maxResults, forKey: .maxResults)
+        }
+        if let nextToken = self.nextToken {
+            try encodeContainer.encode(nextToken, forKey: .nextToken)
+        }
+        if let resourceId = self.resourceId {
+            try encodeContainer.encode(resourceId, forKey: .resourceId)
+        }
+    }
+}
+
+extension ListLaunchActionsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/ListLaunchActions"
+    }
+}
+
+public struct ListLaunchActionsInput: Swift.Equatable {
+    /// Filters to apply when listing resource launch actions.
+    public var filters: DrsClientTypes.LaunchActionsRequestFilters?
+    /// Maximum amount of items to return when listing resource launch actions.
+    public var maxResults: Swift.Int?
+    /// Next token to use when listing resource launch actions.
+    public var nextToken: Swift.String?
+    /// Launch configuration template Id or Source Server Id
+    /// This member is required.
+    public var resourceId: Swift.String?
+
+    public init(
+        filters: DrsClientTypes.LaunchActionsRequestFilters? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        resourceId: Swift.String? = nil
+    )
+    {
+        self.filters = filters
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.resourceId = resourceId
+    }
+}
+
+struct ListLaunchActionsInputBody: Swift.Equatable {
+    let resourceId: Swift.String?
+    let filters: DrsClientTypes.LaunchActionsRequestFilters?
+    let maxResults: Swift.Int?
+    let nextToken: Swift.String?
+}
+
+extension ListLaunchActionsInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case filters
+        case maxResults
+        case nextToken
+        case resourceId
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let resourceIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceId)
+        resourceId = resourceIdDecoded
+        let filtersDecoded = try containerValues.decodeIfPresent(DrsClientTypes.LaunchActionsRequestFilters.self, forKey: .filters)
+        filters = filtersDecoded
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
+        maxResults = maxResultsDecoded
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+public enum ListLaunchActionsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UninitializedAccountException": return try await UninitializedAccountException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension ListLaunchActionsOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ListLaunchActionsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.items = output.items
+            self.nextToken = output.nextToken
+        } else {
+            self.items = nil
+            self.nextToken = nil
+        }
+    }
+}
+
+public struct ListLaunchActionsOutputResponse: Swift.Equatable {
+    /// List of resource launch actions.
+    public var items: [DrsClientTypes.LaunchAction]?
+    /// Next token returned when listing resource launch actions.
+    public var nextToken: Swift.String?
+
+    public init(
+        items: [DrsClientTypes.LaunchAction]? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.items = items
+        self.nextToken = nextToken
+    }
+}
+
+struct ListLaunchActionsOutputResponseBody: Swift.Equatable {
+    let items: [DrsClientTypes.LaunchAction]?
+    let nextToken: Swift.String?
+}
+
+extension ListLaunchActionsOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case items
+        case nextToken
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let itemsContainer = try containerValues.decodeIfPresent([DrsClientTypes.LaunchAction?].self, forKey: .items)
+        var itemsDecoded0:[DrsClientTypes.LaunchAction]? = nil
+        if let itemsContainer = itemsContainer {
+            itemsDecoded0 = [DrsClientTypes.LaunchAction]()
             for structure0 in itemsContainer {
                 if let structure0 = structure0 {
                     itemsDecoded0?.append(structure0)
@@ -7270,6 +8048,7 @@ extension DrsClientTypes {
 
 extension DrsClientTypes.ParticipatingServer: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case launchActionsStatus
         case launchStatus
         case recoveryInstanceID
         case sourceServerID
@@ -7277,6 +8056,9 @@ extension DrsClientTypes.ParticipatingServer: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let launchActionsStatus = self.launchActionsStatus {
+            try encodeContainer.encode(launchActionsStatus, forKey: .launchActionsStatus)
+        }
         if let launchStatus = self.launchStatus {
             try encodeContainer.encode(launchStatus.rawValue, forKey: .launchStatus)
         }
@@ -7296,12 +8078,16 @@ extension DrsClientTypes.ParticipatingServer: Swift.Codable {
         recoveryInstanceID = recoveryInstanceIDDecoded
         let launchStatusDecoded = try containerValues.decodeIfPresent(DrsClientTypes.LaunchStatus.self, forKey: .launchStatus)
         launchStatus = launchStatusDecoded
+        let launchActionsStatusDecoded = try containerValues.decodeIfPresent(DrsClientTypes.LaunchActionsStatus.self, forKey: .launchActionsStatus)
+        launchActionsStatus = launchActionsStatusDecoded
     }
 }
 
 extension DrsClientTypes {
     /// Represents a server participating in an asynchronous Job.
     public struct ParticipatingServer: Swift.Equatable {
+        /// The post-launch action runs of a participating server.
+        public var launchActionsStatus: DrsClientTypes.LaunchActionsStatus?
         /// The launch status of a participating server.
         public var launchStatus: DrsClientTypes.LaunchStatus?
         /// The Recovery Instance ID of a participating server.
@@ -7310,17 +8096,382 @@ extension DrsClientTypes {
         public var sourceServerID: Swift.String?
 
         public init(
+            launchActionsStatus: DrsClientTypes.LaunchActionsStatus? = nil,
             launchStatus: DrsClientTypes.LaunchStatus? = nil,
             recoveryInstanceID: Swift.String? = nil,
             sourceServerID: Swift.String? = nil
         )
         {
+            self.launchActionsStatus = launchActionsStatus
             self.launchStatus = launchStatus
             self.recoveryInstanceID = recoveryInstanceID
             self.sourceServerID = sourceServerID
         }
     }
 
+}
+
+extension PutLaunchActionInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case actionCode
+        case actionId
+        case actionVersion
+        case active
+        case category
+        case description
+        case name
+        case `optional` = "optional"
+        case order
+        case parameters
+        case resourceId
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let actionCode = self.actionCode {
+            try encodeContainer.encode(actionCode, forKey: .actionCode)
+        }
+        if let actionId = self.actionId {
+            try encodeContainer.encode(actionId, forKey: .actionId)
+        }
+        if let actionVersion = self.actionVersion {
+            try encodeContainer.encode(actionVersion, forKey: .actionVersion)
+        }
+        if let active = self.active {
+            try encodeContainer.encode(active, forKey: .active)
+        }
+        if let category = self.category {
+            try encodeContainer.encode(category.rawValue, forKey: .category)
+        }
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let `optional` = self.`optional` {
+            try encodeContainer.encode(`optional`, forKey: .`optional`)
+        }
+        if let order = self.order {
+            try encodeContainer.encode(order, forKey: .order)
+        }
+        if let parameters = parameters {
+            var parametersContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .parameters)
+            for (dictKey0, launchActionParameters0) in parameters {
+                try parametersContainer.encode(launchActionParameters0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+        if let resourceId = self.resourceId {
+            try encodeContainer.encode(resourceId, forKey: .resourceId)
+        }
+    }
+}
+
+extension PutLaunchActionInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/PutLaunchAction"
+    }
+}
+
+public struct PutLaunchActionInput: Swift.Equatable {
+    /// Launch action code.
+    /// This member is required.
+    public var actionCode: Swift.String?
+    /// Launch action Id.
+    /// This member is required.
+    public var actionId: Swift.String?
+    /// Launch action version.
+    /// This member is required.
+    public var actionVersion: Swift.String?
+    /// Whether the launch action is active.
+    /// This member is required.
+    public var active: Swift.Bool?
+    /// Launch action category.
+    /// This member is required.
+    public var category: DrsClientTypes.LaunchActionCategory?
+    /// Launch action description.
+    public var description: Swift.String?
+    /// Launch action name.
+    /// This member is required.
+    public var name: Swift.String?
+    /// Whether the launch will not be marked as failed if this action fails.
+    /// This member is required.
+    public var `optional`: Swift.Bool?
+    /// Launch action order.
+    /// This member is required.
+    public var order: Swift.Int?
+    /// Launch action parameters.
+    public var parameters: [Swift.String:DrsClientTypes.LaunchActionParameter]?
+    /// Launch configuration template Id or Source Server Id
+    /// This member is required.
+    public var resourceId: Swift.String?
+
+    public init(
+        actionCode: Swift.String? = nil,
+        actionId: Swift.String? = nil,
+        actionVersion: Swift.String? = nil,
+        active: Swift.Bool? = nil,
+        category: DrsClientTypes.LaunchActionCategory? = nil,
+        description: Swift.String? = nil,
+        name: Swift.String? = nil,
+        `optional`: Swift.Bool? = nil,
+        order: Swift.Int? = nil,
+        parameters: [Swift.String:DrsClientTypes.LaunchActionParameter]? = nil,
+        resourceId: Swift.String? = nil
+    )
+    {
+        self.actionCode = actionCode
+        self.actionId = actionId
+        self.actionVersion = actionVersion
+        self.active = active
+        self.category = category
+        self.description = description
+        self.name = name
+        self.`optional` = `optional`
+        self.order = order
+        self.parameters = parameters
+        self.resourceId = resourceId
+    }
+}
+
+struct PutLaunchActionInputBody: Swift.Equatable {
+    let resourceId: Swift.String?
+    let actionCode: Swift.String?
+    let order: Swift.Int?
+    let actionId: Swift.String?
+    let `optional`: Swift.Bool?
+    let active: Swift.Bool?
+    let name: Swift.String?
+    let actionVersion: Swift.String?
+    let category: DrsClientTypes.LaunchActionCategory?
+    let parameters: [Swift.String:DrsClientTypes.LaunchActionParameter]?
+    let description: Swift.String?
+}
+
+extension PutLaunchActionInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case actionCode
+        case actionId
+        case actionVersion
+        case active
+        case category
+        case description
+        case name
+        case `optional` = "optional"
+        case order
+        case parameters
+        case resourceId
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let resourceIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceId)
+        resourceId = resourceIdDecoded
+        let actionCodeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .actionCode)
+        actionCode = actionCodeDecoded
+        let orderDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .order)
+        order = orderDecoded
+        let actionIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .actionId)
+        actionId = actionIdDecoded
+        let optionalDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .optional)
+        `optional` = optionalDecoded
+        let activeDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .active)
+        active = activeDecoded
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let actionVersionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .actionVersion)
+        actionVersion = actionVersionDecoded
+        let categoryDecoded = try containerValues.decodeIfPresent(DrsClientTypes.LaunchActionCategory.self, forKey: .category)
+        category = categoryDecoded
+        let parametersContainer = try containerValues.decodeIfPresent([Swift.String: DrsClientTypes.LaunchActionParameter?].self, forKey: .parameters)
+        var parametersDecoded0: [Swift.String:DrsClientTypes.LaunchActionParameter]? = nil
+        if let parametersContainer = parametersContainer {
+            parametersDecoded0 = [Swift.String:DrsClientTypes.LaunchActionParameter]()
+            for (key0, launchactionparameter0) in parametersContainer {
+                if let launchactionparameter0 = launchactionparameter0 {
+                    parametersDecoded0?[key0] = launchactionparameter0
+                }
+            }
+        }
+        parameters = parametersDecoded0
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+    }
+}
+
+public enum PutLaunchActionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UninitializedAccountException": return try await UninitializedAccountException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension PutLaunchActionOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: PutLaunchActionOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.`optional` = output.`optional`
+            self.actionCode = output.actionCode
+            self.actionId = output.actionId
+            self.actionVersion = output.actionVersion
+            self.active = output.active
+            self.category = output.category
+            self.description = output.description
+            self.name = output.name
+            self.order = output.order
+            self.parameters = output.parameters
+            self.resourceId = output.resourceId
+            self.type = output.type
+        } else {
+            self.actionCode = nil
+            self.actionId = nil
+            self.actionVersion = nil
+            self.active = nil
+            self.category = nil
+            self.description = nil
+            self.name = nil
+            self.`optional` = nil
+            self.order = 0
+            self.parameters = nil
+            self.resourceId = nil
+            self.type = nil
+        }
+    }
+}
+
+public struct PutLaunchActionOutputResponse: Swift.Equatable {
+    /// Launch action code.
+    public var actionCode: Swift.String?
+    /// Launch action Id.
+    public var actionId: Swift.String?
+    /// Launch action version.
+    public var actionVersion: Swift.String?
+    /// Whether the launch action is active.
+    public var active: Swift.Bool?
+    /// Launch action category.
+    public var category: DrsClientTypes.LaunchActionCategory?
+    /// Launch action description.
+    public var description: Swift.String?
+    /// Launch action name.
+    public var name: Swift.String?
+    /// Whether the launch will not be marked as failed if this action fails.
+    public var `optional`: Swift.Bool?
+    /// Launch action order.
+    public var order: Swift.Int
+    /// Launch action parameters.
+    public var parameters: [Swift.String:DrsClientTypes.LaunchActionParameter]?
+    /// Launch configuration template Id or Source Server Id
+    public var resourceId: Swift.String?
+    /// Launch action type.
+    public var type: DrsClientTypes.LaunchActionType?
+
+    public init(
+        actionCode: Swift.String? = nil,
+        actionId: Swift.String? = nil,
+        actionVersion: Swift.String? = nil,
+        active: Swift.Bool? = nil,
+        category: DrsClientTypes.LaunchActionCategory? = nil,
+        description: Swift.String? = nil,
+        name: Swift.String? = nil,
+        `optional`: Swift.Bool? = nil,
+        order: Swift.Int = 0,
+        parameters: [Swift.String:DrsClientTypes.LaunchActionParameter]? = nil,
+        resourceId: Swift.String? = nil,
+        type: DrsClientTypes.LaunchActionType? = nil
+    )
+    {
+        self.actionCode = actionCode
+        self.actionId = actionId
+        self.actionVersion = actionVersion
+        self.active = active
+        self.category = category
+        self.description = description
+        self.name = name
+        self.`optional` = `optional`
+        self.order = order
+        self.parameters = parameters
+        self.resourceId = resourceId
+        self.type = type
+    }
+}
+
+struct PutLaunchActionOutputResponseBody: Swift.Equatable {
+    let resourceId: Swift.String?
+    let actionId: Swift.String?
+    let actionCode: Swift.String?
+    let type: DrsClientTypes.LaunchActionType?
+    let name: Swift.String?
+    let active: Swift.Bool?
+    let order: Swift.Int
+    let actionVersion: Swift.String?
+    let `optional`: Swift.Bool?
+    let parameters: [Swift.String:DrsClientTypes.LaunchActionParameter]?
+    let description: Swift.String?
+    let category: DrsClientTypes.LaunchActionCategory?
+}
+
+extension PutLaunchActionOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case actionCode
+        case actionId
+        case actionVersion
+        case active
+        case category
+        case description
+        case name
+        case `optional` = "optional"
+        case order
+        case parameters
+        case resourceId
+        case type
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let resourceIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceId)
+        resourceId = resourceIdDecoded
+        let actionIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .actionId)
+        actionId = actionIdDecoded
+        let actionCodeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .actionCode)
+        actionCode = actionCodeDecoded
+        let typeDecoded = try containerValues.decodeIfPresent(DrsClientTypes.LaunchActionType.self, forKey: .type)
+        type = typeDecoded
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let activeDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .active)
+        active = activeDecoded
+        let orderDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .order) ?? 0
+        order = orderDecoded
+        let actionVersionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .actionVersion)
+        actionVersion = actionVersionDecoded
+        let optionalDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .optional)
+        `optional` = optionalDecoded
+        let parametersContainer = try containerValues.decodeIfPresent([Swift.String: DrsClientTypes.LaunchActionParameter?].self, forKey: .parameters)
+        var parametersDecoded0: [Swift.String:DrsClientTypes.LaunchActionParameter]? = nil
+        if let parametersContainer = parametersContainer {
+            parametersDecoded0 = [Swift.String:DrsClientTypes.LaunchActionParameter]()
+            for (key0, launchactionparameter0) in parametersContainer {
+                if let launchactionparameter0 = launchactionparameter0 {
+                    parametersDecoded0?[key0] = launchactionparameter0
+                }
+            }
+        }
+        parameters = parametersDecoded0
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let categoryDecoded = try containerValues.decodeIfPresent(DrsClientTypes.LaunchActionCategory.self, forKey: .category)
+        category = categoryDecoded
+    }
 }
 
 extension DrsClientTypes.RecoveryInstance: Swift.Codable {
@@ -12006,6 +13157,7 @@ extension UpdateLaunchConfigurationInput: Swift.Encodable {
         case launchDisposition
         case licensing
         case name
+        case postLaunchEnabled
         case sourceServerID
         case targetInstanceTypeRightSizingMethod
     }
@@ -12026,6 +13178,9 @@ extension UpdateLaunchConfigurationInput: Swift.Encodable {
         }
         if let name = self.name {
             try encodeContainer.encode(name, forKey: .name)
+        }
+        if let postLaunchEnabled = self.postLaunchEnabled {
+            try encodeContainer.encode(postLaunchEnabled, forKey: .postLaunchEnabled)
         }
         if let sourceServerID = self.sourceServerID {
             try encodeContainer.encode(sourceServerID, forKey: .sourceServerID)
@@ -12053,6 +13208,8 @@ public struct UpdateLaunchConfigurationInput: Swift.Equatable {
     public var licensing: DrsClientTypes.Licensing?
     /// The name of the launch configuration.
     public var name: Swift.String?
+    /// Whether we want to enable post-launch actions for the Source Server.
+    public var postLaunchEnabled: Swift.Bool?
     /// The ID of the Source Server that we want to retrieve a Launch Configuration for.
     /// This member is required.
     public var sourceServerID: Swift.String?
@@ -12065,6 +13222,7 @@ public struct UpdateLaunchConfigurationInput: Swift.Equatable {
         launchDisposition: DrsClientTypes.LaunchDisposition? = nil,
         licensing: DrsClientTypes.Licensing? = nil,
         name: Swift.String? = nil,
+        postLaunchEnabled: Swift.Bool? = nil,
         sourceServerID: Swift.String? = nil,
         targetInstanceTypeRightSizingMethod: DrsClientTypes.TargetInstanceTypeRightSizingMethod? = nil
     )
@@ -12074,6 +13232,7 @@ public struct UpdateLaunchConfigurationInput: Swift.Equatable {
         self.launchDisposition = launchDisposition
         self.licensing = licensing
         self.name = name
+        self.postLaunchEnabled = postLaunchEnabled
         self.sourceServerID = sourceServerID
         self.targetInstanceTypeRightSizingMethod = targetInstanceTypeRightSizingMethod
     }
@@ -12087,6 +13246,7 @@ struct UpdateLaunchConfigurationInputBody: Swift.Equatable {
     let copyPrivateIp: Swift.Bool?
     let copyTags: Swift.Bool?
     let licensing: DrsClientTypes.Licensing?
+    let postLaunchEnabled: Swift.Bool?
 }
 
 extension UpdateLaunchConfigurationInputBody: Swift.Decodable {
@@ -12096,6 +13256,7 @@ extension UpdateLaunchConfigurationInputBody: Swift.Decodable {
         case launchDisposition
         case licensing
         case name
+        case postLaunchEnabled
         case sourceServerID
         case targetInstanceTypeRightSizingMethod
     }
@@ -12116,6 +13277,8 @@ extension UpdateLaunchConfigurationInputBody: Swift.Decodable {
         copyTags = copyTagsDecoded
         let licensingDecoded = try containerValues.decodeIfPresent(DrsClientTypes.Licensing.self, forKey: .licensing)
         licensing = licensingDecoded
+        let postLaunchEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .postLaunchEnabled)
+        postLaunchEnabled = postLaunchEnabledDecoded
     }
 }
 
@@ -12146,6 +13309,7 @@ extension UpdateLaunchConfigurationOutputResponse: ClientRuntime.HttpResponseBin
             self.launchDisposition = output.launchDisposition
             self.licensing = output.licensing
             self.name = output.name
+            self.postLaunchEnabled = output.postLaunchEnabled
             self.sourceServerID = output.sourceServerID
             self.targetInstanceTypeRightSizingMethod = output.targetInstanceTypeRightSizingMethod
         } else {
@@ -12155,6 +13319,7 @@ extension UpdateLaunchConfigurationOutputResponse: ClientRuntime.HttpResponseBin
             self.launchDisposition = nil
             self.licensing = nil
             self.name = nil
+            self.postLaunchEnabled = nil
             self.sourceServerID = nil
             self.targetInstanceTypeRightSizingMethod = nil
         }
@@ -12174,6 +13339,8 @@ public struct UpdateLaunchConfigurationOutputResponse: Swift.Equatable {
     public var licensing: DrsClientTypes.Licensing?
     /// The name of the launch configuration.
     public var name: Swift.String?
+    /// Whether we want to activate post-launch actions for the Source Server.
+    public var postLaunchEnabled: Swift.Bool?
     /// The ID of the Source Server for this launch configuration.
     public var sourceServerID: Swift.String?
     /// Whether Elastic Disaster Recovery should try to automatically choose the instance type that best matches the OS, CPU, and RAM of your Source Server.
@@ -12186,6 +13353,7 @@ public struct UpdateLaunchConfigurationOutputResponse: Swift.Equatable {
         launchDisposition: DrsClientTypes.LaunchDisposition? = nil,
         licensing: DrsClientTypes.Licensing? = nil,
         name: Swift.String? = nil,
+        postLaunchEnabled: Swift.Bool? = nil,
         sourceServerID: Swift.String? = nil,
         targetInstanceTypeRightSizingMethod: DrsClientTypes.TargetInstanceTypeRightSizingMethod? = nil
     )
@@ -12196,6 +13364,7 @@ public struct UpdateLaunchConfigurationOutputResponse: Swift.Equatable {
         self.launchDisposition = launchDisposition
         self.licensing = licensing
         self.name = name
+        self.postLaunchEnabled = postLaunchEnabled
         self.sourceServerID = sourceServerID
         self.targetInstanceTypeRightSizingMethod = targetInstanceTypeRightSizingMethod
     }
@@ -12210,6 +13379,7 @@ struct UpdateLaunchConfigurationOutputResponseBody: Swift.Equatable {
     let copyPrivateIp: Swift.Bool?
     let copyTags: Swift.Bool?
     let licensing: DrsClientTypes.Licensing?
+    let postLaunchEnabled: Swift.Bool?
 }
 
 extension UpdateLaunchConfigurationOutputResponseBody: Swift.Decodable {
@@ -12220,6 +13390,7 @@ extension UpdateLaunchConfigurationOutputResponseBody: Swift.Decodable {
         case launchDisposition
         case licensing
         case name
+        case postLaunchEnabled
         case sourceServerID
         case targetInstanceTypeRightSizingMethod
     }
@@ -12242,6 +13413,8 @@ extension UpdateLaunchConfigurationOutputResponseBody: Swift.Decodable {
         copyTags = copyTagsDecoded
         let licensingDecoded = try containerValues.decodeIfPresent(DrsClientTypes.Licensing.self, forKey: .licensing)
         licensing = licensingDecoded
+        let postLaunchEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .postLaunchEnabled)
+        postLaunchEnabled = postLaunchEnabledDecoded
     }
 }
 
@@ -12253,6 +13426,7 @@ extension UpdateLaunchConfigurationTemplateInput: Swift.Encodable {
         case launchConfigurationTemplateID
         case launchDisposition
         case licensing
+        case postLaunchEnabled
         case targetInstanceTypeRightSizingMethod
     }
 
@@ -12275,6 +13449,9 @@ extension UpdateLaunchConfigurationTemplateInput: Swift.Encodable {
         }
         if let licensing = self.licensing {
             try encodeContainer.encode(licensing, forKey: .licensing)
+        }
+        if let postLaunchEnabled = self.postLaunchEnabled {
+            try encodeContainer.encode(postLaunchEnabled, forKey: .postLaunchEnabled)
         }
         if let targetInstanceTypeRightSizingMethod = self.targetInstanceTypeRightSizingMethod {
             try encodeContainer.encode(targetInstanceTypeRightSizingMethod.rawValue, forKey: .targetInstanceTypeRightSizingMethod)
@@ -12302,6 +13479,8 @@ public struct UpdateLaunchConfigurationTemplateInput: Swift.Equatable {
     public var launchDisposition: DrsClientTypes.LaunchDisposition?
     /// Licensing.
     public var licensing: DrsClientTypes.Licensing?
+    /// Whether we want to activate post-launch actions.
+    public var postLaunchEnabled: Swift.Bool?
     /// Target instance type right-sizing method.
     public var targetInstanceTypeRightSizingMethod: DrsClientTypes.TargetInstanceTypeRightSizingMethod?
 
@@ -12312,6 +13491,7 @@ public struct UpdateLaunchConfigurationTemplateInput: Swift.Equatable {
         launchConfigurationTemplateID: Swift.String? = nil,
         launchDisposition: DrsClientTypes.LaunchDisposition? = nil,
         licensing: DrsClientTypes.Licensing? = nil,
+        postLaunchEnabled: Swift.Bool? = nil,
         targetInstanceTypeRightSizingMethod: DrsClientTypes.TargetInstanceTypeRightSizingMethod? = nil
     )
     {
@@ -12321,6 +13501,7 @@ public struct UpdateLaunchConfigurationTemplateInput: Swift.Equatable {
         self.launchConfigurationTemplateID = launchConfigurationTemplateID
         self.launchDisposition = launchDisposition
         self.licensing = licensing
+        self.postLaunchEnabled = postLaunchEnabled
         self.targetInstanceTypeRightSizingMethod = targetInstanceTypeRightSizingMethod
     }
 }
@@ -12333,6 +13514,7 @@ struct UpdateLaunchConfigurationTemplateInputBody: Swift.Equatable {
     let copyTags: Swift.Bool?
     let licensing: DrsClientTypes.Licensing?
     let exportBucketArn: Swift.String?
+    let postLaunchEnabled: Swift.Bool?
 }
 
 extension UpdateLaunchConfigurationTemplateInputBody: Swift.Decodable {
@@ -12343,6 +13525,7 @@ extension UpdateLaunchConfigurationTemplateInputBody: Swift.Decodable {
         case launchConfigurationTemplateID
         case launchDisposition
         case licensing
+        case postLaunchEnabled
         case targetInstanceTypeRightSizingMethod
     }
 
@@ -12362,6 +13545,8 @@ extension UpdateLaunchConfigurationTemplateInputBody: Swift.Decodable {
         licensing = licensingDecoded
         let exportBucketArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .exportBucketArn)
         exportBucketArn = exportBucketArnDecoded
+        let postLaunchEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .postLaunchEnabled)
+        postLaunchEnabled = postLaunchEnabledDecoded
     }
 }
 

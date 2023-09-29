@@ -6464,8 +6464,8 @@ extension SSMClientTypes {
         }
         public var rawValue: Swift.String {
             switch self {
-            case .connected: return "Connected"
-            case .notConnected: return "NotConnected"
+            case .connected: return "connected"
+            case .notConnected: return "notconnected"
             case let .sdkUnknown(s): return s
             }
         }
@@ -8232,7 +8232,7 @@ public struct CreateOpsItemInput: Swift.Equatable {
     public var actualStartTime: ClientRuntime.Date?
     /// Specify a category to assign to an OpsItem.
     public var category: Swift.String?
-    /// Information about the OpsItem.
+    /// User-defined text that contains information about the OpsItem, in Markdown format. Provide enough information so that users viewing this OpsItem for the first time understand the issue.
     /// This member is required.
     public var description: Swift.String?
     /// The Amazon Resource Name (ARN) of an SNS topic where notifications are sent when this OpsItem is edited or changed.
@@ -8245,7 +8245,7 @@ public struct CreateOpsItemInput: Swift.Equatable {
     ///
     /// * /aws/changerequest This type of OpsItem is used by Change Manager for reviewing and approving or rejecting change requests.
     ///
-    /// * /aws/insights This type of OpsItem is used by OpsCenter for aggregating and reporting on duplicate OpsItems.
+    /// * /aws/insight This type of OpsItem is used by OpsCenter for aggregating and reporting on duplicate OpsItems.
     public var opsItemType: Swift.String?
     /// The time specified in a change request for a runbook workflow to end. Currently supported only for the OpsItem type /aws/changerequest.
     public var plannedEndTime: ClientRuntime.Date?
@@ -33834,7 +33834,7 @@ extension SSMClientTypes {
         ///
         /// * /aws/changerequest This type of OpsItem is used by Change Manager for reviewing and approving or rejecting change requests.
         ///
-        /// * /aws/insights This type of OpsItem is used by OpsCenter for aggregating and reporting on duplicate OpsItems.
+        /// * /aws/insight This type of OpsItem is used by OpsCenter for aggregating and reporting on duplicate OpsItems.
         public var opsItemType: Swift.String?
         /// The time specified in a change request for a runbook workflow to end. Currently supported only for the OpsItem type /aws/changerequest.
         public var plannedEndTime: ClientRuntime.Date?
@@ -35447,7 +35447,7 @@ extension SSMClientTypes {
         ///
         /// * /aws/changerequest This type of OpsItem is used by Change Manager for reviewing and approving or rejecting change requests.
         ///
-        /// * /aws/insights This type of OpsItem is used by OpsCenter for aggregating and reporting on duplicate OpsItems.
+        /// * /aws/insight This type of OpsItem is used by OpsCenter for aggregating and reporting on duplicate OpsItems.
         public var opsItemType: Swift.String?
         /// The time specified in a change request for a runbook workflow to end. Currently supported only for the OpsItem type /aws/changerequest.
         public var plannedEndTime: ClientRuntime.Date?
@@ -41847,14 +41847,12 @@ extension ResourcePolicyLimitExceededExceptionBody: Swift.Decodable {
 
 extension SSMClientTypes {
     public enum ResourceType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
-        case document
         case ec2Instance
         case managedInstance
         case sdkUnknown(Swift.String)
 
         public static var allCases: [ResourceType] {
             return [
-                .document,
                 .ec2Instance,
                 .managedInstance,
                 .sdkUnknown("")
@@ -41866,7 +41864,6 @@ extension SSMClientTypes {
         }
         public var rawValue: Swift.String {
             switch self {
-            case .document: return "Document"
             case .ec2Instance: return "EC2Instance"
             case .managedInstance: return "ManagedInstance"
             case let .sdkUnknown(s): return s
@@ -48630,7 +48627,7 @@ public struct UpdateOpsItemInput: Swift.Equatable {
     public var actualStartTime: ClientRuntime.Date?
     /// Specify a new category for an OpsItem.
     public var category: Swift.String?
-    /// Update the information about the OpsItem. Provide enough information so that users reading this OpsItem for the first time understand the issue.
+    /// User-defined text that contains information about the OpsItem, in Markdown format.
     public var description: Swift.String?
     /// The Amazon Resource Name (ARN) of an SNS topic where notifications are sent when this OpsItem is edited or changed.
     public var notifications: [SSMClientTypes.OpsItemNotification]?

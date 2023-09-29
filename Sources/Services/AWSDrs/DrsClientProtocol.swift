@@ -102,6 +102,21 @@ public protocol DrsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `UninitializedAccountException` : The account performing the request has not been initialized.
     func deleteJob(input: DeleteJobInput) async throws -> DeleteJobOutputResponse
+    /// Deletes a resource launch action.
+    ///
+    /// - Parameter DeleteLaunchActionInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteLaunchActionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
+    /// - `ResourceNotFoundException` : The resource for this operation was not found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `UninitializedAccountException` : The account performing the request has not been initialized.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service.
+    func deleteLaunchAction(input: DeleteLaunchActionInput) async throws -> DeleteLaunchActionOutputResponse
     /// Deletes a single Launch Configuration Template by ID.
     ///
     /// - Parameter DeleteLaunchConfigurationTemplateInput : [no documentation found]
@@ -411,6 +426,21 @@ public protocol DrsClientProtocol {
     /// - `UninitializedAccountException` : The account performing the request has not been initialized.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service.
     func listExtensibleSourceServers(input: ListExtensibleSourceServersInput) async throws -> ListExtensibleSourceServersOutputResponse
+    /// Lists resource launch actions.
+    ///
+    /// - Parameter ListLaunchActionsInput : [no documentation found]
+    ///
+    /// - Returns: `ListLaunchActionsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
+    /// - `ResourceNotFoundException` : The resource for this operation was not found.
+    /// - `ServiceQuotaExceededException` : The request could not be completed because its exceeded the service quota.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `UninitializedAccountException` : The account performing the request has not been initialized.
+    func listLaunchActions(input: ListLaunchActionsInput) async throws -> ListLaunchActionsOutputResponse
     /// Returns an array of staging accounts for existing extended source servers.
     ///
     /// - Parameter ListStagingAccountsInput : [no documentation found]
@@ -441,6 +471,22 @@ public protocol DrsClientProtocol {
     /// - `ThrottlingException` : The request was denied due to request throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service.
     func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutputResponse
+    /// Puts a resource launch action.
+    ///
+    /// - Parameter PutLaunchActionInput : [no documentation found]
+    ///
+    /// - Returns: `PutLaunchActionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictException` : The request could not be completed due to a conflict with the current state of the target resource.
+    /// - `InternalServerException` : The request processing has failed because of an unknown error, exception or failure.
+    /// - `ResourceNotFoundException` : The resource for this operation was not found.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `UninitializedAccountException` : The account performing the request has not been initialized.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by the AWS service.
+    func putLaunchAction(input: PutLaunchActionInput) async throws -> PutLaunchActionOutputResponse
     /// WARNING: RetryDataReplication is deprecated. Causes the data replication initiation sequence to begin immediately upon next Handshake for the specified Source Server ID, regardless of when the previous initiation started. This command will work only if the Source Server is stalled or is in a DISCONNECTED or STOPPED state.
     @available(*, deprecated, message: "WARNING: RetryDataReplication is deprecated")
     ///

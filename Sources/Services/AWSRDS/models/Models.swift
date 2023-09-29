@@ -1280,7 +1280,7 @@ extension BacktrackDBClusterInput: Swift.Encodable {
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
         if let backtrackTo = backtrackTo {
-            try container.encodeTimestamp(backtrackTo, format: .dateTime, forKey: ClientRuntime.Key("backtrackTo"))
+            try container.encodeTimestamp(backtrackTo, format: .dateTime, forKey: ClientRuntime.Key("BacktrackTo"))
         }
         if let dbClusterIdentifier = dbClusterIdentifier {
             try container.encode(dbClusterIdentifier, forKey: ClientRuntime.Key("DBClusterIdentifier"))
@@ -1562,10 +1562,10 @@ extension RDSClientTypes.BlueGreenDeployment: Swift.Codable {
             try container.encode(blueGreenDeploymentName, forKey: ClientRuntime.Key("BlueGreenDeploymentName"))
         }
         if let createTime = createTime {
-            try container.encodeTimestamp(createTime, format: .dateTime, forKey: ClientRuntime.Key("createTime"))
+            try container.encodeTimestamp(createTime, format: .dateTime, forKey: ClientRuntime.Key("CreateTime"))
         }
         if let deleteTime = deleteTime {
-            try container.encodeTimestamp(deleteTime, format: .dateTime, forKey: ClientRuntime.Key("deleteTime"))
+            try container.encodeTimestamp(deleteTime, format: .dateTime, forKey: ClientRuntime.Key("DeleteTime"))
         }
         if let source = source {
             try container.encode(source, forKey: ClientRuntime.Key("Source"))
@@ -2239,16 +2239,16 @@ extension RDSClientTypes.Certificate: Swift.Codable {
             try container.encode(customerOverride, forKey: ClientRuntime.Key("CustomerOverride"))
         }
         if let customerOverrideValidTill = customerOverrideValidTill {
-            try container.encodeTimestamp(customerOverrideValidTill, format: .dateTime, forKey: ClientRuntime.Key("customerOverrideValidTill"))
+            try container.encodeTimestamp(customerOverrideValidTill, format: .dateTime, forKey: ClientRuntime.Key("CustomerOverrideValidTill"))
         }
         if let thumbprint = thumbprint {
             try container.encode(thumbprint, forKey: ClientRuntime.Key("Thumbprint"))
         }
         if let validFrom = validFrom {
-            try container.encodeTimestamp(validFrom, format: .dateTime, forKey: ClientRuntime.Key("validFrom"))
+            try container.encodeTimestamp(validFrom, format: .dateTime, forKey: ClientRuntime.Key("ValidFrom"))
         }
         if let validTill = validTill {
-            try container.encodeTimestamp(validTill, format: .dateTime, forKey: ClientRuntime.Key("validTill"))
+            try container.encodeTimestamp(validTill, format: .dateTime, forKey: ClientRuntime.Key("ValidTill"))
         }
     }
 
@@ -2329,7 +2329,7 @@ extension RDSClientTypes.CertificateDetails: Swift.Codable {
             try container.encode(caIdentifier, forKey: ClientRuntime.Key("CAIdentifier"))
         }
         if let validTill = validTill {
-            try container.encodeTimestamp(validTill, format: .dateTime, forKey: ClientRuntime.Key("validTill"))
+            try container.encodeTimestamp(validTill, format: .dateTime, forKey: ClientRuntime.Key("ValidTill"))
         }
     }
 
@@ -10845,7 +10845,7 @@ extension RDSClientTypes.DBCluster: Swift.Codable {
             try container.encode(autoMinorVersionUpgrade, forKey: ClientRuntime.Key("AutoMinorVersionUpgrade"))
         }
         if let automaticRestartTime = automaticRestartTime {
-            try container.encodeTimestamp(automaticRestartTime, format: .dateTime, forKey: ClientRuntime.Key("automaticRestartTime"))
+            try container.encodeTimestamp(automaticRestartTime, format: .dateTime, forKey: ClientRuntime.Key("AutomaticRestartTime"))
         }
         if let availabilityZones = availabilityZones {
             if !availabilityZones.isEmpty {
@@ -10881,7 +10881,7 @@ extension RDSClientTypes.DBCluster: Swift.Codable {
             try container.encode(cloneGroupId, forKey: ClientRuntime.Key("CloneGroupId"))
         }
         if let clusterCreateTime = clusterCreateTime {
-            try container.encodeTimestamp(clusterCreateTime, format: .dateTime, forKey: ClientRuntime.Key("clusterCreateTime"))
+            try container.encodeTimestamp(clusterCreateTime, format: .dateTime, forKey: ClientRuntime.Key("ClusterCreateTime"))
         }
         if let copyTagsToSnapshot = copyTagsToSnapshot {
             try container.encode(copyTagsToSnapshot, forKey: ClientRuntime.Key("CopyTagsToSnapshot"))
@@ -10965,10 +10965,10 @@ extension RDSClientTypes.DBCluster: Swift.Codable {
             }
         }
         if let earliestBacktrackTime = earliestBacktrackTime {
-            try container.encodeTimestamp(earliestBacktrackTime, format: .dateTime, forKey: ClientRuntime.Key("earliestBacktrackTime"))
+            try container.encodeTimestamp(earliestBacktrackTime, format: .dateTime, forKey: ClientRuntime.Key("EarliestBacktrackTime"))
         }
         if let earliestRestorableTime = earliestRestorableTime {
-            try container.encodeTimestamp(earliestRestorableTime, format: .dateTime, forKey: ClientRuntime.Key("earliestRestorableTime"))
+            try container.encodeTimestamp(earliestRestorableTime, format: .dateTime, forKey: ClientRuntime.Key("EarliestRestorableTime"))
         }
         if let enabledCloudwatchLogsExports = enabledCloudwatchLogsExports {
             if !enabledCloudwatchLogsExports.isEmpty {
@@ -11010,7 +11010,7 @@ extension RDSClientTypes.DBCluster: Swift.Codable {
             try container.encode(iamDatabaseAuthenticationEnabled, forKey: ClientRuntime.Key("IAMDatabaseAuthenticationEnabled"))
         }
         if let ioOptimizedNextAllowedModificationTime = ioOptimizedNextAllowedModificationTime {
-            try container.encodeTimestamp(ioOptimizedNextAllowedModificationTime, format: .dateTime, forKey: ClientRuntime.Key("ioOptimizedNextAllowedModificationTime"))
+            try container.encodeTimestamp(ioOptimizedNextAllowedModificationTime, format: .dateTime, forKey: ClientRuntime.Key("IOOptimizedNextAllowedModificationTime"))
         }
         if let iops = iops {
             try container.encode(iops, forKey: ClientRuntime.Key("Iops"))
@@ -11019,7 +11019,7 @@ extension RDSClientTypes.DBCluster: Swift.Codable {
             try container.encode(kmsKeyId, forKey: ClientRuntime.Key("KmsKeyId"))
         }
         if let latestRestorableTime = latestRestorableTime {
-            try container.encodeTimestamp(latestRestorableTime, format: .dateTime, forKey: ClientRuntime.Key("latestRestorableTime"))
+            try container.encodeTimestamp(latestRestorableTime, format: .dateTime, forKey: ClientRuntime.Key("LatestRestorableTime"))
         }
         if let localWriteForwardingStatus = localWriteForwardingStatus {
             try container.encode(localWriteForwardingStatus, forKey: ClientRuntime.Key("LocalWriteForwardingStatus"))
@@ -11874,7 +11874,7 @@ extension RDSClientTypes.DBClusterAutomatedBackup: Swift.Codable {
             try container.encode(backupRetentionPeriod, forKey: ClientRuntime.Key("BackupRetentionPeriod"))
         }
         if let clusterCreateTime = clusterCreateTime {
-            try container.encodeTimestamp(clusterCreateTime, format: .dateTime, forKey: ClientRuntime.Key("clusterCreateTime"))
+            try container.encodeTimestamp(clusterCreateTime, format: .dateTime, forKey: ClientRuntime.Key("ClusterCreateTime"))
         }
         if let dbClusterArn = dbClusterArn {
             try container.encode(dbClusterArn, forKey: ClientRuntime.Key("DBClusterArn"))
@@ -12239,13 +12239,13 @@ extension RDSClientTypes.DBClusterBacktrack: Swift.Codable {
             try container.encode(backtrackIdentifier, forKey: ClientRuntime.Key("BacktrackIdentifier"))
         }
         if let backtrackRequestCreationTime = backtrackRequestCreationTime {
-            try container.encodeTimestamp(backtrackRequestCreationTime, format: .dateTime, forKey: ClientRuntime.Key("backtrackRequestCreationTime"))
+            try container.encodeTimestamp(backtrackRequestCreationTime, format: .dateTime, forKey: ClientRuntime.Key("BacktrackRequestCreationTime"))
         }
         if let backtrackTo = backtrackTo {
-            try container.encodeTimestamp(backtrackTo, format: .dateTime, forKey: ClientRuntime.Key("backtrackTo"))
+            try container.encodeTimestamp(backtrackTo, format: .dateTime, forKey: ClientRuntime.Key("BacktrackTo"))
         }
         if let backtrackedFrom = backtrackedFrom {
-            try container.encodeTimestamp(backtrackedFrom, format: .dateTime, forKey: ClientRuntime.Key("backtrackedFrom"))
+            try container.encodeTimestamp(backtrackedFrom, format: .dateTime, forKey: ClientRuntime.Key("BacktrackedFrom"))
         }
         if let dbClusterIdentifier = dbClusterIdentifier {
             try container.encode(dbClusterIdentifier, forKey: ClientRuntime.Key("DBClusterIdentifier"))
@@ -13327,7 +13327,7 @@ extension RDSClientTypes.DBClusterSnapshot: Swift.Codable {
             }
         }
         if let clusterCreateTime = clusterCreateTime {
-            try container.encodeTimestamp(clusterCreateTime, format: .dateTime, forKey: ClientRuntime.Key("clusterCreateTime"))
+            try container.encodeTimestamp(clusterCreateTime, format: .dateTime, forKey: ClientRuntime.Key("ClusterCreateTime"))
         }
         if let dbClusterIdentifier = dbClusterIdentifier {
             try container.encode(dbClusterIdentifier, forKey: ClientRuntime.Key("DBClusterIdentifier"))
@@ -13372,7 +13372,7 @@ extension RDSClientTypes.DBClusterSnapshot: Swift.Codable {
             try container.encode(port, forKey: ClientRuntime.Key("Port"))
         }
         if let snapshotCreateTime = snapshotCreateTime {
-            try container.encodeTimestamp(snapshotCreateTime, format: .dateTime, forKey: ClientRuntime.Key("snapshotCreateTime"))
+            try container.encodeTimestamp(snapshotCreateTime, format: .dateTime, forKey: ClientRuntime.Key("SnapshotCreateTime"))
         }
         if let snapshotType = snapshotType {
             try container.encode(snapshotType, forKey: ClientRuntime.Key("SnapshotType"))
@@ -13902,7 +13902,7 @@ extension RDSClientTypes.DBEngineVersion: Swift.Codable {
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
         if let createTime = createTime {
-            try container.encodeTimestamp(createTime, format: .dateTime, forKey: ClientRuntime.Key("createTime"))
+            try container.encodeTimestamp(createTime, format: .dateTime, forKey: ClientRuntime.Key("CreateTime"))
         }
         if let customDBEngineVersionManifest = customDBEngineVersionManifest {
             try container.encode(customDBEngineVersionManifest, forKey: ClientRuntime.Key("CustomDBEngineVersionManifest"))
@@ -14567,7 +14567,7 @@ extension RDSClientTypes.DBInstance: Swift.Codable {
             try container.encode(autoMinorVersionUpgrade, forKey: ClientRuntime.Key("AutoMinorVersionUpgrade"))
         }
         if let automaticRestartTime = automaticRestartTime {
-            try container.encodeTimestamp(automaticRestartTime, format: .dateTime, forKey: ClientRuntime.Key("automaticRestartTime"))
+            try container.encodeTimestamp(automaticRestartTime, format: .dateTime, forKey: ClientRuntime.Key("AutomaticRestartTime"))
         }
         if let automationMode = automationMode {
             try container.encode(automationMode, forKey: ClientRuntime.Key("AutomationMode"))
@@ -14711,7 +14711,7 @@ extension RDSClientTypes.DBInstance: Swift.Codable {
             try container.encode(iamDatabaseAuthenticationEnabled, forKey: ClientRuntime.Key("IAMDatabaseAuthenticationEnabled"))
         }
         if let instanceCreateTime = instanceCreateTime {
-            try container.encodeTimestamp(instanceCreateTime, format: .dateTime, forKey: ClientRuntime.Key("instanceCreateTime"))
+            try container.encodeTimestamp(instanceCreateTime, format: .dateTime, forKey: ClientRuntime.Key("InstanceCreateTime"))
         }
         if let iops = iops {
             try container.encode(iops, forKey: ClientRuntime.Key("Iops"))
@@ -14720,7 +14720,7 @@ extension RDSClientTypes.DBInstance: Swift.Codable {
             try container.encode(kmsKeyId, forKey: ClientRuntime.Key("KmsKeyId"))
         }
         if let latestRestorableTime = latestRestorableTime {
-            try container.encodeTimestamp(latestRestorableTime, format: .dateTime, forKey: ClientRuntime.Key("latestRestorableTime"))
+            try container.encodeTimestamp(latestRestorableTime, format: .dateTime, forKey: ClientRuntime.Key("LatestRestorableTime"))
         }
         if let licenseModel = licenseModel {
             try container.encode(licenseModel, forKey: ClientRuntime.Key("LicenseModel"))
@@ -14837,7 +14837,7 @@ extension RDSClientTypes.DBInstance: Swift.Codable {
             try container.encode(replicaMode, forKey: ClientRuntime.Key("ReplicaMode"))
         }
         if let resumeFullAutomationModeTime = resumeFullAutomationModeTime {
-            try container.encodeTimestamp(resumeFullAutomationModeTime, format: .dateTime, forKey: ClientRuntime.Key("resumeFullAutomationModeTime"))
+            try container.encodeTimestamp(resumeFullAutomationModeTime, format: .dateTime, forKey: ClientRuntime.Key("ResumeFullAutomationModeTime"))
         }
         if let secondaryAvailabilityZone = secondaryAvailabilityZone {
             try container.encode(secondaryAvailabilityZone, forKey: ClientRuntime.Key("SecondaryAvailabilityZone"))
@@ -15784,7 +15784,7 @@ extension RDSClientTypes.DBInstanceAutomatedBackup: Swift.Codable {
             try container.encode(iamDatabaseAuthenticationEnabled, forKey: ClientRuntime.Key("IAMDatabaseAuthenticationEnabled"))
         }
         if let instanceCreateTime = instanceCreateTime {
-            try container.encodeTimestamp(instanceCreateTime, format: .dateTime, forKey: ClientRuntime.Key("instanceCreateTime"))
+            try container.encodeTimestamp(instanceCreateTime, format: .dateTime, forKey: ClientRuntime.Key("InstanceCreateTime"))
         }
         if let iops = iops {
             try container.encode(iops, forKey: ClientRuntime.Key("Iops"))
@@ -16901,7 +16901,7 @@ extension RDSClientTypes.DBProxy: Swift.Codable {
             }
         }
         if let createdDate = createdDate {
-            try container.encodeTimestamp(createdDate, format: .dateTime, forKey: ClientRuntime.Key("createdDate"))
+            try container.encodeTimestamp(createdDate, format: .dateTime, forKey: ClientRuntime.Key("CreatedDate"))
         }
         if let dbProxyArn = dbProxyArn {
             try container.encode(dbProxyArn, forKey: ClientRuntime.Key("DBProxyArn"))
@@ -16931,7 +16931,7 @@ extension RDSClientTypes.DBProxy: Swift.Codable {
             try container.encode(status, forKey: ClientRuntime.Key("Status"))
         }
         if let updatedDate = updatedDate {
-            try container.encodeTimestamp(updatedDate, format: .dateTime, forKey: ClientRuntime.Key("updatedDate"))
+            try container.encodeTimestamp(updatedDate, format: .dateTime, forKey: ClientRuntime.Key("UpdatedDate"))
         }
         if let vpcId = vpcId {
             try container.encode(vpcId, forKey: ClientRuntime.Key("VpcId"))
@@ -17192,7 +17192,7 @@ extension RDSClientTypes.DBProxyEndpoint: Swift.Codable {
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
         if let createdDate = createdDate {
-            try container.encodeTimestamp(createdDate, format: .dateTime, forKey: ClientRuntime.Key("createdDate"))
+            try container.encodeTimestamp(createdDate, format: .dateTime, forKey: ClientRuntime.Key("CreatedDate"))
         }
         if let dbProxyEndpointArn = dbProxyEndpointArn {
             try container.encode(dbProxyEndpointArn, forKey: ClientRuntime.Key("DBProxyEndpointArn"))
@@ -17937,7 +17937,7 @@ extension RDSClientTypes.DBProxyTargetGroup: Swift.Codable {
             try container.encode(connectionPoolConfig, forKey: ClientRuntime.Key("ConnectionPoolConfig"))
         }
         if let createdDate = createdDate {
-            try container.encodeTimestamp(createdDate, format: .dateTime, forKey: ClientRuntime.Key("createdDate"))
+            try container.encodeTimestamp(createdDate, format: .dateTime, forKey: ClientRuntime.Key("CreatedDate"))
         }
         if let dbProxyName = dbProxyName {
             try container.encode(dbProxyName, forKey: ClientRuntime.Key("DBProxyName"))
@@ -17955,7 +17955,7 @@ extension RDSClientTypes.DBProxyTargetGroup: Swift.Codable {
             try container.encode(targetGroupName, forKey: ClientRuntime.Key("TargetGroupName"))
         }
         if let updatedDate = updatedDate {
-            try container.encodeTimestamp(updatedDate, format: .dateTime, forKey: ClientRuntime.Key("updatedDate"))
+            try container.encodeTimestamp(updatedDate, format: .dateTime, forKey: ClientRuntime.Key("UpdatedDate"))
         }
     }
 
@@ -18622,7 +18622,7 @@ extension RDSClientTypes.DBSnapshot: Swift.Codable {
             try container.encode(iamDatabaseAuthenticationEnabled, forKey: ClientRuntime.Key("IAMDatabaseAuthenticationEnabled"))
         }
         if let instanceCreateTime = instanceCreateTime {
-            try container.encodeTimestamp(instanceCreateTime, format: .dateTime, forKey: ClientRuntime.Key("instanceCreateTime"))
+            try container.encodeTimestamp(instanceCreateTime, format: .dateTime, forKey: ClientRuntime.Key("InstanceCreateTime"))
         }
         if let iops = iops {
             try container.encode(iops, forKey: ClientRuntime.Key("Iops"))
@@ -18640,7 +18640,7 @@ extension RDSClientTypes.DBSnapshot: Swift.Codable {
             try container.encode(optionGroupName, forKey: ClientRuntime.Key("OptionGroupName"))
         }
         if let originalSnapshotCreateTime = originalSnapshotCreateTime {
-            try container.encodeTimestamp(originalSnapshotCreateTime, format: .dateTime, forKey: ClientRuntime.Key("originalSnapshotCreateTime"))
+            try container.encodeTimestamp(originalSnapshotCreateTime, format: .dateTime, forKey: ClientRuntime.Key("OriginalSnapshotCreateTime"))
         }
         if percentProgress != 0 {
             try container.encode(percentProgress, forKey: ClientRuntime.Key("PercentProgress"))
@@ -18661,10 +18661,10 @@ extension RDSClientTypes.DBSnapshot: Swift.Codable {
             }
         }
         if let snapshotCreateTime = snapshotCreateTime {
-            try container.encodeTimestamp(snapshotCreateTime, format: .dateTime, forKey: ClientRuntime.Key("snapshotCreateTime"))
+            try container.encodeTimestamp(snapshotCreateTime, format: .dateTime, forKey: ClientRuntime.Key("SnapshotCreateTime"))
         }
         if let snapshotDatabaseTime = snapshotDatabaseTime {
-            try container.encodeTimestamp(snapshotDatabaseTime, format: .dateTime, forKey: ClientRuntime.Key("snapshotDatabaseTime"))
+            try container.encodeTimestamp(snapshotDatabaseTime, format: .dateTime, forKey: ClientRuntime.Key("SnapshotDatabaseTime"))
         }
         if let snapshotTarget = snapshotTarget {
             try container.encode(snapshotTarget, forKey: ClientRuntime.Key("SnapshotTarget"))
@@ -27951,7 +27951,7 @@ extension DescribeEventsInput: Swift.Encodable {
             try container.encode(duration, forKey: ClientRuntime.Key("Duration"))
         }
         if let endTime = endTime {
-            try container.encodeTimestamp(endTime, format: .dateTime, forKey: ClientRuntime.Key("endTime"))
+            try container.encodeTimestamp(endTime, format: .dateTime, forKey: ClientRuntime.Key("EndTime"))
         }
         if let eventCategories = eventCategories {
             if !eventCategories.isEmpty {
@@ -27990,7 +27990,7 @@ extension DescribeEventsInput: Swift.Encodable {
             try container.encode(sourceType, forKey: ClientRuntime.Key("SourceType"))
         }
         if let startTime = startTime {
-            try container.encodeTimestamp(startTime, format: .dateTime, forKey: ClientRuntime.Key("startTime"))
+            try container.encodeTimestamp(startTime, format: .dateTime, forKey: ClientRuntime.Key("StartTime"))
         }
         try container.encode("DescribeEvents", forKey:ClientRuntime.Key("Action"))
         try container.encode("2014-10-31", forKey:ClientRuntime.Key("Version"))
@@ -31020,7 +31020,7 @@ extension RDSClientTypes.Event: Swift.Codable {
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
         if let date = date {
-            try container.encodeTimestamp(date, format: .dateTime, forKey: ClientRuntime.Key("date"))
+            try container.encodeTimestamp(date, format: .dateTime, forKey: ClientRuntime.Key("Date"))
         }
         if let eventCategories = eventCategories {
             if !eventCategories.isEmpty {
@@ -31508,7 +31508,7 @@ extension RDSClientTypes.ExportTask: Swift.Codable {
             try container.encode(s3Prefix, forKey: ClientRuntime.Key("S3Prefix"))
         }
         if let snapshotTime = snapshotTime {
-            try container.encodeTimestamp(snapshotTime, format: .dateTime, forKey: ClientRuntime.Key("snapshotTime"))
+            try container.encodeTimestamp(snapshotTime, format: .dateTime, forKey: ClientRuntime.Key("SnapshotTime"))
         }
         if let sourceArn = sourceArn {
             try container.encode(sourceArn, forKey: ClientRuntime.Key("SourceArn"))
@@ -31520,10 +31520,10 @@ extension RDSClientTypes.ExportTask: Swift.Codable {
             try container.encode(status, forKey: ClientRuntime.Key("Status"))
         }
         if let taskEndTime = taskEndTime {
-            try container.encodeTimestamp(taskEndTime, format: .dateTime, forKey: ClientRuntime.Key("taskEndTime"))
+            try container.encodeTimestamp(taskEndTime, format: .dateTime, forKey: ClientRuntime.Key("TaskEndTime"))
         }
         if let taskStartTime = taskStartTime {
-            try container.encodeTimestamp(taskStartTime, format: .dateTime, forKey: ClientRuntime.Key("taskStartTime"))
+            try container.encodeTimestamp(taskStartTime, format: .dateTime, forKey: ClientRuntime.Key("TaskStartTime"))
         }
         if totalExtractedDataInGB != 0 {
             try container.encode(totalExtractedDataInGB, forKey: ClientRuntime.Key("TotalExtractedDataInGB"))
@@ -40444,7 +40444,7 @@ extension RDSClientTypes.OptionGroup: Swift.Codable {
             try container.encode(allowsVpcAndNonVpcInstanceMemberships, forKey: ClientRuntime.Key("AllowsVpcAndNonVpcInstanceMemberships"))
         }
         if let copyTimestamp = copyTimestamp {
-            try container.encodeTimestamp(copyTimestamp, format: .dateTime, forKey: ClientRuntime.Key("copyTimestamp"))
+            try container.encodeTimestamp(copyTimestamp, format: .dateTime, forKey: ClientRuntime.Key("CopyTimestamp"))
         }
         if let engineName = engineName {
             try container.encode(engineName, forKey: ClientRuntime.Key("EngineName"))
@@ -42195,16 +42195,16 @@ extension RDSClientTypes.PendingMaintenanceAction: Swift.Codable {
             try container.encode(action, forKey: ClientRuntime.Key("Action"))
         }
         if let autoAppliedAfterDate = autoAppliedAfterDate {
-            try container.encodeTimestamp(autoAppliedAfterDate, format: .dateTime, forKey: ClientRuntime.Key("autoAppliedAfterDate"))
+            try container.encodeTimestamp(autoAppliedAfterDate, format: .dateTime, forKey: ClientRuntime.Key("AutoAppliedAfterDate"))
         }
         if let currentApplyDate = currentApplyDate {
-            try container.encodeTimestamp(currentApplyDate, format: .dateTime, forKey: ClientRuntime.Key("currentApplyDate"))
+            try container.encodeTimestamp(currentApplyDate, format: .dateTime, forKey: ClientRuntime.Key("CurrentApplyDate"))
         }
         if let description = description {
             try container.encode(description, forKey: ClientRuntime.Key("Description"))
         }
         if let forcedApplyDate = forcedApplyDate {
-            try container.encodeTimestamp(forcedApplyDate, format: .dateTime, forKey: ClientRuntime.Key("forcedApplyDate"))
+            try container.encodeTimestamp(forcedApplyDate, format: .dateTime, forKey: ClientRuntime.Key("ForcedApplyDate"))
         }
         if let optInStatus = optInStatus {
             try container.encode(optInStatus, forKey: ClientRuntime.Key("OptInStatus"))
@@ -42351,7 +42351,7 @@ extension RDSClientTypes.PendingModifiedValues: Swift.Codable {
             }
         }
         if let resumeFullAutomationModeTime = resumeFullAutomationModeTime {
-            try container.encodeTimestamp(resumeFullAutomationModeTime, format: .dateTime, forKey: ClientRuntime.Key("resumeFullAutomationModeTime"))
+            try container.encodeTimestamp(resumeFullAutomationModeTime, format: .dateTime, forKey: ClientRuntime.Key("ResumeFullAutomationModeTime"))
         }
         if let storageThroughput = storageThroughput {
             try container.encode(storageThroughput, forKey: ClientRuntime.Key("StorageThroughput"))
@@ -44236,7 +44236,7 @@ extension RDSClientTypes.ReservedDBInstance: Swift.Codable {
             try container.encode(reservedDBInstancesOfferingId, forKey: ClientRuntime.Key("ReservedDBInstancesOfferingId"))
         }
         if let startTime = startTime {
-            try container.encodeTimestamp(startTime, format: .dateTime, forKey: ClientRuntime.Key("startTime"))
+            try container.encodeTimestamp(startTime, format: .dateTime, forKey: ClientRuntime.Key("StartTime"))
         }
         if let state = state {
             try container.encode(state, forKey: ClientRuntime.Key("State"))
@@ -46467,7 +46467,7 @@ extension RestoreDBClusterToPointInTimeInput: Swift.Encodable {
             try container.encode(publiclyAccessible, forKey: ClientRuntime.Key("PubliclyAccessible"))
         }
         if let restoreToTime = restoreToTime {
-            try container.encodeTimestamp(restoreToTime, format: .dateTime, forKey: ClientRuntime.Key("restoreToTime"))
+            try container.encodeTimestamp(restoreToTime, format: .dateTime, forKey: ClientRuntime.Key("RestoreToTime"))
         }
         if let restoreType = restoreType {
             try container.encode(restoreType, forKey: ClientRuntime.Key("RestoreType"))
@@ -48676,7 +48676,7 @@ extension RestoreDBInstanceToPointInTimeInput: Swift.Encodable {
             try container.encode(publiclyAccessible, forKey: ClientRuntime.Key("PubliclyAccessible"))
         }
         if let restoreTime = restoreTime {
-            try container.encodeTimestamp(restoreTime, format: .dateTime, forKey: ClientRuntime.Key("restoreTime"))
+            try container.encodeTimestamp(restoreTime, format: .dateTime, forKey: ClientRuntime.Key("RestoreTime"))
         }
         if let sourceDBInstanceAutomatedBackupsArn = sourceDBInstanceAutomatedBackupsArn {
             try container.encode(sourceDBInstanceAutomatedBackupsArn, forKey: ClientRuntime.Key("SourceDBInstanceAutomatedBackupsArn"))
@@ -49359,10 +49359,10 @@ extension RDSClientTypes.RestoreWindow: Swift.Codable {
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
         if let earliestTime = earliestTime {
-            try container.encodeTimestamp(earliestTime, format: .dateTime, forKey: ClientRuntime.Key("earliestTime"))
+            try container.encodeTimestamp(earliestTime, format: .dateTime, forKey: ClientRuntime.Key("EarliestTime"))
         }
         if let latestTime = latestTime {
-            try container.encodeTimestamp(latestTime, format: .dateTime, forKey: ClientRuntime.Key("latestTime"))
+            try container.encodeTimestamp(latestTime, format: .dateTime, forKey: ClientRuntime.Key("LatestTime"))
         }
     }
 

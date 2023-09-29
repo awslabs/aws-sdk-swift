@@ -29,10 +29,6 @@ dependencies {
 data class CodegenTest(val service: String, val module: String, val extraConfig: String? = null)
 val codegenTests = listOf(
     CodegenTest(
-        "aws.protocoltests.restjson#RestJson",
-        "aws-restjson"
-    ),
-    CodegenTest(
         "aws.protocoltests.restjson#RestJsonExtras",
         "rest_json_extras"
     ),
@@ -62,7 +58,7 @@ fun generateSmithyBuild(tests: List<CodegenTest>): String {
                       "gitRepo": "https://github.com/aws-amplify/smithy-swift.git",
                       "author": "Amazon Web Services",
                       "homepage": "https://docs.amplify.aws/",
-                      "swiftVersion": "5.5.0",
+                      "swiftVersion": "5.7.0",
                       "build": {
                         "rootProject": true
                       }

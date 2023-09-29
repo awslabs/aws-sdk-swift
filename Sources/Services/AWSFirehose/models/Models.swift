@@ -144,7 +144,7 @@ extension FirehoseClientTypes {
         /// Describes the configuration of a destination in Amazon S3.
         /// This member is required.
         public var s3Configuration: FirehoseClientTypes.S3DestinationConfiguration?
-        /// The details of the VPC of the Amazon ES destination.
+        /// The details of the VPC of the Amazon OpenSearch or Amazon OpenSearch Serverless destination.
         public var vpcConfiguration: FirehoseClientTypes.VpcConfiguration?
 
         public init(
@@ -263,7 +263,7 @@ extension FirehoseClientTypes {
         public var processingConfiguration: FirehoseClientTypes.ProcessingConfiguration?
         /// The Serverless offering for Amazon OpenSearch Service retry options.
         public var retryOptions: FirehoseClientTypes.AmazonOpenSearchServerlessRetryOptions?
-        /// The Amazon Resource Name (ARN) of the AWS credentials.
+        /// The Amazon Resource Name (ARN) of the Amazon Web Services credentials.
         public var roleARN: Swift.String?
         /// The Amazon S3 backup mode.
         public var s3BackupMode: FirehoseClientTypes.AmazonOpenSearchServerlessS3BackupMode?
@@ -522,6 +522,7 @@ extension FirehoseClientTypes.AmazonopensearchserviceDestinationConfiguration: S
         case bufferingHints = "BufferingHints"
         case cloudWatchLoggingOptions = "CloudWatchLoggingOptions"
         case clusterEndpoint = "ClusterEndpoint"
+        case documentIdOptions = "DocumentIdOptions"
         case domainARN = "DomainARN"
         case indexName = "IndexName"
         case indexRotationPeriod = "IndexRotationPeriod"
@@ -544,6 +545,9 @@ extension FirehoseClientTypes.AmazonopensearchserviceDestinationConfiguration: S
         }
         if let clusterEndpoint = self.clusterEndpoint {
             try encodeContainer.encode(clusterEndpoint, forKey: .clusterEndpoint)
+        }
+        if let documentIdOptions = self.documentIdOptions {
+            try encodeContainer.encode(documentIdOptions, forKey: .documentIdOptions)
         }
         if let domainARN = self.domainARN {
             try encodeContainer.encode(domainARN, forKey: .domainARN)
@@ -605,6 +609,8 @@ extension FirehoseClientTypes.AmazonopensearchserviceDestinationConfiguration: S
         cloudWatchLoggingOptions = cloudWatchLoggingOptionsDecoded
         let vpcConfigurationDecoded = try containerValues.decodeIfPresent(FirehoseClientTypes.VpcConfiguration.self, forKey: .vpcConfiguration)
         vpcConfiguration = vpcConfigurationDecoded
+        let documentIdOptionsDecoded = try containerValues.decodeIfPresent(FirehoseClientTypes.DocumentIdOptions.self, forKey: .documentIdOptions)
+        documentIdOptions = documentIdOptionsDecoded
     }
 }
 
@@ -617,6 +623,8 @@ extension FirehoseClientTypes {
         public var cloudWatchLoggingOptions: FirehoseClientTypes.CloudWatchLoggingOptions?
         /// The endpoint to use when communicating with the cluster. Specify either this ClusterEndpoint or the DomainARN field.
         public var clusterEndpoint: Swift.String?
+        /// Indicates the method for setting up document ID. The supported methods are Kinesis Data Firehose generated document ID and OpenSearch Service generated document ID.
+        public var documentIdOptions: FirehoseClientTypes.DocumentIdOptions?
         /// The ARN of the Amazon OpenSearch Service domain. The IAM role must have permissions for DescribeElasticsearchDomain, DescribeElasticsearchDomains, and DescribeElasticsearchDomainConfig after assuming the role specified in RoleARN.
         public var domainARN: Swift.String?
         /// The ElasticsearAmazon OpenSearch Service index name.
@@ -638,13 +646,14 @@ extension FirehoseClientTypes {
         public var s3Configuration: FirehoseClientTypes.S3DestinationConfiguration?
         /// The Amazon OpenSearch Service type name. For Elasticsearch 6.x, there can be only one type per index. If you try to specify a new type for an existing index that already has another type, Kinesis Data Firehose returns an error during run time.
         public var typeName: Swift.String?
-        /// The details of the VPC of the Amazon ES destination.
+        /// The details of the VPC of the Amazon OpenSearch or Amazon OpenSearch Serverless destination.
         public var vpcConfiguration: FirehoseClientTypes.VpcConfiguration?
 
         public init(
             bufferingHints: FirehoseClientTypes.AmazonopensearchserviceBufferingHints? = nil,
             cloudWatchLoggingOptions: FirehoseClientTypes.CloudWatchLoggingOptions? = nil,
             clusterEndpoint: Swift.String? = nil,
+            documentIdOptions: FirehoseClientTypes.DocumentIdOptions? = nil,
             domainARN: Swift.String? = nil,
             indexName: Swift.String? = nil,
             indexRotationPeriod: FirehoseClientTypes.AmazonopensearchserviceIndexRotationPeriod? = nil,
@@ -660,6 +669,7 @@ extension FirehoseClientTypes {
             self.bufferingHints = bufferingHints
             self.cloudWatchLoggingOptions = cloudWatchLoggingOptions
             self.clusterEndpoint = clusterEndpoint
+            self.documentIdOptions = documentIdOptions
             self.domainARN = domainARN
             self.indexName = indexName
             self.indexRotationPeriod = indexRotationPeriod
@@ -680,6 +690,7 @@ extension FirehoseClientTypes.AmazonopensearchserviceDestinationDescription: Swi
         case bufferingHints = "BufferingHints"
         case cloudWatchLoggingOptions = "CloudWatchLoggingOptions"
         case clusterEndpoint = "ClusterEndpoint"
+        case documentIdOptions = "DocumentIdOptions"
         case domainARN = "DomainARN"
         case indexName = "IndexName"
         case indexRotationPeriod = "IndexRotationPeriod"
@@ -702,6 +713,9 @@ extension FirehoseClientTypes.AmazonopensearchserviceDestinationDescription: Swi
         }
         if let clusterEndpoint = self.clusterEndpoint {
             try encodeContainer.encode(clusterEndpoint, forKey: .clusterEndpoint)
+        }
+        if let documentIdOptions = self.documentIdOptions {
+            try encodeContainer.encode(documentIdOptions, forKey: .documentIdOptions)
         }
         if let domainARN = self.domainARN {
             try encodeContainer.encode(domainARN, forKey: .domainARN)
@@ -763,6 +777,8 @@ extension FirehoseClientTypes.AmazonopensearchserviceDestinationDescription: Swi
         cloudWatchLoggingOptions = cloudWatchLoggingOptionsDecoded
         let vpcConfigurationDescriptionDecoded = try containerValues.decodeIfPresent(FirehoseClientTypes.VpcConfigurationDescription.self, forKey: .vpcConfigurationDescription)
         vpcConfigurationDescription = vpcConfigurationDescriptionDecoded
+        let documentIdOptionsDecoded = try containerValues.decodeIfPresent(FirehoseClientTypes.DocumentIdOptions.self, forKey: .documentIdOptions)
+        documentIdOptions = documentIdOptionsDecoded
     }
 }
 
@@ -775,6 +791,8 @@ extension FirehoseClientTypes {
         public var cloudWatchLoggingOptions: FirehoseClientTypes.CloudWatchLoggingOptions?
         /// The endpoint to use when communicating with the cluster. Kinesis Data Firehose uses either this ClusterEndpoint or the DomainARN field to send data to Amazon OpenSearch Service.
         public var clusterEndpoint: Swift.String?
+        /// Indicates the method for setting up document ID. The supported methods are Kinesis Data Firehose generated document ID and OpenSearch Service generated document ID.
+        public var documentIdOptions: FirehoseClientTypes.DocumentIdOptions?
         /// The ARN of the Amazon OpenSearch Service domain.
         public var domainARN: Swift.String?
         /// The Amazon OpenSearch Service index name.
@@ -800,6 +818,7 @@ extension FirehoseClientTypes {
             bufferingHints: FirehoseClientTypes.AmazonopensearchserviceBufferingHints? = nil,
             cloudWatchLoggingOptions: FirehoseClientTypes.CloudWatchLoggingOptions? = nil,
             clusterEndpoint: Swift.String? = nil,
+            documentIdOptions: FirehoseClientTypes.DocumentIdOptions? = nil,
             domainARN: Swift.String? = nil,
             indexName: Swift.String? = nil,
             indexRotationPeriod: FirehoseClientTypes.AmazonopensearchserviceIndexRotationPeriod? = nil,
@@ -815,6 +834,7 @@ extension FirehoseClientTypes {
             self.bufferingHints = bufferingHints
             self.cloudWatchLoggingOptions = cloudWatchLoggingOptions
             self.clusterEndpoint = clusterEndpoint
+            self.documentIdOptions = documentIdOptions
             self.domainARN = domainARN
             self.indexName = indexName
             self.indexRotationPeriod = indexRotationPeriod
@@ -835,6 +855,7 @@ extension FirehoseClientTypes.AmazonopensearchserviceDestinationUpdate: Swift.Co
         case bufferingHints = "BufferingHints"
         case cloudWatchLoggingOptions = "CloudWatchLoggingOptions"
         case clusterEndpoint = "ClusterEndpoint"
+        case documentIdOptions = "DocumentIdOptions"
         case domainARN = "DomainARN"
         case indexName = "IndexName"
         case indexRotationPeriod = "IndexRotationPeriod"
@@ -855,6 +876,9 @@ extension FirehoseClientTypes.AmazonopensearchserviceDestinationUpdate: Swift.Co
         }
         if let clusterEndpoint = self.clusterEndpoint {
             try encodeContainer.encode(clusterEndpoint, forKey: .clusterEndpoint)
+        }
+        if let documentIdOptions = self.documentIdOptions {
+            try encodeContainer.encode(documentIdOptions, forKey: .documentIdOptions)
         }
         if let domainARN = self.domainARN {
             try encodeContainer.encode(domainARN, forKey: .domainARN)
@@ -906,6 +930,8 @@ extension FirehoseClientTypes.AmazonopensearchserviceDestinationUpdate: Swift.Co
         processingConfiguration = processingConfigurationDecoded
         let cloudWatchLoggingOptionsDecoded = try containerValues.decodeIfPresent(FirehoseClientTypes.CloudWatchLoggingOptions.self, forKey: .cloudWatchLoggingOptions)
         cloudWatchLoggingOptions = cloudWatchLoggingOptionsDecoded
+        let documentIdOptionsDecoded = try containerValues.decodeIfPresent(FirehoseClientTypes.DocumentIdOptions.self, forKey: .documentIdOptions)
+        documentIdOptions = documentIdOptionsDecoded
     }
 }
 
@@ -918,6 +944,8 @@ extension FirehoseClientTypes {
         public var cloudWatchLoggingOptions: FirehoseClientTypes.CloudWatchLoggingOptions?
         /// The endpoint to use when communicating with the cluster. Specify either this ClusterEndpoint or the DomainARN field.
         public var clusterEndpoint: Swift.String?
+        /// Indicates the method for setting up document ID. The supported methods are Kinesis Data Firehose generated document ID and OpenSearch Service generated document ID.
+        public var documentIdOptions: FirehoseClientTypes.DocumentIdOptions?
         /// The ARN of the Amazon OpenSearch Service domain. The IAM role must have permissions for DescribeDomain, DescribeDomains, and DescribeDomainConfig after assuming the IAM role specified in RoleARN.
         public var domainARN: Swift.String?
         /// The Amazon OpenSearch Service index name.
@@ -939,6 +967,7 @@ extension FirehoseClientTypes {
             bufferingHints: FirehoseClientTypes.AmazonopensearchserviceBufferingHints? = nil,
             cloudWatchLoggingOptions: FirehoseClientTypes.CloudWatchLoggingOptions? = nil,
             clusterEndpoint: Swift.String? = nil,
+            documentIdOptions: FirehoseClientTypes.DocumentIdOptions? = nil,
             domainARN: Swift.String? = nil,
             indexName: Swift.String? = nil,
             indexRotationPeriod: FirehoseClientTypes.AmazonopensearchserviceIndexRotationPeriod? = nil,
@@ -952,6 +981,7 @@ extension FirehoseClientTypes {
             self.bufferingHints = bufferingHints
             self.cloudWatchLoggingOptions = cloudWatchLoggingOptions
             self.clusterEndpoint = clusterEndpoint
+            self.documentIdOptions = documentIdOptions
             self.domainARN = domainARN
             self.indexName = indexName
             self.indexRotationPeriod = indexRotationPeriod
@@ -1684,6 +1714,38 @@ extension FirehoseClientTypes {
         }
     }
 
+}
+
+extension FirehoseClientTypes {
+    public enum DefaultDocumentIdFormat: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case firehoseDefault
+        case noDocumentId
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DefaultDocumentIdFormat] {
+            return [
+                .firehoseDefault,
+                .noDocumentId,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .firehoseDefault: return "FIREHOSE_DEFAULT"
+            case .noDocumentId: return "NO_DOCUMENT_ID"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = DefaultDocumentIdFormat(rawValue: rawValue) ?? DefaultDocumentIdFormat.sdkUnknown(rawValue)
+        }
+    }
 }
 
 extension DeleteDeliveryStreamInput: Swift.Encodable {
@@ -2520,6 +2582,42 @@ extension FirehoseClientTypes {
 
 }
 
+extension FirehoseClientTypes.DocumentIdOptions: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case defaultDocumentIdFormat = "DefaultDocumentIdFormat"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let defaultDocumentIdFormat = self.defaultDocumentIdFormat {
+            try encodeContainer.encode(defaultDocumentIdFormat.rawValue, forKey: .defaultDocumentIdFormat)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let defaultDocumentIdFormatDecoded = try containerValues.decodeIfPresent(FirehoseClientTypes.DefaultDocumentIdFormat.self, forKey: .defaultDocumentIdFormat)
+        defaultDocumentIdFormat = defaultDocumentIdFormatDecoded
+    }
+}
+
+extension FirehoseClientTypes {
+    /// Indicates the method for setting up document ID. The supported methods are Kinesis Data Firehose generated document ID and OpenSearch Service generated document ID.
+    public struct DocumentIdOptions: Swift.Equatable {
+        /// When the FIREHOSE_DEFAULT option is chosen, Kinesis Data Firehose generates a unique document ID for each record based on a unique internal identifier. The generated document ID is stable across multiple delivery attempts, which helps prevent the same record from being indexed multiple times with different document IDs. When the NO_DOCUMENT_ID option is chosen, Kinesis Data Firehose does not include any document IDs in the requests it sends to the Amazon OpenSearch Service. This causes the Amazon OpenSearch Service domain to generate document IDs. In case of multiple delivery attempts, this may cause the same record to be indexed more than once with different document IDs. This option enables write-heavy operations, such as the ingestion of logs and observability data, to consume less resources in the Amazon OpenSearch Service domain, resulting in improved performance.
+        /// This member is required.
+        public var defaultDocumentIdFormat: FirehoseClientTypes.DefaultDocumentIdFormat?
+
+        public init(
+            defaultDocumentIdFormat: FirehoseClientTypes.DefaultDocumentIdFormat? = nil
+        )
+        {
+            self.defaultDocumentIdFormat = defaultDocumentIdFormat
+        }
+    }
+
+}
+
 extension FirehoseClientTypes.DynamicPartitioningConfiguration: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case enabled = "Enabled"
@@ -2615,6 +2713,7 @@ extension FirehoseClientTypes.ElasticsearchDestinationConfiguration: Swift.Codab
         case bufferingHints = "BufferingHints"
         case cloudWatchLoggingOptions = "CloudWatchLoggingOptions"
         case clusterEndpoint = "ClusterEndpoint"
+        case documentIdOptions = "DocumentIdOptions"
         case domainARN = "DomainARN"
         case indexName = "IndexName"
         case indexRotationPeriod = "IndexRotationPeriod"
@@ -2637,6 +2736,9 @@ extension FirehoseClientTypes.ElasticsearchDestinationConfiguration: Swift.Codab
         }
         if let clusterEndpoint = self.clusterEndpoint {
             try encodeContainer.encode(clusterEndpoint, forKey: .clusterEndpoint)
+        }
+        if let documentIdOptions = self.documentIdOptions {
+            try encodeContainer.encode(documentIdOptions, forKey: .documentIdOptions)
         }
         if let domainARN = self.domainARN {
             try encodeContainer.encode(domainARN, forKey: .domainARN)
@@ -2698,6 +2800,8 @@ extension FirehoseClientTypes.ElasticsearchDestinationConfiguration: Swift.Codab
         cloudWatchLoggingOptions = cloudWatchLoggingOptionsDecoded
         let vpcConfigurationDecoded = try containerValues.decodeIfPresent(FirehoseClientTypes.VpcConfiguration.self, forKey: .vpcConfiguration)
         vpcConfiguration = vpcConfigurationDecoded
+        let documentIdOptionsDecoded = try containerValues.decodeIfPresent(FirehoseClientTypes.DocumentIdOptions.self, forKey: .documentIdOptions)
+        documentIdOptions = documentIdOptionsDecoded
     }
 }
 
@@ -2710,6 +2814,8 @@ extension FirehoseClientTypes {
         public var cloudWatchLoggingOptions: FirehoseClientTypes.CloudWatchLoggingOptions?
         /// The endpoint to use when communicating with the cluster. Specify either this ClusterEndpoint or the DomainARN field.
         public var clusterEndpoint: Swift.String?
+        /// Indicates the method for setting up document ID. The supported methods are Kinesis Data Firehose generated document ID and OpenSearch Service generated document ID.
+        public var documentIdOptions: FirehoseClientTypes.DocumentIdOptions?
         /// The ARN of the Amazon ES domain. The IAM role must have permissions for DescribeDomain, DescribeDomains, and DescribeDomainConfig after assuming the role specified in RoleARN. For more information, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html). Specify either ClusterEndpoint or DomainARN.
         public var domainARN: Swift.String?
         /// The Elasticsearch index name.
@@ -2731,13 +2837,14 @@ extension FirehoseClientTypes {
         public var s3Configuration: FirehoseClientTypes.S3DestinationConfiguration?
         /// The Elasticsearch type name. For Elasticsearch 6.x, there can be only one type per index. If you try to specify a new type for an existing index that already has another type, Kinesis Data Firehose returns an error during run time. For Elasticsearch 7.x, don't specify a TypeName.
         public var typeName: Swift.String?
-        /// The details of the VPC of the Amazon ES destination.
+        /// The details of the VPC of the Amazon destination.
         public var vpcConfiguration: FirehoseClientTypes.VpcConfiguration?
 
         public init(
             bufferingHints: FirehoseClientTypes.ElasticsearchBufferingHints? = nil,
             cloudWatchLoggingOptions: FirehoseClientTypes.CloudWatchLoggingOptions? = nil,
             clusterEndpoint: Swift.String? = nil,
+            documentIdOptions: FirehoseClientTypes.DocumentIdOptions? = nil,
             domainARN: Swift.String? = nil,
             indexName: Swift.String? = nil,
             indexRotationPeriod: FirehoseClientTypes.ElasticsearchIndexRotationPeriod? = nil,
@@ -2753,6 +2860,7 @@ extension FirehoseClientTypes {
             self.bufferingHints = bufferingHints
             self.cloudWatchLoggingOptions = cloudWatchLoggingOptions
             self.clusterEndpoint = clusterEndpoint
+            self.documentIdOptions = documentIdOptions
             self.domainARN = domainARN
             self.indexName = indexName
             self.indexRotationPeriod = indexRotationPeriod
@@ -2773,6 +2881,7 @@ extension FirehoseClientTypes.ElasticsearchDestinationDescription: Swift.Codable
         case bufferingHints = "BufferingHints"
         case cloudWatchLoggingOptions = "CloudWatchLoggingOptions"
         case clusterEndpoint = "ClusterEndpoint"
+        case documentIdOptions = "DocumentIdOptions"
         case domainARN = "DomainARN"
         case indexName = "IndexName"
         case indexRotationPeriod = "IndexRotationPeriod"
@@ -2795,6 +2904,9 @@ extension FirehoseClientTypes.ElasticsearchDestinationDescription: Swift.Codable
         }
         if let clusterEndpoint = self.clusterEndpoint {
             try encodeContainer.encode(clusterEndpoint, forKey: .clusterEndpoint)
+        }
+        if let documentIdOptions = self.documentIdOptions {
+            try encodeContainer.encode(documentIdOptions, forKey: .documentIdOptions)
         }
         if let domainARN = self.domainARN {
             try encodeContainer.encode(domainARN, forKey: .domainARN)
@@ -2856,6 +2968,8 @@ extension FirehoseClientTypes.ElasticsearchDestinationDescription: Swift.Codable
         cloudWatchLoggingOptions = cloudWatchLoggingOptionsDecoded
         let vpcConfigurationDescriptionDecoded = try containerValues.decodeIfPresent(FirehoseClientTypes.VpcConfigurationDescription.self, forKey: .vpcConfigurationDescription)
         vpcConfigurationDescription = vpcConfigurationDescriptionDecoded
+        let documentIdOptionsDecoded = try containerValues.decodeIfPresent(FirehoseClientTypes.DocumentIdOptions.self, forKey: .documentIdOptions)
+        documentIdOptions = documentIdOptionsDecoded
     }
 }
 
@@ -2868,6 +2982,8 @@ extension FirehoseClientTypes {
         public var cloudWatchLoggingOptions: FirehoseClientTypes.CloudWatchLoggingOptions?
         /// The endpoint to use when communicating with the cluster. Kinesis Data Firehose uses either this ClusterEndpoint or the DomainARN field to send data to Amazon ES.
         public var clusterEndpoint: Swift.String?
+        /// Indicates the method for setting up document ID. The supported methods are Kinesis Data Firehose generated document ID and OpenSearch Service generated document ID.
+        public var documentIdOptions: FirehoseClientTypes.DocumentIdOptions?
         /// The ARN of the Amazon ES domain. For more information, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html). Kinesis Data Firehose uses either ClusterEndpoint or DomainARN to send data to Amazon ES.
         public var domainARN: Swift.String?
         /// The Elasticsearch index name.
@@ -2886,13 +3002,14 @@ extension FirehoseClientTypes {
         public var s3DestinationDescription: FirehoseClientTypes.S3DestinationDescription?
         /// The Elasticsearch type name. This applies to Elasticsearch 6.x and lower versions. For Elasticsearch 7.x and OpenSearch Service 1.x, there's no value for TypeName.
         public var typeName: Swift.String?
-        /// The details of the VPC of the Amazon ES destination.
+        /// The details of the VPC of the Amazon OpenSearch or the Amazon OpenSearch Serverless destination.
         public var vpcConfigurationDescription: FirehoseClientTypes.VpcConfigurationDescription?
 
         public init(
             bufferingHints: FirehoseClientTypes.ElasticsearchBufferingHints? = nil,
             cloudWatchLoggingOptions: FirehoseClientTypes.CloudWatchLoggingOptions? = nil,
             clusterEndpoint: Swift.String? = nil,
+            documentIdOptions: FirehoseClientTypes.DocumentIdOptions? = nil,
             domainARN: Swift.String? = nil,
             indexName: Swift.String? = nil,
             indexRotationPeriod: FirehoseClientTypes.ElasticsearchIndexRotationPeriod? = nil,
@@ -2908,6 +3025,7 @@ extension FirehoseClientTypes {
             self.bufferingHints = bufferingHints
             self.cloudWatchLoggingOptions = cloudWatchLoggingOptions
             self.clusterEndpoint = clusterEndpoint
+            self.documentIdOptions = documentIdOptions
             self.domainARN = domainARN
             self.indexName = indexName
             self.indexRotationPeriod = indexRotationPeriod
@@ -2928,6 +3046,7 @@ extension FirehoseClientTypes.ElasticsearchDestinationUpdate: Swift.Codable {
         case bufferingHints = "BufferingHints"
         case cloudWatchLoggingOptions = "CloudWatchLoggingOptions"
         case clusterEndpoint = "ClusterEndpoint"
+        case documentIdOptions = "DocumentIdOptions"
         case domainARN = "DomainARN"
         case indexName = "IndexName"
         case indexRotationPeriod = "IndexRotationPeriod"
@@ -2948,6 +3067,9 @@ extension FirehoseClientTypes.ElasticsearchDestinationUpdate: Swift.Codable {
         }
         if let clusterEndpoint = self.clusterEndpoint {
             try encodeContainer.encode(clusterEndpoint, forKey: .clusterEndpoint)
+        }
+        if let documentIdOptions = self.documentIdOptions {
+            try encodeContainer.encode(documentIdOptions, forKey: .documentIdOptions)
         }
         if let domainARN = self.domainARN {
             try encodeContainer.encode(domainARN, forKey: .domainARN)
@@ -2999,6 +3121,8 @@ extension FirehoseClientTypes.ElasticsearchDestinationUpdate: Swift.Codable {
         processingConfiguration = processingConfigurationDecoded
         let cloudWatchLoggingOptionsDecoded = try containerValues.decodeIfPresent(FirehoseClientTypes.CloudWatchLoggingOptions.self, forKey: .cloudWatchLoggingOptions)
         cloudWatchLoggingOptions = cloudWatchLoggingOptionsDecoded
+        let documentIdOptionsDecoded = try containerValues.decodeIfPresent(FirehoseClientTypes.DocumentIdOptions.self, forKey: .documentIdOptions)
+        documentIdOptions = documentIdOptionsDecoded
     }
 }
 
@@ -3011,6 +3135,8 @@ extension FirehoseClientTypes {
         public var cloudWatchLoggingOptions: FirehoseClientTypes.CloudWatchLoggingOptions?
         /// The endpoint to use when communicating with the cluster. Specify either this ClusterEndpoint or the DomainARN field.
         public var clusterEndpoint: Swift.String?
+        /// Indicates the method for setting up document ID. The supported methods are Kinesis Data Firehose generated document ID and OpenSearch Service generated document ID.
+        public var documentIdOptions: FirehoseClientTypes.DocumentIdOptions?
         /// The ARN of the Amazon ES domain. The IAM role must have permissions for DescribeDomain, DescribeDomains, and DescribeDomainConfig after assuming the IAM role specified in RoleARN. For more information, see [Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html). Specify either ClusterEndpoint or DomainARN.
         public var domainARN: Swift.String?
         /// The Elasticsearch index name.
@@ -3032,6 +3158,7 @@ extension FirehoseClientTypes {
             bufferingHints: FirehoseClientTypes.ElasticsearchBufferingHints? = nil,
             cloudWatchLoggingOptions: FirehoseClientTypes.CloudWatchLoggingOptions? = nil,
             clusterEndpoint: Swift.String? = nil,
+            documentIdOptions: FirehoseClientTypes.DocumentIdOptions? = nil,
             domainARN: Swift.String? = nil,
             indexName: Swift.String? = nil,
             indexRotationPeriod: FirehoseClientTypes.ElasticsearchIndexRotationPeriod? = nil,
@@ -3045,6 +3172,7 @@ extension FirehoseClientTypes {
             self.bufferingHints = bufferingHints
             self.cloudWatchLoggingOptions = cloudWatchLoggingOptions
             self.clusterEndpoint = clusterEndpoint
+            self.documentIdOptions = documentIdOptions
             self.domainARN = domainARN
             self.indexName = indexName
             self.indexRotationPeriod = indexRotationPeriod
@@ -8553,7 +8681,7 @@ extension FirehoseClientTypes.VpcConfiguration: Swift.Codable {
 }
 
 extension FirehoseClientTypes {
-    /// The details of the VPC of the Amazon ES destination.
+    /// The details of the VPC of the Amazon OpenSearch or Amazon OpenSearch Serverless destination.
     public struct VpcConfiguration: Swift.Equatable {
         /// The ARN of the IAM role that you want the delivery stream to use to create endpoints in the destination VPC. You can use your existing Kinesis Data Firehose delivery role or you can specify a new role. In either case, make sure that the role trusts the Kinesis Data Firehose service principal and that it grants the following permissions:
         ///

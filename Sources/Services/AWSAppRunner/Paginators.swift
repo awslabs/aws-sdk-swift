@@ -136,6 +136,28 @@ extension ListServicesInput: ClientRuntime.PaginateToken {
         )}
 }
 extension AppRunnerClient {
+    /// Paginate over `[ListServicesForAutoScalingConfigurationOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListServicesForAutoScalingConfigurationInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListServicesForAutoScalingConfigurationOutputResponse`
+    public func listServicesForAutoScalingConfigurationPaginated(input: ListServicesForAutoScalingConfigurationInput) -> ClientRuntime.PaginatorSequence<ListServicesForAutoScalingConfigurationInput, ListServicesForAutoScalingConfigurationOutputResponse> {
+        return ClientRuntime.PaginatorSequence<ListServicesForAutoScalingConfigurationInput, ListServicesForAutoScalingConfigurationOutputResponse>(input: input, inputKey: \ListServicesForAutoScalingConfigurationInput.nextToken, outputKey: \ListServicesForAutoScalingConfigurationOutputResponse.nextToken, paginationFunction: self.listServicesForAutoScalingConfiguration(input:))
+    }
+}
+
+extension ListServicesForAutoScalingConfigurationInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListServicesForAutoScalingConfigurationInput {
+        return ListServicesForAutoScalingConfigurationInput(
+            autoScalingConfigurationArn: self.autoScalingConfigurationArn,
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+extension AppRunnerClient {
     /// Paginate over `[ListVpcConnectorsOutputResponse]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service

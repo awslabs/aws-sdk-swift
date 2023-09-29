@@ -1239,8 +1239,10 @@ extension DiscoverInstancesOutputResponse: ClientRuntime.HttpResponseBinding {
             let responseDecoder = decoder {
             let output: DiscoverInstancesOutputResponseBody = try responseDecoder.decode(responseBody: data)
             self.instances = output.instances
+            self.instancesRevision = output.instancesRevision
         } else {
             self.instances = nil
+            self.instancesRevision = nil
         }
     }
 }
@@ -1248,22 +1250,28 @@ extension DiscoverInstancesOutputResponse: ClientRuntime.HttpResponseBinding {
 public struct DiscoverInstancesOutputResponse: Swift.Equatable {
     /// A complex type that contains one HttpInstanceSummary for each registered instance.
     public var instances: [ServiceDiscoveryClientTypes.HttpInstanceSummary]?
+    /// The increasing revision associated to the response Instances list. If a new instance is registered or deregistered, the InstancesRevision updates. The health status updates don't update InstancesRevision.
+    public var instancesRevision: Swift.Int?
 
     public init(
-        instances: [ServiceDiscoveryClientTypes.HttpInstanceSummary]? = nil
+        instances: [ServiceDiscoveryClientTypes.HttpInstanceSummary]? = nil,
+        instancesRevision: Swift.Int? = nil
     )
     {
         self.instances = instances
+        self.instancesRevision = instancesRevision
     }
 }
 
 struct DiscoverInstancesOutputResponseBody: Swift.Equatable {
     let instances: [ServiceDiscoveryClientTypes.HttpInstanceSummary]?
+    let instancesRevision: Swift.Int?
 }
 
 extension DiscoverInstancesOutputResponseBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case instances = "Instances"
+        case instancesRevision = "InstancesRevision"
     }
 
     public init(from decoder: Swift.Decoder) throws {
@@ -1279,6 +1287,123 @@ extension DiscoverInstancesOutputResponseBody: Swift.Decodable {
             }
         }
         instances = instancesDecoded0
+        let instancesRevisionDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .instancesRevision)
+        instancesRevision = instancesRevisionDecoded
+    }
+}
+
+extension DiscoverInstancesRevisionInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case namespaceName = "NamespaceName"
+        case serviceName = "ServiceName"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let namespaceName = self.namespaceName {
+            try encodeContainer.encode(namespaceName, forKey: .namespaceName)
+        }
+        if let serviceName = self.serviceName {
+            try encodeContainer.encode(serviceName, forKey: .serviceName)
+        }
+    }
+}
+
+extension DiscoverInstancesRevisionInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct DiscoverInstancesRevisionInput: Swift.Equatable {
+    /// The HttpName name of the namespace. It's found in the HttpProperties member of the Properties member of the namespace.
+    /// This member is required.
+    public var namespaceName: Swift.String?
+    /// The name of the service that you specified when you registered the instance.
+    /// This member is required.
+    public var serviceName: Swift.String?
+
+    public init(
+        namespaceName: Swift.String? = nil,
+        serviceName: Swift.String? = nil
+    )
+    {
+        self.namespaceName = namespaceName
+        self.serviceName = serviceName
+    }
+}
+
+struct DiscoverInstancesRevisionInputBody: Swift.Equatable {
+    let namespaceName: Swift.String?
+    let serviceName: Swift.String?
+}
+
+extension DiscoverInstancesRevisionInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case namespaceName = "NamespaceName"
+        case serviceName = "ServiceName"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let namespaceNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .namespaceName)
+        namespaceName = namespaceNameDecoded
+        let serviceNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .serviceName)
+        serviceName = serviceNameDecoded
+    }
+}
+
+public enum DiscoverInstancesRevisionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidInput": return try await InvalidInput(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NamespaceNotFound": return try await NamespaceNotFound(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "RequestLimitExceeded": return try await RequestLimitExceeded(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceNotFound": return try await ServiceNotFound(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension DiscoverInstancesRevisionOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DiscoverInstancesRevisionOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.instancesRevision = output.instancesRevision
+        } else {
+            self.instancesRevision = nil
+        }
+    }
+}
+
+public struct DiscoverInstancesRevisionOutputResponse: Swift.Equatable {
+    /// The increasing revision associated to the response Instances list. If a new instance is registered or deregistered, the InstancesRevision updates. The health status updates don't update InstancesRevision.
+    public var instancesRevision: Swift.Int?
+
+    public init(
+        instancesRevision: Swift.Int? = nil
+    )
+    {
+        self.instancesRevision = instancesRevision
+    }
+}
+
+struct DiscoverInstancesRevisionOutputResponseBody: Swift.Equatable {
+    let instancesRevision: Swift.Int?
+}
+
+extension DiscoverInstancesRevisionOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case instancesRevision = "InstancesRevision"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let instancesRevisionDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .instancesRevision)
+        instancesRevision = instancesRevisionDecoded
     }
 }
 
@@ -5104,7 +5229,7 @@ public struct RegisterInstanceInput: Swift.Equatable {
     ///
     /// * If the service that's specified by ServiceId includes HealthCheckConfig settings, Cloud Map will create the Route 53 health check, but it doesn't associate the health check with the alias record.
     ///
-    /// * Auto naming currently doesn't support creating alias records that route traffic to Amazon Web Services resources other than Elastic Load Balancing load balancers.
+    /// * Cloud Map currently doesn't support creating alias records that route traffic to Amazon Web Services resources other than Elastic Load Balancing load balancers.
     ///
     /// * If you specify a value for AWS_ALIAS_DNS_NAME, don't specify values for any of the AWS_INSTANCE attributes.
     ///

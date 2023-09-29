@@ -223,6 +223,8 @@ extension AppRunnerClientTypes.AutoScalingConfiguration: Swift.Codable {
         case autoScalingConfigurationRevision = "AutoScalingConfigurationRevision"
         case createdAt = "CreatedAt"
         case deletedAt = "DeletedAt"
+        case hasAssociatedService = "HasAssociatedService"
+        case isDefault = "IsDefault"
         case latest = "Latest"
         case maxConcurrency = "MaxConcurrency"
         case maxSize = "MaxSize"
@@ -238,7 +240,7 @@ extension AppRunnerClientTypes.AutoScalingConfiguration: Swift.Codable {
         if let autoScalingConfigurationName = self.autoScalingConfigurationName {
             try encodeContainer.encode(autoScalingConfigurationName, forKey: .autoScalingConfigurationName)
         }
-        if autoScalingConfigurationRevision != 0 {
+        if let autoScalingConfigurationRevision = self.autoScalingConfigurationRevision {
             try encodeContainer.encode(autoScalingConfigurationRevision, forKey: .autoScalingConfigurationRevision)
         }
         if let createdAt = self.createdAt {
@@ -247,16 +249,22 @@ extension AppRunnerClientTypes.AutoScalingConfiguration: Swift.Codable {
         if let deletedAt = self.deletedAt {
             try encodeContainer.encodeTimestamp(deletedAt, format: .epochSeconds, forKey: .deletedAt)
         }
-        if latest != false {
+        if let hasAssociatedService = self.hasAssociatedService {
+            try encodeContainer.encode(hasAssociatedService, forKey: .hasAssociatedService)
+        }
+        if let isDefault = self.isDefault {
+            try encodeContainer.encode(isDefault, forKey: .isDefault)
+        }
+        if let latest = self.latest {
             try encodeContainer.encode(latest, forKey: .latest)
         }
-        if maxConcurrency != 0 {
+        if let maxConcurrency = self.maxConcurrency {
             try encodeContainer.encode(maxConcurrency, forKey: .maxConcurrency)
         }
-        if maxSize != 0 {
+        if let maxSize = self.maxSize {
             try encodeContainer.encode(maxSize, forKey: .maxSize)
         }
-        if minSize != 0 {
+        if let minSize = self.minSize {
             try encodeContainer.encode(minSize, forKey: .minSize)
         }
         if let status = self.status {
@@ -270,22 +278,26 @@ extension AppRunnerClientTypes.AutoScalingConfiguration: Swift.Codable {
         autoScalingConfigurationArn = autoScalingConfigurationArnDecoded
         let autoScalingConfigurationNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .autoScalingConfigurationName)
         autoScalingConfigurationName = autoScalingConfigurationNameDecoded
-        let autoScalingConfigurationRevisionDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .autoScalingConfigurationRevision) ?? 0
+        let autoScalingConfigurationRevisionDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .autoScalingConfigurationRevision)
         autoScalingConfigurationRevision = autoScalingConfigurationRevisionDecoded
-        let latestDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .latest) ?? false
+        let latestDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .latest)
         latest = latestDecoded
         let statusDecoded = try containerValues.decodeIfPresent(AppRunnerClientTypes.AutoScalingConfigurationStatus.self, forKey: .status)
         status = statusDecoded
-        let maxConcurrencyDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxConcurrency) ?? 0
+        let maxConcurrencyDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxConcurrency)
         maxConcurrency = maxConcurrencyDecoded
-        let minSizeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .minSize) ?? 0
+        let minSizeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .minSize)
         minSize = minSizeDecoded
-        let maxSizeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxSize) ?? 0
+        let maxSizeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxSize)
         maxSize = maxSizeDecoded
         let createdAtDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .createdAt)
         createdAt = createdAtDecoded
         let deletedAtDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .deletedAt)
         deletedAt = deletedAtDecoded
+        let hasAssociatedServiceDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .hasAssociatedService)
+        hasAssociatedService = hasAssociatedServiceDecoded
+        let isDefaultDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isDefault)
+        isDefault = isDefaultDecoded
     }
 }
 
@@ -297,32 +309,38 @@ extension AppRunnerClientTypes {
         /// The customer-provided auto scaling configuration name. It can be used in multiple revisions of a configuration.
         public var autoScalingConfigurationName: Swift.String?
         /// The revision of this auto scaling configuration. It's unique among all the active configurations ("Status": "ACTIVE") that share the same AutoScalingConfigurationName.
-        public var autoScalingConfigurationRevision: Swift.Int
+        public var autoScalingConfigurationRevision: Swift.Int?
         /// The time when the auto scaling configuration was created. It's in Unix time stamp format.
         public var createdAt: ClientRuntime.Date?
         /// The time when the auto scaling configuration was deleted. It's in Unix time stamp format.
         public var deletedAt: ClientRuntime.Date?
+        /// Indicates if this auto scaling configuration has an App Runner service associated with it. A value of true indicates one or more services are associated. A value of false indicates no services are associated.
+        public var hasAssociatedService: Swift.Bool?
+        /// Indicates if this auto scaling configuration should be used as the default for a new App Runner service that does not have an auto scaling configuration ARN specified during creation. Each account can have only one default AutoScalingConfiguration per region. The default AutoScalingConfiguration can be any revision under the same AutoScalingConfigurationName.
+        public var isDefault: Swift.Bool?
         /// It's set to true for the configuration with the highest Revision among all configurations that share the same AutoScalingConfigurationName. It's set to false otherwise.
-        public var latest: Swift.Bool
+        public var latest: Swift.Bool?
         /// The maximum number of concurrent requests that an instance processes. If the number of concurrent requests exceeds this limit, App Runner scales the service up.
-        public var maxConcurrency: Swift.Int
+        public var maxConcurrency: Swift.Int?
         /// The maximum number of instances that a service scales up to. At most MaxSize instances actively serve traffic for your service.
-        public var maxSize: Swift.Int
+        public var maxSize: Swift.Int?
         /// The minimum number of instances that App Runner provisions for a service. The service always has at least MinSize provisioned instances. Some of them actively serve traffic. The rest of them (provisioned and inactive instances) are a cost-effective compute capacity reserve and are ready to be quickly activated. You pay for memory usage of all the provisioned instances. You pay for CPU usage of only the active subset. App Runner temporarily doubles the number of provisioned instances during deployments, to maintain the same capacity for both old and new code.
-        public var minSize: Swift.Int
+        public var minSize: Swift.Int?
         /// The current state of the auto scaling configuration. If the status of a configuration revision is INACTIVE, it was deleted and can't be used. Inactive configuration revisions are permanently removed some time after they are deleted.
         public var status: AppRunnerClientTypes.AutoScalingConfigurationStatus?
 
         public init(
             autoScalingConfigurationArn: Swift.String? = nil,
             autoScalingConfigurationName: Swift.String? = nil,
-            autoScalingConfigurationRevision: Swift.Int = 0,
+            autoScalingConfigurationRevision: Swift.Int? = nil,
             createdAt: ClientRuntime.Date? = nil,
             deletedAt: ClientRuntime.Date? = nil,
-            latest: Swift.Bool = false,
-            maxConcurrency: Swift.Int = 0,
-            maxSize: Swift.Int = 0,
-            minSize: Swift.Int = 0,
+            hasAssociatedService: Swift.Bool? = nil,
+            isDefault: Swift.Bool? = nil,
+            latest: Swift.Bool? = nil,
+            maxConcurrency: Swift.Int? = nil,
+            maxSize: Swift.Int? = nil,
+            minSize: Swift.Int? = nil,
             status: AppRunnerClientTypes.AutoScalingConfigurationStatus? = nil
         )
         {
@@ -331,6 +349,8 @@ extension AppRunnerClientTypes {
             self.autoScalingConfigurationRevision = autoScalingConfigurationRevision
             self.createdAt = createdAt
             self.deletedAt = deletedAt
+            self.hasAssociatedService = hasAssociatedService
+            self.isDefault = isDefault
             self.latest = latest
             self.maxConcurrency = maxConcurrency
             self.maxSize = maxSize
@@ -378,6 +398,10 @@ extension AppRunnerClientTypes.AutoScalingConfigurationSummary: Swift.Codable {
         case autoScalingConfigurationArn = "AutoScalingConfigurationArn"
         case autoScalingConfigurationName = "AutoScalingConfigurationName"
         case autoScalingConfigurationRevision = "AutoScalingConfigurationRevision"
+        case createdAt = "CreatedAt"
+        case hasAssociatedService = "HasAssociatedService"
+        case isDefault = "IsDefault"
+        case status = "Status"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -391,6 +415,18 @@ extension AppRunnerClientTypes.AutoScalingConfigurationSummary: Swift.Codable {
         if autoScalingConfigurationRevision != 0 {
             try encodeContainer.encode(autoScalingConfigurationRevision, forKey: .autoScalingConfigurationRevision)
         }
+        if let createdAt = self.createdAt {
+            try encodeContainer.encodeTimestamp(createdAt, format: .epochSeconds, forKey: .createdAt)
+        }
+        if let hasAssociatedService = self.hasAssociatedService {
+            try encodeContainer.encode(hasAssociatedService, forKey: .hasAssociatedService)
+        }
+        if let isDefault = self.isDefault {
+            try encodeContainer.encode(isDefault, forKey: .isDefault)
+        }
+        if let status = self.status {
+            try encodeContainer.encode(status.rawValue, forKey: .status)
+        }
     }
 
     public init(from decoder: Swift.Decoder) throws {
@@ -401,6 +437,14 @@ extension AppRunnerClientTypes.AutoScalingConfigurationSummary: Swift.Codable {
         autoScalingConfigurationName = autoScalingConfigurationNameDecoded
         let autoScalingConfigurationRevisionDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .autoScalingConfigurationRevision) ?? 0
         autoScalingConfigurationRevision = autoScalingConfigurationRevisionDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(AppRunnerClientTypes.AutoScalingConfigurationStatus.self, forKey: .status)
+        status = statusDecoded
+        let createdAtDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .createdAt)
+        createdAt = createdAtDecoded
+        let hasAssociatedServiceDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .hasAssociatedService)
+        hasAssociatedService = hasAssociatedServiceDecoded
+        let isDefaultDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isDefault)
+        isDefault = isDefaultDecoded
     }
 }
 
@@ -413,16 +457,32 @@ extension AppRunnerClientTypes {
         public var autoScalingConfigurationName: Swift.String?
         /// The revision of this auto scaling configuration. It's unique among all the active configurations ("Status": "ACTIVE") with the same AutoScalingConfigurationName.
         public var autoScalingConfigurationRevision: Swift.Int
+        /// The time when the auto scaling configuration was created. It's in Unix time stamp format.
+        public var createdAt: ClientRuntime.Date?
+        /// Indicates if this auto scaling configuration has an App Runner service associated with it. A value of true indicates one or more services are associated. A value of false indicates no services are associated.
+        public var hasAssociatedService: Swift.Bool?
+        /// Indicates if this auto scaling configuration should be used as the default for a new App Runner service that does not have an auto scaling configuration ARN specified during creation. Each account can have only one default AutoScalingConfiguration per region. The default AutoScalingConfiguration can be any revision under the same AutoScalingConfigurationName.
+        public var isDefault: Swift.Bool?
+        /// The current state of the auto scaling configuration. If the status of a configuration revision is INACTIVE, it was deleted and can't be used. Inactive configuration revisions are permanently removed some time after they are deleted.
+        public var status: AppRunnerClientTypes.AutoScalingConfigurationStatus?
 
         public init(
             autoScalingConfigurationArn: Swift.String? = nil,
             autoScalingConfigurationName: Swift.String? = nil,
-            autoScalingConfigurationRevision: Swift.Int = 0
+            autoScalingConfigurationRevision: Swift.Int = 0,
+            createdAt: ClientRuntime.Date? = nil,
+            hasAssociatedService: Swift.Bool? = nil,
+            isDefault: Swift.Bool? = nil,
+            status: AppRunnerClientTypes.AutoScalingConfigurationStatus? = nil
         )
         {
             self.autoScalingConfigurationArn = autoScalingConfigurationArn
             self.autoScalingConfigurationName = autoScalingConfigurationName
             self.autoScalingConfigurationRevision = autoScalingConfigurationRevision
+            self.createdAt = createdAt
+            self.hasAssociatedService = hasAssociatedService
+            self.isDefault = isDefault
+            self.status = status
         }
     }
 
@@ -1013,7 +1073,15 @@ extension CreateAutoScalingConfigurationInput: ClientRuntime.URLPathProvider {
 }
 
 public struct CreateAutoScalingConfigurationInput: Swift.Equatable {
-    /// A name for the auto scaling configuration. When you use it for the first time in an Amazon Web Services Region, App Runner creates revision number 1 of this name. When you use the same name in subsequent calls, App Runner creates incremental revisions of the configuration. The name DefaultConfiguration is reserved (it's the configuration that App Runner uses if you don't provide a custome one). You can't use it to create a new auto scaling configuration, and you can't create a revision of it. When you want to use your own auto scaling configuration for your App Runner service, create a configuration with a different name, and then provide it when you create or update your service.
+    /// A name for the auto scaling configuration. When you use it for the first time in an Amazon Web Services Region, App Runner creates revision number 1 of this name. When you use the same name in subsequent calls, App Runner creates incremental revisions of the configuration. Prior to the release of [Managing auto scaling](https://docs.aws.amazon.com/apprunner/latest/relnotes/release-yyyy-mm-dd-asc-improvements.html), the name DefaultConfiguration was reserved. This restriction is no longer in place. You can now manage DefaultConfiguration the same way you manage your custom auto scaling configurations. This means you can do the following with the DefaultConfiguration that App Runner provides:
+    ///
+    /// * Create new revisions of the DefaultConfiguration.
+    ///
+    /// * Delete the revisions of the DefaultConfiguration.
+    ///
+    /// * Delete the auto scaling configuration for which the App Runner DefaultConfiguration was created.
+    ///
+    /// * If you delete the auto scaling configuration you can create another custom auto scaling configuration with the same DefaultConfiguration name. The original DefaultConfiguration resource provided by App Runner remains in your account unless you make changes to it.
     /// This member is required.
     public var autoScalingConfigurationName: Swift.String?
     /// The maximum number of concurrent requests that you want an instance to process. If the number of concurrent requests exceeds this limit, App Runner scales up your service. Default: 100
@@ -2093,12 +2161,16 @@ extension AppRunnerClientTypes {
 extension DeleteAutoScalingConfigurationInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case autoScalingConfigurationArn = "AutoScalingConfigurationArn"
+        case deleteAllRevisions = "DeleteAllRevisions"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let autoScalingConfigurationArn = self.autoScalingConfigurationArn {
             try encodeContainer.encode(autoScalingConfigurationArn, forKey: .autoScalingConfigurationArn)
+        }
+        if let deleteAllRevisions = self.deleteAllRevisions {
+            try encodeContainer.encode(deleteAllRevisions, forKey: .deleteAllRevisions)
         }
     }
 }
@@ -2113,28 +2185,36 @@ public struct DeleteAutoScalingConfigurationInput: Swift.Equatable {
     /// The Amazon Resource Name (ARN) of the App Runner auto scaling configuration that you want to delete. The ARN can be a full auto scaling configuration ARN, or a partial ARN ending with either .../name  or .../name/revision . If a revision isn't specified, the latest active revision is deleted.
     /// This member is required.
     public var autoScalingConfigurationArn: Swift.String?
+    /// Set to true to delete all of the revisions associated with the AutoScalingConfigurationArn parameter value. When DeleteAllRevisions is set to true, the only valid value for the Amazon Resource Name (ARN) is a partial ARN ending with: .../name.
+    public var deleteAllRevisions: Swift.Bool?
 
     public init(
-        autoScalingConfigurationArn: Swift.String? = nil
+        autoScalingConfigurationArn: Swift.String? = nil,
+        deleteAllRevisions: Swift.Bool? = nil
     )
     {
         self.autoScalingConfigurationArn = autoScalingConfigurationArn
+        self.deleteAllRevisions = deleteAllRevisions
     }
 }
 
 struct DeleteAutoScalingConfigurationInputBody: Swift.Equatable {
     let autoScalingConfigurationArn: Swift.String?
+    let deleteAllRevisions: Swift.Bool?
 }
 
 extension DeleteAutoScalingConfigurationInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case autoScalingConfigurationArn = "AutoScalingConfigurationArn"
+        case deleteAllRevisions = "DeleteAllRevisions"
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let autoScalingConfigurationArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .autoScalingConfigurationArn)
         autoScalingConfigurationArn = autoScalingConfigurationArnDecoded
+        let deleteAllRevisionsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .deleteAllRevisions)
+        deleteAllRevisions = deleteAllRevisionsDecoded
     }
 }
 
@@ -4883,6 +4963,151 @@ extension ListOperationsOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension ListServicesForAutoScalingConfigurationInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case autoScalingConfigurationArn = "AutoScalingConfigurationArn"
+        case maxResults = "MaxResults"
+        case nextToken = "NextToken"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let autoScalingConfigurationArn = self.autoScalingConfigurationArn {
+            try encodeContainer.encode(autoScalingConfigurationArn, forKey: .autoScalingConfigurationArn)
+        }
+        if let maxResults = self.maxResults {
+            try encodeContainer.encode(maxResults, forKey: .maxResults)
+        }
+        if let nextToken = self.nextToken {
+            try encodeContainer.encode(nextToken, forKey: .nextToken)
+        }
+    }
+}
+
+extension ListServicesForAutoScalingConfigurationInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct ListServicesForAutoScalingConfigurationInput: Swift.Equatable {
+    /// The Amazon Resource Name (ARN) of the App Runner auto scaling configuration that you want to list the services for. The ARN can be a full auto scaling configuration ARN, or a partial ARN ending with either .../name  or .../name/revision . If a revision isn't specified, the latest active revision is used.
+    /// This member is required.
+    public var autoScalingConfigurationArn: Swift.String?
+    /// The maximum number of results to include in each response (result page). It's used for a paginated request. If you don't specify MaxResults, the request retrieves all available results in a single response.
+    public var maxResults: Swift.Int?
+    /// A token from a previous result page. It's used for a paginated request. The request retrieves the next result page. All other parameter values must be identical to the ones specified in the initial request. If you don't specify NextToken, the request retrieves the first result page.
+    public var nextToken: Swift.String?
+
+    public init(
+        autoScalingConfigurationArn: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.autoScalingConfigurationArn = autoScalingConfigurationArn
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+struct ListServicesForAutoScalingConfigurationInputBody: Swift.Equatable {
+    let autoScalingConfigurationArn: Swift.String?
+    let maxResults: Swift.Int?
+    let nextToken: Swift.String?
+}
+
+extension ListServicesForAutoScalingConfigurationInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case autoScalingConfigurationArn = "AutoScalingConfigurationArn"
+        case maxResults = "MaxResults"
+        case nextToken = "NextToken"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let autoScalingConfigurationArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .autoScalingConfigurationArn)
+        autoScalingConfigurationArn = autoScalingConfigurationArnDecoded
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
+        maxResults = maxResultsDecoded
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+public enum ListServicesForAutoScalingConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServiceError": return try await InternalServiceErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequest": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotfound": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension ListServicesForAutoScalingConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ListServicesForAutoScalingConfigurationOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.nextToken = output.nextToken
+            self.serviceArnList = output.serviceArnList
+        } else {
+            self.nextToken = nil
+            self.serviceArnList = nil
+        }
+    }
+}
+
+public struct ListServicesForAutoScalingConfigurationOutputResponse: Swift.Equatable {
+    /// The token that you can pass in a subsequent request to get the next result page. It's returned in a paginated request.
+    public var nextToken: Swift.String?
+    /// A list of service ARN records. In a paginated request, the request returns up to MaxResults records for each call.
+    /// This member is required.
+    public var serviceArnList: [Swift.String]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        serviceArnList: [Swift.String]? = nil
+    )
+    {
+        self.nextToken = nextToken
+        self.serviceArnList = serviceArnList
+    }
+}
+
+struct ListServicesForAutoScalingConfigurationOutputResponseBody: Swift.Equatable {
+    let serviceArnList: [Swift.String]?
+    let nextToken: Swift.String?
+}
+
+extension ListServicesForAutoScalingConfigurationOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case nextToken = "NextToken"
+        case serviceArnList = "ServiceArnList"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let serviceArnListContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .serviceArnList)
+        var serviceArnListDecoded0:[Swift.String]? = nil
+        if let serviceArnListContainer = serviceArnListContainer {
+            serviceArnListDecoded0 = [Swift.String]()
+            for string0 in serviceArnListContainer {
+                if let string0 = string0 {
+                    serviceArnListDecoded0?.append(string0)
+                }
+            }
+        }
+        serviceArnList = serviceArnListDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
 extension ListServicesInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case maxResults = "MaxResults"
@@ -7214,6 +7439,108 @@ extension UntagResourceOutputResponse: ClientRuntime.HttpResponseBinding {
 public struct UntagResourceOutputResponse: Swift.Equatable {
 
     public init() { }
+}
+
+extension UpdateDefaultAutoScalingConfigurationInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case autoScalingConfigurationArn = "AutoScalingConfigurationArn"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let autoScalingConfigurationArn = self.autoScalingConfigurationArn {
+            try encodeContainer.encode(autoScalingConfigurationArn, forKey: .autoScalingConfigurationArn)
+        }
+    }
+}
+
+extension UpdateDefaultAutoScalingConfigurationInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct UpdateDefaultAutoScalingConfigurationInput: Swift.Equatable {
+    /// The Amazon Resource Name (ARN) of the App Runner auto scaling configuration that you want to set as the default. The ARN can be a full auto scaling configuration ARN, or a partial ARN ending with either .../name  or .../name/revision . If a revision isn't specified, the latest active revision is set as the default.
+    /// This member is required.
+    public var autoScalingConfigurationArn: Swift.String?
+
+    public init(
+        autoScalingConfigurationArn: Swift.String? = nil
+    )
+    {
+        self.autoScalingConfigurationArn = autoScalingConfigurationArn
+    }
+}
+
+struct UpdateDefaultAutoScalingConfigurationInputBody: Swift.Equatable {
+    let autoScalingConfigurationArn: Swift.String?
+}
+
+extension UpdateDefaultAutoScalingConfigurationInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case autoScalingConfigurationArn = "AutoScalingConfigurationArn"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let autoScalingConfigurationArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .autoScalingConfigurationArn)
+        autoScalingConfigurationArn = autoScalingConfigurationArnDecoded
+    }
+}
+
+public enum UpdateDefaultAutoScalingConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServiceError": return try await InternalServiceErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequest": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotfound": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension UpdateDefaultAutoScalingConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: UpdateDefaultAutoScalingConfigurationOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.autoScalingConfiguration = output.autoScalingConfiguration
+        } else {
+            self.autoScalingConfiguration = nil
+        }
+    }
+}
+
+public struct UpdateDefaultAutoScalingConfigurationOutputResponse: Swift.Equatable {
+    /// A description of the App Runner auto scaling configuration that was set as default.
+    /// This member is required.
+    public var autoScalingConfiguration: AppRunnerClientTypes.AutoScalingConfiguration?
+
+    public init(
+        autoScalingConfiguration: AppRunnerClientTypes.AutoScalingConfiguration? = nil
+    )
+    {
+        self.autoScalingConfiguration = autoScalingConfiguration
+    }
+}
+
+struct UpdateDefaultAutoScalingConfigurationOutputResponseBody: Swift.Equatable {
+    let autoScalingConfiguration: AppRunnerClientTypes.AutoScalingConfiguration?
+}
+
+extension UpdateDefaultAutoScalingConfigurationOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case autoScalingConfiguration = "AutoScalingConfiguration"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let autoScalingConfigurationDecoded = try containerValues.decodeIfPresent(AppRunnerClientTypes.AutoScalingConfiguration.self, forKey: .autoScalingConfiguration)
+        autoScalingConfiguration = autoScalingConfigurationDecoded
+    }
 }
 
 extension UpdateServiceInput: Swift.Encodable {

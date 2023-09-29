@@ -6541,11 +6541,12 @@ extension MediaConvertClientTypes {
 }
 
 extension MediaConvertClientTypes {
-    /// Use this setting to control the values that MediaConvert puts in your HLS parent playlist to control how the client player selects which audio track to play. The other options for this setting determine the values that MediaConvert writes for the DEFAULT and AUTOSELECT attributes of the EXT-X-MEDIA entry for the audio variant. For more information about these attributes, see the Apple documentation article https://developer.apple.com/documentation/http_live_streaming/example_playlists_for_http_live_streaming/adding_alternate_media_to_a_playlist. Choose Alternate audio, auto select, default to set DEFAULT=YES and AUTOSELECT=YES. Choose this value for only one variant in your output group. Choose Alternate audio, auto select, not default to set DEFAULT=NO and AUTOSELECT=YES. Choose Alternate Audio, Not Auto Select to set DEFAULT=NO and AUTOSELECT=NO. When you don't specify a value for this setting, MediaConvert defaults to Alternate audio, auto select, default. When there is more than one variant in your output group, you must explicitly choose a value for this setting.
+    /// Use this setting to control the values that MediaConvert puts in your HLS parent playlist to control how the client player selects which audio track to play. Choose Audio-only variant stream (AUDIO_ONLY_VARIANT_STREAM) for any variant that you want to prohibit the client from playing with video. This causes MediaConvert to represent the variant as an EXT-X-STREAM-INF in the HLS manifest. The other options for this setting determine the values that MediaConvert writes for the DEFAULT and AUTOSELECT attributes of the EXT-X-MEDIA entry for the audio variant. For more information about these attributes, see the Apple documentation article https://developer.apple.com/documentation/http_live_streaming/example_playlists_for_http_live_streaming/adding_alternate_media_to_a_playlist. Choose Alternate audio, auto select, default to set DEFAULT=YES and AUTOSELECT=YES. Choose this value for only one variant in your output group. Choose Alternate audio, auto select, not default to set DEFAULT=NO and AUTOSELECT=YES. Choose Alternate Audio, Not Auto Select to set DEFAULT=NO and AUTOSELECT=NO. When you don't specify a value for this setting, MediaConvert defaults to Alternate audio, auto select, default. When there is more than one variant in your output group, you must explicitly choose a value for this setting.
     public enum CmfcAudioTrackType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case alternateAudioAutoSelect
         case alternateAudioAutoSelectDefault
         case alternateAudioNotAutoSelect
+        case audioOnlyVariantStream
         case sdkUnknown(Swift.String)
 
         public static var allCases: [CmfcAudioTrackType] {
@@ -6553,6 +6554,7 @@ extension MediaConvertClientTypes {
                 .alternateAudioAutoSelect,
                 .alternateAudioAutoSelectDefault,
                 .alternateAudioNotAutoSelect,
+                .audioOnlyVariantStream,
                 .sdkUnknown("")
             ]
         }
@@ -6565,6 +6567,7 @@ extension MediaConvertClientTypes {
             case .alternateAudioAutoSelect: return "ALTERNATE_AUDIO_AUTO_SELECT"
             case .alternateAudioAutoSelectDefault: return "ALTERNATE_AUDIO_AUTO_SELECT_DEFAULT"
             case .alternateAudioNotAutoSelect: return "ALTERNATE_AUDIO_NOT_AUTO_SELECT"
+            case .audioOnlyVariantStream: return "AUDIO_ONLY_VARIANT_STREAM"
             case let .sdkUnknown(s): return s
             }
         }
@@ -6880,7 +6883,7 @@ extension MediaConvertClientTypes {
         public var audioGroupId: Swift.String?
         /// List the audio rendition groups that you want included with this video rendition. Use a comma-separated list. For example, say you want to include the audio rendition groups that have the audio group IDs "audio_aac_1" and "audio_dolby". Then you would specify this value: "audio_aac_1,audio_dolby". Related setting: The rendition groups that you include in your comma-separated list should all match values that you specify in the setting Audio group ID for audio renditions in the same output group as this video rendition. Default behavior: If you don't specify anything here and for Audio group ID, MediaConvert puts each audio variant in its own audio rendition group and associates it with every video variant. Each value in your list appears in your HLS parent manifest in the EXT-X-STREAM-INF tag as the value for the AUDIO attribute. To continue the previous example, say that the file name for the child manifest for your video rendition is "amazing_video_1.m3u8". Then, in your parent manifest, each value will appear on separate lines, like this: #EXT-X-STREAM-INF:AUDIO="audio_aac_1"... amazing_video_1.m3u8 #EXT-X-STREAM-INF:AUDIO="audio_dolby"... amazing_video_1.m3u8
         public var audioRenditionSets: Swift.String?
-        /// Use this setting to control the values that MediaConvert puts in your HLS parent playlist to control how the client player selects which audio track to play. The other options for this setting determine the values that MediaConvert writes for the DEFAULT and AUTOSELECT attributes of the EXT-X-MEDIA entry for the audio variant. For more information about these attributes, see the Apple documentation article https://developer.apple.com/documentation/http_live_streaming/example_playlists_for_http_live_streaming/adding_alternate_media_to_a_playlist. Choose Alternate audio, auto select, default to set DEFAULT=YES and AUTOSELECT=YES. Choose this value for only one variant in your output group. Choose Alternate audio, auto select, not default to set DEFAULT=NO and AUTOSELECT=YES. Choose Alternate Audio, Not Auto Select to set DEFAULT=NO and AUTOSELECT=NO. When you don't specify a value for this setting, MediaConvert defaults to Alternate audio, auto select, default. When there is more than one variant in your output group, you must explicitly choose a value for this setting.
+        /// Use this setting to control the values that MediaConvert puts in your HLS parent playlist to control how the client player selects which audio track to play. Choose Audio-only variant stream (AUDIO_ONLY_VARIANT_STREAM) for any variant that you want to prohibit the client from playing with video. This causes MediaConvert to represent the variant as an EXT-X-STREAM-INF in the HLS manifest. The other options for this setting determine the values that MediaConvert writes for the DEFAULT and AUTOSELECT attributes of the EXT-X-MEDIA entry for the audio variant. For more information about these attributes, see the Apple documentation article https://developer.apple.com/documentation/http_live_streaming/example_playlists_for_http_live_streaming/adding_alternate_media_to_a_playlist. Choose Alternate audio, auto select, default to set DEFAULT=YES and AUTOSELECT=YES. Choose this value for only one variant in your output group. Choose Alternate audio, auto select, not default to set DEFAULT=NO and AUTOSELECT=YES. Choose Alternate Audio, Not Auto Select to set DEFAULT=NO and AUTOSELECT=NO. When you don't specify a value for this setting, MediaConvert defaults to Alternate audio, auto select, default. When there is more than one variant in your output group, you must explicitly choose a value for this setting.
         public var audioTrackType: MediaConvertClientTypes.CmfcAudioTrackType?
         /// Specify whether to flag this audio track as descriptive video service (DVS) in your HLS parent manifest. When you choose Flag, MediaConvert includes the parameter CHARACTERISTICS="public.accessibility.describes-video" in the EXT-X-MEDIA entry for this track. When you keep the default choice, Don't flag, MediaConvert leaves this parameter out. The DVS flag can help with accessibility on Apple devices. For more information, see the Apple documentation.
         public var descriptiveVideoServiceFlag: MediaConvertClientTypes.CmfcDescriptiveVideoServiceFlag?
@@ -20667,6 +20670,7 @@ extension MediaConvertClientTypes.JobSettings: Swift.Codable {
         case availBlanking = "availBlanking"
         case esam = "esam"
         case extendedDataServices = "extendedDataServices"
+        case followInputIndex = "followInputIndex"
         case inputs = "inputs"
         case kantarWatermark = "kantarWatermark"
         case motionImageInserter = "motionImageInserter"
@@ -20690,6 +20694,9 @@ extension MediaConvertClientTypes.JobSettings: Swift.Codable {
         }
         if let extendedDataServices = self.extendedDataServices {
             try encodeContainer.encode(extendedDataServices, forKey: .extendedDataServices)
+        }
+        if let followInputIndex = self.followInputIndex {
+            try encodeContainer.encode(followInputIndex, forKey: .followInputIndex)
         }
         if let inputs = inputs {
             var inputsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .inputs)
@@ -20733,6 +20740,8 @@ extension MediaConvertClientTypes.JobSettings: Swift.Codable {
         esam = esamDecoded
         let extendedDataServicesDecoded = try containerValues.decodeIfPresent(MediaConvertClientTypes.ExtendedDataServices.self, forKey: .extendedDataServices)
         extendedDataServices = extendedDataServicesDecoded
+        let followInputIndexDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .followInputIndex)
+        followInputIndex = followInputIndexDecoded
         let inputsContainer = try containerValues.decodeIfPresent([MediaConvertClientTypes.Input?].self, forKey: .inputs)
         var inputsDecoded0:[MediaConvertClientTypes.Input]? = nil
         if let inputsContainer = inputsContainer {
@@ -20781,6 +20790,8 @@ extension MediaConvertClientTypes {
         public var esam: MediaConvertClientTypes.EsamSettings?
         /// If your source content has EIA-608 Line 21 Data Services, enable this feature to specify what MediaConvert does with the Extended Data Services (XDS) packets. You can choose to pass through XDS packets, or remove them from the output. For more information about XDS, see EIA-608 Line Data Services, section 9.5.1.5 05h Content Advisory.
         public var extendedDataServices: MediaConvertClientTypes.ExtendedDataServices?
+        /// Specifies which input metadata to use for the default "Follow input" option for the following settings: resolution, frame rate, and pixel aspect ratio. In the simplest case, specify which input is used based on its index in the job. For example if you specify 3, then the fourth input will be used from each input. If the job does not have a fourth input, then the first input will be used. If no followInputIndex is specified, then 0 will be chosen automatically.
+        public var followInputIndex: Swift.Int?
         /// Use Inputs to define source file used in the transcode job. There can be multiple inputs add in a job. These inputs will be concantenated together to create the output.
         public var inputs: [MediaConvertClientTypes.Input]?
         /// Use these settings only when you use Kantar watermarking. Specify the values that MediaConvert uses to generate and place Kantar watermarks in your output audio. These settings apply to every output in your job. In addition to specifying these values, you also need to store your Kantar credentials in AWS Secrets Manager. For more information, see https://docs.aws.amazon.com/mediaconvert/latest/ug/kantar-watermarking.html.
@@ -20803,6 +20814,7 @@ extension MediaConvertClientTypes {
             availBlanking: MediaConvertClientTypes.AvailBlanking? = nil,
             esam: MediaConvertClientTypes.EsamSettings? = nil,
             extendedDataServices: MediaConvertClientTypes.ExtendedDataServices? = nil,
+            followInputIndex: Swift.Int? = nil,
             inputs: [MediaConvertClientTypes.Input]? = nil,
             kantarWatermark: MediaConvertClientTypes.KantarWatermarkSettings? = nil,
             motionImageInserter: MediaConvertClientTypes.MotionImageInserter? = nil,
@@ -20817,6 +20829,7 @@ extension MediaConvertClientTypes {
             self.availBlanking = availBlanking
             self.esam = esam
             self.extendedDataServices = extendedDataServices
+            self.followInputIndex = followInputIndex
             self.inputs = inputs
             self.kantarWatermark = kantarWatermark
             self.motionImageInserter = motionImageInserter
@@ -21083,6 +21096,7 @@ extension MediaConvertClientTypes.JobTemplateSettings: Swift.Codable {
         case availBlanking = "availBlanking"
         case esam = "esam"
         case extendedDataServices = "extendedDataServices"
+        case followInputIndex = "followInputIndex"
         case inputs = "inputs"
         case kantarWatermark = "kantarWatermark"
         case motionImageInserter = "motionImageInserter"
@@ -21106,6 +21120,9 @@ extension MediaConvertClientTypes.JobTemplateSettings: Swift.Codable {
         }
         if let extendedDataServices = self.extendedDataServices {
             try encodeContainer.encode(extendedDataServices, forKey: .extendedDataServices)
+        }
+        if let followInputIndex = self.followInputIndex {
+            try encodeContainer.encode(followInputIndex, forKey: .followInputIndex)
         }
         if let inputs = inputs {
             var inputsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .inputs)
@@ -21149,6 +21166,8 @@ extension MediaConvertClientTypes.JobTemplateSettings: Swift.Codable {
         esam = esamDecoded
         let extendedDataServicesDecoded = try containerValues.decodeIfPresent(MediaConvertClientTypes.ExtendedDataServices.self, forKey: .extendedDataServices)
         extendedDataServices = extendedDataServicesDecoded
+        let followInputIndexDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .followInputIndex)
+        followInputIndex = followInputIndexDecoded
         let inputsContainer = try containerValues.decodeIfPresent([MediaConvertClientTypes.InputTemplate?].self, forKey: .inputs)
         var inputsDecoded0:[MediaConvertClientTypes.InputTemplate]? = nil
         if let inputsContainer = inputsContainer {
@@ -21197,6 +21216,8 @@ extension MediaConvertClientTypes {
         public var esam: MediaConvertClientTypes.EsamSettings?
         /// If your source content has EIA-608 Line 21 Data Services, enable this feature to specify what MediaConvert does with the Extended Data Services (XDS) packets. You can choose to pass through XDS packets, or remove them from the output. For more information about XDS, see EIA-608 Line Data Services, section 9.5.1.5 05h Content Advisory.
         public var extendedDataServices: MediaConvertClientTypes.ExtendedDataServices?
+        /// Specifies which input metadata to use for the default "Follow input" option for the following settings: resolution, frame rate, and pixel aspect ratio. In the simplest case, specify which input is used based on its index in the job. For example if you specify 3, then the fourth input will be used from each input. If the job does not have a fourth input, then the first input will be used. If no followInputIndex is specified, then 0 will be chosen automatically.
+        public var followInputIndex: Swift.Int?
         /// Use Inputs to define the source file used in the transcode job. There can only be one input in a job template. Using the API, you can include multiple inputs when referencing a job template.
         public var inputs: [MediaConvertClientTypes.InputTemplate]?
         /// Use these settings only when you use Kantar watermarking. Specify the values that MediaConvert uses to generate and place Kantar watermarks in your output audio. These settings apply to every output in your job. In addition to specifying these values, you also need to store your Kantar credentials in AWS Secrets Manager. For more information, see https://docs.aws.amazon.com/mediaconvert/latest/ug/kantar-watermarking.html.
@@ -21219,6 +21240,7 @@ extension MediaConvertClientTypes {
             availBlanking: MediaConvertClientTypes.AvailBlanking? = nil,
             esam: MediaConvertClientTypes.EsamSettings? = nil,
             extendedDataServices: MediaConvertClientTypes.ExtendedDataServices? = nil,
+            followInputIndex: Swift.Int? = nil,
             inputs: [MediaConvertClientTypes.InputTemplate]? = nil,
             kantarWatermark: MediaConvertClientTypes.KantarWatermarkSettings? = nil,
             motionImageInserter: MediaConvertClientTypes.MotionImageInserter? = nil,
@@ -21233,6 +21255,7 @@ extension MediaConvertClientTypes {
             self.availBlanking = availBlanking
             self.esam = esam
             self.extendedDataServices = extendedDataServices
+            self.followInputIndex = followInputIndex
             self.inputs = inputs
             self.kantarWatermark = kantarWatermark
             self.motionImageInserter = motionImageInserter
@@ -30184,7 +30207,7 @@ extension MediaConvertClientTypes {
         public var accessControl: MediaConvertClientTypes.S3DestinationAccessControl?
         /// Settings for how your job outputs are encrypted as they are uploaded to Amazon S3.
         public var encryption: MediaConvertClientTypes.S3EncryptionSettings?
-        /// Specify the S3 storage class to use for this destination.
+        /// Specify the S3 storage class to use for this output. To use your destination's default storage class: Keep the default value, Not set. For more information about S3 storage classes, see https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage-class-intro.html
         public var storageClass: MediaConvertClientTypes.S3StorageClass?
 
         public init(
@@ -30329,7 +30352,7 @@ extension MediaConvertClientTypes {
 }
 
 extension MediaConvertClientTypes {
-    /// Specify the S3 storage class to use for this destination.
+    /// Specify the S3 storage class to use for this output. To use your destination's default storage class: Keep the default value, Not set. For more information about S3 storage classes, see https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage-class-intro.html
     public enum S3StorageClass: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case deepArchive
         case glacier

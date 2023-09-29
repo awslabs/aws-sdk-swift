@@ -45,6 +45,27 @@ extension ListMediaInsightsPipelineConfigurationsInput: ClientRuntime.PaginateTo
         )}
 }
 extension ChimeSDKMediaPipelinesClient {
+    /// Paginate over `[ListMediaPipelineKinesisVideoStreamPoolsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListMediaPipelineKinesisVideoStreamPoolsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListMediaPipelineKinesisVideoStreamPoolsOutputResponse`
+    public func listMediaPipelineKinesisVideoStreamPoolsPaginated(input: ListMediaPipelineKinesisVideoStreamPoolsInput) -> ClientRuntime.PaginatorSequence<ListMediaPipelineKinesisVideoStreamPoolsInput, ListMediaPipelineKinesisVideoStreamPoolsOutputResponse> {
+        return ClientRuntime.PaginatorSequence<ListMediaPipelineKinesisVideoStreamPoolsInput, ListMediaPipelineKinesisVideoStreamPoolsOutputResponse>(input: input, inputKey: \ListMediaPipelineKinesisVideoStreamPoolsInput.nextToken, outputKey: \ListMediaPipelineKinesisVideoStreamPoolsOutputResponse.nextToken, paginationFunction: self.listMediaPipelineKinesisVideoStreamPools(input:))
+    }
+}
+
+extension ListMediaPipelineKinesisVideoStreamPoolsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListMediaPipelineKinesisVideoStreamPoolsInput {
+        return ListMediaPipelineKinesisVideoStreamPoolsInput(
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+extension ChimeSDKMediaPipelinesClient {
     /// Paginate over `[ListMediaPipelinesOutputResponse]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service

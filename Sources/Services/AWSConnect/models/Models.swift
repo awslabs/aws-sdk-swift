@@ -15542,6 +15542,7 @@ extension ConnectClientTypes {
 extension ConnectClientTypes {
     public enum EventSourceName: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case oncontactevaluationsubmit
+        case onmetricdataupdate
         case onpostcallanalysisavailable
         case onpostchatanalysisavailable
         case onrealtimecallanalysisavailable
@@ -15553,6 +15554,7 @@ extension ConnectClientTypes {
         public static var allCases: [EventSourceName] {
             return [
                 .oncontactevaluationsubmit,
+                .onmetricdataupdate,
                 .onpostcallanalysisavailable,
                 .onpostchatanalysisavailable,
                 .onrealtimecallanalysisavailable,
@@ -15569,6 +15571,7 @@ extension ConnectClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .oncontactevaluationsubmit: return "OnContactEvaluationSubmit"
+            case .onmetricdataupdate: return "OnMetricDataUpdate"
             case .onpostcallanalysisavailable: return "OnPostCallAnalysisAvailable"
             case .onpostchatanalysisavailable: return "OnPostChatAnalysisAvailable"
             case .onrealtimecallanalysisavailable: return "OnRealTimeCallAnalysisAvailable"
