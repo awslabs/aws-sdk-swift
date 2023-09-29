@@ -19,8 +19,8 @@ class AWSRestJson1HttpResponseBindingErrorGeneratableTests {
         contents.shouldSyntacticSanityCheck()
         val expectedContents =
             """
-            enum GreetingWithErrorsOutputError: ClientRuntime.HttpResponseErrorBinding {
-                static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+            public enum GreetingWithErrorsOutputError: ClientRuntime.HttpResponseErrorBinding {
+                public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
                     let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
                     let requestID = httpResponse.requestId
                     let serviceError = try await RestJson1ProtocolClientTypes.makeServiceError(httpResponse, decoder, restJSONError, requestID)

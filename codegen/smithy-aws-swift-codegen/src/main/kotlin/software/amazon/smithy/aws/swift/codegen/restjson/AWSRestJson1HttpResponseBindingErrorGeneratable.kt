@@ -77,13 +77,13 @@ class AWSRestJson1HttpResponseBindingErrorGeneratable : HttpResponseBindingError
                 addImport(SwiftDependency.CLIENT_RUNTIME.target)
 
                 openBlock(
-                    "enum \$L: \$N {",
+                    "public enum \$L: \$N {",
                     "}",
                     operationErrorName,
                     ClientRuntimeTypes.Http.HttpResponseErrorBinding
                 ) {
                     openBlock(
-                        "static func makeError(httpResponse: \$N, decoder: \$D) async throws -> \$N {", "}",
+                        "public static func makeError(httpResponse: \$N, decoder: \$D) async throws -> \$N {", "}",
                         ClientRuntimeTypes.Http.HttpResponse,
                         ClientRuntimeTypes.Serde.ResponseDecoder,
                         SwiftTypes.Error
