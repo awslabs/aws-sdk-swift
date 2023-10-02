@@ -294,6 +294,21 @@ public protocol IoTFleetWiseClientProtocol {
     /// - `ThrottlingException` : The request couldn't be completed due to throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     func getDecoderManifest(input: GetDecoderManifestInput) async throws -> GetDecoderManifestOutputResponse
+    /// Retrieves the encryption configuration for resources and data in Amazon Web Services IoT FleetWise.
+    ///
+    /// - Parameter GetEncryptionConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `GetEncryptionConfigurationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The request couldn't be completed because the server temporarily failed.
+    /// - `AccessDeniedException` : You don't have sufficient permission to perform this action.
+    /// - `ResourceNotFoundException` : The resource wasn't found.
+    /// - `ThrottlingException` : The request couldn't be completed due to throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
+    func getEncryptionConfiguration(input: GetEncryptionConfigurationInput) async throws -> GetEncryptionConfigurationOutputResponse
     /// Retrieves information about a fleet.
     ///
     /// - Parameter GetFleetInput : [no documentation found]
@@ -625,6 +640,22 @@ public protocol IoTFleetWiseClientProtocol {
     /// - `ThrottlingException` : The request couldn't be completed due to throttling.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     func listVehiclesInFleet(input: ListVehiclesInFleetInput) async throws -> ListVehiclesInFleetOutputResponse
+    /// Creates or updates the encryption configuration. Amazon Web Services IoT FleetWise can encrypt your data and resources using an Amazon Web Services managed key. Or, you can use a KMS key that you own and manage. For more information, see [Data encryption](https://docs.aws.amazon.com/iot-fleetwise/latest/developerguide/data-encryption.html) in the Amazon Web Services IoT FleetWise Developer Guide.
+    ///
+    /// - Parameter PutEncryptionConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `PutEncryptionConfigurationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The request couldn't be completed because the server temporarily failed.
+    /// - `AccessDeniedException` : You don't have sufficient permission to perform this action.
+    /// - `ConflictException` : The request has conflicting operations. This can occur if you're trying to perform more than one operation on the same resource at the same time.
+    /// - `ResourceNotFoundException` : The resource wasn't found.
+    /// - `ThrottlingException` : The request couldn't be completed due to throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
+    func putEncryptionConfiguration(input: PutEncryptionConfigurationInput) async throws -> PutEncryptionConfigurationOutputResponse
     /// Creates or updates the logging option.
     ///
     /// - Parameter PutLoggingOptionsInput : [no documentation found]

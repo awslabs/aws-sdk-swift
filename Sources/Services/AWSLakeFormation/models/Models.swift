@@ -143,8 +143,8 @@ extension AddLFTagsToResourceInputBody: Swift.Decodable {
     }
 }
 
-public enum AddLFTagsToResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum AddLFTagsToResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -450,8 +450,8 @@ extension AssumeDecoratedRoleWithSAMLInputBody: Swift.Decodable {
     }
 }
 
-public enum AssumeDecoratedRoleWithSAMLOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum AssumeDecoratedRoleWithSAMLOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -642,8 +642,8 @@ extension BatchGrantPermissionsInputBody: Swift.Decodable {
     }
 }
 
-public enum BatchGrantPermissionsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum BatchGrantPermissionsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -920,8 +920,8 @@ extension BatchRevokePermissionsInputBody: Swift.Decodable {
     }
 }
 
-public enum BatchRevokePermissionsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum BatchRevokePermissionsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -1029,8 +1029,8 @@ extension CancelTransactionInputBody: Swift.Decodable {
     }
 }
 
-public enum CancelTransactionOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum CancelTransactionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -1228,8 +1228,8 @@ extension CommitTransactionInputBody: Swift.Decodable {
     }
 }
 
-public enum CommitTransactionOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum CommitTransactionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -1447,8 +1447,8 @@ extension CreateDataCellsFilterInputBody: Swift.Decodable {
     }
 }
 
-public enum CreateDataCellsFilterOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum CreateDataCellsFilterOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -1559,8 +1559,8 @@ extension CreateLFTagInputBody: Swift.Decodable {
     }
 }
 
-public enum CreateLFTagOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum CreateLFTagOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -1581,6 +1581,93 @@ extension CreateLFTagOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 public struct CreateLFTagOutputResponse: Swift.Equatable {
+
+    public init() { }
+}
+
+extension CreateLakeFormationOptInInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case principal = "Principal"
+        case resource = "Resource"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let principal = self.principal {
+            try encodeContainer.encode(principal, forKey: .principal)
+        }
+        if let resource = self.resource {
+            try encodeContainer.encode(resource, forKey: .resource)
+        }
+    }
+}
+
+extension CreateLakeFormationOptInInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/CreateLakeFormationOptIn"
+    }
+}
+
+public struct CreateLakeFormationOptInInput: Swift.Equatable {
+    /// The Lake Formation principal. Supported principals are IAM users or IAM roles.
+    /// This member is required.
+    public var principal: LakeFormationClientTypes.DataLakePrincipal?
+    /// A structure for the resource.
+    /// This member is required.
+    public var resource: LakeFormationClientTypes.Resource?
+
+    public init(
+        principal: LakeFormationClientTypes.DataLakePrincipal? = nil,
+        resource: LakeFormationClientTypes.Resource? = nil
+    )
+    {
+        self.principal = principal
+        self.resource = resource
+    }
+}
+
+struct CreateLakeFormationOptInInputBody: Swift.Equatable {
+    let principal: LakeFormationClientTypes.DataLakePrincipal?
+    let resource: LakeFormationClientTypes.Resource?
+}
+
+extension CreateLakeFormationOptInInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case principal = "Principal"
+        case resource = "Resource"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let principalDecoded = try containerValues.decodeIfPresent(LakeFormationClientTypes.DataLakePrincipal.self, forKey: .principal)
+        principal = principalDecoded
+        let resourceDecoded = try containerValues.decodeIfPresent(LakeFormationClientTypes.Resource.self, forKey: .resource)
+        resource = resourceDecoded
+    }
+}
+
+enum CreateLakeFormationOptInOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConcurrentModificationException": return try await ConcurrentModificationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "EntityNotFoundException": return try await EntityNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServiceException": return try await InternalServiceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidInputException": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OperationTimeoutException": return try await OperationTimeoutException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension CreateLakeFormationOptInOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct CreateLakeFormationOptInOutputResponse: Swift.Equatable {
 
     public init() { }
 }
@@ -2252,8 +2339,8 @@ extension DeleteDataCellsFilterInputBody: Swift.Decodable {
     }
 }
 
-public enum DeleteDataCellsFilterOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DeleteDataCellsFilterOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -2337,8 +2424,8 @@ extension DeleteLFTagInputBody: Swift.Decodable {
     }
 }
 
-public enum DeleteLFTagOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DeleteLFTagOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -2358,6 +2445,93 @@ extension DeleteLFTagOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 public struct DeleteLFTagOutputResponse: Swift.Equatable {
+
+    public init() { }
+}
+
+extension DeleteLakeFormationOptInInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case principal = "Principal"
+        case resource = "Resource"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let principal = self.principal {
+            try encodeContainer.encode(principal, forKey: .principal)
+        }
+        if let resource = self.resource {
+            try encodeContainer.encode(resource, forKey: .resource)
+        }
+    }
+}
+
+extension DeleteLakeFormationOptInInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/DeleteLakeFormationOptIn"
+    }
+}
+
+public struct DeleteLakeFormationOptInInput: Swift.Equatable {
+    /// The Lake Formation principal. Supported principals are IAM users or IAM roles.
+    /// This member is required.
+    public var principal: LakeFormationClientTypes.DataLakePrincipal?
+    /// A structure for the resource.
+    /// This member is required.
+    public var resource: LakeFormationClientTypes.Resource?
+
+    public init(
+        principal: LakeFormationClientTypes.DataLakePrincipal? = nil,
+        resource: LakeFormationClientTypes.Resource? = nil
+    )
+    {
+        self.principal = principal
+        self.resource = resource
+    }
+}
+
+struct DeleteLakeFormationOptInInputBody: Swift.Equatable {
+    let principal: LakeFormationClientTypes.DataLakePrincipal?
+    let resource: LakeFormationClientTypes.Resource?
+}
+
+extension DeleteLakeFormationOptInInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case principal = "Principal"
+        case resource = "Resource"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let principalDecoded = try containerValues.decodeIfPresent(LakeFormationClientTypes.DataLakePrincipal.self, forKey: .principal)
+        principal = principalDecoded
+        let resourceDecoded = try containerValues.decodeIfPresent(LakeFormationClientTypes.Resource.self, forKey: .resource)
+        resource = resourceDecoded
+    }
+}
+
+enum DeleteLakeFormationOptInOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConcurrentModificationException": return try await ConcurrentModificationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "EntityNotFoundException": return try await EntityNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServiceException": return try await InternalServiceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidInputException": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OperationTimeoutException": return try await OperationTimeoutException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension DeleteLakeFormationOptInOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteLakeFormationOptInOutputResponse: Swift.Equatable {
 
     public init() { }
 }
@@ -2541,8 +2715,8 @@ extension DeleteObjectsOnCancelInputBody: Swift.Decodable {
     }
 }
 
-public enum DeleteObjectsOnCancelOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DeleteObjectsOnCancelOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -2617,8 +2791,8 @@ extension DeregisterResourceInputBody: Swift.Decodable {
     }
 }
 
-public enum DeregisterResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DeregisterResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -2689,8 +2863,8 @@ extension DescribeResourceInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DescribeResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -2791,8 +2965,8 @@ extension DescribeTransactionInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeTransactionOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DescribeTransactionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -3151,8 +3325,8 @@ extension ExtendTransactionInputBody: Swift.Decodable {
     }
 }
 
-public enum ExtendTransactionOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum ExtendTransactionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -3367,8 +3541,8 @@ extension GetDataCellsFilterInputBody: Swift.Decodable {
     }
 }
 
-public enum GetDataCellsFilterOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum GetDataCellsFilterOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -3469,8 +3643,8 @@ extension GetDataLakeSettingsInputBody: Swift.Decodable {
     }
 }
 
-public enum GetDataLakeSettingsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum GetDataLakeSettingsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -3606,8 +3780,8 @@ extension GetEffectivePermissionsForPathInputBody: Swift.Decodable {
     }
 }
 
-public enum GetEffectivePermissionsForPathOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum GetEffectivePermissionsForPathOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -3739,8 +3913,8 @@ extension GetLFTagInputBody: Swift.Decodable {
     }
 }
 
-public enum GetLFTagOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum GetLFTagOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -3871,8 +4045,8 @@ extension GetQueryStateInputBody: Swift.Decodable {
     }
 }
 
-public enum GetQueryStateOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum GetQueryStateOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -3992,8 +4166,8 @@ extension GetQueryStatisticsInputBody: Swift.Decodable {
     }
 }
 
-public enum GetQueryStatisticsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum GetQueryStatisticsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -4140,8 +4314,8 @@ extension GetResourceLFTagsInputBody: Swift.Decodable {
     }
 }
 
-public enum GetResourceLFTagsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum GetResourceLFTagsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -4382,8 +4556,8 @@ extension GetTableObjectsInputBody: Swift.Decodable {
     }
 }
 
-public enum GetTableObjectsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum GetTableObjectsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -4591,8 +4765,8 @@ extension GetTemporaryGluePartitionCredentialsInputBody: Swift.Decodable {
     }
 }
 
-public enum GetTemporaryGluePartitionCredentialsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum GetTemporaryGluePartitionCredentialsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -4797,8 +4971,8 @@ extension GetTemporaryGlueTableCredentialsInputBody: Swift.Decodable {
     }
 }
 
-public enum GetTemporaryGlueTableCredentialsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum GetTemporaryGlueTableCredentialsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -4962,8 +5136,8 @@ extension GetWorkUnitResultsInputBody: Swift.Decodable {
     }
 }
 
-public enum GetWorkUnitResultsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum GetWorkUnitResultsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -5091,8 +5265,8 @@ extension GetWorkUnitsInputBody: Swift.Decodable {
     }
 }
 
-public enum GetWorkUnitsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum GetWorkUnitsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -5356,8 +5530,8 @@ extension GrantPermissionsInputBody: Swift.Decodable {
     }
 }
 
-public enum GrantPermissionsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum GrantPermissionsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -5534,7 +5708,7 @@ extension LakeFormationClientTypes {
         /// The key-name for the LF-tag.
         /// This member is required.
         public var tagKey: Swift.String?
-        /// A list of possible values an attribute can take.
+        /// A list of possible values an attribute can take. The maximum number of values that can be defined for a LF-Tag is 1000. A single API call supports 50 values. You can use multiple API calls to add more values.
         /// This member is required.
         public var tagValues: [Swift.String]?
 
@@ -5802,6 +5976,71 @@ extension LakeFormationClientTypes {
 
 }
 
+extension LakeFormationClientTypes.LakeFormationOptInsInfo: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case lastModified = "LastModified"
+        case lastUpdatedBy = "LastUpdatedBy"
+        case principal = "Principal"
+        case resource = "Resource"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let lastModified = self.lastModified {
+            try encodeContainer.encodeTimestamp(lastModified, format: .epochSeconds, forKey: .lastModified)
+        }
+        if let lastUpdatedBy = self.lastUpdatedBy {
+            try encodeContainer.encode(lastUpdatedBy, forKey: .lastUpdatedBy)
+        }
+        if let principal = self.principal {
+            try encodeContainer.encode(principal, forKey: .principal)
+        }
+        if let resource = self.resource {
+            try encodeContainer.encode(resource, forKey: .resource)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let resourceDecoded = try containerValues.decodeIfPresent(LakeFormationClientTypes.Resource.self, forKey: .resource)
+        resource = resourceDecoded
+        let principalDecoded = try containerValues.decodeIfPresent(LakeFormationClientTypes.DataLakePrincipal.self, forKey: .principal)
+        principal = principalDecoded
+        let lastModifiedDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastModified)
+        lastModified = lastModifiedDecoded
+        let lastUpdatedByDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .lastUpdatedBy)
+        lastUpdatedBy = lastUpdatedByDecoded
+    }
+}
+
+extension LakeFormationClientTypes {
+    /// A single principal-resource pair that has Lake Formation permissins enforced.
+    public struct LakeFormationOptInsInfo: Swift.Equatable {
+        /// The last modified date and time of the record.
+        public var lastModified: ClientRuntime.Date?
+        /// The user who updated the record.
+        public var lastUpdatedBy: Swift.String?
+        /// The Lake Formation principal. Supported principals are IAM users or IAM roles.
+        public var principal: LakeFormationClientTypes.DataLakePrincipal?
+        /// A structure for the resource.
+        public var resource: LakeFormationClientTypes.Resource?
+
+        public init(
+            lastModified: ClientRuntime.Date? = nil,
+            lastUpdatedBy: Swift.String? = nil,
+            principal: LakeFormationClientTypes.DataLakePrincipal? = nil,
+            resource: LakeFormationClientTypes.Resource? = nil
+        )
+        {
+            self.lastModified = lastModified
+            self.lastUpdatedBy = lastUpdatedBy
+            self.principal = principal
+            self.resource = resource
+        }
+    }
+
+}
+
 extension ListDataCellsFilterInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case maxResults = "MaxResults"
@@ -5873,8 +6112,8 @@ extension ListDataCellsFilterInputBody: Swift.Decodable {
     }
 }
 
-public enum ListDataCellsFilterOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum ListDataCellsFilterOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -6029,8 +6268,8 @@ extension ListLFTagsInputBody: Swift.Decodable {
     }
 }
 
-public enum ListLFTagsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum ListLFTagsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -6098,6 +6337,162 @@ extension ListLFTagsOutputResponseBody: Swift.Decodable {
             }
         }
         lfTags = lfTagsDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+extension ListLakeFormationOptInsInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case maxResults = "MaxResults"
+        case nextToken = "NextToken"
+        case principal = "Principal"
+        case resource = "Resource"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let maxResults = self.maxResults {
+            try encodeContainer.encode(maxResults, forKey: .maxResults)
+        }
+        if let nextToken = self.nextToken {
+            try encodeContainer.encode(nextToken, forKey: .nextToken)
+        }
+        if let principal = self.principal {
+            try encodeContainer.encode(principal, forKey: .principal)
+        }
+        if let resource = self.resource {
+            try encodeContainer.encode(resource, forKey: .resource)
+        }
+    }
+}
+
+extension ListLakeFormationOptInsInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/ListLakeFormationOptIns"
+    }
+}
+
+public struct ListLakeFormationOptInsInput: Swift.Equatable {
+    /// The maximum number of results to return.
+    public var maxResults: Swift.Int?
+    /// A continuation token, if this is not the first call to retrieve this list.
+    public var nextToken: Swift.String?
+    /// The Lake Formation principal. Supported principals are IAM users or IAM roles.
+    public var principal: LakeFormationClientTypes.DataLakePrincipal?
+    /// A structure for the resource.
+    public var resource: LakeFormationClientTypes.Resource?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        principal: LakeFormationClientTypes.DataLakePrincipal? = nil,
+        resource: LakeFormationClientTypes.Resource? = nil
+    )
+    {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.principal = principal
+        self.resource = resource
+    }
+}
+
+struct ListLakeFormationOptInsInputBody: Swift.Equatable {
+    let principal: LakeFormationClientTypes.DataLakePrincipal?
+    let resource: LakeFormationClientTypes.Resource?
+    let maxResults: Swift.Int?
+    let nextToken: Swift.String?
+}
+
+extension ListLakeFormationOptInsInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case maxResults = "MaxResults"
+        case nextToken = "NextToken"
+        case principal = "Principal"
+        case resource = "Resource"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let principalDecoded = try containerValues.decodeIfPresent(LakeFormationClientTypes.DataLakePrincipal.self, forKey: .principal)
+        principal = principalDecoded
+        let resourceDecoded = try containerValues.decodeIfPresent(LakeFormationClientTypes.Resource.self, forKey: .resource)
+        resource = resourceDecoded
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
+        maxResults = maxResultsDecoded
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+enum ListLakeFormationOptInsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServiceException": return try await InternalServiceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidInputException": return try await InvalidInputException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OperationTimeoutException": return try await OperationTimeoutException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension ListLakeFormationOptInsOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ListLakeFormationOptInsOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.lakeFormationOptInsInfoList = output.lakeFormationOptInsInfoList
+            self.nextToken = output.nextToken
+        } else {
+            self.lakeFormationOptInsInfoList = nil
+            self.nextToken = nil
+        }
+    }
+}
+
+public struct ListLakeFormationOptInsOutputResponse: Swift.Equatable {
+    /// A list of principal-resource pairs that have Lake Formation permissins enforced.
+    public var lakeFormationOptInsInfoList: [LakeFormationClientTypes.LakeFormationOptInsInfo]?
+    /// A continuation token, if this is not the first call to retrieve this list.
+    public var nextToken: Swift.String?
+
+    public init(
+        lakeFormationOptInsInfoList: [LakeFormationClientTypes.LakeFormationOptInsInfo]? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.lakeFormationOptInsInfoList = lakeFormationOptInsInfoList
+        self.nextToken = nextToken
+    }
+}
+
+struct ListLakeFormationOptInsOutputResponseBody: Swift.Equatable {
+    let lakeFormationOptInsInfoList: [LakeFormationClientTypes.LakeFormationOptInsInfo]?
+    let nextToken: Swift.String?
+}
+
+extension ListLakeFormationOptInsOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case lakeFormationOptInsInfoList = "LakeFormationOptInsInfoList"
+        case nextToken = "NextToken"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let lakeFormationOptInsInfoListContainer = try containerValues.decodeIfPresent([LakeFormationClientTypes.LakeFormationOptInsInfo?].self, forKey: .lakeFormationOptInsInfoList)
+        var lakeFormationOptInsInfoListDecoded0:[LakeFormationClientTypes.LakeFormationOptInsInfo]? = nil
+        if let lakeFormationOptInsInfoListContainer = lakeFormationOptInsInfoListContainer {
+            lakeFormationOptInsInfoListDecoded0 = [LakeFormationClientTypes.LakeFormationOptInsInfo]()
+            for structure0 in lakeFormationOptInsInfoListContainer {
+                if let structure0 = structure0 {
+                    lakeFormationOptInsInfoListDecoded0?.append(structure0)
+                }
+            }
+        }
+        lakeFormationOptInsInfoList = lakeFormationOptInsInfoListDecoded0
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
     }
@@ -6222,8 +6617,8 @@ extension ListPermissionsInputBody: Swift.Decodable {
     }
 }
 
-public enum ListPermissionsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum ListPermissionsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -6377,8 +6772,8 @@ extension ListResourcesInputBody: Swift.Decodable {
     }
 }
 
-public enum ListResourcesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum ListResourcesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -6558,8 +6953,8 @@ extension ListTableStorageOptimizersInputBody: Swift.Decodable {
     }
 }
 
-public enum ListTableStorageOptimizersOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum ListTableStorageOptimizersOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -6714,8 +7109,8 @@ extension ListTransactionsInputBody: Swift.Decodable {
     }
 }
 
-public enum ListTransactionsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum ListTransactionsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -7278,6 +7673,8 @@ extension LakeFormationClientTypes {
 extension LakeFormationClientTypes.PrincipalResourcePermissions: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case additionalDetails = "AdditionalDetails"
+        case lastUpdated = "LastUpdated"
+        case lastUpdatedBy = "LastUpdatedBy"
         case permissions = "Permissions"
         case permissionsWithGrantOption = "PermissionsWithGrantOption"
         case principal = "Principal"
@@ -7288,6 +7685,12 @@ extension LakeFormationClientTypes.PrincipalResourcePermissions: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let additionalDetails = self.additionalDetails {
             try encodeContainer.encode(additionalDetails, forKey: .additionalDetails)
+        }
+        if let lastUpdated = self.lastUpdated {
+            try encodeContainer.encodeTimestamp(lastUpdated, format: .epochSeconds, forKey: .lastUpdated)
+        }
+        if let lastUpdatedBy = self.lastUpdatedBy {
+            try encodeContainer.encode(lastUpdatedBy, forKey: .lastUpdatedBy)
         }
         if let permissions = permissions {
             var permissionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .permissions)
@@ -7339,6 +7742,10 @@ extension LakeFormationClientTypes.PrincipalResourcePermissions: Swift.Codable {
         permissionsWithGrantOption = permissionsWithGrantOptionDecoded0
         let additionalDetailsDecoded = try containerValues.decodeIfPresent(LakeFormationClientTypes.DetailsMap.self, forKey: .additionalDetails)
         additionalDetails = additionalDetailsDecoded
+        let lastUpdatedDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastUpdated)
+        lastUpdated = lastUpdatedDecoded
+        let lastUpdatedByDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .lastUpdatedBy)
+        lastUpdatedBy = lastUpdatedByDecoded
     }
 }
 
@@ -7347,6 +7754,10 @@ extension LakeFormationClientTypes {
     public struct PrincipalResourcePermissions: Swift.Equatable {
         /// This attribute can be used to return any additional details of PrincipalResourcePermissions. Currently returns only as a RAM resource share ARN.
         public var additionalDetails: LakeFormationClientTypes.DetailsMap?
+        /// The date and time when the resource was last updated.
+        public var lastUpdated: ClientRuntime.Date?
+        /// The user who updated the record.
+        public var lastUpdatedBy: Swift.String?
         /// The permissions to be granted or revoked on the resource.
         public var permissions: [LakeFormationClientTypes.Permission]?
         /// Indicates whether to grant the ability to grant permissions (as a subset of permissions granted).
@@ -7358,6 +7769,8 @@ extension LakeFormationClientTypes {
 
         public init(
             additionalDetails: LakeFormationClientTypes.DetailsMap? = nil,
+            lastUpdated: ClientRuntime.Date? = nil,
+            lastUpdatedBy: Swift.String? = nil,
             permissions: [LakeFormationClientTypes.Permission]? = nil,
             permissionsWithGrantOption: [LakeFormationClientTypes.Permission]? = nil,
             principal: LakeFormationClientTypes.DataLakePrincipal? = nil,
@@ -7365,6 +7778,8 @@ extension LakeFormationClientTypes {
         )
         {
             self.additionalDetails = additionalDetails
+            self.lastUpdated = lastUpdated
+            self.lastUpdatedBy = lastUpdatedBy
             self.permissions = permissions
             self.permissionsWithGrantOption = permissionsWithGrantOption
             self.principal = principal
@@ -7434,8 +7849,8 @@ extension PutDataLakeSettingsInputBody: Swift.Decodable {
     }
 }
 
-public enum PutDataLakeSettingsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum PutDataLakeSettingsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -7587,6 +8002,7 @@ extension LakeFormationClientTypes {
 
 extension RegisterResourceInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case hybridAccessEnabled = "HybridAccessEnabled"
         case resourceArn = "ResourceArn"
         case roleArn = "RoleArn"
         case useServiceLinkedRole = "UseServiceLinkedRole"
@@ -7595,6 +8011,9 @@ extension RegisterResourceInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let hybridAccessEnabled = self.hybridAccessEnabled {
+            try encodeContainer.encode(hybridAccessEnabled, forKey: .hybridAccessEnabled)
+        }
         if let resourceArn = self.resourceArn {
             try encodeContainer.encode(resourceArn, forKey: .resourceArn)
         }
@@ -7617,6 +8036,8 @@ extension RegisterResourceInput: ClientRuntime.URLPathProvider {
 }
 
 public struct RegisterResourceInput: Swift.Equatable {
+    /// Specifies whether the data access of tables pointing to the location can be managed by both Lake Formation permissions as well as Amazon S3 bucket policies.
+    public var hybridAccessEnabled: Swift.Bool?
     /// The Amazon Resource Name (ARN) of the resource that you want to register.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -7628,12 +8049,14 @@ public struct RegisterResourceInput: Swift.Equatable {
     public var withFederation: Swift.Bool?
 
     public init(
+        hybridAccessEnabled: Swift.Bool? = nil,
         resourceArn: Swift.String? = nil,
         roleArn: Swift.String? = nil,
         useServiceLinkedRole: Swift.Bool? = nil,
         withFederation: Swift.Bool? = nil
     )
     {
+        self.hybridAccessEnabled = hybridAccessEnabled
         self.resourceArn = resourceArn
         self.roleArn = roleArn
         self.useServiceLinkedRole = useServiceLinkedRole
@@ -7646,10 +8069,12 @@ struct RegisterResourceInputBody: Swift.Equatable {
     let useServiceLinkedRole: Swift.Bool?
     let roleArn: Swift.String?
     let withFederation: Swift.Bool?
+    let hybridAccessEnabled: Swift.Bool?
 }
 
 extension RegisterResourceInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case hybridAccessEnabled = "HybridAccessEnabled"
         case resourceArn = "ResourceArn"
         case roleArn = "RoleArn"
         case useServiceLinkedRole = "UseServiceLinkedRole"
@@ -7666,11 +8091,13 @@ extension RegisterResourceInputBody: Swift.Decodable {
         roleArn = roleArnDecoded
         let withFederationDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .withFederation)
         withFederation = withFederationDecoded
+        let hybridAccessEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .hybridAccessEnabled)
+        hybridAccessEnabled = hybridAccessEnabledDecoded
     }
 }
 
-public enum RegisterResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum RegisterResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -7781,8 +8208,8 @@ extension RemoveLFTagsFromResourceInputBody: Swift.Decodable {
     }
 }
 
-public enum RemoveLFTagsFromResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum RemoveLFTagsFromResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -7954,6 +8381,7 @@ extension LakeFormationClientTypes {
 
 extension LakeFormationClientTypes.ResourceInfo: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case hybridAccessEnabled = "HybridAccessEnabled"
         case lastModified = "LastModified"
         case resourceArn = "ResourceArn"
         case roleArn = "RoleArn"
@@ -7962,6 +8390,9 @@ extension LakeFormationClientTypes.ResourceInfo: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let hybridAccessEnabled = self.hybridAccessEnabled {
+            try encodeContainer.encode(hybridAccessEnabled, forKey: .hybridAccessEnabled)
+        }
         if let lastModified = self.lastModified {
             try encodeContainer.encodeTimestamp(lastModified, format: .epochSeconds, forKey: .lastModified)
         }
@@ -7986,12 +8417,16 @@ extension LakeFormationClientTypes.ResourceInfo: Swift.Codable {
         lastModified = lastModifiedDecoded
         let withFederationDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .withFederation)
         withFederation = withFederationDecoded
+        let hybridAccessEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .hybridAccessEnabled)
+        hybridAccessEnabled = hybridAccessEnabledDecoded
     }
 }
 
 extension LakeFormationClientTypes {
     /// A structure containing information about an Lake Formation resource.
     public struct ResourceInfo: Swift.Equatable {
+        /// Indicates whether the data access of tables pointing to the location can be managed by both Lake Formation permissions as well as Amazon S3 bucket policies.
+        public var hybridAccessEnabled: Swift.Bool?
         /// The date and time the resource was last modified.
         public var lastModified: ClientRuntime.Date?
         /// The Amazon Resource Name (ARN) of the resource.
@@ -8002,12 +8437,14 @@ extension LakeFormationClientTypes {
         public var withFederation: Swift.Bool?
 
         public init(
+            hybridAccessEnabled: Swift.Bool? = nil,
             lastModified: ClientRuntime.Date? = nil,
             resourceArn: Swift.String? = nil,
             roleArn: Swift.String? = nil,
             withFederation: Swift.Bool? = nil
         )
         {
+            self.hybridAccessEnabled = hybridAccessEnabled
             self.lastModified = lastModified
             self.resourceArn = resourceArn
             self.roleArn = roleArn
@@ -8315,8 +8752,8 @@ extension RevokePermissionsInputBody: Swift.Decodable {
     }
 }
 
-public enum RevokePermissionsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum RevokePermissionsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -8479,8 +8916,8 @@ extension SearchDatabasesByLFTagsInputBody: Swift.Decodable {
     }
 }
 
-public enum SearchDatabasesByLFTagsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum SearchDatabasesByLFTagsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -8650,8 +9087,8 @@ extension SearchTablesByLFTagsInputBody: Swift.Decodable {
     }
 }
 
-public enum SearchTablesByLFTagsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum SearchTablesByLFTagsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -8791,8 +9228,8 @@ extension StartQueryPlanningInputBody: Swift.Decodable {
     }
 }
 
-public enum StartQueryPlanningOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum StartQueryPlanningOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -8894,8 +9331,8 @@ extension StartTransactionInputBody: Swift.Decodable {
     }
 }
 
-public enum StartTransactionOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum StartTransactionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -9925,8 +10362,8 @@ extension UpdateDataCellsFilterInputBody: Swift.Decodable {
     }
 }
 
-public enum UpdateDataCellsFilterOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum UpdateDataCellsFilterOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -10059,8 +10496,8 @@ extension UpdateLFTagInputBody: Swift.Decodable {
     }
 }
 
-public enum UpdateLFTagOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum UpdateLFTagOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -10087,6 +10524,7 @@ public struct UpdateLFTagOutputResponse: Swift.Equatable {
 
 extension UpdateResourceInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case hybridAccessEnabled = "HybridAccessEnabled"
         case resourceArn = "ResourceArn"
         case roleArn = "RoleArn"
         case withFederation = "WithFederation"
@@ -10094,6 +10532,9 @@ extension UpdateResourceInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let hybridAccessEnabled = self.hybridAccessEnabled {
+            try encodeContainer.encode(hybridAccessEnabled, forKey: .hybridAccessEnabled)
+        }
         if let resourceArn = self.resourceArn {
             try encodeContainer.encode(resourceArn, forKey: .resourceArn)
         }
@@ -10113,6 +10554,8 @@ extension UpdateResourceInput: ClientRuntime.URLPathProvider {
 }
 
 public struct UpdateResourceInput: Swift.Equatable {
+    /// Specifies whether the data access of tables pointing to the location can be managed by both Lake Formation permissions as well as Amazon S3 bucket policies.
+    public var hybridAccessEnabled: Swift.Bool?
     /// The resource ARN.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -10123,11 +10566,13 @@ public struct UpdateResourceInput: Swift.Equatable {
     public var withFederation: Swift.Bool?
 
     public init(
+        hybridAccessEnabled: Swift.Bool? = nil,
         resourceArn: Swift.String? = nil,
         roleArn: Swift.String? = nil,
         withFederation: Swift.Bool? = nil
     )
     {
+        self.hybridAccessEnabled = hybridAccessEnabled
         self.resourceArn = resourceArn
         self.roleArn = roleArn
         self.withFederation = withFederation
@@ -10138,10 +10583,12 @@ struct UpdateResourceInputBody: Swift.Equatable {
     let roleArn: Swift.String?
     let resourceArn: Swift.String?
     let withFederation: Swift.Bool?
+    let hybridAccessEnabled: Swift.Bool?
 }
 
 extension UpdateResourceInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case hybridAccessEnabled = "HybridAccessEnabled"
         case resourceArn = "ResourceArn"
         case roleArn = "RoleArn"
         case withFederation = "WithFederation"
@@ -10155,11 +10602,13 @@ extension UpdateResourceInputBody: Swift.Decodable {
         resourceArn = resourceArnDecoded
         let withFederationDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .withFederation)
         withFederation = withFederationDecoded
+        let hybridAccessEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .hybridAccessEnabled)
+        hybridAccessEnabled = hybridAccessEnabledDecoded
     }
 }
 
-public enum UpdateResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum UpdateResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -10292,8 +10741,8 @@ extension UpdateTableObjectsInputBody: Swift.Decodable {
     }
 }
 
-public enum UpdateTableObjectsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum UpdateTableObjectsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -10429,8 +10878,8 @@ extension UpdateTableStorageOptimizerInputBody: Swift.Decodable {
     }
 }
 
-public enum UpdateTableStorageOptimizerOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum UpdateTableStorageOptimizerOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {

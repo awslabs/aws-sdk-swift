@@ -1981,6 +1981,21 @@ public protocol ConnectClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
     func listSecurityKeys(input: ListSecurityKeysInput) async throws -> ListSecurityKeysOutputResponse
+    /// Returns a list of third party applications in a specific security profile.
+    ///
+    /// - Parameter ListSecurityProfileApplicationsInput : [no documentation found]
+    ///
+    /// - Returns: `ListSecurityProfileApplicationsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
+    func listSecurityProfileApplications(input: ListSecurityProfileApplicationsInput) async throws -> ListSecurityProfileApplicationsOutputResponse
     /// This API is in preview release for Amazon Connect and is subject to change. Lists the permissions granted to a security profile.
     ///
     /// - Parameter ListSecurityProfilePermissionsInput : [no documentation found]
