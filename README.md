@@ -16,7 +16,7 @@ This library is licensed under the Apache 2.0 License.
 ## Requirements
 
 The AWS SDK for Swift supports the following:
-- Swift 5.5 or higher
+- Swift 5.7 or higher
 - iOS & iPadOS 13.0 or higher
 - macOS 10.15 or higher
 - Ubuntu Linux 16.04 LTS or higher
