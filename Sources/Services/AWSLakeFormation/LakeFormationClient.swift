@@ -452,6 +452,55 @@ extension LakeFormationClient: LakeFormationClientProtocol {
         return result
     }
 
+    /// Enforce Lake Formation permissions for the given databases, tables, and principals.
+    ///
+    /// - Parameter CreateLakeFormationOptInInput : [no documentation found]
+    ///
+    /// - Returns: `CreateLakeFormationOptInOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to a resource was denied.
+    /// - `ConcurrentModificationException` : Two processes are trying to modify a resource simultaneously.
+    /// - `EntityNotFoundException` : A specified entity does not exist.
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
+    public func createLakeFormationOptIn(input: CreateLakeFormationOptInInput) async throws -> CreateLakeFormationOptInOutputResponse
+    {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "createLakeFormationOptIn")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withCredentialsProvider(value: config.credentialsProvider)
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "lakeformation")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<CreateLakeFormationOptInInput, CreateLakeFormationOptInOutputResponse, CreateLakeFormationOptInOutputError>(id: "createLakeFormationOptIn")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateLakeFormationOptInInput, CreateLakeFormationOptInOutputResponse, CreateLakeFormationOptInOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateLakeFormationOptInInput, CreateLakeFormationOptInOutputResponse>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateLakeFormationOptInOutputResponse, CreateLakeFormationOptInOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateLakeFormationOptInInput, CreateLakeFormationOptInOutputResponse>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateLakeFormationOptInInput, CreateLakeFormationOptInOutputResponse>(xmlName: "CreateLakeFormationOptInRequest"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateLakeFormationOptInOutputResponse, CreateLakeFormationOptInOutputError>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateLakeFormationOptInOutputResponse, CreateLakeFormationOptInOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateLakeFormationOptInOutputResponse, CreateLakeFormationOptInOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateLakeFormationOptInOutputResponse, CreateLakeFormationOptInOutputError>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
     /// Deletes a data cell filter.
     ///
     /// - Parameter DeleteDataCellsFilterInput : [no documentation found]
@@ -544,6 +593,55 @@ extension LakeFormationClient: LakeFormationClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteLFTagOutputResponse, DeleteLFTagOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteLFTagOutputResponse, DeleteLFTagOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteLFTagOutputResponse, DeleteLFTagOutputError>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
+    /// Remove the Lake Formation permissions enforcement of the given databases, tables, and principals.
+    ///
+    /// - Parameter DeleteLakeFormationOptInInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteLakeFormationOptInOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to a resource was denied.
+    /// - `ConcurrentModificationException` : Two processes are trying to modify a resource simultaneously.
+    /// - `EntityNotFoundException` : A specified entity does not exist.
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
+    public func deleteLakeFormationOptIn(input: DeleteLakeFormationOptInInput) async throws -> DeleteLakeFormationOptInOutputResponse
+    {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "deleteLakeFormationOptIn")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withCredentialsProvider(value: config.credentialsProvider)
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "lakeformation")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<DeleteLakeFormationOptInInput, DeleteLakeFormationOptInOutputResponse, DeleteLakeFormationOptInOutputError>(id: "deleteLakeFormationOptIn")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteLakeFormationOptInInput, DeleteLakeFormationOptInOutputResponse, DeleteLakeFormationOptInOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteLakeFormationOptInInput, DeleteLakeFormationOptInOutputResponse>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteLakeFormationOptInOutputResponse, DeleteLakeFormationOptInOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteLakeFormationOptInInput, DeleteLakeFormationOptInOutputResponse>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteLakeFormationOptInInput, DeleteLakeFormationOptInOutputResponse>(xmlName: "DeleteLakeFormationOptInRequest"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteLakeFormationOptInOutputResponse, DeleteLakeFormationOptInOutputError>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteLakeFormationOptInOutputResponse, DeleteLakeFormationOptInOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteLakeFormationOptInOutputResponse, DeleteLakeFormationOptInOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteLakeFormationOptInOutputResponse, DeleteLakeFormationOptInOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1504,6 +1602,53 @@ extension LakeFormationClient: LakeFormationClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListLFTagsOutputResponse, ListLFTagsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListLFTagsOutputResponse, ListLFTagsOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListLFTagsOutputResponse, ListLFTagsOutputError>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
+    /// Retrieve the current list of resources and principals that are opt in to enforce Lake Formation permissions.
+    ///
+    /// - Parameter ListLakeFormationOptInsInput : [no documentation found]
+    ///
+    /// - Returns: `ListLakeFormationOptInsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to a resource was denied.
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
+    public func listLakeFormationOptIns(input: ListLakeFormationOptInsInput) async throws -> ListLakeFormationOptInsOutputResponse
+    {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listLakeFormationOptIns")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withCredentialsProvider(value: config.credentialsProvider)
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "lakeformation")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<ListLakeFormationOptInsInput, ListLakeFormationOptInsOutputResponse, ListLakeFormationOptInsOutputError>(id: "listLakeFormationOptIns")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListLakeFormationOptInsInput, ListLakeFormationOptInsOutputResponse, ListLakeFormationOptInsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListLakeFormationOptInsInput, ListLakeFormationOptInsOutputResponse>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListLakeFormationOptInsOutputResponse, ListLakeFormationOptInsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListLakeFormationOptInsInput, ListLakeFormationOptInsOutputResponse>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListLakeFormationOptInsInput, ListLakeFormationOptInsOutputResponse>(xmlName: "ListLakeFormationOptInsRequest"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListLakeFormationOptInsOutputResponse, ListLakeFormationOptInsOutputError>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListLakeFormationOptInsOutputResponse, ListLakeFormationOptInsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListLakeFormationOptInsOutputResponse, ListLakeFormationOptInsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListLakeFormationOptInsOutputResponse, ListLakeFormationOptInsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }

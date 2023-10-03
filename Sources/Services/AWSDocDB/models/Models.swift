@@ -69,8 +69,8 @@ extension AddSourceIdentifierToSubscriptionInputBody: Swift.Decodable {
     }
 }
 
-public enum AddSourceIdentifierToSubscriptionOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum AddSourceIdentifierToSubscriptionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "SourceNotFound": return try await SourceNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -206,8 +206,8 @@ extension AddTagsToResourceInputBody: Swift.Decodable {
     }
 }
 
-public enum AddTagsToResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum AddTagsToResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "DBClusterNotFoundFault": return try await DBClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -337,8 +337,8 @@ extension ApplyPendingMaintenanceActionInputBody: Swift.Decodable {
     }
 }
 
-public enum ApplyPendingMaintenanceActionOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum ApplyPendingMaintenanceActionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "InvalidDBClusterStateFault": return try await InvalidDBClusterStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -504,10 +504,10 @@ extension DocDBClientTypes.Certificate: Swift.Codable {
             try container.encode(thumbprint, forKey: ClientRuntime.Key("Thumbprint"))
         }
         if let validFrom = validFrom {
-            try container.encodeTimestamp(validFrom, format: .dateTime, forKey: ClientRuntime.Key("validFrom"))
+            try container.encodeTimestamp(validFrom, format: .dateTime, forKey: ClientRuntime.Key("ValidFrom"))
         }
         if let validTill = validTill {
-            try container.encodeTimestamp(validTill, format: .dateTime, forKey: ClientRuntime.Key("validTill"))
+            try container.encodeTimestamp(validTill, format: .dateTime, forKey: ClientRuntime.Key("ValidTill"))
         }
     }
 
@@ -840,8 +840,8 @@ extension CopyDBClusterParameterGroupInputBody: Swift.Decodable {
     }
 }
 
-public enum CopyDBClusterParameterGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum CopyDBClusterParameterGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "DBParameterGroupAlreadyExists": return try await DBParameterGroupAlreadyExistsFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -1046,8 +1046,8 @@ extension CopyDBClusterSnapshotInputBody: Swift.Decodable {
     }
 }
 
-public enum CopyDBClusterSnapshotOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum CopyDBClusterSnapshotOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "DBClusterSnapshotAlreadyExistsFault": return try await DBClusterSnapshotAlreadyExistsFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -1493,8 +1493,8 @@ extension CreateDBClusterInputBody: Swift.Decodable {
     }
 }
 
-public enum CreateDBClusterOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum CreateDBClusterOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "DBClusterAlreadyExistsFault": return try await DBClusterAlreadyExistsFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -1673,8 +1673,8 @@ extension CreateDBClusterParameterGroupInputBody: Swift.Decodable {
     }
 }
 
-public enum CreateDBClusterParameterGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum CreateDBClusterParameterGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "DBParameterGroupAlreadyExists": return try await DBParameterGroupAlreadyExistsFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -1835,8 +1835,8 @@ extension CreateDBClusterSnapshotInputBody: Swift.Decodable {
     }
 }
 
-public enum CreateDBClusterSnapshotOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum CreateDBClusterSnapshotOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "DBClusterNotFoundFault": return try await DBClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -2096,8 +2096,8 @@ extension CreateDBInstanceInputBody: Swift.Decodable {
     }
 }
 
-public enum CreateDBInstanceOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum CreateDBInstanceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "AuthorizationNotFound": return try await AuthorizationNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -2295,8 +2295,8 @@ extension CreateDBSubnetGroupInputBody: Swift.Decodable {
     }
 }
 
-public enum CreateDBSubnetGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum CreateDBSubnetGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "DBSubnetGroupAlreadyExists": return try await DBSubnetGroupAlreadyExistsFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -2552,8 +2552,8 @@ extension CreateEventSubscriptionInputBody: Swift.Decodable {
     }
 }
 
-public enum CreateEventSubscriptionOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum CreateEventSubscriptionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "EventSubscriptionQuotaExceeded": return try await EventSubscriptionQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -2722,8 +2722,8 @@ extension CreateGlobalClusterInputBody: Swift.Decodable {
     }
 }
 
-public enum CreateGlobalClusterOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum CreateGlobalClusterOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "DBClusterNotFoundFault": return try await DBClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -2845,7 +2845,7 @@ extension DocDBClientTypes.DBCluster: Swift.Codable {
             try container.encode(cloneGroupId, forKey: ClientRuntime.Key("CloneGroupId"))
         }
         if let clusterCreateTime = clusterCreateTime {
-            try container.encodeTimestamp(clusterCreateTime, format: .dateTime, forKey: ClientRuntime.Key("clusterCreateTime"))
+            try container.encodeTimestamp(clusterCreateTime, format: .dateTime, forKey: ClientRuntime.Key("ClusterCreateTime"))
         }
         if let dbClusterArn = dbClusterArn {
             try container.encode(dbClusterArn, forKey: ClientRuntime.Key("DBClusterArn"))
@@ -2878,7 +2878,7 @@ extension DocDBClientTypes.DBCluster: Swift.Codable {
             try container.encode(deletionProtection, forKey: ClientRuntime.Key("DeletionProtection"))
         }
         if let earliestRestorableTime = earliestRestorableTime {
-            try container.encodeTimestamp(earliestRestorableTime, format: .dateTime, forKey: ClientRuntime.Key("earliestRestorableTime"))
+            try container.encodeTimestamp(earliestRestorableTime, format: .dateTime, forKey: ClientRuntime.Key("EarliestRestorableTime"))
         }
         if let enabledCloudwatchLogsExports = enabledCloudwatchLogsExports {
             if !enabledCloudwatchLogsExports.isEmpty {
@@ -2908,7 +2908,7 @@ extension DocDBClientTypes.DBCluster: Swift.Codable {
             try container.encode(kmsKeyId, forKey: ClientRuntime.Key("KmsKeyId"))
         }
         if let latestRestorableTime = latestRestorableTime {
-            try container.encodeTimestamp(latestRestorableTime, format: .dateTime, forKey: ClientRuntime.Key("latestRestorableTime"))
+            try container.encodeTimestamp(latestRestorableTime, format: .dateTime, forKey: ClientRuntime.Key("LatestRestorableTime"))
         }
         if let masterUsername = masterUsername {
             try container.encode(masterUsername, forKey: ClientRuntime.Key("MasterUsername"))
@@ -3710,7 +3710,7 @@ extension DocDBClientTypes.DBClusterSnapshot: Swift.Codable {
             }
         }
         if let clusterCreateTime = clusterCreateTime {
-            try container.encodeTimestamp(clusterCreateTime, format: .dateTime, forKey: ClientRuntime.Key("clusterCreateTime"))
+            try container.encodeTimestamp(clusterCreateTime, format: .dateTime, forKey: ClientRuntime.Key("ClusterCreateTime"))
         }
         if let dbClusterIdentifier = dbClusterIdentifier {
             try container.encode(dbClusterIdentifier, forKey: ClientRuntime.Key("DBClusterIdentifier"))
@@ -3740,7 +3740,7 @@ extension DocDBClientTypes.DBClusterSnapshot: Swift.Codable {
             try container.encode(port, forKey: ClientRuntime.Key("Port"))
         }
         if let snapshotCreateTime = snapshotCreateTime {
-            try container.encodeTimestamp(snapshotCreateTime, format: .dateTime, forKey: ClientRuntime.Key("snapshotCreateTime"))
+            try container.encodeTimestamp(snapshotCreateTime, format: .dateTime, forKey: ClientRuntime.Key("SnapshotCreateTime"))
         }
         if let snapshotType = snapshotType {
             try container.encode(snapshotType, forKey: ClientRuntime.Key("SnapshotType"))
@@ -4393,13 +4393,13 @@ extension DocDBClientTypes.DBInstance: Swift.Codable {
             try container.encode(engineVersion, forKey: ClientRuntime.Key("EngineVersion"))
         }
         if let instanceCreateTime = instanceCreateTime {
-            try container.encodeTimestamp(instanceCreateTime, format: .dateTime, forKey: ClientRuntime.Key("instanceCreateTime"))
+            try container.encodeTimestamp(instanceCreateTime, format: .dateTime, forKey: ClientRuntime.Key("InstanceCreateTime"))
         }
         if let kmsKeyId = kmsKeyId {
             try container.encode(kmsKeyId, forKey: ClientRuntime.Key("KmsKeyId"))
         }
         if let latestRestorableTime = latestRestorableTime {
-            try container.encodeTimestamp(latestRestorableTime, format: .dateTime, forKey: ClientRuntime.Key("latestRestorableTime"))
+            try container.encodeTimestamp(latestRestorableTime, format: .dateTime, forKey: ClientRuntime.Key("LatestRestorableTime"))
         }
         if let pendingModifiedValues = pendingModifiedValues {
             try container.encode(pendingModifiedValues, forKey: ClientRuntime.Key("PendingModifiedValues"))
@@ -5684,8 +5684,8 @@ extension DeleteDBClusterInputBody: Swift.Decodable {
     }
 }
 
-public enum DeleteDBClusterOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DeleteDBClusterOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "DBClusterNotFoundFault": return try await DBClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -5792,8 +5792,8 @@ extension DeleteDBClusterParameterGroupInputBody: Swift.Decodable {
     }
 }
 
-public enum DeleteDBClusterParameterGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DeleteDBClusterParameterGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "DBParameterGroupNotFound": return try await DBParameterGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -5860,8 +5860,8 @@ extension DeleteDBClusterSnapshotInputBody: Swift.Decodable {
     }
 }
 
-public enum DeleteDBClusterSnapshotOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DeleteDBClusterSnapshotOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "DBClusterSnapshotNotFoundFault": return try await DBClusterSnapshotNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -5961,8 +5961,8 @@ extension DeleteDBInstanceInputBody: Swift.Decodable {
     }
 }
 
-public enum DeleteDBInstanceOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DeleteDBInstanceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "DBInstanceNotFound": return try await DBInstanceNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -6063,8 +6063,8 @@ extension DeleteDBSubnetGroupInputBody: Swift.Decodable {
     }
 }
 
-public enum DeleteDBSubnetGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DeleteDBSubnetGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "DBSubnetGroupNotFoundFault": return try await DBSubnetGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -6132,8 +6132,8 @@ extension DeleteEventSubscriptionInputBody: Swift.Decodable {
     }
 }
 
-public enum DeleteEventSubscriptionOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DeleteEventSubscriptionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "InvalidEventSubscriptionState": return try await InvalidEventSubscriptionStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -6231,8 +6231,8 @@ extension DeleteGlobalClusterInputBody: Swift.Decodable {
     }
 }
 
-public enum DeleteGlobalClusterOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DeleteGlobalClusterOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "GlobalClusterNotFoundFault": return try await GlobalClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -6393,8 +6393,8 @@ extension DescribeCertificatesInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeCertificatesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DescribeCertificatesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "CertificateNotFound": return try await CertificateNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -6578,8 +6578,8 @@ extension DescribeDBClusterParameterGroupsInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeDBClusterParameterGroupsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DescribeDBClusterParameterGroupsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "DBParameterGroupNotFound": return try await DBParameterGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -6776,8 +6776,8 @@ extension DescribeDBClusterParametersInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeDBClusterParametersOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DescribeDBClusterParametersOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "DBParameterGroupNotFound": return try await DBParameterGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -6902,8 +6902,8 @@ extension DescribeDBClusterSnapshotAttributesInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeDBClusterSnapshotAttributesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DescribeDBClusterSnapshotAttributesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "DBClusterSnapshotNotFoundFault": return try await DBClusterSnapshotNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -7119,8 +7119,8 @@ extension DescribeDBClusterSnapshotsInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeDBClusterSnapshotsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DescribeDBClusterSnapshotsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "DBClusterSnapshotNotFoundFault": return try await DBClusterSnapshotNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -7307,8 +7307,8 @@ extension DescribeDBClustersInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeDBClustersOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DescribeDBClustersOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "DBClusterNotFoundFault": return try await DBClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -7548,8 +7548,8 @@ extension DescribeDBEngineVersionsInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeDBEngineVersionsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DescribeDBEngineVersionsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
@@ -7737,8 +7737,8 @@ extension DescribeDBInstancesInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeDBInstancesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DescribeDBInstancesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "DBInstanceNotFound": return try await DBInstanceNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -7921,8 +7921,8 @@ extension DescribeDBSubnetGroupsInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeDBSubnetGroupsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DescribeDBSubnetGroupsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "DBSubnetGroupNotFoundFault": return try await DBSubnetGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -8106,8 +8106,8 @@ extension DescribeEngineDefaultClusterParametersInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeEngineDefaultClusterParametersOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DescribeEngineDefaultClusterParametersOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
@@ -8239,8 +8239,8 @@ extension DescribeEventCategoriesInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeEventCategoriesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DescribeEventCategoriesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
@@ -8412,8 +8412,8 @@ extension DescribeEventSubscriptionsInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeEventSubscriptionsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DescribeEventSubscriptionsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "SubscriptionNotFound": return try await SubscriptionNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -8498,7 +8498,7 @@ extension DescribeEventsInput: Swift.Encodable {
             try container.encode(duration, forKey: ClientRuntime.Key("Duration"))
         }
         if let endTime = endTime {
-            try container.encodeTimestamp(endTime, format: .dateTime, forKey: ClientRuntime.Key("endTime"))
+            try container.encodeTimestamp(endTime, format: .dateTime, forKey: ClientRuntime.Key("EndTime"))
         }
         if let eventCategories = eventCategories {
             if !eventCategories.isEmpty {
@@ -8537,7 +8537,7 @@ extension DescribeEventsInput: Swift.Encodable {
             try container.encode(sourceType, forKey: ClientRuntime.Key("SourceType"))
         }
         if let startTime = startTime {
-            try container.encodeTimestamp(startTime, format: .dateTime, forKey: ClientRuntime.Key("startTime"))
+            try container.encodeTimestamp(startTime, format: .dateTime, forKey: ClientRuntime.Key("StartTime"))
         }
         try container.encode("DescribeEvents", forKey:ClientRuntime.Key("Action"))
         try container.encode("2014-10-31", forKey:ClientRuntime.Key("Version"))
@@ -8689,8 +8689,8 @@ extension DescribeEventsInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeEventsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DescribeEventsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
@@ -8871,8 +8871,8 @@ extension DescribeGlobalClustersInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeGlobalClustersOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DescribeGlobalClustersOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "GlobalClusterNotFoundFault": return try await GlobalClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -9099,8 +9099,8 @@ extension DescribeOrderableDBInstanceOptionsInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeOrderableDBInstanceOptionsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DescribeOrderableDBInstanceOptionsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
@@ -9286,8 +9286,8 @@ extension DescribePendingMaintenanceActionsInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribePendingMaintenanceActionsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DescribePendingMaintenanceActionsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "ResourceNotFoundFault": return try await ResourceNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -9514,7 +9514,7 @@ extension DocDBClientTypes.Event: Swift.Codable {
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
         if let date = date {
-            try container.encodeTimestamp(date, format: .dateTime, forKey: ClientRuntime.Key("date"))
+            try container.encodeTimestamp(date, format: .dateTime, forKey: ClientRuntime.Key("Date"))
         }
         if let eventCategories = eventCategories {
             if !eventCategories.isEmpty {
@@ -9973,8 +9973,8 @@ extension FailoverDBClusterInputBody: Swift.Decodable {
     }
 }
 
-public enum FailoverDBClusterOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum FailoverDBClusterOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "DBClusterNotFoundFault": return try await DBClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -11549,8 +11549,8 @@ extension ListTagsForResourceInputBody: Swift.Decodable {
     }
 }
 
-public enum ListTagsForResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum ListTagsForResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "DBClusterNotFoundFault": return try await DBClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -11857,8 +11857,8 @@ extension ModifyDBClusterInputBody: Swift.Decodable {
     }
 }
 
-public enum ModifyDBClusterOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum ModifyDBClusterOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "DBClusterAlreadyExistsFault": return try await DBClusterAlreadyExistsFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -12003,8 +12003,8 @@ extension ModifyDBClusterParameterGroupInputBody: Swift.Decodable {
     }
 }
 
-public enum ModifyDBClusterParameterGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum ModifyDBClusterParameterGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "DBParameterGroupNotFound": return try await DBParameterGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -12198,8 +12198,8 @@ extension ModifyDBClusterSnapshotAttributeInputBody: Swift.Decodable {
     }
 }
 
-public enum ModifyDBClusterSnapshotAttributeOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum ModifyDBClusterSnapshotAttributeOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "DBClusterSnapshotNotFoundFault": return try await DBClusterSnapshotNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -12419,8 +12419,8 @@ extension ModifyDBInstanceInputBody: Swift.Decodable {
     }
 }
 
-public enum ModifyDBInstanceOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum ModifyDBInstanceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "AuthorizationNotFound": return try await AuthorizationNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -12578,8 +12578,8 @@ extension ModifyDBSubnetGroupInputBody: Swift.Decodable {
     }
 }
 
-public enum ModifyDBSubnetGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum ModifyDBSubnetGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "DBSubnetGroupDoesNotCoverEnoughAZs": return try await DBSubnetGroupDoesNotCoverEnoughAZs(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -12750,8 +12750,8 @@ extension ModifyEventSubscriptionInputBody: Swift.Decodable {
     }
 }
 
-public enum ModifyEventSubscriptionOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum ModifyEventSubscriptionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "EventSubscriptionQuotaExceeded": return try await EventSubscriptionQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -12882,8 +12882,8 @@ extension ModifyGlobalClusterInputBody: Swift.Decodable {
     }
 }
 
-public enum ModifyGlobalClusterOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum ModifyGlobalClusterOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "GlobalClusterNotFoundFault": return try await GlobalClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -13283,16 +13283,16 @@ extension DocDBClientTypes.PendingMaintenanceAction: Swift.Codable {
             try container.encode(action, forKey: ClientRuntime.Key("Action"))
         }
         if let autoAppliedAfterDate = autoAppliedAfterDate {
-            try container.encodeTimestamp(autoAppliedAfterDate, format: .dateTime, forKey: ClientRuntime.Key("autoAppliedAfterDate"))
+            try container.encodeTimestamp(autoAppliedAfterDate, format: .dateTime, forKey: ClientRuntime.Key("AutoAppliedAfterDate"))
         }
         if let currentApplyDate = currentApplyDate {
-            try container.encodeTimestamp(currentApplyDate, format: .dateTime, forKey: ClientRuntime.Key("currentApplyDate"))
+            try container.encodeTimestamp(currentApplyDate, format: .dateTime, forKey: ClientRuntime.Key("CurrentApplyDate"))
         }
         if let description = description {
             try container.encode(description, forKey: ClientRuntime.Key("Description"))
         }
         if let forcedApplyDate = forcedApplyDate {
-            try container.encodeTimestamp(forcedApplyDate, format: .dateTime, forKey: ClientRuntime.Key("forcedApplyDate"))
+            try container.encodeTimestamp(forcedApplyDate, format: .dateTime, forKey: ClientRuntime.Key("ForcedApplyDate"))
         }
         if let optInStatus = optInStatus {
             try container.encode(optInStatus, forKey: ClientRuntime.Key("OptInStatus"))
@@ -13577,8 +13577,8 @@ extension RebootDBInstanceInputBody: Swift.Decodable {
     }
 }
 
-public enum RebootDBInstanceOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum RebootDBInstanceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "DBInstanceNotFound": return try await DBInstanceNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -13688,8 +13688,8 @@ extension RemoveFromGlobalClusterInputBody: Swift.Decodable {
     }
 }
 
-public enum RemoveFromGlobalClusterOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum RemoveFromGlobalClusterOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "DBClusterNotFoundFault": return try await DBClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -13800,8 +13800,8 @@ extension RemoveSourceIdentifierFromSubscriptionInputBody: Swift.Decodable {
     }
 }
 
-public enum RemoveSourceIdentifierFromSubscriptionOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum RemoveSourceIdentifierFromSubscriptionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "SourceNotFound": return try await SourceNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -13937,8 +13937,8 @@ extension RemoveTagsFromResourceInputBody: Swift.Decodable {
     }
 }
 
-public enum RemoveTagsFromResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum RemoveTagsFromResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "DBClusterNotFoundFault": return try await DBClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -14054,8 +14054,8 @@ extension ResetDBClusterParameterGroupInputBody: Swift.Decodable {
     }
 }
 
-public enum ResetDBClusterParameterGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum ResetDBClusterParameterGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "DBParameterGroupNotFound": return try await DBParameterGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -14541,8 +14541,8 @@ extension RestoreDBClusterFromSnapshotInputBody: Swift.Decodable {
     }
 }
 
-public enum RestoreDBClusterFromSnapshotOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum RestoreDBClusterFromSnapshotOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "DBClusterAlreadyExistsFault": return try await DBClusterAlreadyExistsFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -14636,7 +14636,7 @@ extension RestoreDBClusterToPointInTimeInput: Swift.Encodable {
             try container.encode(port, forKey: ClientRuntime.Key("Port"))
         }
         if let restoreToTime = restoreToTime {
-            try container.encodeTimestamp(restoreToTime, format: .dateTime, forKey: ClientRuntime.Key("restoreToTime"))
+            try container.encodeTimestamp(restoreToTime, format: .dateTime, forKey: ClientRuntime.Key("RestoreToTime"))
         }
         if let restoreType = restoreType {
             try container.encode(restoreType, forKey: ClientRuntime.Key("RestoreType"))
@@ -14885,8 +14885,8 @@ extension RestoreDBClusterToPointInTimeInputBody: Swift.Decodable {
     }
 }
 
-public enum RestoreDBClusterToPointInTimeOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum RestoreDBClusterToPointInTimeOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "DBClusterAlreadyExistsFault": return try await DBClusterAlreadyExistsFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -15364,8 +15364,8 @@ extension StartDBClusterInputBody: Swift.Decodable {
     }
 }
 
-public enum StartDBClusterOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum StartDBClusterOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "DBClusterNotFoundFault": return try await DBClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -15463,8 +15463,8 @@ extension StopDBClusterInputBody: Swift.Decodable {
     }
 }
 
-public enum StopDBClusterOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum StopDBClusterOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "DBClusterNotFoundFault": return try await DBClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)

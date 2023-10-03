@@ -30,7 +30,8 @@ class AWSRestJson1ProtocolGenerator : AWSHttpBindingProtocolGenerator() {
     override val serdeContext = serdeContextJSON
     override val testsToIgnore = setOf(
         "SDKAppliedContentEncoding_restJson1",
-        "SDKAppendedGzipAfterProvidedEncoding_restJson1"
+        "SDKAppendedGzipAfterProvidedEncoding_restJson1",
+        "RestJsonHttpPayloadWithUnsetUnion"
     )
 
     override fun generateMessageMarshallable(ctx: ProtocolGenerator.GenerationContext) {

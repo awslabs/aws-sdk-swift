@@ -251,8 +251,8 @@ extension AssociateVehicleFleetInputBody: Swift.Decodable {
     }
 }
 
-public enum AssociateVehicleFleetOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum AssociateVehicleFleetOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         let serviceError = try await IoTFleetWiseClientTypes.makeServiceError(httpResponse, decoder, restJSONError, requestID)
@@ -488,8 +488,8 @@ extension BatchCreateVehicleInputBody: Swift.Decodable {
     }
 }
 
-public enum BatchCreateVehicleOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum BatchCreateVehicleOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         let serviceError = try await IoTFleetWiseClientTypes.makeServiceError(httpResponse, decoder, restJSONError, requestID)
@@ -633,8 +633,8 @@ extension BatchUpdateVehicleInputBody: Swift.Decodable {
     }
 }
 
-public enum BatchUpdateVehicleOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum BatchUpdateVehicleOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         let serviceError = try await IoTFleetWiseClientTypes.makeServiceError(httpResponse, decoder, restJSONError, requestID)
@@ -1547,7 +1547,7 @@ public struct CreateCampaignInput: Swift.Equatable {
     public var collectionScheme: IoTFleetWiseClientTypes.CollectionScheme?
     /// (Optional) Whether to compress signals before transmitting data to Amazon Web Services IoT FleetWise. If you don't want to compress the signals, use OFF. If it's not specified, SNAPPY is used. Default: SNAPPY
     public var compression: IoTFleetWiseClientTypes.Compression?
-    /// The destination where the campaign sends data. You can choose to send data to be stored in Amazon S3 or Amazon Timestream. Amazon S3 optimizes the cost of data storage and provides additional mechanisms to use vehicle data, such as data lakes, centralized data storage, data processing pipelines, and analytics. You can use Amazon Timestream to access and analyze time series data, and Timestream to query vehicle data so that you can identify trends and patterns.
+    /// The destination where the campaign sends data. You can choose to send data to be stored in Amazon S3 or Amazon Timestream. Amazon S3 optimizes the cost of data storage and provides additional mechanisms to use vehicle data, such as data lakes, centralized data storage, data processing pipelines, and analytics. Amazon Web Services IoT FleetWise supports at-least-once file delivery to S3. Your vehicle data is stored on multiple Amazon Web Services IoT FleetWise servers for redundancy and high availability. You can use Amazon Timestream to access and analyze time series data, and Timestream to query vehicle data so that you can identify trends and patterns.
     public var dataDestinationConfigs: [IoTFleetWiseClientTypes.DataDestinationConfig]?
     /// (Optional) A list of vehicle attributes to associate with a campaign. Enrich the data with specified vehicle attributes. For example, add make and model to the campaign, and Amazon Web Services IoT FleetWise will associate the data with those attributes as dimensions in Amazon Timestream. You can then query the data against make and model. Default: An empty array
     public var dataExtraDimensions: [Swift.String]?
@@ -1725,8 +1725,8 @@ extension CreateCampaignInputBody: Swift.Decodable {
     }
 }
 
-public enum CreateCampaignOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum CreateCampaignOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         let serviceError = try await IoTFleetWiseClientTypes.makeServiceError(httpResponse, decoder, restJSONError, requestID)
@@ -1930,8 +1930,8 @@ extension CreateDecoderManifestInputBody: Swift.Decodable {
     }
 }
 
-public enum CreateDecoderManifestOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum CreateDecoderManifestOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         let serviceError = try await IoTFleetWiseClientTypes.makeServiceError(httpResponse, decoder, restJSONError, requestID)
@@ -2090,8 +2090,8 @@ extension CreateFleetInputBody: Swift.Decodable {
     }
 }
 
-public enum CreateFleetOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum CreateFleetOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         let serviceError = try await IoTFleetWiseClientTypes.makeServiceError(httpResponse, decoder, restJSONError, requestID)
@@ -2275,8 +2275,8 @@ extension CreateModelManifestInputBody: Swift.Decodable {
     }
 }
 
-public enum CreateModelManifestOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum CreateModelManifestOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         let serviceError = try await IoTFleetWiseClientTypes.makeServiceError(httpResponse, decoder, restJSONError, requestID)
@@ -2446,8 +2446,8 @@ extension CreateSignalCatalogInputBody: Swift.Decodable {
     }
 }
 
-public enum CreateSignalCatalogOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum CreateSignalCatalogOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         let serviceError = try await IoTFleetWiseClientTypes.makeServiceError(httpResponse, decoder, restJSONError, requestID)
@@ -2698,8 +2698,8 @@ extension CreateVehicleInputBody: Swift.Decodable {
     }
 }
 
-public enum CreateVehicleOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum CreateVehicleOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         let serviceError = try await IoTFleetWiseClientTypes.makeServiceError(httpResponse, decoder, restJSONError, requestID)
@@ -3249,8 +3249,8 @@ extension DeleteCampaignInputBody: Swift.Decodable {
     }
 }
 
-public enum DeleteCampaignOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DeleteCampaignOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         let serviceError = try await IoTFleetWiseClientTypes.makeServiceError(httpResponse, decoder, restJSONError, requestID)
@@ -3351,8 +3351,8 @@ extension DeleteDecoderManifestInputBody: Swift.Decodable {
     }
 }
 
-public enum DeleteDecoderManifestOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DeleteDecoderManifestOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         let serviceError = try await IoTFleetWiseClientTypes.makeServiceError(httpResponse, decoder, restJSONError, requestID)
@@ -3456,8 +3456,8 @@ extension DeleteFleetInputBody: Swift.Decodable {
     }
 }
 
-public enum DeleteFleetOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DeleteFleetOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         let serviceError = try await IoTFleetWiseClientTypes.makeServiceError(httpResponse, decoder, restJSONError, requestID)
@@ -3558,8 +3558,8 @@ extension DeleteModelManifestInputBody: Swift.Decodable {
     }
 }
 
-public enum DeleteModelManifestOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DeleteModelManifestOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         let serviceError = try await IoTFleetWiseClientTypes.makeServiceError(httpResponse, decoder, restJSONError, requestID)
@@ -3663,8 +3663,8 @@ extension DeleteSignalCatalogInputBody: Swift.Decodable {
     }
 }
 
-public enum DeleteSignalCatalogOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DeleteSignalCatalogOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         let serviceError = try await IoTFleetWiseClientTypes.makeServiceError(httpResponse, decoder, restJSONError, requestID)
@@ -3768,8 +3768,8 @@ extension DeleteVehicleInputBody: Swift.Decodable {
     }
 }
 
-public enum DeleteVehicleOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DeleteVehicleOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         let serviceError = try await IoTFleetWiseClientTypes.makeServiceError(httpResponse, decoder, restJSONError, requestID)
@@ -3921,8 +3921,8 @@ extension DisassociateVehicleFleetInputBody: Swift.Decodable {
     }
 }
 
-public enum DisassociateVehicleFleetOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DisassociateVehicleFleetOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         let serviceError = try await IoTFleetWiseClientTypes.makeServiceError(httpResponse, decoder, restJSONError, requestID)
@@ -3946,6 +3946,73 @@ extension DisassociateVehicleFleetOutputResponse: ClientRuntime.HttpResponseBind
 public struct DisassociateVehicleFleetOutputResponse: Swift.Equatable {
 
     public init() { }
+}
+
+extension IoTFleetWiseClientTypes {
+    public enum EncryptionStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case failure
+        case pending
+        case success
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [EncryptionStatus] {
+            return [
+                .failure,
+                .pending,
+                .success,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .failure: return "FAILURE"
+            case .pending: return "PENDING"
+            case .success: return "SUCCESS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = EncryptionStatus(rawValue: rawValue) ?? EncryptionStatus.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension IoTFleetWiseClientTypes {
+    public enum EncryptionType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case fleetwiseDefaultEncryption
+        case kmsBasedEncryption
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [EncryptionType] {
+            return [
+                .fleetwiseDefaultEncryption,
+                .kmsBasedEncryption,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .fleetwiseDefaultEncryption: return "FLEETWISE_DEFAULT_ENCRYPTION"
+            case .kmsBasedEncryption: return "KMS_BASED_ENCRYPTION"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = EncryptionType(rawValue: rawValue) ?? EncryptionType.sdkUnknown(rawValue)
+        }
+    }
 }
 
 extension IoTFleetWiseClientTypes.FleetSummary: Swift.Codable {
@@ -4110,8 +4177,8 @@ extension GetCampaignInputBody: Swift.Decodable {
     }
 }
 
-public enum GetCampaignOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum GetCampaignOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         let serviceError = try await IoTFleetWiseClientTypes.makeServiceError(httpResponse, decoder, restJSONError, requestID)
@@ -4409,8 +4476,8 @@ extension GetDecoderManifestInputBody: Swift.Decodable {
     }
 }
 
-public enum GetDecoderManifestOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum GetDecoderManifestOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         let serviceError = try await IoTFleetWiseClientTypes.makeServiceError(httpResponse, decoder, restJSONError, requestID)
@@ -4529,6 +4596,143 @@ extension GetDecoderManifestOutputResponseBody: Swift.Decodable {
     }
 }
 
+extension GetEncryptionConfigurationInput: Swift.Encodable {
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.singleValueContainer()
+        try container.encode([String:String]())
+    }
+}
+
+extension GetEncryptionConfigurationInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct GetEncryptionConfigurationInput: Swift.Equatable {
+
+    public init() { }
+}
+
+struct GetEncryptionConfigurationInputBody: Swift.Equatable {
+}
+
+extension GetEncryptionConfigurationInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+enum GetEncryptionConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        let serviceError = try await IoTFleetWiseClientTypes.makeServiceError(httpResponse, decoder, restJSONError, requestID)
+        if let error = serviceError { return error }
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension GetEncryptionConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetEncryptionConfigurationOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.creationTime = output.creationTime
+            self.encryptionStatus = output.encryptionStatus
+            self.encryptionType = output.encryptionType
+            self.errorMessage = output.errorMessage
+            self.kmsKeyId = output.kmsKeyId
+            self.lastModificationTime = output.lastModificationTime
+        } else {
+            self.creationTime = nil
+            self.encryptionStatus = nil
+            self.encryptionType = nil
+            self.errorMessage = nil
+            self.kmsKeyId = nil
+            self.lastModificationTime = nil
+        }
+    }
+}
+
+public struct GetEncryptionConfigurationOutputResponse: Swift.Equatable {
+    /// The time when encryption was configured in seconds since epoch (January 1, 1970 at midnight UTC time).
+    public var creationTime: ClientRuntime.Date?
+    /// The encryption status.
+    /// This member is required.
+    public var encryptionStatus: IoTFleetWiseClientTypes.EncryptionStatus?
+    /// The type of encryption. Set to KMS_BASED_ENCRYPTION to use an KMS key that you own and manage. Set to FLEETWISE_DEFAULT_ENCRYPTION to use an Amazon Web Services managed key that is owned by the Amazon Web Services IoT FleetWise service account.
+    /// This member is required.
+    public var encryptionType: IoTFleetWiseClientTypes.EncryptionType?
+    /// The error message that describes why encryption settings couldn't be configured, if applicable.
+    public var errorMessage: Swift.String?
+    /// The ID of the KMS key that is used for encryption.
+    public var kmsKeyId: Swift.String?
+    /// The time when encryption was last updated in seconds since epoch (January 1, 1970 at midnight UTC time).
+    public var lastModificationTime: ClientRuntime.Date?
+
+    public init(
+        creationTime: ClientRuntime.Date? = nil,
+        encryptionStatus: IoTFleetWiseClientTypes.EncryptionStatus? = nil,
+        encryptionType: IoTFleetWiseClientTypes.EncryptionType? = nil,
+        errorMessage: Swift.String? = nil,
+        kmsKeyId: Swift.String? = nil,
+        lastModificationTime: ClientRuntime.Date? = nil
+    )
+    {
+        self.creationTime = creationTime
+        self.encryptionStatus = encryptionStatus
+        self.encryptionType = encryptionType
+        self.errorMessage = errorMessage
+        self.kmsKeyId = kmsKeyId
+        self.lastModificationTime = lastModificationTime
+    }
+}
+
+struct GetEncryptionConfigurationOutputResponseBody: Swift.Equatable {
+    let kmsKeyId: Swift.String?
+    let encryptionStatus: IoTFleetWiseClientTypes.EncryptionStatus?
+    let encryptionType: IoTFleetWiseClientTypes.EncryptionType?
+    let errorMessage: Swift.String?
+    let creationTime: ClientRuntime.Date?
+    let lastModificationTime: ClientRuntime.Date?
+}
+
+extension GetEncryptionConfigurationOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case creationTime
+        case encryptionStatus
+        case encryptionType
+        case errorMessage
+        case kmsKeyId
+        case lastModificationTime
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let kmsKeyIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .kmsKeyId)
+        kmsKeyId = kmsKeyIdDecoded
+        let encryptionStatusDecoded = try containerValues.decodeIfPresent(IoTFleetWiseClientTypes.EncryptionStatus.self, forKey: .encryptionStatus)
+        encryptionStatus = encryptionStatusDecoded
+        let encryptionTypeDecoded = try containerValues.decodeIfPresent(IoTFleetWiseClientTypes.EncryptionType.self, forKey: .encryptionType)
+        encryptionType = encryptionTypeDecoded
+        let errorMessageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .errorMessage)
+        errorMessage = errorMessageDecoded
+        let creationTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .creationTime)
+        creationTime = creationTimeDecoded
+        let lastModificationTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastModificationTime)
+        lastModificationTime = lastModificationTimeDecoded
+    }
+}
+
 extension GetFleetInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -4565,8 +4769,8 @@ extension GetFleetInputBody: Swift.Decodable {
     }
 }
 
-public enum GetFleetOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum GetFleetOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         let serviceError = try await IoTFleetWiseClientTypes.makeServiceError(httpResponse, decoder, restJSONError, requestID)
@@ -4705,8 +4909,8 @@ extension GetLoggingOptionsInputBody: Swift.Decodable {
     }
 }
 
-public enum GetLoggingOptionsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum GetLoggingOptionsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         let serviceError = try await IoTFleetWiseClientTypes.makeServiceError(httpResponse, decoder, restJSONError, requestID)
@@ -4796,8 +5000,8 @@ extension GetModelManifestInputBody: Swift.Decodable {
     }
 }
 
-public enum GetModelManifestOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum GetModelManifestOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         let serviceError = try await IoTFleetWiseClientTypes.makeServiceError(httpResponse, decoder, restJSONError, requestID)
@@ -4944,8 +5148,8 @@ extension GetRegisterAccountStatusInputBody: Swift.Decodable {
     }
 }
 
-public enum GetRegisterAccountStatusOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum GetRegisterAccountStatusOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         let serviceError = try await IoTFleetWiseClientTypes.makeServiceError(httpResponse, decoder, restJSONError, requestID)
@@ -5098,8 +5302,8 @@ extension GetSignalCatalogInputBody: Swift.Decodable {
     }
 }
 
-public enum GetSignalCatalogOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum GetSignalCatalogOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         let serviceError = try await IoTFleetWiseClientTypes.makeServiceError(httpResponse, decoder, restJSONError, requestID)
@@ -5244,8 +5448,8 @@ extension GetVehicleInputBody: Swift.Decodable {
     }
 }
 
-public enum GetVehicleOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum GetVehicleOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         let serviceError = try await IoTFleetWiseClientTypes.makeServiceError(httpResponse, decoder, restJSONError, requestID)
@@ -5423,8 +5627,8 @@ extension GetVehicleStatusInputBody: Swift.Decodable {
     }
 }
 
-public enum GetVehicleStatusOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum GetVehicleStatusOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         let serviceError = try await IoTFleetWiseClientTypes.makeServiceError(httpResponse, decoder, restJSONError, requestID)
@@ -5656,8 +5860,8 @@ extension ImportDecoderManifestInputBody: Swift.Decodable {
     }
 }
 
-public enum ImportDecoderManifestOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum ImportDecoderManifestOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         let serviceError = try await IoTFleetWiseClientTypes.makeServiceError(httpResponse, decoder, restJSONError, requestID)
@@ -5815,8 +6019,8 @@ extension ImportSignalCatalogInputBody: Swift.Decodable {
     }
 }
 
-public enum ImportSignalCatalogOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum ImportSignalCatalogOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         let serviceError = try await IoTFleetWiseClientTypes.makeServiceError(httpResponse, decoder, restJSONError, requestID)
@@ -6384,8 +6588,8 @@ extension ListCampaignsInputBody: Swift.Decodable {
     }
 }
 
-public enum ListCampaignsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum ListCampaignsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         let serviceError = try await IoTFleetWiseClientTypes.makeServiceError(httpResponse, decoder, restJSONError, requestID)
@@ -6511,8 +6715,8 @@ extension ListDecoderManifestNetworkInterfacesInputBody: Swift.Decodable {
     }
 }
 
-public enum ListDecoderManifestNetworkInterfacesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum ListDecoderManifestNetworkInterfacesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         let serviceError = try await IoTFleetWiseClientTypes.makeServiceError(httpResponse, decoder, restJSONError, requestID)
@@ -6640,8 +6844,8 @@ extension ListDecoderManifestSignalsInputBody: Swift.Decodable {
     }
 }
 
-public enum ListDecoderManifestSignalsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum ListDecoderManifestSignalsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         let serviceError = try await IoTFleetWiseClientTypes.makeServiceError(httpResponse, decoder, restJSONError, requestID)
@@ -6768,8 +6972,8 @@ extension ListDecoderManifestsInputBody: Swift.Decodable {
     }
 }
 
-public enum ListDecoderManifestsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum ListDecoderManifestsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         let serviceError = try await IoTFleetWiseClientTypes.makeServiceError(httpResponse, decoder, restJSONError, requestID)
@@ -6896,8 +7100,8 @@ extension ListFleetsForVehicleInputBody: Swift.Decodable {
     }
 }
 
-public enum ListFleetsForVehicleOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum ListFleetsForVehicleOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         let serviceError = try await IoTFleetWiseClientTypes.makeServiceError(httpResponse, decoder, restJSONError, requestID)
@@ -7020,8 +7224,8 @@ extension ListFleetsInputBody: Swift.Decodable {
     }
 }
 
-public enum ListFleetsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum ListFleetsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         let serviceError = try await IoTFleetWiseClientTypes.makeServiceError(httpResponse, decoder, restJSONError, requestID)
@@ -7149,8 +7353,8 @@ extension ListModelManifestNodesInputBody: Swift.Decodable {
     }
 }
 
-public enum ListModelManifestNodesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum ListModelManifestNodesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         let serviceError = try await IoTFleetWiseClientTypes.makeServiceError(httpResponse, decoder, restJSONError, requestID)
@@ -7278,8 +7482,8 @@ extension ListModelManifestsInputBody: Swift.Decodable {
     }
 }
 
-public enum ListModelManifestsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum ListModelManifestsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         let serviceError = try await IoTFleetWiseClientTypes.makeServiceError(httpResponse, decoder, restJSONError, requestID)
@@ -7406,8 +7610,8 @@ extension ListSignalCatalogNodesInputBody: Swift.Decodable {
     }
 }
 
-public enum ListSignalCatalogNodesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum ListSignalCatalogNodesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         let serviceError = try await IoTFleetWiseClientTypes.makeServiceError(httpResponse, decoder, restJSONError, requestID)
@@ -7531,8 +7735,8 @@ extension ListSignalCatalogsInputBody: Swift.Decodable {
     }
 }
 
-public enum ListSignalCatalogsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum ListSignalCatalogsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         let serviceError = try await IoTFleetWiseClientTypes.makeServiceError(httpResponse, decoder, restJSONError, requestID)
@@ -7651,8 +7855,8 @@ extension ListTagsForResourceInputBody: Swift.Decodable {
     }
 }
 
-public enum ListTagsForResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum ListTagsForResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         let serviceError = try await IoTFleetWiseClientTypes.makeServiceError(httpResponse, decoder, restJSONError, requestID)
@@ -7770,8 +7974,8 @@ extension ListVehiclesInFleetInputBody: Swift.Decodable {
     }
 }
 
-public enum ListVehiclesInFleetOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum ListVehiclesInFleetOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         let serviceError = try await IoTFleetWiseClientTypes.makeServiceError(httpResponse, decoder, restJSONError, requestID)
@@ -7898,8 +8102,8 @@ extension ListVehiclesInputBody: Swift.Decodable {
     }
 }
 
-public enum ListVehiclesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum ListVehiclesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         let serviceError = try await IoTFleetWiseClientTypes.makeServiceError(httpResponse, decoder, restJSONError, requestID)
@@ -8782,6 +8986,146 @@ extension IoTFleetWiseClientTypes {
 
 }
 
+extension PutEncryptionConfigurationInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case encryptionType
+        case kmsKeyId
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let encryptionType = self.encryptionType {
+            try encodeContainer.encode(encryptionType.rawValue, forKey: .encryptionType)
+        }
+        if let kmsKeyId = self.kmsKeyId {
+            try encodeContainer.encode(kmsKeyId, forKey: .kmsKeyId)
+        }
+    }
+}
+
+extension PutEncryptionConfigurationInput: ClientRuntime.URLPathProvider {
+    public var urlPath: Swift.String? {
+        return "/"
+    }
+}
+
+public struct PutEncryptionConfigurationInput: Swift.Equatable {
+    /// The type of encryption. Choose KMS_BASED_ENCRYPTION to use a KMS key or FLEETWISE_DEFAULT_ENCRYPTION to use an Amazon Web Services managed key.
+    /// This member is required.
+    public var encryptionType: IoTFleetWiseClientTypes.EncryptionType?
+    /// The ID of the KMS key that is used for encryption.
+    public var kmsKeyId: Swift.String?
+
+    public init(
+        encryptionType: IoTFleetWiseClientTypes.EncryptionType? = nil,
+        kmsKeyId: Swift.String? = nil
+    )
+    {
+        self.encryptionType = encryptionType
+        self.kmsKeyId = kmsKeyId
+    }
+}
+
+struct PutEncryptionConfigurationInputBody: Swift.Equatable {
+    let kmsKeyId: Swift.String?
+    let encryptionType: IoTFleetWiseClientTypes.EncryptionType?
+}
+
+extension PutEncryptionConfigurationInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case encryptionType
+        case kmsKeyId
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let kmsKeyIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .kmsKeyId)
+        kmsKeyId = kmsKeyIdDecoded
+        let encryptionTypeDecoded = try containerValues.decodeIfPresent(IoTFleetWiseClientTypes.EncryptionType.self, forKey: .encryptionType)
+        encryptionType = encryptionTypeDecoded
+    }
+}
+
+enum PutEncryptionConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        let serviceError = try await IoTFleetWiseClientTypes.makeServiceError(httpResponse, decoder, restJSONError, requestID)
+        if let error = serviceError { return error }
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension PutEncryptionConfigurationOutputResponse: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: PutEncryptionConfigurationOutputResponseBody = try responseDecoder.decode(responseBody: data)
+            self.encryptionStatus = output.encryptionStatus
+            self.encryptionType = output.encryptionType
+            self.kmsKeyId = output.kmsKeyId
+        } else {
+            self.encryptionStatus = nil
+            self.encryptionType = nil
+            self.kmsKeyId = nil
+        }
+    }
+}
+
+public struct PutEncryptionConfigurationOutputResponse: Swift.Equatable {
+    /// The encryption status.
+    /// This member is required.
+    public var encryptionStatus: IoTFleetWiseClientTypes.EncryptionStatus?
+    /// The type of encryption. Set to KMS_BASED_ENCRYPTION to use an KMS key that you own and manage. Set to FLEETWISE_DEFAULT_ENCRYPTION to use an Amazon Web Services managed key that is owned by the Amazon Web Services IoT FleetWise service account.
+    /// This member is required.
+    public var encryptionType: IoTFleetWiseClientTypes.EncryptionType?
+    /// The ID of the KMS key that is used for encryption.
+    public var kmsKeyId: Swift.String?
+
+    public init(
+        encryptionStatus: IoTFleetWiseClientTypes.EncryptionStatus? = nil,
+        encryptionType: IoTFleetWiseClientTypes.EncryptionType? = nil,
+        kmsKeyId: Swift.String? = nil
+    )
+    {
+        self.encryptionStatus = encryptionStatus
+        self.encryptionType = encryptionType
+        self.kmsKeyId = kmsKeyId
+    }
+}
+
+struct PutEncryptionConfigurationOutputResponseBody: Swift.Equatable {
+    let kmsKeyId: Swift.String?
+    let encryptionStatus: IoTFleetWiseClientTypes.EncryptionStatus?
+    let encryptionType: IoTFleetWiseClientTypes.EncryptionType?
+}
+
+extension PutEncryptionConfigurationOutputResponseBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case encryptionStatus
+        case encryptionType
+        case kmsKeyId
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let kmsKeyIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .kmsKeyId)
+        kmsKeyId = kmsKeyIdDecoded
+        let encryptionStatusDecoded = try containerValues.decodeIfPresent(IoTFleetWiseClientTypes.EncryptionStatus.self, forKey: .encryptionStatus)
+        encryptionStatus = encryptionStatusDecoded
+        let encryptionTypeDecoded = try containerValues.decodeIfPresent(IoTFleetWiseClientTypes.EncryptionType.self, forKey: .encryptionType)
+        encryptionType = encryptionTypeDecoded
+    }
+}
+
 extension PutLoggingOptionsInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case cloudWatchLogDelivery
@@ -8830,8 +9174,8 @@ extension PutLoggingOptionsInputBody: Swift.Decodable {
     }
 }
 
-public enum PutLoggingOptionsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum PutLoggingOptionsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         let serviceError = try await IoTFleetWiseClientTypes.makeServiceError(httpResponse, decoder, restJSONError, requestID)
@@ -8918,8 +9262,8 @@ extension RegisterAccountInputBody: Swift.Decodable {
     }
 }
 
-public enum RegisterAccountOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum RegisterAccountOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         let serviceError = try await IoTFleetWiseClientTypes.makeServiceError(httpResponse, decoder, restJSONError, requestID)
@@ -9801,8 +10145,8 @@ extension TagResourceInputBody: Swift.Decodable {
     }
 }
 
-public enum TagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum TagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         let serviceError = try await IoTFleetWiseClientTypes.makeServiceError(httpResponse, decoder, restJSONError, requestID)
@@ -10213,8 +10557,8 @@ extension UntagResourceInputBody: Swift.Decodable {
     }
 }
 
-public enum UntagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum UntagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         let serviceError = try await IoTFleetWiseClientTypes.makeServiceError(httpResponse, decoder, restJSONError, requestID)
@@ -10375,8 +10719,8 @@ extension UpdateCampaignInputBody: Swift.Decodable {
     }
 }
 
-public enum UpdateCampaignOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum UpdateCampaignOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         let serviceError = try await IoTFleetWiseClientTypes.makeServiceError(httpResponse, decoder, restJSONError, requestID)
@@ -10668,8 +11012,8 @@ extension UpdateDecoderManifestInputBody: Swift.Decodable {
     }
 }
 
-public enum UpdateDecoderManifestOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum UpdateDecoderManifestOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         let serviceError = try await IoTFleetWiseClientTypes.makeServiceError(httpResponse, decoder, restJSONError, requestID)
@@ -10791,8 +11135,8 @@ extension UpdateFleetInputBody: Swift.Decodable {
     }
 }
 
-public enum UpdateFleetOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum UpdateFleetOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         let serviceError = try await IoTFleetWiseClientTypes.makeServiceError(httpResponse, decoder, restJSONError, requestID)
@@ -11003,8 +11347,8 @@ extension UpdateModelManifestInputBody: Swift.Decodable {
     }
 }
 
-public enum UpdateModelManifestOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum UpdateModelManifestOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         let serviceError = try await IoTFleetWiseClientTypes.makeServiceError(httpResponse, decoder, restJSONError, requestID)
@@ -11198,8 +11542,8 @@ extension UpdateSignalCatalogInputBody: Swift.Decodable {
     }
 }
 
-public enum UpdateSignalCatalogOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum UpdateSignalCatalogOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         let serviceError = try await IoTFleetWiseClientTypes.makeServiceError(httpResponse, decoder, restJSONError, requestID)
@@ -11426,8 +11770,8 @@ extension UpdateVehicleInputBody: Swift.Decodable {
     }
 }
 
-public enum UpdateVehicleOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum UpdateVehicleOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         let serviceError = try await IoTFleetWiseClientTypes.makeServiceError(httpResponse, decoder, restJSONError, requestID)

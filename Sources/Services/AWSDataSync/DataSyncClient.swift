@@ -1745,7 +1745,7 @@ extension DataSyncClient: DataSyncClientProtocol {
         return result
     }
 
-    /// Creates recommendations about where to migrate your data to in Amazon Web Services. Recommendations are generated based on information that DataSync Discovery collects about your on-premises storage system's resources. For more information, see [Recommendations provided by DataSync Discovery](https://docs.aws.amazon.com/datasync/latest/userguide/discovery-understand-recommendations.html). Once generated, you can view your recommendations by using the [DescribeStorageSystemResources](https://docs.aws.amazon.com/datasync/latest/userguide/API_DescribeStorageSystemResources.html) operation. If your [discovery job completes successfully](https://docs.aws.amazon.com/datasync/latest/userguide/discovery-job-statuses.html#discovery-job-statuses-table), you don't need to use this operation. DataSync Discovery generates the recommendations for you automatically.
+    /// Creates recommendations about where to migrate your data to in Amazon Web Services. Recommendations are generated based on information that DataSync Discovery collects about your on-premises storage system's resources. For more information, see [Recommendations provided by DataSync Discovery](https://docs.aws.amazon.com/datasync/latest/userguide/discovery-understand-recommendations.html). Once generated, you can view your recommendations by using the [DescribeStorageSystemResources](https://docs.aws.amazon.com/datasync/latest/userguide/API_DescribeStorageSystemResources.html) operation.
     ///
     /// - Parameter GenerateRecommendationsInput : [no documentation found]
     ///

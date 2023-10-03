@@ -133,8 +133,8 @@ extension CancelJobInputBody: Swift.Decodable {
     }
 }
 
-public enum CancelJobOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum CancelJobOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -257,8 +257,8 @@ extension CancelQuantumTaskInputBody: Swift.Decodable {
     }
 }
 
-public enum CancelQuantumTaskOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum CancelQuantumTaskOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -702,8 +702,8 @@ extension CreateJobInputBody: Swift.Decodable {
     }
 }
 
-public enum CreateJobOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum CreateJobOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -921,8 +921,8 @@ extension CreateQuantumTaskInputBody: Swift.Decodable {
     }
 }
 
-public enum CreateQuantumTaskOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum CreateQuantumTaskOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -1104,6 +1104,63 @@ extension DeviceOfflineExceptionBody: Swift.Decodable {
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
     }
+}
+
+extension BraketClientTypes.DeviceQueueInfo: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case queue
+        case queuePriority
+        case queueSize
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let queue = self.queue {
+            try encodeContainer.encode(queue.rawValue, forKey: .queue)
+        }
+        if let queuePriority = self.queuePriority {
+            try encodeContainer.encode(queuePriority.rawValue, forKey: .queuePriority)
+        }
+        if let queueSize = self.queueSize {
+            try encodeContainer.encode(queueSize, forKey: .queueSize)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let queueDecoded = try containerValues.decodeIfPresent(BraketClientTypes.QueueName.self, forKey: .queue)
+        queue = queueDecoded
+        let queueSizeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .queueSize)
+        queueSize = queueSizeDecoded
+        let queuePriorityDecoded = try containerValues.decodeIfPresent(BraketClientTypes.QueuePriority.self, forKey: .queuePriority)
+        queuePriority = queuePriorityDecoded
+    }
+}
+
+extension BraketClientTypes {
+    /// Information about tasks and jobs queued on a device.
+    public struct DeviceQueueInfo: Swift.Equatable {
+        /// The name of the queue.
+        /// This member is required.
+        public var queue: BraketClientTypes.QueueName?
+        /// Optional. Specifies the priority of the queue. Tasks in a priority queue are processed before the tasks in a normal queue.
+        public var queuePriority: BraketClientTypes.QueuePriority?
+        /// The number of jobs or tasks in the queue for a given device.
+        /// This member is required.
+        public var queueSize: Swift.String?
+
+        public init(
+            queue: BraketClientTypes.QueueName? = nil,
+            queuePriority: BraketClientTypes.QueuePriority? = nil,
+            queueSize: Swift.String? = nil
+        )
+        {
+            self.queue = queue
+            self.queuePriority = queuePriority
+            self.queueSize = queueSize
+        }
+    }
+
 }
 
 extension DeviceRetiredException {
@@ -1339,8 +1396,8 @@ extension GetDeviceInputBody: Swift.Decodable {
     }
 }
 
-public enum GetDeviceOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum GetDeviceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -1362,6 +1419,7 @@ extension GetDeviceOutputResponse: ClientRuntime.HttpResponseBinding {
             self.deviceArn = output.deviceArn
             self.deviceCapabilities = output.deviceCapabilities
             self.deviceName = output.deviceName
+            self.deviceQueueInfo = output.deviceQueueInfo
             self.deviceStatus = output.deviceStatus
             self.deviceType = output.deviceType
             self.providerName = output.providerName
@@ -1369,6 +1427,7 @@ extension GetDeviceOutputResponse: ClientRuntime.HttpResponseBinding {
             self.deviceArn = nil
             self.deviceCapabilities = nil
             self.deviceName = nil
+            self.deviceQueueInfo = nil
             self.deviceStatus = nil
             self.deviceType = nil
             self.providerName = nil
@@ -1386,6 +1445,8 @@ public struct GetDeviceOutputResponse: Swift.Equatable {
     /// The name of the device.
     /// This member is required.
     public var deviceName: Swift.String?
+    /// List of information about tasks and jobs queued on a device.
+    public var deviceQueueInfo: [BraketClientTypes.DeviceQueueInfo]?
     /// The status of the device.
     /// This member is required.
     public var deviceStatus: BraketClientTypes.DeviceStatus?
@@ -1400,6 +1461,7 @@ public struct GetDeviceOutputResponse: Swift.Equatable {
         deviceArn: Swift.String? = nil,
         deviceCapabilities: Swift.String? = nil,
         deviceName: Swift.String? = nil,
+        deviceQueueInfo: [BraketClientTypes.DeviceQueueInfo]? = nil,
         deviceStatus: BraketClientTypes.DeviceStatus? = nil,
         deviceType: BraketClientTypes.DeviceType? = nil,
         providerName: Swift.String? = nil
@@ -1408,6 +1470,7 @@ public struct GetDeviceOutputResponse: Swift.Equatable {
         self.deviceArn = deviceArn
         self.deviceCapabilities = deviceCapabilities
         self.deviceName = deviceName
+        self.deviceQueueInfo = deviceQueueInfo
         self.deviceStatus = deviceStatus
         self.deviceType = deviceType
         self.providerName = providerName
@@ -1421,6 +1484,7 @@ struct GetDeviceOutputResponseBody: Swift.Equatable {
     let deviceType: BraketClientTypes.DeviceType?
     let deviceStatus: BraketClientTypes.DeviceStatus?
     let deviceCapabilities: Swift.String?
+    let deviceQueueInfo: [BraketClientTypes.DeviceQueueInfo]?
 }
 
 extension GetDeviceOutputResponseBody: Swift.Decodable {
@@ -1428,6 +1492,7 @@ extension GetDeviceOutputResponseBody: Swift.Decodable {
         case deviceArn
         case deviceCapabilities
         case deviceName
+        case deviceQueueInfo
         case deviceStatus
         case deviceType
         case providerName
@@ -1447,6 +1512,32 @@ extension GetDeviceOutputResponseBody: Swift.Decodable {
         deviceStatus = deviceStatusDecoded
         let deviceCapabilitiesDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .deviceCapabilities)
         deviceCapabilities = deviceCapabilitiesDecoded
+        let deviceQueueInfoContainer = try containerValues.decodeIfPresent([BraketClientTypes.DeviceQueueInfo?].self, forKey: .deviceQueueInfo)
+        var deviceQueueInfoDecoded0:[BraketClientTypes.DeviceQueueInfo]? = nil
+        if let deviceQueueInfoContainer = deviceQueueInfoContainer {
+            deviceQueueInfoDecoded0 = [BraketClientTypes.DeviceQueueInfo]()
+            for structure0 in deviceQueueInfoContainer {
+                if let structure0 = structure0 {
+                    deviceQueueInfoDecoded0?.append(structure0)
+                }
+            }
+        }
+        deviceQueueInfo = deviceQueueInfoDecoded0
+    }
+}
+
+extension GetJobInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let additionalAttributeNames = additionalAttributeNames {
+                additionalAttributeNames.forEach { queryItemValue in
+                    let queryItem = ClientRuntime.URLQueryItem(name: "additionalAttributeNames".urlPercentEncoding(), value: Swift.String(queryItemValue.rawValue).urlPercentEncoding())
+                    items.append(queryItem)
+                }
+            }
+            return items
+        }
     }
 }
 
@@ -1460,14 +1551,18 @@ extension GetJobInput: ClientRuntime.URLPathProvider {
 }
 
 public struct GetJobInput: Swift.Equatable {
+    /// A list of attributes to return information for.
+    public var additionalAttributeNames: [BraketClientTypes.HybridJobAdditionalAttributeName]?
     /// The ARN of the job to retrieve.
     /// This member is required.
     public var jobArn: Swift.String?
 
     public init(
+        additionalAttributeNames: [BraketClientTypes.HybridJobAdditionalAttributeName]? = nil,
         jobArn: Swift.String? = nil
     )
     {
+        self.additionalAttributeNames = additionalAttributeNames
         self.jobArn = jobArn
     }
 }
@@ -1481,8 +1576,8 @@ extension GetJobInputBody: Swift.Decodable {
     }
 }
 
-public enum GetJobOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum GetJobOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -1515,6 +1610,7 @@ extension GetJobOutputResponse: ClientRuntime.HttpResponseBinding {
             self.jobArn = output.jobArn
             self.jobName = output.jobName
             self.outputDataConfig = output.outputDataConfig
+            self.queueInfo = output.queueInfo
             self.roleArn = output.roleArn
             self.startedAt = output.startedAt
             self.status = output.status
@@ -1535,6 +1631,7 @@ extension GetJobOutputResponse: ClientRuntime.HttpResponseBinding {
             self.jobArn = nil
             self.jobName = nil
             self.outputDataConfig = nil
+            self.queueInfo = nil
             self.roleArn = nil
             self.startedAt = nil
             self.status = nil
@@ -1579,6 +1676,8 @@ public struct GetJobOutputResponse: Swift.Equatable {
     /// The path to the S3 location where job artifacts are stored and the encryption key used to store them there.
     /// This member is required.
     public var outputDataConfig: BraketClientTypes.JobOutputDataConfig?
+    /// Queue information for the requested job. Only returned if QueueInfo is specified in the additionalAttributeNames" field in the GetJob API request.
+    public var queueInfo: BraketClientTypes.HybridJobQueueInfo?
     /// The Amazon Resource Name (ARN) of an IAM role that Amazon Braket can assume to perform tasks on behalf of a user. It can access user resources, run an Amazon Braket job container on behalf of user, and output resources to the s3 buckets of a user.
     /// This member is required.
     public var roleArn: Swift.String?
@@ -1607,6 +1706,7 @@ public struct GetJobOutputResponse: Swift.Equatable {
         jobArn: Swift.String? = nil,
         jobName: Swift.String? = nil,
         outputDataConfig: BraketClientTypes.JobOutputDataConfig? = nil,
+        queueInfo: BraketClientTypes.HybridJobQueueInfo? = nil,
         roleArn: Swift.String? = nil,
         startedAt: ClientRuntime.Date? = nil,
         status: BraketClientTypes.JobPrimaryStatus? = nil,
@@ -1628,6 +1728,7 @@ public struct GetJobOutputResponse: Swift.Equatable {
         self.jobArn = jobArn
         self.jobName = jobName
         self.outputDataConfig = outputDataConfig
+        self.queueInfo = queueInfo
         self.roleArn = roleArn
         self.startedAt = startedAt
         self.status = status
@@ -1656,6 +1757,7 @@ struct GetJobOutputResponseBody: Swift.Equatable {
     let deviceConfig: BraketClientTypes.DeviceConfig?
     let events: [BraketClientTypes.JobEventDetails]?
     let tags: [Swift.String:Swift.String]?
+    let queueInfo: BraketClientTypes.HybridJobQueueInfo?
 }
 
 extension GetJobOutputResponseBody: Swift.Decodable {
@@ -1674,6 +1776,7 @@ extension GetJobOutputResponseBody: Swift.Decodable {
         case jobArn
         case jobName
         case outputDataConfig
+        case queueInfo
         case roleArn
         case startedAt
         case status
@@ -1757,6 +1860,23 @@ extension GetJobOutputResponseBody: Swift.Decodable {
             }
         }
         tags = tagsDecoded0
+        let queueInfoDecoded = try containerValues.decodeIfPresent(BraketClientTypes.HybridJobQueueInfo.self, forKey: .queueInfo)
+        queueInfo = queueInfoDecoded
+    }
+}
+
+extension GetQuantumTaskInput: ClientRuntime.QueryItemProvider {
+    public var queryItems: [ClientRuntime.URLQueryItem] {
+        get throws {
+            var items = [ClientRuntime.URLQueryItem]()
+            if let additionalAttributeNames = additionalAttributeNames {
+                additionalAttributeNames.forEach { queryItemValue in
+                    let queryItem = ClientRuntime.URLQueryItem(name: "additionalAttributeNames".urlPercentEncoding(), value: Swift.String(queryItemValue.rawValue).urlPercentEncoding())
+                    items.append(queryItem)
+                }
+            }
+            return items
+        }
     }
 }
 
@@ -1770,14 +1890,18 @@ extension GetQuantumTaskInput: ClientRuntime.URLPathProvider {
 }
 
 public struct GetQuantumTaskInput: Swift.Equatable {
+    /// A list of attributes to return information for.
+    public var additionalAttributeNames: [BraketClientTypes.QuantumTaskAdditionalAttributeName]?
     /// the ARN of the task to retrieve.
     /// This member is required.
     public var quantumTaskArn: Swift.String?
 
     public init(
+        additionalAttributeNames: [BraketClientTypes.QuantumTaskAdditionalAttributeName]? = nil,
         quantumTaskArn: Swift.String? = nil
     )
     {
+        self.additionalAttributeNames = additionalAttributeNames
         self.quantumTaskArn = quantumTaskArn
     }
 }
@@ -1791,8 +1915,8 @@ extension GetQuantumTaskInputBody: Swift.Decodable {
     }
 }
 
-public enum GetQuantumTaskOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum GetQuantumTaskOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -1820,6 +1944,7 @@ extension GetQuantumTaskOutputResponse: ClientRuntime.HttpResponseBinding {
             self.outputS3Bucket = output.outputS3Bucket
             self.outputS3Directory = output.outputS3Directory
             self.quantumTaskArn = output.quantumTaskArn
+            self.queueInfo = output.queueInfo
             self.shots = output.shots
             self.status = output.status
             self.tags = output.tags
@@ -1833,6 +1958,7 @@ extension GetQuantumTaskOutputResponse: ClientRuntime.HttpResponseBinding {
             self.outputS3Bucket = nil
             self.outputS3Directory = nil
             self.quantumTaskArn = nil
+            self.queueInfo = nil
             self.shots = nil
             self.status = nil
             self.tags = nil
@@ -1865,6 +1991,8 @@ public struct GetQuantumTaskOutputResponse: Swift.Equatable {
     /// The ARN of the task.
     /// This member is required.
     public var quantumTaskArn: Swift.String?
+    /// Queue information for the requested quantum task. Only returned if QueueInfo is specified in the additionalAttributeNames" field in the GetQuantumTask API request.
+    public var queueInfo: BraketClientTypes.QuantumTaskQueueInfo?
     /// The number of shots used in the task.
     /// This member is required.
     public var shots: Swift.Int?
@@ -1884,6 +2012,7 @@ public struct GetQuantumTaskOutputResponse: Swift.Equatable {
         outputS3Bucket: Swift.String? = nil,
         outputS3Directory: Swift.String? = nil,
         quantumTaskArn: Swift.String? = nil,
+        queueInfo: BraketClientTypes.QuantumTaskQueueInfo? = nil,
         shots: Swift.Int? = nil,
         status: BraketClientTypes.QuantumTaskStatus? = nil,
         tags: [Swift.String:Swift.String]? = nil
@@ -1898,6 +2027,7 @@ public struct GetQuantumTaskOutputResponse: Swift.Equatable {
         self.outputS3Bucket = outputS3Bucket
         self.outputS3Directory = outputS3Directory
         self.quantumTaskArn = quantumTaskArn
+        self.queueInfo = queueInfo
         self.shots = shots
         self.status = status
         self.tags = tags
@@ -1917,6 +2047,7 @@ struct GetQuantumTaskOutputResponseBody: Swift.Equatable {
     let endedAt: ClientRuntime.Date?
     let tags: [Swift.String:Swift.String]?
     let jobArn: Swift.String?
+    let queueInfo: BraketClientTypes.QuantumTaskQueueInfo?
 }
 
 extension GetQuantumTaskOutputResponseBody: Swift.Decodable {
@@ -1930,6 +2061,7 @@ extension GetQuantumTaskOutputResponseBody: Swift.Decodable {
         case outputS3Bucket
         case outputS3Directory
         case quantumTaskArn
+        case queueInfo
         case shots
         case status
         case tags
@@ -1970,7 +2102,95 @@ extension GetQuantumTaskOutputResponseBody: Swift.Decodable {
         tags = tagsDecoded0
         let jobArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .jobArn)
         jobArn = jobArnDecoded
+        let queueInfoDecoded = try containerValues.decodeIfPresent(BraketClientTypes.QuantumTaskQueueInfo.self, forKey: .queueInfo)
+        queueInfo = queueInfoDecoded
     }
+}
+
+extension BraketClientTypes {
+    public enum HybridJobAdditionalAttributeName: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case queueInfo
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [HybridJobAdditionalAttributeName] {
+            return [
+                .queueInfo,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .queueInfo: return "QueueInfo"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = HybridJobAdditionalAttributeName(rawValue: rawValue) ?? HybridJobAdditionalAttributeName.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension BraketClientTypes.HybridJobQueueInfo: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message
+        case position
+        case queue
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let message = self.message {
+            try encodeContainer.encode(message, forKey: .message)
+        }
+        if let position = self.position {
+            try encodeContainer.encode(position, forKey: .position)
+        }
+        if let queue = self.queue {
+            try encodeContainer.encode(queue.rawValue, forKey: .queue)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let queueDecoded = try containerValues.decodeIfPresent(BraketClientTypes.QueueName.self, forKey: .queue)
+        queue = queueDecoded
+        let positionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .position)
+        position = positionDecoded
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
+}
+
+extension BraketClientTypes {
+    /// Information about the queue for a specified job.
+    public struct HybridJobQueueInfo: Swift.Equatable {
+        /// Optional. Provides more information about the queue position. For example, if the job is complete and no longer in the queue, the message field contains that information.
+        public var message: Swift.String?
+        /// Current position of the job in the jobs queue.
+        /// This member is required.
+        public var position: Swift.String?
+        /// The name of the queue.
+        /// This member is required.
+        public var queue: BraketClientTypes.QueueName?
+
+        public init(
+            message: Swift.String? = nil,
+            position: Swift.String? = nil,
+            queue: BraketClientTypes.QueueName? = nil
+        )
+        {
+            self.message = message
+            self.position = position
+            self.queue = queue
+        }
+    }
+
 }
 
 extension BraketClientTypes.InputFileConfig: Swift.Codable {
@@ -2723,8 +2943,8 @@ extension ListTagsForResourceInputBody: Swift.Decodable {
     }
 }
 
-public enum ListTagsForResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum ListTagsForResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -2783,6 +3003,102 @@ extension ListTagsForResourceOutputResponseBody: Swift.Decodable {
         }
         tags = tagsDecoded0
     }
+}
+
+extension BraketClientTypes {
+    public enum QuantumTaskAdditionalAttributeName: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case queueInfo
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [QuantumTaskAdditionalAttributeName] {
+            return [
+                .queueInfo,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .queueInfo: return "QueueInfo"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = QuantumTaskAdditionalAttributeName(rawValue: rawValue) ?? QuantumTaskAdditionalAttributeName.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension BraketClientTypes.QuantumTaskQueueInfo: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message
+        case position
+        case queue
+        case queuePriority
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let message = self.message {
+            try encodeContainer.encode(message, forKey: .message)
+        }
+        if let position = self.position {
+            try encodeContainer.encode(position, forKey: .position)
+        }
+        if let queue = self.queue {
+            try encodeContainer.encode(queue.rawValue, forKey: .queue)
+        }
+        if let queuePriority = self.queuePriority {
+            try encodeContainer.encode(queuePriority.rawValue, forKey: .queuePriority)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let queueDecoded = try containerValues.decodeIfPresent(BraketClientTypes.QueueName.self, forKey: .queue)
+        queue = queueDecoded
+        let positionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .position)
+        position = positionDecoded
+        let queuePriorityDecoded = try containerValues.decodeIfPresent(BraketClientTypes.QueuePriority.self, forKey: .queuePriority)
+        queuePriority = queuePriorityDecoded
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
+}
+
+extension BraketClientTypes {
+    /// Information about the queue for the specified quantum task.
+    public struct QuantumTaskQueueInfo: Swift.Equatable {
+        /// Optional. Provides more information about the queue position. For example, if the task is complete and no longer in the queue, the message field contains that information.
+        public var message: Swift.String?
+        /// Current position of the task in the quantum tasks queue.
+        /// This member is required.
+        public var position: Swift.String?
+        /// The name of the queue.
+        /// This member is required.
+        public var queue: BraketClientTypes.QueueName?
+        /// Optional. Specifies the priority of the queue. Quantum tasks in a priority queue are processed before the tasks in a normal queue.
+        public var queuePriority: BraketClientTypes.QueuePriority?
+
+        public init(
+            message: Swift.String? = nil,
+            position: Swift.String? = nil,
+            queue: BraketClientTypes.QueueName? = nil,
+            queuePriority: BraketClientTypes.QueuePriority? = nil
+        )
+        {
+            self.message = message
+            self.position = position
+            self.queue = queue
+            self.queuePriority = queuePriority
+        }
+    }
+
 }
 
 extension BraketClientTypes {
@@ -2964,6 +3280,70 @@ extension BraketClientTypes {
         }
     }
 
+}
+
+extension BraketClientTypes {
+    public enum QueueName: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case jobsQueue
+        case quantumTasksQueue
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [QueueName] {
+            return [
+                .jobsQueue,
+                .quantumTasksQueue,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .jobsQueue: return "JOBS_QUEUE"
+            case .quantumTasksQueue: return "QUANTUM_TASKS_QUEUE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = QueueName(rawValue: rawValue) ?? QueueName.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension BraketClientTypes {
+    public enum QueuePriority: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case normal
+        case priority
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [QueuePriority] {
+            return [
+                .normal,
+                .priority,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .normal: return "Normal"
+            case .priority: return "Priority"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = QueuePriority(rawValue: rawValue) ?? QueuePriority.sdkUnknown(rawValue)
+        }
+    }
 }
 
 extension ResourceNotFoundException {
@@ -3257,8 +3637,8 @@ extension SearchDevicesInputBody: Swift.Decodable {
     }
 }
 
-public enum SearchDevicesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum SearchDevicesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -3532,8 +3912,8 @@ extension SearchJobsInputBody: Swift.Decodable {
     }
 }
 
-public enum SearchJobsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum SearchJobsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -3804,8 +4184,8 @@ extension SearchQuantumTasksInputBody: Swift.Decodable {
     }
 }
 
-public enum SearchQuantumTasksOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum SearchQuantumTasksOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -4001,8 +4381,8 @@ extension TagResourceInputBody: Swift.Decodable {
     }
 }
 
-public enum TagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum TagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -4132,8 +4512,8 @@ extension UntagResourceInputBody: Swift.Decodable {
     }
 }
 
-public enum UntagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum UntagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {

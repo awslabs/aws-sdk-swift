@@ -199,8 +199,8 @@ extension AssociateUserToPermissionGroupInputBody: Swift.Decodable {
     }
 }
 
-public enum AssociateUserToPermissionGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum AssociateUserToPermissionGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -288,7 +288,8 @@ extension FinspacedataClientTypes.AwsCredentials: Swift.Codable {
 
 extension FinspacedataClientTypes.AwsCredentials: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "AwsCredentials(accessKeyId: \(Swift.String(describing: accessKeyId)), expiration: \(Swift.String(describing: expiration)), secretAccessKey: \"CONTENT_REDACTED\", sessionToken: \"CONTENT_REDACTED\")"}
+        "CONTENT_REDACTED"
+    }
 }
 
 extension FinspacedataClientTypes {
@@ -931,8 +932,8 @@ extension CreateChangesetInputBody: Swift.Decodable {
     }
 }
 
-public enum CreateChangesetOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum CreateChangesetOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -1140,8 +1141,8 @@ extension CreateDataViewInputBody: Swift.Decodable {
     }
 }
 
-public enum CreateDataViewOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum CreateDataViewOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -1346,8 +1347,8 @@ extension CreateDatasetInputBody: Swift.Decodable {
     }
 }
 
-public enum CreateDatasetOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum CreateDatasetOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -1520,8 +1521,8 @@ extension CreatePermissionGroupInputBody: Swift.Decodable {
     }
 }
 
-public enum CreatePermissionGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum CreatePermissionGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -1583,7 +1584,7 @@ extension CreateUserInput: Swift.CustomDebugStringConvertible {
 
 extension CreateUserInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
-        case apiAccess = "ApiAccess"
+        case apiAccess
         case apiAccessPrincipalArn
         case clientToken
         case emailAddress
@@ -1682,7 +1683,7 @@ struct CreateUserInputBody: Swift.Equatable {
 
 extension CreateUserInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
-        case apiAccess = "ApiAccess"
+        case apiAccess
         case apiAccessPrincipalArn
         case clientToken
         case emailAddress
@@ -1710,8 +1711,8 @@ extension CreateUserInputBody: Swift.Decodable {
     }
 }
 
-public enum CreateUserOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum CreateUserOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -1794,6 +1795,12 @@ extension FinspacedataClientTypes.Credentials: Swift.Codable {
         secretAccessKey = secretAccessKeyDecoded
         let sessionTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sessionToken)
         sessionToken = sessionTokenDecoded
+    }
+}
+
+extension FinspacedataClientTypes.Credentials: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CONTENT_REDACTED"
     }
 }
 
@@ -2505,8 +2512,8 @@ extension DeleteDatasetInputBody: Swift.Decodable {
     }
 }
 
-public enum DeleteDatasetOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DeleteDatasetOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -2611,8 +2618,8 @@ extension DeletePermissionGroupInputBody: Swift.Decodable {
     }
 }
 
-public enum DeletePermissionGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DeletePermissionGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -2693,7 +2700,7 @@ extension DisableUserInput: ClientRuntime.URLPathProvider {
 public struct DisableUserInput: Swift.Equatable {
     /// A token that ensures idempotency. This token expires in 10 minutes.
     public var clientToken: Swift.String?
-    /// The unique identifier for the user account that you want to disable.
+    /// The unique identifier for the user that you want to deactivate.
     /// This member is required.
     public var userId: Swift.String?
 
@@ -2723,8 +2730,8 @@ extension DisableUserInputBody: Swift.Decodable {
     }
 }
 
-public enum DisableUserOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DisableUserOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -2752,7 +2759,7 @@ extension DisableUserOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 public struct DisableUserOutputResponse: Swift.Equatable {
-    /// The unique identifier for the disabled user account.
+    /// The unique identifier for the deactivated user.
     public var userId: Swift.String?
 
     public init(
@@ -2835,8 +2842,8 @@ extension DisassociateUserFromPermissionGroupInputBody: Swift.Decodable {
     }
 }
 
-public enum DisassociateUserFromPermissionGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DisassociateUserFromPermissionGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -2910,7 +2917,7 @@ extension EnableUserInput: ClientRuntime.URLPathProvider {
 public struct EnableUserInput: Swift.Equatable {
     /// A token that ensures idempotency. This token expires in 10 minutes.
     public var clientToken: Swift.String?
-    /// The unique identifier for the user account that you want to enable.
+    /// The unique identifier for the user that you want to activate.
     /// This member is required.
     public var userId: Swift.String?
 
@@ -2940,8 +2947,8 @@ extension EnableUserInputBody: Swift.Decodable {
     }
 }
 
-public enum EnableUserOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum EnableUserOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -2970,7 +2977,7 @@ extension EnableUserOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 public struct EnableUserOutputResponse: Swift.Equatable {
-    /// The unique identifier for the enabled user account.
+    /// The unique identifier for the active user.
     public var userId: Swift.String?
 
     public init(
@@ -3121,8 +3128,8 @@ extension GetChangesetInputBody: Swift.Decodable {
     }
 }
 
-public enum GetChangesetOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum GetChangesetOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -3362,8 +3369,8 @@ extension GetDataViewInputBody: Swift.Decodable {
     }
 }
 
-public enum GetDataViewOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum GetDataViewOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -3594,8 +3601,8 @@ extension GetDatasetInputBody: Swift.Decodable {
     }
 }
 
-public enum GetDatasetOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum GetDatasetOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -3792,8 +3799,8 @@ extension GetExternalDataViewAccessDetailsInputBody: Swift.Decodable {
     }
 }
 
-public enum GetExternalDataViewAccessDetailsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum GetExternalDataViewAccessDetailsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -3805,6 +3812,11 @@ public enum GetExternalDataViewAccessDetailsOutputError: ClientRuntime.HttpRespo
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
+}
+
+extension GetExternalDataViewAccessDetailsOutputResponse: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "GetExternalDataViewAccessDetailsOutputResponse(s3Location: \(Swift.String(describing: s3Location)), credentials: \"CONTENT_REDACTED\")"}
 }
 
 extension GetExternalDataViewAccessDetailsOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -3888,8 +3900,8 @@ extension GetPermissionGroupInputBody: Swift.Decodable {
     }
 }
 
-public enum GetPermissionGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum GetPermissionGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -3995,8 +4007,8 @@ extension GetProgrammaticAccessCredentialsInputBody: Swift.Decodable {
     }
 }
 
-public enum GetProgrammaticAccessCredentialsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum GetProgrammaticAccessCredentialsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -4007,6 +4019,11 @@ public enum GetProgrammaticAccessCredentialsOutputError: ClientRuntime.HttpRespo
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
+}
+
+extension GetProgrammaticAccessCredentialsOutputResponse: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "GetProgrammaticAccessCredentialsOutputResponse(durationInMinutes: \(Swift.String(describing: durationInMinutes)), credentials: \"CONTENT_REDACTED\")"}
 }
 
 extension GetProgrammaticAccessCredentialsOutputResponse: ClientRuntime.HttpResponseBinding {
@@ -4091,8 +4108,8 @@ extension GetUserInputBody: Swift.Decodable {
     }
 }
 
-public enum GetUserOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum GetUserOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -4156,29 +4173,29 @@ public struct GetUserOutputResponse: Swift.Equatable {
     public var apiAccess: FinspacedataClientTypes.ApiAccess?
     /// The ARN identifier of an AWS user or role that is allowed to call the GetProgrammaticAccessCredentials API to obtain a credentials token for a specific FinSpace user. This must be an IAM role within your FinSpace account.
     public var apiAccessPrincipalArn: Swift.String?
-    /// The timestamp at which the user account was created in FinSpace. The value is determined as epoch time in milliseconds.
+    /// The timestamp at which the user was created in FinSpace. The value is determined as epoch time in milliseconds.
     public var createTime: Swift.Int
     /// The email address that is associated with the user.
     public var emailAddress: Swift.String?
     /// The first name of the user.
     public var firstName: Swift.String?
-    /// Describes the last time the user account was disabled. The value is determined as epoch time in milliseconds.
+    /// Describes the last time the user was deactivated. The value is determined as epoch time in milliseconds.
     public var lastDisabledTime: Swift.Int
-    /// Describes the last time the user account was enabled. The value is determined as epoch time in milliseconds.
+    /// Describes the last time the user was activated. The value is determined as epoch time in milliseconds.
     public var lastEnabledTime: Swift.Int
     /// Describes the last time that the user logged into their account. The value is determined as epoch time in milliseconds.
     public var lastLoginTime: Swift.Int
-    /// Describes the last time the user account was updated. The value is determined as epoch time in milliseconds.
+    /// Describes the last time the user details were updated. The value is determined as epoch time in milliseconds.
     public var lastModifiedTime: Swift.Int
     /// The last name of the user.
     public var lastName: Swift.String?
-    /// The current status of the user account.
+    /// The current status of the user.
     ///
-    /// * CREATING – The user account creation is in progress.
+    /// * CREATING – The creation is in progress.
     ///
-    /// * ENABLED – The user account is created and is currently active.
+    /// * ENABLED – The user is created and is currently active.
     ///
-    /// * DISABLED – The user account is currently inactive.
+    /// * DISABLED – The user is currently inactive.
     public var status: FinspacedataClientTypes.UserStatus?
     /// Indicates the type of user.
     ///
@@ -4189,7 +4206,7 @@ public struct GetUserOutputResponse: Swift.Equatable {
     ///
     /// * APP_USER – A user with specific permissions in FinSpace. The users are assigned permissions by adding them to a permission group.
     public var type: FinspacedataClientTypes.UserType?
-    /// The unique identifier for the user account that is retrieved.
+    /// The unique identifier for the user that is retrieved.
     public var userId: Swift.String?
 
     public init(
@@ -4339,8 +4356,8 @@ extension GetWorkingLocationInputBody: Swift.Decodable {
     }
 }
 
-public enum GetWorkingLocationOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum GetWorkingLocationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -4622,8 +4639,8 @@ extension ListChangesetsInputBody: Swift.Decodable {
     }
 }
 
-public enum ListChangesetsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum ListChangesetsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -4755,8 +4772,8 @@ extension ListDataViewsInputBody: Swift.Decodable {
     }
 }
 
-public enum ListDataViewsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum ListDataViewsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -4878,8 +4895,8 @@ extension ListDatasetsInputBody: Swift.Decodable {
     }
 }
 
-public enum ListDatasetsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum ListDatasetsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -5012,8 +5029,8 @@ extension ListPermissionGroupsByUserInputBody: Swift.Decodable {
     }
 }
 
-public enum ListPermissionGroupsByUserOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum ListPermissionGroupsByUserOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -5137,8 +5154,8 @@ extension ListPermissionGroupsInputBody: Swift.Decodable {
     }
 }
 
-public enum ListPermissionGroupsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum ListPermissionGroupsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -5269,8 +5286,8 @@ extension ListUsersByPermissionGroupInputBody: Swift.Decodable {
     }
 }
 
-public enum ListUsersByPermissionGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum ListUsersByPermissionGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -5394,8 +5411,8 @@ extension ListUsersInputBody: Swift.Decodable {
     }
 }
 
-public enum ListUsersOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum ListUsersOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -5425,7 +5442,7 @@ extension ListUsersOutputResponse: ClientRuntime.HttpResponseBinding {
 public struct ListUsersOutputResponse: Swift.Equatable {
     /// A token that indicates where a results page should begin.
     public var nextToken: Swift.String?
-    /// A list of all the user accounts.
+    /// A list of all the users.
     public var users: [FinspacedataClientTypes.User]?
 
     public init(
@@ -5596,11 +5613,11 @@ extension FinspacedataClientTypes {
         public var description: Swift.String?
         /// Describes the last time the permission group was updated. The value is determined as epoch time in milliseconds.
         public var lastModifiedTime: Swift.Int
-        /// Indicates the status of the user account within a permission group.
+        /// Indicates the status of the user within a permission group.
         ///
-        /// * ADDITION_IN_PROGRESS – The user account is currently being added to the permission group.
+        /// * ADDITION_IN_PROGRESS – The user is currently being added to the permission group.
         ///
-        /// * ADDITION_SUCCESS – The user account is successfully added to the permission group.
+        /// * ADDITION_SUCCESS – The user is successfully added to the permission group.
         ///
         /// * REMOVAL_IN_PROGRESS – The user is currently being removed from the permission group.
         public var membershipStatus: FinspacedataClientTypes.PermissionGroupMembershipStatus?
@@ -5668,13 +5685,13 @@ extension FinspacedataClientTypes.PermissionGroupByUser: Swift.CustomDebugString
 }
 
 extension FinspacedataClientTypes {
-    /// The structure of a permission group associated with a user account.
+    /// The structure of a permission group associated with a user.
     public struct PermissionGroupByUser: Swift.Equatable {
-        /// Indicates the status of the user account within a permission group.
+        /// Indicates the status of the user within a permission group.
         ///
-        /// * ADDITION_IN_PROGRESS – The user account is currently being added to the permission group.
+        /// * ADDITION_IN_PROGRESS – The user is currently being added to the permission group.
         ///
-        /// * ADDITION_SUCCESS – The user account is successfully added to the permission group.
+        /// * ADDITION_SUCCESS – The user is successfully added to the permission group.
         ///
         /// * REMOVAL_IN_PROGRESS – The user is currently being removed from the permission group.
         public var membershipStatus: FinspacedataClientTypes.PermissionGroupMembershipStatus?
@@ -5844,8 +5861,8 @@ extension ResetUserPasswordInputBody: Swift.Decodable {
     }
 }
 
-public enum ResetUserPasswordOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum ResetUserPasswordOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -5880,7 +5897,7 @@ extension ResetUserPasswordOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 public struct ResetUserPasswordOutputResponse: Swift.Equatable {
-    /// A randomly generated temporary password for the requested user account. This password expires in 7 days.
+    /// A randomly generated temporary password for the requested user. This password expires in 7 days.
     public var temporaryPassword: Swift.String?
     /// The unique identifier of the user that a new password is generated for.
     public var userId: Swift.String?
@@ -6326,8 +6343,8 @@ extension UpdateChangesetInputBody: Swift.Decodable {
     }
 }
 
-public enum UpdateChangesetOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum UpdateChangesetOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -6515,8 +6532,8 @@ extension UpdateDatasetInputBody: Swift.Decodable {
     }
 }
 
-public enum UpdateDatasetOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum UpdateDatasetOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -6694,8 +6711,8 @@ extension UpdatePermissionGroupInputBody: Swift.Decodable {
     }
 }
 
-public enum UpdatePermissionGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum UpdatePermissionGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -6818,7 +6835,7 @@ public struct UpdateUserInput: Swift.Equatable {
     ///
     /// * APP_USER – A user with specific permissions in FinSpace. The users are assigned permissions by adding them to a permission group.
     public var type: FinspacedataClientTypes.UserType?
-    /// The unique identifier for the user account to update.
+    /// The unique identifier for the user that you want to update.
     /// This member is required.
     public var userId: Swift.String?
 
@@ -6878,8 +6895,8 @@ extension UpdateUserInputBody: Swift.Decodable {
     }
 }
 
-public enum UpdateUserOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum UpdateUserOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -6907,7 +6924,7 @@ extension UpdateUserOutputResponse: ClientRuntime.HttpResponseBinding {
 }
 
 public struct UpdateUserOutputResponse: Swift.Equatable {
-    /// The unique identifier of the updated user account.
+    /// The unique identifier of the updated user.
     public var userId: Swift.String?
 
     public init(
@@ -7031,7 +7048,7 @@ extension FinspacedataClientTypes.User: Swift.CustomDebugStringConvertible {
 }
 
 extension FinspacedataClientTypes {
-    /// The details of the user account.
+    /// The details of the user.
     public struct User: Swift.Equatable {
         /// Indicates whether the user can use the GetProgrammaticAccessCredentials API to obtain credentials that can then be used to access other FinSpace Data API operations.
         ///
@@ -7041,29 +7058,29 @@ extension FinspacedataClientTypes {
         public var apiAccess: FinspacedataClientTypes.ApiAccess?
         /// The ARN identifier of an AWS user or role that is allowed to call the GetProgrammaticAccessCredentials API to obtain a credentials token for a specific FinSpace user. This must be an IAM role within your FinSpace account.
         public var apiAccessPrincipalArn: Swift.String?
-        /// The timestamp at which the user account was created in FinSpace. The value is determined as epoch time in milliseconds.
+        /// The timestamp at which the user was created in FinSpace. The value is determined as epoch time in milliseconds.
         public var createTime: Swift.Int
         /// The email address of the user. The email address serves as a uniquer identifier for each user and cannot be changed after it's created.
         public var emailAddress: Swift.String?
         /// The first name of the user.
         public var firstName: Swift.String?
-        /// Describes the last time the user account was disabled. The value is determined as epoch time in milliseconds.
+        /// Describes the last time the user was deactivated. The value is determined as epoch time in milliseconds.
         public var lastDisabledTime: Swift.Int
-        /// Describes the last time the user account was enabled. The value is determined as epoch time in milliseconds.
+        /// Describes the last time the user was activated. The value is determined as epoch time in milliseconds.
         public var lastEnabledTime: Swift.Int
         /// Describes the last time that the user logged into their account. The value is determined as epoch time in milliseconds.
         public var lastLoginTime: Swift.Int
-        /// Describes the last time the user account was updated. The value is determined as epoch time in milliseconds.
+        /// Describes the last time the user was updated. The value is determined as epoch time in milliseconds.
         public var lastModifiedTime: Swift.Int
         /// The last name of the user.
         public var lastName: Swift.String?
-        /// The current status of the user account.
+        /// The current status of the user.
         ///
-        /// * CREATING – The user account creation is in progress.
+        /// * CREATING – The user creation is in progress.
         ///
-        /// * ENABLED – The user account is created and is currently active.
+        /// * ENABLED – The user is created and is currently active.
         ///
-        /// * DISABLED – The user account is currently inactive.
+        /// * DISABLED – The user is currently inactive.
         public var status: FinspacedataClientTypes.UserStatus?
         /// Indicates the type of user.
         ///
@@ -7181,7 +7198,7 @@ extension FinspacedataClientTypes.UserByPermissionGroup: Swift.CustomDebugString
 }
 
 extension FinspacedataClientTypes {
-    /// The structure of a user account associated with a permission group.
+    /// The structure of a user associated with a permission group.
     public struct UserByPermissionGroup: Swift.Equatable {
         /// Indicates whether the user can access FinSpace API operations.
         ///
@@ -7197,21 +7214,21 @@ extension FinspacedataClientTypes {
         public var firstName: Swift.String?
         /// The last name of the user.
         public var lastName: Swift.String?
-        /// Indicates the status of the user account within a permission group.
+        /// Indicates the status of the user within a permission group.
         ///
-        /// * ADDITION_IN_PROGRESS – The user account is currently being added to the permission group.
+        /// * ADDITION_IN_PROGRESS – The user is currently being added to the permission group.
         ///
-        /// * ADDITION_SUCCESS – The user account is successfully added to the permission group.
+        /// * ADDITION_SUCCESS – The user is successfully added to the permission group.
         ///
         /// * REMOVAL_IN_PROGRESS – The user is currently being removed from the permission group.
         public var membershipStatus: FinspacedataClientTypes.PermissionGroupMembershipStatus?
-        /// The current status of the user account.
+        /// The current status of the user.
         ///
-        /// * CREATING – The user account creation is in progress.
+        /// * CREATING – The user creation is in progress.
         ///
-        /// * ENABLED – The user account is created and is currently active.
+        /// * ENABLED – The user is created and is currently active.
         ///
-        /// * DISABLED – The user account is currently inactive.
+        /// * DISABLED – The user is currently inactive.
         public var status: FinspacedataClientTypes.UserStatus?
         /// Indicates the type of user.
         ///

@@ -85,7 +85,7 @@ public protocol AmplifyUIBuilderClientProtocol {
     /// - `InvalidParameterException` : An invalid or out-of-range value was supplied for the input parameter.
     /// - `ResourceNotFoundException` : The requested resource does not exist, or access was denied.
     func deleteTheme(input: DeleteThemeInput) async throws -> DeleteThemeOutputResponse
-    /// Exchanges an access code for a token.
+    /// This is for internal use. Amplify uses this action to exchange an access code for a token.
     ///
     /// - Parameter ExchangeCodeForTokenInput : [no documentation found]
     ///
@@ -258,7 +258,7 @@ public protocol AmplifyUIBuilderClientProtocol {
     /// - `InvalidParameterException` : An invalid or out-of-range value was supplied for the input parameter.
     /// - `UnauthorizedException` : You don't have permission to perform this operation.
     func putMetadataFlag(input: PutMetadataFlagInput) async throws -> PutMetadataFlagOutputResponse
-    /// Refreshes a previously issued access token that might have expired.
+    /// This is for internal use. Amplify uses this action to refresh a previously issued access token that might have expired.
     ///
     /// - Parameter RefreshTokenInput : [no documentation found]
     ///

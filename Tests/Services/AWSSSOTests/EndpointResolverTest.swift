@@ -608,7 +608,7 @@ class EndpointResolverTest: XCTestCase {
             [:]
 
         let headers = Headers()
-        let expected = try ClientRuntime.Endpoint(urlString: "https://portal.sso-fips.us-gov-east-1.amazonaws.com", headers: headers, properties: properties)
+        let expected = try ClientRuntime.Endpoint(urlString: "https://portal.sso.us-gov-east-1.amazonaws.com", headers: headers, properties: properties)
 
         XCTAssertEqual(expected, actual)
     }

@@ -772,13 +772,14 @@ extension CreateApplicationInputBody: Swift.Decodable {
     }
 }
 
-public enum CreateApplicationOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum CreateApplicationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
             case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
@@ -908,7 +909,9 @@ public struct CreateConfigurationProfileInput: Swift.Equatable {
     ///
     /// * For an Amazon Web Services Systems Manager Parameter Store parameter, specify either the parameter name in the format ssm-parameter:// or the ARN.
     ///
-    /// * For an Secrets Manager secret, specify the URI in the following format: secrets-manager://.
+    /// * For an Amazon Web Services CodePipeline pipeline, specify the URI in the following format: codepipeline://.
+    ///
+    /// * For an Secrets Manager secret, specify the URI in the following format: secretsmanager://.
     ///
     /// * For an Amazon S3 object, specify the URI in the following format: s3:/// . Here is an example: s3://my-bucket/my-app/us-east-1/my-config.json
     ///
@@ -1008,14 +1011,15 @@ extension CreateConfigurationProfileInputBody: Swift.Decodable {
     }
 }
 
-public enum CreateConfigurationProfileOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum CreateConfigurationProfileOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
             case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
@@ -1290,13 +1294,14 @@ extension CreateDeploymentStrategyInputBody: Swift.Decodable {
     }
 }
 
-public enum CreateDeploymentStrategyOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum CreateDeploymentStrategyOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
             case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
@@ -1528,14 +1533,15 @@ extension CreateEnvironmentInputBody: Swift.Decodable {
     }
 }
 
-public enum CreateEnvironmentOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum CreateEnvironmentOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
             case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
@@ -1761,8 +1767,8 @@ extension CreateExtensionAssociationInputBody: Swift.Decodable {
     }
 }
 
-public enum CreateExtensionAssociationOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum CreateExtensionAssociationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -2031,8 +2037,8 @@ extension CreateExtensionInputBody: Swift.Decodable {
     }
 }
 
-public enum CreateExtensionOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum CreateExtensionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -2301,8 +2307,8 @@ extension CreateHostedConfigurationVersionInputBody: Swift.Decodable {
     }
 }
 
-public enum CreateHostedConfigurationVersionOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum CreateHostedConfigurationVersionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -2448,8 +2454,8 @@ extension DeleteApplicationInputBody: Swift.Decodable {
     }
 }
 
-public enum DeleteApplicationOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DeleteApplicationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -2510,8 +2516,8 @@ extension DeleteConfigurationProfileInputBody: Swift.Decodable {
     }
 }
 
-public enum DeleteConfigurationProfileOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DeleteConfigurationProfileOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -2565,8 +2571,8 @@ extension DeleteDeploymentStrategyInputBody: Swift.Decodable {
     }
 }
 
-public enum DeleteDeploymentStrategyOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DeleteDeploymentStrategyOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -2627,8 +2633,8 @@ extension DeleteEnvironmentInputBody: Swift.Decodable {
     }
 }
 
-public enum DeleteEnvironmentOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DeleteEnvironmentOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -2682,8 +2688,8 @@ extension DeleteExtensionAssociationInputBody: Swift.Decodable {
     }
 }
 
-public enum DeleteExtensionAssociationOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DeleteExtensionAssociationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -2753,8 +2759,8 @@ extension DeleteExtensionInputBody: Swift.Decodable {
     }
 }
 
-public enum DeleteExtensionOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DeleteExtensionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -2823,8 +2829,8 @@ extension DeleteHostedConfigurationVersionInputBody: Swift.Decodable {
     }
 }
 
-public enum DeleteHostedConfigurationVersionOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DeleteHostedConfigurationVersionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -2906,7 +2912,13 @@ extension AppConfigClientTypes {
     public struct DeploymentEvent: Swift.Equatable {
         /// The list of extensions that were invoked as part of the deployment.
         public var actionInvocations: [AppConfigClientTypes.ActionInvocation]?
-        /// A description of the deployment event. Descriptions include, but are not limited to, the user account or the Amazon CloudWatch alarm ARN that initiated a rollback, the percentage of hosts that received the deployment, or in the case of an internal error, a recommendation to attempt a new deployment.
+        /// A description of the deployment event. Descriptions include, but are not limited to, the following:
+        ///
+        /// * The Amazon Web Services account or the Amazon CloudWatch alarm ARN that initiated a rollback.
+        ///
+        /// * The percentage of hosts that received the deployment.
+        ///
+        /// * A recommendation to attempt a new deployment (in the case of an internal error).
         public var description: Swift.String?
         /// The type of deployment event. Deployment event types include the start, stop, or completion of a deployment; a percentage update; the start or stop of a bake period; and the start or completion of a rollback.
         public var eventType: AppConfigClientTypes.DeploymentEventType?
@@ -3138,6 +3150,7 @@ extension AppConfigClientTypes.DeploymentSummary: Swift.Codable {
         case percentageComplete = "PercentageComplete"
         case startedAt = "StartedAt"
         case state = "State"
+        case versionLabel = "VersionLabel"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -3175,6 +3188,9 @@ extension AppConfigClientTypes.DeploymentSummary: Swift.Codable {
         if let state = self.state {
             try encodeContainer.encode(state.rawValue, forKey: .state)
         }
+        if let versionLabel = self.versionLabel {
+            try encodeContainer.encode(versionLabel, forKey: .versionLabel)
+        }
     }
 
     public init(from decoder: Swift.Decoder) throws {
@@ -3201,6 +3217,8 @@ extension AppConfigClientTypes.DeploymentSummary: Swift.Codable {
         startedAt = startedAtDecoded
         let completedAtDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .completedAt)
         completedAt = completedAtDecoded
+        let versionLabelDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .versionLabel)
+        versionLabel = versionLabelDecoded
     }
 }
 
@@ -3229,6 +3247,8 @@ extension AppConfigClientTypes {
         public var startedAt: ClientRuntime.Date?
         /// The state of the deployment.
         public var state: AppConfigClientTypes.DeploymentState?
+        /// A user-defined label for an AppConfig hosted configuration version.
+        public var versionLabel: Swift.String?
 
         public init(
             completedAt: ClientRuntime.Date? = nil,
@@ -3241,7 +3261,8 @@ extension AppConfigClientTypes {
             growthType: AppConfigClientTypes.GrowthType? = nil,
             percentageComplete: Swift.Float = 0.0,
             startedAt: ClientRuntime.Date? = nil,
-            state: AppConfigClientTypes.DeploymentState? = nil
+            state: AppConfigClientTypes.DeploymentState? = nil,
+            versionLabel: Swift.String? = nil
         )
         {
             self.completedAt = completedAt
@@ -3255,6 +3276,7 @@ extension AppConfigClientTypes {
             self.percentageComplete = percentageComplete
             self.startedAt = startedAt
             self.state = state
+            self.versionLabel = versionLabel
         }
     }
 
@@ -3555,8 +3577,8 @@ extension GetApplicationInputBody: Swift.Decodable {
     }
 }
 
-public enum GetApplicationOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum GetApplicationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -3703,8 +3725,8 @@ extension GetConfigurationInputBody: Swift.Decodable {
     }
 }
 
-public enum GetConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum GetConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -3819,8 +3841,8 @@ extension GetConfigurationProfileInputBody: Swift.Decodable {
     }
 }
 
-public enum GetConfigurationProfileOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum GetConfigurationProfileOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -3999,8 +4021,8 @@ extension GetDeploymentInputBody: Swift.Decodable {
     }
 }
 
-public enum GetDeploymentOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum GetDeploymentOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -4038,6 +4060,7 @@ extension GetDeploymentOutputResponse: ClientRuntime.HttpResponseBinding {
             self.percentageComplete = output.percentageComplete
             self.startedAt = output.startedAt
             self.state = output.state
+            self.versionLabel = output.versionLabel
         } else {
             self.applicationId = nil
             self.appliedExtensions = nil
@@ -4060,6 +4083,7 @@ extension GetDeploymentOutputResponse: ClientRuntime.HttpResponseBinding {
             self.percentageComplete = 0.0
             self.startedAt = nil
             self.state = nil
+            self.versionLabel = nil
         }
     }
 }
@@ -4107,6 +4131,8 @@ public struct GetDeploymentOutputResponse: Swift.Equatable {
     public var startedAt: ClientRuntime.Date?
     /// The state of the deployment.
     public var state: AppConfigClientTypes.DeploymentState?
+    /// A user-defined label for an AppConfig hosted configuration version.
+    public var versionLabel: Swift.String?
 
     public init(
         applicationId: Swift.String? = nil,
@@ -4129,7 +4155,8 @@ public struct GetDeploymentOutputResponse: Swift.Equatable {
         kmsKeyIdentifier: Swift.String? = nil,
         percentageComplete: Swift.Float = 0.0,
         startedAt: ClientRuntime.Date? = nil,
-        state: AppConfigClientTypes.DeploymentState? = nil
+        state: AppConfigClientTypes.DeploymentState? = nil,
+        versionLabel: Swift.String? = nil
     )
     {
         self.applicationId = applicationId
@@ -4153,6 +4180,7 @@ public struct GetDeploymentOutputResponse: Swift.Equatable {
         self.percentageComplete = percentageComplete
         self.startedAt = startedAt
         self.state = state
+        self.versionLabel = versionLabel
     }
 }
 
@@ -4178,6 +4206,7 @@ struct GetDeploymentOutputResponseBody: Swift.Equatable {
     let appliedExtensions: [AppConfigClientTypes.AppliedExtension]?
     let kmsKeyArn: Swift.String?
     let kmsKeyIdentifier: Swift.String?
+    let versionLabel: Swift.String?
 }
 
 extension GetDeploymentOutputResponseBody: Swift.Decodable {
@@ -4203,6 +4232,7 @@ extension GetDeploymentOutputResponseBody: Swift.Decodable {
         case percentageComplete = "PercentageComplete"
         case startedAt = "StartedAt"
         case state = "State"
+        case versionLabel = "VersionLabel"
     }
 
     public init(from decoder: Swift.Decoder) throws {
@@ -4267,6 +4297,8 @@ extension GetDeploymentOutputResponseBody: Swift.Decodable {
         kmsKeyArn = kmsKeyArnDecoded
         let kmsKeyIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .kmsKeyIdentifier)
         kmsKeyIdentifier = kmsKeyIdentifierDecoded
+        let versionLabelDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .versionLabel)
+        versionLabel = versionLabelDecoded
     }
 }
 
@@ -4301,8 +4333,8 @@ extension GetDeploymentStrategyInputBody: Swift.Decodable {
     }
 }
 
-public enum GetDeploymentStrategyOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum GetDeploymentStrategyOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -4463,8 +4495,8 @@ extension GetEnvironmentInputBody: Swift.Decodable {
     }
 }
 
-public enum GetEnvironmentOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum GetEnvironmentOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -4606,8 +4638,8 @@ extension GetExtensionAssociationInputBody: Swift.Decodable {
     }
 }
 
-public enum GetExtensionAssociationOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum GetExtensionAssociationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -4766,8 +4798,8 @@ extension GetExtensionInputBody: Swift.Decodable {
     }
 }
 
-public enum GetExtensionOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum GetExtensionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -4951,8 +4983,8 @@ extension GetHostedConfigurationVersionInputBody: Swift.Decodable {
     }
 }
 
-public enum GetHostedConfigurationVersionOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum GetHostedConfigurationVersionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -5359,8 +5391,8 @@ extension ListApplicationsInputBody: Swift.Decodable {
     }
 }
 
-public enum ListApplicationsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum ListApplicationsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -5494,8 +5526,8 @@ extension ListConfigurationProfilesInputBody: Swift.Decodable {
     }
 }
 
-public enum ListConfigurationProfilesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum ListConfigurationProfilesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -5614,8 +5646,8 @@ extension ListDeploymentStrategiesInputBody: Swift.Decodable {
     }
 }
 
-public enum ListDeploymentStrategiesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum ListDeploymentStrategiesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -5749,8 +5781,8 @@ extension ListDeploymentsInputBody: Swift.Decodable {
     }
 }
 
-public enum ListDeploymentsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum ListDeploymentsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -5877,8 +5909,8 @@ extension ListEnvironmentsInputBody: Swift.Decodable {
     }
 }
 
-public enum ListEnvironmentsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum ListEnvironmentsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -6021,8 +6053,8 @@ extension ListExtensionAssociationsInputBody: Swift.Decodable {
     }
 }
 
-public enum ListExtensionAssociationsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum ListExtensionAssociationsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -6148,8 +6180,8 @@ extension ListExtensionsInputBody: Swift.Decodable {
     }
 }
 
-public enum ListExtensionsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum ListExtensionsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -6291,8 +6323,8 @@ extension ListHostedConfigurationVersionsInputBody: Swift.Decodable {
     }
 }
 
-public enum ListHostedConfigurationVersionsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum ListHostedConfigurationVersionsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -6394,8 +6426,8 @@ extension ListTagsForResourceInputBody: Swift.Decodable {
     }
 }
 
-public enum ListTagsForResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum ListTagsForResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -6740,7 +6772,7 @@ extension ServiceQuotaExceededException {
     }
 }
 
-/// The number of hosted configuration versions exceeds the limit for the AppConfig hosted configuration store. Delete one or more versions and try again.
+/// The number of one more AppConfig resources exceeds the maximum allowed. Verify that your environment doesn't exceed the following service quotas: Applications: 100 max Deployment strategies: 20 max Configuration profiles: 100 max per application Environments: 20 max per application To resolve this issue, you can delete one or more resources and try again. Or, you can request a quota increase. For more information about quotas and to request an increase, see [Service quotas for AppConfig](https://docs.aws.amazon.com/general/latest/gr/appconfig.html#limits_appconfig) in the Amazon Web Services General Reference.
 public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
@@ -6835,7 +6867,7 @@ public struct StartDeploymentInput: Swift.Equatable {
     /// The configuration profile ID.
     /// This member is required.
     public var configurationProfileId: Swift.String?
-    /// The configuration version to deploy. If deploying an AppConfig hosted configuration version, you can specify either the version number or version label.
+    /// The configuration version to deploy. If deploying an AppConfig hosted configuration version, you can specify either the version number or version label. For all other configurations, you must specify the version number.
     /// This member is required.
     public var configurationVersion: Swift.String?
     /// The deployment strategy ID.
@@ -6918,8 +6950,8 @@ extension StartDeploymentInputBody: Swift.Decodable {
     }
 }
 
-public enum StartDeploymentOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum StartDeploymentOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -6958,6 +6990,7 @@ extension StartDeploymentOutputResponse: ClientRuntime.HttpResponseBinding {
             self.percentageComplete = output.percentageComplete
             self.startedAt = output.startedAt
             self.state = output.state
+            self.versionLabel = output.versionLabel
         } else {
             self.applicationId = nil
             self.appliedExtensions = nil
@@ -6980,6 +7013,7 @@ extension StartDeploymentOutputResponse: ClientRuntime.HttpResponseBinding {
             self.percentageComplete = 0.0
             self.startedAt = nil
             self.state = nil
+            self.versionLabel = nil
         }
     }
 }
@@ -7027,6 +7061,8 @@ public struct StartDeploymentOutputResponse: Swift.Equatable {
     public var startedAt: ClientRuntime.Date?
     /// The state of the deployment.
     public var state: AppConfigClientTypes.DeploymentState?
+    /// A user-defined label for an AppConfig hosted configuration version.
+    public var versionLabel: Swift.String?
 
     public init(
         applicationId: Swift.String? = nil,
@@ -7049,7 +7085,8 @@ public struct StartDeploymentOutputResponse: Swift.Equatable {
         kmsKeyIdentifier: Swift.String? = nil,
         percentageComplete: Swift.Float = 0.0,
         startedAt: ClientRuntime.Date? = nil,
-        state: AppConfigClientTypes.DeploymentState? = nil
+        state: AppConfigClientTypes.DeploymentState? = nil,
+        versionLabel: Swift.String? = nil
     )
     {
         self.applicationId = applicationId
@@ -7073,6 +7110,7 @@ public struct StartDeploymentOutputResponse: Swift.Equatable {
         self.percentageComplete = percentageComplete
         self.startedAt = startedAt
         self.state = state
+        self.versionLabel = versionLabel
     }
 }
 
@@ -7098,6 +7136,7 @@ struct StartDeploymentOutputResponseBody: Swift.Equatable {
     let appliedExtensions: [AppConfigClientTypes.AppliedExtension]?
     let kmsKeyArn: Swift.String?
     let kmsKeyIdentifier: Swift.String?
+    let versionLabel: Swift.String?
 }
 
 extension StartDeploymentOutputResponseBody: Swift.Decodable {
@@ -7123,6 +7162,7 @@ extension StartDeploymentOutputResponseBody: Swift.Decodable {
         case percentageComplete = "PercentageComplete"
         case startedAt = "StartedAt"
         case state = "State"
+        case versionLabel = "VersionLabel"
     }
 
     public init(from decoder: Swift.Decoder) throws {
@@ -7187,6 +7227,8 @@ extension StartDeploymentOutputResponseBody: Swift.Decodable {
         kmsKeyArn = kmsKeyArnDecoded
         let kmsKeyIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .kmsKeyIdentifier)
         kmsKeyIdentifier = kmsKeyIdentifierDecoded
+        let versionLabelDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .versionLabel)
+        versionLabel = versionLabelDecoded
     }
 }
 
@@ -7237,8 +7279,8 @@ extension StopDeploymentInputBody: Swift.Decodable {
     }
 }
 
-public enum StopDeploymentOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum StopDeploymentOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -7276,6 +7318,7 @@ extension StopDeploymentOutputResponse: ClientRuntime.HttpResponseBinding {
             self.percentageComplete = output.percentageComplete
             self.startedAt = output.startedAt
             self.state = output.state
+            self.versionLabel = output.versionLabel
         } else {
             self.applicationId = nil
             self.appliedExtensions = nil
@@ -7298,6 +7341,7 @@ extension StopDeploymentOutputResponse: ClientRuntime.HttpResponseBinding {
             self.percentageComplete = 0.0
             self.startedAt = nil
             self.state = nil
+            self.versionLabel = nil
         }
     }
 }
@@ -7345,6 +7389,8 @@ public struct StopDeploymentOutputResponse: Swift.Equatable {
     public var startedAt: ClientRuntime.Date?
     /// The state of the deployment.
     public var state: AppConfigClientTypes.DeploymentState?
+    /// A user-defined label for an AppConfig hosted configuration version.
+    public var versionLabel: Swift.String?
 
     public init(
         applicationId: Swift.String? = nil,
@@ -7367,7 +7413,8 @@ public struct StopDeploymentOutputResponse: Swift.Equatable {
         kmsKeyIdentifier: Swift.String? = nil,
         percentageComplete: Swift.Float = 0.0,
         startedAt: ClientRuntime.Date? = nil,
-        state: AppConfigClientTypes.DeploymentState? = nil
+        state: AppConfigClientTypes.DeploymentState? = nil,
+        versionLabel: Swift.String? = nil
     )
     {
         self.applicationId = applicationId
@@ -7391,6 +7438,7 @@ public struct StopDeploymentOutputResponse: Swift.Equatable {
         self.percentageComplete = percentageComplete
         self.startedAt = startedAt
         self.state = state
+        self.versionLabel = versionLabel
     }
 }
 
@@ -7416,6 +7464,7 @@ struct StopDeploymentOutputResponseBody: Swift.Equatable {
     let appliedExtensions: [AppConfigClientTypes.AppliedExtension]?
     let kmsKeyArn: Swift.String?
     let kmsKeyIdentifier: Swift.String?
+    let versionLabel: Swift.String?
 }
 
 extension StopDeploymentOutputResponseBody: Swift.Decodable {
@@ -7441,6 +7490,7 @@ extension StopDeploymentOutputResponseBody: Swift.Decodable {
         case percentageComplete = "PercentageComplete"
         case startedAt = "StartedAt"
         case state = "State"
+        case versionLabel = "VersionLabel"
     }
 
     public init(from decoder: Swift.Decoder) throws {
@@ -7505,6 +7555,8 @@ extension StopDeploymentOutputResponseBody: Swift.Decodable {
         kmsKeyArn = kmsKeyArnDecoded
         let kmsKeyIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .kmsKeyIdentifier)
         kmsKeyIdentifier = kmsKeyIdentifierDecoded
+        let versionLabelDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .versionLabel)
+        versionLabel = versionLabelDecoded
     }
 }
 
@@ -7576,8 +7628,8 @@ extension TagResourceInputBody: Swift.Decodable {
     }
 }
 
-public enum TagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum TagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -7690,8 +7742,8 @@ extension UntagResourceInputBody: Swift.Decodable {
     }
 }
 
-public enum UntagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum UntagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -7780,8 +7832,8 @@ extension UpdateApplicationInputBody: Swift.Decodable {
     }
 }
 
-public enum UpdateApplicationOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum UpdateApplicationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -7964,8 +8016,8 @@ extension UpdateConfigurationProfileInputBody: Swift.Decodable {
     }
 }
 
-public enum UpdateConfigurationProfileOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum UpdateConfigurationProfileOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -8203,8 +8255,8 @@ extension UpdateDeploymentStrategyInputBody: Swift.Decodable {
     }
 }
 
-public enum UpdateDeploymentStrategyOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum UpdateDeploymentStrategyOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -8425,8 +8477,8 @@ extension UpdateEnvironmentInputBody: Swift.Decodable {
     }
 }
 
-public enum UpdateEnvironmentOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum UpdateEnvironmentOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -8604,8 +8656,8 @@ extension UpdateExtensionAssociationInputBody: Swift.Decodable {
     }
 }
 
-public enum UpdateExtensionAssociationOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum UpdateExtensionAssociationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -8841,8 +8893,8 @@ extension UpdateExtensionInputBody: Swift.Decodable {
     }
 }
 
-public enum UpdateExtensionOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum UpdateExtensionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -9039,8 +9091,8 @@ extension ValidateConfigurationInputBody: Swift.Decodable {
     }
 }
 
-public enum ValidateConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum ValidateConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {

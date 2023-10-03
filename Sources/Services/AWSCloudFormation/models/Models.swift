@@ -205,8 +205,8 @@ public struct ActivateOrganizationsAccessInput: Swift.Equatable {
     public init() { }
 }
 
-public enum ActivateOrganizationsAccessOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum ActivateOrganizationsAccessOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "InvalidOperationException": return try await InvalidOperationException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -374,8 +374,8 @@ extension ActivateTypeInputBody: Swift.Decodable {
     }
 }
 
-public enum ActivateTypeOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum ActivateTypeOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "CFNRegistryException": return try await CFNRegistryException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -652,8 +652,8 @@ extension BatchDescribeTypeConfigurationsInputBody: Swift.Decodable {
     }
 }
 
-public enum BatchDescribeTypeConfigurationsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum BatchDescribeTypeConfigurationsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "CFNRegistryException": return try await CFNRegistryException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -920,8 +920,8 @@ extension CancelUpdateStackInputBody: Swift.Decodable {
     }
 }
 
-public enum CancelUpdateStackOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum CancelUpdateStackOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "TokenAlreadyExistsException": return try await TokenAlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -1476,7 +1476,7 @@ extension CloudFormationClientTypes.ChangeSetSummary: Swift.Codable {
             try container.encode(changeSetName, forKey: ClientRuntime.Key("ChangeSetName"))
         }
         if let creationTime = creationTime {
-            try container.encodeTimestamp(creationTime, format: .dateTime, forKey: ClientRuntime.Key("creationTime"))
+            try container.encodeTimestamp(creationTime, format: .dateTime, forKey: ClientRuntime.Key("CreationTime"))
         }
         if let description = description {
             try container.encode(description, forKey: ClientRuntime.Key("Description"))
@@ -1807,8 +1807,8 @@ extension ContinueUpdateRollbackInputBody: Swift.Decodable {
     }
 }
 
-public enum ContinueUpdateRollbackOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum ContinueUpdateRollbackOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "TokenAlreadyExistsException": return try await TokenAlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -2258,8 +2258,8 @@ extension CreateChangeSetInputBody: Swift.Decodable {
     }
 }
 
-public enum CreateChangeSetOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum CreateChangeSetOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "AlreadyExistsException": return try await AlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -2483,7 +2483,7 @@ public struct CreateStackInput: Swift.Equatable {
     public var parameters: [CloudFormationClientTypes.Parameter]?
     /// The template resource types that you have permissions to work with for this create stack action, such as AWS::EC2::Instance, AWS::EC2::*, or Custom::MyCustomInstance. Use the following syntax to describe template resource types: AWS::* (for all Amazon Web Services resources), Custom::* (for all custom resources), Custom::logical_ID  (for a specific custom resource), AWS::service_name::* (for all resources of a particular Amazon Web Services service), and AWS::service_name::resource_logical_ID  (for a specific Amazon Web Services resource). If the list of resource types doesn't include a resource that you're creating, the stack creation fails. By default, CloudFormation grants permissions to all resource types. Identity and Access Management (IAM) uses this parameter for CloudFormation-specific condition keys in IAM policies. For more information, see [Controlling Access with Identity and Access Management](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-iam-template.html).
     public var resourceTypes: [Swift.String]?
-    /// This deletion policy deletes newly created resources, but retains existing resources, when a stack operation is rolled back. This ensures new, empty, and unused resources are deleted, while critical resources and their data are retained. RetainExceptOnCreate can be specified for any resource that supports the [ DeletionPolicy](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-attribute-deletionpolicy.html) attribute.
+    /// When set to true, newly created resources are deleted when the operation rolls back. This includes newly created resources marked with a deletion policy of Retain. Default: false
     public var retainExceptOnCreate: Swift.Bool?
     /// The Amazon Resource Name (ARN) of an Identity and Access Management (IAM) role that CloudFormation assumes to create the stack. CloudFormation uses the role's credentials to make calls on your behalf. CloudFormation always uses this role for all future operations on the stack. Provided that users have permission to operate on the stack, CloudFormation uses this role even if the users don't have permission to pass it. Ensure that the role grants least privilege. If you don't specify a value, CloudFormation uses the role that was previously associated with the stack. If no role is available, CloudFormation uses a temporary session that's generated from your user credentials.
     public var roleARN: Swift.String?
@@ -2933,8 +2933,8 @@ extension CreateStackInstancesInputBody: Swift.Decodable {
     }
 }
 
-public enum CreateStackInstancesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum CreateStackInstancesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "InvalidOperationException": return try await InvalidOperationException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -2989,8 +2989,8 @@ extension CreateStackInstancesOutputResponseBody: Swift.Decodable {
     }
 }
 
-public enum CreateStackOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum CreateStackOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "AlreadyExistsException": return try await AlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -3131,7 +3131,7 @@ extension CreateStackSetInput: ClientRuntime.URLPathProvider {
 }
 
 public struct CreateStackSetInput: Swift.Equatable {
-    /// The Amazon Resource Name (ARN) of the IAM role to use to create this stack set. Specify an IAM role only if you are using customized administrator roles to control which users or groups can manage specific stack sets within the same administrator account. For more information, see [Prerequisites: Granting Permissions for Stack Set Operations](https://docs.aws.amazon.com/AWSCloudFormation/stacksets-prereqs.html) in the CloudFormation User Guide.
+    /// The Amazon Resource Name (ARN) of the IAM role to use to create this stack set. Specify an IAM role only if you are using customized administrator roles to control which users or groups can manage specific stack sets within the same administrator account. For more information, see [Prerequisites: Granting Permissions for Stack Set Operations](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-prereqs.html) in the CloudFormation User Guide.
     public var administrationRoleARN: Swift.String?
     /// Describes whether StackSets automatically deploys to Organizations accounts that are added to the target organization or organizational unit (OU). Specify only if PermissionModel is SERVICE_MANAGED.
     public var autoDeployment: CloudFormationClientTypes.AutoDeployment?
@@ -3172,9 +3172,9 @@ public struct CreateStackSetInput: Swift.Equatable {
     /// * [AWS::IAM::UserToGroupAddition](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-addusertogroup.html)
     ///
     ///
-    /// For more information, see [Acknowledging IAM Resources in CloudFormation Templates](https://docs.aws.amazon.com/AWSCloudFormation/using-iam-template.html#capabilities).
+    /// For more information, see [Acknowledging IAM Resources in CloudFormation Templates](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-iam-template.html#capabilities).
     ///
-    /// * CAPABILITY_AUTO_EXPAND Some templates reference macros. If your stack set template references one or more macros, you must create the stack set directly from the processed template, without first reviewing the resulting changes in a change set. To create the stack set directly, you must acknowledge this capability. For more information, see [Using CloudFormation Macros to Perform Custom Processing on Templates](https://docs.aws.amazon.com/AWSCloudFormation/template-macros.html). Stack sets with service-managed permissions don't currently support the use of macros in templates. (This includes the [AWS::Include](https://docs.aws.amazon.com/AWSCloudFormation/create-reusable-transform-function-snippets-and-add-to-your-template-with-aws-include-transform.html) and [AWS::Serverless](https://docs.aws.amazon.com/AWSCloudFormation/transform-aws-serverless.html) transforms, which are macros hosted by CloudFormation.) Even if you specify this capability for a stack set with service-managed permissions, if you reference a macro in your template the stack set operation will fail.
+    /// * CAPABILITY_AUTO_EXPAND Some templates reference macros. If your stack set template references one or more macros, you must create the stack set directly from the processed template, without first reviewing the resulting changes in a change set. To create the stack set directly, you must acknowledge this capability. For more information, see [Using CloudFormation Macros to Perform Custom Processing on Templates](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/template-macros.html). Stack sets with service-managed permissions don't currently support the use of macros in templates. (This includes the [AWS::Include](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/create-reusable-transform-function-snippets-and-add-to-your-template-with-aws-include-transform.html) and [AWS::Serverless](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/transform-aws-serverless.html) transforms, which are macros hosted by CloudFormation.) Even if you specify this capability for a stack set with service-managed permissions, if you reference a macro in your template the stack set operation will fail.
     public var capabilities: [CloudFormationClientTypes.Capability]?
     /// A unique identifier for this CreateStackSet request. Specify this token if you plan to retry requests so that CloudFormation knows that you're not attempting to create another stack set with the same name. You might retry CreateStackSet requests to ensure that CloudFormation successfully received them. If you don't specify an operation ID, the SDK generates one automatically.
     public var clientRequestToken: Swift.String?
@@ -3363,8 +3363,8 @@ extension CreateStackSetInputBody: Swift.Decodable {
     }
 }
 
-public enum CreateStackSetOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum CreateStackSetOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "CreatedButModifiedException": return try await CreatedButModifiedException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -3489,8 +3489,8 @@ public struct DeactivateOrganizationsAccessInput: Swift.Equatable {
     public init() { }
 }
 
-public enum DeactivateOrganizationsAccessOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DeactivateOrganizationsAccessOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "InvalidOperationException": return try await InvalidOperationException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -3577,8 +3577,8 @@ extension DeactivateTypeInputBody: Swift.Decodable {
     }
 }
 
-public enum DeactivateTypeOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DeactivateTypeOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "CFNRegistryException": return try await CFNRegistryException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -3656,8 +3656,8 @@ extension DeleteChangeSetInputBody: Swift.Decodable {
     }
 }
 
-public enum DeleteChangeSetOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DeleteChangeSetOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "InvalidChangeSetStatus": return try await InvalidChangeSetStatusException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -3964,8 +3964,8 @@ extension DeleteStackInstancesInputBody: Swift.Decodable {
     }
 }
 
-public enum DeleteStackInstancesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DeleteStackInstancesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "InvalidOperationException": return try await InvalidOperationException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -4019,8 +4019,8 @@ extension DeleteStackInstancesOutputResponseBody: Swift.Decodable {
     }
 }
 
-public enum DeleteStackOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DeleteStackOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "TokenAlreadyExistsException": return try await TokenAlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -4100,8 +4100,8 @@ extension DeleteStackSetInputBody: Swift.Decodable {
     }
 }
 
-public enum DeleteStackSetOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DeleteStackSetOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "OperationInProgressException": return try await OperationInProgressException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -4356,8 +4356,8 @@ extension DeregisterTypeInputBody: Swift.Decodable {
     }
 }
 
-public enum DeregisterTypeOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DeregisterTypeOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "CFNRegistryException": return try await CFNRegistryException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -4423,8 +4423,8 @@ extension DescribeAccountLimitsInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeAccountLimitsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DescribeAccountLimitsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
@@ -4580,8 +4580,8 @@ extension DescribeChangeSetHooksInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeChangeSetHooksOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DescribeChangeSetHooksOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "ChangeSetNotFound": return try await ChangeSetNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -4777,8 +4777,8 @@ extension DescribeChangeSetInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeChangeSetOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DescribeChangeSetOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "ChangeSetNotFound": return try await ChangeSetNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -5159,8 +5159,8 @@ extension DescribeOrganizationsAccessInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeOrganizationsAccessOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DescribeOrganizationsAccessOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "InvalidOperationException": return try await InvalidOperationException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -5256,8 +5256,8 @@ extension DescribePublisherInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribePublisherOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DescribePublisherOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "CFNRegistryException": return try await CFNRegistryException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -5383,8 +5383,8 @@ extension DescribeStackDriftDetectionStatusInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeStackDriftDetectionStatusOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DescribeStackDriftDetectionStatusOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
@@ -5575,8 +5575,8 @@ extension DescribeStackEventsInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeStackEventsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DescribeStackEventsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
@@ -5738,8 +5738,8 @@ extension DescribeStackInstanceInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeStackInstanceOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DescribeStackInstanceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "StackInstanceNotFoundException": return try await StackInstanceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -5903,8 +5903,8 @@ extension DescribeStackResourceDriftsInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeStackResourceDriftsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DescribeStackResourceDriftsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
@@ -6047,8 +6047,8 @@ extension DescribeStackResourceInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeStackResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DescribeStackResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
@@ -6173,8 +6173,8 @@ extension DescribeStackResourcesInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeStackResourcesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DescribeStackResourcesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
@@ -6375,8 +6375,8 @@ extension DescribeStackSetOperationInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeStackSetOperationOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DescribeStackSetOperationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "OperationNotFoundException": return try await OperationNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -6427,8 +6427,8 @@ extension DescribeStackSetOperationOutputResponseBody: Swift.Decodable {
     }
 }
 
-public enum DescribeStackSetOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DescribeStackSetOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "StackSetNotFoundException": return try await StackSetNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -6502,7 +6502,7 @@ extension DescribeStacksInput: ClientRuntime.URLPathProvider {
 public struct DescribeStacksInput: Swift.Equatable {
     /// A string that identifies the next page of stacks that you want to retrieve.
     public var nextToken: Swift.String?
-    /// If you don't pass a parameter to StackName, the API returns a response that describes all resources in the account. This requires ListStacks and DescribeStacks permissions. The IAM policy below can be added to IAM policies when you want to limit resource-level permissions and avoid returning a response when no parameter is sent in the request: { "Version": "2012-10-17", "Statement": [{ "Effect": "Deny", "Action": "cloudformation:DescribeStacks", "NotResource": "arn:aws:cloudformation:*:*:stack/*/*" }] } The name or the unique stack ID that's associated with the stack, which aren't always interchangeable:
+    /// If you don't pass a parameter to StackName, the API returns a response that describes all resources in the account, which can impact performance. This requires ListStacks and DescribeStacks permissions. Consider using the [ListStacks] API if you're not passing a parameter to StackName. The IAM policy below can be added to IAM policies when you want to limit resource-level permissions and avoid returning a response when no parameter is sent in the request: { "Version": "2012-10-17", "Statement": [{ "Effect": "Deny", "Action": "cloudformation:DescribeStacks", "NotResource": "arn:aws:cloudformation:*:*:stack/*/*" }] } The name or the unique stack ID that's associated with the stack, which aren't always interchangeable:
     ///
     /// * Running stacks: You can specify either the stack's name or its unique stack ID.
     ///
@@ -6542,8 +6542,8 @@ extension DescribeStacksInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeStacksOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DescribeStacksOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
@@ -6720,8 +6720,8 @@ extension DescribeTypeInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeTypeOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DescribeTypeOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "CFNRegistryException": return try await CFNRegistryException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -7130,8 +7130,8 @@ extension DescribeTypeRegistrationInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeTypeRegistrationOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DescribeTypeRegistrationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "CFNRegistryException": return try await CFNRegistryException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -7294,8 +7294,8 @@ extension DetectStackDriftInputBody: Swift.Decodable {
     }
 }
 
-public enum DetectStackDriftOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DetectStackDriftOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
@@ -7403,8 +7403,8 @@ extension DetectStackResourceDriftInputBody: Swift.Decodable {
     }
 }
 
-public enum DetectStackResourceDriftOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DetectStackResourceDriftOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
@@ -7537,8 +7537,8 @@ extension DetectStackSetDriftInputBody: Swift.Decodable {
     }
 }
 
-public enum DetectStackSetDriftOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DetectStackSetDriftOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "InvalidOperationException": return try await InvalidOperationException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -7719,8 +7719,8 @@ extension EstimateTemplateCostInputBody: Swift.Decodable {
     }
 }
 
-public enum EstimateTemplateCostOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum EstimateTemplateCostOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
@@ -7847,7 +7847,7 @@ public struct ExecuteChangeSetInput: Swift.Equatable {
     ///
     /// Default: True
     public var disableRollback: Swift.Bool?
-    /// This deletion policy deletes newly created resources, but retains existing resources, when a stack operation is rolled back. This ensures new, empty, and unused resources are deleted, while critical resources and their data are retained. RetainExceptOnCreate can be specified for any resource that supports the [ DeletionPolicy](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-attribute-deletionpolicy.html) attribute.
+    /// When set to true, newly created resources are deleted when the operation rolls back. This includes newly created resources marked with a deletion policy of Retain. Default: false
     public var retainExceptOnCreate: Swift.Bool?
     /// If you specified the name of a change set, specify the stack name or Amazon Resource Name (ARN) that's associated with the change set you want to execute.
     public var stackName: Swift.String?
@@ -7900,8 +7900,8 @@ extension ExecuteChangeSetInputBody: Swift.Decodable {
     }
 }
 
-public enum ExecuteChangeSetOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum ExecuteChangeSetOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "ChangeSetNotFound": return try await ChangeSetNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -8070,8 +8070,8 @@ extension GetStackPolicyInputBody: Swift.Decodable {
     }
 }
 
-public enum GetStackPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum GetStackPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
@@ -8196,8 +8196,8 @@ extension GetTemplateInputBody: Swift.Decodable {
     }
 }
 
-public enum GetTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum GetTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "ChangeSetNotFound": return try await ChangeSetNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -8380,8 +8380,8 @@ extension GetTemplateSummaryInputBody: Swift.Decodable {
     }
 }
 
-public enum GetTemplateSummaryOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum GetTemplateSummaryOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "StackSetNotFoundException": return try await StackSetNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -9021,8 +9021,8 @@ extension ImportStacksToStackSetInputBody: Swift.Decodable {
     }
 }
 
-public enum ImportStacksToStackSetOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum ImportStacksToStackSetOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "InvalidOperationException": return try await InvalidOperationException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -9406,8 +9406,8 @@ extension ListChangeSetsInputBody: Swift.Decodable {
     }
 }
 
-public enum ListChangeSetsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum ListChangeSetsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
@@ -9529,8 +9529,8 @@ extension ListExportsInputBody: Swift.Decodable {
     }
 }
 
-public enum ListExportsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum ListExportsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
@@ -9663,8 +9663,8 @@ extension ListImportsInputBody: Swift.Decodable {
     }
 }
 
-public enum ListImportsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum ListImportsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
@@ -9904,8 +9904,8 @@ extension ListStackInstanceResourceDriftsInputBody: Swift.Decodable {
     }
 }
 
-public enum ListStackInstanceResourceDriftsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum ListStackInstanceResourceDriftsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "OperationNotFoundException": return try await OperationNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -10126,8 +10126,8 @@ extension ListStackInstancesInputBody: Swift.Decodable {
     }
 }
 
-public enum ListStackInstancesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum ListStackInstancesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "StackSetNotFoundException": return try await StackSetNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -10269,8 +10269,8 @@ extension ListStackResourcesInputBody: Swift.Decodable {
     }
 }
 
-public enum ListStackResourcesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum ListStackResourcesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
@@ -10479,8 +10479,8 @@ extension ListStackSetOperationResultsInputBody: Swift.Decodable {
     }
 }
 
-public enum ListStackSetOperationResultsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum ListStackSetOperationResultsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "OperationNotFoundException": return try await OperationNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -10641,8 +10641,8 @@ extension ListStackSetOperationsInputBody: Swift.Decodable {
     }
 }
 
-public enum ListStackSetOperationsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum ListStackSetOperationsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "StackSetNotFoundException": return try await StackSetNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -10801,8 +10801,8 @@ extension ListStackSetsInputBody: Swift.Decodable {
     }
 }
 
-public enum ListStackSetsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum ListStackSetsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
@@ -10961,8 +10961,8 @@ extension ListStacksInputBody: Swift.Decodable {
     }
 }
 
-public enum ListStacksOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum ListStacksOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
@@ -11139,8 +11139,8 @@ extension ListTypeRegistrationsInputBody: Swift.Decodable {
     }
 }
 
-public enum ListTypeRegistrationsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum ListTypeRegistrationsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "CFNRegistryException": return try await CFNRegistryException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -11335,8 +11335,8 @@ extension ListTypeVersionsInputBody: Swift.Decodable {
     }
 }
 
-public enum ListTypeVersionsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum ListTypeVersionsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "CFNRegistryException": return try await CFNRegistryException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -11551,8 +11551,8 @@ extension ListTypesInputBody: Swift.Decodable {
     }
 }
 
-public enum ListTypesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum ListTypesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "CFNRegistryException": return try await CFNRegistryException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -12786,8 +12786,8 @@ extension PublishTypeInputBody: Swift.Decodable {
     }
 }
 
-public enum PublishTypeOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum PublishTypeOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "CFNRegistryException": return try await CFNRegistryException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -12983,8 +12983,8 @@ extension RecordHandlerProgressInputBody: Swift.Decodable {
     }
 }
 
-public enum RecordHandlerProgressOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum RecordHandlerProgressOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "InvalidStateTransition": return try await InvalidStateTransitionException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -13092,8 +13092,8 @@ extension RegisterPublisherInputBody: Swift.Decodable {
     }
 }
 
-public enum RegisterPublisherOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum RegisterPublisherOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "CFNRegistryException": return try await CFNRegistryException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -13266,8 +13266,8 @@ extension RegisterTypeInputBody: Swift.Decodable {
     }
 }
 
-public enum RegisterTypeOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum RegisterTypeOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "CFNRegistryException": return try await CFNRegistryException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -14313,7 +14313,7 @@ extension RollbackStackInput: ClientRuntime.URLPathProvider {
 public struct RollbackStackInput: Swift.Equatable {
     /// A unique identifier for this RollbackStack request.
     public var clientRequestToken: Swift.String?
-    /// This deletion policy deletes newly created resources, but retains existing resources, when a stack operation is rolled back. This ensures new, empty, and unused resources are deleted, while critical resources and their data are retained. RetainExceptOnCreate can be specified for any resource that supports the [ DeletionPolicy](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-attribute-deletionpolicy.html) attribute.
+    /// When set to true, newly created resources are deleted when the operation rolls back. This includes newly created resources marked with a deletion policy of Retain. Default: false
     public var retainExceptOnCreate: Swift.Bool?
     /// The Amazon Resource Name (ARN) of an Identity and Access Management role that CloudFormation assumes to rollback the stack.
     public var roleARN: Swift.String?
@@ -14363,8 +14363,8 @@ extension RollbackStackInputBody: Swift.Decodable {
     }
 }
 
-public enum RollbackStackOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum RollbackStackOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "TokenAlreadyExistsException": return try await TokenAlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -14530,8 +14530,8 @@ extension SetStackPolicyInputBody: Swift.Decodable {
     }
 }
 
-public enum SetStackPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum SetStackPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
@@ -14639,8 +14639,8 @@ extension SetTypeConfigurationInputBody: Swift.Decodable {
     }
 }
 
-public enum SetTypeConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum SetTypeConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "CFNRegistryException": return try await CFNRegistryException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -14769,8 +14769,8 @@ extension SetTypeDefaultVersionInputBody: Swift.Decodable {
     }
 }
 
-public enum SetTypeDefaultVersionOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum SetTypeDefaultVersionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "CFNRegistryException": return try await CFNRegistryException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -14873,8 +14873,8 @@ extension SignalResourceInputBody: Swift.Decodable {
     }
 }
 
-public enum SignalResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum SignalResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
@@ -14937,10 +14937,10 @@ extension CloudFormationClientTypes.Stack: Swift.Codable {
             try container.encode(changeSetId, forKey: ClientRuntime.Key("ChangeSetId"))
         }
         if let creationTime = creationTime {
-            try container.encodeTimestamp(creationTime, format: .dateTime, forKey: ClientRuntime.Key("creationTime"))
+            try container.encodeTimestamp(creationTime, format: .dateTime, forKey: ClientRuntime.Key("CreationTime"))
         }
         if let deletionTime = deletionTime {
-            try container.encodeTimestamp(deletionTime, format: .dateTime, forKey: ClientRuntime.Key("deletionTime"))
+            try container.encodeTimestamp(deletionTime, format: .dateTime, forKey: ClientRuntime.Key("DeletionTime"))
         }
         if let description = description {
             try container.encode(description, forKey: ClientRuntime.Key("Description"))
@@ -14955,7 +14955,7 @@ extension CloudFormationClientTypes.Stack: Swift.Codable {
             try container.encode(enableTerminationProtection, forKey: ClientRuntime.Key("EnableTerminationProtection"))
         }
         if let lastUpdatedTime = lastUpdatedTime {
-            try container.encodeTimestamp(lastUpdatedTime, format: .dateTime, forKey: ClientRuntime.Key("lastUpdatedTime"))
+            try container.encodeTimestamp(lastUpdatedTime, format: .dateTime, forKey: ClientRuntime.Key("LastUpdatedTime"))
         }
         if let notificationARNs = notificationARNs {
             if !notificationARNs.isEmpty {
@@ -15207,7 +15207,7 @@ extension CloudFormationClientTypes {
         public var parameters: [CloudFormationClientTypes.Parameter]?
         /// For nested stacks--stacks created as resources for another stack--the stack ID of the direct parent of this stack. For the first level of nested stacks, the root stack is also the parent stack. For more information, see [Working with Nested Stacks](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-nested-stacks.html) in the CloudFormation User Guide.
         public var parentId: Swift.String?
-        /// This deletion policy deletes newly created resources, but retains existing resources, when a stack operation is rolled back. This ensures new, empty, and unused resources are deleted, while critical resources and their data are retained. RetainExceptOnCreate can be specified for any resource that supports the [ DeletionPolicy](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-attribute-deletionpolicy.html) attribute.
+        /// When set to true, newly created resources are deleted when the operation rolls back. This includes newly created resources marked with a deletion policy of Retain. Default: false
         public var retainExceptOnCreate: Swift.Bool?
         /// The Amazon Resource Name (ARN) of an Identity and Access Management (IAM) role that's associated with the stack. During a stack operation, CloudFormation uses this role's credentials to make calls on your behalf.
         public var roleARN: Swift.String?
@@ -15328,7 +15328,7 @@ extension CloudFormationClientTypes.StackDriftInformation: Swift.Codable {
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
         if let lastCheckTimestamp = lastCheckTimestamp {
-            try container.encodeTimestamp(lastCheckTimestamp, format: .dateTime, forKey: ClientRuntime.Key("lastCheckTimestamp"))
+            try container.encodeTimestamp(lastCheckTimestamp, format: .dateTime, forKey: ClientRuntime.Key("LastCheckTimestamp"))
         }
         if let stackDriftStatus = stackDriftStatus {
             try container.encode(stackDriftStatus, forKey: ClientRuntime.Key("StackDriftStatus"))
@@ -15382,7 +15382,7 @@ extension CloudFormationClientTypes.StackDriftInformationSummary: Swift.Codable 
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
         if let lastCheckTimestamp = lastCheckTimestamp {
-            try container.encodeTimestamp(lastCheckTimestamp, format: .dateTime, forKey: ClientRuntime.Key("lastCheckTimestamp"))
+            try container.encodeTimestamp(lastCheckTimestamp, format: .dateTime, forKey: ClientRuntime.Key("LastCheckTimestamp"))
         }
         if let stackDriftStatus = stackDriftStatus {
             try container.encode(stackDriftStatus, forKey: ClientRuntime.Key("StackDriftStatus"))
@@ -15533,7 +15533,7 @@ extension CloudFormationClientTypes.StackEvent: Swift.Codable {
             try container.encode(stackName, forKey: ClientRuntime.Key("StackName"))
         }
         if let timestamp = timestamp {
-            try container.encodeTimestamp(timestamp, format: .dateTime, forKey: ClientRuntime.Key("timestamp"))
+            try container.encodeTimestamp(timestamp, format: .dateTime, forKey: ClientRuntime.Key("Timestamp"))
         }
     }
 
@@ -15683,7 +15683,7 @@ extension CloudFormationClientTypes.StackInstance: Swift.Codable {
             try container.encode(driftStatus, forKey: ClientRuntime.Key("DriftStatus"))
         }
         if let lastDriftCheckTimestamp = lastDriftCheckTimestamp {
-            try container.encodeTimestamp(lastDriftCheckTimestamp, format: .dateTime, forKey: ClientRuntime.Key("lastDriftCheckTimestamp"))
+            try container.encodeTimestamp(lastDriftCheckTimestamp, format: .dateTime, forKey: ClientRuntime.Key("LastDriftCheckTimestamp"))
         }
         if let lastOperationId = lastOperationId {
             try container.encode(lastOperationId, forKey: ClientRuntime.Key("LastOperationId"))
@@ -16132,7 +16132,7 @@ extension CloudFormationClientTypes.StackInstanceResourceDriftsSummary: Swift.Co
             try container.encode(stackResourceDriftStatus, forKey: ClientRuntime.Key("StackResourceDriftStatus"))
         }
         if let timestamp = timestamp {
-            try container.encodeTimestamp(timestamp, format: .dateTime, forKey: ClientRuntime.Key("timestamp"))
+            try container.encodeTimestamp(timestamp, format: .dateTime, forKey: ClientRuntime.Key("Timestamp"))
         }
     }
 
@@ -16307,7 +16307,7 @@ extension CloudFormationClientTypes.StackInstanceSummary: Swift.Codable {
             try container.encode(driftStatus, forKey: ClientRuntime.Key("DriftStatus"))
         }
         if let lastDriftCheckTimestamp = lastDriftCheckTimestamp {
-            try container.encodeTimestamp(lastDriftCheckTimestamp, format: .dateTime, forKey: ClientRuntime.Key("lastDriftCheckTimestamp"))
+            try container.encodeTimestamp(lastDriftCheckTimestamp, format: .dateTime, forKey: ClientRuntime.Key("LastDriftCheckTimestamp"))
         }
         if let lastOperationId = lastOperationId {
             try container.encode(lastOperationId, forKey: ClientRuntime.Key("LastOperationId"))
@@ -16541,7 +16541,7 @@ extension CloudFormationClientTypes.StackResource: Swift.Codable {
             try container.encode(stackName, forKey: ClientRuntime.Key("StackName"))
         }
         if let timestamp = timestamp {
-            try container.encodeTimestamp(timestamp, format: .dateTime, forKey: ClientRuntime.Key("timestamp"))
+            try container.encodeTimestamp(timestamp, format: .dateTime, forKey: ClientRuntime.Key("Timestamp"))
         }
     }
 
@@ -16657,7 +16657,7 @@ extension CloudFormationClientTypes.StackResourceDetail: Swift.Codable {
             try container.encode(driftInformation, forKey: ClientRuntime.Key("DriftInformation"))
         }
         if let lastUpdatedTimestamp = lastUpdatedTimestamp {
-            try container.encodeTimestamp(lastUpdatedTimestamp, format: .dateTime, forKey: ClientRuntime.Key("lastUpdatedTimestamp"))
+            try container.encodeTimestamp(lastUpdatedTimestamp, format: .dateTime, forKey: ClientRuntime.Key("LastUpdatedTimestamp"))
         }
         if let logicalResourceId = logicalResourceId {
             try container.encode(logicalResourceId, forKey: ClientRuntime.Key("LogicalResourceId"))
@@ -16847,7 +16847,7 @@ extension CloudFormationClientTypes.StackResourceDrift: Swift.Codable {
             try container.encode(stackResourceDriftStatus, forKey: ClientRuntime.Key("StackResourceDriftStatus"))
         }
         if let timestamp = timestamp {
-            try container.encodeTimestamp(timestamp, format: .dateTime, forKey: ClientRuntime.Key("timestamp"))
+            try container.encodeTimestamp(timestamp, format: .dateTime, forKey: ClientRuntime.Key("Timestamp"))
         }
     }
 
@@ -16990,7 +16990,7 @@ extension CloudFormationClientTypes.StackResourceDriftInformation: Swift.Codable
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
         if let lastCheckTimestamp = lastCheckTimestamp {
-            try container.encodeTimestamp(lastCheckTimestamp, format: .dateTime, forKey: ClientRuntime.Key("lastCheckTimestamp"))
+            try container.encodeTimestamp(lastCheckTimestamp, format: .dateTime, forKey: ClientRuntime.Key("LastCheckTimestamp"))
         }
         if let stackResourceDriftStatus = stackResourceDriftStatus {
             try container.encode(stackResourceDriftStatus, forKey: ClientRuntime.Key("StackResourceDriftStatus"))
@@ -17044,7 +17044,7 @@ extension CloudFormationClientTypes.StackResourceDriftInformationSummary: Swift.
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
         if let lastCheckTimestamp = lastCheckTimestamp {
-            try container.encodeTimestamp(lastCheckTimestamp, format: .dateTime, forKey: ClientRuntime.Key("lastCheckTimestamp"))
+            try container.encodeTimestamp(lastCheckTimestamp, format: .dateTime, forKey: ClientRuntime.Key("LastCheckTimestamp"))
         }
         if let stackResourceDriftStatus = stackResourceDriftStatus {
             try container.encode(stackResourceDriftStatus, forKey: ClientRuntime.Key("StackResourceDriftStatus"))
@@ -17145,7 +17145,7 @@ extension CloudFormationClientTypes.StackResourceSummary: Swift.Codable {
             try container.encode(driftInformation, forKey: ClientRuntime.Key("DriftInformation"))
         }
         if let lastUpdatedTimestamp = lastUpdatedTimestamp {
-            try container.encodeTimestamp(lastUpdatedTimestamp, format: .dateTime, forKey: ClientRuntime.Key("lastUpdatedTimestamp"))
+            try container.encodeTimestamp(lastUpdatedTimestamp, format: .dateTime, forKey: ClientRuntime.Key("LastUpdatedTimestamp"))
         }
         if let logicalResourceId = logicalResourceId {
             try container.encode(logicalResourceId, forKey: ClientRuntime.Key("LogicalResourceId"))
@@ -17484,7 +17484,7 @@ extension CloudFormationClientTypes.StackSet: Swift.Codable {
 extension CloudFormationClientTypes {
     /// A structure that contains information about a stack set. A stack set enables you to provision stacks into Amazon Web Services accounts and across Regions by using a single CloudFormation template. In the stack set, you specify the template to use, in addition to any parameters and capabilities that the template requires.
     public struct StackSet: Swift.Equatable {
-        /// The Amazon Resource Name (ARN) of the IAM role used to create or update the stack set. Use customized administrator roles to control which users or groups can manage specific stack sets within the same administrator account. For more information, see [Prerequisites: Granting Permissions for Stack Set Operations](https://docs.aws.amazon.com/AWSCloudFormation/stacksets-prereqs.html) in the CloudFormation User Guide.
+        /// The Amazon Resource Name (ARN) of the IAM role used to create or update the stack set. Use customized administrator roles to control which users or groups can manage specific stack sets within the same administrator account. For more information, see [Prerequisites: Granting Permissions for Stack Set Operations](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-prereqs.html) in the CloudFormation User Guide.
         public var administrationRoleARN: Swift.String?
         /// [Service-managed permissions] Describes whether StackSets automatically deploys to Organizations accounts that are added to a target organization or organizational unit (OU).
         public var autoDeployment: CloudFormationClientTypes.AutoDeployment?
@@ -17598,7 +17598,7 @@ extension CloudFormationClientTypes.StackSetDriftDetectionDetails: Swift.Codable
             try container.encode(inSyncStackInstancesCount, forKey: ClientRuntime.Key("InSyncStackInstancesCount"))
         }
         if let lastDriftCheckTimestamp = lastDriftCheckTimestamp {
-            try container.encodeTimestamp(lastDriftCheckTimestamp, format: .dateTime, forKey: ClientRuntime.Key("lastDriftCheckTimestamp"))
+            try container.encodeTimestamp(lastDriftCheckTimestamp, format: .dateTime, forKey: ClientRuntime.Key("LastDriftCheckTimestamp"))
         }
         if totalStackInstancesCount != 0 {
             try container.encode(totalStackInstancesCount, forKey: ClientRuntime.Key("TotalStackInstancesCount"))
@@ -17905,13 +17905,13 @@ extension CloudFormationClientTypes.StackSetOperation: Swift.Codable {
             try container.encode(administrationRoleARN, forKey: ClientRuntime.Key("AdministrationRoleARN"))
         }
         if let creationTimestamp = creationTimestamp {
-            try container.encodeTimestamp(creationTimestamp, format: .dateTime, forKey: ClientRuntime.Key("creationTimestamp"))
+            try container.encodeTimestamp(creationTimestamp, format: .dateTime, forKey: ClientRuntime.Key("CreationTimestamp"))
         }
         if let deploymentTargets = deploymentTargets {
             try container.encode(deploymentTargets, forKey: ClientRuntime.Key("DeploymentTargets"))
         }
         if let endTimestamp = endTimestamp {
-            try container.encodeTimestamp(endTimestamp, format: .dateTime, forKey: ClientRuntime.Key("endTimestamp"))
+            try container.encodeTimestamp(endTimestamp, format: .dateTime, forKey: ClientRuntime.Key("EndTimestamp"))
         }
         if let executionRoleName = executionRoleName {
             try container.encode(executionRoleName, forKey: ClientRuntime.Key("ExecutionRoleName"))
@@ -17980,7 +17980,7 @@ extension CloudFormationClientTypes {
     public struct StackSetOperation: Swift.Equatable {
         /// The type of stack set operation: CREATE, UPDATE, or DELETE. Create and delete operations affect only the specified stack set instances that are associated with the specified stack set. Update operations affect both the stack set itself, in addition to all associated stack set instances.
         public var action: CloudFormationClientTypes.StackSetOperationAction?
-        /// The Amazon Resource Name (ARN) of the IAM role used to perform this stack set operation. Use customized administrator roles to control which users or groups can manage specific stack sets within the same administrator account. For more information, see [Define Permissions for Multiple Administrators](https://docs.aws.amazon.com/AWSCloudFormation/stacksets-prereqs.html) in the CloudFormation User Guide.
+        /// The Amazon Resource Name (ARN) of the IAM role used to perform this stack set operation. Use customized administrator roles to control which users or groups can manage specific stack sets within the same administrator account. For more information, see [Define Permissions for Multiple Administrators](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-prereqs.html) in the CloudFormation User Guide.
         public var administrationRoleARN: Swift.String?
         /// The time at which the operation was initiated. Note that the creation times for the stack set operation might differ from the creation time of the individual stacks themselves. This is because CloudFormation needs to perform preparatory work for the operation, such as dispatching the work to the requested Regions, before actually creating the first stacks.
         public var creationTimestamp: ClientRuntime.Date?
@@ -18437,10 +18437,10 @@ extension CloudFormationClientTypes.StackSetOperationSummary: Swift.Codable {
             try container.encode(action, forKey: ClientRuntime.Key("Action"))
         }
         if let creationTimestamp = creationTimestamp {
-            try container.encodeTimestamp(creationTimestamp, format: .dateTime, forKey: ClientRuntime.Key("creationTimestamp"))
+            try container.encodeTimestamp(creationTimestamp, format: .dateTime, forKey: ClientRuntime.Key("CreationTimestamp"))
         }
         if let endTimestamp = endTimestamp {
-            try container.encodeTimestamp(endTimestamp, format: .dateTime, forKey: ClientRuntime.Key("endTimestamp"))
+            try container.encodeTimestamp(endTimestamp, format: .dateTime, forKey: ClientRuntime.Key("EndTimestamp"))
         }
         if let operationId = operationId {
             try container.encode(operationId, forKey: ClientRuntime.Key("OperationId"))
@@ -18593,7 +18593,7 @@ extension CloudFormationClientTypes.StackSetSummary: Swift.Codable {
             try container.encode(driftStatus, forKey: ClientRuntime.Key("DriftStatus"))
         }
         if let lastDriftCheckTimestamp = lastDriftCheckTimestamp {
-            try container.encodeTimestamp(lastDriftCheckTimestamp, format: .dateTime, forKey: ClientRuntime.Key("lastDriftCheckTimestamp"))
+            try container.encodeTimestamp(lastDriftCheckTimestamp, format: .dateTime, forKey: ClientRuntime.Key("LastDriftCheckTimestamp"))
         }
         if let managedExecution = managedExecution {
             try container.encode(managedExecution, forKey: ClientRuntime.Key("ManagedExecution"))
@@ -18808,16 +18808,16 @@ extension CloudFormationClientTypes.StackSummary: Swift.Codable {
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
         if let creationTime = creationTime {
-            try container.encodeTimestamp(creationTime, format: .dateTime, forKey: ClientRuntime.Key("creationTime"))
+            try container.encodeTimestamp(creationTime, format: .dateTime, forKey: ClientRuntime.Key("CreationTime"))
         }
         if let deletionTime = deletionTime {
-            try container.encodeTimestamp(deletionTime, format: .dateTime, forKey: ClientRuntime.Key("deletionTime"))
+            try container.encodeTimestamp(deletionTime, format: .dateTime, forKey: ClientRuntime.Key("DeletionTime"))
         }
         if let driftInformation = driftInformation {
             try container.encode(driftInformation, forKey: ClientRuntime.Key("DriftInformation"))
         }
         if let lastUpdatedTime = lastUpdatedTime {
-            try container.encodeTimestamp(lastUpdatedTime, format: .dateTime, forKey: ClientRuntime.Key("lastUpdatedTime"))
+            try container.encodeTimestamp(lastUpdatedTime, format: .dateTime, forKey: ClientRuntime.Key("LastUpdatedTime"))
         }
         if let parentId = parentId {
             try container.encode(parentId, forKey: ClientRuntime.Key("ParentId"))
@@ -19055,8 +19055,8 @@ extension StopStackSetOperationInputBody: Swift.Decodable {
     }
 }
 
-public enum StopStackSetOperationOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum StopStackSetOperationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "InvalidOperationException": return try await InvalidOperationException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -19352,8 +19352,8 @@ extension TestTypeInputBody: Swift.Decodable {
     }
 }
 
-public enum TestTypeOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum TestTypeOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "CFNRegistryException": return try await CFNRegistryException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -19519,7 +19519,7 @@ extension CloudFormationClientTypes.TypeConfigurationDetails: Swift.Codable {
             try container.encode(isDefaultConfiguration, forKey: ClientRuntime.Key("IsDefaultConfiguration"))
         }
         if let lastUpdated = lastUpdated {
-            try container.encodeTimestamp(lastUpdated, format: .dateTime, forKey: ClientRuntime.Key("lastUpdated"))
+            try container.encodeTimestamp(lastUpdated, format: .dateTime, forKey: ClientRuntime.Key("LastUpdated"))
         }
         if let typeArn = typeArn {
             try container.encode(typeArn, forKey: ClientRuntime.Key("TypeArn"))
@@ -19872,7 +19872,7 @@ extension CloudFormationClientTypes.TypeSummary: Swift.Codable {
             try container.encode(isActivated, forKey: ClientRuntime.Key("IsActivated"))
         }
         if let lastUpdated = lastUpdated {
-            try container.encodeTimestamp(lastUpdated, format: .dateTime, forKey: ClientRuntime.Key("lastUpdated"))
+            try container.encodeTimestamp(lastUpdated, format: .dateTime, forKey: ClientRuntime.Key("LastUpdated"))
         }
         if let latestPublicVersion = latestPublicVersion {
             try container.encode(latestPublicVersion, forKey: ClientRuntime.Key("LatestPublicVersion"))
@@ -20070,7 +20070,7 @@ extension CloudFormationClientTypes.TypeVersionSummary: Swift.Codable {
             try container.encode(publicVersionNumber, forKey: ClientRuntime.Key("PublicVersionNumber"))
         }
         if let timeCreated = timeCreated {
-            try container.encodeTimestamp(timeCreated, format: .dateTime, forKey: ClientRuntime.Key("timeCreated"))
+            try container.encodeTimestamp(timeCreated, format: .dateTime, forKey: ClientRuntime.Key("TimeCreated"))
         }
         if let type = type {
             try container.encode(type, forKey: ClientRuntime.Key("Type"))
@@ -20305,7 +20305,7 @@ public struct UpdateStackInput: Swift.Equatable {
     public var parameters: [CloudFormationClientTypes.Parameter]?
     /// The template resource types that you have permissions to work with for this update stack action, such as AWS::EC2::Instance, AWS::EC2::*, or Custom::MyCustomInstance. If the list of resource types doesn't include a resource that you're updating, the stack update fails. By default, CloudFormation grants permissions to all resource types. Identity and Access Management (IAM) uses this parameter for CloudFormation-specific condition keys in IAM policies. For more information, see [Controlling Access with Identity and Access Management](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-iam-template.html).
     public var resourceTypes: [Swift.String]?
-    /// This deletion policy deletes newly created resources, but retains existing resources, when a stack operation is rolled back. This ensures new, empty, and unused resources are deleted, while critical resources and their data are retained. RetainExceptOnCreate can be specified for any resource that supports the [ DeletionPolicy](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-attribute-deletionpolicy.html) attribute.
+    /// When set to true, newly created resources are deleted when the operation rolls back. This includes newly created resources marked with a deletion policy of Retain. Default: false
     public var retainExceptOnCreate: Swift.Bool?
     /// The Amazon Resource Name (ARN) of an Identity and Access Management (IAM) role that CloudFormation assumes to update the stack. CloudFormation uses the role's credentials to make calls on your behalf. CloudFormation always uses this role for all future operations on the stack. Provided that users have permission to operate on the stack, CloudFormation uses this role even if the users don't have permission to pass it. Ensure that the role grants least privilege. If you don't specify a value, CloudFormation uses the role that was previously associated with the stack. If no role is available, CloudFormation uses a temporary session that is generated from your user credentials.
     public var roleARN: Swift.String?
@@ -20759,8 +20759,8 @@ extension UpdateStackInstancesInputBody: Swift.Decodable {
     }
 }
 
-public enum UpdateStackInstancesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum UpdateStackInstancesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "InvalidOperationException": return try await InvalidOperationException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -20815,8 +20815,8 @@ extension UpdateStackInstancesOutputResponseBody: Swift.Decodable {
     }
 }
 
-public enum UpdateStackOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum UpdateStackOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "InsufficientCapabilitiesException": return try await InsufficientCapabilitiesException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -20987,7 +20987,7 @@ extension UpdateStackSetInput: ClientRuntime.URLPathProvider {
 public struct UpdateStackSetInput: Swift.Equatable {
     /// [Self-managed permissions] The accounts in which to update associated stack instances. If you specify accounts, you must also specify the Amazon Web Services Regions in which to update stack set instances. To update all the stack instances associated with this stack set, don't specify the Accounts or Regions properties. If the stack set update includes changes to the template (that is, if the TemplateBody or TemplateURL properties are specified), or the Parameters property, CloudFormation marks all stack instances with a status of OUTDATED prior to updating the stack instances in the specified accounts and Amazon Web Services Regions. If the stack set update does not include changes to the template or parameters, CloudFormation updates the stack instances in the specified accounts and Amazon Web Services Regions, while leaving all other stack instances with their existing stack instance status.
     public var accounts: [Swift.String]?
-    /// The Amazon Resource Name (ARN) of the IAM role to use to update this stack set. Specify an IAM role only if you are using customized administrator roles to control which users or groups can manage specific stack sets within the same administrator account. For more information, see [Granting Permissions for Stack Set Operations](https://docs.aws.amazon.com/AWSCloudFormation/stacksets-prereqs.html) in the CloudFormation User Guide. If you specified a customized administrator role when you created the stack set, you must specify a customized administrator role, even if it is the same customized administrator role used with this stack set previously.
+    /// The Amazon Resource Name (ARN) of the IAM role to use to update this stack set. Specify an IAM role only if you are using customized administrator roles to control which users or groups can manage specific stack sets within the same administrator account. For more information, see [Granting Permissions for Stack Set Operations](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-prereqs.html) in the CloudFormation User Guide. If you specified a customized administrator role when you created the stack set, you must specify a customized administrator role, even if it is the same customized administrator role used with this stack set previously.
     public var administrationRoleARN: Swift.String?
     /// [Service-managed permissions] Describes whether StackSets automatically deploys to Organizations accounts that are added to a target organization or organizational unit (OU). If you specify AutoDeployment, don't specify DeploymentTargets or Regions.
     public var autoDeployment: CloudFormationClientTypes.AutoDeployment?
@@ -21025,9 +21025,9 @@ public struct UpdateStackSetInput: Swift.Equatable {
     /// * [ AWS::IAM::UserToGroupAddition](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-addusertogroup.html)
     ///
     ///
-    /// For more information, see [Acknowledging IAM Resources in CloudFormation Templates](https://docs.aws.amazon.com/AWSCloudFormation/using-iam-template.html#capabilities).
+    /// For more information, see [Acknowledging IAM Resources in CloudFormation Templates](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-iam-template.html#capabilities).
     ///
-    /// * CAPABILITY_AUTO_EXPAND Some templates reference macros. If your stack set template references one or more macros, you must update the stack set directly from the processed template, without first reviewing the resulting changes in a change set. To update the stack set directly, you must acknowledge this capability. For more information, see [Using CloudFormation Macros to Perform Custom Processing on Templates](https://docs.aws.amazon.com/AWSCloudFormation/template-macros.html). Stack sets with service-managed permissions do not currently support the use of macros in templates. (This includes the [AWS::Include](https://docs.aws.amazon.com/AWSCloudFormation/create-reusable-transform-function-snippets-and-add-to-your-template-with-aws-include-transform.html) and [AWS::Serverless](https://docs.aws.amazon.com/AWSCloudFormation/transform-aws-serverless.html) transforms, which are macros hosted by CloudFormation.) Even if you specify this capability for a stack set with service-managed permissions, if you reference a macro in your template the stack set operation will fail.
+    /// * CAPABILITY_AUTO_EXPAND Some templates reference macros. If your stack set template references one or more macros, you must update the stack set directly from the processed template, without first reviewing the resulting changes in a change set. To update the stack set directly, you must acknowledge this capability. For more information, see [Using CloudFormation Macros to Perform Custom Processing on Templates](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/template-macros.html). Stack sets with service-managed permissions do not currently support the use of macros in templates. (This includes the [AWS::Include](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/create-reusable-transform-function-snippets-and-add-to-your-template-with-aws-include-transform.html) and [AWS::Serverless](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/transform-aws-serverless.html) transforms, which are macros hosted by CloudFormation.) Even if you specify this capability for a stack set with service-managed permissions, if you reference a macro in your template the stack set operation will fail.
     public var capabilities: [CloudFormationClientTypes.Capability]?
     /// [Service-managed permissions] The Organizations accounts in which to update associated stack instances. To update all the stack instances associated with this stack set, do not specify DeploymentTargets or Regions. If the stack set update includes changes to the template (that is, if TemplateBody or TemplateURL is specified), or the Parameters, CloudFormation marks all stack instances with a status of OUTDATED prior to updating the stack instances in the specified accounts and Amazon Web Services Regions. If the stack set update doesn't include changes to the template or parameters, CloudFormation updates the stack instances in the specified accounts and Regions, while leaving all other stack instances with their existing stack instance status.
     public var deploymentTargets: CloudFormationClientTypes.DeploymentTargets?
@@ -21289,8 +21289,8 @@ extension UpdateStackSetInputBody: Swift.Decodable {
     }
 }
 
-public enum UpdateStackSetOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum UpdateStackSetOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "InvalidOperationException": return try await InvalidOperationException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -21403,8 +21403,8 @@ extension UpdateTerminationProtectionInputBody: Swift.Decodable {
     }
 }
 
-public enum UpdateTerminationProtectionOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum UpdateTerminationProtectionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
@@ -21510,8 +21510,8 @@ extension ValidateTemplateInputBody: Swift.Decodable {
     }
 }
 
-public enum ValidateTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum ValidateTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)

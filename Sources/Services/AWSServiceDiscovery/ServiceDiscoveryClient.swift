@@ -459,7 +459,7 @@ extension ServiceDiscoveryClient: ServiceDiscoveryClientProtocol {
         return result
     }
 
-    /// Discovers registered instances for a specified namespace and service. You can use DiscoverInstances to discover instances for any type of namespace. For public and private DNS namespaces, you can also use DNS queries to discover instances.
+    /// Discovers registered instances for a specified namespace and service. You can use DiscoverInstances to discover instances for any type of namespace. DiscoverInstances returns a randomized list of instances allowing customers to distribute traffic evenly across instances. For public and private DNS namespaces, you can also use DNS queries to discover instances.
     ///
     /// - Parameter DiscoverInstancesInput : [no documentation found]
     ///
@@ -503,6 +503,54 @@ extension ServiceDiscoveryClient: ServiceDiscoveryClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DiscoverInstancesOutputResponse, DiscoverInstancesOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DiscoverInstancesOutputResponse, DiscoverInstancesOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DiscoverInstancesOutputResponse, DiscoverInstancesOutputError>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
+    /// Discovers the increasing revision associated with an instance.
+    ///
+    /// - Parameter DiscoverInstancesRevisionInput : [no documentation found]
+    ///
+    /// - Returns: `DiscoverInstancesRevisionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidInput` : One or more specified values aren't valid. For example, a required value might be missing, a numeric value might be outside the allowed range, or a string value might exceed length constraints.
+    /// - `NamespaceNotFound` : No namespace exists with the specified ID.
+    /// - `RequestLimitExceeded` : The operation can't be completed because you've reached the quota for the number of requests. For more information, see [Cloud Map API request throttling quota](https://docs.aws.amazon.com/cloud-map/latest/dg/throttling.html) in the Cloud Map Developer Guide.
+    /// - `ServiceNotFound` : No service exists with the specified ID.
+    public func discoverInstancesRevision(input: DiscoverInstancesRevisionInput) async throws -> DiscoverInstancesRevisionOutputResponse
+    {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "discoverInstancesRevision")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withCredentialsProvider(value: config.credentialsProvider)
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "servicediscovery")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<DiscoverInstancesRevisionInput, DiscoverInstancesRevisionOutputResponse, DiscoverInstancesRevisionOutputError>(id: "discoverInstancesRevision")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DiscoverInstancesRevisionInput, DiscoverInstancesRevisionOutputResponse, DiscoverInstancesRevisionOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DiscoverInstancesRevisionInput, DiscoverInstancesRevisionOutputResponse>(hostPrefix: "data-"))
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DiscoverInstancesRevisionOutputResponse, DiscoverInstancesRevisionOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DiscoverInstancesRevisionInput, DiscoverInstancesRevisionOutputResponse>(xAmzTarget: "Route53AutoNaming_v20170314.DiscoverInstancesRevision"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DiscoverInstancesRevisionInput, DiscoverInstancesRevisionOutputResponse>(xmlName: "DiscoverInstancesRevisionRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DiscoverInstancesRevisionInput, DiscoverInstancesRevisionOutputResponse>(contentType: "application/x-amz-json-1.1"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DiscoverInstancesRevisionOutputResponse, DiscoverInstancesRevisionOutputError>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DiscoverInstancesRevisionOutputResponse, DiscoverInstancesRevisionOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DiscoverInstancesRevisionOutputResponse, DiscoverInstancesRevisionOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DiscoverInstancesRevisionOutputResponse, DiscoverInstancesRevisionOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -647,7 +695,7 @@ extension ServiceDiscoveryClient: ServiceDiscoveryClientProtocol {
         return result
     }
 
-    /// Gets information about any operation that returns an operation ID in the response, such as a CreateService request. To get a list of operations that match specified criteria, see [ListOperations](https://docs.aws.amazon.com/cloud-map/latest/api/API_ListOperations.html).
+    /// Gets information about any operation that returns an operation ID in the response, such as a CreateHttpNamespace request. To get a list of operations that match specified criteria, see [ListOperations](https://docs.aws.amazon.com/cloud-map/latest/api/API_ListOperations.html).
     ///
     /// - Parameter GetOperationInput : [no documentation found]
     ///

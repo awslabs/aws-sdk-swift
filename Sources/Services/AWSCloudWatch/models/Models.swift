@@ -65,7 +65,7 @@ extension CloudWatchClientTypes.AlarmHistoryItem: Swift.Codable {
             try container.encode(historySummary, forKey: ClientRuntime.Key("HistorySummary"))
         }
         if let timestamp = timestamp {
-            try container.encodeTimestamp(timestamp, format: .dateTime, forKey: ClientRuntime.Key("timestamp"))
+            try container.encodeTimestamp(timestamp, format: .dateTime, forKey: ClientRuntime.Key("Timestamp"))
         }
     }
 
@@ -533,7 +533,7 @@ extension CloudWatchClientTypes.CompositeAlarm: Swift.Codable {
             try container.encode(alarmArn, forKey: ClientRuntime.Key("AlarmArn"))
         }
         if let alarmConfigurationUpdatedTimestamp = alarmConfigurationUpdatedTimestamp {
-            try container.encodeTimestamp(alarmConfigurationUpdatedTimestamp, format: .dateTime, forKey: ClientRuntime.Key("alarmConfigurationUpdatedTimestamp"))
+            try container.encodeTimestamp(alarmConfigurationUpdatedTimestamp, format: .dateTime, forKey: ClientRuntime.Key("AlarmConfigurationUpdatedTimestamp"))
         }
         if let alarmDescription = alarmDescription {
             try container.encode(alarmDescription, forKey: ClientRuntime.Key("AlarmDescription"))
@@ -575,10 +575,10 @@ extension CloudWatchClientTypes.CompositeAlarm: Swift.Codable {
             try container.encode(stateReasonData, forKey: ClientRuntime.Key("StateReasonData"))
         }
         if let stateTransitionedTimestamp = stateTransitionedTimestamp {
-            try container.encodeTimestamp(stateTransitionedTimestamp, format: .dateTime, forKey: ClientRuntime.Key("stateTransitionedTimestamp"))
+            try container.encodeTimestamp(stateTransitionedTimestamp, format: .dateTime, forKey: ClientRuntime.Key("StateTransitionedTimestamp"))
         }
         if let stateUpdatedTimestamp = stateUpdatedTimestamp {
-            try container.encodeTimestamp(stateUpdatedTimestamp, format: .dateTime, forKey: ClientRuntime.Key("stateUpdatedTimestamp"))
+            try container.encodeTimestamp(stateUpdatedTimestamp, format: .dateTime, forKey: ClientRuntime.Key("StateUpdatedTimestamp"))
         }
         if let stateValue = stateValue {
             try container.encode(stateValue, forKey: ClientRuntime.Key("StateValue"))
@@ -838,7 +838,7 @@ extension CloudWatchClientTypes.DashboardEntry: Swift.Codable {
             try container.encode(dashboardName, forKey: ClientRuntime.Key("DashboardName"))
         }
         if let lastModified = lastModified {
-            try container.encodeTimestamp(lastModified, format: .dateTime, forKey: ClientRuntime.Key("lastModified"))
+            try container.encodeTimestamp(lastModified, format: .dateTime, forKey: ClientRuntime.Key("LastModified"))
         }
         if size != 0 {
             try container.encode(size, forKey: ClientRuntime.Key("Size"))
@@ -1107,7 +1107,7 @@ extension CloudWatchClientTypes.Datapoint: Swift.Codable {
             try container.encode(sum, forKey: ClientRuntime.Key("Sum"))
         }
         if let timestamp = timestamp {
-            try container.encodeTimestamp(timestamp, format: .dateTime, forKey: ClientRuntime.Key("timestamp"))
+            try container.encodeTimestamp(timestamp, format: .dateTime, forKey: ClientRuntime.Key("Timestamp"))
         }
         if let unit = unit {
             try container.encode(unit, forKey: ClientRuntime.Key("Unit"))
@@ -1268,8 +1268,8 @@ extension DeleteAlarmsInputBody: Swift.Decodable {
     }
 }
 
-public enum DeleteAlarmsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DeleteAlarmsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "ResourceNotFound": return try await ResourceNotFound(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -1444,8 +1444,8 @@ extension DeleteAnomalyDetectorInputBody: Swift.Decodable {
     }
 }
 
-public enum DeleteAnomalyDetectorOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DeleteAnomalyDetectorOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "InternalServiceError": return try await InternalServiceFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -1540,8 +1540,8 @@ extension DeleteDashboardsInputBody: Swift.Decodable {
     }
 }
 
-public enum DeleteDashboardsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DeleteDashboardsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "ResourceNotFound": return try await DashboardNotFoundError(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -1634,8 +1634,8 @@ extension DeleteInsightRulesInputBody: Swift.Decodable {
     }
 }
 
-public enum DeleteInsightRulesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DeleteInsightRulesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "InvalidParameterValue": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -1749,8 +1749,8 @@ extension DeleteMetricStreamInputBody: Swift.Decodable {
     }
 }
 
-public enum DeleteMetricStreamOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DeleteMetricStreamOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "InternalServiceError": return try await InternalServiceFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -1790,7 +1790,7 @@ extension DescribeAlarmHistoryInput: Swift.Encodable {
             }
         }
         if let endDate = endDate {
-            try container.encodeTimestamp(endDate, format: .dateTime, forKey: ClientRuntime.Key("endDate"))
+            try container.encodeTimestamp(endDate, format: .dateTime, forKey: ClientRuntime.Key("EndDate"))
         }
         if let historyItemType = historyItemType {
             try container.encode(historyItemType, forKey: ClientRuntime.Key("HistoryItemType"))
@@ -1805,7 +1805,7 @@ extension DescribeAlarmHistoryInput: Swift.Encodable {
             try container.encode(scanBy, forKey: ClientRuntime.Key("ScanBy"))
         }
         if let startDate = startDate {
-            try container.encodeTimestamp(startDate, format: .dateTime, forKey: ClientRuntime.Key("startDate"))
+            try container.encodeTimestamp(startDate, format: .dateTime, forKey: ClientRuntime.Key("StartDate"))
         }
         try container.encode("DescribeAlarmHistory", forKey:ClientRuntime.Key("Action"))
         try container.encode("2010-08-01", forKey:ClientRuntime.Key("Version"))
@@ -1919,8 +1919,8 @@ extension DescribeAlarmHistoryInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeAlarmHistoryOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DescribeAlarmHistoryOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "InvalidNextToken": return try await InvalidNextToken(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -2136,8 +2136,8 @@ extension DescribeAlarmsForMetricInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeAlarmsForMetricOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DescribeAlarmsForMetricOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
@@ -2388,8 +2388,8 @@ extension DescribeAlarmsInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeAlarmsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DescribeAlarmsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "InvalidNextToken": return try await InvalidNextToken(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -2645,8 +2645,8 @@ extension DescribeAnomalyDetectorsInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeAnomalyDetectorsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DescribeAnomalyDetectorsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "InternalServiceError": return try await InternalServiceFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -2782,8 +2782,8 @@ extension DescribeInsightRulesInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeInsightRulesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DescribeInsightRulesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "InvalidNextToken": return try await InvalidNextToken(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -3025,8 +3025,8 @@ extension DisableAlarmActionsInputBody: Swift.Decodable {
     }
 }
 
-public enum DisableAlarmActionsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DisableAlarmActionsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
@@ -3116,8 +3116,8 @@ extension DisableInsightRulesInputBody: Swift.Decodable {
     }
 }
 
-public enum DisableInsightRulesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DisableInsightRulesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "InvalidParameterValue": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -3257,8 +3257,8 @@ extension EnableAlarmActionsInputBody: Swift.Decodable {
     }
 }
 
-public enum EnableAlarmActionsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum EnableAlarmActionsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
@@ -3348,8 +3348,8 @@ extension EnableInsightRulesInputBody: Swift.Decodable {
     }
 }
 
-public enum EnableInsightRulesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum EnableInsightRulesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "InvalidParameterValue": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -3493,8 +3493,8 @@ extension GetDashboardInputBody: Swift.Decodable {
     }
 }
 
-public enum GetDashboardOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum GetDashboardOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "ResourceNotFound": return try await DashboardNotFoundError(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -3570,7 +3570,7 @@ extension GetInsightRuleReportInput: Swift.Encodable {
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
         if let endTime = endTime {
-            try container.encodeTimestamp(endTime, format: .dateTime, forKey: ClientRuntime.Key("endTime"))
+            try container.encodeTimestamp(endTime, format: .dateTime, forKey: ClientRuntime.Key("EndTime"))
         }
         if let maxContributorCount = maxContributorCount {
             try container.encode(maxContributorCount, forKey: ClientRuntime.Key("MaxContributorCount"))
@@ -3597,7 +3597,7 @@ extension GetInsightRuleReportInput: Swift.Encodable {
             try container.encode(ruleName, forKey: ClientRuntime.Key("RuleName"))
         }
         if let startTime = startTime {
-            try container.encodeTimestamp(startTime, format: .dateTime, forKey: ClientRuntime.Key("startTime"))
+            try container.encodeTimestamp(startTime, format: .dateTime, forKey: ClientRuntime.Key("StartTime"))
         }
         try container.encode("GetInsightRuleReport", forKey:ClientRuntime.Key("Action"))
         try container.encode("2010-08-01", forKey:ClientRuntime.Key("Version"))
@@ -3721,8 +3721,8 @@ extension GetInsightRuleReportInputBody: Swift.Decodable {
     }
 }
 
-public enum GetInsightRuleReportOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum GetInsightRuleReportOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "InvalidParameterValue": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -3879,7 +3879,7 @@ extension GetMetricDataInput: Swift.Encodable {
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
         if let endTime = endTime {
-            try container.encodeTimestamp(endTime, format: .dateTime, forKey: ClientRuntime.Key("endTime"))
+            try container.encodeTimestamp(endTime, format: .dateTime, forKey: ClientRuntime.Key("EndTime"))
         }
         if let labelOptions = labelOptions {
             try container.encode(labelOptions, forKey: ClientRuntime.Key("LabelOptions"))
@@ -3906,7 +3906,7 @@ extension GetMetricDataInput: Swift.Encodable {
             try container.encode(scanBy, forKey: ClientRuntime.Key("ScanBy"))
         }
         if let startTime = startTime {
-            try container.encodeTimestamp(startTime, format: .dateTime, forKey: ClientRuntime.Key("startTime"))
+            try container.encodeTimestamp(startTime, format: .dateTime, forKey: ClientRuntime.Key("StartTime"))
         }
         try container.encode("GetMetricData", forKey:ClientRuntime.Key("Action"))
         try container.encode("2010-08-01", forKey:ClientRuntime.Key("Version"))
@@ -4024,8 +4024,8 @@ extension GetMetricDataInputBody: Swift.Decodable {
     }
 }
 
-public enum GetMetricDataOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum GetMetricDataOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "InvalidNextToken": return try await InvalidNextToken(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -4145,7 +4145,7 @@ extension GetMetricStatisticsInput: Swift.Encodable {
             }
         }
         if let endTime = endTime {
-            try container.encodeTimestamp(endTime, format: .dateTime, forKey: ClientRuntime.Key("endTime"))
+            try container.encodeTimestamp(endTime, format: .dateTime, forKey: ClientRuntime.Key("EndTime"))
         }
         if let extendedStatistics = extendedStatistics {
             if !extendedStatistics.isEmpty {
@@ -4169,7 +4169,7 @@ extension GetMetricStatisticsInput: Swift.Encodable {
             try container.encode(period, forKey: ClientRuntime.Key("Period"))
         }
         if let startTime = startTime {
-            try container.encodeTimestamp(startTime, format: .dateTime, forKey: ClientRuntime.Key("startTime"))
+            try container.encodeTimestamp(startTime, format: .dateTime, forKey: ClientRuntime.Key("StartTime"))
         }
         if let statistics = statistics {
             if !statistics.isEmpty {
@@ -4360,8 +4360,8 @@ extension GetMetricStatisticsInputBody: Swift.Decodable {
     }
 }
 
-public enum GetMetricStatisticsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum GetMetricStatisticsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "InternalServiceError": return try await InternalServiceFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -4487,8 +4487,8 @@ extension GetMetricStreamInputBody: Swift.Decodable {
     }
 }
 
-public enum GetMetricStreamOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum GetMetricStreamOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "InternalServiceError": return try await InternalServiceFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -4784,8 +4784,8 @@ extension GetMetricWidgetImageInputBody: Swift.Decodable {
     }
 }
 
-public enum GetMetricWidgetImageOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum GetMetricWidgetImageOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
@@ -5078,7 +5078,7 @@ extension CloudWatchClientTypes.InsightRuleContributorDatapoint: Swift.Codable {
             try container.encode(approximateValue, forKey: ClientRuntime.Key("ApproximateValue"))
         }
         if let timestamp = timestamp {
-            try container.encodeTimestamp(timestamp, format: .dateTime, forKey: ClientRuntime.Key("timestamp"))
+            try container.encodeTimestamp(timestamp, format: .dateTime, forKey: ClientRuntime.Key("Timestamp"))
         }
     }
 
@@ -5146,7 +5146,7 @@ extension CloudWatchClientTypes.InsightRuleMetricDatapoint: Swift.Codable {
             try container.encode(sum, forKey: ClientRuntime.Key("Sum"))
         }
         if let timestamp = timestamp {
-            try container.encodeTimestamp(timestamp, format: .dateTime, forKey: ClientRuntime.Key("timestamp"))
+            try container.encodeTimestamp(timestamp, format: .dateTime, forKey: ClientRuntime.Key("Timestamp"))
         }
         if let uniqueContributors = uniqueContributors {
             try container.encode(uniqueContributors, forKey: ClientRuntime.Key("UniqueContributors"))
@@ -5694,8 +5694,8 @@ extension ListDashboardsInputBody: Swift.Decodable {
     }
 }
 
-public enum ListDashboardsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum ListDashboardsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "InternalServiceError": return try await InternalServiceFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -5841,8 +5841,8 @@ extension ListManagedInsightRulesInputBody: Swift.Decodable {
     }
 }
 
-public enum ListManagedInsightRulesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum ListManagedInsightRulesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "InvalidNextToken": return try await InvalidNextToken(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -5977,8 +5977,8 @@ extension ListMetricStreamsInputBody: Swift.Decodable {
     }
 }
 
-public enum ListMetricStreamsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum ListMetricStreamsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "InternalServiceError": return try await InternalServiceFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -6195,8 +6195,8 @@ extension ListMetricsInputBody: Swift.Decodable {
     }
 }
 
-public enum ListMetricsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum ListMetricsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "InternalServiceError": return try await InternalServiceFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -6347,8 +6347,8 @@ extension ListTagsForResourceInputBody: Swift.Decodable {
     }
 }
 
-public enum ListTagsForResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum ListTagsForResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "InternalServiceError": return try await InternalServiceFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -6782,7 +6782,7 @@ extension CloudWatchClientTypes.MetricAlarm: Swift.Codable {
             try container.encode(alarmArn, forKey: ClientRuntime.Key("AlarmArn"))
         }
         if let alarmConfigurationUpdatedTimestamp = alarmConfigurationUpdatedTimestamp {
-            try container.encodeTimestamp(alarmConfigurationUpdatedTimestamp, format: .dateTime, forKey: ClientRuntime.Key("alarmConfigurationUpdatedTimestamp"))
+            try container.encodeTimestamp(alarmConfigurationUpdatedTimestamp, format: .dateTime, forKey: ClientRuntime.Key("AlarmConfigurationUpdatedTimestamp"))
         }
         if let alarmDescription = alarmDescription {
             try container.encode(alarmDescription, forKey: ClientRuntime.Key("AlarmDescription"))
@@ -6872,10 +6872,10 @@ extension CloudWatchClientTypes.MetricAlarm: Swift.Codable {
             try container.encode(stateReasonData, forKey: ClientRuntime.Key("StateReasonData"))
         }
         if let stateTransitionedTimestamp = stateTransitionedTimestamp {
-            try container.encodeTimestamp(stateTransitionedTimestamp, format: .dateTime, forKey: ClientRuntime.Key("stateTransitionedTimestamp"))
+            try container.encodeTimestamp(stateTransitionedTimestamp, format: .dateTime, forKey: ClientRuntime.Key("StateTransitionedTimestamp"))
         }
         if let stateUpdatedTimestamp = stateUpdatedTimestamp {
-            try container.encodeTimestamp(stateUpdatedTimestamp, format: .dateTime, forKey: ClientRuntime.Key("stateUpdatedTimestamp"))
+            try container.encodeTimestamp(stateUpdatedTimestamp, format: .dateTime, forKey: ClientRuntime.Key("StateUpdatedTimestamp"))
         }
         if let stateValue = stateValue {
             try container.encode(stateValue, forKey: ClientRuntime.Key("StateValue"))
@@ -7481,7 +7481,7 @@ extension CloudWatchClientTypes.MetricDatum: Swift.Codable {
             try container.encode(storageResolution, forKey: ClientRuntime.Key("StorageResolution"))
         }
         if let timestamp = timestamp {
-            try container.encodeTimestamp(timestamp, format: .dateTime, forKey: ClientRuntime.Key("timestamp"))
+            try container.encodeTimestamp(timestamp, format: .dateTime, forKey: ClientRuntime.Key("Timestamp"))
         }
         if let unit = unit {
             try container.encode(unit, forKey: ClientRuntime.Key("Unit"))
@@ -7778,13 +7778,13 @@ extension CloudWatchClientTypes.MetricStreamEntry: Swift.Codable {
             try container.encode(arn, forKey: ClientRuntime.Key("Arn"))
         }
         if let creationDate = creationDate {
-            try container.encodeTimestamp(creationDate, format: .dateTime, forKey: ClientRuntime.Key("creationDate"))
+            try container.encodeTimestamp(creationDate, format: .dateTime, forKey: ClientRuntime.Key("CreationDate"))
         }
         if let firehoseArn = firehoseArn {
             try container.encode(firehoseArn, forKey: ClientRuntime.Key("FirehoseArn"))
         }
         if let lastUpdateDate = lastUpdateDate {
-            try container.encodeTimestamp(lastUpdateDate, format: .dateTime, forKey: ClientRuntime.Key("lastUpdateDate"))
+            try container.encodeTimestamp(lastUpdateDate, format: .dateTime, forKey: ClientRuntime.Key("LastUpdateDate"))
         }
         if let name = name {
             try container.encode(name, forKey: ClientRuntime.Key("Name"))
@@ -8392,8 +8392,8 @@ extension PutAnomalyDetectorInputBody: Swift.Decodable {
     }
 }
 
-public enum PutAnomalyDetectorOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum PutAnomalyDetectorOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "InternalServiceError": return try await InternalServiceFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -8699,8 +8699,8 @@ extension PutCompositeAlarmInputBody: Swift.Decodable {
     }
 }
 
-public enum PutCompositeAlarmOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum PutCompositeAlarmOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "LimitExceeded": return try await LimitExceededFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -8777,8 +8777,8 @@ extension PutDashboardInputBody: Swift.Decodable {
     }
 }
 
-public enum PutDashboardOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum PutDashboardOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "InvalidParameterInput": return try await DashboardInvalidInputError(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -8952,8 +8952,8 @@ extension PutInsightRuleInputBody: Swift.Decodable {
     }
 }
 
-public enum PutInsightRuleOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum PutInsightRuleOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "InvalidParameterValue": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -9046,8 +9046,8 @@ extension PutManagedInsightRulesInputBody: Swift.Decodable {
     }
 }
 
-public enum PutManagedInsightRulesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum PutManagedInsightRulesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "InvalidParameterValue": return try await InvalidParameterValueException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -9674,8 +9674,8 @@ extension PutMetricAlarmInputBody: Swift.Decodable {
     }
 }
 
-public enum PutMetricAlarmOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum PutMetricAlarmOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "LimitExceeded": return try await LimitExceededFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -9778,8 +9778,8 @@ extension PutMetricDataInputBody: Swift.Decodable {
     }
 }
 
-public enum PutMetricDataOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum PutMetricDataOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "InternalServiceError": return try await InternalServiceFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -10046,8 +10046,8 @@ extension PutMetricStreamInputBody: Swift.Decodable {
     }
 }
 
-public enum PutMetricStreamOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum PutMetricStreamOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "ConcurrentModificationException": return try await ConcurrentModificationException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -10110,10 +10110,10 @@ extension CloudWatchClientTypes.Range: Swift.Codable {
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
         if let endTime = endTime {
-            try container.encodeTimestamp(endTime, format: .dateTime, forKey: ClientRuntime.Key("endTime"))
+            try container.encodeTimestamp(endTime, format: .dateTime, forKey: ClientRuntime.Key("EndTime"))
         }
         if let startTime = startTime {
-            try container.encodeTimestamp(startTime, format: .dateTime, forKey: ClientRuntime.Key("startTime"))
+            try container.encodeTimestamp(startTime, format: .dateTime, forKey: ClientRuntime.Key("StartTime"))
         }
     }
 
@@ -10417,8 +10417,8 @@ extension SetAlarmStateInputBody: Swift.Decodable {
     }
 }
 
-public enum SetAlarmStateOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum SetAlarmStateOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "InvalidFormat": return try await InvalidFormatFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -10708,8 +10708,8 @@ extension StartMetricStreamsInputBody: Swift.Decodable {
     }
 }
 
-public enum StartMetricStreamsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum StartMetricStreamsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "InternalServiceError": return try await InternalServiceFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -10985,8 +10985,8 @@ extension StopMetricStreamsInputBody: Swift.Decodable {
     }
 }
 
-public enum StopMetricStreamsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum StopMetricStreamsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "InternalServiceError": return try await InternalServiceFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -11138,8 +11138,8 @@ extension TagResourceInputBody: Swift.Decodable {
     }
 }
 
-public enum TagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum TagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "ConcurrentModificationException": return try await ConcurrentModificationException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -11245,8 +11245,8 @@ extension UntagResourceInputBody: Swift.Decodable {
     }
 }
 
-public enum UntagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum UntagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "ConcurrentModificationException": return try await ConcurrentModificationException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)

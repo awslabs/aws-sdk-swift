@@ -962,6 +962,38 @@ extension PaginatorSequence where Input == ListSecurityKeysInput, Output == List
     }
 }
 extension ConnectClient {
+    /// Paginate over `[ListSecurityProfileApplicationsOutputResponse]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListSecurityProfileApplicationsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListSecurityProfileApplicationsOutputResponse`
+    public func listSecurityProfileApplicationsPaginated(input: ListSecurityProfileApplicationsInput) -> ClientRuntime.PaginatorSequence<ListSecurityProfileApplicationsInput, ListSecurityProfileApplicationsOutputResponse> {
+        return ClientRuntime.PaginatorSequence<ListSecurityProfileApplicationsInput, ListSecurityProfileApplicationsOutputResponse>(input: input, inputKey: \ListSecurityProfileApplicationsInput.nextToken, outputKey: \ListSecurityProfileApplicationsOutputResponse.nextToken, paginationFunction: self.listSecurityProfileApplications(input:))
+    }
+}
+
+extension ListSecurityProfileApplicationsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListSecurityProfileApplicationsInput {
+        return ListSecurityProfileApplicationsInput(
+            instanceId: self.instanceId,
+            maxResults: self.maxResults,
+            nextToken: token,
+            securityProfileId: self.securityProfileId
+        )}
+}
+
+extension PaginatorSequence where Input == ListSecurityProfileApplicationsInput, Output == ListSecurityProfileApplicationsOutputResponse {
+    /// This paginator transforms the `AsyncSequence` returned by `listSecurityProfileApplicationsPaginated`
+    /// to access the nested member `[ConnectClientTypes.Application]`
+    /// - Returns: `[ConnectClientTypes.Application]`
+    public func applications() async throws -> [ConnectClientTypes.Application] {
+        return try await self.asyncCompactMap { item in item.applications }
+    }
+}
+extension ConnectClient {
     /// Paginate over `[ListSecurityProfilePermissionsOutputResponse]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service

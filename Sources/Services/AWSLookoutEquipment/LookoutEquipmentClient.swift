@@ -301,7 +301,7 @@ extension LookoutEquipmentClient: LookoutEquipmentClientProtocol {
         return result
     }
 
-    /// Creates an ML model for data inference. A machine-learning (ML) model is a mathematical model that finds patterns in your data. In Amazon Lookout for Equipment, the model learns the patterns of normal behavior and detects abnormal behavior that could be potential equipment failure (or maintenance events). The models are made by analyzing normal data and abnormalities in machine behavior that have already occurred. Your model is trained using a portion of the data from your dataset and uses that data to learn patterns of normal behavior and abnormal patterns that lead to equipment failure. Another portion of the data is used to evaluate the model's accuracy.
+    /// Creates a machine learning model for data inference. A machine-learning (ML) model is a mathematical model that finds patterns in your data. In Amazon Lookout for Equipment, the model learns the patterns of normal behavior and detects abnormal behavior that could be potential equipment failure (or maintenance events). The models are made by analyzing normal data and abnormalities in machine behavior that have already occurred. Your model is trained using a portion of the data from your dataset and uses that data to learn patterns of normal behavior and abnormal patterns that lead to equipment failure. Another portion of the data is used to evaluate the model's accuracy.
     ///
     /// - Parameter CreateModelInput : [no documentation found]
     ///
@@ -360,6 +360,64 @@ extension LookoutEquipmentClient: LookoutEquipmentClientProtocol {
         return result
     }
 
+    /// Creates a retraining scheduler on the specified model.
+    ///
+    /// - Parameter CreateRetrainingSchedulerInput : [no documentation found]
+    ///
+    /// - Returns: `CreateRetrainingSchedulerOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The request could not be completed because you do not have access to the resource.
+    /// - `ConflictException` : The request could not be completed due to a conflict with the current state of the target resource.
+    /// - `InternalServerException` : Processing of the request has failed because of an unknown error, exception or failure.
+    /// - `ResourceNotFoundException` : The resource requested could not be found. Verify the resource ID and retry your request.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy constraints specified by Amazon Lookout for Equipment or a related Amazon Web Services service that's being utilized.
+    public func createRetrainingScheduler(input: CreateRetrainingSchedulerInput) async throws -> CreateRetrainingSchedulerOutputResponse
+    {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "createRetrainingScheduler")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withCredentialsProvider(value: config.credentialsProvider)
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "lookoutequipment")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<CreateRetrainingSchedulerInput, CreateRetrainingSchedulerOutputResponse, CreateRetrainingSchedulerOutputError>(id: "createRetrainingScheduler")
+        operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<CreateRetrainingSchedulerOutputResponse> in
+            let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
+            var copiedInput = input
+            if input.clientToken == nil {
+                copiedInput.clientToken = idempotencyTokenGenerator.generateToken()
+            }
+            return try await next.handle(context: context, input: copiedInput)
+        }
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateRetrainingSchedulerInput, CreateRetrainingSchedulerOutputResponse, CreateRetrainingSchedulerOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateRetrainingSchedulerInput, CreateRetrainingSchedulerOutputResponse>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateRetrainingSchedulerOutputResponse, CreateRetrainingSchedulerOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<CreateRetrainingSchedulerInput, CreateRetrainingSchedulerOutputResponse>(xAmzTarget: "AWSLookoutEquipmentFrontendService.CreateRetrainingScheduler"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateRetrainingSchedulerInput, CreateRetrainingSchedulerOutputResponse>(xmlName: "CreateRetrainingSchedulerRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateRetrainingSchedulerInput, CreateRetrainingSchedulerOutputResponse>(contentType: "application/x-amz-json-1.0"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateRetrainingSchedulerOutputResponse, CreateRetrainingSchedulerOutputError>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateRetrainingSchedulerOutputResponse, CreateRetrainingSchedulerOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateRetrainingSchedulerOutputResponse, CreateRetrainingSchedulerOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateRetrainingSchedulerOutputResponse, CreateRetrainingSchedulerOutputError>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
     /// Deletes a dataset and associated artifacts. The operation will check to see if any inference scheduler or data ingestion job is currently using the dataset, and if there isn't, the dataset, its metadata, and any associated data stored in S3 will be deleted. This does not affect any models that used this dataset for training and evaluation, but does prevent it from being used in the future.
     ///
     /// - Parameter DeleteDatasetInput : [no documentation found]
@@ -410,7 +468,7 @@ extension LookoutEquipmentClient: LookoutEquipmentClientProtocol {
         return result
     }
 
-    /// Deletes an inference scheduler that has been set up. Already processed output results are not affected.
+    /// Deletes an inference scheduler that has been set up. Prior inference results will not be deleted.
     ///
     /// - Parameter DeleteInferenceSchedulerInput : [no documentation found]
     ///
@@ -560,7 +618,7 @@ extension LookoutEquipmentClient: LookoutEquipmentClientProtocol {
         return result
     }
 
-    /// Deletes an ML model currently available for Amazon Lookout for Equipment. This will prevent it from being used with an inference scheduler, even one that is already set up.
+    /// Deletes a machine learning model currently available for Amazon Lookout for Equipment. This will prevent it from being used with an inference scheduler, even one that is already set up.
     ///
     /// - Parameter DeleteModelInput : [no documentation found]
     ///
@@ -656,6 +714,56 @@ extension LookoutEquipmentClient: LookoutEquipmentClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteResourcePolicyOutputResponse, DeleteResourcePolicyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteResourcePolicyOutputResponse, DeleteResourcePolicyOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteResourcePolicyOutputResponse, DeleteResourcePolicyOutputError>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
+    /// Deletes a retraining scheduler from a model. The retraining scheduler must be in the STOPPED status.
+    ///
+    /// - Parameter DeleteRetrainingSchedulerInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteRetrainingSchedulerOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The request could not be completed because you do not have access to the resource.
+    /// - `ConflictException` : The request could not be completed due to a conflict with the current state of the target resource.
+    /// - `InternalServerException` : Processing of the request has failed because of an unknown error, exception or failure.
+    /// - `ResourceNotFoundException` : The resource requested could not be found. Verify the resource ID and retry your request.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy constraints specified by Amazon Lookout for Equipment or a related Amazon Web Services service that's being utilized.
+    public func deleteRetrainingScheduler(input: DeleteRetrainingSchedulerInput) async throws -> DeleteRetrainingSchedulerOutputResponse
+    {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "deleteRetrainingScheduler")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withCredentialsProvider(value: config.credentialsProvider)
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "lookoutequipment")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<DeleteRetrainingSchedulerInput, DeleteRetrainingSchedulerOutputResponse, DeleteRetrainingSchedulerOutputError>(id: "deleteRetrainingScheduler")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteRetrainingSchedulerInput, DeleteRetrainingSchedulerOutputResponse, DeleteRetrainingSchedulerOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteRetrainingSchedulerInput, DeleteRetrainingSchedulerOutputResponse>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteRetrainingSchedulerOutputResponse, DeleteRetrainingSchedulerOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DeleteRetrainingSchedulerInput, DeleteRetrainingSchedulerOutputResponse>(xAmzTarget: "AWSLookoutEquipmentFrontendService.DeleteRetrainingScheduler"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DeleteRetrainingSchedulerInput, DeleteRetrainingSchedulerOutputResponse>(xmlName: "DeleteRetrainingSchedulerRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DeleteRetrainingSchedulerInput, DeleteRetrainingSchedulerOutputResponse>(contentType: "application/x-amz-json-1.0"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteRetrainingSchedulerOutputResponse, DeleteRetrainingSchedulerOutputError>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteRetrainingSchedulerOutputResponse, DeleteRetrainingSchedulerOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteRetrainingSchedulerOutputResponse, DeleteRetrainingSchedulerOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteRetrainingSchedulerOutputResponse, DeleteRetrainingSchedulerOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -905,7 +1013,7 @@ extension LookoutEquipmentClient: LookoutEquipmentClientProtocol {
         return result
     }
 
-    /// Provides a JSON containing the overall information about a specific ML model, including model name and ARN, dataset, training and evaluation information, status, and so on.
+    /// Provides a JSON containing the overall information about a specific machine learning model, including model name and ARN, dataset, training and evaluation information, status, and so on.
     ///
     /// - Parameter DescribeModelInput : [no documentation found]
     ///
@@ -1048,6 +1156,55 @@ extension LookoutEquipmentClient: LookoutEquipmentClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeResourcePolicyOutputResponse, DescribeResourcePolicyOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeResourcePolicyOutputResponse, DescribeResourcePolicyOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeResourcePolicyOutputResponse, DescribeResourcePolicyOutputError>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
+    /// Provides a description of the retraining scheduler, including information such as the model name and retraining parameters.
+    ///
+    /// - Parameter DescribeRetrainingSchedulerInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeRetrainingSchedulerOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The request could not be completed because you do not have access to the resource.
+    /// - `InternalServerException` : Processing of the request has failed because of an unknown error, exception or failure.
+    /// - `ResourceNotFoundException` : The resource requested could not be found. Verify the resource ID and retry your request.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy constraints specified by Amazon Lookout for Equipment or a related Amazon Web Services service that's being utilized.
+    public func describeRetrainingScheduler(input: DescribeRetrainingSchedulerInput) async throws -> DescribeRetrainingSchedulerOutputResponse
+    {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "describeRetrainingScheduler")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withCredentialsProvider(value: config.credentialsProvider)
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "lookoutequipment")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<DescribeRetrainingSchedulerInput, DescribeRetrainingSchedulerOutputResponse, DescribeRetrainingSchedulerOutputError>(id: "describeRetrainingScheduler")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeRetrainingSchedulerInput, DescribeRetrainingSchedulerOutputResponse, DescribeRetrainingSchedulerOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeRetrainingSchedulerInput, DescribeRetrainingSchedulerOutputResponse>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeRetrainingSchedulerOutputResponse, DescribeRetrainingSchedulerOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<DescribeRetrainingSchedulerInput, DescribeRetrainingSchedulerOutputResponse>(xAmzTarget: "AWSLookoutEquipmentFrontendService.DescribeRetrainingScheduler"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<DescribeRetrainingSchedulerInput, DescribeRetrainingSchedulerOutputResponse>(xmlName: "DescribeRetrainingSchedulerRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeRetrainingSchedulerInput, DescribeRetrainingSchedulerOutputResponse>(contentType: "application/x-amz-json-1.0"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeRetrainingSchedulerOutputResponse, DescribeRetrainingSchedulerOutputError>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DescribeRetrainingSchedulerOutputResponse, DescribeRetrainingSchedulerOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeRetrainingSchedulerOutputResponse, DescribeRetrainingSchedulerOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeRetrainingSchedulerOutputResponse, DescribeRetrainingSchedulerOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1605,6 +1762,54 @@ extension LookoutEquipmentClient: LookoutEquipmentClientProtocol {
         return result
     }
 
+    /// Lists all retraining schedulers in your account, filtering by model name prefix and status.
+    ///
+    /// - Parameter ListRetrainingSchedulersInput : [no documentation found]
+    ///
+    /// - Returns: `ListRetrainingSchedulersOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The request could not be completed because you do not have access to the resource.
+    /// - `InternalServerException` : Processing of the request has failed because of an unknown error, exception or failure.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy constraints specified by Amazon Lookout for Equipment or a related Amazon Web Services service that's being utilized.
+    public func listRetrainingSchedulers(input: ListRetrainingSchedulersInput) async throws -> ListRetrainingSchedulersOutputResponse
+    {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listRetrainingSchedulers")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withCredentialsProvider(value: config.credentialsProvider)
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "lookoutequipment")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<ListRetrainingSchedulersInput, ListRetrainingSchedulersOutputResponse, ListRetrainingSchedulersOutputError>(id: "listRetrainingSchedulers")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListRetrainingSchedulersInput, ListRetrainingSchedulersOutputResponse, ListRetrainingSchedulersOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListRetrainingSchedulersInput, ListRetrainingSchedulersOutputResponse>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListRetrainingSchedulersOutputResponse, ListRetrainingSchedulersOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<ListRetrainingSchedulersInput, ListRetrainingSchedulersOutputResponse>(xAmzTarget: "AWSLookoutEquipmentFrontendService.ListRetrainingSchedulers"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<ListRetrainingSchedulersInput, ListRetrainingSchedulersOutputResponse>(xmlName: "ListRetrainingSchedulersRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListRetrainingSchedulersInput, ListRetrainingSchedulersOutputResponse>(contentType: "application/x-amz-json-1.0"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListRetrainingSchedulersOutputResponse, ListRetrainingSchedulersOutputError>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListRetrainingSchedulersOutputResponse, ListRetrainingSchedulersOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListRetrainingSchedulersOutputResponse, ListRetrainingSchedulersOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListRetrainingSchedulersOutputResponse, ListRetrainingSchedulersOutputError>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
     /// Lists statistics about the data collected for each of the sensors that have been successfully ingested in the particular dataset. Can also be used to retreive Sensor Statistics for a previous ingestion job.
     ///
     /// - Parameter ListSensorStatisticsInput : [no documentation found]
@@ -1871,6 +2076,56 @@ extension LookoutEquipmentClient: LookoutEquipmentClientProtocol {
         return result
     }
 
+    /// Starts a retraining scheduler.
+    ///
+    /// - Parameter StartRetrainingSchedulerInput : [no documentation found]
+    ///
+    /// - Returns: `StartRetrainingSchedulerOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The request could not be completed because you do not have access to the resource.
+    /// - `ConflictException` : The request could not be completed due to a conflict with the current state of the target resource.
+    /// - `InternalServerException` : Processing of the request has failed because of an unknown error, exception or failure.
+    /// - `ResourceNotFoundException` : The resource requested could not be found. Verify the resource ID and retry your request.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy constraints specified by Amazon Lookout for Equipment or a related Amazon Web Services service that's being utilized.
+    public func startRetrainingScheduler(input: StartRetrainingSchedulerInput) async throws -> StartRetrainingSchedulerOutputResponse
+    {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "startRetrainingScheduler")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withCredentialsProvider(value: config.credentialsProvider)
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "lookoutequipment")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<StartRetrainingSchedulerInput, StartRetrainingSchedulerOutputResponse, StartRetrainingSchedulerOutputError>(id: "startRetrainingScheduler")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartRetrainingSchedulerInput, StartRetrainingSchedulerOutputResponse, StartRetrainingSchedulerOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartRetrainingSchedulerInput, StartRetrainingSchedulerOutputResponse>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StartRetrainingSchedulerOutputResponse, StartRetrainingSchedulerOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<StartRetrainingSchedulerInput, StartRetrainingSchedulerOutputResponse>(xAmzTarget: "AWSLookoutEquipmentFrontendService.StartRetrainingScheduler"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<StartRetrainingSchedulerInput, StartRetrainingSchedulerOutputResponse>(xmlName: "StartRetrainingSchedulerRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<StartRetrainingSchedulerInput, StartRetrainingSchedulerOutputResponse>(contentType: "application/x-amz-json-1.0"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StartRetrainingSchedulerOutputResponse, StartRetrainingSchedulerOutputError>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StartRetrainingSchedulerOutputResponse, StartRetrainingSchedulerOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartRetrainingSchedulerOutputResponse, StartRetrainingSchedulerOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartRetrainingSchedulerOutputResponse, StartRetrainingSchedulerOutputError>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
     /// Stops an inference scheduler.
     ///
     /// - Parameter StopInferenceSchedulerInput : [no documentation found]
@@ -1917,6 +2172,56 @@ extension LookoutEquipmentClient: LookoutEquipmentClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StopInferenceSchedulerOutputResponse, StopInferenceSchedulerOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StopInferenceSchedulerOutputResponse, StopInferenceSchedulerOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StopInferenceSchedulerOutputResponse, StopInferenceSchedulerOutputError>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
+    /// Stops a retraining scheduler.
+    ///
+    /// - Parameter StopRetrainingSchedulerInput : [no documentation found]
+    ///
+    /// - Returns: `StopRetrainingSchedulerOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The request could not be completed because you do not have access to the resource.
+    /// - `ConflictException` : The request could not be completed due to a conflict with the current state of the target resource.
+    /// - `InternalServerException` : Processing of the request has failed because of an unknown error, exception or failure.
+    /// - `ResourceNotFoundException` : The resource requested could not be found. Verify the resource ID and retry your request.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy constraints specified by Amazon Lookout for Equipment or a related Amazon Web Services service that's being utilized.
+    public func stopRetrainingScheduler(input: StopRetrainingSchedulerInput) async throws -> StopRetrainingSchedulerOutputResponse
+    {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "stopRetrainingScheduler")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withCredentialsProvider(value: config.credentialsProvider)
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "lookoutequipment")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<StopRetrainingSchedulerInput, StopRetrainingSchedulerOutputResponse, StopRetrainingSchedulerOutputError>(id: "stopRetrainingScheduler")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StopRetrainingSchedulerInput, StopRetrainingSchedulerOutputResponse, StopRetrainingSchedulerOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StopRetrainingSchedulerInput, StopRetrainingSchedulerOutputResponse>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StopRetrainingSchedulerOutputResponse, StopRetrainingSchedulerOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<StopRetrainingSchedulerInput, StopRetrainingSchedulerOutputResponse>(xAmzTarget: "AWSLookoutEquipmentFrontendService.StopRetrainingScheduler"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<StopRetrainingSchedulerInput, StopRetrainingSchedulerOutputResponse>(xmlName: "StopRetrainingSchedulerRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<StopRetrainingSchedulerInput, StopRetrainingSchedulerOutputResponse>(contentType: "application/x-amz-json-1.0"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StopRetrainingSchedulerOutputResponse, StopRetrainingSchedulerOutputError>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<StopRetrainingSchedulerOutputResponse, StopRetrainingSchedulerOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StopRetrainingSchedulerOutputResponse, StopRetrainingSchedulerOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StopRetrainingSchedulerOutputResponse, StopRetrainingSchedulerOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2166,6 +2471,106 @@ extension LookoutEquipmentClient: LookoutEquipmentClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateLabelGroupOutputResponse, UpdateLabelGroupOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateLabelGroupOutputResponse, UpdateLabelGroupOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateLabelGroupOutputResponse, UpdateLabelGroupOutputError>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
+    /// Updates a model in the account.
+    ///
+    /// - Parameter UpdateModelInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateModelOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The request could not be completed because you do not have access to the resource.
+    /// - `ConflictException` : The request could not be completed due to a conflict with the current state of the target resource.
+    /// - `InternalServerException` : Processing of the request has failed because of an unknown error, exception or failure.
+    /// - `ResourceNotFoundException` : The resource requested could not be found. Verify the resource ID and retry your request.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy constraints specified by Amazon Lookout for Equipment or a related Amazon Web Services service that's being utilized.
+    public func updateModel(input: UpdateModelInput) async throws -> UpdateModelOutputResponse
+    {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "updateModel")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withCredentialsProvider(value: config.credentialsProvider)
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "lookoutequipment")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<UpdateModelInput, UpdateModelOutputResponse, UpdateModelOutputError>(id: "updateModel")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateModelInput, UpdateModelOutputResponse, UpdateModelOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateModelInput, UpdateModelOutputResponse>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateModelOutputResponse, UpdateModelOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdateModelInput, UpdateModelOutputResponse>(xAmzTarget: "AWSLookoutEquipmentFrontendService.UpdateModel"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateModelInput, UpdateModelOutputResponse>(xmlName: "UpdateModelRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateModelInput, UpdateModelOutputResponse>(contentType: "application/x-amz-json-1.0"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateModelOutputResponse, UpdateModelOutputError>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateModelOutputResponse, UpdateModelOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateModelOutputResponse, UpdateModelOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateModelOutputResponse, UpdateModelOutputError>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
+    /// Updates a retraining scheduler.
+    ///
+    /// - Parameter UpdateRetrainingSchedulerInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateRetrainingSchedulerOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The request could not be completed because you do not have access to the resource.
+    /// - `ConflictException` : The request could not be completed due to a conflict with the current state of the target resource.
+    /// - `InternalServerException` : Processing of the request has failed because of an unknown error, exception or failure.
+    /// - `ResourceNotFoundException` : The resource requested could not be found. Verify the resource ID and retry your request.
+    /// - `ThrottlingException` : The request was denied due to request throttling.
+    /// - `ValidationException` : The input fails to satisfy constraints specified by Amazon Lookout for Equipment or a related Amazon Web Services service that's being utilized.
+    public func updateRetrainingScheduler(input: UpdateRetrainingSchedulerInput) async throws -> UpdateRetrainingSchedulerOutputResponse
+    {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "updateRetrainingScheduler")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withCredentialsProvider(value: config.credentialsProvider)
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "lookoutequipment")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<UpdateRetrainingSchedulerInput, UpdateRetrainingSchedulerOutputResponse, UpdateRetrainingSchedulerOutputError>(id: "updateRetrainingScheduler")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateRetrainingSchedulerInput, UpdateRetrainingSchedulerOutputResponse, UpdateRetrainingSchedulerOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateRetrainingSchedulerInput, UpdateRetrainingSchedulerOutputResponse>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateRetrainingSchedulerOutputResponse, UpdateRetrainingSchedulerOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<UpdateRetrainingSchedulerInput, UpdateRetrainingSchedulerOutputResponse>(xAmzTarget: "AWSLookoutEquipmentFrontendService.UpdateRetrainingScheduler"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateRetrainingSchedulerInput, UpdateRetrainingSchedulerOutputResponse>(xmlName: "UpdateRetrainingSchedulerRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateRetrainingSchedulerInput, UpdateRetrainingSchedulerOutputResponse>(contentType: "application/x-amz-json-1.0"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateRetrainingSchedulerOutputResponse, UpdateRetrainingSchedulerOutputError>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateRetrainingSchedulerOutputResponse, UpdateRetrainingSchedulerOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateRetrainingSchedulerOutputResponse, UpdateRetrainingSchedulerOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateRetrainingSchedulerOutputResponse, UpdateRetrainingSchedulerOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }

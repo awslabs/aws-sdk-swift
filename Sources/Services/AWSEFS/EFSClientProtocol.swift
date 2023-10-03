@@ -126,7 +126,7 @@ public protocol EFSClientProtocol {
     ///
     /// * Destination file system configuration - The configuration of the destination file system to which the source file system will be replicated. There can only be one destination file system in a replication configuration. The destination file system configuration consists of the following properties:
     ///
-    /// * Amazon Web Services Region - The Amazon Web Services Region in which the destination file system is created. Amazon EFS replication is available in all Amazon Web Services Regions that Amazon EFS is available in, except Africa (Cape Town), Asia Pacific (Hong Kong), Asia Pacific (Jakarta), Europe (Milan), and Middle East (Bahrain).
+    /// * Amazon Web Services Region - The Amazon Web Services Region in which the destination file system is created. Amazon EFS replication is available in all Amazon Web Services Regions in which EFS is available. To use EFS replication in a Region that is disabled by default, you must first opt in to the Region. For more information, see [Managing Amazon Web Services Regions](https://docs.aws.amazon.com/general/latest/gr/rande-manage.html#rande-manage-enable) in the Amazon Web Services General Reference Reference Guide
     ///
     /// * Availability Zone - If you want the destination file system to use EFS One Zone availability and durability, you must specify the Availability Zone to create the file system in. For more information about EFS storage classes, see [ Amazon EFS storage classes](https://docs.aws.amazon.com/efs/latest/ug/storage-classes.html) in the Amazon EFS User Guide.
     ///
@@ -147,14 +147,14 @@ public protocol EFSClientProtocol {
     ///
     /// * Lifecycle management - EFS lifecycle management and EFS Intelligent-Tiering are not enabled on the destination file system. After the destination file system is created, you can enable EFS lifecycle management and EFS Intelligent-Tiering.
     ///
-    /// * Automatic backups - Automatic daily backups not enabled on the destination file system. After the file system is created, you can change this setting.
+    /// * Automatic backups - Automatic daily backups are enabled on the destination file system. After the file system is created, you can change this setting.
     ///
     ///
     /// For more information, see [Amazon EFS replication](https://docs.aws.amazon.com/efs/latest/ug/efs-replication.html) in the Amazon EFS User Guide.
     ///
     /// - Parameter CreateReplicationConfigurationInput : [no documentation found]
     ///
-    /// - Returns: `CreateReplicationConfigurationOutputResponse` : [no documentation found]
+    /// - Returns: `CreateReplicationConfigurationOutputResponse` : Describes the replication configuration for a specific file system.
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
@@ -246,7 +246,7 @@ public protocol EFSClientProtocol {
     /// - `InternalServerError` : Returned if an error occurred on the server side.
     /// - `MountTargetNotFound` : Returned if there is no mount target with the specified ID found in the caller's Amazon Web Services account.
     func deleteMountTarget(input: DeleteMountTargetInput) async throws -> DeleteMountTargetOutputResponse
-    /// Deletes an existing replication configuration. To delete a replication configuration, you must make the request from the Amazon Web Services Region in which the destination file system is located. Deleting a replication configuration ends the replication process. After a replication configuration is deleted, the destination file system is no longer read-only. You can write to the destination file system after its status becomes Writeable.
+    /// Deletes an existing replication configuration. Deleting a replication configuration ends the replication process. After a replication configuration is deleted, the destination file system is no longer read-only. You can write to the destination file system after its status becomes Writeable.
     ///
     /// - Parameter DeleteReplicationConfigurationInput : [no documentation found]
     ///
@@ -288,7 +288,7 @@ public protocol EFSClientProtocol {
     /// - `FileSystemNotFound` : Returned if the specified FileSystemId value doesn't exist in the requester's Amazon Web Services account.
     /// - `InternalServerError` : Returned if an error occurred on the server side.
     func describeAccessPoints(input: DescribeAccessPointsInput) async throws -> DescribeAccessPointsOutputResponse
-    /// Returns the account preferences settings for the Amazon Web Services account associated with the user making the request, in the current Amazon Web Services Region. For more information, see [Managing Amazon EFS resource IDs].
+    /// Returns the account preferences settings for the Amazon Web Services account associated with the user making the request, in the current Amazon Web Services Region.
     ///
     /// - Parameter DescribeAccountPreferencesInput : [no documentation found]
     ///

@@ -4,6 +4,22 @@ import ClientRuntime
 
 /// The Amazon AppIntegrations service enables you to configure and reuse connections to external applications. For information about how you can use external applications with Amazon Connect, see [Set up pre-built integrations](https://docs.aws.amazon.com/connect/latest/adminguide/crm.html) and [Deliver information to agents using Amazon Connect Wisdom](https://docs.aws.amazon.com/connect/latest/adminguide/amazon-connect-wisdom.html) in the Amazon Connect Administrator Guide.
 public protocol AppIntegrationsClientProtocol {
+    /// This API is in preview release and subject to change. Creates and persists an Application resource.
+    ///
+    /// - Parameter CreateApplicationInput : [no documentation found]
+    ///
+    /// - Returns: `CreateApplicationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `DuplicateResourceException` : A resource with the specified name already exists.
+    /// - `InternalServiceError` : Request processing failed due to an error or failure with the service.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceQuotaExceededException` : The allowed quota for the resource has been exceeded.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
+    func createApplication(input: CreateApplicationInput) async throws -> CreateApplicationOutputResponse
     /// Creates and persists a DataIntegration resource. You cannot create a DataIntegration association for a DataIntegration that has been previously associated. Use a different DataIntegration, or recreate the DataIntegration using the CreateDataIntegration API.
     ///
     /// - Parameter CreateDataIntegrationInput : [no documentation found]
@@ -66,6 +82,21 @@ public protocol AppIntegrationsClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
     func deleteEventIntegration(input: DeleteEventIntegrationInput) async throws -> DeleteEventIntegrationOutputResponse
+    /// This API is in preview release and subject to change. Get an Application resource.
+    ///
+    /// - Parameter GetApplicationInput : [no documentation found]
+    ///
+    /// - Returns: `GetApplicationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServiceError` : Request processing failed due to an error or failure with the service.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
+    func getApplication(input: GetApplicationInput) async throws -> GetApplicationOutputResponse
     /// Returns information about the DataIntegration. You cannot create a DataIntegration association for a DataIntegration that has been previously associated. Use a different DataIntegration, or recreate the DataIntegration using the [CreateDataIntegration](https://docs.aws.amazon.com/appintegrations/latest/APIReference/API_CreateDataIntegration.html) API.
     ///
     /// - Parameter GetDataIntegrationInput : [no documentation found]
@@ -96,6 +127,20 @@ public protocol AppIntegrationsClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
     func getEventIntegration(input: GetEventIntegrationInput) async throws -> GetEventIntegrationOutputResponse
+    /// This API is in preview release and subject to change. Lists applications in the account.
+    ///
+    /// - Parameter ListApplicationsInput : [no documentation found]
+    ///
+    /// - Returns: `ListApplicationsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServiceError` : Request processing failed due to an error or failure with the service.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
+    func listApplications(input: ListApplicationsInput) async throws -> ListApplicationsOutputResponse
     /// Returns a paginated list of DataIntegration associations in the account. You cannot create a DataIntegration association for a DataIntegration that has been previously associated. Use a different DataIntegration, or recreate the DataIntegration using the [CreateDataIntegration](https://docs.aws.amazon.com/appintegrations/latest/APIReference/API_CreateDataIntegration.html) API.
     ///
     /// - Parameter ListDataIntegrationAssociationsInput : [no documentation found]
@@ -196,6 +241,21 @@ public protocol AppIntegrationsClientProtocol {
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ThrottlingException` : The throttling limit has been exceeded.
     func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
+    /// This API is in preview release and subject to change. Updates and persists an Application resource.
+    ///
+    /// - Parameter UpdateApplicationInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateApplicationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `InternalServiceError` : Request processing failed due to an error or failure with the service.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
+    func updateApplication(input: UpdateApplicationInput) async throws -> UpdateApplicationOutputResponse
     /// Updates the description of a DataIntegration. You cannot create a DataIntegration association for a DataIntegration that has been previously associated. Use a different DataIntegration, or recreate the DataIntegration using the [CreateDataIntegration](https://docs.aws.amazon.com/appintegrations/latest/APIReference/API_CreateDataIntegration.html) API.
     ///
     /// - Parameter UpdateDataIntegrationInput : [no documentation found]

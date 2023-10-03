@@ -13,9 +13,11 @@ extension EMRServerlessClientTypes.Application: Swift.Codable {
         case imageConfiguration
         case initialCapacity
         case maximumCapacity
+        case monitoringConfiguration
         case name
         case networkConfiguration
         case releaseLabel
+        case runtimeConfiguration
         case state
         case stateDetails
         case tags
@@ -56,6 +58,9 @@ extension EMRServerlessClientTypes.Application: Swift.Codable {
         if let maximumCapacity = self.maximumCapacity {
             try encodeContainer.encode(maximumCapacity, forKey: .maximumCapacity)
         }
+        if let monitoringConfiguration = self.monitoringConfiguration {
+            try encodeContainer.encode(monitoringConfiguration, forKey: .monitoringConfiguration)
+        }
         if let name = self.name {
             try encodeContainer.encode(name, forKey: .name)
         }
@@ -64,6 +69,12 @@ extension EMRServerlessClientTypes.Application: Swift.Codable {
         }
         if let releaseLabel = self.releaseLabel {
             try encodeContainer.encode(releaseLabel, forKey: .releaseLabel)
+        }
+        if let runtimeConfiguration = runtimeConfiguration {
+            var runtimeConfigurationContainer = encodeContainer.nestedUnkeyedContainer(forKey: .runtimeConfiguration)
+            for configuration0 in runtimeConfiguration {
+                try runtimeConfigurationContainer.encode(configuration0)
+            }
         }
         if let state = self.state {
             try encodeContainer.encode(state.rawValue, forKey: .state)
@@ -156,6 +167,19 @@ extension EMRServerlessClientTypes.Application: Swift.Codable {
             }
         }
         workerTypeSpecifications = workerTypeSpecificationsDecoded0
+        let runtimeConfigurationContainer = try containerValues.decodeIfPresent([EMRServerlessClientTypes.Configuration?].self, forKey: .runtimeConfiguration)
+        var runtimeConfigurationDecoded0:[EMRServerlessClientTypes.Configuration]? = nil
+        if let runtimeConfigurationContainer = runtimeConfigurationContainer {
+            runtimeConfigurationDecoded0 = [EMRServerlessClientTypes.Configuration]()
+            for structure0 in runtimeConfigurationContainer {
+                if let structure0 = structure0 {
+                    runtimeConfigurationDecoded0?.append(structure0)
+                }
+            }
+        }
+        runtimeConfiguration = runtimeConfigurationDecoded0
+        let monitoringConfigurationDecoded = try containerValues.decodeIfPresent(EMRServerlessClientTypes.MonitoringConfiguration.self, forKey: .monitoringConfiguration)
+        monitoringConfiguration = monitoringConfigurationDecoded
     }
 }
 
@@ -183,6 +207,8 @@ extension EMRServerlessClientTypes {
         public var initialCapacity: [Swift.String:EMRServerlessClientTypes.InitialCapacityConfig]?
         /// The maximum capacity of the application. This is cumulative across all workers at any given point in time during the lifespan of the application is created. No new resources will be created once any one of the defined limits is hit.
         public var maximumCapacity: EMRServerlessClientTypes.MaximumAllowedResources?
+        /// The configuration setting for monitoring.
+        public var monitoringConfiguration: EMRServerlessClientTypes.MonitoringConfiguration?
         /// The name of the application.
         public var name: Swift.String?
         /// The network configuration for customer VPC connectivity for the application.
@@ -190,6 +216,8 @@ extension EMRServerlessClientTypes {
         /// The Amazon EMR release associated with the application.
         /// This member is required.
         public var releaseLabel: Swift.String?
+        /// The [Configuration](https://docs.aws.amazon.com/emr-serverless/latest/APIReference/API_Configuration.html) specifications of an application. Each configuration consists of a classification and properties. You use this parameter when creating or updating an application. To see the runtimeConfiguration object of an application, run the [GetApplication](https://docs.aws.amazon.com/emr-serverless/latest/APIReference/API_GetApplication.html) API operation.
+        public var runtimeConfiguration: [EMRServerlessClientTypes.Configuration]?
         /// The state of the application.
         /// This member is required.
         public var state: EMRServerlessClientTypes.ApplicationState?
@@ -216,9 +244,11 @@ extension EMRServerlessClientTypes {
             imageConfiguration: EMRServerlessClientTypes.ImageConfiguration? = nil,
             initialCapacity: [Swift.String:EMRServerlessClientTypes.InitialCapacityConfig]? = nil,
             maximumCapacity: EMRServerlessClientTypes.MaximumAllowedResources? = nil,
+            monitoringConfiguration: EMRServerlessClientTypes.MonitoringConfiguration? = nil,
             name: Swift.String? = nil,
             networkConfiguration: EMRServerlessClientTypes.NetworkConfiguration? = nil,
             releaseLabel: Swift.String? = nil,
+            runtimeConfiguration: [EMRServerlessClientTypes.Configuration]? = nil,
             state: EMRServerlessClientTypes.ApplicationState? = nil,
             stateDetails: Swift.String? = nil,
             tags: [Swift.String:Swift.String]? = nil,
@@ -236,9 +266,11 @@ extension EMRServerlessClientTypes {
             self.imageConfiguration = imageConfiguration
             self.initialCapacity = initialCapacity
             self.maximumCapacity = maximumCapacity
+            self.monitoringConfiguration = monitoringConfiguration
             self.name = name
             self.networkConfiguration = networkConfiguration
             self.releaseLabel = releaseLabel
+            self.runtimeConfiguration = runtimeConfiguration
             self.state = state
             self.stateDetails = stateDetails
             self.tags = tags
@@ -580,8 +612,8 @@ extension CancelJobRunInputBody: Swift.Decodable {
     }
 }
 
-public enum CancelJobRunOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum CancelJobRunOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -954,9 +986,11 @@ extension CreateApplicationInput: Swift.Encodable {
         case imageConfiguration
         case initialCapacity
         case maximumCapacity
+        case monitoringConfiguration
         case name
         case networkConfiguration
         case releaseLabel
+        case runtimeConfiguration
         case tags
         case type
         case workerTypeSpecifications
@@ -988,6 +1022,9 @@ extension CreateApplicationInput: Swift.Encodable {
         if let maximumCapacity = self.maximumCapacity {
             try encodeContainer.encode(maximumCapacity, forKey: .maximumCapacity)
         }
+        if let monitoringConfiguration = self.monitoringConfiguration {
+            try encodeContainer.encode(monitoringConfiguration, forKey: .monitoringConfiguration)
+        }
         if let name = self.name {
             try encodeContainer.encode(name, forKey: .name)
         }
@@ -996,6 +1033,12 @@ extension CreateApplicationInput: Swift.Encodable {
         }
         if let releaseLabel = self.releaseLabel {
             try encodeContainer.encode(releaseLabel, forKey: .releaseLabel)
+        }
+        if let runtimeConfiguration = runtimeConfiguration {
+            var runtimeConfigurationContainer = encodeContainer.nestedUnkeyedContainer(forKey: .runtimeConfiguration)
+            for configuration0 in runtimeConfiguration {
+                try runtimeConfigurationContainer.encode(configuration0)
+            }
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
@@ -1037,6 +1080,8 @@ public struct CreateApplicationInput: Swift.Equatable {
     public var initialCapacity: [Swift.String:EMRServerlessClientTypes.InitialCapacityConfig]?
     /// The maximum capacity to allocate when the application is created. This is cumulative across all workers at any given point in time, not just when an application is created. No new resources will be created once any one of the defined limits is hit.
     public var maximumCapacity: EMRServerlessClientTypes.MaximumAllowedResources?
+    /// The configuration setting for monitoring.
+    public var monitoringConfiguration: EMRServerlessClientTypes.MonitoringConfiguration?
     /// The name of the application.
     public var name: Swift.String?
     /// The network configuration for customer VPC connectivity.
@@ -1044,6 +1089,8 @@ public struct CreateApplicationInput: Swift.Equatable {
     /// The Amazon EMR release associated with the application.
     /// This member is required.
     public var releaseLabel: Swift.String?
+    /// The [Configuration](https://docs.aws.amazon.com/emr-serverless/latest/APIReference/API_Configuration.html) specifications to use when creating an application. Each configuration consists of a classification and properties. This configuration is applied to all the job runs submitted under the application.
+    public var runtimeConfiguration: [EMRServerlessClientTypes.Configuration]?
     /// The tags assigned to the application.
     public var tags: [Swift.String:Swift.String]?
     /// The type of application you want to start, such as Spark or Hive.
@@ -1060,9 +1107,11 @@ public struct CreateApplicationInput: Swift.Equatable {
         imageConfiguration: EMRServerlessClientTypes.ImageConfigurationInput? = nil,
         initialCapacity: [Swift.String:EMRServerlessClientTypes.InitialCapacityConfig]? = nil,
         maximumCapacity: EMRServerlessClientTypes.MaximumAllowedResources? = nil,
+        monitoringConfiguration: EMRServerlessClientTypes.MonitoringConfiguration? = nil,
         name: Swift.String? = nil,
         networkConfiguration: EMRServerlessClientTypes.NetworkConfiguration? = nil,
         releaseLabel: Swift.String? = nil,
+        runtimeConfiguration: [EMRServerlessClientTypes.Configuration]? = nil,
         tags: [Swift.String:Swift.String]? = nil,
         type: Swift.String? = nil,
         workerTypeSpecifications: [Swift.String:EMRServerlessClientTypes.WorkerTypeSpecificationInput]? = nil
@@ -1075,9 +1124,11 @@ public struct CreateApplicationInput: Swift.Equatable {
         self.imageConfiguration = imageConfiguration
         self.initialCapacity = initialCapacity
         self.maximumCapacity = maximumCapacity
+        self.monitoringConfiguration = monitoringConfiguration
         self.name = name
         self.networkConfiguration = networkConfiguration
         self.releaseLabel = releaseLabel
+        self.runtimeConfiguration = runtimeConfiguration
         self.tags = tags
         self.type = type
         self.workerTypeSpecifications = workerTypeSpecifications
@@ -1098,6 +1149,8 @@ struct CreateApplicationInputBody: Swift.Equatable {
     let architecture: EMRServerlessClientTypes.Architecture?
     let imageConfiguration: EMRServerlessClientTypes.ImageConfigurationInput?
     let workerTypeSpecifications: [Swift.String:EMRServerlessClientTypes.WorkerTypeSpecificationInput]?
+    let runtimeConfiguration: [EMRServerlessClientTypes.Configuration]?
+    let monitoringConfiguration: EMRServerlessClientTypes.MonitoringConfiguration?
 }
 
 extension CreateApplicationInputBody: Swift.Decodable {
@@ -1109,9 +1162,11 @@ extension CreateApplicationInputBody: Swift.Decodable {
         case imageConfiguration
         case initialCapacity
         case maximumCapacity
+        case monitoringConfiguration
         case name
         case networkConfiguration
         case releaseLabel
+        case runtimeConfiguration
         case tags
         case type
         case workerTypeSpecifications
@@ -1172,11 +1227,24 @@ extension CreateApplicationInputBody: Swift.Decodable {
             }
         }
         workerTypeSpecifications = workerTypeSpecificationsDecoded0
+        let runtimeConfigurationContainer = try containerValues.decodeIfPresent([EMRServerlessClientTypes.Configuration?].self, forKey: .runtimeConfiguration)
+        var runtimeConfigurationDecoded0:[EMRServerlessClientTypes.Configuration]? = nil
+        if let runtimeConfigurationContainer = runtimeConfigurationContainer {
+            runtimeConfigurationDecoded0 = [EMRServerlessClientTypes.Configuration]()
+            for structure0 in runtimeConfigurationContainer {
+                if let structure0 = structure0 {
+                    runtimeConfigurationDecoded0?.append(structure0)
+                }
+            }
+        }
+        runtimeConfiguration = runtimeConfigurationDecoded0
+        let monitoringConfigurationDecoded = try containerValues.decodeIfPresent(EMRServerlessClientTypes.MonitoringConfiguration.self, forKey: .monitoringConfiguration)
+        monitoringConfiguration = monitoringConfigurationDecoded
     }
 }
 
-public enum CreateApplicationOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum CreateApplicationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -1282,8 +1350,8 @@ extension DeleteApplicationInputBody: Swift.Decodable {
     }
 }
 
-public enum DeleteApplicationOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DeleteApplicationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -1336,8 +1404,8 @@ extension GetApplicationInputBody: Swift.Decodable {
     }
 }
 
-public enum GetApplicationOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum GetApplicationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -1429,8 +1497,8 @@ extension GetDashboardForJobRunInputBody: Swift.Decodable {
     }
 }
 
-public enum GetDashboardForJobRunOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum GetDashboardForJobRunOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -1521,8 +1589,8 @@ extension GetJobRunInputBody: Swift.Decodable {
     }
 }
 
-public enum GetJobRunOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum GetJobRunOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -2367,8 +2435,8 @@ extension ListApplicationsInputBody: Swift.Decodable {
     }
 }
 
-public enum ListApplicationsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum ListApplicationsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -2521,8 +2589,8 @@ extension ListJobRunsInputBody: Swift.Decodable {
     }
 }
 
-public enum ListJobRunsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum ListJobRunsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -2624,8 +2692,8 @@ extension ListTagsForResourceInputBody: Swift.Decodable {
     }
 }
 
-public enum ListTagsForResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum ListTagsForResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -3228,8 +3296,8 @@ extension StartApplicationInputBody: Swift.Decodable {
     }
 }
 
-public enum StartApplicationOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum StartApplicationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -3393,8 +3461,8 @@ extension StartJobRunInputBody: Swift.Decodable {
     }
 }
 
-public enum StartJobRunOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum StartJobRunOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -3501,8 +3569,8 @@ extension StopApplicationInputBody: Swift.Decodable {
     }
 }
 
-public enum StopApplicationOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum StopApplicationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -3592,8 +3660,8 @@ extension TagResourceInputBody: Swift.Decodable {
     }
 }
 
-public enum TagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum TagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -3723,8 +3791,8 @@ extension UntagResourceInputBody: Swift.Decodable {
     }
 }
 
-public enum UntagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum UntagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -3755,8 +3823,10 @@ extension UpdateApplicationInput: Swift.Encodable {
         case imageConfiguration
         case initialCapacity
         case maximumCapacity
+        case monitoringConfiguration
         case networkConfiguration
         case releaseLabel
+        case runtimeConfiguration
         case workerTypeSpecifications
     }
 
@@ -3786,11 +3856,20 @@ extension UpdateApplicationInput: Swift.Encodable {
         if let maximumCapacity = self.maximumCapacity {
             try encodeContainer.encode(maximumCapacity, forKey: .maximumCapacity)
         }
+        if let monitoringConfiguration = self.monitoringConfiguration {
+            try encodeContainer.encode(monitoringConfiguration, forKey: .monitoringConfiguration)
+        }
         if let networkConfiguration = self.networkConfiguration {
             try encodeContainer.encode(networkConfiguration, forKey: .networkConfiguration)
         }
         if let releaseLabel = self.releaseLabel {
             try encodeContainer.encode(releaseLabel, forKey: .releaseLabel)
+        }
+        if let runtimeConfiguration = runtimeConfiguration {
+            var runtimeConfigurationContainer = encodeContainer.nestedUnkeyedContainer(forKey: .runtimeConfiguration)
+            for configuration0 in runtimeConfiguration {
+                try runtimeConfigurationContainer.encode(configuration0)
+            }
         }
         if let workerTypeSpecifications = workerTypeSpecifications {
             var workerTypeSpecificationsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .workerTypeSpecifications)
@@ -3829,10 +3908,14 @@ public struct UpdateApplicationInput: Swift.Equatable {
     public var initialCapacity: [Swift.String:EMRServerlessClientTypes.InitialCapacityConfig]?
     /// The maximum capacity to allocate when the application is updated. This is cumulative across all workers at any given point in time during the lifespan of the application. No new resources will be created once any one of the defined limits is hit.
     public var maximumCapacity: EMRServerlessClientTypes.MaximumAllowedResources?
+    /// The configuration setting for monitoring.
+    public var monitoringConfiguration: EMRServerlessClientTypes.MonitoringConfiguration?
     /// The network configuration for customer VPC connectivity.
     public var networkConfiguration: EMRServerlessClientTypes.NetworkConfiguration?
     /// The Amazon EMR release label for the application. You can change the release label to use a different release of Amazon EMR.
     public var releaseLabel: Swift.String?
+    /// The [Configuration](https://docs.aws.amazon.com/emr-serverless/latest/APIReference/API_Configuration.html) specifications to use when updating an application. Each configuration consists of a classification and properties. This configuration is applied across all the job runs submitted under the application.
+    public var runtimeConfiguration: [EMRServerlessClientTypes.Configuration]?
     /// The key-value pairs that specify worker type to WorkerTypeSpecificationInput. This parameter must contain all valid worker types for a Spark or Hive application. Valid worker types include Driver and Executor for Spark applications and HiveDriver and TezTask for Hive applications. You can either set image details in this parameter for each worker type, or in imageConfiguration for all worker types.
     public var workerTypeSpecifications: [Swift.String:EMRServerlessClientTypes.WorkerTypeSpecificationInput]?
 
@@ -3845,8 +3928,10 @@ public struct UpdateApplicationInput: Swift.Equatable {
         imageConfiguration: EMRServerlessClientTypes.ImageConfigurationInput? = nil,
         initialCapacity: [Swift.String:EMRServerlessClientTypes.InitialCapacityConfig]? = nil,
         maximumCapacity: EMRServerlessClientTypes.MaximumAllowedResources? = nil,
+        monitoringConfiguration: EMRServerlessClientTypes.MonitoringConfiguration? = nil,
         networkConfiguration: EMRServerlessClientTypes.NetworkConfiguration? = nil,
         releaseLabel: Swift.String? = nil,
+        runtimeConfiguration: [EMRServerlessClientTypes.Configuration]? = nil,
         workerTypeSpecifications: [Swift.String:EMRServerlessClientTypes.WorkerTypeSpecificationInput]? = nil
     )
     {
@@ -3858,8 +3943,10 @@ public struct UpdateApplicationInput: Swift.Equatable {
         self.imageConfiguration = imageConfiguration
         self.initialCapacity = initialCapacity
         self.maximumCapacity = maximumCapacity
+        self.monitoringConfiguration = monitoringConfiguration
         self.networkConfiguration = networkConfiguration
         self.releaseLabel = releaseLabel
+        self.runtimeConfiguration = runtimeConfiguration
         self.workerTypeSpecifications = workerTypeSpecifications
     }
 }
@@ -3875,6 +3962,8 @@ struct UpdateApplicationInputBody: Swift.Equatable {
     let imageConfiguration: EMRServerlessClientTypes.ImageConfigurationInput?
     let workerTypeSpecifications: [Swift.String:EMRServerlessClientTypes.WorkerTypeSpecificationInput]?
     let releaseLabel: Swift.String?
+    let runtimeConfiguration: [EMRServerlessClientTypes.Configuration]?
+    let monitoringConfiguration: EMRServerlessClientTypes.MonitoringConfiguration?
 }
 
 extension UpdateApplicationInputBody: Swift.Decodable {
@@ -3886,8 +3975,10 @@ extension UpdateApplicationInputBody: Swift.Decodable {
         case imageConfiguration
         case initialCapacity
         case maximumCapacity
+        case monitoringConfiguration
         case networkConfiguration
         case releaseLabel
+        case runtimeConfiguration
         case workerTypeSpecifications
     }
 
@@ -3931,11 +4022,24 @@ extension UpdateApplicationInputBody: Swift.Decodable {
         workerTypeSpecifications = workerTypeSpecificationsDecoded0
         let releaseLabelDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .releaseLabel)
         releaseLabel = releaseLabelDecoded
+        let runtimeConfigurationContainer = try containerValues.decodeIfPresent([EMRServerlessClientTypes.Configuration?].self, forKey: .runtimeConfiguration)
+        var runtimeConfigurationDecoded0:[EMRServerlessClientTypes.Configuration]? = nil
+        if let runtimeConfigurationContainer = runtimeConfigurationContainer {
+            runtimeConfigurationDecoded0 = [EMRServerlessClientTypes.Configuration]()
+            for structure0 in runtimeConfigurationContainer {
+                if let structure0 = structure0 {
+                    runtimeConfigurationDecoded0?.append(structure0)
+                }
+            }
+        }
+        runtimeConfiguration = runtimeConfigurationDecoded0
+        let monitoringConfigurationDecoded = try containerValues.decodeIfPresent(EMRServerlessClientTypes.MonitoringConfiguration.self, forKey: .monitoringConfiguration)
+        monitoringConfiguration = monitoringConfigurationDecoded
     }
 }
 
-public enum UpdateApplicationOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum UpdateApplicationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {

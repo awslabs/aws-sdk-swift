@@ -78,6 +78,7 @@ extension AppConfigClient: AppConfigClientProtocol {
     /// __Possible Exceptions:__
     /// - `BadRequestException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     /// - `InternalServerException` : There was an internal failure in the AppConfig service.
+    /// - `ServiceQuotaExceededException` : The number of one more AppConfig resources exceeds the maximum allowed. Verify that your environment doesn't exceed the following service quotas: Applications: 100 max Deployment strategies: 20 max Configuration profiles: 100 max per application Environments: 20 max per application To resolve this issue, you can delete one or more resources and try again. Or, you can request a quota increase. For more information about quotas and to request an increase, see [Service quotas for AppConfig](https://docs.aws.amazon.com/general/latest/gr/appconfig.html#limits_appconfig) in the Amazon Web Services General Reference.
     public func createApplication(input: CreateApplicationInput) async throws -> CreateApplicationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -148,6 +149,7 @@ extension AppConfigClient: AppConfigClientProtocol {
     /// - `BadRequestException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     /// - `InternalServerException` : There was an internal failure in the AppConfig service.
     /// - `ResourceNotFoundException` : The requested resource could not be found.
+    /// - `ServiceQuotaExceededException` : The number of one more AppConfig resources exceeds the maximum allowed. Verify that your environment doesn't exceed the following service quotas: Applications: 100 max Deployment strategies: 20 max Configuration profiles: 100 max per application Environments: 20 max per application To resolve this issue, you can delete one or more resources and try again. Or, you can request a quota increase. For more information about quotas and to request an increase, see [Service quotas for AppConfig](https://docs.aws.amazon.com/general/latest/gr/appconfig.html#limits_appconfig) in the Amazon Web Services General Reference.
     public func createConfigurationProfile(input: CreateConfigurationProfileInput) async throws -> CreateConfigurationProfileOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -193,6 +195,7 @@ extension AppConfigClient: AppConfigClientProtocol {
     /// __Possible Exceptions:__
     /// - `BadRequestException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     /// - `InternalServerException` : There was an internal failure in the AppConfig service.
+    /// - `ServiceQuotaExceededException` : The number of one more AppConfig resources exceeds the maximum allowed. Verify that your environment doesn't exceed the following service quotas: Applications: 100 max Deployment strategies: 20 max Configuration profiles: 100 max per application Environments: 20 max per application To resolve this issue, you can delete one or more resources and try again. Or, you can request a quota increase. For more information about quotas and to request an increase, see [Service quotas for AppConfig](https://docs.aws.amazon.com/general/latest/gr/appconfig.html#limits_appconfig) in the Amazon Web Services General Reference.
     public func createDeploymentStrategy(input: CreateDeploymentStrategyInput) async throws -> CreateDeploymentStrategyOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -239,6 +242,7 @@ extension AppConfigClient: AppConfigClientProtocol {
     /// - `BadRequestException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     /// - `InternalServerException` : There was an internal failure in the AppConfig service.
     /// - `ResourceNotFoundException` : The requested resource could not be found.
+    /// - `ServiceQuotaExceededException` : The number of one more AppConfig resources exceeds the maximum allowed. Verify that your environment doesn't exceed the following service quotas: Applications: 100 max Deployment strategies: 20 max Configuration profiles: 100 max per application Environments: 20 max per application To resolve this issue, you can delete one or more resources and try again. Or, you can request a quota increase. For more information about quotas and to request an increase, see [Service quotas for AppConfig](https://docs.aws.amazon.com/general/latest/gr/appconfig.html#limits_appconfig) in the Amazon Web Services General Reference.
     public func createEnvironment(input: CreateEnvironmentInput) async throws -> CreateEnvironmentOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -273,7 +277,16 @@ extension AppConfigClient: AppConfigClientProtocol {
         return result
     }
 
-    /// Creates an AppConfig extension. An extension augments your ability to inject logic or behavior at different points during the AppConfig workflow of creating or deploying a configuration. You can create your own extensions or use the Amazon Web Services authored extensions provided by AppConfig. For most use cases, to create your own extension, you must create an Lambda function to perform any computation and processing defined in the extension. For more information about extensions, see [Working with AppConfig extensions](https://docs.aws.amazon.com/appconfig/latest/userguide/working-with-appconfig-extensions.html) in the AppConfig User Guide.
+    /// Creates an AppConfig extension. An extension augments your ability to inject logic or behavior at different points during the AppConfig workflow of creating or deploying a configuration. You can create your own extensions or use the Amazon Web Services authored extensions provided by AppConfig. For an AppConfig extension that uses Lambda, you must create a Lambda function to perform any computation and processing defined in the extension. If you plan to create custom versions of the Amazon Web Services authored notification extensions, you only need to specify an Amazon Resource Name (ARN) in the Uri field for the new extension version.
+    ///
+    /// * For a custom EventBridge notification extension, enter the ARN of the EventBridge default events in the Uri field.
+    ///
+    /// * For a custom Amazon SNS notification extension, enter the ARN of an Amazon SNS topic in the Uri field.
+    ///
+    /// * For a custom Amazon SQS notification extension, enter the ARN of an Amazon SQS message queue in the Uri field.
+    ///
+    ///
+    /// For more information about extensions, see [Working with AppConfig extensions](https://docs.aws.amazon.com/appconfig/latest/userguide/working-with-appconfig-extensions.html) in the AppConfig User Guide.
     ///
     /// - Parameter CreateExtensionInput : [no documentation found]
     ///
@@ -285,7 +298,7 @@ extension AppConfigClient: AppConfigClientProtocol {
     /// - `BadRequestException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     /// - `ConflictException` : The request could not be processed because of conflict in the current state of the resource.
     /// - `InternalServerException` : There was an internal failure in the AppConfig service.
-    /// - `ServiceQuotaExceededException` : The number of hosted configuration versions exceeds the limit for the AppConfig hosted configuration store. Delete one or more versions and try again.
+    /// - `ServiceQuotaExceededException` : The number of one more AppConfig resources exceeds the maximum allowed. Verify that your environment doesn't exceed the following service quotas: Applications: 100 max Deployment strategies: 20 max Configuration profiles: 100 max per application Environments: 20 max per application To resolve this issue, you can delete one or more resources and try again. Or, you can request a quota increase. For more information about quotas and to request an increase, see [Service quotas for AppConfig](https://docs.aws.amazon.com/general/latest/gr/appconfig.html#limits_appconfig) in the Amazon Web Services General Reference.
     public func createExtension(input: CreateExtensionInput) async throws -> CreateExtensionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -333,7 +346,7 @@ extension AppConfigClient: AppConfigClientProtocol {
     /// - `BadRequestException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
     /// - `InternalServerException` : There was an internal failure in the AppConfig service.
     /// - `ResourceNotFoundException` : The requested resource could not be found.
-    /// - `ServiceQuotaExceededException` : The number of hosted configuration versions exceeds the limit for the AppConfig hosted configuration store. Delete one or more versions and try again.
+    /// - `ServiceQuotaExceededException` : The number of one more AppConfig resources exceeds the maximum allowed. Verify that your environment doesn't exceed the following service quotas: Applications: 100 max Deployment strategies: 20 max Configuration profiles: 100 max per application Environments: 20 max per application To resolve this issue, you can delete one or more resources and try again. Or, you can request a quota increase. For more information about quotas and to request an increase, see [Service quotas for AppConfig](https://docs.aws.amazon.com/general/latest/gr/appconfig.html#limits_appconfig) in the Amazon Web Services General Reference.
     public func createExtensionAssociation(input: CreateExtensionAssociationInput) async throws -> CreateExtensionAssociationOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()
@@ -382,7 +395,7 @@ extension AppConfigClient: AppConfigClientProtocol {
     /// - `InternalServerException` : There was an internal failure in the AppConfig service.
     /// - `PayloadTooLargeException` : The configuration size is too large.
     /// - `ResourceNotFoundException` : The requested resource could not be found.
-    /// - `ServiceQuotaExceededException` : The number of hosted configuration versions exceeds the limit for the AppConfig hosted configuration store. Delete one or more versions and try again.
+    /// - `ServiceQuotaExceededException` : The number of one more AppConfig resources exceeds the maximum allowed. Verify that your environment doesn't exceed the following service quotas: Applications: 100 max Deployment strategies: 20 max Configuration profiles: 100 max per application Environments: 20 max per application To resolve this issue, you can delete one or more resources and try again. Or, you can request a quota increase. For more information about quotas and to request an increase, see [Service quotas for AppConfig](https://docs.aws.amazon.com/general/latest/gr/appconfig.html#limits_appconfig) in the Amazon Web Services General Reference.
     public func createHostedConfigurationVersion(input: CreateHostedConfigurationVersionInput) async throws -> CreateHostedConfigurationVersionOutputResponse
     {
         let context = ClientRuntime.HttpContextBuilder()

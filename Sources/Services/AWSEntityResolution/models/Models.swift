@@ -211,10 +211,10 @@ public struct CreateMatchingWorkflowInput: Swift.Equatable {
     /// A list of OutputSource objects, each of which contains fields OutputS3Path, ApplyNormalization, and Output.
     /// This member is required.
     public var outputSourceConfig: [EntityResolutionClientTypes.OutputSource]?
-    /// An object which defines the resolutionType and the ruleBasedProperties
+    /// An object which defines the resolutionType and the ruleBasedProperties.
     /// This member is required.
     public var resolutionTechniques: EntityResolutionClientTypes.ResolutionTechniques?
-    /// The Amazon Resource Name (ARN) of the IAM role. AWS Entity Resolution assumes this role to create resources on your behalf as part of workflow execution.
+    /// The Amazon Resource Name (ARN) of the IAM role. Entity Resolution assumes this role to create resources on your behalf as part of workflow execution.
     /// This member is required.
     public var roleArn: Swift.String?
     /// The tags used to organize, track, or control access for this resource.
@@ -316,8 +316,8 @@ extension CreateMatchingWorkflowInputBody: Swift.Decodable {
     }
 }
 
-public enum CreateMatchingWorkflowOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum CreateMatchingWorkflowOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -369,10 +369,10 @@ public struct CreateMatchingWorkflowOutputResponse: Swift.Equatable {
     /// A list of OutputSource objects, each of which contains fields OutputS3Path, ApplyNormalization, and Output.
     /// This member is required.
     public var outputSourceConfig: [EntityResolutionClientTypes.OutputSource]?
-    /// An object which defines the resolutionType and the ruleBasedProperties
+    /// An object which defines the resolutionType and the ruleBasedProperties.
     /// This member is required.
     public var resolutionTechniques: EntityResolutionClientTypes.ResolutionTechniques?
-    /// The Amazon Resource Name (ARN) of the IAM role. AWS Entity Resolution assumes this role to create resources on your behalf as part of workflow execution.
+    /// The Amazon Resource Name (ARN) of the IAM role. Entity Resolution assumes this role to create resources on your behalf as part of workflow execution.
     /// This member is required.
     public var roleArn: Swift.String?
     /// The ARN (Amazon Resource Name) that Entity Resolution generated for the MatchingWorkflow.
@@ -507,6 +507,7 @@ public struct CreateSchemaMappingInput: Swift.Equatable {
     /// A description of the schema.
     public var description: Swift.String?
     /// A list of MappedInputFields. Each MappedInputField corresponds to a column the source data table, and contains column name plus additional information that Entity Resolution uses for matching.
+    /// This member is required.
     public var mappedInputFields: [EntityResolutionClientTypes.SchemaInputAttribute]?
     /// The name of the schema. There cannot be multiple SchemaMappings with the same name.
     /// This member is required.
@@ -574,8 +575,8 @@ extension CreateSchemaMappingInputBody: Swift.Decodable {
     }
 }
 
-public enum CreateSchemaMappingOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum CreateSchemaMappingOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -704,8 +705,8 @@ extension DeleteMatchingWorkflowInputBody: Swift.Decodable {
     }
 }
 
-public enum DeleteMatchingWorkflowOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DeleteMatchingWorkflowOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -790,8 +791,8 @@ extension DeleteSchemaMappingInputBody: Swift.Decodable {
     }
 }
 
-public enum DeleteSchemaMappingOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DeleteSchemaMappingOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -887,8 +888,12 @@ extension ExceedsLimitException {
             let responseDecoder = decoder {
             let output: ExceedsLimitExceptionBody = try responseDecoder.decode(responseBody: data)
             self.properties.message = output.message
+            self.properties.quotaName = output.quotaName
+            self.properties.quotaValue = output.quotaValue
         } else {
             self.properties.message = nil
+            self.properties.quotaName = nil
+            self.properties.quotaValue = nil
         }
         self.httpResponse = httpResponse
         self.requestID = requestID
@@ -896,11 +901,15 @@ extension ExceedsLimitException {
     }
 }
 
-/// The request was rejected because it attempted to create resources beyond the current AWS Entity Resolution account limits. The error message describes the limit exceeded. HTTP Status Code: 402
+/// The request was rejected because it attempted to create resources beyond the current Entity Resolution account limits. The error message describes the limit exceeded. HTTP Status Code: 402
 public struct ExceedsLimitException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
         public internal(set) var message: Swift.String? = nil
+        /// The name of the quota that has been breached.
+        public internal(set) var quotaName: Swift.String? = nil
+        /// The current quota value for the customers.
+        public internal(set) var quotaValue: Swift.Int? = nil
     }
 
     public internal(set) var properties = Properties()
@@ -913,26 +922,38 @@ public struct ExceedsLimitException: ClientRuntime.ModeledError, AWSClientRuntim
     public internal(set) var requestID: Swift.String?
 
     public init(
-        message: Swift.String? = nil
+        message: Swift.String? = nil,
+        quotaName: Swift.String? = nil,
+        quotaValue: Swift.Int? = nil
     )
     {
         self.properties.message = message
+        self.properties.quotaName = quotaName
+        self.properties.quotaValue = quotaValue
     }
 }
 
 struct ExceedsLimitExceptionBody: Swift.Equatable {
     let message: Swift.String?
+    let quotaName: Swift.String?
+    let quotaValue: Swift.Int?
 }
 
 extension ExceedsLimitExceptionBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case message
+        case quotaName
+        case quotaValue
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
+        let quotaNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .quotaName)
+        quotaName = quotaNameDecoded
+        let quotaValueDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .quotaValue)
+        quotaValue = quotaValueDecoded
     }
 }
 
@@ -1009,8 +1030,8 @@ extension GetMatchIdInputBody: Swift.Decodable {
     }
 }
 
-public enum GetMatchIdOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum GetMatchIdOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -1103,8 +1124,8 @@ extension GetMatchingJobInputBody: Swift.Decodable {
     }
 }
 
-public enum GetMatchingJobOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum GetMatchingJobOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -1153,7 +1174,7 @@ public struct GetMatchingJobOutputResponse: Swift.Equatable {
     /// The time at which the job was started.
     /// This member is required.
     public var startTime: ClientRuntime.Date?
-    /// The current status of the job. Either running, succeeded, queued, or failed.
+    /// The current status of the job.
     /// This member is required.
     public var status: EntityResolutionClientTypes.JobStatus?
 
@@ -1242,8 +1263,8 @@ extension GetMatchingWorkflowInputBody: Swift.Decodable {
     }
 }
 
-public enum GetMatchingWorkflowOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum GetMatchingWorkflowOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -1303,10 +1324,10 @@ public struct GetMatchingWorkflowOutputResponse: Swift.Equatable {
     /// A list of OutputSource objects, each of which contains fields OutputS3Path, ApplyNormalization, and Output.
     /// This member is required.
     public var outputSourceConfig: [EntityResolutionClientTypes.OutputSource]?
-    /// An object which defines the resolutionType and the ruleBasedProperties
+    /// An object which defines the resolutionType and the ruleBasedProperties.
     /// This member is required.
     public var resolutionTechniques: EntityResolutionClientTypes.ResolutionTechniques?
-    /// The Amazon Resource Name (ARN) of the IAM role. AWS Entity Resolution assumes this role to access resources on your behalf.
+    /// The Amazon Resource Name (ARN) of the IAM role. Entity Resolution assumes this role to access resources on your behalf.
     /// This member is required.
     public var roleArn: Swift.String?
     /// The tags used to organize, track, or control access for this resource.
@@ -1463,8 +1484,8 @@ extension GetSchemaMappingInputBody: Swift.Decodable {
     }
 }
 
-public enum GetSchemaMappingOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum GetSchemaMappingOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -1737,7 +1758,7 @@ extension InternalServerException {
     }
 }
 
-/// This exception occurs when there is an internal failure in the AWS Entity Resolution service. HTTP Status Code: 500
+/// This exception occurs when there is an internal failure in the Entity Resolution service. HTTP Status Code: 500
 public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
@@ -1807,10 +1828,10 @@ extension EntityResolutionClientTypes.JobMetrics: Swift.Codable {
         inputRecords = inputRecordsDecoded
         let totalRecordsProcessedDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .totalRecordsProcessed)
         totalRecordsProcessed = totalRecordsProcessedDecoded
-        let matchIDsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .matchIDs)
-        matchIDs = matchIDsDecoded
         let recordsNotProcessedDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .recordsNotProcessed)
         recordsNotProcessed = recordsNotProcessedDecoded
+        let matchIDsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .matchIDs)
+        matchIDs = matchIDsDecoded
     }
 }
 
@@ -1821,7 +1842,7 @@ extension EntityResolutionClientTypes {
         public var inputRecords: Swift.Int?
         /// The total number of matchIDs generated.
         public var matchIDs: Swift.Int?
-        /// The total number of records that did not get processed,
+        /// The total number of records that did not get processed.
         public var recordsNotProcessed: Swift.Int?
         /// The total number of records processed.
         public var totalRecordsProcessed: Swift.Int?
@@ -1928,7 +1949,7 @@ extension EntityResolutionClientTypes {
         /// The time at which the job was started.
         /// This member is required.
         public var startTime: ClientRuntime.Date?
-        /// The current status of the job. Either running, succeeded, queued, or failed.
+        /// The current status of the job.
         /// This member is required.
         public var status: EntityResolutionClientTypes.JobStatus?
 
@@ -2004,8 +2025,8 @@ extension ListMatchingJobsInputBody: Swift.Decodable {
     }
 }
 
-public enum ListMatchingJobsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum ListMatchingJobsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -2126,8 +2147,8 @@ extension ListMatchingWorkflowsInputBody: Swift.Decodable {
     }
 }
 
-public enum ListMatchingWorkflowsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum ListMatchingWorkflowsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -2247,8 +2268,8 @@ extension ListSchemaMappingsInputBody: Swift.Decodable {
     }
 }
 
-public enum ListSchemaMappingsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum ListSchemaMappingsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -2351,8 +2372,8 @@ extension ListTagsForResourceInputBody: Swift.Decodable {
     }
 }
 
-public enum ListTagsForResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum ListTagsForResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -2560,6 +2581,8 @@ extension EntityResolutionClientTypes.OutputSource: Swift.Codable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let outputS3PathDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .outputS3Path)
         outputS3Path = outputS3PathDecoded
+        let kmsArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .kmsArn)
+        kmsArn = kmsArnDecoded
         let outputContainer = try containerValues.decodeIfPresent([EntityResolutionClientTypes.OutputAttribute?].self, forKey: .output)
         var outputDecoded0:[EntityResolutionClientTypes.OutputAttribute]? = nil
         if let outputContainer = outputContainer {
@@ -2571,8 +2594,6 @@ extension EntityResolutionClientTypes.OutputSource: Swift.Codable {
             }
         }
         output = outputDecoded0
-        let kmsArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .kmsArn)
-        kmsArn = kmsArnDecoded
         let applyNormalizationDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .applyNormalization)
         applyNormalization = applyNormalizationDecoded
     }
@@ -2634,9 +2655,10 @@ extension EntityResolutionClientTypes.ResolutionTechniques: Swift.Codable {
 }
 
 extension EntityResolutionClientTypes {
-    /// An object which defines the resolutionType and the ruleBasedProperties
+    /// An object which defines the resolutionType and the ruleBasedProperties.
     public struct ResolutionTechniques: Swift.Equatable {
-        /// There are two types of matching, RULE_MATCHING and ML_MATCHING
+        /// The type of matching. There are two types of matching: RULE_MATCHING and ML_MATCHING.
+        /// This member is required.
         public var resolutionType: EntityResolutionClientTypes.ResolutionType?
         /// An object which defines the list of matching rules to run and has a field Rules, which is a list of rule objects.
         public var ruleBasedProperties: EntityResolutionClientTypes.RuleBasedProperties?
@@ -2839,7 +2861,7 @@ extension EntityResolutionClientTypes.RuleBasedProperties: Swift.Codable {
 extension EntityResolutionClientTypes {
     /// An object which defines the list of matching rules to run and has a field Rules, which is a list of rule objects.
     public struct RuleBasedProperties: Swift.Equatable {
-        /// You can either choose ONE_TO_ONE or MANY_TO_MANY as the AttributeMatchingModel. When choosing MANY_TO_MANY, the system can match attribute across the sub-types of an attribute type. For example, if the value of the Email field of Profile A and the value of BusinessEmail field of Profile B matches, the two profiles are matched on the Email type. When choosing ONE_TO_ONE the system can only match if the sub-types are exact matches. For example, only when the value of the Email field of Profile A and the value of the Email field of Profile B matches, the two profiles are matched on the Email type.
+        /// The comparison type. You can either choose ONE_TO_ONE or MANY_TO_MANY as the AttributeMatchingModel. When choosing MANY_TO_MANY, the system can match attributes across the sub-types of an attribute type. For example, if the value of the Email field of Profile A and the value of BusinessEmail field of Profile B matches, the two profiles are matched on the Email type. When choosing ONE_TO_ONE ,the system can only match if the sub-types are exact matches. For example, only when the value of the Email field of Profile A and the value of the Email field of Profile B matches, the two profiles are matched on the Email type.
         /// This member is required.
         public var attributeMatchingModel: EntityResolutionClientTypes.AttributeMatchingModel?
         /// A list of Rule objects, each of which have fields RuleName and MatchingKeys.
@@ -2986,7 +3008,7 @@ extension EntityResolutionClientTypes {
         public var fieldName: Swift.String?
         /// Instruct Entity Resolution to combine several columns into a unified column with the identical attribute type. For example, when working with columns such as first_name, middle_name, and last_name, assigning them a common GroupName will prompt Entity Resolution to concatenate them into a single value.
         public var groupName: Swift.String?
-        /// A key that allows grouping of multiple input attributes into a unified matching group. For example, let's consider a scenario where the source table contains various addresses, such as business_address and shipping_address. By assigning the MatchKey Address' to both attributes, Entity Resolution will match records across these fields to create a consolidated matching group. If no MatchKey is specified for a column, it won't be utilized for matching purposes but will still be included in the output table.
+        /// A key that allows grouping of multiple input attributes into a unified matching group. For example, let's consider a scenario where the source table contains various addresses, such as business_address and shipping_address. By assigning the MatchKey Address to both attributes, Entity Resolution will match records across these fields to create a consolidated matching group. If no MatchKey is specified for a column, it won't be utilized for matching purposes but will still be included in the output table.
         public var matchKey: Swift.String?
         /// The type of the attribute, selected from a list of values.
         /// This member is required.
@@ -3108,8 +3130,8 @@ extension StartMatchingJobInputBody: Swift.Decodable {
     }
 }
 
-public enum StartMatchingJobOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum StartMatchingJobOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -3234,8 +3256,8 @@ extension TagResourceInputBody: Swift.Decodable {
     }
 }
 
-public enum TagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum TagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -3365,8 +3387,8 @@ extension UntagResourceInputBody: Swift.Decodable {
     }
 }
 
-public enum UntagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum UntagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -3446,10 +3468,10 @@ public struct UpdateMatchingWorkflowInput: Swift.Equatable {
     /// A list of OutputSource objects, each of which contains fields OutputS3Path, ApplyNormalization, and Output.
     /// This member is required.
     public var outputSourceConfig: [EntityResolutionClientTypes.OutputSource]?
-    /// An object which defines the resolutionType and the ruleBasedProperties
+    /// An object which defines the resolutionType and the ruleBasedProperties.
     /// This member is required.
     public var resolutionTechniques: EntityResolutionClientTypes.ResolutionTechniques?
-    /// The Amazon Resource Name (ARN) of the IAM role. AWS Entity Resolution assumes this role to create resources on your behalf as part of workflow execution.
+    /// The Amazon Resource Name (ARN) of the IAM role. Entity Resolution assumes this role to create resources on your behalf as part of workflow execution.
     /// This member is required.
     public var roleArn: Swift.String?
     /// The name of the workflow to be retrieved.
@@ -3530,8 +3552,8 @@ extension UpdateMatchingWorkflowInputBody: Swift.Decodable {
     }
 }
 
-public enum UpdateMatchingWorkflowOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum UpdateMatchingWorkflowOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -3583,7 +3605,7 @@ public struct UpdateMatchingWorkflowOutputResponse: Swift.Equatable {
     /// An object which defines the resolutionType and the ruleBasedProperties
     /// This member is required.
     public var resolutionTechniques: EntityResolutionClientTypes.ResolutionTechniques?
-    /// The Amazon Resource Name (ARN) of the IAM role. AWS Entity Resolution assumes this role to create resources on your behalf as part of workflow execution.
+    /// The Amazon Resource Name (ARN) of the IAM role. Entity Resolution assumes this role to create resources on your behalf as part of workflow execution.
     /// This member is required.
     public var roleArn: Swift.String?
     /// The name of the workflow.
@@ -3683,7 +3705,7 @@ extension ValidationException {
     }
 }
 
-/// The input fails to satisfy the constraints specified by AWS Entity Resolution. HTTP Status Code: 400
+/// The input fails to satisfy the constraints specified by Entity Resolution. HTTP Status Code: 400
 public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {

@@ -359,6 +359,124 @@ extension ChimeSDKMediaPipelinesClient: ChimeSDKMediaPipelinesClientProtocol {
         return result
     }
 
+    /// Creates an Kinesis video stream pool for the media pipeline.
+    ///
+    /// - Parameter CreateMediaPipelineKinesisVideoStreamPoolInput : [no documentation found]
+    ///
+    /// - Returns: `CreateMediaPipelineKinesisVideoStreamPoolOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The input parameters don't match the service's restrictions.
+    /// - `ConflictException` : The request could not be processed because of conflict in the current state of the resource.
+    /// - `ForbiddenException` : The client is permanently forbidden from making the request.
+    /// - `ResourceLimitExceededException` : The request exceeds the resource limit.
+    /// - `ServiceFailureException` : The service encountered an unexpected error.
+    /// - `ServiceUnavailableException` : The service is currently unavailable.
+    /// - `ThrottledClientException` : The client exceeded its request rate limit.
+    /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
+    public func createMediaPipelineKinesisVideoStreamPool(input: CreateMediaPipelineKinesisVideoStreamPoolInput) async throws -> CreateMediaPipelineKinesisVideoStreamPoolOutputResponse
+    {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "createMediaPipelineKinesisVideoStreamPool")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withCredentialsProvider(value: config.credentialsProvider)
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "chime")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<CreateMediaPipelineKinesisVideoStreamPoolInput, CreateMediaPipelineKinesisVideoStreamPoolOutputResponse, CreateMediaPipelineKinesisVideoStreamPoolOutputError>(id: "createMediaPipelineKinesisVideoStreamPool")
+        operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<CreateMediaPipelineKinesisVideoStreamPoolOutputResponse> in
+            let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
+            var copiedInput = input
+            if input.clientRequestToken == nil {
+                copiedInput.clientRequestToken = idempotencyTokenGenerator.generateToken()
+            }
+            return try await next.handle(context: context, input: copiedInput)
+        }
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateMediaPipelineKinesisVideoStreamPoolInput, CreateMediaPipelineKinesisVideoStreamPoolOutputResponse, CreateMediaPipelineKinesisVideoStreamPoolOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateMediaPipelineKinesisVideoStreamPoolInput, CreateMediaPipelineKinesisVideoStreamPoolOutputResponse>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateMediaPipelineKinesisVideoStreamPoolOutputResponse, CreateMediaPipelineKinesisVideoStreamPoolOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateMediaPipelineKinesisVideoStreamPoolInput, CreateMediaPipelineKinesisVideoStreamPoolOutputResponse>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateMediaPipelineKinesisVideoStreamPoolInput, CreateMediaPipelineKinesisVideoStreamPoolOutputResponse>(xmlName: "CreateMediaPipelineKinesisVideoStreamPoolRequest"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateMediaPipelineKinesisVideoStreamPoolOutputResponse, CreateMediaPipelineKinesisVideoStreamPoolOutputError>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateMediaPipelineKinesisVideoStreamPoolOutputResponse, CreateMediaPipelineKinesisVideoStreamPoolOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateMediaPipelineKinesisVideoStreamPoolOutputResponse, CreateMediaPipelineKinesisVideoStreamPoolOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateMediaPipelineKinesisVideoStreamPoolOutputResponse, CreateMediaPipelineKinesisVideoStreamPoolOutputError>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
+    /// Creates a streaming media pipeline.
+    ///
+    /// - Parameter CreateMediaStreamPipelineInput : [no documentation found]
+    ///
+    /// - Returns: `CreateMediaStreamPipelineOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The input parameters don't match the service's restrictions.
+    /// - `ForbiddenException` : The client is permanently forbidden from making the request.
+    /// - `NotFoundException` : One or more of the resources in the request does not exist in the system.
+    /// - `ResourceLimitExceededException` : The request exceeds the resource limit.
+    /// - `ServiceFailureException` : The service encountered an unexpected error.
+    /// - `ServiceUnavailableException` : The service is currently unavailable.
+    /// - `ThrottledClientException` : The client exceeded its request rate limit.
+    /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
+    public func createMediaStreamPipeline(input: CreateMediaStreamPipelineInput) async throws -> CreateMediaStreamPipelineOutputResponse
+    {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "createMediaStreamPipeline")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withCredentialsProvider(value: config.credentialsProvider)
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "chime")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<CreateMediaStreamPipelineInput, CreateMediaStreamPipelineOutputResponse, CreateMediaStreamPipelineOutputError>(id: "createMediaStreamPipeline")
+        operation.initializeStep.intercept(position: .after, id: "IdempotencyTokenMiddleware") { (context, input, next) -> ClientRuntime.OperationOutput<CreateMediaStreamPipelineOutputResponse> in
+            let idempotencyTokenGenerator = context.getIdempotencyTokenGenerator()
+            var copiedInput = input
+            if input.clientRequestToken == nil {
+                copiedInput.clientRequestToken = idempotencyTokenGenerator.generateToken()
+            }
+            return try await next.handle(context: context, input: copiedInput)
+        }
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateMediaStreamPipelineInput, CreateMediaStreamPipelineOutputResponse, CreateMediaStreamPipelineOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateMediaStreamPipelineInput, CreateMediaStreamPipelineOutputResponse>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateMediaStreamPipelineOutputResponse, CreateMediaStreamPipelineOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateMediaStreamPipelineInput, CreateMediaStreamPipelineOutputResponse>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<CreateMediaStreamPipelineInput, CreateMediaStreamPipelineOutputResponse>(xmlName: "CreateMediaStreamPipelineRequest"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateMediaStreamPipelineOutputResponse, CreateMediaStreamPipelineOutputError>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<CreateMediaStreamPipelineOutputResponse, CreateMediaStreamPipelineOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateMediaStreamPipelineOutputResponse, CreateMediaStreamPipelineOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateMediaStreamPipelineOutputResponse, CreateMediaStreamPipelineOutputError>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
     /// Deletes the media pipeline.
     ///
     /// - Parameter DeleteMediaCapturePipelineInput : [no documentation found]
@@ -502,6 +620,54 @@ extension ChimeSDKMediaPipelinesClient: ChimeSDKMediaPipelinesClientProtocol {
         return result
     }
 
+    /// Deletes an Kinesis video stream pool.
+    ///
+    /// - Parameter DeleteMediaPipelineKinesisVideoStreamPoolInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteMediaPipelineKinesisVideoStreamPoolOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The input parameters don't match the service's restrictions.
+    /// - `ConflictException` : The request could not be processed because of conflict in the current state of the resource.
+    /// - `ForbiddenException` : The client is permanently forbidden from making the request.
+    /// - `NotFoundException` : One or more of the resources in the request does not exist in the system.
+    /// - `ServiceFailureException` : The service encountered an unexpected error.
+    /// - `ServiceUnavailableException` : The service is currently unavailable.
+    /// - `ThrottledClientException` : The client exceeded its request rate limit.
+    /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
+    public func deleteMediaPipelineKinesisVideoStreamPool(input: DeleteMediaPipelineKinesisVideoStreamPoolInput) async throws -> DeleteMediaPipelineKinesisVideoStreamPoolOutputResponse
+    {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .delete)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "deleteMediaPipelineKinesisVideoStreamPool")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withCredentialsProvider(value: config.credentialsProvider)
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "chime")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<DeleteMediaPipelineKinesisVideoStreamPoolInput, DeleteMediaPipelineKinesisVideoStreamPoolOutputResponse, DeleteMediaPipelineKinesisVideoStreamPoolOutputError>(id: "deleteMediaPipelineKinesisVideoStreamPool")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteMediaPipelineKinesisVideoStreamPoolInput, DeleteMediaPipelineKinesisVideoStreamPoolOutputResponse, DeleteMediaPipelineKinesisVideoStreamPoolOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteMediaPipelineKinesisVideoStreamPoolInput, DeleteMediaPipelineKinesisVideoStreamPoolOutputResponse>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteMediaPipelineKinesisVideoStreamPoolOutputResponse, DeleteMediaPipelineKinesisVideoStreamPoolOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteMediaPipelineKinesisVideoStreamPoolOutputResponse, DeleteMediaPipelineKinesisVideoStreamPoolOutputError>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<DeleteMediaPipelineKinesisVideoStreamPoolOutputResponse, DeleteMediaPipelineKinesisVideoStreamPoolOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteMediaPipelineKinesisVideoStreamPoolOutputResponse, DeleteMediaPipelineKinesisVideoStreamPoolOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteMediaPipelineKinesisVideoStreamPoolOutputResponse, DeleteMediaPipelineKinesisVideoStreamPoolOutputError>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
     /// Gets an existing media pipeline.
     ///
     /// - Parameter GetMediaCapturePipelineInput : [no documentation found]
@@ -639,6 +805,53 @@ extension ChimeSDKMediaPipelinesClient: ChimeSDKMediaPipelinesClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetMediaPipelineOutputResponse, GetMediaPipelineOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetMediaPipelineOutputResponse, GetMediaPipelineOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetMediaPipelineOutputResponse, GetMediaPipelineOutputError>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
+    /// Gets an Kinesis video stream pool.
+    ///
+    /// - Parameter GetMediaPipelineKinesisVideoStreamPoolInput : [no documentation found]
+    ///
+    /// - Returns: `GetMediaPipelineKinesisVideoStreamPoolOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The input parameters don't match the service's restrictions.
+    /// - `ForbiddenException` : The client is permanently forbidden from making the request.
+    /// - `NotFoundException` : One or more of the resources in the request does not exist in the system.
+    /// - `ServiceFailureException` : The service encountered an unexpected error.
+    /// - `ServiceUnavailableException` : The service is currently unavailable.
+    /// - `ThrottledClientException` : The client exceeded its request rate limit.
+    /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
+    public func getMediaPipelineKinesisVideoStreamPool(input: GetMediaPipelineKinesisVideoStreamPoolInput) async throws -> GetMediaPipelineKinesisVideoStreamPoolOutputResponse
+    {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .get)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getMediaPipelineKinesisVideoStreamPool")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withCredentialsProvider(value: config.credentialsProvider)
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "chime")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<GetMediaPipelineKinesisVideoStreamPoolInput, GetMediaPipelineKinesisVideoStreamPoolOutputResponse, GetMediaPipelineKinesisVideoStreamPoolOutputError>(id: "getMediaPipelineKinesisVideoStreamPool")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetMediaPipelineKinesisVideoStreamPoolInput, GetMediaPipelineKinesisVideoStreamPoolOutputResponse, GetMediaPipelineKinesisVideoStreamPoolOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetMediaPipelineKinesisVideoStreamPoolInput, GetMediaPipelineKinesisVideoStreamPoolOutputResponse>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetMediaPipelineKinesisVideoStreamPoolOutputResponse, GetMediaPipelineKinesisVideoStreamPoolOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetMediaPipelineKinesisVideoStreamPoolOutputResponse, GetMediaPipelineKinesisVideoStreamPoolOutputError>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetMediaPipelineKinesisVideoStreamPoolOutputResponse, GetMediaPipelineKinesisVideoStreamPoolOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetMediaPipelineKinesisVideoStreamPoolOutputResponse, GetMediaPipelineKinesisVideoStreamPoolOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetMediaPipelineKinesisVideoStreamPoolOutputResponse, GetMediaPipelineKinesisVideoStreamPoolOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -829,6 +1042,54 @@ extension ChimeSDKMediaPipelinesClient: ChimeSDKMediaPipelinesClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListMediaInsightsPipelineConfigurationsOutputResponse, ListMediaInsightsPipelineConfigurationsOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListMediaInsightsPipelineConfigurationsOutputResponse, ListMediaInsightsPipelineConfigurationsOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListMediaInsightsPipelineConfigurationsOutputResponse, ListMediaInsightsPipelineConfigurationsOutputError>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
+    /// Lists the video stream pools in the media pipeline.
+    ///
+    /// - Parameter ListMediaPipelineKinesisVideoStreamPoolsInput : [no documentation found]
+    ///
+    /// - Returns: `ListMediaPipelineKinesisVideoStreamPoolsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The input parameters don't match the service's restrictions.
+    /// - `ForbiddenException` : The client is permanently forbidden from making the request.
+    /// - `ResourceLimitExceededException` : The request exceeds the resource limit.
+    /// - `ServiceFailureException` : The service encountered an unexpected error.
+    /// - `ServiceUnavailableException` : The service is currently unavailable.
+    /// - `ThrottledClientException` : The client exceeded its request rate limit.
+    /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
+    public func listMediaPipelineKinesisVideoStreamPools(input: ListMediaPipelineKinesisVideoStreamPoolsInput) async throws -> ListMediaPipelineKinesisVideoStreamPoolsOutputResponse
+    {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .get)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listMediaPipelineKinesisVideoStreamPools")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withCredentialsProvider(value: config.credentialsProvider)
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "chime")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<ListMediaPipelineKinesisVideoStreamPoolsInput, ListMediaPipelineKinesisVideoStreamPoolsOutputResponse, ListMediaPipelineKinesisVideoStreamPoolsOutputError>(id: "listMediaPipelineKinesisVideoStreamPools")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListMediaPipelineKinesisVideoStreamPoolsInput, ListMediaPipelineKinesisVideoStreamPoolsOutputResponse, ListMediaPipelineKinesisVideoStreamPoolsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListMediaPipelineKinesisVideoStreamPoolsInput, ListMediaPipelineKinesisVideoStreamPoolsOutputResponse>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListMediaPipelineKinesisVideoStreamPoolsOutputResponse, ListMediaPipelineKinesisVideoStreamPoolsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListMediaPipelineKinesisVideoStreamPoolsInput, ListMediaPipelineKinesisVideoStreamPoolsOutputResponse>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListMediaPipelineKinesisVideoStreamPoolsOutputResponse, ListMediaPipelineKinesisVideoStreamPoolsOutputError>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListMediaPipelineKinesisVideoStreamPoolsOutputResponse, ListMediaPipelineKinesisVideoStreamPoolsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListMediaPipelineKinesisVideoStreamPoolsOutputResponse, ListMediaPipelineKinesisVideoStreamPoolsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListMediaPipelineKinesisVideoStreamPoolsOutputResponse, ListMediaPipelineKinesisVideoStreamPoolsOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1347,6 +1608,57 @@ extension ChimeSDKMediaPipelinesClient: ChimeSDKMediaPipelinesClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateMediaInsightsPipelineStatusOutputResponse, UpdateMediaInsightsPipelineStatusOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateMediaInsightsPipelineStatusOutputResponse, UpdateMediaInsightsPipelineStatusOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateMediaInsightsPipelineStatusOutputResponse, UpdateMediaInsightsPipelineStatusOutputError>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
+    /// Updates an Kinesis video stream pool in a media pipeline.
+    ///
+    /// - Parameter UpdateMediaPipelineKinesisVideoStreamPoolInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateMediaPipelineKinesisVideoStreamPoolOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : The input parameters don't match the service's restrictions.
+    /// - `ConflictException` : The request could not be processed because of conflict in the current state of the resource.
+    /// - `ForbiddenException` : The client is permanently forbidden from making the request.
+    /// - `NotFoundException` : One or more of the resources in the request does not exist in the system.
+    /// - `ServiceFailureException` : The service encountered an unexpected error.
+    /// - `ServiceUnavailableException` : The service is currently unavailable.
+    /// - `ThrottledClientException` : The client exceeded its request rate limit.
+    /// - `UnauthorizedClientException` : The client is not currently authorized to make the request.
+    public func updateMediaPipelineKinesisVideoStreamPool(input: UpdateMediaPipelineKinesisVideoStreamPoolInput) async throws -> UpdateMediaPipelineKinesisVideoStreamPoolOutputResponse
+    {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .put)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "updateMediaPipelineKinesisVideoStreamPool")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withCredentialsProvider(value: config.credentialsProvider)
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "chime")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<UpdateMediaPipelineKinesisVideoStreamPoolInput, UpdateMediaPipelineKinesisVideoStreamPoolOutputResponse, UpdateMediaPipelineKinesisVideoStreamPoolOutputError>(id: "updateMediaPipelineKinesisVideoStreamPool")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateMediaPipelineKinesisVideoStreamPoolInput, UpdateMediaPipelineKinesisVideoStreamPoolOutputResponse, UpdateMediaPipelineKinesisVideoStreamPoolOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateMediaPipelineKinesisVideoStreamPoolInput, UpdateMediaPipelineKinesisVideoStreamPoolOutputResponse>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateMediaPipelineKinesisVideoStreamPoolOutputResponse, UpdateMediaPipelineKinesisVideoStreamPoolOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateMediaPipelineKinesisVideoStreamPoolInput, UpdateMediaPipelineKinesisVideoStreamPoolOutputResponse>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<UpdateMediaPipelineKinesisVideoStreamPoolInput, UpdateMediaPipelineKinesisVideoStreamPoolOutputResponse>(xmlName: "UpdateMediaPipelineKinesisVideoStreamPoolRequest"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateMediaPipelineKinesisVideoStreamPoolOutputResponse, UpdateMediaPipelineKinesisVideoStreamPoolOutputError>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<UpdateMediaPipelineKinesisVideoStreamPoolOutputResponse, UpdateMediaPipelineKinesisVideoStreamPoolOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateMediaPipelineKinesisVideoStreamPoolOutputResponse, UpdateMediaPipelineKinesisVideoStreamPoolOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateMediaPipelineKinesisVideoStreamPoolOutputResponse, UpdateMediaPipelineKinesisVideoStreamPoolOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }

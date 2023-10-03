@@ -59,8 +59,8 @@ extension AbortEnvironmentUpdateInputBody: Swift.Decodable {
     }
 }
 
-public enum AbortEnvironmentUpdateOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum AbortEnvironmentUpdateOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "InsufficientPrivilegesException": return try await InsufficientPrivilegesException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -220,10 +220,10 @@ extension ElasticBeanstalkClientTypes.ApplicationDescription: Swift.Codable {
             }
         }
         if let dateCreated = dateCreated {
-            try container.encodeTimestamp(dateCreated, format: .dateTime, forKey: ClientRuntime.Key("dateCreated"))
+            try container.encodeTimestamp(dateCreated, format: .dateTime, forKey: ClientRuntime.Key("DateCreated"))
         }
         if let dateUpdated = dateUpdated {
-            try container.encodeTimestamp(dateUpdated, format: .dateTime, forKey: ClientRuntime.Key("dateUpdated"))
+            try container.encodeTimestamp(dateUpdated, format: .dateTime, forKey: ClientRuntime.Key("DateUpdated"))
         }
         if let description = description {
             try container.encode(description, forKey: ClientRuntime.Key("Description"))
@@ -480,10 +480,10 @@ extension ElasticBeanstalkClientTypes.ApplicationVersionDescription: Swift.Codab
             try container.encode(buildArn, forKey: ClientRuntime.Key("BuildArn"))
         }
         if let dateCreated = dateCreated {
-            try container.encodeTimestamp(dateCreated, format: .dateTime, forKey: ClientRuntime.Key("dateCreated"))
+            try container.encodeTimestamp(dateCreated, format: .dateTime, forKey: ClientRuntime.Key("DateCreated"))
         }
         if let dateUpdated = dateUpdated {
-            try container.encodeTimestamp(dateUpdated, format: .dateTime, forKey: ClientRuntime.Key("dateUpdated"))
+            try container.encodeTimestamp(dateUpdated, format: .dateTime, forKey: ClientRuntime.Key("DateUpdated"))
         }
         if let description = description {
             try container.encode(description, forKey: ClientRuntime.Key("Description"))
@@ -744,8 +744,8 @@ extension ApplyEnvironmentManagedActionInputBody: Swift.Decodable {
     }
 }
 
-public enum ApplyEnvironmentManagedActionOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum ApplyEnvironmentManagedActionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "ElasticBeanstalkServiceException": return try await ElasticBeanstalkServiceException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -886,8 +886,8 @@ extension AssociateEnvironmentOperationsRoleInputBody: Swift.Decodable {
     }
 }
 
-public enum AssociateEnvironmentOperationsRoleOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum AssociateEnvironmentOperationsRoleOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "InsufficientPrivilegesException": return try await InsufficientPrivilegesException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -1211,8 +1211,8 @@ extension CheckDNSAvailabilityInputBody: Swift.Decodable {
     }
 }
 
-public enum CheckDNSAvailabilityOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum CheckDNSAvailabilityOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
@@ -1425,8 +1425,8 @@ extension ComposeEnvironmentsInputBody: Swift.Decodable {
     }
 }
 
-public enum ComposeEnvironmentsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum ComposeEnvironmentsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "InsufficientPrivilegesException": return try await InsufficientPrivilegesException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -1874,10 +1874,10 @@ extension ElasticBeanstalkClientTypes.ConfigurationSettingsDescription: Swift.Co
             try container.encode(applicationName, forKey: ClientRuntime.Key("ApplicationName"))
         }
         if let dateCreated = dateCreated {
-            try container.encodeTimestamp(dateCreated, format: .dateTime, forKey: ClientRuntime.Key("dateCreated"))
+            try container.encodeTimestamp(dateCreated, format: .dateTime, forKey: ClientRuntime.Key("DateCreated"))
         }
         if let dateUpdated = dateUpdated {
-            try container.encodeTimestamp(dateUpdated, format: .dateTime, forKey: ClientRuntime.Key("dateUpdated"))
+            try container.encodeTimestamp(dateUpdated, format: .dateTime, forKey: ClientRuntime.Key("DateUpdated"))
         }
         if let deploymentStatus = deploymentStatus {
             try container.encode(deploymentStatus, forKey: ClientRuntime.Key("DeploymentStatus"))
@@ -2119,8 +2119,8 @@ extension CreateApplicationInputBody: Swift.Decodable {
     }
 }
 
-public enum CreateApplicationOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum CreateApplicationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "TooManyApplicationsException": return try await TooManyApplicationsException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -2333,8 +2333,8 @@ extension CreateApplicationVersionInputBody: Swift.Decodable {
     }
 }
 
-public enum CreateApplicationVersionOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum CreateApplicationVersionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "CodeBuildNotInServiceRegionException": return try await CodeBuildNotInServiceRegionException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -2577,8 +2577,8 @@ extension CreateConfigurationTemplateInputBody: Swift.Decodable {
     }
 }
 
-public enum CreateConfigurationTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum CreateConfigurationTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "InsufficientPrivilegesException": return try await InsufficientPrivilegesException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -3014,8 +3014,8 @@ extension CreateEnvironmentInputBody: Swift.Decodable {
     }
 }
 
-public enum CreateEnvironmentOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum CreateEnvironmentOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "InsufficientPrivilegesException": return try await InsufficientPrivilegesException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -3461,8 +3461,8 @@ extension CreatePlatformVersionInputBody: Swift.Decodable {
     }
 }
 
-public enum CreatePlatformVersionOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum CreatePlatformVersionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "ElasticBeanstalkServiceException": return try await ElasticBeanstalkServiceException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -3543,8 +3543,8 @@ public struct CreateStorageLocationInput: Swift.Equatable {
     public init() { }
 }
 
-public enum CreateStorageLocationOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum CreateStorageLocationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "InsufficientPrivilegesException": return try await InsufficientPrivilegesException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -3700,8 +3700,8 @@ extension DeleteApplicationInputBody: Swift.Decodable {
     }
 }
 
-public enum DeleteApplicationOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DeleteApplicationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "OperationInProgressFailure": return try await OperationInProgressException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -3790,8 +3790,8 @@ extension DeleteApplicationVersionInputBody: Swift.Decodable {
     }
 }
 
-public enum DeleteApplicationVersionOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DeleteApplicationVersionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "InsufficientPrivilegesException": return try await InsufficientPrivilegesException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -3872,8 +3872,8 @@ extension DeleteConfigurationTemplateInputBody: Swift.Decodable {
     }
 }
 
-public enum DeleteConfigurationTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DeleteConfigurationTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "OperationInProgressFailure": return try await OperationInProgressException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -3951,8 +3951,8 @@ extension DeleteEnvironmentConfigurationInputBody: Swift.Decodable {
     }
 }
 
-public enum DeleteEnvironmentConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DeleteEnvironmentConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
@@ -4015,8 +4015,8 @@ extension DeletePlatformVersionInputBody: Swift.Decodable {
     }
 }
 
-public enum DeletePlatformVersionOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DeletePlatformVersionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "ElasticBeanstalkServiceException": return try await ElasticBeanstalkServiceException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -4083,7 +4083,7 @@ extension ElasticBeanstalkClientTypes.Deployment: Swift.Codable {
             try container.encode(deploymentId, forKey: ClientRuntime.Key("DeploymentId"))
         }
         if let deploymentTime = deploymentTime {
-            try container.encodeTimestamp(deploymentTime, format: .dateTime, forKey: ClientRuntime.Key("deploymentTime"))
+            try container.encodeTimestamp(deploymentTime, format: .dateTime, forKey: ClientRuntime.Key("DeploymentTime"))
         }
         if let status = status {
             try container.encode(status, forKey: ClientRuntime.Key("Status"))
@@ -4159,8 +4159,8 @@ public struct DescribeAccountAttributesInput: Swift.Equatable {
     public init() { }
 }
 
-public enum DescribeAccountAttributesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DescribeAccountAttributesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "InsufficientPrivilegesException": return try await InsufficientPrivilegesException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -4315,8 +4315,8 @@ extension DescribeApplicationVersionsInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeApplicationVersionsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DescribeApplicationVersionsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
@@ -4465,8 +4465,8 @@ extension DescribeApplicationsInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeApplicationsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DescribeApplicationsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
@@ -4660,8 +4660,8 @@ extension DescribeConfigurationOptionsInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeConfigurationOptionsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DescribeConfigurationOptionsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "TooManyBucketsException": return try await TooManyBucketsException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -4818,8 +4818,8 @@ extension DescribeConfigurationSettingsInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeConfigurationSettingsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DescribeConfigurationSettingsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "TooManyBucketsException": return try await TooManyBucketsException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -4981,8 +4981,8 @@ extension DescribeEnvironmentHealthInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeEnvironmentHealthOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DescribeEnvironmentHealthOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "ElasticBeanstalkServiceException": return try await ElasticBeanstalkServiceException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -5200,8 +5200,8 @@ extension DescribeEnvironmentManagedActionHistoryInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeEnvironmentManagedActionHistoryOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DescribeEnvironmentManagedActionHistoryOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "ElasticBeanstalkServiceException": return try await ElasticBeanstalkServiceException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -5347,8 +5347,8 @@ extension DescribeEnvironmentManagedActionsInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeEnvironmentManagedActionsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DescribeEnvironmentManagedActionsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "ElasticBeanstalkServiceException": return try await ElasticBeanstalkServiceException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -5473,8 +5473,8 @@ extension DescribeEnvironmentResourcesInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeEnvironmentResourcesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DescribeEnvironmentResourcesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "InsufficientPrivilegesException": return try await InsufficientPrivilegesException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -5559,7 +5559,7 @@ extension DescribeEnvironmentsInput: Swift.Encodable {
             try container.encode(includeDeleted, forKey: ClientRuntime.Key("IncludeDeleted"))
         }
         if let includedDeletedBackTo = includedDeletedBackTo {
-            try container.encodeTimestamp(includedDeletedBackTo, format: .dateTime, forKey: ClientRuntime.Key("includedDeletedBackTo"))
+            try container.encodeTimestamp(includedDeletedBackTo, format: .dateTime, forKey: ClientRuntime.Key("IncludedDeletedBackTo"))
         }
         if let maxRecords = maxRecords {
             try container.encode(maxRecords, forKey: ClientRuntime.Key("MaxRecords"))
@@ -5700,8 +5700,8 @@ extension DescribeEnvironmentsInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeEnvironmentsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DescribeEnvironmentsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
@@ -5785,7 +5785,7 @@ extension DescribeEventsInput: Swift.Encodable {
             try container.encode(applicationName, forKey: ClientRuntime.Key("ApplicationName"))
         }
         if let endTime = endTime {
-            try container.encodeTimestamp(endTime, format: .dateTime, forKey: ClientRuntime.Key("endTime"))
+            try container.encodeTimestamp(endTime, format: .dateTime, forKey: ClientRuntime.Key("EndTime"))
         }
         if let environmentId = environmentId {
             try container.encode(environmentId, forKey: ClientRuntime.Key("EnvironmentId"))
@@ -5809,7 +5809,7 @@ extension DescribeEventsInput: Swift.Encodable {
             try container.encode(severity, forKey: ClientRuntime.Key("Severity"))
         }
         if let startTime = startTime {
-            try container.encodeTimestamp(startTime, format: .dateTime, forKey: ClientRuntime.Key("startTime"))
+            try container.encodeTimestamp(startTime, format: .dateTime, forKey: ClientRuntime.Key("StartTime"))
         }
         if let templateName = templateName {
             try container.encode(templateName, forKey: ClientRuntime.Key("TemplateName"))
@@ -5945,8 +5945,8 @@ extension DescribeEventsInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeEventsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DescribeEventsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
@@ -6128,8 +6128,8 @@ extension DescribeInstancesHealthInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeInstancesHealthOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DescribeInstancesHealthOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "ElasticBeanstalkServiceException": return try await ElasticBeanstalkServiceException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -6263,8 +6263,8 @@ extension DescribePlatformVersionInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribePlatformVersionOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DescribePlatformVersionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "ElasticBeanstalkServiceException": return try await ElasticBeanstalkServiceException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -6362,8 +6362,8 @@ extension DisassociateEnvironmentOperationsRoleInputBody: Swift.Decodable {
     }
 }
 
-public enum DisassociateEnvironmentOperationsRoleOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DisassociateEnvironmentOperationsRoleOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "InsufficientPrivilegesException": return try await InsufficientPrivilegesException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -6474,10 +6474,10 @@ extension ElasticBeanstalkClientTypes.EnvironmentDescription: Swift.Codable {
             try container.encode(cname, forKey: ClientRuntime.Key("CNAME"))
         }
         if let dateCreated = dateCreated {
-            try container.encodeTimestamp(dateCreated, format: .dateTime, forKey: ClientRuntime.Key("dateCreated"))
+            try container.encodeTimestamp(dateCreated, format: .dateTime, forKey: ClientRuntime.Key("DateCreated"))
         }
         if let dateUpdated = dateUpdated {
-            try container.encodeTimestamp(dateUpdated, format: .dateTime, forKey: ClientRuntime.Key("dateUpdated"))
+            try container.encodeTimestamp(dateUpdated, format: .dateTime, forKey: ClientRuntime.Key("DateUpdated"))
         }
         if let description = description {
             try container.encode(description, forKey: ClientRuntime.Key("Description"))
@@ -6880,7 +6880,7 @@ extension ElasticBeanstalkClientTypes.EnvironmentInfoDescription: Swift.Codable 
             try container.encode(message, forKey: ClientRuntime.Key("Message"))
         }
         if let sampleTimestamp = sampleTimestamp {
-            try container.encodeTimestamp(sampleTimestamp, format: .dateTime, forKey: ClientRuntime.Key("sampleTimestamp"))
+            try container.encodeTimestamp(sampleTimestamp, format: .dateTime, forKey: ClientRuntime.Key("SampleTimestamp"))
         }
     }
 
@@ -7459,7 +7459,7 @@ extension ElasticBeanstalkClientTypes.EventDescription: Swift.Codable {
             try container.encode(environmentName, forKey: ClientRuntime.Key("EnvironmentName"))
         }
         if let eventDate = eventDate {
-            try container.encodeTimestamp(eventDate, format: .dateTime, forKey: ClientRuntime.Key("eventDate"))
+            try container.encodeTimestamp(eventDate, format: .dateTime, forKey: ClientRuntime.Key("EventDate"))
         }
         if let message = message {
             try container.encode(message, forKey: ClientRuntime.Key("Message"))
@@ -8146,8 +8146,8 @@ public struct ListAvailableSolutionStacksInput: Swift.Equatable {
     public init() { }
 }
 
-public enum ListAvailableSolutionStacksOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum ListAvailableSolutionStacksOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
@@ -8369,8 +8369,8 @@ extension ListPlatformBranchesInputBody: Swift.Decodable {
     }
 }
 
-public enum ListPlatformBranchesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum ListPlatformBranchesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
@@ -8539,8 +8539,8 @@ extension ListPlatformVersionsInputBody: Swift.Decodable {
     }
 }
 
-public enum ListPlatformVersionsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum ListPlatformVersionsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "ElasticBeanstalkServiceException": return try await ElasticBeanstalkServiceException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -8664,8 +8664,8 @@ extension ListTagsForResourceInputBody: Swift.Decodable {
     }
 }
 
-public enum ListTagsForResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum ListTagsForResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "InsufficientPrivilegesException": return try await InsufficientPrivilegesException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -8929,7 +8929,7 @@ extension ElasticBeanstalkClientTypes.ManagedAction: Swift.Codable {
             try container.encode(status, forKey: ClientRuntime.Key("Status"))
         }
         if let windowStartTime = windowStartTime {
-            try container.encodeTimestamp(windowStartTime, format: .dateTime, forKey: ClientRuntime.Key("windowStartTime"))
+            try container.encodeTimestamp(windowStartTime, format: .dateTime, forKey: ClientRuntime.Key("WindowStartTime"))
         }
     }
 
@@ -9004,7 +9004,7 @@ extension ElasticBeanstalkClientTypes.ManagedActionHistoryItem: Swift.Codable {
             try container.encode(actionType, forKey: ClientRuntime.Key("ActionType"))
         }
         if let executedTime = executedTime {
-            try container.encodeTimestamp(executedTime, format: .dateTime, forKey: ClientRuntime.Key("executedTime"))
+            try container.encodeTimestamp(executedTime, format: .dateTime, forKey: ClientRuntime.Key("ExecutedTime"))
         }
         if let failureDescription = failureDescription {
             try container.encode(failureDescription, forKey: ClientRuntime.Key("FailureDescription"))
@@ -9013,7 +9013,7 @@ extension ElasticBeanstalkClientTypes.ManagedActionHistoryItem: Swift.Codable {
             try container.encode(failureType, forKey: ClientRuntime.Key("FailureType"))
         }
         if let finishedTime = finishedTime {
-            try container.encodeTimestamp(finishedTime, format: .dateTime, forKey: ClientRuntime.Key("finishedTime"))
+            try container.encodeTimestamp(finishedTime, format: .dateTime, forKey: ClientRuntime.Key("FinishedTime"))
         }
         if let status = status {
             try container.encode(status, forKey: ClientRuntime.Key("Status"))
@@ -9548,10 +9548,10 @@ extension ElasticBeanstalkClientTypes.PlatformDescription: Swift.Codable {
             }
         }
         if let dateCreated = dateCreated {
-            try container.encodeTimestamp(dateCreated, format: .dateTime, forKey: ClientRuntime.Key("dateCreated"))
+            try container.encodeTimestamp(dateCreated, format: .dateTime, forKey: ClientRuntime.Key("DateCreated"))
         }
         if let dateUpdated = dateUpdated {
-            try container.encodeTimestamp(dateUpdated, format: .dateTime, forKey: ClientRuntime.Key("dateUpdated"))
+            try container.encodeTimestamp(dateUpdated, format: .dateTime, forKey: ClientRuntime.Key("DateUpdated"))
         }
         if let description = description {
             try container.encode(description, forKey: ClientRuntime.Key("Description"))
@@ -10447,8 +10447,8 @@ extension RebuildEnvironmentInputBody: Swift.Decodable {
     }
 }
 
-public enum RebuildEnvironmentOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum RebuildEnvironmentOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "InsufficientPrivilegesException": return try await InsufficientPrivilegesException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -10536,8 +10536,8 @@ extension RequestEnvironmentInfoInputBody: Swift.Decodable {
     }
 }
 
-public enum RequestEnvironmentInfoOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum RequestEnvironmentInfoOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
@@ -10832,8 +10832,8 @@ extension RestartAppServerInputBody: Swift.Decodable {
     }
 }
 
-public enum RestartAppServerOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum RestartAppServerOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
@@ -10920,8 +10920,8 @@ extension RetrieveEnvironmentInfoInputBody: Swift.Decodable {
     }
 }
 
-public enum RetrieveEnvironmentInfoOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum RetrieveEnvironmentInfoOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
@@ -11280,7 +11280,7 @@ extension ElasticBeanstalkClientTypes.SingleInstanceHealth: Swift.Codable {
             try container.encode(instanceType, forKey: ClientRuntime.Key("InstanceType"))
         }
         if let launchedAt = launchedAt {
-            try container.encodeTimestamp(launchedAt, format: .dateTime, forKey: ClientRuntime.Key("launchedAt"))
+            try container.encodeTimestamp(launchedAt, format: .dateTime, forKey: ClientRuntime.Key("LaunchedAt"))
         }
         if let system = system {
             try container.encode(system, forKey: ClientRuntime.Key("System"))
@@ -11830,8 +11830,8 @@ extension SwapEnvironmentCNAMEsInputBody: Swift.Decodable {
     }
 }
 
-public enum SwapEnvironmentCNAMEsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum SwapEnvironmentCNAMEsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
@@ -12051,8 +12051,8 @@ extension TerminateEnvironmentInputBody: Swift.Decodable {
     }
 }
 
-public enum TerminateEnvironmentOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum TerminateEnvironmentOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "InsufficientPrivilegesException": return try await InsufficientPrivilegesException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -12819,8 +12819,8 @@ extension UpdateApplicationInputBody: Swift.Decodable {
     }
 }
 
-public enum UpdateApplicationOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum UpdateApplicationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
@@ -12928,8 +12928,8 @@ extension UpdateApplicationResourceLifecycleInputBody: Swift.Decodable {
     }
 }
 
-public enum UpdateApplicationResourceLifecycleOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum UpdateApplicationResourceLifecycleOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "InsufficientPrivilegesException": return try await InsufficientPrivilegesException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -13059,8 +13059,8 @@ extension UpdateApplicationVersionInputBody: Swift.Decodable {
     }
 }
 
-public enum UpdateApplicationVersionOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum UpdateApplicationVersionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
@@ -13254,8 +13254,8 @@ extension UpdateConfigurationTemplateInputBody: Swift.Decodable {
     }
 }
 
-public enum UpdateConfigurationTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum UpdateConfigurationTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "InsufficientPrivilegesException": return try await InsufficientPrivilegesException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -13641,8 +13641,8 @@ extension UpdateEnvironmentInputBody: Swift.Decodable {
     }
 }
 
-public enum UpdateEnvironmentOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum UpdateEnvironmentOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "InsufficientPrivilegesException": return try await InsufficientPrivilegesException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -14052,8 +14052,8 @@ extension UpdateTagsForResourceInputBody: Swift.Decodable {
     }
 }
 
-public enum UpdateTagsForResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum UpdateTagsForResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "InsufficientPrivilegesException": return try await InsufficientPrivilegesException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -14183,8 +14183,8 @@ extension ValidateConfigurationSettingsInputBody: Swift.Decodable {
     }
 }
 
-public enum ValidateConfigurationSettingsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum ValidateConfigurationSettingsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "InsufficientPrivilegesException": return try await InsufficientPrivilegesException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)

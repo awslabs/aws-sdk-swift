@@ -1450,8 +1450,8 @@ extension CreateBudgetActionInputBody: Swift.Decodable {
     }
 }
 
-public enum CreateBudgetActionOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum CreateBudgetActionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -1616,8 +1616,8 @@ extension CreateBudgetInputBody: Swift.Decodable {
     }
 }
 
-public enum CreateBudgetOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum CreateBudgetOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -1743,8 +1743,8 @@ extension CreateNotificationInputBody: Swift.Decodable {
     }
 }
 
-public enum CreateNotificationOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum CreateNotificationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -1859,8 +1859,8 @@ extension CreateSubscriberInputBody: Swift.Decodable {
     }
 }
 
-public enum CreateSubscriberOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum CreateSubscriberOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -2072,8 +2072,8 @@ extension DeleteBudgetActionInputBody: Swift.Decodable {
     }
 }
 
-public enum DeleteBudgetActionOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DeleteBudgetActionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -2213,8 +2213,8 @@ extension DeleteBudgetInputBody: Swift.Decodable {
     }
 }
 
-public enum DeleteBudgetOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DeleteBudgetOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -2314,8 +2314,8 @@ extension DeleteNotificationInputBody: Swift.Decodable {
     }
 }
 
-public enum DeleteNotificationOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DeleteNotificationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -2428,8 +2428,8 @@ extension DeleteSubscriberInputBody: Swift.Decodable {
     }
 }
 
-public enum DeleteSubscriberOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DeleteSubscriberOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -2564,8 +2564,8 @@ extension DescribeBudgetActionHistoriesInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeBudgetActionHistoriesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DescribeBudgetActionHistoriesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -2714,8 +2714,8 @@ extension DescribeBudgetActionInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeBudgetActionOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DescribeBudgetActionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -2864,8 +2864,8 @@ extension DescribeBudgetActionsForAccountInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeBudgetActionsForAccountOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DescribeBudgetActionsForAccountOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -3024,8 +3024,8 @@ extension DescribeBudgetActionsForBudgetInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeBudgetActionsForBudgetOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DescribeBudgetActionsForBudgetOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -3193,7 +3193,7 @@ public struct DescribeBudgetNotificationsForAccountInput: Swift.Equatable {
     /// The account ID of the user. It's a 12-digit number.
     /// This member is required.
     public var accountId: Swift.String?
-    /// An integer that shows how many budget name entries a paginated response contains.
+    /// An integer that represents how many budgets a paginated response contains. The default is 50.
     public var maxResults: Swift.Int?
     /// A generic string.
     public var nextToken: Swift.String?
@@ -3234,8 +3234,8 @@ extension DescribeBudgetNotificationsForAccountInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeBudgetNotificationsForAccountOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DescribeBudgetNotificationsForAccountOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -3310,8 +3310,8 @@ extension DescribeBudgetNotificationsForAccountOutputResponseBody: Swift.Decodab
     }
 }
 
-public enum DescribeBudgetOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DescribeBudgetOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -3463,8 +3463,8 @@ extension DescribeBudgetPerformanceHistoryInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeBudgetPerformanceHistoryOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DescribeBudgetPerformanceHistoryOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -3559,10 +3559,10 @@ extension DescribeBudgetsInput: ClientRuntime.URLPathProvider {
 
 /// Request of DescribeBudgets
 public struct DescribeBudgetsInput: Swift.Equatable {
-    /// The accountId that is associated with the budgets that you want descriptions of.
+    /// The accountId that is associated with the budgets that you want to describe.
     /// This member is required.
     public var accountId: Swift.String?
-    /// An optional integer that represents how many entries a paginated response contains. The maximum is 100.
+    /// An integer that represents how many budgets a paginated response contains. The default is 100.
     public var maxResults: Swift.Int?
     /// The pagination token that you include in your request to indicate the next set of results that you want to retrieve.
     public var nextToken: Swift.String?
@@ -3603,8 +3603,8 @@ extension DescribeBudgetsInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeBudgetsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DescribeBudgetsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -3719,7 +3719,7 @@ public struct DescribeNotificationsForBudgetInput: Swift.Equatable {
     /// The name of the budget whose notifications you want descriptions of.
     /// This member is required.
     public var budgetName: Swift.String?
-    /// An optional integer that represents how many entries a paginated response contains. The maximum is 100.
+    /// An optional integer that represents how many entries a paginated response contains.
     public var maxResults: Swift.Int?
     /// The pagination token that you include in your request to indicate the next set of results that you want to retrieve.
     public var nextToken: Swift.String?
@@ -3766,8 +3766,8 @@ extension DescribeNotificationsForBudgetInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeNotificationsForBudgetOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DescribeNotificationsForBudgetOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -3886,7 +3886,7 @@ public struct DescribeSubscribersForNotificationInput: Swift.Equatable {
     /// The name of the budget whose subscribers you want descriptions of.
     /// This member is required.
     public var budgetName: Swift.String?
-    /// An optional integer that represents how many entries a paginated response contains. The maximum is 100.
+    /// An optional integer that represents how many entries a paginated response contains.
     public var maxResults: Swift.Int?
     /// The pagination token that you include in your request to indicate the next set of results that you want to retrieve.
     public var nextToken: Swift.String?
@@ -3942,8 +3942,8 @@ extension DescribeSubscribersForNotificationInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeSubscribersForNotificationOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DescribeSubscribersForNotificationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -4203,8 +4203,8 @@ extension ExecuteBudgetActionInputBody: Swift.Decodable {
     }
 }
 
-public enum ExecuteBudgetActionOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum ExecuteBudgetActionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -5118,16 +5118,23 @@ extension BudgetsClientTypes.Spend: Swift.Codable {
 }
 
 extension BudgetsClientTypes {
-    /// The amount of cost or usage that's measured for a budget. For example, a Spend for 3 GB of S3 usage has the following parameters:
+    /// The amount of cost or usage that's measured for a budget. Cost example: A Spend for 3 USD of costs has the following parameters:
     ///
     /// * An Amount of 3
     ///
-    /// * A unit of GB
+    /// * A Unit of USD
+    ///
+    ///
+    /// Usage example: A Spend for 3 GB of S3 usage has the following parameters:
+    ///
+    /// * An Amount of 3
+    ///
+    /// * A Unit of GB
     public struct Spend: Swift.Equatable {
         /// The cost or usage amount that's associated with a budget forecast, actual spend, or budget threshold.
         /// This member is required.
         public var amount: Swift.String?
-        /// The unit of measurement that's used for the budget forecast, actual spend, or budget threshold, such as USD or GBP.
+        /// The unit of measurement that's used for the budget forecast, actual spend, or budget threshold.
         /// This member is required.
         public var unit: Swift.String?
 
@@ -5633,8 +5640,8 @@ extension UpdateBudgetActionInputBody: Swift.Decodable {
     }
 }
 
-public enum UpdateBudgetActionOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum UpdateBudgetActionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -5785,8 +5792,8 @@ extension UpdateBudgetInputBody: Swift.Decodable {
     }
 }
 
-public enum UpdateBudgetOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum UpdateBudgetOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -5899,8 +5906,8 @@ extension UpdateNotificationInputBody: Swift.Decodable {
     }
 }
 
-public enum UpdateNotificationOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum UpdateNotificationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -6027,8 +6034,8 @@ extension UpdateSubscriberInputBody: Swift.Decodable {
     }
 }
 
-public enum UpdateSubscriberOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum UpdateSubscriberOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {

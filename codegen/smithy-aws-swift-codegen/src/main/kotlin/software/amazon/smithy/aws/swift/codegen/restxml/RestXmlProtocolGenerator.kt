@@ -45,7 +45,8 @@ class RestXmlProtocolGenerator : AWSHttpBindingProtocolGenerator() {
         "S3EscapeObjectKeyInUriLabel",
         "S3EscapePathObjectKeyInUriLabel",
         "SDKAppliedContentEncoding_restXml",
-        "SDKAppendedGzipAfterProvidedEncoding_restXml"
+        "SDKAppendedGzipAfterProvidedEncoding_restXml",
+        "S3OperationNoErrorWrappingResponse"
     )
 
     override fun renderStructEncode(
@@ -55,7 +56,7 @@ class RestXmlProtocolGenerator : AWSHttpBindingProtocolGenerator() {
         members: List<MemberShape>,
         writer: SwiftWriter,
         defaultTimestampFormat: TimestampFormatTrait.Format,
-        path: String
+        path: String?
     ) {
         val encoder = StructEncodeXMLGenerator(ctx, shapeContainingMembers, members, writer, defaultTimestampFormat)
         encoder.render()

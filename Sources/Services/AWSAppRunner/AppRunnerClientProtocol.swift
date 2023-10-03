@@ -96,7 +96,7 @@ public protocol AppRunnerClientProtocol {
     /// - `InvalidStateException` : You can't perform this action when the resource is in its current state.
     /// - `ServiceQuotaExceededException` : App Runner can't create this resource. You've reached your account quota for this resource type. For App Runner per-resource quotas, see [App Runner endpoints and quotas](https://docs.aws.amazon.com/general/latest/gr/apprunner.html) in the Amazon Web Services General Reference.
     func createVpcIngressConnection(input: CreateVpcIngressConnectionInput) async throws -> CreateVpcIngressConnectionOutputResponse
-    /// Delete an App Runner automatic scaling configuration resource. You can delete a specific revision or the latest active revision. You can't delete a configuration that's used by one or more App Runner services.
+    /// Delete an App Runner automatic scaling configuration resource. You can delete a top level auto scaling configuration, a specific revision of one, or all revisions associated with the top level configuration. You can't delete the default auto scaling configuration or a configuration that's used by one or more App Runner services.
     ///
     /// - Parameter DeleteAutoScalingConfigurationInput : [no documentation found]
     ///
@@ -337,6 +337,19 @@ public protocol AppRunnerClientProtocol {
     /// - `InternalServiceErrorException` : An unexpected service exception occurred.
     /// - `InvalidRequestException` : One or more input parameters aren't valid. Refer to the API action's document page, correct the input parameters, and try the action again.
     func listServices(input: ListServicesInput) async throws -> ListServicesOutputResponse
+    /// Returns a list of the associated App Runner services using an auto scaling configuration.
+    ///
+    /// - Parameter ListServicesForAutoScalingConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `ListServicesForAutoScalingConfigurationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceErrorException` : An unexpected service exception occurred.
+    /// - `InvalidRequestException` : One or more input parameters aren't valid. Refer to the API action's document page, correct the input parameters, and try the action again.
+    /// - `ResourceNotFoundException` : A resource doesn't exist for the specified Amazon Resource Name (ARN) in your Amazon Web Services account.
+    func listServicesForAutoScalingConfiguration(input: ListServicesForAutoScalingConfigurationInput) async throws -> ListServicesForAutoScalingConfigurationOutputResponse
     /// List tags that are associated with for an App Runner resource. The response contains a list of tag key-value pairs.
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
@@ -444,6 +457,19 @@ public protocol AppRunnerClientProtocol {
     /// - `InvalidStateException` : You can't perform this action when the resource is in its current state.
     /// - `ResourceNotFoundException` : A resource doesn't exist for the specified Amazon Resource Name (ARN) in your Amazon Web Services account.
     func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutputResponse
+    /// Update an auto scaling configuration to be the default. The existing default auto scaling configuration will be set to non-default automatically.
+    ///
+    /// - Parameter UpdateDefaultAutoScalingConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateDefaultAutoScalingConfigurationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceErrorException` : An unexpected service exception occurred.
+    /// - `InvalidRequestException` : One or more input parameters aren't valid. Refer to the API action's document page, correct the input parameters, and try the action again.
+    /// - `ResourceNotFoundException` : A resource doesn't exist for the specified Amazon Resource Name (ARN) in your Amazon Web Services account.
+    func updateDefaultAutoScalingConfiguration(input: UpdateDefaultAutoScalingConfigurationInput) async throws -> UpdateDefaultAutoScalingConfigurationOutputResponse
     /// Update an App Runner service. You can update the source configuration and instance configuration of the service. You can also update the ARN of the auto scaling configuration resource that's associated with the service. However, you can't change the name or the encryption configuration of the service. These can be set only when you create the service. To update the tags applied to your service, use the separate actions [TagResource] and [UntagResource]. This is an asynchronous operation. On a successful call, you can use the returned OperationId and the [ListOperations] call to track the operation's progress.
     ///
     /// - Parameter UpdateServiceInput : [no documentation found]

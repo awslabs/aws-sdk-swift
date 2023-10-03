@@ -126,7 +126,7 @@ public protocol ServiceDiscoveryClientProtocol {
     /// - `ResourceInUse` : The specified resource can't be deleted because it contains other resources. For example, you can't delete a service that contains any instances.
     /// - `ServiceNotFound` : No service exists with the specified ID.
     func deregisterInstance(input: DeregisterInstanceInput) async throws -> DeregisterInstanceOutputResponse
-    /// Discovers registered instances for a specified namespace and service. You can use DiscoverInstances to discover instances for any type of namespace. For public and private DNS namespaces, you can also use DNS queries to discover instances.
+    /// Discovers registered instances for a specified namespace and service. You can use DiscoverInstances to discover instances for any type of namespace. DiscoverInstances returns a randomized list of instances allowing customers to distribute traffic evenly across instances. For public and private DNS namespaces, you can also use DNS queries to discover instances.
     ///
     /// - Parameter DiscoverInstancesInput : [no documentation found]
     ///
@@ -140,6 +140,20 @@ public protocol ServiceDiscoveryClientProtocol {
     /// - `RequestLimitExceeded` : The operation can't be completed because you've reached the quota for the number of requests. For more information, see [Cloud Map API request throttling quota](https://docs.aws.amazon.com/cloud-map/latest/dg/throttling.html) in the Cloud Map Developer Guide.
     /// - `ServiceNotFound` : No service exists with the specified ID.
     func discoverInstances(input: DiscoverInstancesInput) async throws -> DiscoverInstancesOutputResponse
+    /// Discovers the increasing revision associated with an instance.
+    ///
+    /// - Parameter DiscoverInstancesRevisionInput : [no documentation found]
+    ///
+    /// - Returns: `DiscoverInstancesRevisionOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InvalidInput` : One or more specified values aren't valid. For example, a required value might be missing, a numeric value might be outside the allowed range, or a string value might exceed length constraints.
+    /// - `NamespaceNotFound` : No namespace exists with the specified ID.
+    /// - `RequestLimitExceeded` : The operation can't be completed because you've reached the quota for the number of requests. For more information, see [Cloud Map API request throttling quota](https://docs.aws.amazon.com/cloud-map/latest/dg/throttling.html) in the Cloud Map Developer Guide.
+    /// - `ServiceNotFound` : No service exists with the specified ID.
+    func discoverInstancesRevision(input: DiscoverInstancesRevisionInput) async throws -> DiscoverInstancesRevisionOutputResponse
     /// Gets information about a specified instance.
     ///
     /// - Parameter GetInstanceInput : [no documentation found]
@@ -178,7 +192,7 @@ public protocol ServiceDiscoveryClientProtocol {
     /// - `InvalidInput` : One or more specified values aren't valid. For example, a required value might be missing, a numeric value might be outside the allowed range, or a string value might exceed length constraints.
     /// - `NamespaceNotFound` : No namespace exists with the specified ID.
     func getNamespace(input: GetNamespaceInput) async throws -> GetNamespaceOutputResponse
-    /// Gets information about any operation that returns an operation ID in the response, such as a CreateService request. To get a list of operations that match specified criteria, see [ListOperations](https://docs.aws.amazon.com/cloud-map/latest/api/API_ListOperations.html).
+    /// Gets information about any operation that returns an operation ID in the response, such as a CreateHttpNamespace request. To get a list of operations that match specified criteria, see [ListOperations](https://docs.aws.amazon.com/cloud-map/latest/api/API_ListOperations.html).
     ///
     /// - Parameter GetOperationInput : [no documentation found]
     ///

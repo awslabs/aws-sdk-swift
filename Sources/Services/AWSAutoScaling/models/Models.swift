@@ -306,13 +306,13 @@ extension AutoScalingClientTypes.Activity: Swift.Codable {
             try container.encode(details, forKey: ClientRuntime.Key("Details"))
         }
         if let endTime = endTime {
-            try container.encodeTimestamp(endTime, format: .dateTime, forKey: ClientRuntime.Key("endTime"))
+            try container.encodeTimestamp(endTime, format: .dateTime, forKey: ClientRuntime.Key("EndTime"))
         }
         if progress != 0 {
             try container.encode(progress, forKey: ClientRuntime.Key("Progress"))
         }
         if let startTime = startTime {
-            try container.encodeTimestamp(startTime, format: .dateTime, forKey: ClientRuntime.Key("startTime"))
+            try container.encodeTimestamp(startTime, format: .dateTime, forKey: ClientRuntime.Key("StartTime"))
         }
         if let statusCode = statusCode {
             try container.encode(statusCode, forKey: ClientRuntime.Key("StatusCode"))
@@ -695,8 +695,8 @@ extension AttachInstancesInputBody: Swift.Decodable {
     }
 }
 
-public enum AttachInstancesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum AttachInstancesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "ResourceContention": return try await ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -800,8 +800,8 @@ extension AttachLoadBalancerTargetGroupsInputBody: Swift.Decodable {
     }
 }
 
-public enum AttachLoadBalancerTargetGroupsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum AttachLoadBalancerTargetGroupsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "ResourceContention": return try await ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -905,8 +905,8 @@ extension AttachLoadBalancersInputBody: Swift.Decodable {
     }
 }
 
-public enum AttachLoadBalancersOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum AttachLoadBalancersOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "ResourceContention": return try await ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -1010,8 +1010,8 @@ extension AttachTrafficSourcesInputBody: Swift.Decodable {
     }
 }
 
-public enum AttachTrafficSourcesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum AttachTrafficSourcesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "ResourceContention": return try await ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -1096,7 +1096,7 @@ extension AutoScalingClientTypes.AutoScalingGroup: Swift.Codable {
             try container.encode(context, forKey: ClientRuntime.Key("Context"))
         }
         if let createdTime = createdTime {
-            try container.encodeTimestamp(createdTime, format: .dateTime, forKey: ClientRuntime.Key("createdTime"))
+            try container.encodeTimestamp(createdTime, format: .dateTime, forKey: ClientRuntime.Key("CreatedTime"))
         }
         if let defaultCooldown = defaultCooldown {
             try container.encode(defaultCooldown, forKey: ClientRuntime.Key("DefaultCooldown"))
@@ -1933,8 +1933,8 @@ extension BatchDeleteScheduledActionInputBody: Swift.Decodable {
     }
 }
 
-public enum BatchDeleteScheduledActionOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum BatchDeleteScheduledActionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "ResourceContention": return try await ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -2085,8 +2085,8 @@ extension BatchPutScheduledUpdateGroupActionInputBody: Swift.Decodable {
     }
 }
 
-public enum BatchPutScheduledUpdateGroupActionOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum BatchPutScheduledUpdateGroupActionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "AlreadyExists": return try await AlreadyExistsFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -2302,8 +2302,8 @@ extension CancelInstanceRefreshInputBody: Swift.Decodable {
     }
 }
 
-public enum CancelInstanceRefreshOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum CancelInstanceRefreshOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "ActiveInstanceRefreshNotFound": return try await ActiveInstanceRefreshNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -2546,8 +2546,8 @@ extension CompleteLifecycleActionInputBody: Swift.Decodable {
     }
 }
 
-public enum CompleteLifecycleActionOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum CompleteLifecycleActionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "ResourceContention": return try await ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -3117,8 +3117,8 @@ extension CreateAutoScalingGroupInputBody: Swift.Decodable {
     }
 }
 
-public enum CreateAutoScalingGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum CreateAutoScalingGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "AlreadyExists": return try await AlreadyExistsFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -3462,8 +3462,8 @@ extension CreateLaunchConfigurationInputBody: Swift.Decodable {
     }
 }
 
-public enum CreateLaunchConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum CreateLaunchConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "AlreadyExists": return try await AlreadyExistsFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -3556,8 +3556,8 @@ extension CreateOrUpdateTagsInputBody: Swift.Decodable {
     }
 }
 
-public enum CreateOrUpdateTagsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum CreateOrUpdateTagsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "AlreadyExists": return try await AlreadyExistsFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -3780,8 +3780,8 @@ extension DeleteAutoScalingGroupInputBody: Swift.Decodable {
     }
 }
 
-public enum DeleteAutoScalingGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DeleteAutoScalingGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "ResourceContention": return try await ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -3848,8 +3848,8 @@ extension DeleteLaunchConfigurationInputBody: Swift.Decodable {
     }
 }
 
-public enum DeleteLaunchConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DeleteLaunchConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "ResourceContention": return try await ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -3927,8 +3927,8 @@ extension DeleteLifecycleHookInputBody: Swift.Decodable {
     }
 }
 
-public enum DeleteLifecycleHookOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DeleteLifecycleHookOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "ResourceContention": return try await ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -4005,8 +4005,8 @@ extension DeleteNotificationConfigurationInputBody: Swift.Decodable {
     }
 }
 
-public enum DeleteNotificationConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DeleteNotificationConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "ResourceContention": return try await ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -4082,8 +4082,8 @@ extension DeletePolicyInputBody: Swift.Decodable {
     }
 }
 
-public enum DeletePolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DeletePolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "ResourceContention": return try await ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -4161,8 +4161,8 @@ extension DeleteScheduledActionInputBody: Swift.Decodable {
     }
 }
 
-public enum DeleteScheduledActionOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DeleteScheduledActionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "ResourceContention": return try await ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -4253,8 +4253,8 @@ extension DeleteTagsInputBody: Swift.Decodable {
     }
 }
 
-public enum DeleteTagsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DeleteTagsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "ResourceContention": return try await ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -4331,8 +4331,8 @@ extension DeleteWarmPoolInputBody: Swift.Decodable {
     }
 }
 
-public enum DeleteWarmPoolOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DeleteWarmPoolOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "LimitExceeded": return try await LimitExceededFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -4373,8 +4373,8 @@ public struct DescribeAccountLimitsInput: Swift.Equatable {
     public init() { }
 }
 
-public enum DescribeAccountLimitsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DescribeAccountLimitsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "ResourceContention": return try await ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -4473,8 +4473,8 @@ public struct DescribeAdjustmentTypesInput: Swift.Equatable {
     public init() { }
 }
 
-public enum DescribeAdjustmentTypesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DescribeAdjustmentTypesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "ResourceContention": return try await ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -4671,8 +4671,8 @@ extension DescribeAutoScalingGroupsInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeAutoScalingGroupsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DescribeAutoScalingGroupsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "InvalidNextToken": return try await InvalidNextToken(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -4844,8 +4844,8 @@ extension DescribeAutoScalingInstancesInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeAutoScalingInstancesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DescribeAutoScalingInstancesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "InvalidNextToken": return try await InvalidNextToken(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -4942,8 +4942,8 @@ public struct DescribeAutoScalingNotificationTypesInput: Swift.Equatable {
     public init() { }
 }
 
-public enum DescribeAutoScalingNotificationTypesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DescribeAutoScalingNotificationTypesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "ResourceContention": return try await ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -5115,8 +5115,8 @@ extension DescribeInstanceRefreshesInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeInstanceRefreshesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DescribeInstanceRefreshesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "InvalidNextToken": return try await InvalidNextToken(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -5287,8 +5287,8 @@ extension DescribeLaunchConfigurationsInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeLaunchConfigurationsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DescribeLaunchConfigurationsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "InvalidNextToken": return try await InvalidNextToken(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -5386,8 +5386,8 @@ public struct DescribeLifecycleHookTypesInput: Swift.Equatable {
     public init() { }
 }
 
-public enum DescribeLifecycleHookTypesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DescribeLifecycleHookTypesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "ResourceContention": return try await ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -5537,8 +5537,8 @@ extension DescribeLifecycleHooksInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeLifecycleHooksOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DescribeLifecycleHooksOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "ResourceContention": return try await ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -5673,8 +5673,8 @@ extension DescribeLoadBalancerTargetGroupsInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeLoadBalancerTargetGroupsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DescribeLoadBalancerTargetGroupsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "InvalidNextToken": return try await InvalidNextToken(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -5820,8 +5820,8 @@ extension DescribeLoadBalancersInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeLoadBalancersOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DescribeLoadBalancersOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "InvalidNextToken": return try await InvalidNextToken(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -5918,8 +5918,8 @@ public struct DescribeMetricCollectionTypesInput: Swift.Equatable {
     public init() { }
 }
 
-public enum DescribeMetricCollectionTypesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DescribeMetricCollectionTypesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "ResourceContention": return try await ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -6106,8 +6106,8 @@ extension DescribeNotificationConfigurationsInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeNotificationConfigurationsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DescribeNotificationConfigurationsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "InvalidNextToken": return try await InvalidNextToken(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -6327,8 +6327,8 @@ extension DescribePoliciesInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribePoliciesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DescribePoliciesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "InvalidNextToken": return try await InvalidNextToken(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -6522,8 +6522,8 @@ extension DescribeScalingActivitiesInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeScalingActivitiesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DescribeScalingActivitiesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "InvalidNextToken": return try await InvalidNextToken(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -6621,8 +6621,8 @@ public struct DescribeScalingProcessTypesInput: Swift.Equatable {
     public init() { }
 }
 
-public enum DescribeScalingProcessTypesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DescribeScalingProcessTypesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "ResourceContention": return try await ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -6696,7 +6696,7 @@ extension DescribeScheduledActionsInput: Swift.Encodable {
             try container.encode(autoScalingGroupName, forKey: ClientRuntime.Key("AutoScalingGroupName"))
         }
         if let endTime = endTime {
-            try container.encodeTimestamp(endTime, format: .dateTime, forKey: ClientRuntime.Key("endTime"))
+            try container.encodeTimestamp(endTime, format: .dateTime, forKey: ClientRuntime.Key("EndTime"))
         }
         if let maxRecords = maxRecords {
             try container.encode(maxRecords, forKey: ClientRuntime.Key("MaxRecords"))
@@ -6717,7 +6717,7 @@ extension DescribeScheduledActionsInput: Swift.Encodable {
             }
         }
         if let startTime = startTime {
-            try container.encodeTimestamp(startTime, format: .dateTime, forKey: ClientRuntime.Key("startTime"))
+            try container.encodeTimestamp(startTime, format: .dateTime, forKey: ClientRuntime.Key("StartTime"))
         }
         try container.encode("DescribeScheduledActions", forKey:ClientRuntime.Key("Action"))
         try container.encode("2011-01-01", forKey:ClientRuntime.Key("Version"))
@@ -6815,8 +6815,8 @@ extension DescribeScheduledActionsInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeScheduledActionsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DescribeScheduledActionsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "InvalidNextToken": return try await InvalidNextToken(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -6987,8 +6987,8 @@ extension DescribeTagsInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeTagsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DescribeTagsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "InvalidNextToken": return try await InvalidNextToken(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -7085,8 +7085,8 @@ public struct DescribeTerminationPolicyTypesInput: Swift.Equatable {
     public init() { }
 }
 
-public enum DescribeTerminationPolicyTypesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DescribeTerminationPolicyTypesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "ResourceContention": return try await ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -7238,8 +7238,8 @@ extension DescribeTrafficSourcesInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeTrafficSourcesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DescribeTrafficSourcesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "InvalidNextToken": return try await InvalidNextToken(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -7385,8 +7385,8 @@ extension DescribeWarmPoolInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeWarmPoolOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DescribeWarmPoolOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "InvalidNextToken": return try await InvalidNextToken(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -7615,8 +7615,8 @@ extension DetachInstancesInputBody: Swift.Decodable {
     }
 }
 
-public enum DetachInstancesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DetachInstancesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "ResourceContention": return try await ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -7767,8 +7767,8 @@ extension DetachLoadBalancerTargetGroupsInputBody: Swift.Decodable {
     }
 }
 
-public enum DetachLoadBalancerTargetGroupsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DetachLoadBalancerTargetGroupsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "ResourceContention": return try await ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -7871,8 +7871,8 @@ extension DetachLoadBalancersInputBody: Swift.Decodable {
     }
 }
 
-public enum DetachLoadBalancersOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DetachLoadBalancersOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "ResourceContention": return try await ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -7975,8 +7975,8 @@ extension DetachTrafficSourcesInputBody: Swift.Decodable {
     }
 }
 
-public enum DetachTrafficSourcesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DetachTrafficSourcesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "ResourceContention": return try await ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -8121,8 +8121,8 @@ extension DisableMetricsCollectionInputBody: Swift.Decodable {
     }
 }
 
-public enum DisableMetricsCollectionOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DisableMetricsCollectionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "ResourceContention": return try await ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -8392,8 +8392,8 @@ extension EnableMetricsCollectionInputBody: Swift.Decodable {
     }
 }
 
-public enum EnableMetricsCollectionOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum EnableMetricsCollectionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "ResourceContention": return try await ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -8595,8 +8595,8 @@ extension EnterStandbyInputBody: Swift.Decodable {
     }
 }
 
-public enum EnterStandbyOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum EnterStandbyOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "ResourceContention": return try await ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -8753,8 +8753,8 @@ extension ExecutePolicyInputBody: Swift.Decodable {
     }
 }
 
-public enum ExecutePolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum ExecutePolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "ResourceContention": return try await ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -8857,8 +8857,8 @@ extension ExitStandbyInputBody: Swift.Decodable {
     }
 }
 
-public enum ExitStandbyOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum ExitStandbyOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "ResourceContention": return try await ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -9076,13 +9076,13 @@ extension GetPredictiveScalingForecastInput: Swift.Encodable {
             try container.encode(autoScalingGroupName, forKey: ClientRuntime.Key("AutoScalingGroupName"))
         }
         if let endTime = endTime {
-            try container.encodeTimestamp(endTime, format: .dateTime, forKey: ClientRuntime.Key("endTime"))
+            try container.encodeTimestamp(endTime, format: .dateTime, forKey: ClientRuntime.Key("EndTime"))
         }
         if let policyName = policyName {
             try container.encode(policyName, forKey: ClientRuntime.Key("PolicyName"))
         }
         if let startTime = startTime {
-            try container.encodeTimestamp(startTime, format: .dateTime, forKey: ClientRuntime.Key("startTime"))
+            try container.encodeTimestamp(startTime, format: .dateTime, forKey: ClientRuntime.Key("StartTime"))
         }
         try container.encode("GetPredictiveScalingForecast", forKey:ClientRuntime.Key("Action"))
         try container.encode("2011-01-01", forKey:ClientRuntime.Key("Version"))
@@ -9151,8 +9151,8 @@ extension GetPredictiveScalingForecastInputBody: Swift.Decodable {
     }
 }
 
-public enum GetPredictiveScalingForecastOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum GetPredictiveScalingForecastOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "ResourceContention": return try await ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -9573,7 +9573,7 @@ extension AutoScalingClientTypes.InstanceRefresh: Swift.Codable {
             try container.encode(desiredConfiguration, forKey: ClientRuntime.Key("DesiredConfiguration"))
         }
         if let endTime = endTime {
-            try container.encodeTimestamp(endTime, format: .dateTime, forKey: ClientRuntime.Key("endTime"))
+            try container.encodeTimestamp(endTime, format: .dateTime, forKey: ClientRuntime.Key("EndTime"))
         }
         if let instanceRefreshId = instanceRefreshId {
             try container.encode(instanceRefreshId, forKey: ClientRuntime.Key("InstanceRefreshId"))
@@ -9594,7 +9594,7 @@ extension AutoScalingClientTypes.InstanceRefresh: Swift.Codable {
             try container.encode(rollbackDetails, forKey: ClientRuntime.Key("RollbackDetails"))
         }
         if let startTime = startTime {
-            try container.encodeTimestamp(startTime, format: .dateTime, forKey: ClientRuntime.Key("startTime"))
+            try container.encodeTimestamp(startTime, format: .dateTime, forKey: ClientRuntime.Key("StartTime"))
         }
         if let status = status {
             try container.encode(status, forKey: ClientRuntime.Key("Status"))
@@ -10771,7 +10771,7 @@ extension AutoScalingClientTypes.LaunchConfiguration: Swift.Codable {
             }
         }
         if let createdTime = createdTime {
-            try container.encodeTimestamp(createdTime, format: .dateTime, forKey: ClientRuntime.Key("createdTime"))
+            try container.encodeTimestamp(createdTime, format: .dateTime, forKey: ClientRuntime.Key("CreatedTime"))
         }
         if let ebsOptimized = ebsOptimized {
             try container.encode(ebsOptimized, forKey: ClientRuntime.Key("EbsOptimized"))
@@ -13599,8 +13599,8 @@ extension PutLifecycleHookInputBody: Swift.Decodable {
     }
 }
 
-public enum PutLifecycleHookOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum PutLifecycleHookOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "LimitExceeded": return try await LimitExceededFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -13716,8 +13716,8 @@ extension PutNotificationConfigurationInputBody: Swift.Decodable {
     }
 }
 
-public enum PutNotificationConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum PutNotificationConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "LimitExceeded": return try await LimitExceededFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -13974,8 +13974,8 @@ extension PutScalingPolicyInputBody: Swift.Decodable {
     }
 }
 
-public enum PutScalingPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum PutScalingPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "LimitExceeded": return try await LimitExceededFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -14065,7 +14065,7 @@ extension PutScheduledUpdateGroupActionInput: Swift.Encodable {
             try container.encode(desiredCapacity, forKey: ClientRuntime.Key("DesiredCapacity"))
         }
         if let endTime = endTime {
-            try container.encodeTimestamp(endTime, format: .dateTime, forKey: ClientRuntime.Key("endTime"))
+            try container.encodeTimestamp(endTime, format: .dateTime, forKey: ClientRuntime.Key("EndTime"))
         }
         if let maxSize = maxSize {
             try container.encode(maxSize, forKey: ClientRuntime.Key("MaxSize"))
@@ -14080,10 +14080,10 @@ extension PutScheduledUpdateGroupActionInput: Swift.Encodable {
             try container.encode(scheduledActionName, forKey: ClientRuntime.Key("ScheduledActionName"))
         }
         if let startTime = startTime {
-            try container.encodeTimestamp(startTime, format: .dateTime, forKey: ClientRuntime.Key("startTime"))
+            try container.encodeTimestamp(startTime, format: .dateTime, forKey: ClientRuntime.Key("StartTime"))
         }
         if let time = time {
-            try container.encodeTimestamp(time, format: .dateTime, forKey: ClientRuntime.Key("time"))
+            try container.encodeTimestamp(time, format: .dateTime, forKey: ClientRuntime.Key("Time"))
         }
         if let timeZone = timeZone {
             try container.encode(timeZone, forKey: ClientRuntime.Key("TimeZone"))
@@ -14201,8 +14201,8 @@ extension PutScheduledUpdateGroupActionInputBody: Swift.Decodable {
     }
 }
 
-public enum PutScheduledUpdateGroupActionOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum PutScheduledUpdateGroupActionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "AlreadyExists": return try await AlreadyExistsFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -14313,8 +14313,8 @@ extension PutWarmPoolInputBody: Swift.Decodable {
     }
 }
 
-public enum PutWarmPoolOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum PutWarmPoolOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "LimitExceeded": return try await LimitExceededFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -14414,8 +14414,8 @@ extension RecordLifecycleActionHeartbeatInputBody: Swift.Decodable {
     }
 }
 
-public enum RecordLifecycleActionHeartbeatOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum RecordLifecycleActionHeartbeatOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "ResourceContention": return try await ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -14827,8 +14827,8 @@ extension ResumeProcessesInputBody: Swift.Decodable {
     }
 }
 
-public enum ResumeProcessesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum ResumeProcessesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "ResourceContention": return try await ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -14872,7 +14872,7 @@ extension AutoScalingClientTypes.RollbackDetails: Swift.Codable {
             try container.encode(rollbackReason, forKey: ClientRuntime.Key("RollbackReason"))
         }
         if let rollbackStartTime = rollbackStartTime {
-            try container.encodeTimestamp(rollbackStartTime, format: .dateTime, forKey: ClientRuntime.Key("rollbackStartTime"))
+            try container.encodeTimestamp(rollbackStartTime, format: .dateTime, forKey: ClientRuntime.Key("RollbackStartTime"))
         }
     }
 
@@ -14969,8 +14969,8 @@ extension RollbackInstanceRefreshInputBody: Swift.Decodable {
     }
 }
 
-public enum RollbackInstanceRefreshOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum RollbackInstanceRefreshOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "ActiveInstanceRefreshNotFound": return try await ActiveInstanceRefreshNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -15451,7 +15451,7 @@ extension AutoScalingClientTypes.ScheduledUpdateGroupAction: Swift.Codable {
             try container.encode(desiredCapacity, forKey: ClientRuntime.Key("DesiredCapacity"))
         }
         if let endTime = endTime {
-            try container.encodeTimestamp(endTime, format: .dateTime, forKey: ClientRuntime.Key("endTime"))
+            try container.encodeTimestamp(endTime, format: .dateTime, forKey: ClientRuntime.Key("EndTime"))
         }
         if let maxSize = maxSize {
             try container.encode(maxSize, forKey: ClientRuntime.Key("MaxSize"))
@@ -15469,10 +15469,10 @@ extension AutoScalingClientTypes.ScheduledUpdateGroupAction: Swift.Codable {
             try container.encode(scheduledActionName, forKey: ClientRuntime.Key("ScheduledActionName"))
         }
         if let startTime = startTime {
-            try container.encodeTimestamp(startTime, format: .dateTime, forKey: ClientRuntime.Key("startTime"))
+            try container.encodeTimestamp(startTime, format: .dateTime, forKey: ClientRuntime.Key("StartTime"))
         }
         if let time = time {
-            try container.encodeTimestamp(time, format: .dateTime, forKey: ClientRuntime.Key("time"))
+            try container.encodeTimestamp(time, format: .dateTime, forKey: ClientRuntime.Key("Time"))
         }
         if let timeZone = timeZone {
             try container.encode(timeZone, forKey: ClientRuntime.Key("TimeZone"))
@@ -15580,7 +15580,7 @@ extension AutoScalingClientTypes.ScheduledUpdateGroupActionRequest: Swift.Codabl
             try container.encode(desiredCapacity, forKey: ClientRuntime.Key("DesiredCapacity"))
         }
         if let endTime = endTime {
-            try container.encodeTimestamp(endTime, format: .dateTime, forKey: ClientRuntime.Key("endTime"))
+            try container.encodeTimestamp(endTime, format: .dateTime, forKey: ClientRuntime.Key("EndTime"))
         }
         if let maxSize = maxSize {
             try container.encode(maxSize, forKey: ClientRuntime.Key("MaxSize"))
@@ -15595,7 +15595,7 @@ extension AutoScalingClientTypes.ScheduledUpdateGroupActionRequest: Swift.Codabl
             try container.encode(scheduledActionName, forKey: ClientRuntime.Key("ScheduledActionName"))
         }
         if let startTime = startTime {
-            try container.encodeTimestamp(startTime, format: .dateTime, forKey: ClientRuntime.Key("startTime"))
+            try container.encodeTimestamp(startTime, format: .dateTime, forKey: ClientRuntime.Key("StartTime"))
         }
         if let timeZone = timeZone {
             try container.encode(timeZone, forKey: ClientRuntime.Key("TimeZone"))
@@ -15791,8 +15791,8 @@ extension SetDesiredCapacityInputBody: Swift.Decodable {
     }
 }
 
-public enum SetDesiredCapacityOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum SetDesiredCapacityOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "ResourceContention": return try await ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -15881,8 +15881,8 @@ extension SetInstanceHealthInputBody: Swift.Decodable {
     }
 }
 
-public enum SetInstanceHealthOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum SetInstanceHealthOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "ResourceContention": return try await ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -15997,8 +15997,8 @@ extension SetInstanceProtectionInputBody: Swift.Decodable {
     }
 }
 
-public enum SetInstanceProtectionOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum SetInstanceProtectionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "LimitExceeded": return try await LimitExceededFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -16140,8 +16140,8 @@ extension StartInstanceRefreshInputBody: Swift.Decodable {
     }
 }
 
-public enum StartInstanceRefreshOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum StartInstanceRefreshOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "InstanceRefreshInProgress": return try await InstanceRefreshInProgressFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -16371,8 +16371,8 @@ extension SuspendProcessesInputBody: Swift.Decodable {
     }
 }
 
-public enum SuspendProcessesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum SuspendProcessesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "ResourceContention": return try await ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -16845,8 +16845,8 @@ extension TerminateInstanceInAutoScalingGroupInputBody: Swift.Decodable {
     }
 }
 
-public enum TerminateInstanceInAutoScalingGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum TerminateInstanceInAutoScalingGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "ResourceContention": return try await ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -17409,8 +17409,8 @@ extension UpdateAutoScalingGroupInputBody: Swift.Decodable {
     }
 }
 
-public enum UpdateAutoScalingGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum UpdateAutoScalingGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "ResourceContention": return try await ResourceContentionFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)

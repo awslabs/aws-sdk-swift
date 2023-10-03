@@ -51,7 +51,7 @@ public protocol CodeDeployClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ApplicationDoesNotExistException` : The application does not exist with the IAM user or Amazon Web Services account.
+    /// - `ApplicationDoesNotExistException` : The application does not exist with the user or Amazon Web Services account.
     /// - `ApplicationNameRequiredException` : The minimum number of required application names was not specified.
     /// - `BatchLimitExceededException` : The maximum number of names or IDs allowed for this request (100) was exceeded.
     /// - `InvalidApplicationNameException` : The application name was specified in an invalid format.
@@ -67,7 +67,7 @@ public protocol CodeDeployClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ApplicationDoesNotExistException` : The application does not exist with the IAM user or Amazon Web Services account.
+    /// - `ApplicationDoesNotExistException` : The application does not exist with the user or Amazon Web Services account.
     /// - `ApplicationNameRequiredException` : The minimum number of required application names was not specified.
     /// - `BatchLimitExceededException` : The maximum number of names or IDs allowed for this request (100) was exceeded.
     /// - `InvalidApplicationNameException` : The application name was specified in an invalid format.
@@ -81,10 +81,10 @@ public protocol CodeDeployClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ApplicationDoesNotExistException` : The application does not exist with the IAM user or Amazon Web Services account.
+    /// - `ApplicationDoesNotExistException` : The application does not exist with the user or Amazon Web Services account.
     /// - `ApplicationNameRequiredException` : The minimum number of required application names was not specified.
     /// - `BatchLimitExceededException` : The maximum number of names or IDs allowed for this request (100) was exceeded.
-    /// - `DeploymentConfigDoesNotExistException` : The deployment configuration does not exist with the IAM user or Amazon Web Services account.
+    /// - `DeploymentConfigDoesNotExistException` : The deployment configuration does not exist with the user or Amazon Web Services account.
     /// - `DeploymentGroupNameRequiredException` : The deployment group name was not specified.
     /// - `InvalidApplicationNameException` : The application name was specified in an invalid format.
     /// - `InvalidDeploymentGroupNameException` : The deployment group name was specified in an invalid format.
@@ -100,7 +100,7 @@ public protocol CodeDeployClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `BatchLimitExceededException` : The maximum number of names or IDs allowed for this request (100) was exceeded.
-    /// - `DeploymentDoesNotExistException` : The deployment with the IAM user or Amazon Web Services account does not exist.
+    /// - `DeploymentDoesNotExistException` : The deployment with the user or Amazon Web Services account does not exist.
     /// - `DeploymentIdRequiredException` : At least one deployment ID must be specified.
     /// - `InstanceIdRequiredException` : The instance ID was not specified.
     /// - `InvalidComputePlatformException` : The computePlatform is invalid. The computePlatform should be Lambda, Server, or ECS.
@@ -137,7 +137,7 @@ public protocol CodeDeployClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `DeploymentDoesNotExistException` : The deployment with the IAM user or Amazon Web Services account does not exist.
+    /// - `DeploymentDoesNotExistException` : The deployment with the user or Amazon Web Services account does not exist.
     /// - `DeploymentIdRequiredException` : At least one deployment ID must be specified.
     /// - `DeploymentNotStartedException` : The specified deployment has not started.
     /// - `DeploymentTargetDoesNotExistException` : The provided target ID does not belong to the attempted deployment.
@@ -170,7 +170,7 @@ public protocol CodeDeployClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `DeploymentAlreadyCompletedException` : The deployment is already complete.
-    /// - `DeploymentDoesNotExistException` : The deployment with the IAM user or Amazon Web Services account does not exist.
+    /// - `DeploymentDoesNotExistException` : The deployment with the user or Amazon Web Services account does not exist.
     /// - `DeploymentIdRequiredException` : At least one deployment ID must be specified.
     /// - `DeploymentIsNotInReadyStateException` : The deployment does not have a status of Ready and can't continue yet.
     /// - `InvalidDeploymentIdException` : At least one of the deployment IDs was specified in an invalid format.
@@ -187,7 +187,7 @@ public protocol CodeDeployClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ApplicationAlreadyExistsException` : An application with the specified name with the IAM user or Amazon Web Services account already exists.
+    /// - `ApplicationAlreadyExistsException` : An application with the specified name with the user or Amazon Web Services account already exists.
     /// - `ApplicationLimitExceededException` : More applications were attempted to be created than are allowed.
     /// - `ApplicationNameRequiredException` : The minimum number of required application names was not specified.
     /// - `InvalidApplicationNameException` : The application name was specified in an invalid format.
@@ -204,10 +204,10 @@ public protocol CodeDeployClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `AlarmsLimitExceededException` : The maximum number of alarms for a deployment group (10) was exceeded.
-    /// - `ApplicationDoesNotExistException` : The application does not exist with the IAM user or Amazon Web Services account.
+    /// - `ApplicationDoesNotExistException` : The application does not exist with the user or Amazon Web Services account.
     /// - `ApplicationNameRequiredException` : The minimum number of required application names was not specified.
-    /// - `DeploymentConfigDoesNotExistException` : The deployment configuration does not exist with the IAM user or Amazon Web Services account.
-    /// - `DeploymentGroupDoesNotExistException` : The named deployment group with the IAM user or Amazon Web Services account does not exist.
+    /// - `DeploymentConfigDoesNotExistException` : The deployment configuration does not exist with the user or Amazon Web Services account.
+    /// - `DeploymentGroupDoesNotExistException` : The named deployment group with the user or Amazon Web Services account does not exist.
     /// - `DeploymentGroupNameRequiredException` : The deployment group name was not specified.
     /// - `DeploymentLimitExceededException` : The number of allowed deployments was exceeded.
     /// - `DescriptionTooLongException` : The description is too long.
@@ -244,7 +244,7 @@ public protocol CodeDeployClientProtocol {
     /// * A specified tag is not currently applied to any instances.
     /// - `InvalidTrafficRoutingConfigurationException` : The configuration that specifies how traffic is routed during a deployment is invalid.
     /// - `InvalidUpdateOutdatedInstancesOnlyValueException` : The UpdateOutdatedInstancesOnly value is invalid. For Lambda deployments, false is expected. For EC2/On-premises deployments, true or false is expected.
-    /// - `RevisionDoesNotExistException` : The named revision does not exist with the IAM user or Amazon Web Services account.
+    /// - `RevisionDoesNotExistException` : The named revision does not exist with the user or Amazon Web Services account.
     /// - `RevisionRequiredException` : The revision ID was not specified.
     /// - `ThrottlingException` : An API function was called too frequently.
     func createDeployment(input: CreateDeploymentInput) async throws -> CreateDeploymentOutputResponse
@@ -257,7 +257,7 @@ public protocol CodeDeployClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `DeploymentConfigAlreadyExistsException` : A deployment configuration with the specified name with the IAM user or Amazon Web Services account already exists.
+    /// - `DeploymentConfigAlreadyExistsException` : A deployment configuration with the specified name with the user or Amazon Web Services account already exists.
     /// - `DeploymentConfigLimitExceededException` : The deployment configurations limit was exceeded.
     /// - `DeploymentConfigNameRequiredException` : The deployment configuration name was not specified.
     /// - `InvalidComputePlatformException` : The computePlatform is invalid. The computePlatform should be Lambda, Server, or ECS.
@@ -275,10 +275,10 @@ public protocol CodeDeployClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `AlarmsLimitExceededException` : The maximum number of alarms for a deployment group (10) was exceeded.
-    /// - `ApplicationDoesNotExistException` : The application does not exist with the IAM user or Amazon Web Services account.
+    /// - `ApplicationDoesNotExistException` : The application does not exist with the user or Amazon Web Services account.
     /// - `ApplicationNameRequiredException` : The minimum number of required application names was not specified.
-    /// - `DeploymentConfigDoesNotExistException` : The deployment configuration does not exist with the IAM user or Amazon Web Services account.
-    /// - `DeploymentGroupAlreadyExistsException` : A deployment group with the specified name with the IAM user or Amazon Web Services account already exists.
+    /// - `DeploymentConfigDoesNotExistException` : The deployment configuration does not exist with the user or Amazon Web Services account.
+    /// - `DeploymentGroupAlreadyExistsException` : A deployment group with the specified name with the user or Amazon Web Services account already exists.
     /// - `DeploymentGroupLimitExceededException` : The deployment groups limit was exceeded.
     /// - `DeploymentGroupNameRequiredException` : The deployment group name was not specified.
     /// - `ECSServiceMappingLimitExceededException` : The Amazon ECS service is associated with more than one deployment groups. An Amazon ECS service can be associated with only one deployment group.
@@ -375,7 +375,7 @@ public protocol CodeDeployClientProtocol {
     /// - `OperationNotSupportedException` : The API used does not support the deployment.
     /// - `ResourceValidationException` : The specified resource could not be validated.
     func deleteGitHubAccountToken(input: DeleteGitHubAccountTokenInput) async throws -> DeleteGitHubAccountTokenOutputResponse
-    /// Deletes resources linked to an external ID.
+    /// Deletes resources linked to an external ID. This action only applies if you have configured blue/green deployments through CloudFormation. It is not necessary to call this action directly. CloudFormation calls it on your behalf when it needs to delete stack resources. This action is offered publicly in case you need to delete resources to comply with General Data Protection Regulation (GDPR) requirements.
     ///
     /// - Parameter DeleteResourcesByExternalIdInput : [no documentation found]
     ///
@@ -402,7 +402,7 @@ public protocol CodeDeployClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ApplicationDoesNotExistException` : The application does not exist with the IAM user or Amazon Web Services account.
+    /// - `ApplicationDoesNotExistException` : The application does not exist with the user or Amazon Web Services account.
     /// - `ApplicationNameRequiredException` : The minimum number of required application names was not specified.
     /// - `InvalidApplicationNameException` : The application name was specified in an invalid format.
     func getApplication(input: GetApplicationInput) async throws -> GetApplicationOutputResponse
@@ -415,11 +415,11 @@ public protocol CodeDeployClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ApplicationDoesNotExistException` : The application does not exist with the IAM user or Amazon Web Services account.
+    /// - `ApplicationDoesNotExistException` : The application does not exist with the user or Amazon Web Services account.
     /// - `ApplicationNameRequiredException` : The minimum number of required application names was not specified.
     /// - `InvalidApplicationNameException` : The application name was specified in an invalid format.
     /// - `InvalidRevisionException` : The revision was specified in an invalid format.
-    /// - `RevisionDoesNotExistException` : The named revision does not exist with the IAM user or Amazon Web Services account.
+    /// - `RevisionDoesNotExistException` : The named revision does not exist with the user or Amazon Web Services account.
     /// - `RevisionRequiredException` : The revision ID was not specified.
     func getApplicationRevision(input: GetApplicationRevisionInput) async throws -> GetApplicationRevisionOutputResponse
     /// Gets information about a deployment. The content property of the appSpecContent object in the returned revision is always null. Use GetApplicationRevision and the sha256 property of the returned appSpecContent object to get the content of the deployment’s AppSpec file.
@@ -431,7 +431,7 @@ public protocol CodeDeployClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `DeploymentDoesNotExistException` : The deployment with the IAM user or Amazon Web Services account does not exist.
+    /// - `DeploymentDoesNotExistException` : The deployment with the user or Amazon Web Services account does not exist.
     /// - `DeploymentIdRequiredException` : At least one deployment ID must be specified.
     /// - `InvalidDeploymentIdException` : At least one of the deployment IDs was specified in an invalid format.
     func getDeployment(input: GetDeploymentInput) async throws -> GetDeploymentOutputResponse
@@ -444,7 +444,7 @@ public protocol CodeDeployClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `DeploymentConfigDoesNotExistException` : The deployment configuration does not exist with the IAM user or Amazon Web Services account.
+    /// - `DeploymentConfigDoesNotExistException` : The deployment configuration does not exist with the user or Amazon Web Services account.
     /// - `DeploymentConfigNameRequiredException` : The deployment configuration name was not specified.
     /// - `InvalidComputePlatformException` : The computePlatform is invalid. The computePlatform should be Lambda, Server, or ECS.
     /// - `InvalidDeploymentConfigNameException` : The deployment configuration name was specified in an invalid format.
@@ -458,10 +458,10 @@ public protocol CodeDeployClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ApplicationDoesNotExistException` : The application does not exist with the IAM user or Amazon Web Services account.
+    /// - `ApplicationDoesNotExistException` : The application does not exist with the user or Amazon Web Services account.
     /// - `ApplicationNameRequiredException` : The minimum number of required application names was not specified.
-    /// - `DeploymentConfigDoesNotExistException` : The deployment configuration does not exist with the IAM user or Amazon Web Services account.
-    /// - `DeploymentGroupDoesNotExistException` : The named deployment group with the IAM user or Amazon Web Services account does not exist.
+    /// - `DeploymentConfigDoesNotExistException` : The deployment configuration does not exist with the user or Amazon Web Services account.
+    /// - `DeploymentGroupDoesNotExistException` : The named deployment group with the user or Amazon Web Services account does not exist.
     /// - `DeploymentGroupNameRequiredException` : The deployment group name was not specified.
     /// - `InvalidApplicationNameException` : The application name was specified in an invalid format.
     /// - `InvalidDeploymentGroupNameException` : The deployment group name was specified in an invalid format.
@@ -476,7 +476,7 @@ public protocol CodeDeployClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `DeploymentDoesNotExistException` : The deployment with the IAM user or Amazon Web Services account does not exist.
+    /// - `DeploymentDoesNotExistException` : The deployment with the user or Amazon Web Services account does not exist.
     /// - `DeploymentIdRequiredException` : At least one deployment ID must be specified.
     /// - `InstanceDoesNotExistException` : The specified instance does not exist in the deployment group.
     /// - `InstanceIdRequiredException` : The instance ID was not specified.
@@ -493,7 +493,7 @@ public protocol CodeDeployClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `DeploymentDoesNotExistException` : The deployment with the IAM user or Amazon Web Services account does not exist.
+    /// - `DeploymentDoesNotExistException` : The deployment with the user or Amazon Web Services account does not exist.
     /// - `DeploymentIdRequiredException` : At least one deployment ID must be specified.
     /// - `DeploymentNotStartedException` : The specified deployment has not started.
     /// - `DeploymentTargetDoesNotExistException` : The provided target ID does not belong to the attempted deployment.
@@ -524,7 +524,7 @@ public protocol CodeDeployClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ApplicationDoesNotExistException` : The application does not exist with the IAM user or Amazon Web Services account.
+    /// - `ApplicationDoesNotExistException` : The application does not exist with the user or Amazon Web Services account.
     /// - `ApplicationNameRequiredException` : The minimum number of required application names was not specified.
     /// - `BucketNameFilterRequiredException` : A bucket name is required, but was not provided.
     /// - `InvalidApplicationNameException` : The application name was specified in an invalid format.
@@ -535,7 +535,7 @@ public protocol CodeDeployClientProtocol {
     /// - `InvalidSortByException` : The column name to sort by is either not present or was specified in an invalid format.
     /// - `InvalidSortOrderException` : The sort order was specified in an invalid format.
     func listApplicationRevisions(input: ListApplicationRevisionsInput) async throws -> ListApplicationRevisionsOutputResponse
-    /// Lists the applications registered with the IAM user or Amazon Web Services account.
+    /// Lists the applications registered with the user or Amazon Web Services account.
     ///
     /// - Parameter ListApplicationsInput : Represents the input of a ListApplications operation.
     ///
@@ -546,7 +546,7 @@ public protocol CodeDeployClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidNextTokenException` : The next token was specified in an invalid format.
     func listApplications(input: ListApplicationsInput) async throws -> ListApplicationsOutputResponse
-    /// Lists the deployment configurations with the IAM user or Amazon Web Services account.
+    /// Lists the deployment configurations with the user or Amazon Web Services account.
     ///
     /// - Parameter ListDeploymentConfigsInput : Represents the input of a ListDeploymentConfigs operation.
     ///
@@ -557,7 +557,7 @@ public protocol CodeDeployClientProtocol {
     /// __Possible Exceptions:__
     /// - `InvalidNextTokenException` : The next token was specified in an invalid format.
     func listDeploymentConfigs(input: ListDeploymentConfigsInput) async throws -> ListDeploymentConfigsOutputResponse
-    /// Lists the deployment groups for an application registered with the IAM user or Amazon Web Services account.
+    /// Lists the deployment groups for an application registered with the Amazon Web Services user or Amazon Web Services account.
     ///
     /// - Parameter ListDeploymentGroupsInput : Represents the input of a ListDeploymentGroups operation.
     ///
@@ -566,12 +566,12 @@ public protocol CodeDeployClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ApplicationDoesNotExistException` : The application does not exist with the IAM user or Amazon Web Services account.
+    /// - `ApplicationDoesNotExistException` : The application does not exist with the user or Amazon Web Services account.
     /// - `ApplicationNameRequiredException` : The minimum number of required application names was not specified.
     /// - `InvalidApplicationNameException` : The application name was specified in an invalid format.
     /// - `InvalidNextTokenException` : The next token was specified in an invalid format.
     func listDeploymentGroups(input: ListDeploymentGroupsInput) async throws -> ListDeploymentGroupsOutputResponse
-    /// The newer BatchGetDeploymentTargets should be used instead because it works with all compute types. ListDeploymentInstances throws an exception if it is used with a compute platform other than EC2/On-premises or Lambda. Lists the instance for a deployment associated with the IAM user or Amazon Web Services account.
+    /// The newer BatchGetDeploymentTargets should be used instead because it works with all compute types. ListDeploymentInstances throws an exception if it is used with a compute platform other than EC2/On-premises or Lambda. Lists the instance for a deployment associated with the user or Amazon Web Services account.
     @available(*, deprecated, message: "This operation is deprecated, use ListDeploymentTargets instead.")
     ///
     /// - Parameter ListDeploymentInstancesInput : Represents the input of a ListDeploymentInstances operation.
@@ -581,7 +581,7 @@ public protocol CodeDeployClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `DeploymentDoesNotExistException` : The deployment with the IAM user or Amazon Web Services account does not exist.
+    /// - `DeploymentDoesNotExistException` : The deployment with the user or Amazon Web Services account does not exist.
     /// - `DeploymentIdRequiredException` : At least one deployment ID must be specified.
     /// - `DeploymentNotStartedException` : The specified deployment has not started.
     /// - `InvalidComputePlatformException` : The computePlatform is invalid. The computePlatform should be Lambda, Server, or ECS.
@@ -592,7 +592,7 @@ public protocol CodeDeployClientProtocol {
     /// - `InvalidNextTokenException` : The next token was specified in an invalid format.
     /// - `InvalidTargetFilterNameException` : The target filter name is invalid.
     func listDeploymentInstances(input: ListDeploymentInstancesInput) async throws -> ListDeploymentInstancesOutputResponse
-    /// Lists the deployments in a deployment group for an application registered with the IAM user or Amazon Web Services account.
+    /// Lists the deployments in a deployment group for an application registered with the user or Amazon Web Services account.
     ///
     /// - Parameter ListDeploymentsInput : Represents the input of a ListDeployments operation.
     ///
@@ -601,9 +601,9 @@ public protocol CodeDeployClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ApplicationDoesNotExistException` : The application does not exist with the IAM user or Amazon Web Services account.
+    /// - `ApplicationDoesNotExistException` : The application does not exist with the user or Amazon Web Services account.
     /// - `ApplicationNameRequiredException` : The minimum number of required application names was not specified.
-    /// - `DeploymentGroupDoesNotExistException` : The named deployment group with the IAM user or Amazon Web Services account does not exist.
+    /// - `DeploymentGroupDoesNotExistException` : The named deployment group with the user or Amazon Web Services account does not exist.
     /// - `DeploymentGroupNameRequiredException` : The deployment group name was not specified.
     /// - `InvalidApplicationNameException` : The application name was specified in an invalid format.
     /// - `InvalidDeploymentGroupNameException` : The deployment group name was specified in an invalid format.
@@ -622,7 +622,7 @@ public protocol CodeDeployClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `DeploymentDoesNotExistException` : The deployment with the IAM user or Amazon Web Services account does not exist.
+    /// - `DeploymentDoesNotExistException` : The deployment with the user or Amazon Web Services account does not exist.
     /// - `DeploymentIdRequiredException` : At least one deployment ID must be specified.
     /// - `DeploymentNotStartedException` : The specified deployment has not started.
     /// - `InvalidDeploymentIdException` : At least one of the deployment IDs was specified in an invalid format.
@@ -679,7 +679,7 @@ public protocol CodeDeployClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `DeploymentDoesNotExistException` : The deployment with the IAM user or Amazon Web Services account does not exist.
+    /// - `DeploymentDoesNotExistException` : The deployment with the user or Amazon Web Services account does not exist.
     /// - `DeploymentIdRequiredException` : At least one deployment ID must be specified.
     /// - `InvalidDeploymentIdException` : At least one of the deployment IDs was specified in an invalid format.
     /// - `InvalidLifecycleEventHookExecutionIdException` : A lifecycle event hook is invalid. Review the hooks section in your AppSpec file to ensure the lifecycle events and hooks functions are valid.
@@ -696,7 +696,7 @@ public protocol CodeDeployClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ApplicationDoesNotExistException` : The application does not exist with the IAM user or Amazon Web Services account.
+    /// - `ApplicationDoesNotExistException` : The application does not exist with the user or Amazon Web Services account.
     /// - `ApplicationNameRequiredException` : The minimum number of required application names was not specified.
     /// - `DescriptionTooLongException` : The description is too long.
     /// - `InvalidApplicationNameException` : The application name was specified in an invalid format.
@@ -712,16 +712,16 @@ public protocol CodeDeployClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `IamArnRequiredException` : No IAM ARN was included in the request. You must use an IAM session ARN or IAM user ARN in the request.
+    /// - `IamArnRequiredException` : No IAM ARN was included in the request. You must use an IAM session ARN or user ARN in the request.
     /// - `IamSessionArnAlreadyRegisteredException` : The request included an IAM session ARN that has already been used to register a different instance.
-    /// - `IamUserArnAlreadyRegisteredException` : The specified IAM user ARN is already registered with an on-premises instance.
-    /// - `IamUserArnRequiredException` : An IAM user ARN was not specified.
+    /// - `IamUserArnAlreadyRegisteredException` : The specified user ARN is already registered with an on-premises instance.
+    /// - `IamUserArnRequiredException` : An user ARN was not specified.
     /// - `InstanceNameAlreadyRegisteredException` : The specified on-premises instance name is already registered.
     /// - `InstanceNameRequiredException` : An on-premises instance name was not specified.
     /// - `InvalidIamSessionArnException` : The IAM session ARN was specified in an invalid format.
-    /// - `InvalidIamUserArnException` : The IAM user ARN was specified in an invalid format.
+    /// - `InvalidIamUserArnException` : The user ARN was specified in an invalid format.
     /// - `InvalidInstanceNameException` : The on-premises instance name was specified in an invalid format.
-    /// - `MultipleIamArnsProvidedException` : Both an IAM user ARN and an IAM session ARN were included in the request. Use only one ARN type.
+    /// - `MultipleIamArnsProvidedException` : Both an user ARN and an IAM session ARN were included in the request. Use only one ARN type.
     func registerOnPremisesInstance(input: RegisterOnPremisesInstanceInput) async throws -> RegisterOnPremisesInstanceOutputResponse
     /// Removes one or more tags from one or more on-premises instances.
     ///
@@ -751,7 +751,7 @@ public protocol CodeDeployClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `DeploymentAlreadyCompletedException` : The deployment is already complete.
-    /// - `DeploymentDoesNotExistException` : The deployment with the IAM user or Amazon Web Services account does not exist.
+    /// - `DeploymentDoesNotExistException` : The deployment with the user or Amazon Web Services account does not exist.
     /// - `DeploymentIdRequiredException` : At least one deployment ID must be specified.
     /// - `DeploymentNotStartedException` : The specified deployment has not started.
     /// - `InvalidDeploymentIdException` : At least one of the deployment IDs was specified in an invalid format.
@@ -767,8 +767,8 @@ public protocol CodeDeployClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `DeploymentAlreadyCompletedException` : The deployment is already complete.
-    /// - `DeploymentDoesNotExistException` : The deployment with the IAM user or Amazon Web Services account does not exist.
-    /// - `DeploymentGroupDoesNotExistException` : The named deployment group with the IAM user or Amazon Web Services account does not exist.
+    /// - `DeploymentDoesNotExistException` : The deployment with the user or Amazon Web Services account does not exist.
+    /// - `DeploymentGroupDoesNotExistException` : The named deployment group with the user or Amazon Web Services account does not exist.
     /// - `DeploymentIdRequiredException` : At least one deployment ID must be specified.
     /// - `InvalidDeploymentIdException` : At least one of the deployment IDs was specified in an invalid format.
     /// - `UnsupportedActionForDeploymentTypeException` : A call was submitted that is not supported for the specified deployment type.
@@ -782,10 +782,10 @@ public protocol CodeDeployClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ApplicationDoesNotExistException` : The application does not exist with the IAM user or Amazon Web Services account.
+    /// - `ApplicationDoesNotExistException` : The application does not exist with the user or Amazon Web Services account.
     /// - `ArnNotSupportedException` : The specified ARN is not supported. For example, it might be an ARN for a resource that is not expected.
-    /// - `DeploymentConfigDoesNotExistException` : The deployment configuration does not exist with the IAM user or Amazon Web Services account.
-    /// - `DeploymentGroupDoesNotExistException` : The named deployment group with the IAM user or Amazon Web Services account does not exist.
+    /// - `DeploymentConfigDoesNotExistException` : The deployment configuration does not exist with the user or Amazon Web Services account.
+    /// - `DeploymentGroupDoesNotExistException` : The named deployment group with the user or Amazon Web Services account does not exist.
     /// - `InvalidArnException` : The specified ARN is not in a valid format.
     /// - `InvalidTagsToAddException` : The specified tags are not valid.
     /// - `ResourceArnRequiredException` : The ARN of a resource is required, but was not found.
@@ -800,10 +800,10 @@ public protocol CodeDeployClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ApplicationDoesNotExistException` : The application does not exist with the IAM user or Amazon Web Services account.
+    /// - `ApplicationDoesNotExistException` : The application does not exist with the user or Amazon Web Services account.
     /// - `ArnNotSupportedException` : The specified ARN is not supported. For example, it might be an ARN for a resource that is not expected.
-    /// - `DeploymentConfigDoesNotExistException` : The deployment configuration does not exist with the IAM user or Amazon Web Services account.
-    /// - `DeploymentGroupDoesNotExistException` : The named deployment group with the IAM user or Amazon Web Services account does not exist.
+    /// - `DeploymentConfigDoesNotExistException` : The deployment configuration does not exist with the user or Amazon Web Services account.
+    /// - `DeploymentGroupDoesNotExistException` : The named deployment group with the user or Amazon Web Services account does not exist.
     /// - `InvalidArnException` : The specified ARN is not in a valid format.
     /// - `InvalidTagsToAddException` : The specified tags are not valid.
     /// - `ResourceArnRequiredException` : The ARN of a resource is required, but was not found.
@@ -818,8 +818,8 @@ public protocol CodeDeployClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `ApplicationAlreadyExistsException` : An application with the specified name with the IAM user or Amazon Web Services account already exists.
-    /// - `ApplicationDoesNotExistException` : The application does not exist with the IAM user or Amazon Web Services account.
+    /// - `ApplicationAlreadyExistsException` : An application with the specified name with the user or Amazon Web Services account already exists.
+    /// - `ApplicationDoesNotExistException` : The application does not exist with the user or Amazon Web Services account.
     /// - `ApplicationNameRequiredException` : The minimum number of required application names was not specified.
     /// - `InvalidApplicationNameException` : The application name was specified in an invalid format.
     func updateApplication(input: UpdateApplicationInput) async throws -> UpdateApplicationOutputResponse
@@ -833,11 +833,11 @@ public protocol CodeDeployClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `AlarmsLimitExceededException` : The maximum number of alarms for a deployment group (10) was exceeded.
-    /// - `ApplicationDoesNotExistException` : The application does not exist with the IAM user or Amazon Web Services account.
+    /// - `ApplicationDoesNotExistException` : The application does not exist with the user or Amazon Web Services account.
     /// - `ApplicationNameRequiredException` : The minimum number of required application names was not specified.
-    /// - `DeploymentConfigDoesNotExistException` : The deployment configuration does not exist with the IAM user or Amazon Web Services account.
-    /// - `DeploymentGroupAlreadyExistsException` : A deployment group with the specified name with the IAM user or Amazon Web Services account already exists.
-    /// - `DeploymentGroupDoesNotExistException` : The named deployment group with the IAM user or Amazon Web Services account does not exist.
+    /// - `DeploymentConfigDoesNotExistException` : The deployment configuration does not exist with the user or Amazon Web Services account.
+    /// - `DeploymentGroupAlreadyExistsException` : A deployment group with the specified name with the user or Amazon Web Services account already exists.
+    /// - `DeploymentGroupDoesNotExistException` : The named deployment group with the user or Amazon Web Services account does not exist.
     /// - `DeploymentGroupNameRequiredException` : The deployment group name was not specified.
     /// - `ECSServiceMappingLimitExceededException` : The Amazon ECS service is associated with more than one deployment groups. An Amazon ECS service can be associated with only one deployment group.
     /// - `InvalidAlarmConfigException` : The format of the alarm configuration is invalid. Possible causes include:

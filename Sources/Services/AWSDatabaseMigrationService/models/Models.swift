@@ -187,8 +187,8 @@ extension AddTagsToResourceInputBody: Swift.Decodable {
     }
 }
 
-public enum AddTagsToResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum AddTagsToResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -290,8 +290,8 @@ extension ApplyPendingMaintenanceActionInputBody: Swift.Decodable {
     }
 }
 
-public enum ApplyPendingMaintenanceActionOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum ApplyPendingMaintenanceActionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -590,8 +590,8 @@ extension BatchStartRecommendationsInputBody: Swift.Decodable {
     }
 }
 
-public enum BatchStartRecommendationsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum BatchStartRecommendationsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -701,8 +701,8 @@ extension CancelReplicationTaskAssessmentRunInputBody: Swift.Decodable {
     }
 }
 
-public enum CancelReplicationTaskAssessmentRunOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum CancelReplicationTaskAssessmentRunOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -1437,9 +1437,9 @@ extension DatabaseMigrationClientTypes {
         public var dnsNameServers: Swift.String?
         /// An Key Management Service (KMS) key Amazon Resource Name (ARN) that is used to encrypt the data during DMS Serverless replication. If you don't specify a value for the KmsKeyId parameter, DMS uses your default encryption key. KMS creates the default encryption key for your Amazon Web Services account. Your Amazon Web Services account has a different default encryption key for each Amazon Web Services Region.
         public var kmsKeyId: Swift.String?
-        /// Specifies the maximum value of the DMS capacity units (DCUs) for which a given DMS Serverless replication can be provisioned. A single DCU is 2GB of RAM, with 2 DCUs as the minimum value allowed. The list of valid DCU values includes 2, 4, 8, 16, 32, 64, 128, 192, 256, and 384. So, the maximum value that you can specify for DMS Serverless is 384. The MaxCapacityUnits parameter is the only DCU parameter you are required to specify.
+        /// Specifies the maximum value of the DMS capacity units (DCUs) for which a given DMS Serverless replication can be provisioned. A single DCU is 2GB of RAM, with 1 DCU as the minimum value allowed. The list of valid DCU values includes 1, 2, 4, 8, 16, 32, 64, 128, 192, 256, and 384. So, the maximum value that you can specify for DMS Serverless is 384. The MaxCapacityUnits parameter is the only DCU parameter you are required to specify.
         public var maxCapacityUnits: Swift.Int?
-        /// Specifies the minimum value of the DMS capacity units (DCUs) for which a given DMS Serverless replication can be provisioned. A single DCU is 2GB of RAM, with 2 DCUs as the minimum value allowed. The list of valid DCU values includes 2, 4, 8, 16, 32, 64, 128, 192, 256, and 384. So, the minimum DCU value that you can specify for DMS Serverless is 2. You don't have to specify a value for the MinCapacityUnits parameter. If you don't set this value, DMS scans the current activity of available source tables to identify an optimum setting for this parameter. If there is no current source activity or DMS can't otherwise identify a more appropriate value, it sets this parameter to the minimum DCU value allowed, 2.
+        /// Specifies the minimum value of the DMS capacity units (DCUs) for which a given DMS Serverless replication can be provisioned. A single DCU is 2GB of RAM, with 1 DCU as the minimum value allowed. The list of valid DCU values includes 1, 2, 4, 8, 16, 32, 64, 128, 192, 256, and 384. So, the minimum DCU value that you can specify for DMS Serverless is 1. You don't have to specify a value for the MinCapacityUnits parameter. If you don't set this value, DMS scans the current activity of available source tables to identify an optimum setting for this parameter. If there is no current source activity or DMS can't otherwise identify a more appropriate value, it sets this parameter to the minimum DCU value allowed, 1.
         public var minCapacityUnits: Swift.Int?
         /// Specifies whether the DMS Serverless replication is a Multi-AZ deployment. You can't set the AvailabilityZone parameter if the MultiAZ parameter is set to true.
         public var multiAZ: Swift.Bool?
@@ -1678,8 +1678,8 @@ extension CreateDataProviderInputBody: Swift.Decodable {
     }
 }
 
-public enum CreateDataProviderOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum CreateDataProviderOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -2214,8 +2214,8 @@ extension CreateEndpointInputBody: Swift.Decodable {
     }
 }
 
-public enum CreateEndpointOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum CreateEndpointOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -2430,8 +2430,8 @@ extension CreateEventSubscriptionInputBody: Swift.Decodable {
     }
 }
 
-public enum CreateEventSubscriptionOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum CreateEventSubscriptionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -2577,8 +2577,8 @@ extension CreateFleetAdvisorCollectorInputBody: Swift.Decodable {
     }
 }
 
-public enum CreateFleetAdvisorCollectorOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum CreateFleetAdvisorCollectorOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -2839,8 +2839,8 @@ extension CreateInstanceProfileInputBody: Swift.Decodable {
     }
 }
 
-public enum CreateInstanceProfileOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum CreateInstanceProfileOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -3067,8 +3067,8 @@ extension CreateMigrationProjectInputBody: Swift.Decodable {
     }
 }
 
-public enum CreateMigrationProjectOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum CreateMigrationProjectOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -3303,8 +3303,8 @@ extension CreateReplicationConfigInputBody: Swift.Decodable {
     }
 }
 
-public enum CreateReplicationConfigOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum CreateReplicationConfigOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -3451,7 +3451,7 @@ extension CreateReplicationInstanceInput: ClientRuntime.URLPathProvider {
 public struct CreateReplicationInstanceInput: Swift.Equatable {
     /// The amount of storage (in gigabytes) to be initially allocated for the replication instance.
     public var allocatedStorage: Swift.Int?
-    /// A value that indicates whether minor engine upgrades are applied automatically to the replication instance during the maintenance window. This parameter defaults to true. Default: true When AutoMinorVersionUpgrade is enabled, DMS uses the current default engine version when you create a replication instance. For example, if you set EngineVersion to a lower version number than the current default version, DMS uses the default version. If AutoMinorVersionUpgrade isn’t enabled when you create a replication instance, DMS uses the engine version specified by the EngineVersion parameter.
+    /// A value that indicates whether minor engine upgrades are applied automatically to the replication instance during the maintenance window. This parameter defaults to true. Default: true
     public var autoMinorVersionUpgrade: Swift.Bool?
     /// The Availability Zone where the replication instance will be created. The default value is a random, system-chosen Availability Zone in the endpoint's Amazon Web Services Region, for example: us-east-1d.
     public var availabilityZone: Swift.String?
@@ -3625,8 +3625,8 @@ extension CreateReplicationInstanceInputBody: Swift.Decodable {
     }
 }
 
-public enum CreateReplicationInstanceOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum CreateReplicationInstanceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -3797,8 +3797,8 @@ extension CreateReplicationSubnetGroupInputBody: Swift.Decodable {
     }
 }
 
-public enum CreateReplicationSubnetGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum CreateReplicationSubnetGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -3930,7 +3930,7 @@ public struct CreateReplicationTaskInput: Swift.Equatable {
     public var cdcStartPosition: Swift.String?
     /// Indicates the start time for a change data capture (CDC) operation. Use either CdcStartTime or CdcStartPosition to specify when you want a CDC operation to start. Specifying both values results in an error. Timestamp Example: --cdc-start-time “2018-03-08T12:12:12”
     public var cdcStartTime: ClientRuntime.Date?
-    /// Indicates when you want a change data capture (CDC) operation to stop. The value can be either server time or commit time. Server time example: --cdc-stop-position “server_time:2018-02-09T12:12:12” Commit time example: --cdc-stop-position “commit_time: 2018-02-09T12:12:12“
+    /// Indicates when you want a change data capture (CDC) operation to stop. The value can be either server time or commit time. Server time example: --cdc-stop-position “server_time:2018-02-09T12:12:12” Commit time example: --cdc-stop-position “commit_time:2018-02-09T12:12:12“
     public var cdcStopPosition: Swift.String?
     /// The migration type. Valid values: full-load | cdc | full-load-and-cdc
     /// This member is required.
@@ -4070,8 +4070,8 @@ extension CreateReplicationTaskInputBody: Swift.Decodable {
     }
 }
 
-public enum CreateReplicationTaskOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum CreateReplicationTaskOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -4367,24 +4367,36 @@ extension DatabaseMigrationClientTypes {
 
 extension DatabaseMigrationClientTypes.DataProviderSettings: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case docdbsettings = "DocDbSettings"
+        case mariadbsettings = "MariaDbSettings"
         case microsoftsqlserversettings = "MicrosoftSqlServerSettings"
+        case mongodbsettings = "MongoDbSettings"
         case mysqlsettings = "MySqlSettings"
         case oraclesettings = "OracleSettings"
         case postgresqlsettings = "PostgreSqlSettings"
+        case redshiftsettings = "RedshiftSettings"
         case sdkUnknown
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         switch self {
+            case let .docdbsettings(docdbsettings):
+                try container.encode(docdbsettings, forKey: .docdbsettings)
+            case let .mariadbsettings(mariadbsettings):
+                try container.encode(mariadbsettings, forKey: .mariadbsettings)
             case let .microsoftsqlserversettings(microsoftsqlserversettings):
                 try container.encode(microsoftsqlserversettings, forKey: .microsoftsqlserversettings)
+            case let .mongodbsettings(mongodbsettings):
+                try container.encode(mongodbsettings, forKey: .mongodbsettings)
             case let .mysqlsettings(mysqlsettings):
                 try container.encode(mysqlsettings, forKey: .mysqlsettings)
             case let .oraclesettings(oraclesettings):
                 try container.encode(oraclesettings, forKey: .oraclesettings)
             case let .postgresqlsettings(postgresqlsettings):
                 try container.encode(postgresqlsettings, forKey: .postgresqlsettings)
+            case let .redshiftsettings(redshiftsettings):
+                try container.encode(redshiftsettings, forKey: .redshiftsettings)
             case let .sdkUnknown(sdkUnknown):
                 try container.encode(sdkUnknown, forKey: .sdkUnknown)
         }
@@ -4392,6 +4404,11 @@ extension DatabaseMigrationClientTypes.DataProviderSettings: Swift.Codable {
 
     public init(from decoder: Swift.Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKeys.self)
+        let redshiftsettingsDecoded = try values.decodeIfPresent(DatabaseMigrationClientTypes.RedshiftDataProviderSettings.self, forKey: .redshiftsettings)
+        if let redshiftsettings = redshiftsettingsDecoded {
+            self = .redshiftsettings(redshiftsettings)
+            return
+        }
         let postgresqlsettingsDecoded = try values.decodeIfPresent(DatabaseMigrationClientTypes.PostgreSqlDataProviderSettings.self, forKey: .postgresqlsettings)
         if let postgresqlsettings = postgresqlsettingsDecoded {
             self = .postgresqlsettings(postgresqlsettings)
@@ -4412,6 +4429,21 @@ extension DatabaseMigrationClientTypes.DataProviderSettings: Swift.Codable {
             self = .microsoftsqlserversettings(microsoftsqlserversettings)
             return
         }
+        let docdbsettingsDecoded = try values.decodeIfPresent(DatabaseMigrationClientTypes.DocDbDataProviderSettings.self, forKey: .docdbsettings)
+        if let docdbsettings = docdbsettingsDecoded {
+            self = .docdbsettings(docdbsettings)
+            return
+        }
+        let mariadbsettingsDecoded = try values.decodeIfPresent(DatabaseMigrationClientTypes.MariaDbDataProviderSettings.self, forKey: .mariadbsettings)
+        if let mariadbsettings = mariadbsettingsDecoded {
+            self = .mariadbsettings(mariadbsettings)
+            return
+        }
+        let mongodbsettingsDecoded = try values.decodeIfPresent(DatabaseMigrationClientTypes.MongoDbDataProviderSettings.self, forKey: .mongodbsettings)
+        if let mongodbsettings = mongodbsettingsDecoded {
+            self = .mongodbsettings(mongodbsettings)
+            return
+        }
         self = .sdkUnknown("")
     }
 }
@@ -4419,6 +4451,8 @@ extension DatabaseMigrationClientTypes.DataProviderSettings: Swift.Codable {
 extension DatabaseMigrationClientTypes {
     /// Provides information that defines a data provider.
     public enum DataProviderSettings: Swift.Equatable {
+        /// Provides information that defines an Amazon Redshift data provider.
+        case redshiftsettings(DatabaseMigrationClientTypes.RedshiftDataProviderSettings)
         /// Provides information that defines a PostgreSQL data provider.
         case postgresqlsettings(DatabaseMigrationClientTypes.PostgreSqlDataProviderSettings)
         /// Provides information that defines a MySQL data provider.
@@ -4427,6 +4461,12 @@ extension DatabaseMigrationClientTypes {
         case oraclesettings(DatabaseMigrationClientTypes.OracleDataProviderSettings)
         /// Provides information that defines a Microsoft SQL Server data provider.
         case microsoftsqlserversettings(DatabaseMigrationClientTypes.MicrosoftSqlServerDataProviderSettings)
+        /// Provides information that defines a DocumentDB data provider.
+        case docdbsettings(DatabaseMigrationClientTypes.DocDbDataProviderSettings)
+        /// Provides information that defines a MariaDB data provider.
+        case mariadbsettings(DatabaseMigrationClientTypes.MariaDbDataProviderSettings)
+        /// Provides information that defines a MongoDB data provider.
+        case mongodbsettings(DatabaseMigrationClientTypes.MongoDbDataProviderSettings)
         case sdkUnknown(Swift.String)
     }
 
@@ -4893,8 +4933,8 @@ extension DeleteCertificateInputBody: Swift.Decodable {
     }
 }
 
-public enum DeleteCertificateOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DeleteCertificateOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -5007,8 +5047,8 @@ extension DeleteConnectionInputBody: Swift.Decodable {
     }
 }
 
-public enum DeleteConnectionOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DeleteConnectionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -5109,8 +5149,8 @@ extension DeleteDataProviderInputBody: Swift.Decodable {
     }
 }
 
-public enum DeleteDataProviderOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DeleteDataProviderOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -5211,8 +5251,8 @@ extension DeleteEndpointInputBody: Swift.Decodable {
     }
 }
 
-public enum DeleteEndpointOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DeleteEndpointOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -5313,8 +5353,8 @@ extension DeleteEventSubscriptionInputBody: Swift.Decodable {
     }
 }
 
-public enum DeleteEventSubscriptionOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DeleteEventSubscriptionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -5414,8 +5454,8 @@ extension DeleteFleetAdvisorCollectorInputBody: Swift.Decodable {
     }
 }
 
-public enum DeleteFleetAdvisorCollectorOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DeleteFleetAdvisorCollectorOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -5496,8 +5536,8 @@ extension DeleteFleetAdvisorDatabasesInputBody: Swift.Decodable {
     }
 }
 
-public enum DeleteFleetAdvisorDatabasesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DeleteFleetAdvisorDatabasesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -5605,8 +5645,8 @@ extension DeleteInstanceProfileInputBody: Swift.Decodable {
     }
 }
 
-public enum DeleteInstanceProfileOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DeleteInstanceProfileOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -5706,8 +5746,8 @@ extension DeleteMigrationProjectInputBody: Swift.Decodable {
     }
 }
 
-public enum DeleteMigrationProjectOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DeleteMigrationProjectOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -5808,8 +5848,8 @@ extension DeleteReplicationConfigInputBody: Swift.Decodable {
     }
 }
 
-public enum DeleteReplicationConfigOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DeleteReplicationConfigOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -5911,8 +5951,8 @@ extension DeleteReplicationInstanceInputBody: Swift.Decodable {
     }
 }
 
-public enum DeleteReplicationInstanceOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DeleteReplicationInstanceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -6013,8 +6053,8 @@ extension DeleteReplicationSubnetGroupInputBody: Swift.Decodable {
     }
 }
 
-public enum DeleteReplicationSubnetGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DeleteReplicationSubnetGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -6085,8 +6125,8 @@ extension DeleteReplicationTaskAssessmentRunInputBody: Swift.Decodable {
     }
 }
 
-public enum DeleteReplicationTaskAssessmentRunOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DeleteReplicationTaskAssessmentRunOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -6188,8 +6228,8 @@ extension DeleteReplicationTaskInputBody: Swift.Decodable {
     }
 }
 
-public enum DeleteReplicationTaskOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DeleteReplicationTaskOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -6270,8 +6310,8 @@ extension DescribeAccountAttributesInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeAccountAttributesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DescribeAccountAttributesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -6460,8 +6500,8 @@ extension DescribeApplicableIndividualAssessmentsInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeApplicableIndividualAssessmentsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DescribeApplicableIndividualAssessmentsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -6616,8 +6656,8 @@ extension DescribeCertificatesInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeCertificatesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DescribeCertificatesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -6770,8 +6810,8 @@ extension DescribeConnectionsInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeConnectionsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DescribeConnectionsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -6889,8 +6929,8 @@ extension DescribeConversionConfigurationInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeConversionConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DescribeConversionConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -7033,8 +7073,8 @@ extension DescribeDataProvidersInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeDataProvidersOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DescribeDataProvidersOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -7176,8 +7216,8 @@ extension DescribeEndpointSettingsInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeEndpointSettingsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DescribeEndpointSettingsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -7329,8 +7369,8 @@ extension DescribeEndpointTypesInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeEndpointTypesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DescribeEndpointTypesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -7483,8 +7523,8 @@ extension DescribeEndpointsInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeEndpointsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DescribeEndpointsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -7613,8 +7653,8 @@ extension DescribeEngineVersionsInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeEngineVersionsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DescribeEngineVersionsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -7754,8 +7794,8 @@ extension DescribeEventCategoriesInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeEventCategoriesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DescribeEventCategoriesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -7910,8 +7950,8 @@ extension DescribeEventSubscriptionsInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeEventSubscriptionsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DescribeEventSubscriptionsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -8149,8 +8189,8 @@ extension DescribeEventsInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeEventsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DescribeEventsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -8315,8 +8355,8 @@ extension DescribeExtensionPackAssociationsInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeExtensionPackAssociationsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DescribeExtensionPackAssociationsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -8474,8 +8514,8 @@ extension DescribeFleetAdvisorCollectorsInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeFleetAdvisorCollectorsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DescribeFleetAdvisorCollectorsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -8642,8 +8682,8 @@ extension DescribeFleetAdvisorDatabasesInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeFleetAdvisorDatabasesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DescribeFleetAdvisorDatabasesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -8771,8 +8811,8 @@ extension DescribeFleetAdvisorLsaAnalysisInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeFleetAdvisorLsaAnalysisOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DescribeFleetAdvisorLsaAnalysisOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -8929,8 +8969,8 @@ extension DescribeFleetAdvisorSchemaObjectSummaryInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeFleetAdvisorSchemaObjectSummaryOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DescribeFleetAdvisorSchemaObjectSummaryOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -9103,8 +9143,8 @@ extension DescribeFleetAdvisorSchemasInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeFleetAdvisorSchemasOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DescribeFleetAdvisorSchemasOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -9256,8 +9296,8 @@ extension DescribeInstanceProfilesInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeInstanceProfilesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DescribeInstanceProfilesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -9423,8 +9463,8 @@ extension DescribeMetadataModelAssessmentsInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeMetadataModelAssessmentsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DescribeMetadataModelAssessmentsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -9589,8 +9629,8 @@ extension DescribeMetadataModelConversionsInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeMetadataModelConversionsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DescribeMetadataModelConversionsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -9755,8 +9795,8 @@ extension DescribeMetadataModelExportsAsScriptInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeMetadataModelExportsAsScriptOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DescribeMetadataModelExportsAsScriptOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -9921,8 +9961,8 @@ extension DescribeMetadataModelExportsToTargetInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeMetadataModelExportsToTargetOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DescribeMetadataModelExportsToTargetOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -10087,8 +10127,8 @@ extension DescribeMetadataModelImportsInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeMetadataModelImportsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DescribeMetadataModelImportsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -10240,8 +10280,8 @@ extension DescribeMigrationProjectsInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeMigrationProjectsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DescribeMigrationProjectsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -10371,8 +10411,8 @@ extension DescribeOrderableReplicationInstancesInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeOrderableReplicationInstancesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DescribeOrderableReplicationInstancesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -10537,8 +10577,8 @@ extension DescribePendingMaintenanceActionsInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribePendingMaintenanceActionsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DescribePendingMaintenanceActionsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -10691,8 +10731,8 @@ extension DescribeRecommendationLimitationsInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeRecommendationLimitationsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DescribeRecommendationLimitationsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -10845,8 +10885,8 @@ extension DescribeRecommendationsInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeRecommendationsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DescribeRecommendationsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -10965,8 +11005,8 @@ extension DescribeRefreshSchemasStatusInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeRefreshSchemasStatusOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DescribeRefreshSchemasStatusOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -11102,8 +11142,8 @@ extension DescribeReplicationConfigsInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeReplicationConfigsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DescribeReplicationConfigsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -11245,8 +11285,8 @@ extension DescribeReplicationInstanceTaskLogsInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeReplicationInstanceTaskLogsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DescribeReplicationInstanceTaskLogsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -11410,8 +11450,8 @@ extension DescribeReplicationInstancesInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeReplicationInstancesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DescribeReplicationInstancesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -11565,8 +11605,8 @@ extension DescribeReplicationSubnetGroupsInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeReplicationSubnetGroupsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DescribeReplicationSubnetGroupsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -11733,8 +11773,8 @@ extension DescribeReplicationTableStatisticsInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeReplicationTableStatisticsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DescribeReplicationTableStatisticsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -11887,8 +11927,8 @@ extension DescribeReplicationTaskAssessmentResultsInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeReplicationTaskAssessmentResultsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DescribeReplicationTaskAssessmentResultsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -12052,8 +12092,8 @@ extension DescribeReplicationTaskAssessmentRunsInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeReplicationTaskAssessmentRunsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DescribeReplicationTaskAssessmentRunsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -12207,8 +12247,8 @@ extension DescribeReplicationTaskIndividualAssessmentsInputBody: Swift.Decodable
     }
 }
 
-public enum DescribeReplicationTaskIndividualAssessmentsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DescribeReplicationTaskIndividualAssessmentsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -12374,8 +12414,8 @@ extension DescribeReplicationTasksInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeReplicationTasksOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DescribeReplicationTasksOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -12529,8 +12569,8 @@ extension DescribeReplicationsInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeReplicationsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DescribeReplicationsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -12673,8 +12713,8 @@ extension DescribeSchemasInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeSchemasOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DescribeSchemasOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -12842,8 +12882,8 @@ extension DescribeTableStatisticsInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeTableStatisticsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DescribeTableStatisticsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -13002,6 +13042,81 @@ extension DatabaseMigrationClientTypes {
         {
             self.bucketName = bucketName
             self.serviceAccessRoleArn = serviceAccessRoleArn
+        }
+    }
+
+}
+
+extension DatabaseMigrationClientTypes.DocDbDataProviderSettings: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case certificateArn = "CertificateArn"
+        case databaseName = "DatabaseName"
+        case port = "Port"
+        case serverName = "ServerName"
+        case sslMode = "SslMode"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let certificateArn = self.certificateArn {
+            try encodeContainer.encode(certificateArn, forKey: .certificateArn)
+        }
+        if let databaseName = self.databaseName {
+            try encodeContainer.encode(databaseName, forKey: .databaseName)
+        }
+        if let port = self.port {
+            try encodeContainer.encode(port, forKey: .port)
+        }
+        if let serverName = self.serverName {
+            try encodeContainer.encode(serverName, forKey: .serverName)
+        }
+        if let sslMode = self.sslMode {
+            try encodeContainer.encode(sslMode.rawValue, forKey: .sslMode)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let serverNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .serverName)
+        serverName = serverNameDecoded
+        let portDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .port)
+        port = portDecoded
+        let databaseNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .databaseName)
+        databaseName = databaseNameDecoded
+        let sslModeDecoded = try containerValues.decodeIfPresent(DatabaseMigrationClientTypes.DmsSslModeValue.self, forKey: .sslMode)
+        sslMode = sslModeDecoded
+        let certificateArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .certificateArn)
+        certificateArn = certificateArnDecoded
+    }
+}
+
+extension DatabaseMigrationClientTypes {
+    /// Provides information that defines a DocumentDB data provider.
+    public struct DocDbDataProviderSettings: Swift.Equatable {
+        /// The Amazon Resource Name (ARN) of the certificate used for SSL connection.
+        public var certificateArn: Swift.String?
+        /// The database name on the DocumentDB data provider.
+        public var databaseName: Swift.String?
+        /// The port value for the DocumentDB data provider.
+        public var port: Swift.Int?
+        /// The name of the source DocumentDB server.
+        public var serverName: Swift.String?
+        /// The SSL mode used to connect to the DocumentDB data provider. The default value is none.
+        public var sslMode: DatabaseMigrationClientTypes.DmsSslModeValue?
+
+        public init(
+            certificateArn: Swift.String? = nil,
+            databaseName: Swift.String? = nil,
+            port: Swift.Int? = nil,
+            serverName: Swift.String? = nil,
+            sslMode: DatabaseMigrationClientTypes.DmsSslModeValue? = nil
+        )
+        {
+            self.certificateArn = certificateArn
+            self.databaseName = databaseName
+            self.port = port
+            self.serverName = serverName
+            self.sslMode = sslMode
         }
     }
 
@@ -14441,8 +14556,8 @@ extension ExportMetadataModelAssessmentInputBody: Swift.Decodable {
     }
 }
 
-public enum ExportMetadataModelAssessmentOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum ExportMetadataModelAssessmentOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -15180,8 +15295,8 @@ extension ImportCertificateInputBody: Swift.Decodable {
     }
 }
 
-public enum ImportCertificateOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum ImportCertificateOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -16693,8 +16808,8 @@ extension ListTagsForResourceInputBody: Swift.Decodable {
     }
 }
 
-public enum ListTagsForResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum ListTagsForResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -16787,6 +16902,71 @@ extension DatabaseMigrationClientTypes {
             self = LongVarcharMappingType(rawValue: rawValue) ?? LongVarcharMappingType.sdkUnknown(rawValue)
         }
     }
+}
+
+extension DatabaseMigrationClientTypes.MariaDbDataProviderSettings: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case certificateArn = "CertificateArn"
+        case port = "Port"
+        case serverName = "ServerName"
+        case sslMode = "SslMode"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let certificateArn = self.certificateArn {
+            try encodeContainer.encode(certificateArn, forKey: .certificateArn)
+        }
+        if let port = self.port {
+            try encodeContainer.encode(port, forKey: .port)
+        }
+        if let serverName = self.serverName {
+            try encodeContainer.encode(serverName, forKey: .serverName)
+        }
+        if let sslMode = self.sslMode {
+            try encodeContainer.encode(sslMode.rawValue, forKey: .sslMode)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let serverNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .serverName)
+        serverName = serverNameDecoded
+        let portDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .port)
+        port = portDecoded
+        let sslModeDecoded = try containerValues.decodeIfPresent(DatabaseMigrationClientTypes.DmsSslModeValue.self, forKey: .sslMode)
+        sslMode = sslModeDecoded
+        let certificateArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .certificateArn)
+        certificateArn = certificateArnDecoded
+    }
+}
+
+extension DatabaseMigrationClientTypes {
+    /// Provides information that defines a MariaDB data provider.
+    public struct MariaDbDataProviderSettings: Swift.Equatable {
+        /// The Amazon Resource Name (ARN) of the certificate used for SSL connection.
+        public var certificateArn: Swift.String?
+        /// The port value for the MariaDB data provider
+        public var port: Swift.Int?
+        /// The name of the MariaDB server.
+        public var serverName: Swift.String?
+        /// The SSL mode used to connect to the MariaDB data provider. The default value is none.
+        public var sslMode: DatabaseMigrationClientTypes.DmsSslModeValue?
+
+        public init(
+            certificateArn: Swift.String? = nil,
+            port: Swift.Int? = nil,
+            serverName: Swift.String? = nil,
+            sslMode: DatabaseMigrationClientTypes.DmsSslModeValue? = nil
+        )
+        {
+            self.certificateArn = certificateArn
+            self.port = port
+            self.serverName = serverName
+            self.sslMode = sslMode
+        }
+    }
+
 }
 
 extension DatabaseMigrationClientTypes {
@@ -16970,7 +17150,7 @@ extension DatabaseMigrationClientTypes {
         public var serverName: Swift.String?
         /// Indicates the mode used to fetch CDC data.
         public var tlogAccessMode: DatabaseMigrationClientTypes.TlogAccessMode?
-        /// Use the TrimSpaceInChar source endpoint setting to trim data on CHAR and NCHAR data types during migration. The default value is true.
+        /// Use the TrimSpaceInChar source endpoint setting to right-trim data on CHAR and NCHAR data types during migration. Setting TrimSpaceInChar does not left-trim data. The default value is true.
         public var trimSpaceInChar: Swift.Bool?
         /// Use this to attribute to transfer data for full-load operations using BCP. When the target table contains an identity column that does not exist in the source table, you must disable the use BCP for loading table option.
         public var useBcpFullLoad: Swift.Bool?
@@ -17341,8 +17521,8 @@ extension ModifyConversionConfigurationInputBody: Swift.Decodable {
     }
 }
 
-public enum ModifyConversionConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum ModifyConversionConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -17505,8 +17685,8 @@ extension ModifyDataProviderInputBody: Swift.Decodable {
     }
 }
 
-public enum ModifyDataProviderOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum ModifyDataProviderOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -18022,8 +18202,8 @@ extension ModifyEndpointInputBody: Swift.Decodable {
     }
 }
 
-public enum ModifyEndpointOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum ModifyEndpointOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -18187,8 +18367,8 @@ extension ModifyEventSubscriptionInputBody: Swift.Decodable {
     }
 }
 
-public enum ModifyEventSubscriptionOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum ModifyEventSubscriptionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -18403,8 +18583,8 @@ extension ModifyInstanceProfileInputBody: Swift.Decodable {
     }
 }
 
-public enum ModifyInstanceProfileOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum ModifyInstanceProfileOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -18615,8 +18795,8 @@ extension ModifyMigrationProjectInputBody: Swift.Decodable {
     }
 }
 
-public enum ModifyMigrationProjectOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum ModifyMigrationProjectOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -18815,8 +18995,8 @@ extension ModifyReplicationConfigInputBody: Swift.Decodable {
     }
 }
 
-public enum ModifyReplicationConfigOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum ModifyReplicationConfigOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -18952,9 +19132,6 @@ public struct ModifyReplicationInstanceInput: Swift.Equatable {
     /// * A newer minor version is available.
     ///
     /// * DMS has enabled automatic patching for the given engine version.
-    ///
-    ///
-    /// When AutoMinorVersionUpgrade is enabled, DMS uses the current default engine version when you modify a replication instance. For example, if you set EngineVersion to a lower version number than the current default version, DMS uses the default version. If AutoMinorVersionUpgrade isn’t enabled when you modify a replication instance, DMS uses the engine version specified by the EngineVersion parameter.
     public var autoMinorVersionUpgrade: Swift.Bool?
     /// The engine version number of the replication instance. When modifying a major engine version of an instance, also set AllowMajorVersionUpgrade to true.
     public var engineVersion: Swift.String?
@@ -19073,8 +19250,8 @@ extension ModifyReplicationInstanceInputBody: Swift.Decodable {
     }
 }
 
-public enum ModifyReplicationInstanceOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum ModifyReplicationInstanceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -19217,8 +19394,8 @@ extension ModifyReplicationSubnetGroupInputBody: Swift.Decodable {
     }
 }
 
-public enum ModifyReplicationSubnetGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum ModifyReplicationSubnetGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -19331,7 +19508,7 @@ public struct ModifyReplicationTaskInput: Swift.Equatable {
     public var cdcStartPosition: Swift.String?
     /// Indicates the start time for a change data capture (CDC) operation. Use either CdcStartTime or CdcStartPosition to specify when you want a CDC operation to start. Specifying both values results in an error. Timestamp Example: --cdc-start-time “2018-03-08T12:12:12”
     public var cdcStartTime: ClientRuntime.Date?
-    /// Indicates when you want a change data capture (CDC) operation to stop. The value can be either server time or commit time. Server time example: --cdc-stop-position “server_time:2018-02-09T12:12:12” Commit time example: --cdc-stop-position “commit_time: 2018-02-09T12:12:12“
+    /// Indicates when you want a change data capture (CDC) operation to stop. The value can be either server time or commit time. Server time example: --cdc-stop-position “server_time:2018-02-09T12:12:12” Commit time example: --cdc-stop-position “commit_time:2018-02-09T12:12:12“
     public var cdcStopPosition: Swift.String?
     /// The migration type. Valid values: full-load | cdc | full-load-and-cdc
     public var migrationType: DatabaseMigrationClientTypes.MigrationTypeValue?
@@ -19425,8 +19602,8 @@ extension ModifyReplicationTaskInputBody: Swift.Decodable {
     }
 }
 
-public enum ModifyReplicationTaskOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum ModifyReplicationTaskOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -19478,6 +19655,111 @@ extension ModifyReplicationTaskOutputResponseBody: Swift.Decodable {
         let replicationTaskDecoded = try containerValues.decodeIfPresent(DatabaseMigrationClientTypes.ReplicationTask.self, forKey: .replicationTask)
         replicationTask = replicationTaskDecoded
     }
+}
+
+extension DatabaseMigrationClientTypes.MongoDbDataProviderSettings: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case authMechanism = "AuthMechanism"
+        case authSource = "AuthSource"
+        case authType = "AuthType"
+        case certificateArn = "CertificateArn"
+        case databaseName = "DatabaseName"
+        case port = "Port"
+        case serverName = "ServerName"
+        case sslMode = "SslMode"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let authMechanism = self.authMechanism {
+            try encodeContainer.encode(authMechanism.rawValue, forKey: .authMechanism)
+        }
+        if let authSource = self.authSource {
+            try encodeContainer.encode(authSource, forKey: .authSource)
+        }
+        if let authType = self.authType {
+            try encodeContainer.encode(authType.rawValue, forKey: .authType)
+        }
+        if let certificateArn = self.certificateArn {
+            try encodeContainer.encode(certificateArn, forKey: .certificateArn)
+        }
+        if let databaseName = self.databaseName {
+            try encodeContainer.encode(databaseName, forKey: .databaseName)
+        }
+        if let port = self.port {
+            try encodeContainer.encode(port, forKey: .port)
+        }
+        if let serverName = self.serverName {
+            try encodeContainer.encode(serverName, forKey: .serverName)
+        }
+        if let sslMode = self.sslMode {
+            try encodeContainer.encode(sslMode.rawValue, forKey: .sslMode)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let serverNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .serverName)
+        serverName = serverNameDecoded
+        let portDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .port)
+        port = portDecoded
+        let databaseNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .databaseName)
+        databaseName = databaseNameDecoded
+        let sslModeDecoded = try containerValues.decodeIfPresent(DatabaseMigrationClientTypes.DmsSslModeValue.self, forKey: .sslMode)
+        sslMode = sslModeDecoded
+        let certificateArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .certificateArn)
+        certificateArn = certificateArnDecoded
+        let authTypeDecoded = try containerValues.decodeIfPresent(DatabaseMigrationClientTypes.AuthTypeValue.self, forKey: .authType)
+        authType = authTypeDecoded
+        let authSourceDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .authSource)
+        authSource = authSourceDecoded
+        let authMechanismDecoded = try containerValues.decodeIfPresent(DatabaseMigrationClientTypes.AuthMechanismValue.self, forKey: .authMechanism)
+        authMechanism = authMechanismDecoded
+    }
+}
+
+extension DatabaseMigrationClientTypes {
+    /// Provides information that defines a MongoDB data provider.
+    public struct MongoDbDataProviderSettings: Swift.Equatable {
+        /// The authentication method for connecting to the data provider. Valid values are DEFAULT, MONGODB_CR, or SCRAM_SHA_1.
+        public var authMechanism: DatabaseMigrationClientTypes.AuthMechanismValue?
+        /// The MongoDB database name. This setting isn't used when AuthType is set to "no". The default is "admin".
+        public var authSource: Swift.String?
+        /// The authentication type for the database connection. Valid values are PASSWORD or NO.
+        public var authType: DatabaseMigrationClientTypes.AuthTypeValue?
+        /// The Amazon Resource Name (ARN) of the certificate used for SSL connection.
+        public var certificateArn: Swift.String?
+        /// The database name on the MongoDB data provider.
+        public var databaseName: Swift.String?
+        /// The port value for the MongoDB data provider.
+        public var port: Swift.Int?
+        /// The name of the MongoDB server.
+        public var serverName: Swift.String?
+        /// The SSL mode used to connect to the MongoDB data provider. The default value is none.
+        public var sslMode: DatabaseMigrationClientTypes.DmsSslModeValue?
+
+        public init(
+            authMechanism: DatabaseMigrationClientTypes.AuthMechanismValue? = nil,
+            authSource: Swift.String? = nil,
+            authType: DatabaseMigrationClientTypes.AuthTypeValue? = nil,
+            certificateArn: Swift.String? = nil,
+            databaseName: Swift.String? = nil,
+            port: Swift.Int? = nil,
+            serverName: Swift.String? = nil,
+            sslMode: DatabaseMigrationClientTypes.DmsSslModeValue? = nil
+        )
+        {
+            self.authMechanism = authMechanism
+            self.authSource = authSource
+            self.authType = authType
+            self.certificateArn = certificateArn
+            self.databaseName = databaseName
+            self.port = port
+            self.serverName = serverName
+            self.sslMode = sslMode
+        }
+    }
+
 }
 
 extension DatabaseMigrationClientTypes.MongoDbSettings: Swift.Codable {
@@ -19627,7 +19909,7 @@ extension DatabaseMigrationClientTypes {
         public var secretsManagerAccessRoleArn: Swift.String?
         /// The full ARN, partial ARN, or friendly name of the SecretsManagerSecret that contains the MongoDB endpoint connection details.
         public var secretsManagerSecretId: Swift.String?
-        /// The name of the server on the MongoDB source endpoint.
+        /// The name of the server on the MongoDB source endpoint. For MongoDB Atlas, provide the server name for any of the servers in the replication set.
         public var serverName: Swift.String?
         /// If true, DMS retrieves the entire document from the MongoDB source during migration. This may cause a migration failure if the server response exceeds bandwidth limits. To fetch only updates and deletes during migration, set this parameter to false.
         public var useUpdateLookUp: Swift.Bool?
@@ -19736,8 +20018,8 @@ extension MoveReplicationTaskInputBody: Swift.Decodable {
     }
 }
 
-public enum MoveReplicationTaskOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum MoveReplicationTaskOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -20628,7 +20910,7 @@ extension DatabaseMigrationClientTypes {
         public var retryInterval: Swift.Int?
         /// The full Amazon Resource Name (ARN) of the IAM role that specifies DMS as the trusted entity and grants the required permissions to access the value in SecretsManagerSecret. The role must allow the iam:PassRole action. SecretsManagerSecret has the value of the Amazon Web Services Secrets Manager secret that allows access to the Oracle endpoint. You can specify one of two sets of values for these permissions. You can specify the values for this setting and SecretsManagerSecretId. Or you can specify clear-text values for UserName, Password, ServerName, and Port. You can't specify both. For more information on creating this SecretsManagerSecret and the SecretsManagerAccessRoleArn and SecretsManagerSecretId required to access it, see [Using secrets to access Database Migration Service resources](https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Security.html#security-iam-secretsmanager) in the Database Migration Service User Guide.
         public var secretsManagerAccessRoleArn: Swift.String?
-        /// Required only if your Oracle endpoint uses Automatic Storage Management (ASM). The full ARN of the IAM role that specifies DMS as the trusted entity and grants the required permissions to access the SecretsManagerOracleAsmSecret. This SecretsManagerOracleAsmSecret has the secret value that allows access to the Oracle ASM of the endpoint. You can specify one of two sets of values for these permissions. You can specify the values for this setting and SecretsManagerOracleAsmSecretId. Or you can specify clear-text values for AsmUserName, AsmPassword, and AsmServerName. You can't specify both. For more information on creating this SecretsManagerOracleAsmSecret and the SecretsManagerOracleAsmAccessRoleArn and SecretsManagerOracleAsmSecretId required to access it, see [Using secrets to access Database Migration Service resources](https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Security.html#security-iam-secretsmanager) in the Database Migration Service User Guide.
+        /// Required only if your Oracle endpoint uses Automatic Storage Management (ASM). The full ARN of the IAM role that specifies DMS as the trusted entity and grants the required permissions to access the SecretsManagerOracleAsmSecret. This SecretsManagerOracleAsmSecret has the secret value that allows access to the Oracle ASM of the endpoint. You can specify one of two sets of values for these permissions. You can specify the values for this setting and SecretsManagerOracleAsmSecretId. Or you can specify clear-text values for AsmUser, AsmPassword, and AsmServerName. You can't specify both. For more information on creating this SecretsManagerOracleAsmSecret and the SecretsManagerOracleAsmAccessRoleArn and SecretsManagerOracleAsmSecretId required to access it, see [Using secrets to access Database Migration Service resources](https://docs.aws.amazon.com/dms/latest/userguide/CHAP_Security.html#security-iam-secretsmanager) in the Database Migration Service User Guide.
         public var secretsManagerOracleAsmAccessRoleArn: Swift.String?
         /// Required only if your Oracle endpoint uses Automatic Storage Management (ASM). The full ARN, partial ARN, or friendly name of the SecretsManagerOracleAsmSecret that contains the Oracle ASM connection details for the Oracle endpoint.
         public var secretsManagerOracleAsmSecretId: Swift.String?
@@ -21251,7 +21533,7 @@ extension DatabaseMigrationClientTypes {
         public var heartbeatFrequency: Swift.Int?
         /// Sets the schema in which the heartbeat artifacts are created.
         public var heartbeatSchema: Swift.String?
-        /// When true, lets PostgreSQL migrate the boolean type as boolean. By default, PostgreSQL migrates booleans as varchar(5).
+        /// When true, lets PostgreSQL migrate the boolean type as boolean. By default, PostgreSQL migrates booleans as varchar(5). You must set this setting on both the source and target endpoints for it to take effect.
         public var mapBooleanAsBoolean: Swift.Bool?
         /// When true, DMS migrates JSONB values as CLOB.
         public var mapJsonbAsClob: Swift.Bool?
@@ -21821,8 +22103,8 @@ extension RebootReplicationInstanceInputBody: Swift.Decodable {
     }
 }
 
-public enum RebootReplicationInstanceOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum RebootReplicationInstanceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -22187,6 +22469,61 @@ extension DatabaseMigrationClientTypes {
 
 }
 
+extension DatabaseMigrationClientTypes.RedshiftDataProviderSettings: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case databaseName = "DatabaseName"
+        case port = "Port"
+        case serverName = "ServerName"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let databaseName = self.databaseName {
+            try encodeContainer.encode(databaseName, forKey: .databaseName)
+        }
+        if let port = self.port {
+            try encodeContainer.encode(port, forKey: .port)
+        }
+        if let serverName = self.serverName {
+            try encodeContainer.encode(serverName, forKey: .serverName)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let serverNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .serverName)
+        serverName = serverNameDecoded
+        let portDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .port)
+        port = portDecoded
+        let databaseNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .databaseName)
+        databaseName = databaseNameDecoded
+    }
+}
+
+extension DatabaseMigrationClientTypes {
+    /// Provides information that defines an Amazon Redshift data provider.
+    public struct RedshiftDataProviderSettings: Swift.Equatable {
+        /// The database name on the Amazon Redshift data provider.
+        public var databaseName: Swift.String?
+        /// The port value for the Amazon Redshift data provider.
+        public var port: Swift.Int?
+        /// The name of the Amazon Redshift server.
+        public var serverName: Swift.String?
+
+        public init(
+            databaseName: Swift.String? = nil,
+            port: Swift.Int? = nil,
+            serverName: Swift.String? = nil
+        )
+        {
+            self.databaseName = databaseName
+            self.port = port
+            self.serverName = serverName
+        }
+    }
+
+}
+
 extension DatabaseMigrationClientTypes.RedshiftSettings: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case acceptAnyDate = "AcceptAnyDate"
@@ -22422,7 +22759,7 @@ extension DatabaseMigrationClientTypes {
         public var fileTransferUploadStreams: Swift.Int?
         /// The amount of time to wait (in milliseconds) before timing out of operations performed by DMS on a Redshift cluster, such as Redshift COPY, INSERT, DELETE, and UPDATE.
         public var loadTimeout: Swift.Int?
-        /// When true, lets Redshift migrate the boolean type as boolean. By default, Redshift migrates booleans as varchar(1).
+        /// When true, lets Redshift migrate the boolean type as boolean. By default, Redshift migrates booleans as varchar(1). You must set this setting on both the source and target endpoints for it to take effect.
         public var mapBooleanAsBoolean: Swift.Bool?
         /// The maximum size (in KB) of any .csv file used to load data on an S3 bucket and transfer data to Amazon Redshift. It defaults to 1048576KB (1 GB).
         public var maxFileSize: Swift.Int?
@@ -22589,8 +22926,8 @@ extension RefreshSchemasInputBody: Swift.Decodable {
     }
 }
 
-public enum RefreshSchemasOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum RefreshSchemasOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -22904,8 +23241,8 @@ extension ReloadReplicationTablesInputBody: Swift.Decodable {
     }
 }
 
-public enum ReloadReplicationTablesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum ReloadReplicationTablesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -23042,8 +23379,8 @@ extension ReloadTablesInputBody: Swift.Decodable {
     }
 }
 
-public enum ReloadTablesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum ReloadTablesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -23168,8 +23505,8 @@ extension RemoveTagsFromResourceInputBody: Swift.Decodable {
     }
 }
 
-public enum RemoveTagsFromResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum RemoveTagsFromResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -24524,7 +24861,7 @@ extension DatabaseMigrationClientTypes {
     public struct ReplicationTask: Swift.Equatable {
         /// Indicates when you want a change data capture (CDC) operation to start. Use either CdcStartPosition or CdcStartTime to specify when you want the CDC operation to start. Specifying both values results in an error. The value can be in date, checkpoint, or LSN/SCN format. Date Example: --cdc-start-position “2018-03-08T12:12:12” Checkpoint Example: --cdc-start-position "checkpoint:V1#27#mysql-bin-changelog.157832:1975:-1:2002:677883278264080:mysql-bin-changelog.157832:1876#0#0#*#0#93" LSN Example: --cdc-start-position “mysql-bin-changelog.000024:373”
         public var cdcStartPosition: Swift.String?
-        /// Indicates when you want a change data capture (CDC) operation to stop. The value can be either server time or commit time. Server time example: --cdc-stop-position “server_time:2018-02-09T12:12:12” Commit time example: --cdc-stop-position “commit_time: 2018-02-09T12:12:12“
+        /// Indicates when you want a change data capture (CDC) operation to stop. The value can be either server time or commit time. Server time example: --cdc-stop-position “server_time:2018-02-09T12:12:12” Commit time example: --cdc-stop-position “commit_time:2018-02-09T12:12:12“
         public var cdcStopPosition: Swift.String?
         /// The last error (failure) message generated for the replication task.
         public var lastFailureMessage: Swift.String?
@@ -25455,8 +25792,8 @@ extension RunFleetAdvisorLsaAnalysisInputBody: Swift.Decodable {
     }
 }
 
-public enum RunFleetAdvisorLsaAnalysisOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum RunFleetAdvisorLsaAnalysisOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -25915,7 +26252,7 @@ extension DatabaseMigrationClientTypes {
         public var csvDelimiter: Swift.String?
         /// This setting only applies if your Amazon S3 output files during a change data capture (CDC) load are written in .csv format. If [UseCsvNoSupValue](https://docs.aws.amazon.com/dms/latest/APIReference/API_S3Settings.html#DMS-Type-S3Settings-UseCsvNoSupValue) is set to true, specify a string value that you want DMS to use for all columns not included in the supplemental log. If you do not specify a string value, DMS uses the null value for these columns regardless of the UseCsvNoSupValue setting. This setting is supported in DMS versions 3.4.1 and later.
         public var csvNoSupValue: Swift.String?
-        /// An optional parameter that specifies how DMS treats null values. While handling the null value, you can use this parameter to pass a user-defined string as null when writing to the target. For example, when target columns are not nullable, you can use this option to differentiate between the empty string value and the null value. So, if you set this parameter value to the empty string ("" or ''), DMS treats the empty string as the null value instead of NULL. The default value is NULL. Valid values include any valid string.
+        /// An optional parameter that specifies how DMS treats null values. While handling the null value, you can use this parameter to pass a user-defined string as null when writing to the target. For example, when target columns are nullable, you can use this option to differentiate between the empty string value and the null value. So, if you set this parameter value to the empty string ("" or ''), DMS treats the empty string as the null value instead of NULL. The default value is NULL. Valid values include any valid string.
         public var csvNullValue: Swift.String?
         /// The delimiter used to separate rows in the .csv file for both source and target. The default is a carriage return (\n).
         public var csvRowDelimiter: Swift.String?
@@ -26715,8 +27052,8 @@ extension StartExtensionPackAssociationInputBody: Swift.Decodable {
     }
 }
 
-public enum StartExtensionPackAssociationOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum StartExtensionPackAssociationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -26834,8 +27171,8 @@ extension StartMetadataModelAssessmentInputBody: Swift.Decodable {
     }
 }
 
-public enum StartMetadataModelAssessmentOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum StartMetadataModelAssessmentOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -26953,8 +27290,8 @@ extension StartMetadataModelConversionInputBody: Swift.Decodable {
     }
 }
 
-public enum StartMetadataModelConversionOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum StartMetadataModelConversionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -27097,8 +27434,8 @@ extension StartMetadataModelExportAsScriptInputBody: Swift.Decodable {
     }
 }
 
-public enum StartMetadataModelExportAsScriptOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum StartMetadataModelExportAsScriptOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -27228,8 +27565,8 @@ extension StartMetadataModelExportToTargetInputBody: Swift.Decodable {
     }
 }
 
-public enum StartMetadataModelExportToTargetOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum StartMetadataModelExportToTargetOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -27372,8 +27709,8 @@ extension StartMetadataModelImportInputBody: Swift.Decodable {
     }
 }
 
-public enum StartMetadataModelImportOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum StartMetadataModelImportOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -27491,8 +27828,8 @@ extension StartRecommendationsInputBody: Swift.Decodable {
     }
 }
 
-public enum StartRecommendationsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum StartRecommendationsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -27659,8 +27996,8 @@ extension StartReplicationInputBody: Swift.Decodable {
     }
 }
 
-public enum StartReplicationOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum StartReplicationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -27762,8 +28099,8 @@ extension StartReplicationTaskAssessmentInputBody: Swift.Decodable {
     }
 }
 
-public enum StartReplicationTaskAssessmentOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum StartReplicationTaskAssessmentOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -27991,8 +28328,8 @@ extension StartReplicationTaskAssessmentRunInputBody: Swift.Decodable {
     }
 }
 
-public enum StartReplicationTaskAssessmentRunOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum StartReplicationTaskAssessmentRunOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -28095,7 +28432,7 @@ public struct StartReplicationTaskInput: Swift.Equatable {
     public var cdcStartPosition: Swift.String?
     /// Indicates the start time for a change data capture (CDC) operation. Use either CdcStartTime or CdcStartPosition to specify when you want a CDC operation to start. Specifying both values results in an error. Timestamp Example: --cdc-start-time “2018-03-08T12:12:12”
     public var cdcStartTime: ClientRuntime.Date?
-    /// Indicates when you want a change data capture (CDC) operation to stop. The value can be either server time or commit time. Server time example: --cdc-stop-position “server_time:2018-02-09T12:12:12” Commit time example: --cdc-stop-position “commit_time: 2018-02-09T12:12:12“
+    /// Indicates when you want a change data capture (CDC) operation to stop. The value can be either server time or commit time. Server time example: --cdc-stop-position “server_time:2018-02-09T12:12:12” Commit time example: --cdc-stop-position “commit_time:2018-02-09T12:12:12“
     public var cdcStopPosition: Swift.String?
     /// The Amazon Resource Name (ARN) of the replication task to be started.
     /// This member is required.
@@ -28152,8 +28489,8 @@ extension StartReplicationTaskInputBody: Swift.Decodable {
     }
 }
 
-public enum StartReplicationTaskOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum StartReplicationTaskOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -28290,8 +28627,8 @@ extension StopReplicationInputBody: Swift.Decodable {
     }
 }
 
-public enum StopReplicationOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum StopReplicationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -28392,8 +28729,8 @@ extension StopReplicationTaskInputBody: Swift.Decodable {
     }
 }
 
-public enum StopReplicationTaskOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum StopReplicationTaskOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -29266,8 +29603,8 @@ extension TestConnectionInputBody: Swift.Decodable {
     }
 }
 
-public enum TestConnectionOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum TestConnectionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -29459,7 +29796,7 @@ extension UpdateSubscriptionsToEventBridgeInput: ClientRuntime.URLPathProvider {
 
 ///
 public struct UpdateSubscriptionsToEventBridgeInput: Swift.Equatable {
-    /// When set to true, this operation migrates DMS subscriptions for Amazon SNS notifications no matter what your replication instance version is. If not set or set to false, this operation runs only when all your replication instances are from DMS version 3.4.6 or higher.
+    /// When set to true, this operation migrates DMS subscriptions for Amazon SNS notifications no matter what your replication instance version is. If not set or set to false, this operation runs only when all your replication instances are from DMS version 3.4.5 or higher.
     public var forceMove: Swift.Bool?
 
     public init(
@@ -29486,8 +29823,8 @@ extension UpdateSubscriptionsToEventBridgeInputBody: Swift.Decodable {
     }
 }
 
-public enum UpdateSubscriptionsToEventBridgeOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum UpdateSubscriptionsToEventBridgeOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {

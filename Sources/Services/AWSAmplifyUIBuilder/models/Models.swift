@@ -186,6 +186,71 @@ extension AmplifyUIBuilderClientTypes {
 
 }
 
+extension AmplifyUIBuilderClientTypes.CodegenDependency: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case isSemVer
+        case name
+        case reason
+        case supportedVersion
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let isSemVer = self.isSemVer {
+            try encodeContainer.encode(isSemVer, forKey: .isSemVer)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let reason = self.reason {
+            try encodeContainer.encode(reason, forKey: .reason)
+        }
+        if let supportedVersion = self.supportedVersion {
+            try encodeContainer.encode(supportedVersion, forKey: .supportedVersion)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let supportedVersionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .supportedVersion)
+        supportedVersion = supportedVersionDecoded
+        let isSemVerDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isSemVer)
+        isSemVer = isSemVerDecoded
+        let reasonDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .reason)
+        reason = reasonDecoded
+    }
+}
+
+extension AmplifyUIBuilderClientTypes {
+    /// Dependency package that may be required for the project code to run.
+    public struct CodegenDependency: Swift.Equatable {
+        /// Determines if the dependency package is using Semantic versioning. If set to true, it indicates that the dependency package uses Semantic versioning.
+        public var isSemVer: Swift.Bool?
+        /// Name of the dependency package.
+        public var name: Swift.String?
+        /// Indicates the reason to include the dependency package in your project code.
+        public var reason: Swift.String?
+        /// Indicates the version of the supported dependency package.
+        public var supportedVersion: Swift.String?
+
+        public init(
+            isSemVer: Swift.Bool? = nil,
+            name: Swift.String? = nil,
+            reason: Swift.String? = nil,
+            supportedVersion: Swift.String? = nil
+        )
+        {
+            self.isSemVer = isSemVer
+            self.name = name
+            self.reason = reason
+            self.supportedVersion = supportedVersion
+        }
+    }
+
+}
+
 extension AmplifyUIBuilderClientTypes.CodegenFeatureFlags: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case isNonModelSupported
@@ -722,6 +787,7 @@ extension AmplifyUIBuilderClientTypes.CodegenJob: Swift.Codable {
         case asset
         case autoGenerateForms
         case createdAt
+        case dependencies
         case environmentName
         case features
         case genericDataSchema
@@ -746,6 +812,12 @@ extension AmplifyUIBuilderClientTypes.CodegenJob: Swift.Codable {
         }
         if let createdAt = self.createdAt {
             try encodeContainer.encodeTimestamp(createdAt, format: .dateTime, forKey: .createdAt)
+        }
+        if let dependencies = dependencies {
+            var dependenciesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .dependencies)
+            for codegendependency0 in dependencies {
+                try dependenciesContainer.encode(codegendependency0)
+            }
         }
         if let environmentName = self.environmentName {
             try encodeContainer.encode(environmentName, forKey: .environmentName)
@@ -816,6 +888,17 @@ extension AmplifyUIBuilderClientTypes.CodegenJob: Swift.Codable {
         createdAt = createdAtDecoded
         let modifiedAtDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .modifiedAt)
         modifiedAt = modifiedAtDecoded
+        let dependenciesContainer = try containerValues.decodeIfPresent([AmplifyUIBuilderClientTypes.CodegenDependency?].self, forKey: .dependencies)
+        var dependenciesDecoded0:[AmplifyUIBuilderClientTypes.CodegenDependency]? = nil
+        if let dependenciesContainer = dependenciesContainer {
+            dependenciesDecoded0 = [AmplifyUIBuilderClientTypes.CodegenDependency]()
+            for structure0 in dependenciesContainer {
+                if let structure0 = structure0 {
+                    dependenciesDecoded0?.append(structure0)
+                }
+            }
+        }
+        dependencies = dependenciesDecoded0
     }
 }
 
@@ -831,6 +914,8 @@ extension AmplifyUIBuilderClientTypes {
         public var autoGenerateForms: Swift.Bool?
         /// The time that the code generation job was created.
         public var createdAt: ClientRuntime.Date?
+        /// Lists the dependency packages that may be required for the project code to run.
+        public var dependencies: [AmplifyUIBuilderClientTypes.CodegenDependency]?
         /// The name of the backend environment associated with the code generation job.
         /// This member is required.
         public var environmentName: Swift.String?
@@ -857,6 +942,7 @@ extension AmplifyUIBuilderClientTypes {
             asset: AmplifyUIBuilderClientTypes.CodegenJobAsset? = nil,
             autoGenerateForms: Swift.Bool? = nil,
             createdAt: ClientRuntime.Date? = nil,
+            dependencies: [AmplifyUIBuilderClientTypes.CodegenDependency]? = nil,
             environmentName: Swift.String? = nil,
             features: AmplifyUIBuilderClientTypes.CodegenFeatureFlags? = nil,
             genericDataSchema: AmplifyUIBuilderClientTypes.CodegenJobGenericDataSchema? = nil,
@@ -872,6 +958,7 @@ extension AmplifyUIBuilderClientTypes {
             self.asset = asset
             self.autoGenerateForms = autoGenerateForms
             self.createdAt = createdAt
+            self.dependencies = dependencies
             self.environmentName = environmentName
             self.features = features
             self.genericDataSchema = genericDataSchema
@@ -2832,8 +2919,8 @@ extension CreateComponentInputBody: Swift.Decodable {
     }
 }
 
-public enum CreateComponentOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum CreateComponentOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -3172,8 +3259,8 @@ extension CreateFormInputBody: Swift.Decodable {
     }
 }
 
-public enum CreateFormOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum CreateFormOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -3447,8 +3534,8 @@ extension CreateThemeInputBody: Swift.Decodable {
     }
 }
 
-public enum CreateThemeOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum CreateThemeOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -3567,8 +3654,8 @@ extension DeleteComponentInputBody: Swift.Decodable {
     }
 }
 
-public enum DeleteComponentOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DeleteComponentOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -3637,8 +3724,8 @@ extension DeleteFormInputBody: Swift.Decodable {
     }
 }
 
-public enum DeleteFormOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DeleteFormOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -3707,8 +3794,8 @@ extension DeleteThemeInputBody: Swift.Decodable {
     }
 }
 
-public enum DeleteThemeOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DeleteThemeOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -3824,8 +3911,8 @@ extension ExchangeCodeForTokenInputBody: Swift.Decodable {
     }
 }
 
-public enum ExchangeCodeForTokenOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum ExchangeCodeForTokenOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -4021,8 +4108,8 @@ extension ExportComponentsInputBody: Swift.Decodable {
     }
 }
 
-public enum ExportComponentsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum ExportComponentsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -4149,8 +4236,8 @@ extension ExportFormsInputBody: Swift.Decodable {
     }
 }
 
-public enum ExportFormsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum ExportFormsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -4277,8 +4364,8 @@ extension ExportThemesInputBody: Swift.Decodable {
     }
 }
 
-public enum ExportThemesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum ExportThemesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -5881,8 +5968,8 @@ extension GetCodegenJobInputBody: Swift.Decodable {
     }
 }
 
-public enum GetCodegenJobOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum GetCodegenJobOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -5981,8 +6068,8 @@ extension GetComponentInputBody: Swift.Decodable {
     }
 }
 
-public enum GetComponentOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum GetComponentOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -6080,8 +6167,8 @@ extension GetFormInputBody: Swift.Decodable {
     }
 }
 
-public enum GetFormOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum GetFormOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -6171,8 +6258,8 @@ extension GetMetadataInputBody: Swift.Decodable {
     }
 }
 
-public enum GetMetadataOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum GetMetadataOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -6280,8 +6367,8 @@ extension GetThemeInputBody: Swift.Decodable {
     }
 }
 
-public enum GetThemeOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum GetThemeOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -6720,8 +6807,8 @@ extension ListCodegenJobsInputBody: Swift.Decodable {
     }
 }
 
-public enum ListCodegenJobsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum ListCodegenJobsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -6857,8 +6944,8 @@ extension ListComponentsInputBody: Swift.Decodable {
     }
 }
 
-public enum ListComponentsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum ListComponentsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -6993,8 +7080,8 @@ extension ListFormsInputBody: Swift.Decodable {
     }
 }
 
-public enum ListFormsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum ListFormsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -7129,8 +7216,8 @@ extension ListThemesInputBody: Swift.Decodable {
     }
 }
 
-public enum ListThemesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum ListThemesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -7534,8 +7621,8 @@ extension PutMetadataFlagInputBody: Swift.Decodable {
     }
 }
 
-public enum PutMetadataFlagOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum PutMetadataFlagOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -7559,6 +7646,7 @@ public struct PutMetadataFlagOutputResponse: Swift.Equatable {
 extension AmplifyUIBuilderClientTypes.ReactStartCodegenJobData: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case apiConfiguration
+        case dependencies
         case inlineSourceMap
         case module
         case renderTypeDeclarations
@@ -7570,6 +7658,12 @@ extension AmplifyUIBuilderClientTypes.ReactStartCodegenJobData: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let apiConfiguration = self.apiConfiguration {
             try encodeContainer.encode(apiConfiguration, forKey: .apiConfiguration)
+        }
+        if let dependencies = dependencies {
+            var dependenciesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .dependencies)
+            for (dictKey0, reactCodegenDependencies0) in dependencies {
+                try dependenciesContainer.encode(reactCodegenDependencies0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
         }
         if inlineSourceMap != false {
             try encodeContainer.encode(inlineSourceMap, forKey: .inlineSourceMap)
@@ -7602,6 +7696,17 @@ extension AmplifyUIBuilderClientTypes.ReactStartCodegenJobData: Swift.Codable {
         inlineSourceMap = inlineSourceMapDecoded
         let apiConfigurationDecoded = try containerValues.decodeIfPresent(AmplifyUIBuilderClientTypes.ApiConfiguration.self, forKey: .apiConfiguration)
         apiConfiguration = apiConfigurationDecoded
+        let dependenciesContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .dependencies)
+        var dependenciesDecoded0: [Swift.String:Swift.String]? = nil
+        if let dependenciesContainer = dependenciesContainer {
+            dependenciesDecoded0 = [Swift.String:Swift.String]()
+            for (key0, string0) in dependenciesContainer {
+                if let string0 = string0 {
+                    dependenciesDecoded0?[key0] = string0
+                }
+            }
+        }
+        dependencies = dependenciesDecoded0
     }
 }
 
@@ -7610,6 +7715,8 @@ extension AmplifyUIBuilderClientTypes {
     public struct ReactStartCodegenJobData: Swift.Equatable {
         /// The API configuration for the code generation job.
         public var apiConfiguration: AmplifyUIBuilderClientTypes.ApiConfiguration?
+        /// Lists the dependency packages that may be required for the project code to run.
+        public var dependencies: [Swift.String:Swift.String]?
         /// Specifies whether the code generation job should render inline source maps.
         public var inlineSourceMap: Swift.Bool
         /// The JavaScript module type.
@@ -7623,6 +7730,7 @@ extension AmplifyUIBuilderClientTypes {
 
         public init(
             apiConfiguration: AmplifyUIBuilderClientTypes.ApiConfiguration? = nil,
+            dependencies: [Swift.String:Swift.String]? = nil,
             inlineSourceMap: Swift.Bool = false,
             module: AmplifyUIBuilderClientTypes.JSModule? = nil,
             renderTypeDeclarations: Swift.Bool = false,
@@ -7631,6 +7739,7 @@ extension AmplifyUIBuilderClientTypes {
         )
         {
             self.apiConfiguration = apiConfiguration
+            self.dependencies = dependencies
             self.inlineSourceMap = inlineSourceMap
             self.module = module
             self.renderTypeDeclarations = renderTypeDeclarations
@@ -7735,8 +7844,8 @@ extension RefreshTokenInputBody: Swift.Decodable {
     }
 }
 
-public enum RefreshTokenOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum RefreshTokenOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -8391,8 +8500,8 @@ extension StartCodegenJobInputBody: Swift.Decodable {
     }
 }
 
-public enum StartCodegenJobOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum StartCodegenJobOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -9312,8 +9421,8 @@ extension UpdateComponentInputBody: Swift.Decodable {
     }
 }
 
-public enum UpdateComponentOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum UpdateComponentOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -9630,8 +9739,8 @@ extension UpdateFormInputBody: Swift.Decodable {
     }
 }
 
-public enum UpdateFormOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum UpdateFormOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -9899,8 +10008,8 @@ extension UpdateThemeInputBody: Swift.Decodable {
     }
 }
 
-public enum UpdateThemeOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum UpdateThemeOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
