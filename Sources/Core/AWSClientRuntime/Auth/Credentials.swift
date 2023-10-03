@@ -6,7 +6,7 @@
 //
 
 import Foundation
-import ClientRuntime
+import protocol ClientRuntime.Identity
 
 public typealias AWSCredentials = Credentials
 
@@ -17,7 +17,7 @@ public struct Credentials: Identity {
     let accessKey: String
     let secret: String
     let sessionToken: String?
-    public let expiration: ClientRuntime.Date?
+    public let expiration: Date?
 
     /// Creates credentials with the specified keys and optionally an expiration and session token.
     ///
