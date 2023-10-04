@@ -11,7 +11,7 @@ import Foundation
 
 public class AWSSigV4Signer: ClientRuntime.Signer {
     public typealias IdObj = Credentials
-    
+
     public func sign(
         requestBuilder: SdkHttpRequestBuilder,
         identity: Credentials,
@@ -20,9 +20,9 @@ public class AWSSigV4Signer: ClientRuntime.Signer {
         guard let isBidirectionalStreamingEnabled = signingProperties.get(key: AttributeKeys.bidirectionalStreaming) else {
             throw ClientError.authError("Signing properties passed to the AWSSigV4Signer must contain T/F flag for bidirectional streaming.")
         }
-        
+    
         let signingConfig = try constructSigningConfig(identity: identity, signingProperties: signingProperties)
-        
+    
         let unsignedRequest = requestBuilder.build()
         let crtUnsignedRequest: HTTPRequestBase
         if isBidirectionalStreamingEnabled {
@@ -38,7 +38,7 @@ public class AWSSigV4Signer: ClientRuntime.Signer {
         let signedRequest = requestBuilder.update(from: crtSignedRequest, originalRequest: unsignedRequest)
         return signedRequest
     }
-    
+
     private func constructSigningConfig(identity: Credentials, signingProperties: ClientRuntime.Attributes) throws -> AWSSigningConfig {
         guard let unsignedBody = signingProperties.get(key: AttributeKeys.unsignedBody) else {
             throw ClientError.authError("Signing properties passed to the AWSSigV4Signer must contain T/F flag for unsigned body.")
@@ -52,7 +52,7 @@ public class AWSSigV4Signer: ClientRuntime.Signer {
         guard let signingAlgorithm = signingProperties.get(key: AttributeKeys.signingAlgorithm) else {
             throw ClientError.authError("Signing properties passed to the AWSSigV4Signer must contain signing algorithm.")
         }
-        
+    
         let expiration: TimeInterval = signingProperties.get(key: AttributeKeys.expiration) ?? 0
         let signedBodyHeader: AWSSignedBodyHeader = signingProperties.get(key: AttributeKeys.signedBodyHeader) ?? .none
         let signedBodyValue: AWSSignedBodyValue = unsignedBody ? .unsignedPayload : .empty
@@ -62,7 +62,7 @@ public class AWSSigV4Signer: ClientRuntime.Signer {
             omitSessionToken: signingProperties.get(key: AttributeKeys.omitSessionToken) ?? false
         )
         let signatureType: AWSSignatureType = signingProperties.get(key: AttributeKeys.signatureType) ?? .requestHeaders
-        
+    
         return AWSSigningConfig(
             credentials: identity,
             expiration: expiration,
@@ -76,7 +76,7 @@ public class AWSSigV4Signer: ClientRuntime.Signer {
             signingAlgorithm: signingAlgorithm
         )
     }
-    
+
     static let logger: SwiftLogger = SwiftLogger(label: "AWSSigV4Signer")
 
     public static func sigV4SignedURL(
