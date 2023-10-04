@@ -78,7 +78,7 @@ public struct SigV4Middleware<OperationStackOutput: HttpResponseBinding,
             config: signingConfig.toCRTType()
         )
 
-        context.attributes.set(key: HttpContext.requestSignature, value: crtSignedRequest.signature)
+        context.attributes.set(key: AttributeKeys.requestSignature, value: crtSignedRequest.signature)
 
         let sdkSignedRequest = input.update(from: crtSignedRequest, originalRequest: originalRequest)
 

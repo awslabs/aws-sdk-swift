@@ -10,11 +10,9 @@ import ClientRuntime
 import Foundation
 
 public class AWSSigV4Signer: ClientRuntime.Signer {
-    public typealias IdObj = Credentials
-
-    public func sign(
+    public func sign<IdentityT: Identity>(
         requestBuilder: SdkHttpRequestBuilder,
-        identity: Credentials,
+        identity: IdentityT,
         signingProperties: ClientRuntime.Attributes
     ) async throws -> SdkHttpRequestBuilder {
         guard let isBidirectionalStreamingEnabled = signingProperties.get(
@@ -25,22 +23,26 @@ public class AWSSigV4Signer: ClientRuntime.Signer {
             )
         }
 
+        guard let identity = identity as? Credentials else {
+            throw ClientError.authError(
+                "Identity passed to the AWSSigV4Signer must be of type Credentials."
+            )
+        }
+        
         let signingConfig = try constructSigningConfig(identity: identity, signingProperties: signingProperties)
 
         let unsignedRequest = requestBuilder.build()
-        let crtUnsignedRequest: HTTPRequestBase
-        if isBidirectionalStreamingEnabled {
-            crtUnsignedRequest = try unsignedRequest.toHttp2Request()
-        } else {
-            crtUnsignedRequest = try unsignedRequest.toHttpRequest()
-        }
+        let crtUnsignedRequest: HTTPRequestBase = isBidirectionalStreamingEnabled ?
+            try unsignedRequest.toHttp2Request() :
+            try unsignedRequest.toHttpRequest()
 
         let crtSignedRequest = try await Signer.signRequest(
             request: crtUnsignedRequest,
             config: signingConfig.toCRTType()
         )
-        let signedRequest = requestBuilder.update(from: crtSignedRequest, originalRequest: unsignedRequest)
-        return signedRequest
+
+        // Return signed request
+        return requestBuilder.update(from: crtSignedRequest, originalRequest: unsignedRequest)
     }
 
     private func constructSigningConfig(
