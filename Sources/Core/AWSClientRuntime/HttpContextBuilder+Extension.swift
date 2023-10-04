@@ -20,7 +20,7 @@ extension HttpContext {
     func getRequestSignature() -> String {
         return attributes.get(key: AttributeKeys.requestSignature)!
     }
-    
+
     func getSigningAlgorithm() -> AWSSigningAlgorithm? {
         return attributes.get(key: AttributeKeys.signingAlgorithm)
     }

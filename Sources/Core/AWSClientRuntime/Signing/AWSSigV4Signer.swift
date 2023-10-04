@@ -17,12 +17,16 @@ public class AWSSigV4Signer: ClientRuntime.Signer {
         identity: Credentials,
         signingProperties: ClientRuntime.Attributes
     ) async throws -> SdkHttpRequestBuilder {
-        guard let isBidirectionalStreamingEnabled = signingProperties.get(key: AttributeKeys.bidirectionalStreaming) else {
-            throw ClientError.authError("Signing properties passed to the AWSSigV4Signer must contain T/F flag for bidirectional streaming.")
+        guard let isBidirectionalStreamingEnabled = signingProperties.get(
+            key: AttributeKeys.bidirectionalStreaming
+        ) else {
+            throw ClientError.authError(
+                "Signing properties passed to the AWSSigV4Signer must contain T/F flag for bidirectional streaming."
+            )
         }
-    
+
         let signingConfig = try constructSigningConfig(identity: identity, signingProperties: signingProperties)
-    
+
         let unsignedRequest = requestBuilder.build()
         let crtUnsignedRequest: HTTPRequestBase
         if isBidirectionalStreamingEnabled {
@@ -39,20 +43,31 @@ public class AWSSigV4Signer: ClientRuntime.Signer {
         return signedRequest
     }
 
-    private func constructSigningConfig(identity: Credentials, signingProperties: ClientRuntime.Attributes) throws -> AWSSigningConfig {
+    private func constructSigningConfig(
+        identity: Credentials,
+        signingProperties: ClientRuntime.Attributes
+    ) throws -> AWSSigningConfig {
         guard let unsignedBody = signingProperties.get(key: AttributeKeys.unsignedBody) else {
-            throw ClientError.authError("Signing properties passed to the AWSSigV4Signer must contain T/F flag for unsigned body.")
+            throw ClientError.authError(
+                "Signing properties passed to the AWSSigV4Signer must contain T/F flag for unsigned body."
+            )
         }
         guard let signingName = signingProperties.get(key: AttributeKeys.signingName) else {
-            throw ClientError.authError("Signing properties passed to the AWSSigV4Signer must contain signing name.")
+            throw ClientError.authError(
+                "Signing properties passed to the AWSSigV4Signer must contain signing name."
+            )
         }
         guard let signingRegion = signingProperties.get(key: AttributeKeys.signingRegion) else {
-            throw ClientError.authError("Signing properties passed to the AWSSigV4Signer must contain signing region.")
+            throw ClientError.authError(
+                "Signing properties passed to the AWSSigV4Signer must contain signing region."
+            )
         }
         guard let signingAlgorithm = signingProperties.get(key: AttributeKeys.signingAlgorithm) else {
-            throw ClientError.authError("Signing properties passed to the AWSSigV4Signer must contain signing algorithm.")
+            throw ClientError.authError(
+                "Signing properties passed to the AWSSigV4Signer must contain signing algorithm."
+            )
         }
-    
+
         let expiration: TimeInterval = signingProperties.get(key: AttributeKeys.expiration) ?? 0
         let signedBodyHeader: AWSSignedBodyHeader = signingProperties.get(key: AttributeKeys.signedBodyHeader) ?? .none
         let signedBodyValue: AWSSignedBodyValue = unsignedBody ? .unsignedPayload : .empty
@@ -62,7 +77,7 @@ public class AWSSigV4Signer: ClientRuntime.Signer {
             omitSessionToken: signingProperties.get(key: AttributeKeys.omitSessionToken) ?? false
         )
         let signatureType: AWSSignatureType = signingProperties.get(key: AttributeKeys.signatureType) ?? .requestHeaders
-    
+
         return AWSSigningConfig(
             credentials: identity,
             expiration: expiration,
