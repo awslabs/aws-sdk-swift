@@ -36,7 +36,7 @@ public class AWSSigV4Signer: ClientRuntime.Signer {
             request: crtUnsignedRequest,
             config: signingConfig.toCRTType()
         )
-        
+
         // Return signed request
         return requestBuilder.update(from: crtSignedRequest, originalRequest: unsignedRequest)
     }
