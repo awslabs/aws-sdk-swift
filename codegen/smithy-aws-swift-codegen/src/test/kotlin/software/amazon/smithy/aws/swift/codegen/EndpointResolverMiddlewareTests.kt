@@ -89,7 +89,7 @@ class EndpointResolverMiddlewareTests {
                         context.attributes.set(key: AttributeKeys.signingName, value: signingName)
                     }
                     if let signingAlgorithm = signingAlgorithm {
-                        context.attributes.set(key: AttributeKeys.signingAlgorithm, value: signingAlgorithm)
+                        context.attributes.set(key: AttributeKeys.signingAlgorithm, value: AWSSigningAlgorithm(rawValue: signingAlgorithm))
                     }
             
                     if let headers = endpoint.headers {

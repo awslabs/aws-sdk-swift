@@ -109,7 +109,7 @@ class EndpointResolverMiddleware(
             writer.write("context.attributes.set(key: AttributeKeys.signingName, value: signingName)")
         }
         writer.openBlock("if let signingAlgorithm = signingAlgorithm {", "}") {
-            writer.write("context.attributes.set(key: AttributeKeys.signingAlgorithm, value: signingAlgorithm)")
+            writer.write("context.attributes.set(key: AttributeKeys.signingAlgorithm, value: AWSSigningAlgorithm(rawValue: signingAlgorithm))")
         }.write("")
 
         writer.openBlock("if let headers = endpoint.headers {", "}") {
