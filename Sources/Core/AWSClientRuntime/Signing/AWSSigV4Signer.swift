@@ -28,7 +28,7 @@ public class AWSSigV4Signer: ClientRuntime.Signer {
                 "Identity passed to the AWSSigV4Signer must be of type Credentials."
             )
         }
-        
+
         let signingConfig = try constructSigningConfig(identity: identity, signingProperties: signingProperties)
 
         let unsignedRequest = requestBuilder.build()
