@@ -28,19 +28,17 @@ public class AWSSigV4Signer: ClientRuntime.Signer {
         let signingConfig = try constructSigningConfig(identity: identity, signingProperties: signingProperties)
 
         let unsignedRequest = requestBuilder.build()
-        let crtUnsignedRequest: HTTPRequestBase
-        if isBidirectionalStreamingEnabled {
-            crtUnsignedRequest = try unsignedRequest.toHttp2Request()
-        } else {
-            crtUnsignedRequest = try unsignedRequest.toHttpRequest()
-        }
+        let crtUnsignedRequest: HTTPRequestBase = isBidirectionalStreamingEnabled ?
+            try unsignedRequest.toHttp2Request() :
+            try unsignedRequest.toHttpRequest()
 
         let crtSignedRequest = try await Signer.signRequest(
             request: crtUnsignedRequest,
             config: signingConfig.toCRTType()
         )
-        let signedRequest = requestBuilder.update(from: crtSignedRequest, originalRequest: unsignedRequest)
-        return signedRequest
+        
+        // Return signed request
+        return requestBuilder.update(from: crtSignedRequest, originalRequest: unsignedRequest)
     }
 
     private func constructSigningConfig(
