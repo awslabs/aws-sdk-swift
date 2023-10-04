@@ -103,18 +103,34 @@ extension AWSEventStream {
             return message
         }
 
+        // Responsible for waiting on the initial response.
+        // It uses Swift's concurrency model to asynchronously return the data.
         public func awaitInitialResponse() async -> Data? {
+            // The 'withCheckedContinuation' function is used to bridge asynchronous code
+            // that doesn't use Swift's concurrency model with code that does.
             return await withCheckedContinuation { continuation in
+                // Here, we attempt to retrieve the initial response.
+                // Once the data is retrieved (or determined to be nil),
+                // the continuation is resumed with the result.
                 retrieveInitialResponse { data in
                     continuation.resume(returning: data)
                 }
             }
         }
 
-        public func retrieveInitialResponse(completion: @escaping (Data?) -> Void) {
+        // Attempt to get the initial response.
+        // If the initial message has been processed, it immediately calls the completion handler.
+        // Otherwise, it sets up a callback to be triggered once the initial response is received.
+        private func retrieveInitialResponse(completion: @escaping (Data?) -> Void) {
+            // Check if the initial message has already been processed.
             if self.didProcessInitialMessage {
-                completion(initialMessage)  // Could be nil or populated.
+                // If it has been processed, immediately call the completion handler
+                // with the potentially nil or populated 'initialMessage' value.
+                completion(initialMessage)
             } else {
+                // If the initial message hasn't been processed,
+                // set the 'onInitialResponseReceived' callback to our completion handler,
+                // so it can be called later once the initial response is received.
                 self.onInitialResponseReceived = completion
             }
         }
