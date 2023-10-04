@@ -10,7 +10,7 @@ import ClientRuntime
 import Foundation
 
 public class AWSSigV4Signer: ClientRuntime.Signer {
-    public typealias IdObj = Credentials
+    public typealias IdentityT = Credentials
 
     public func sign(
         requestBuilder: SdkHttpRequestBuilder,
