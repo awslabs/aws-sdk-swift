@@ -20,7 +20,7 @@ class SuccessMatcherTests: XCTestCase {
     }
 
     func test_successTrue_acceptorMatchesOnOutput() async throws {
-        let output = GetWidgetOutputResponse()
+        let output = GetWidgetOutput()
         let subject = try WaitersClient.successTrueMatcherWaiterConfig().acceptors[0]
         let match = subject.evaluate(input: anInput, result: .success(output))
         XCTAssertEqual(match, .success(.success(output)))
@@ -33,7 +33,7 @@ class SuccessMatcherTests: XCTestCase {
     }
 
     func test_successFalse_acceptorFailsToMatchOnOutput() async throws {
-        let output = GetWidgetOutputResponse()
+        let output = GetWidgetOutput()
         let subject = try WaitersClient.successFalseMatcherWaiterConfig().acceptors[0]
         let match = subject.evaluate(input: anInput, result: .success(output))
         XCTAssertNil(match)
