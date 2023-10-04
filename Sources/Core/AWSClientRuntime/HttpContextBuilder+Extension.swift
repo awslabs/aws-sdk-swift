@@ -9,14 +9,14 @@ import ClientRuntime
 import struct Foundation.Date
 
 extension HttpContext {
-    static let credentialsProvider = AttributeKey<CredentialsProviding>(name: "CredentialsProvider")
+    static let credentialsProvider = AttributeKey<(any CredentialsProviding)>(name: "CredentialsProvider")
     static let region = AttributeKey<String>(name: "Region")
     public static let signingName = AttributeKey<String>(name: "SigningName")
     public static let signingRegion = AttributeKey<String>(name: "SigningRegion")
     public static let signingAlgorithm = AttributeKey<String>(name: "SigningAlgorithm")
     public static let requestSignature = AttributeKey<String>(name: "AWS_HTTP_SIGNATURE")
 
-    func getCredentialsProvider() -> CredentialsProviding? {
+    func getCredentialsProvider() -> (any CredentialsProviding)? {
         return attributes.get(key: HttpContext.credentialsProvider)
     }
 
@@ -49,7 +49,7 @@ extension HttpContext {
     /// - Returns: `AWSSigningConfig` for the event stream message
     public func makeEventStreamSigningConfig(date: Date = Date().withoutFractionalSeconds())
         async throws -> AWSSigningConfig {
-        let credentials = try await getCredentialsProvider()?.getCredentials()
+        let credentials = try await getCredentialsProvider()?.getIdentity(identityProperties: Attributes())
         guard let service = getSigningName() else {
             fatalError("Signing name must not be nil, it must be set by the middleware during the request")
         }
@@ -100,7 +100,7 @@ extension HttpContextBuilder {
     }
 
     @discardableResult
-    public func withCredentialsProvider(value: CredentialsProviding) -> HttpContextBuilder {
+    public func withCredentialsProvider(value: any CredentialsProviding) -> HttpContextBuilder {
         self.attributes.set(key: HttpContext.credentialsProvider, value: value)
         return self
     }

@@ -26,14 +26,14 @@ class CredentialsTests: XCTestCase {
         XCTAssertEqual(creds.accessKey, accessKey)
         XCTAssertEqual(creds.secret, secret)
         XCTAssertNil(creds.sessionToken)
-        XCTAssertNil(creds.expirationTimeout)
+        XCTAssertNil(creds.expiration)
     }
     
     func testCRTCredentials() {
         let crtCredentials = try! CRTCredentials(credentials: .init(
             accessKey: accessKey,
             secret: secret,
-            expirationTimeout: expiration,
+            expiration: expiration,
             sessionToken: session
         ))
         let accessKey = crtCredentials.getAccessKey()

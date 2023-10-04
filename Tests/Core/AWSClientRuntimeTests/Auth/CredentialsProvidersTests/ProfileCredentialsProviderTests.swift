@@ -20,7 +20,7 @@ class ProfileCredentialsProviderTests: XCTestCase {
             configFilePath: configPath,
             credentialsFilePath: credentialsPath
         )
-        let credentials = try await subject.getCredentials()
+        let credentials = try await subject.getIdentity()
         
         XCTAssertEqual(credentials.accessKey, "access_key_default_cred")
         XCTAssertEqual(credentials.secret, "secret_default_cred")
@@ -32,7 +32,7 @@ class ProfileCredentialsProviderTests: XCTestCase {
             configFilePath: configPath,
             credentialsFilePath: credentialsPath
         )
-        let credentials = try await subject.getCredentials()
+        let credentials = try await subject.getIdentity()
         
         XCTAssertEqual(credentials.accessKey, "access_key_profile_config")
         XCTAssertEqual(credentials.secret, "secret_profile_config")
@@ -44,7 +44,7 @@ class ProfileCredentialsProviderTests: XCTestCase {
             configFilePath: configPath,
             credentialsFilePath: credentialsPath
         )
-        let credentials = try await subject.getCredentials()
+        let credentials = try await subject.getIdentity()
         
         XCTAssertEqual(credentials.accessKey, "access_key_profile_cred")
         XCTAssertEqual(credentials.secret, "secret_profile_cred")

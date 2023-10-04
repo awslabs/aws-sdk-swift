@@ -22,7 +22,7 @@ class EnvironmentCredentialsProviderTests: XCTestCase {
         }
 
         let subject = try EnvironmentCredentialsProvider()
-        let credentials = try await subject.getCredentials()
+        let credentials = try await subject.getIdentity()
         
         XCTAssertEqual(credentials.accessKey, "some_access_key_a")
         XCTAssertEqual(credentials.secret, "some_secret_a")

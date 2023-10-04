@@ -21,7 +21,7 @@ public struct CachedCredentialsProvider: CredentialsSourcedByCRT {
     ///   - source: The source credentials provider to get the credentials.
     ///   - refreshTime: The number of seconds that must pass before new credentials will be fetched again.
     public init(
-        source: CredentialsProviding,
+        source: any CredentialsProviding,
         refreshTime: TimeInterval
     ) throws {
         self.crtCredentialsProvider = try CRTCredentialsProvider(source: .cached(

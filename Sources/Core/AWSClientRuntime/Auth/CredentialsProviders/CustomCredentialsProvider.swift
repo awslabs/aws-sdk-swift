@@ -18,7 +18,7 @@ struct CustomCredentialsProvider: CredentialsSourcedByCRT {
     /// - Parameter provider: An object confirming to `CredentialsProviding` to source the credentials.
     ///
     /// - Returns: A credentials provider that uses the provided the object confirming to `CredentialsProviding` to source the credentials.
-    init(_ provider: CredentialsProviding) throws {
+    init(_ provider: any CredentialsProviding) throws {
         self.crtCredentialsProvider = try CRTCredentialsProvider(
             provider: CredentialsProvidingCRTAdapter(credentialsProvider: provider)
         )

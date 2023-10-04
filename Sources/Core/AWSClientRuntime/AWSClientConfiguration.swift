@@ -62,7 +62,7 @@ public class AWSClientConfiguration<ServiceSpecificConfiguration: AWSServiceSpec
     /// The credentials provider to be used for AWS credentials.
     ///
     /// If no credentials provider is supplied, the SDK will look for credentials in the environment, then in the `~/.aws/credentials` file.
-    public var credentialsProvider: CredentialsProviding
+    public var credentialsProvider: any CredentialsProviding
 
     /// The AWS region to use, i.e. `us-east-1` or `us-west-2`, etc.
     ///
@@ -111,7 +111,7 @@ public class AWSClientConfiguration<ServiceSpecificConfiguration: AWSServiceSpec
     /// All convenience inits should call this.
     private init(
         // these params have no labels to distinguish this init from the similar convenience inits below
-        _ credentialsProvider: AWSClientRuntime.CredentialsProviding,
+        _ credentialsProvider: any AWSClientRuntime.CredentialsProviding,
         _ endpoint: Swift.String?,
         _ serviceSpecific: ServiceSpecificConfiguration?,
         _ region: Swift.String?,
@@ -163,7 +163,7 @@ extension AWSClientConfiguration {
 
     /// Creates a configuration asynchronously
     public convenience init(
-        credentialsProvider: AWSClientRuntime.CredentialsProviding? = nil,
+        credentialsProvider: (any AWSClientRuntime.CredentialsProviding)? = nil,
         endpoint: Swift.String? = nil,
         serviceSpecific: ServiceSpecificConfiguration? = nil,
         region: Swift.String? = nil,
@@ -184,7 +184,7 @@ extension AWSClientConfiguration {
         } else {
             resolvedRegion = await resolvedRegionResolver.resolveRegion()
         }
-        let resolvedCredentialsProvider: AWSClientRuntime.CredentialsProviding
+        let resolvedCredentialsProvider: any AWSClientRuntime.CredentialsProviding
         if let credentialsProvider = credentialsProvider {
             resolvedCredentialsProvider = credentialsProvider
         } else {
@@ -219,7 +219,7 @@ extension AWSClientConfiguration {
 
     public convenience init(
         region: Swift.String,
-        credentialsProvider: AWSClientRuntime.CredentialsProviding? = nil,
+        credentialsProvider: (any AWSClientRuntime.CredentialsProviding)? = nil,
         endpoint: Swift.String? = nil,
         serviceSpecific: ServiceSpecificConfiguration? = nil,
         signingRegion: Swift.String? = nil,
@@ -231,7 +231,7 @@ extension AWSClientConfiguration {
         connectTimeoutMs: UInt32? = nil
     ) throws {
         let fileBasedConfig = try CRTFileBasedConfiguration.make()
-        let resolvedCredentialsProvider: CredentialsProviding
+        let resolvedCredentialsProvider: any CredentialsProviding
         if let credentialsProvider = credentialsProvider {
             resolvedCredentialsProvider = credentialsProvider
         } else {

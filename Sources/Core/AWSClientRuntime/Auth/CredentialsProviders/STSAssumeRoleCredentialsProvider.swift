@@ -26,7 +26,7 @@ public struct STSAssumeRoleCredentialsProvider: CredentialsSourcedByCRT {
     ///   - sessionName: The name to associate with the session. This is used to uniquely identify a session when the same role is assumed by different principals or for different reasons. In cross-account scenarios, the session name is visible to, and can be logged by the account that owns the role. The role session name is also in the ARN of the assumed role principal.
     ///   - durationSeconds: The expiry duration of the STS credentials. Defaults to 15 minutes if not set.
     public init(
-        credentialsProvider: CredentialsProviding,
+        credentialsProvider: any CredentialsProviding,
         roleArn: String,
         sessionName: String,
         durationSeconds: TimeInterval = .minutes(15)

@@ -14,7 +14,7 @@ public class AWSSigV4Signer {
 
     public static func sigV4SignedURL(
         requestBuilder: SdkHttpRequestBuilder,
-        credentialsProvider: CredentialsProviding,
+        credentialsProvider: any CredentialsProviding,
         signingName: Swift.String,
         signingRegion: Swift.String,
         date: ClientRuntime.Date,
@@ -22,7 +22,7 @@ public class AWSSigV4Signer {
         signingAlgorithm: AWSSigningAlgorithm
     ) async -> ClientRuntime.URL? {
         do {
-            let credentials = try await credentialsProvider.getCredentials()
+            let credentials = try await credentialsProvider.getIdentity(identityProperties: Attributes())
             let flags = SigningFlags(useDoubleURIEncode: true,
                                      shouldNormalizeURIPath: true,
                                      omitSessionToken: false)

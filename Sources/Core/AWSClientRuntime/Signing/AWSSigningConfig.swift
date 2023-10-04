@@ -10,7 +10,7 @@ import Foundation
 
 public struct AWSSigningConfig {
     public let credentials: AWSCredentials?
-    public let credentialsProvider: CredentialsProviding?
+    public let credentialsProvider: (any CredentialsProviding)?
     public let expiration: TimeInterval
     public let signedBodyHeader: AWSSignedBodyHeader
     public let signedBodyValue: AWSSignedBodyValue
@@ -24,7 +24,7 @@ public struct AWSSigningConfig {
 
     public init(
         credentials: AWSCredentials? = nil,
-        credentialsProvider: CredentialsProviding? = nil,
+        credentialsProvider: (any CredentialsProviding)? = nil,
         expiration: TimeInterval = 0,
         signedBodyHeader: AWSSignedBodyHeader = .none,
         signedBodyValue: AWSSignedBodyValue,

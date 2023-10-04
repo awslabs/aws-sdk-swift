@@ -12,10 +12,3 @@ import Foundation
 protocol CredentialsSourcedByCRT: CredentialsProviding {
     var crtCredentialsProvider: CRTCredentialsProvider { get }
 }
-
-extension CredentialsSourcedByCRT {
-    public func getCredentials() async throws -> Credentials {
-        let crtCredentials = try await crtCredentialsProvider.getCredentials()
-        return try .init(crtCredentials: crtCredentials)
-    }
-}

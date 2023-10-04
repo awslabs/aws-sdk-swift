@@ -117,15 +117,15 @@ class MyCustomCredentialsProvider: AWSClientRuntime.CredentialsProviding {
         self.init(credentials: AWSCredentials(
             accessKey: "AKIDEXAMPLE",
             secret: "wJalrXUtnFEMI/K7MDENG+bPxRfiCYEXAMPLEKEY",
-            expirationTimeout: .init(timeIntervalSinceNow: 30)
+            expiration: .init(timeIntervalSinceNow: 30)
         ))
     }
     
-    func getCredentials() async throws -> AWSClientRuntime.AWSCredentials {
+    func getIdentity(identityProperties: Attributes?) async throws -> AWSClientRuntime.AWSCredentials {
         return AWSCredentials(
             accessKey: "AKIDEXAMPLE",
             secret: "wJalrXUtnFEMI/K7MDENG+bPxRfiCYEXAMPLEKEY",
-            expirationTimeout: .init(timeIntervalSinceNow: 30)
+            expiration: .init(timeIntervalSinceNow: 30)
         )
     }
 }
