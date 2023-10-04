@@ -10,11 +10,9 @@ import ClientRuntime
 import Foundation
 
 public class AWSSigV4Signer: ClientRuntime.Signer {
-    public typealias IdentityT = Credentials
-
-    public func sign(
+    public func sign<IdentityT: Identity>(
         requestBuilder: SdkHttpRequestBuilder,
-        identity: Credentials,
+        identity: IdentityT,
         signingProperties: ClientRuntime.Attributes
     ) async throws -> SdkHttpRequestBuilder {
         guard let isBidirectionalStreamingEnabled = signingProperties.get(
@@ -25,6 +23,12 @@ public class AWSSigV4Signer: ClientRuntime.Signer {
             )
         }
 
+        guard let identity = identity as? Credentials else {
+            throw ClientError.authError(
+                "Identity passed to the AWSSigV4Signer must be of type Credentials."
+            )
+        }
+        
         let signingConfig = try constructSigningConfig(identity: identity, signingProperties: signingProperties)
 
         let unsignedRequest = requestBuilder.build()
