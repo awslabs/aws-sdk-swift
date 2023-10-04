@@ -11,6 +11,7 @@ extension AWSEventStream {
     /// Signs a `Message` using the AWS SigV4 signing algorithm
     public class AWSMessageSigner: MessageSigner {
         let encoder: MessageEncoder
+        let signer: () async throws -> ClientRuntime.Signer
         let signingConfig: () async throws -> AWSSigningConfig
         let requestSignature: () -> String
 
@@ -35,9 +36,11 @@ extension AWSEventStream {
         }
 
         public init(encoder: MessageEncoder,
+                    signer: @escaping () async throws -> ClientRuntime.Signer,
                     signingConfig: @escaping () async throws -> AWSSigningConfig,
                     requestSignature: @escaping () -> String) {
             self.encoder = encoder
+            self.signer = signer
             self.signingConfig = signingConfig
             self.requestSignature = requestSignature
         }
@@ -49,9 +52,9 @@ extension AWSEventStream {
             // encode to bytes
             let encodedMessage = try encoder.encode(message: message)
             let signingConfig = try await self.signingConfig()
-
-            // sign encoded bytes
-            let signingResult = try await AWSSigV4Signer.signEvent(payload: encodedMessage,
+            let sigv4signer = try await self.getSigV4Signer()
+            // Sign encoded bytes
+            let signingResult = try await sigv4signer.signEvent(payload: encodedMessage,
                                                                    previousSignature: previousSignature,
                                                                    signingConfig: signingConfig)
             previousSignature = signingResult.signature
@@ -62,10 +65,23 @@ extension AWSEventStream {
         /// - Returns: Signed `Message` with `:chunk-signature` & `:date` headers
         public func signEmpty() async throws -> ClientRuntime.EventStream.Message {
             let signingConfig = try await self.signingConfig()
-            let signingResult = try await AWSSigV4Signer.signEvent(payload: .init(),
+            let sigv4signer = try await self.getSigV4Signer()
+            let signingResult = try await sigv4signer.signEvent(payload: .init(),
                                                                    previousSignature: previousSignature,
                                                                    signingConfig: signingConfig)
             return signingResult.output
+        }
+        
+        private func getSigV4Signer() async throws -> AWSSigV4Signer {
+            // Fetch resolved signer from selected auth scheme in middleware context
+            let signer = try await self.signer()
+            // For now, only AWSSigV4Signer is used for eventstream message signing
+            let sigv4signer = signer as? AWSClientRuntime.AWSSigV4Signer
+            guard let sigv4signer else {
+                throw ClientError.authError("Could not sign event stream message using configured signer, \(signer).")
+            }
+            
+            return sigv4signer
         }
     }
 }

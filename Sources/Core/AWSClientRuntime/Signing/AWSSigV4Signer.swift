@@ -143,7 +143,7 @@ public class AWSSigV4Signer: ClientRuntime.Signer {
     ///                        the current event payload like a rolling signature calculation.
     ///   - signingConfig: The signing configuration
     /// - Returns: The signed event with :date and :chunk-signature headers
-    static func signEvent(payload: Data,
+    public func signEvent(payload: Data,
                           previousSignature: String,
                           signingConfig: AWSSigningConfig) async throws -> SigningResult<EventStream.Message> {
         let signature = try await Signer.signEvent(event: payload,

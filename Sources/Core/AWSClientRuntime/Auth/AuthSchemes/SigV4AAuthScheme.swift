@@ -7,8 +7,8 @@
 
 import ClientRuntime
 
-public struct SigV4AuthScheme: ClientRuntime.AuthScheme {
-    public let schemeID: String = "aws.auth#sigv4"
+public struct SigV4AAuthScheme: ClientRuntime.AuthScheme {
+    public let schemeID: String = "aws.auth#sigv4a"
     public let signer: ClientRuntime.Signer = AWSSigV4Signer()
     public let idKind: ClientRuntime.IdentityKind = .aws
 
@@ -17,7 +17,7 @@ public struct SigV4AuthScheme: ClientRuntime.AuthScheme {
     public func customizeSigningProperties(signingProperties: Attributes, context: HttpContext) -> Attributes {
         var updatedSigningProperties = signingProperties
 
-        updatedSigningProperties.set(key: AttributeKeys.signingAlgorithm, value: .sigv4)
+        updatedSigningProperties.set(key: AttributeKeys.signingAlgorithm, value: .sigv4a)
 
         updatedSigningProperties.set(key: AttributeKeys.bidirectionalStreaming, value: context.isBidirectionalStreamingEnabled())
         updatedSigningProperties.set(key: AttributeKeys.signingName, value: context.getSigningName())

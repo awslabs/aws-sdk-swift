@@ -20,8 +20,7 @@ import software.amazon.smithy.swift.codegen.core.toProtocolGenerationContext
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 import software.amazon.smithy.swift.codegen.integration.SwiftIntegration
 import software.amazon.smithy.swift.codegen.middleware.MiddlewareExecutionGenerator
-import software.amazon.smithy.swift.codegen.middleware.MiddlewareStep
-import software.amazon.smithy.swift.codegen.middleware.OperationMiddleware
+import software.amazon.smithy.swift.codegen.middleware.MiddlewareExecutionGenerator.Companion.ContextAttributeCodegenFlowType.PRESIGN_REQUEST
 import software.amazon.smithy.swift.codegen.model.expectShape
 import software.amazon.smithy.swift.codegen.model.toUpperCamelCase
 
@@ -44,9 +43,9 @@ class PresignerGenerator : SwiftIntegration {
             }
         presignOperations.forEach { presignableOperation ->
             val op = ctx.model.expectShape<OperationShape>(presignableOperation.operationId)
-            val inputType = op.input.get().getName()
+            val inputType = op.input.get().name
             delegator.useFileWriter("${ctx.settings.moduleName}/models/$inputType+Presigner.swift") { writer ->
-                var serviceConfig = AWSServiceConfig(writer, protoCtx)
+                val serviceConfig = AWSServiceConfig(writer, protoCtx)
                 renderPresigner(writer, ctx, delegator, op, inputType, serviceConfig)
             }
             // Expose presign-request as a method for service client object
@@ -76,7 +75,7 @@ class PresignerGenerator : SwiftIntegration {
         val serviceShape = ctx.model.expectShape<ServiceShape>(ctx.settings.service)
         val protocolGenerator = ctx.protocolGenerator?.let { it } ?: run { return }
         val protocolGeneratorContext = ctx.toProtocolGenerationContext(serviceShape, delegator)?.let { it } ?: run { return }
-        val operationMiddleware = resolveOperationMiddleware(protocolGenerator, op, ctx)
+        val operationMiddleware = protocolGenerator.operationMiddleware
 
         writer.addImport(AWSClientConfiguration)
         writer.addImport(SdkHttpRequest)
@@ -103,7 +102,7 @@ class PresignerGenerator : SwiftIntegration {
                     operationMiddleware,
                     operationStackName
                 )
-                generator.render(op) { writer, _ ->
+                generator.render(op, PRESIGN_REQUEST) { writer, _ ->
                     writer.write("return nil")
                 }
                 val requestBuilderName = "presignedRequestBuilder"
@@ -152,24 +151,5 @@ class PresignerGenerator : SwiftIntegration {
             write("///")
             write("/// - Returns: `URLRequest`: The presigned request for ${op.toUpperCamelCase()} operation.")
         }
-    }
-
-    private fun resolveOperationMiddleware(protocolGenerator: ProtocolGenerator, op: OperationShape, ctx: CodegenContext): OperationMiddleware {
-        val operationMiddlewareCopy = protocolGenerator.operationMiddleware.clone()
-        operationMiddlewareCopy.removeMiddleware(op, MiddlewareStep.FINALIZESTEP, "AWSSigningMiddleware")
-        val service = ctx.model.expectShape<ServiceShape>(ctx.settings.service)
-        val operation = ctx.model.expectShape<OperationShape>(op.id)
-        if (AWSSigningMiddleware.hasSigV4AuthScheme(ctx.model, service, operation)) {
-            val params = AWSSigningParams(
-                service,
-                op,
-                useSignatureTypeQueryString = false,
-                forceUnsignedBody = false,
-                useExpiration = true,
-                signingAlgorithm = SigningAlgorithm.SigV4
-            )
-            operationMiddlewareCopy.appendMiddleware(op, AWSSigningMiddleware(ctx.model, ctx.symbolProvider, params))
-        }
-        return operationMiddlewareCopy
     }
 }

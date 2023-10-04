@@ -14,10 +14,6 @@ extension HttpContext {
         return attributes.get(key: AttributeKeys.credentialsProvider)
     }
 
-    public func getRequestSignature() -> String {
-        return attributes.get(key: AttributeKeys.requestSignature)!
-    }
-
     public func getSigningAlgorithm() -> AWSSigningAlgorithm? {
         return attributes.get(key: AttributeKeys.signingAlgorithm)
     }
@@ -56,6 +52,14 @@ extension HttpContext {
         // setup client to server
         let messageEncoder = AWSClientRuntime.AWSEventStream.AWSMessageEncoder()
         let messageSigner = AWSClientRuntime.AWSEventStream.AWSMessageSigner(encoder: messageEncoder) {
+            guard let authScheme = self.getSelectedAuthScheme() else {
+                throw ClientError.authError("Signer for event stream could not be loaded because auth scheme was not configured.")
+            }
+            guard let signer = authScheme.signer else {
+                throw ClientError.authError("Signer was not configured for the selected auth scheme.")
+            }
+            return signer
+        } signingConfig: {
             try await self.makeEventStreamSigningConfig()
         } requestSignature: {
             self.getRequestSignature()
@@ -75,14 +79,6 @@ extension HttpContextBuilder {
         return self
     }
 
-    /// Sets the request signature for the event stream operation
-    /// - Parameter value: `String` request signature
-    @discardableResult
-    public func withRequestSignature(value: String) -> HttpContextBuilder {
-        self.attributes.set(key: AttributeKeys.requestSignature, value: value)
-        return self
-    }
-
     @discardableResult
     public func withSigningAlgorithm(value: AWSSigningAlgorithm) -> HttpContextBuilder {
         self.attributes.set(key: AttributeKeys.signingAlgorithm, value: value)
@@ -93,7 +89,6 @@ extension HttpContextBuilder {
 extension AttributeKeys {
     public static let credentialsProvider = AttributeKey<(any CredentialsProviding)>(name: "CredentialsProvider")
     public static let signingAlgorithm = AttributeKey<AWSSigningAlgorithm>(name: "SigningAlgorithm")
-    public static let requestSignature = AttributeKey<String>(name: "AWS_HTTP_SIGNATURE")
 
     // Keys used to store/retrieve AWSSigningConfig fields in/from signingProperties passed to AWSSigV4Signer
     public static let unsignedBody = AttributeKey<Bool>(name: "UnsignedBody")
