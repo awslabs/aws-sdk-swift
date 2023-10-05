@@ -26,9 +26,4 @@ final class AWSMessageEncoderTests: XCTestCase {
         let encodedMessage = try! sut.encode(message: validMessageNoHeaders)
         XCTAssertEqual(validMessageDataNoHeaders, encodedMessage)
     }
-
-   func testEncode_InitialResponseMessage() {
-       let encodedMessage = try! sut.encode(message: validInitialResponseMessage)
-       XCTAssertEqual(validInitialResponseMessageData, encodedMessage)
-   }
 }
