@@ -37,7 +37,7 @@ class ErrorTypeMatcherTests: XCTestCase {
     }
 
     func test_errorType_doesNotMatchWhenResultIsSuccess() async throws {
-        let response = GetWidgetOutputResponse()
+        let response = GetWidgetOutput()
         let subject = try WaitersClient.errorTypeMatcherWaiterConfig().acceptors[0]
         let match = subject.evaluate(input: anInput, result: .success(response))
         XCTAssertNil(match)
