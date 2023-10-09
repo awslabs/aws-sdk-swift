@@ -104,7 +104,7 @@ public struct AnalyzeDocumentInput: Swift.Equatable {
     /// The input document as base64-encoded bytes or an Amazon S3 object. If you use the AWS CLI to call Amazon Textract operations, you can't pass image bytes. The document must be an image in JPEG, PNG, PDF, or TIFF format. If you're using an AWS SDK to call Amazon Textract, you might not need to base64-encode image bytes that are passed using the Bytes field.
     /// This member is required.
     public var document: TextractClientTypes.Document?
-    /// A list of the types of analysis to perform. Add TABLES to the list to return information about the tables that are detected in the input document. Add FORMS to return detected form data. Add SIGNATURES to return the locations of detected signatures. To perform both forms and table analysis, add TABLES and FORMS to FeatureTypes. To detect signatures within form data and table data, add SIGNATURES to either TABLES or FORMS. All lines and words detected in the document are included in the response (including text that isn't related to the value of FeatureTypes).
+    /// A list of the types of analysis to perform. Add TABLES to the list to return information about the tables that are detected in the input document. Add FORMS to return detected form data. Add SIGNATURES to return the locations of detected signatures. Add LAYOUT to the list to return information about the layout of the document. To perform both forms and table analysis, add TABLES and FORMS to FeatureTypes. To detect signatures within the document and within form data and table data, add SIGNATURES to either TABLES or FORMS. All lines and words detected in the document are included in the response (including text that isn't related to the value of FeatureTypes).
     /// This member is required.
     public var featureTypes: [TextractClientTypes.FeatureType]?
     /// Sets the configuration for the human in the loop workflow for analyzing documents.
@@ -163,8 +163,8 @@ extension AnalyzeDocumentInputBody: Swift.Decodable {
     }
 }
 
-public enum AnalyzeDocumentOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum AnalyzeDocumentOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -310,8 +310,8 @@ extension AnalyzeExpenseInputBody: Swift.Decodable {
     }
 }
 
-public enum AnalyzeExpenseOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum AnalyzeExpenseOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -504,8 +504,8 @@ extension AnalyzeIDInputBody: Swift.Decodable {
     }
 }
 
-public enum AnalyzeIDOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum AnalyzeIDOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -817,7 +817,7 @@ extension TextractClientTypes {
         ///
         /// * SELECTION_ELEMENT - A selection element such as an option button (radio button) or a check box that's detected on a document page. Use the value of SelectionStatus to determine the status of the selection element.
         ///
-        /// * SIGNATURE - The location and confidene score of a signature detected on a document page. Can be returned as part of a Key-Value pair or a detected cell.
+        /// * SIGNATURE - The location and confidence score of a signature detected on a document page. Can be returned as part of a Key-Value pair or a detected cell.
         ///
         /// * QUERY - A question asked during the call of AnalyzeDocument. Contains an alias and an ID that attaches it to its answer.
         ///
@@ -859,7 +859,7 @@ extension TextractClientTypes {
         public var geometry: TextractClientTypes.Geometry?
         /// The identifier for the recognized text. The identifier is only unique for a single operation.
         public var id: Swift.String?
-        /// The page on which a block was detected. Page is returned by synchronous and asynchronous operations. Page values greater than 1 are only returned for multipage documents that are in PDF or TIFF format. A scanned image (JPEG/PNG) provided to an asynchronous operation, even if it contains multiple document pages, is considered a single-page document. This means that for scanned images the value of Page is always 1. Synchronous operations will also return a Page value of 1 because every input document is considered to be a single-page document.
+        /// The page on which a block was detected. Page is returned by synchronous and asynchronous operations. Page values greater than 1 are only returned for multipage documents that are in PDF or TIFF format. A scanned image (JPEG/PNG) provided to an asynchronous operation, even if it contains multiple document pages, is considered a single-page document. This means that for scanned images the value of Page is always 1.
         public var page: Swift.Int?
         ///
         public var query: TextractClientTypes.Query?
@@ -918,6 +918,16 @@ extension TextractClientTypes {
     public enum BlockType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case cell
         case keyValueSet
+        case layoutFigure
+        case layoutFooter
+        case layoutHeader
+        case layoutKeyValue
+        case layoutList
+        case layoutPageNumber
+        case layoutSectionHeader
+        case layoutTable
+        case layoutText
+        case layoutTitle
         case line
         case mergedCell
         case page
@@ -936,6 +946,16 @@ extension TextractClientTypes {
             return [
                 .cell,
                 .keyValueSet,
+                .layoutFigure,
+                .layoutFooter,
+                .layoutHeader,
+                .layoutKeyValue,
+                .layoutList,
+                .layoutPageNumber,
+                .layoutSectionHeader,
+                .layoutTable,
+                .layoutText,
+                .layoutTitle,
                 .line,
                 .mergedCell,
                 .page,
@@ -959,6 +979,16 @@ extension TextractClientTypes {
             switch self {
             case .cell: return "CELL"
             case .keyValueSet: return "KEY_VALUE_SET"
+            case .layoutFigure: return "LAYOUT_FIGURE"
+            case .layoutFooter: return "LAYOUT_FOOTER"
+            case .layoutHeader: return "LAYOUT_HEADER"
+            case .layoutKeyValue: return "LAYOUT_KEY_VALUE"
+            case .layoutList: return "LAYOUT_LIST"
+            case .layoutPageNumber: return "LAYOUT_PAGE_NUMBER"
+            case .layoutSectionHeader: return "LAYOUT_SECTION_HEADER"
+            case .layoutTable: return "LAYOUT_TABLE"
+            case .layoutText: return "LAYOUT_TEXT"
+            case .layoutTitle: return "LAYOUT_TITLE"
             case .line: return "LINE"
             case .mergedCell: return "MERGED_CELL"
             case .page: return "PAGE"
@@ -1127,8 +1157,8 @@ extension DetectDocumentTextInputBody: Swift.Decodable {
     }
 }
 
-public enum DetectDocumentTextOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DetectDocumentTextOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -2065,6 +2095,7 @@ extension TextractClientTypes {
 extension TextractClientTypes {
     public enum FeatureType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case forms
+        case layout
         case queries
         case signatures
         case tables
@@ -2073,6 +2104,7 @@ extension TextractClientTypes {
         public static var allCases: [FeatureType] {
             return [
                 .forms,
+                .layout,
                 .queries,
                 .signatures,
                 .tables,
@@ -2086,6 +2118,7 @@ extension TextractClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .forms: return "FORMS"
+            case .layout: return "LAYOUT"
             case .queries: return "QUERIES"
             case .signatures: return "SIGNATURES"
             case .tables: return "TABLES"
@@ -2229,8 +2262,8 @@ extension GetDocumentAnalysisInputBody: Swift.Decodable {
     }
 }
 
-public enum GetDocumentAnalysisOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum GetDocumentAnalysisOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -2437,8 +2470,8 @@ extension GetDocumentTextDetectionInputBody: Swift.Decodable {
     }
 }
 
-public enum GetDocumentTextDetectionOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum GetDocumentTextDetectionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -2645,8 +2678,8 @@ extension GetExpenseAnalysisInputBody: Swift.Decodable {
     }
 }
 
-public enum GetExpenseAnalysisOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum GetExpenseAnalysisOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -2853,8 +2886,8 @@ extension GetLendingAnalysisInputBody: Swift.Decodable {
     }
 }
 
-public enum GetLendingAnalysisOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum GetLendingAnalysisOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -3037,8 +3070,8 @@ extension GetLendingAnalysisSummaryInputBody: Swift.Decodable {
     }
 }
 
-public enum GetLendingAnalysisSummaryOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum GetLendingAnalysisSummaryOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -5417,8 +5450,8 @@ extension StartDocumentAnalysisInputBody: Swift.Decodable {
     }
 }
 
-public enum StartDocumentAnalysisOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum StartDocumentAnalysisOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -5587,8 +5620,8 @@ extension StartDocumentTextDetectionInputBody: Swift.Decodable {
     }
 }
 
-public enum StartDocumentTextDetectionOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum StartDocumentTextDetectionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -5757,8 +5790,8 @@ extension StartExpenseAnalysisInputBody: Swift.Decodable {
     }
 }
 
-public enum StartExpenseAnalysisOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum StartExpenseAnalysisOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -5927,8 +5960,8 @@ extension StartLendingAnalysisInputBody: Swift.Decodable {
     }
 }
 
-public enum StartLendingAnalysisOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum StartLendingAnalysisOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {

@@ -155,7 +155,7 @@ extension BadRequestException: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if let message = self.message {
+        if let message = self.properties.message {
             try encodeContainer.encode(message, forKey: .message)
         }
     }
@@ -733,7 +733,7 @@ extension ConflictException: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if let message = self.message {
+        if let message = self.properties.message {
             try encodeContainer.encode(message, forKey: .message)
         }
     }
@@ -982,7 +982,7 @@ extension InternalFailureException: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if let message = self.message {
+        if let message = self.properties.message {
             try encodeContainer.encode(message, forKey: .message)
         }
     }
@@ -1341,7 +1341,7 @@ extension LimitExceededException: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if let message = self.message {
+        if let message = self.properties.message {
             try encodeContainer.encode(message, forKey: .message)
         }
     }
@@ -2318,7 +2318,7 @@ extension ServiceUnavailableException: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if let message = self.message {
+        if let message = self.properties.message {
             try encodeContainer.encode(message, forKey: .message)
         }
     }
@@ -2601,8 +2601,8 @@ public struct StartCallAnalyticsStreamTranscriptionInput: Swift.Equatable {
     }
 }
 
-public enum StartCallAnalyticsStreamTranscriptionOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum StartCallAnalyticsStreamTranscriptionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -2926,8 +2926,8 @@ public struct StartMedicalStreamTranscriptionInput: Swift.Equatable {
     }
 }
 
-public enum StartMedicalStreamTranscriptionOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum StartMedicalStreamTranscriptionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -3300,8 +3300,8 @@ public struct StartStreamTranscriptionInput: Swift.Equatable {
     }
 }
 
-public enum StartStreamTranscriptionOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum StartStreamTranscriptionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {

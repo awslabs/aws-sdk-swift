@@ -13,9 +13,9 @@ public protocol TransferClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InternalServiceError` : This exception is thrown when an error occurs in the Amazon Web ServicesTransfer Family service.
+    /// - `InternalServiceError` : This exception is thrown when an error occurs in the Transfer Family service.
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
-    /// - `ResourceExistsException` : The requested resource does not exist.
+    /// - `ResourceExistsException` : The requested resource does not exist, or exists in a region other than the one specified for the command.
     /// - `ResourceNotFoundException` : This exception is thrown when a resource is not found by the Amazon Web ServicesTransfer Family service.
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
     func createAccess(input: CreateAccessInput) async throws -> CreateAccessOutputResponse
@@ -28,9 +28,9 @@ public protocol TransferClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InternalServiceError` : This exception is thrown when an error occurs in the Amazon Web ServicesTransfer Family service.
+    /// - `InternalServiceError` : This exception is thrown when an error occurs in the Transfer Family service.
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
-    /// - `ResourceExistsException` : The requested resource does not exist.
+    /// - `ResourceExistsException` : The requested resource does not exist, or exists in a region other than the one specified for the command.
     /// - `ResourceNotFoundException` : This exception is thrown when a resource is not found by the Amazon Web ServicesTransfer Family service.
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
     /// - `ThrottlingException` : The request was denied due to request throttling.
@@ -44,9 +44,9 @@ public protocol TransferClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InternalServiceError` : This exception is thrown when an error occurs in the Amazon Web ServicesTransfer Family service.
+    /// - `InternalServiceError` : This exception is thrown when an error occurs in the Transfer Family service.
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
-    /// - `ResourceExistsException` : The requested resource does not exist.
+    /// - `ResourceExistsException` : The requested resource does not exist, or exists in a region other than the one specified for the command.
     /// - `ResourceNotFoundException` : This exception is thrown when a resource is not found by the Amazon Web ServicesTransfer Family service.
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
     /// - `ThrottlingException` : The request was denied due to request throttling.
@@ -60,7 +60,7 @@ public protocol TransferClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InternalServiceError` : This exception is thrown when an error occurs in the Amazon Web ServicesTransfer Family service.
+    /// - `InternalServiceError` : This exception is thrown when an error occurs in the Transfer Family service.
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     /// - `ResourceNotFoundException` : This exception is thrown when a resource is not found by the Amazon Web ServicesTransfer Family service.
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
@@ -76,9 +76,9 @@ public protocol TransferClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
-    /// - `InternalServiceError` : This exception is thrown when an error occurs in the Amazon Web ServicesTransfer Family service.
+    /// - `InternalServiceError` : This exception is thrown when an error occurs in the Transfer Family service.
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
-    /// - `ResourceExistsException` : The requested resource does not exist.
+    /// - `ResourceExistsException` : The requested resource does not exist, or exists in a region other than the one specified for the command.
     /// - `ResourceNotFoundException` : This exception is thrown when a resource is not found by the Amazon Web ServicesTransfer Family service.
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
     /// - `ThrottlingException` : The request was denied due to request throttling.
@@ -92,9 +92,9 @@ public protocol TransferClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InternalServiceError` : This exception is thrown when an error occurs in the Amazon Web ServicesTransfer Family service.
+    /// - `InternalServiceError` : This exception is thrown when an error occurs in the Transfer Family service.
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
-    /// - `ResourceExistsException` : The requested resource does not exist.
+    /// - `ResourceExistsException` : The requested resource does not exist, or exists in a region other than the one specified for the command.
     /// - `ResourceNotFoundException` : This exception is thrown when a resource is not found by the Amazon Web ServicesTransfer Family service.
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
     func createUser(input: CreateUserInput) async throws -> CreateUserOutputResponse
@@ -108,9 +108,9 @@ public protocol TransferClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
-    /// - `InternalServiceError` : This exception is thrown when an error occurs in the Amazon Web ServicesTransfer Family service.
+    /// - `InternalServiceError` : This exception is thrown when an error occurs in the Transfer Family service.
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
-    /// - `ResourceExistsException` : The requested resource does not exist.
+    /// - `ResourceExistsException` : The requested resource does not exist, or exists in a region other than the one specified for the command.
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
     /// - `ThrottlingException` : The request was denied due to request throttling.
     func createWorkflow(input: CreateWorkflowInput) async throws -> CreateWorkflowOutputResponse
@@ -123,7 +123,7 @@ public protocol TransferClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InternalServiceError` : This exception is thrown when an error occurs in the Amazon Web ServicesTransfer Family service.
+    /// - `InternalServiceError` : This exception is thrown when an error occurs in the Transfer Family service.
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     /// - `ResourceNotFoundException` : This exception is thrown when a resource is not found by the Amazon Web ServicesTransfer Family service.
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
@@ -137,7 +137,7 @@ public protocol TransferClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InternalServiceError` : This exception is thrown when an error occurs in the Amazon Web ServicesTransfer Family service.
+    /// - `InternalServiceError` : This exception is thrown when an error occurs in the Transfer Family service.
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     /// - `ResourceNotFoundException` : This exception is thrown when a resource is not found by the Amazon Web ServicesTransfer Family service.
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
@@ -151,7 +151,7 @@ public protocol TransferClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InternalServiceError` : This exception is thrown when an error occurs in the Amazon Web ServicesTransfer Family service.
+    /// - `InternalServiceError` : This exception is thrown when an error occurs in the Transfer Family service.
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     /// - `ResourceNotFoundException` : This exception is thrown when a resource is not found by the Amazon Web ServicesTransfer Family service.
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
@@ -165,7 +165,7 @@ public protocol TransferClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InternalServiceError` : This exception is thrown when an error occurs in the Amazon Web ServicesTransfer Family service.
+    /// - `InternalServiceError` : This exception is thrown when an error occurs in the Transfer Family service.
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     /// - `ResourceNotFoundException` : This exception is thrown when a resource is not found by the Amazon Web ServicesTransfer Family service.
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
@@ -179,7 +179,7 @@ public protocol TransferClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InternalServiceError` : This exception is thrown when an error occurs in the Amazon Web ServicesTransfer Family service.
+    /// - `InternalServiceError` : This exception is thrown when an error occurs in the Transfer Family service.
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     /// - `ResourceNotFoundException` : This exception is thrown when a resource is not found by the Amazon Web ServicesTransfer Family service.
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
@@ -194,7 +194,7 @@ public protocol TransferClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InternalServiceError` : This exception is thrown when an error occurs in the Amazon Web ServicesTransfer Family service.
+    /// - `InternalServiceError` : This exception is thrown when an error occurs in the Transfer Family service.
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     /// - `ResourceNotFoundException` : This exception is thrown when a resource is not found by the Amazon Web ServicesTransfer Family service.
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
@@ -209,7 +209,7 @@ public protocol TransferClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
-    /// - `InternalServiceError` : This exception is thrown when an error occurs in the Amazon Web ServicesTransfer Family service.
+    /// - `InternalServiceError` : This exception is thrown when an error occurs in the Transfer Family service.
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     /// - `ResourceNotFoundException` : This exception is thrown when a resource is not found by the Amazon Web ServicesTransfer Family service.
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
@@ -223,7 +223,7 @@ public protocol TransferClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InternalServiceError` : This exception is thrown when an error occurs in the Amazon Web ServicesTransfer Family service.
+    /// - `InternalServiceError` : This exception is thrown when an error occurs in the Transfer Family service.
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     /// - `ResourceNotFoundException` : This exception is thrown when a resource is not found by the Amazon Web ServicesTransfer Family service.
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
@@ -238,7 +238,7 @@ public protocol TransferClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InternalServiceError` : This exception is thrown when an error occurs in the Amazon Web ServicesTransfer Family service.
+    /// - `InternalServiceError` : This exception is thrown when an error occurs in the Transfer Family service.
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     /// - `ResourceNotFoundException` : This exception is thrown when a resource is not found by the Amazon Web ServicesTransfer Family service.
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
@@ -253,7 +253,7 @@ public protocol TransferClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
-    /// - `InternalServiceError` : This exception is thrown when an error occurs in the Amazon Web ServicesTransfer Family service.
+    /// - `InternalServiceError` : This exception is thrown when an error occurs in the Transfer Family service.
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     /// - `ResourceNotFoundException` : This exception is thrown when a resource is not found by the Amazon Web ServicesTransfer Family service.
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
@@ -267,7 +267,7 @@ public protocol TransferClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InternalServiceError` : This exception is thrown when an error occurs in the Amazon Web ServicesTransfer Family service.
+    /// - `InternalServiceError` : This exception is thrown when an error occurs in the Transfer Family service.
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     /// - `ResourceNotFoundException` : This exception is thrown when a resource is not found by the Amazon Web ServicesTransfer Family service.
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
@@ -281,7 +281,7 @@ public protocol TransferClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InternalServiceError` : This exception is thrown when an error occurs in the Amazon Web ServicesTransfer Family service.
+    /// - `InternalServiceError` : This exception is thrown when an error occurs in the Transfer Family service.
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     /// - `ResourceNotFoundException` : This exception is thrown when a resource is not found by the Amazon Web ServicesTransfer Family service.
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
@@ -295,7 +295,7 @@ public protocol TransferClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InternalServiceError` : This exception is thrown when an error occurs in the Amazon Web ServicesTransfer Family service.
+    /// - `InternalServiceError` : This exception is thrown when an error occurs in the Transfer Family service.
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     /// - `ResourceNotFoundException` : This exception is thrown when a resource is not found by the Amazon Web ServicesTransfer Family service.
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
@@ -309,7 +309,7 @@ public protocol TransferClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InternalServiceError` : This exception is thrown when an error occurs in the Amazon Web ServicesTransfer Family service.
+    /// - `InternalServiceError` : This exception is thrown when an error occurs in the Transfer Family service.
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     /// - `ResourceNotFoundException` : This exception is thrown when a resource is not found by the Amazon Web ServicesTransfer Family service.
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
@@ -323,7 +323,7 @@ public protocol TransferClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InternalServiceError` : This exception is thrown when an error occurs in the Amazon Web ServicesTransfer Family service.
+    /// - `InternalServiceError` : This exception is thrown when an error occurs in the Transfer Family service.
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     /// - `ResourceNotFoundException` : This exception is thrown when a resource is not found by the Amazon Web ServicesTransfer Family service.
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
@@ -337,7 +337,7 @@ public protocol TransferClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InternalServiceError` : This exception is thrown when an error occurs in the Amazon Web ServicesTransfer Family service.
+    /// - `InternalServiceError` : This exception is thrown when an error occurs in the Transfer Family service.
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     /// - `ResourceNotFoundException` : This exception is thrown when a resource is not found by the Amazon Web ServicesTransfer Family service.
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
@@ -351,7 +351,7 @@ public protocol TransferClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InternalServiceError` : This exception is thrown when an error occurs in the Amazon Web ServicesTransfer Family service.
+    /// - `InternalServiceError` : This exception is thrown when an error occurs in the Transfer Family service.
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     /// - `ResourceNotFoundException` : This exception is thrown when a resource is not found by the Amazon Web ServicesTransfer Family service.
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
@@ -365,7 +365,7 @@ public protocol TransferClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InternalServiceError` : This exception is thrown when an error occurs in the Amazon Web ServicesTransfer Family service.
+    /// - `InternalServiceError` : This exception is thrown when an error occurs in the Transfer Family service.
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     /// - `ResourceNotFoundException` : This exception is thrown when a resource is not found by the Amazon Web ServicesTransfer Family service.
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
@@ -379,7 +379,7 @@ public protocol TransferClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InternalServiceError` : This exception is thrown when an error occurs in the Amazon Web ServicesTransfer Family service.
+    /// - `InternalServiceError` : This exception is thrown when an error occurs in the Transfer Family service.
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     /// - `ResourceNotFoundException` : This exception is thrown when a resource is not found by the Amazon Web ServicesTransfer Family service.
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
@@ -393,7 +393,7 @@ public protocol TransferClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InternalServiceError` : This exception is thrown when an error occurs in the Amazon Web ServicesTransfer Family service.
+    /// - `InternalServiceError` : This exception is thrown when an error occurs in the Transfer Family service.
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     /// - `ResourceNotFoundException` : This exception is thrown when a resource is not found by the Amazon Web ServicesTransfer Family service.
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
@@ -407,7 +407,7 @@ public protocol TransferClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InternalServiceError` : This exception is thrown when an error occurs in the Amazon Web ServicesTransfer Family service.
+    /// - `InternalServiceError` : This exception is thrown when an error occurs in the Transfer Family service.
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     /// - `ResourceNotFoundException` : This exception is thrown when a resource is not found by the Amazon Web ServicesTransfer Family service.
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
@@ -421,7 +421,7 @@ public protocol TransferClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InternalServiceError` : This exception is thrown when an error occurs in the Amazon Web ServicesTransfer Family service.
+    /// - `InternalServiceError` : This exception is thrown when an error occurs in the Transfer Family service.
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     /// - `ResourceNotFoundException` : This exception is thrown when a resource is not found by the Amazon Web ServicesTransfer Family service.
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
@@ -435,9 +435,9 @@ public protocol TransferClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InternalServiceError` : This exception is thrown when an error occurs in the Amazon Web ServicesTransfer Family service.
+    /// - `InternalServiceError` : This exception is thrown when an error occurs in the Transfer Family service.
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
-    /// - `ResourceExistsException` : The requested resource does not exist.
+    /// - `ResourceExistsException` : The requested resource does not exist, or exists in a region other than the one specified for the command.
     /// - `ResourceNotFoundException` : This exception is thrown when a resource is not found by the Amazon Web ServicesTransfer Family service.
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
     /// - `ThrottlingException` : The request was denied due to request throttling.
@@ -451,9 +451,9 @@ public protocol TransferClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InternalServiceError` : This exception is thrown when an error occurs in the Amazon Web ServicesTransfer Family service.
+    /// - `InternalServiceError` : This exception is thrown when an error occurs in the Transfer Family service.
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
-    /// - `ResourceExistsException` : The requested resource does not exist.
+    /// - `ResourceExistsException` : The requested resource does not exist, or exists in a region other than the one specified for the command.
     /// - `ResourceNotFoundException` : This exception is thrown when a resource is not found by the Amazon Web ServicesTransfer Family service.
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
     /// - `ThrottlingException` : The request was denied due to request throttling.
@@ -467,7 +467,7 @@ public protocol TransferClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InternalServiceError` : This exception is thrown when an error occurs in the Amazon Web ServicesTransfer Family service.
+    /// - `InternalServiceError` : This exception is thrown when an error occurs in the Transfer Family service.
     /// - `InvalidNextTokenException` : The NextToken parameter that was passed is invalid.
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     /// - `ResourceNotFoundException` : This exception is thrown when a resource is not found by the Amazon Web ServicesTransfer Family service.
@@ -482,7 +482,7 @@ public protocol TransferClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InternalServiceError` : This exception is thrown when an error occurs in the Amazon Web ServicesTransfer Family service.
+    /// - `InternalServiceError` : This exception is thrown when an error occurs in the Transfer Family service.
     /// - `InvalidNextTokenException` : The NextToken parameter that was passed is invalid.
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     /// - `ResourceNotFoundException` : This exception is thrown when a resource is not found by the Amazon Web ServicesTransfer Family service.
@@ -497,7 +497,7 @@ public protocol TransferClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InternalServiceError` : This exception is thrown when an error occurs in the Amazon Web ServicesTransfer Family service.
+    /// - `InternalServiceError` : This exception is thrown when an error occurs in the Transfer Family service.
     /// - `InvalidNextTokenException` : The NextToken parameter that was passed is invalid.
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     /// - `ResourceNotFoundException` : This exception is thrown when a resource is not found by the Amazon Web ServicesTransfer Family service.
@@ -512,7 +512,7 @@ public protocol TransferClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InternalServiceError` : This exception is thrown when an error occurs in the Amazon Web ServicesTransfer Family service.
+    /// - `InternalServiceError` : This exception is thrown when an error occurs in the Transfer Family service.
     /// - `InvalidNextTokenException` : The NextToken parameter that was passed is invalid.
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     /// - `ResourceNotFoundException` : This exception is thrown when a resource is not found by the Amazon Web ServicesTransfer Family service.
@@ -527,7 +527,7 @@ public protocol TransferClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InternalServiceError` : This exception is thrown when an error occurs in the Amazon Web ServicesTransfer Family service.
+    /// - `InternalServiceError` : This exception is thrown when an error occurs in the Transfer Family service.
     /// - `InvalidNextTokenException` : The NextToken parameter that was passed is invalid.
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     /// - `ResourceNotFoundException` : This exception is thrown when a resource is not found by the Amazon Web ServicesTransfer Family service.
@@ -542,7 +542,7 @@ public protocol TransferClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InternalServiceError` : This exception is thrown when an error occurs in the Amazon Web ServicesTransfer Family service.
+    /// - `InternalServiceError` : This exception is thrown when an error occurs in the Transfer Family service.
     /// - `InvalidNextTokenException` : The NextToken parameter that was passed is invalid.
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     /// - `ResourceNotFoundException` : This exception is thrown when a resource is not found by the Amazon Web ServicesTransfer Family service.
@@ -557,7 +557,7 @@ public protocol TransferClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InternalServiceError` : This exception is thrown when an error occurs in the Amazon Web ServicesTransfer Family service.
+    /// - `InternalServiceError` : This exception is thrown when an error occurs in the Transfer Family service.
     /// - `InvalidNextTokenException` : The NextToken parameter that was passed is invalid.
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     /// - `ResourceNotFoundException` : This exception is thrown when a resource is not found by the Amazon Web ServicesTransfer Family service.
@@ -572,7 +572,7 @@ public protocol TransferClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InternalServiceError` : This exception is thrown when an error occurs in the Amazon Web ServicesTransfer Family service.
+    /// - `InternalServiceError` : This exception is thrown when an error occurs in the Transfer Family service.
     /// - `InvalidNextTokenException` : The NextToken parameter that was passed is invalid.
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
@@ -586,7 +586,7 @@ public protocol TransferClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InternalServiceError` : This exception is thrown when an error occurs in the Amazon Web ServicesTransfer Family service.
+    /// - `InternalServiceError` : This exception is thrown when an error occurs in the Transfer Family service.
     /// - `InvalidNextTokenException` : The NextToken parameter that was passed is invalid.
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
@@ -600,7 +600,7 @@ public protocol TransferClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InternalServiceError` : This exception is thrown when an error occurs in the Amazon Web ServicesTransfer Family service.
+    /// - `InternalServiceError` : This exception is thrown when an error occurs in the Transfer Family service.
     /// - `InvalidNextTokenException` : The NextToken parameter that was passed is invalid.
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
@@ -614,7 +614,7 @@ public protocol TransferClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InternalServiceError` : This exception is thrown when an error occurs in the Amazon Web ServicesTransfer Family service.
+    /// - `InternalServiceError` : This exception is thrown when an error occurs in the Transfer Family service.
     /// - `InvalidNextTokenException` : The NextToken parameter that was passed is invalid.
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     /// - `ResourceNotFoundException` : This exception is thrown when a resource is not found by the Amazon Web ServicesTransfer Family service.
@@ -629,7 +629,7 @@ public protocol TransferClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InternalServiceError` : This exception is thrown when an error occurs in the Amazon Web ServicesTransfer Family service.
+    /// - `InternalServiceError` : This exception is thrown when an error occurs in the Transfer Family service.
     /// - `InvalidNextTokenException` : The NextToken parameter that was passed is invalid.
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
@@ -644,7 +644,7 @@ public protocol TransferClientProtocol {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
-    /// - `InternalServiceError` : This exception is thrown when an error occurs in the Amazon Web ServicesTransfer Family service.
+    /// - `InternalServiceError` : This exception is thrown when an error occurs in the Transfer Family service.
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     /// - `ResourceNotFoundException` : This exception is thrown when a resource is not found by the Amazon Web ServicesTransfer Family service.
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
@@ -667,7 +667,7 @@ public protocol TransferClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InternalServiceError` : This exception is thrown when an error occurs in the Amazon Web ServicesTransfer Family service.
+    /// - `InternalServiceError` : This exception is thrown when an error occurs in the Transfer Family service.
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     /// - `ResourceNotFoundException` : This exception is thrown when a resource is not found by the Amazon Web ServicesTransfer Family service.
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
@@ -682,7 +682,7 @@ public protocol TransferClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InternalServiceError` : This exception is thrown when an error occurs in the Amazon Web ServicesTransfer Family service.
+    /// - `InternalServiceError` : This exception is thrown when an error occurs in the Transfer Family service.
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     /// - `ResourceNotFoundException` : This exception is thrown when a resource is not found by the Amazon Web ServicesTransfer Family service.
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
@@ -697,7 +697,7 @@ public protocol TransferClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InternalServiceError` : This exception is thrown when an error occurs in the Amazon Web ServicesTransfer Family service.
+    /// - `InternalServiceError` : This exception is thrown when an error occurs in the Transfer Family service.
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     /// - `ResourceNotFoundException` : This exception is thrown when a resource is not found by the Amazon Web ServicesTransfer Family service.
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
@@ -712,12 +712,12 @@ public protocol TransferClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InternalServiceError` : This exception is thrown when an error occurs in the Amazon Web ServicesTransfer Family service.
+    /// - `InternalServiceError` : This exception is thrown when an error occurs in the Transfer Family service.
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     /// - `ResourceNotFoundException` : This exception is thrown when a resource is not found by the Amazon Web ServicesTransfer Family service.
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
     func tagResource(input: TagResourceInput) async throws -> TagResourceOutputResponse
-    /// Tests whether your SFTP connector is set up successfully. We highly recommend that you call this operation to test your ability to transfer files between a Transfer Family server and a trading partner's SFTP server.
+    /// Tests whether your SFTP connector is set up successfully. We highly recommend that you call this operation to test your ability to transfer files between local Amazon Web Services storage and a trading partner's SFTP server.
     ///
     /// - Parameter TestConnectionInput : [no documentation found]
     ///
@@ -726,7 +726,7 @@ public protocol TransferClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InternalServiceError` : This exception is thrown when an error occurs in the Amazon Web ServicesTransfer Family service.
+    /// - `InternalServiceError` : This exception is thrown when an error occurs in the Transfer Family service.
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     /// - `ResourceNotFoundException` : This exception is thrown when a resource is not found by the Amazon Web ServicesTransfer Family service.
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
@@ -752,7 +752,7 @@ public protocol TransferClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InternalServiceError` : This exception is thrown when an error occurs in the Amazon Web ServicesTransfer Family service.
+    /// - `InternalServiceError` : This exception is thrown when an error occurs in the Transfer Family service.
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     /// - `ResourceNotFoundException` : This exception is thrown when a resource is not found by the Amazon Web ServicesTransfer Family service.
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
@@ -766,7 +766,7 @@ public protocol TransferClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InternalServiceError` : This exception is thrown when an error occurs in the Amazon Web ServicesTransfer Family service.
+    /// - `InternalServiceError` : This exception is thrown when an error occurs in the Transfer Family service.
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     /// - `ResourceNotFoundException` : This exception is thrown when a resource is not found by the Amazon Web ServicesTransfer Family service.
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
@@ -780,9 +780,9 @@ public protocol TransferClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InternalServiceError` : This exception is thrown when an error occurs in the Amazon Web ServicesTransfer Family service.
+    /// - `InternalServiceError` : This exception is thrown when an error occurs in the Transfer Family service.
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
-    /// - `ResourceExistsException` : The requested resource does not exist.
+    /// - `ResourceExistsException` : The requested resource does not exist, or exists in a region other than the one specified for the command.
     /// - `ResourceNotFoundException` : This exception is thrown when a resource is not found by the Amazon Web ServicesTransfer Family service.
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
     /// - `ThrottlingException` : The request was denied due to request throttling.
@@ -796,9 +796,9 @@ public protocol TransferClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InternalServiceError` : This exception is thrown when an error occurs in the Amazon Web ServicesTransfer Family service.
+    /// - `InternalServiceError` : This exception is thrown when an error occurs in the Transfer Family service.
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
-    /// - `ResourceExistsException` : The requested resource does not exist.
+    /// - `ResourceExistsException` : The requested resource does not exist, or exists in a region other than the one specified for the command.
     /// - `ResourceNotFoundException` : This exception is thrown when a resource is not found by the Amazon Web ServicesTransfer Family service.
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
     /// - `ThrottlingException` : The request was denied due to request throttling.
@@ -812,7 +812,7 @@ public protocol TransferClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InternalServiceError` : This exception is thrown when an error occurs in the Amazon Web ServicesTransfer Family service.
+    /// - `InternalServiceError` : This exception is thrown when an error occurs in the Transfer Family service.
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     /// - `ResourceNotFoundException` : This exception is thrown when a resource is not found by the Amazon Web ServicesTransfer Family service.
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
@@ -827,9 +827,9 @@ public protocol TransferClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InternalServiceError` : This exception is thrown when an error occurs in the Amazon Web ServicesTransfer Family service.
+    /// - `InternalServiceError` : This exception is thrown when an error occurs in the Transfer Family service.
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
-    /// - `ResourceExistsException` : The requested resource does not exist.
+    /// - `ResourceExistsException` : The requested resource does not exist, or exists in a region other than the one specified for the command.
     /// - `ResourceNotFoundException` : This exception is thrown when a resource is not found by the Amazon Web ServicesTransfer Family service.
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
     /// - `ThrottlingException` : The request was denied due to request throttling.
@@ -843,7 +843,7 @@ public protocol TransferClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InternalServiceError` : This exception is thrown when an error occurs in the Amazon Web ServicesTransfer Family service.
+    /// - `InternalServiceError` : This exception is thrown when an error occurs in the Transfer Family service.
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     /// - `ResourceNotFoundException` : This exception is thrown when a resource is not found by the Amazon Web ServicesTransfer Family service.
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
@@ -858,7 +858,7 @@ public protocol TransferClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InternalServiceError` : This exception is thrown when an error occurs in the Amazon Web ServicesTransfer Family service.
+    /// - `InternalServiceError` : This exception is thrown when an error occurs in the Transfer Family service.
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     /// - `ResourceNotFoundException` : This exception is thrown when a resource is not found by the Amazon Web ServicesTransfer Family service.
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
@@ -875,9 +875,9 @@ public protocol TransferClientProtocol {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `ConflictException` : This exception is thrown when the UpdateServer is called for a file transfer protocol-enabled server that has VPC as the endpoint type and the server's VpcEndpointID is not in the available state.
-    /// - `InternalServiceError` : This exception is thrown when an error occurs in the Amazon Web ServicesTransfer Family service.
+    /// - `InternalServiceError` : This exception is thrown when an error occurs in the Transfer Family service.
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
-    /// - `ResourceExistsException` : The requested resource does not exist.
+    /// - `ResourceExistsException` : The requested resource does not exist, or exists in a region other than the one specified for the command.
     /// - `ResourceNotFoundException` : This exception is thrown when a resource is not found by the Amazon Web ServicesTransfer Family service.
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.
     /// - `ThrottlingException` : The request was denied due to request throttling.
@@ -891,7 +891,7 @@ public protocol TransferClientProtocol {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `InternalServiceError` : This exception is thrown when an error occurs in the Amazon Web ServicesTransfer Family service.
+    /// - `InternalServiceError` : This exception is thrown when an error occurs in the Transfer Family service.
     /// - `InvalidRequestException` : This exception is thrown when the client submits a malformed request.
     /// - `ResourceNotFoundException` : This exception is thrown when a resource is not found by the Amazon Web ServicesTransfer Family service.
     /// - `ServiceUnavailableException` : The request has failed because the Amazon Web ServicesTransfer Family service is not available.

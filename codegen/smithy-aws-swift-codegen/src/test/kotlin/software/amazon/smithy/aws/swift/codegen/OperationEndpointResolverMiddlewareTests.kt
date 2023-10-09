@@ -26,7 +26,7 @@ class OperationEndpointResolverMiddlewareTests {
                 throw SdkError<GetThingOutputError>.client(ClientError.unknownError(("Missing required parameter: region")))
             }
             let endpointParams = EndpointParams(boolBar: true, boolBaz: input.fuzz, boolFoo: config.serviceSpecific.boolFoo, endpoint: config.endpoint, region: region, stringBar: "some value", stringBaz: input.buzz, stringFoo: config.serviceSpecific.stringFoo)
-            operationStack.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetThingOutputResponse, GetThingOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+            operationStack.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetThingOutput, GetThingOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
         """.trimIndent()
         contents.shouldContainOnlyOnce(expected)
     }

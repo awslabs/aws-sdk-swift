@@ -184,7 +184,7 @@ func addProtocolTests() {
 // MARK: - Generated
 
 addDependencies(
-    clientRuntimeVersion: "0.30.0",
+    clientRuntimeVersion: "0.31.0",
     crtVersion: "0.13.0"
 )
 
@@ -223,6 +223,8 @@ let serviceTargets: [String] = [
     "AWSBackupGateway",
     "AWSBackupStorage",
     "AWSBatch",
+    "AWSBedrock",
+    "AWSBedrockRuntime",
     "AWSBillingconductor",
     "AWSBraket",
     "AWSBudgets",
