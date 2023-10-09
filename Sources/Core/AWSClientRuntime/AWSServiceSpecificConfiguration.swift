@@ -5,8 +5,6 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 
-import ClientRuntime
-
 /// Contains config properties specific to one AWS service
 ///
 /// A custom service-specific configuration that conforms to this protocol will be code-generated
