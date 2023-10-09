@@ -7,42 +7,31 @@
 
 import ClientRuntime
 import struct Foundation.Date
+import struct Foundation.TimeInterval
 
 extension HttpContext {
-    static let credentialsProvider = AttributeKey<(any CredentialsProviding)>(name: "CredentialsProvider")
-    static let region = AttributeKey<String>(name: "Region")
-    public static let signingName = AttributeKey<String>(name: "SigningName")
-    public static let signingRegion = AttributeKey<String>(name: "SigningRegion")
-    public static let signingAlgorithm = AttributeKey<String>(name: "SigningAlgorithm")
-    public static let requestSignature = AttributeKey<String>(name: "AWS_HTTP_SIGNATURE")
-
     func getCredentialsProvider() -> (any CredentialsProviding)? {
-        return attributes.get(key: HttpContext.credentialsProvider)
+        return attributes.get(key: AttributeKeys.credentialsProvider)
     }
 
     func getRegion() -> String? {
-        return attributes.get(key: Self.region)
+        return attributes.get(key: AttributeKeys.region)
     }
 
-    func getSigningName() -> String? {
-        return attributes.get(key: Self.signingName)
-    }
-
-    func getSigningRegion() -> String? {
-        return attributes.get(key: Self.signingRegion)
+    func getRequestSignature() -> String {
+        return attributes.get(key: AttributeKeys.requestSignature)!
     }
 
     func getSigningAlgorithm() -> AWSSigningAlgorithm? {
-        guard let algorithmRawValue = attributes.get(key: Self.signingAlgorithm) else {
-            return nil
-        }
-        return AWSSigningAlgorithm(rawValue: algorithmRawValue)
+        return attributes.get(key: AttributeKeys.signingAlgorithm)
     }
 
-    /// Returns the request signature for the event stream operation
-    /// - Returns: `String` request signature
-    public func getRequestSignature() -> String {
-        return attributes.get(key: Self.requestSignature)!
+    func getSigningName() -> String? {
+        return attributes.get(key: AttributeKeys.signingName)
+    }
+
+    func getSigningRegion() -> String? {
+        return attributes.get(key: AttributeKeys.signingRegion)
     }
 
     /// Returns the signing config for the event stream message
@@ -83,43 +72,24 @@ extension HttpContext {
         } requestSignature: {
             self.getRequestSignature()
         }
-        attributes.set(key: HttpContext.messageEncoder, value: messageEncoder)
-        attributes.set(key: HttpContext.messageSigner, value: messageSigner)
+        attributes.set(key: AttributeKeys.messageEncoder, value: messageEncoder)
+        attributes.set(key: AttributeKeys.messageSigner, value: messageSigner)
 
         // enable the flag
-        attributes.set(key: HttpContext.bidirectionalStreaming, value: true)
+        attributes.set(key: AttributeKeys.bidirectionalStreaming, value: true)
     }
 }
 
 extension HttpContextBuilder {
+    @discardableResult
+    public func withCredentialsProvider(value: any CredentialsProviding) -> HttpContextBuilder {
+        self.attributes.set(key: AttributeKeys.credentialsProvider, value: value)
+        return self
+    }
 
     @discardableResult
     public func withRegion(value: String?) -> HttpContextBuilder {
-        self.attributes.set(key: HttpContext.region, value: value)
-        return self
-    }
-
-    @discardableResult
-    public func withCredentialsProvider(value: any CredentialsProviding) -> HttpContextBuilder {
-        self.attributes.set(key: HttpContext.credentialsProvider, value: value)
-        return self
-    }
-
-    @discardableResult
-    public func withSigningName(value: String) -> HttpContextBuilder {
-        self.attributes.set(key: HttpContext.signingName, value: value)
-        return self
-    }
-
-    @discardableResult
-    public func withSigningRegion(value: String?) -> HttpContextBuilder {
-        self.attributes.set(key: HttpContext.signingRegion, value: value)
-        return self
-    }
-
-    @discardableResult
-    public func withSigningAlgorithm(value: AWSSigningAlgorithm?) -> HttpContextBuilder {
-        self.attributes.set(key: HttpContext.signingAlgorithm, value: value?.rawValue)
+        self.attributes.set(key: AttributeKeys.region, value: value)
         return self
     }
 
@@ -127,7 +97,43 @@ extension HttpContextBuilder {
     /// - Parameter value: `String` request signature
     @discardableResult
     public func withRequestSignature(value: String) -> HttpContextBuilder {
-        self.attributes.set(key: HttpContext.requestSignature, value: value)
+        self.attributes.set(key: AttributeKeys.requestSignature, value: value)
         return self
     }
+
+    @discardableResult
+    public func withSigningAlgorithm(value: AWSSigningAlgorithm) -> HttpContextBuilder {
+        self.attributes.set(key: AttributeKeys.signingAlgorithm, value: value)
+        return self
+    }
+
+    @discardableResult
+    public func withSigningName(value: String) -> HttpContextBuilder {
+        self.attributes.set(key: AttributeKeys.signingName, value: value)
+        return self
+    }
+
+    @discardableResult
+    public func withSigningRegion(value: String?) -> HttpContextBuilder {
+        self.attributes.set(key: AttributeKeys.signingRegion, value: value)
+        return self
+    }
+}
+
+extension AttributeKeys {
+    public static let credentialsProvider = AttributeKey<(any CredentialsProviding)>(name: "CredentialsProvider")
+    public static let region = AttributeKey<String>(name: "Region")
+    public static let signingName = AttributeKey<String>(name: "SigningName")
+    public static let signingRegion = AttributeKey<String>(name: "SigningRegion")
+    public static let signingAlgorithm = AttributeKey<AWSSigningAlgorithm>(name: "SigningAlgorithm")
+    public static let requestSignature = AttributeKey<String>(name: "AWS_HTTP_SIGNATURE")
+
+    // Keys used to store/retrieve AWSSigningConfig fields in/from signingProperties passed to AWSSigV4Signer
+    public static let unsignedBody = AttributeKey<Bool>(name: "UnsignedBody")
+    public static let expiration = AttributeKey<TimeInterval>(name: "Expiration")
+    public static let signedBodyHeader = AttributeKey<AWSSignedBodyHeader>(name: "SignedBodyHeader")
+    public static let useDoubleURIEncode = AttributeKey<Bool>(name: "UseDoubleURIEncode")
+    public static let shouldNormalizeURIPath = AttributeKey<Bool>(name: "ShouldNormalizeURIPath")
+    public static let omitSessionToken = AttributeKey<Bool>(name: "OmitSessionToken")
+    public static let signatureType = AttributeKey<AWSSignatureType>(name: "SignatureType")
 }
