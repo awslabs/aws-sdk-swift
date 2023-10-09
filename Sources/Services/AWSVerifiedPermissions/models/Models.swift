@@ -531,8 +531,8 @@ extension CreateIdentitySourceInputBody: Swift.Decodable {
     }
 }
 
-public enum CreateIdentitySourceOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum CreateIdentitySourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         let serviceError = try await VerifiedPermissionsClientTypes.makeServiceError(httpResponse, decoder, restJSONError, requestID)
@@ -692,8 +692,8 @@ extension CreatePolicyInputBody: Swift.Decodable {
     }
 }
 
-public enum CreatePolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum CreatePolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         let serviceError = try await VerifiedPermissionsClientTypes.makeServiceError(httpResponse, decoder, restJSONError, requestID)
@@ -871,8 +871,8 @@ extension CreatePolicyStoreInputBody: Swift.Decodable {
     }
 }
 
-public enum CreatePolicyStoreOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum CreatePolicyStoreOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         let serviceError = try await VerifiedPermissionsClientTypes.makeServiceError(httpResponse, decoder, restJSONError, requestID)
@@ -1048,8 +1048,8 @@ extension CreatePolicyTemplateInputBody: Swift.Decodable {
     }
 }
 
-public enum CreatePolicyTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum CreatePolicyTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         let serviceError = try await VerifiedPermissionsClientTypes.makeServiceError(httpResponse, decoder, restJSONError, requestID)
@@ -1229,8 +1229,8 @@ extension DeleteIdentitySourceInputBody: Swift.Decodable {
     }
 }
 
-public enum DeleteIdentitySourceOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DeleteIdentitySourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         let serviceError = try await VerifiedPermissionsClientTypes.makeServiceError(httpResponse, decoder, restJSONError, requestID)
@@ -1314,8 +1314,8 @@ extension DeletePolicyInputBody: Swift.Decodable {
     }
 }
 
-public enum DeletePolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DeletePolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         let serviceError = try await VerifiedPermissionsClientTypes.makeServiceError(httpResponse, decoder, restJSONError, requestID)
@@ -1386,8 +1386,8 @@ extension DeletePolicyStoreInputBody: Swift.Decodable {
     }
 }
 
-public enum DeletePolicyStoreOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DeletePolicyStoreOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         let serviceError = try await VerifiedPermissionsClientTypes.makeServiceError(httpResponse, decoder, restJSONError, requestID)
@@ -1469,8 +1469,8 @@ extension DeletePolicyTemplateInputBody: Swift.Decodable {
     }
 }
 
-public enum DeletePolicyTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DeletePolicyTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         let serviceError = try await VerifiedPermissionsClientTypes.makeServiceError(httpResponse, decoder, restJSONError, requestID)
@@ -1860,8 +1860,8 @@ extension GetIdentitySourceInputBody: Swift.Decodable {
     }
 }
 
-public enum GetIdentitySourceOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum GetIdentitySourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         let serviceError = try await VerifiedPermissionsClientTypes.makeServiceError(httpResponse, decoder, restJSONError, requestID)
@@ -2035,8 +2035,8 @@ extension GetPolicyInputBody: Swift.Decodable {
     }
 }
 
-public enum GetPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum GetPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         let serviceError = try await VerifiedPermissionsClientTypes.makeServiceError(httpResponse, decoder, restJSONError, requestID)
@@ -2212,8 +2212,8 @@ extension GetPolicyStoreInputBody: Swift.Decodable {
     }
 }
 
-public enum GetPolicyStoreOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum GetPolicyStoreOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         let serviceError = try await VerifiedPermissionsClientTypes.makeServiceError(httpResponse, decoder, restJSONError, requestID)
@@ -2371,8 +2371,8 @@ extension GetPolicyTemplateInputBody: Swift.Decodable {
     }
 }
 
-public enum GetPolicyTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum GetPolicyTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         let serviceError = try await VerifiedPermissionsClientTypes.makeServiceError(httpResponse, decoder, restJSONError, requestID)
@@ -2532,8 +2532,8 @@ extension GetSchemaInputBody: Swift.Decodable {
     }
 }
 
-public enum GetSchemaOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum GetSchemaOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         let serviceError = try await VerifiedPermissionsClientTypes.makeServiceError(httpResponse, decoder, restJSONError, requestID)
@@ -3078,8 +3078,8 @@ extension IsAuthorizedInputBody: Swift.Decodable {
     }
 }
 
-public enum IsAuthorizedOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum IsAuthorizedOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         let serviceError = try await VerifiedPermissionsClientTypes.makeServiceError(httpResponse, decoder, restJSONError, requestID)
@@ -3301,8 +3301,8 @@ extension IsAuthorizedWithTokenInputBody: Swift.Decodable {
     }
 }
 
-public enum IsAuthorizedWithTokenOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum IsAuthorizedWithTokenOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         let serviceError = try await VerifiedPermissionsClientTypes.makeServiceError(httpResponse, decoder, restJSONError, requestID)
@@ -3491,8 +3491,8 @@ extension ListIdentitySourcesInputBody: Swift.Decodable {
     }
 }
 
-public enum ListIdentitySourcesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum ListIdentitySourcesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         let serviceError = try await VerifiedPermissionsClientTypes.makeServiceError(httpResponse, decoder, restJSONError, requestID)
@@ -3648,8 +3648,8 @@ extension ListPoliciesInputBody: Swift.Decodable {
     }
 }
 
-public enum ListPoliciesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum ListPoliciesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         let serviceError = try await VerifiedPermissionsClientTypes.makeServiceError(httpResponse, decoder, restJSONError, requestID)
@@ -3780,8 +3780,8 @@ extension ListPolicyStoresInputBody: Swift.Decodable {
     }
 }
 
-public enum ListPolicyStoresOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum ListPolicyStoresOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         let serviceError = try await VerifiedPermissionsClientTypes.makeServiceError(httpResponse, decoder, restJSONError, requestID)
@@ -3924,8 +3924,8 @@ extension ListPolicyTemplatesInputBody: Swift.Decodable {
     }
 }
 
-public enum ListPolicyTemplatesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum ListPolicyTemplatesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         let serviceError = try await VerifiedPermissionsClientTypes.makeServiceError(httpResponse, decoder, restJSONError, requestID)
@@ -4582,8 +4582,8 @@ extension PutSchemaInputBody: Swift.Decodable {
     }
 }
 
-public enum PutSchemaOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum PutSchemaOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         let serviceError = try await VerifiedPermissionsClientTypes.makeServiceError(httpResponse, decoder, restJSONError, requestID)
@@ -5552,8 +5552,8 @@ extension UpdateIdentitySourceInputBody: Swift.Decodable {
     }
 }
 
-public enum UpdateIdentitySourceOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum UpdateIdentitySourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         let serviceError = try await VerifiedPermissionsClientTypes.makeServiceError(httpResponse, decoder, restJSONError, requestID)
@@ -5766,8 +5766,8 @@ extension UpdatePolicyInputBody: Swift.Decodable {
     }
 }
 
-public enum UpdatePolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum UpdatePolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         let serviceError = try await VerifiedPermissionsClientTypes.makeServiceError(httpResponse, decoder, restJSONError, requestID)
@@ -5947,8 +5947,8 @@ extension UpdatePolicyStoreInputBody: Swift.Decodable {
     }
 }
 
-public enum UpdatePolicyStoreOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum UpdatePolicyStoreOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         let serviceError = try await VerifiedPermissionsClientTypes.makeServiceError(httpResponse, decoder, restJSONError, requestID)
@@ -6139,8 +6139,8 @@ extension UpdatePolicyTemplateInputBody: Swift.Decodable {
     }
 }
 
-public enum UpdatePolicyTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum UpdatePolicyTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         let serviceError = try await VerifiedPermissionsClientTypes.makeServiceError(httpResponse, decoder, restJSONError, requestID)
