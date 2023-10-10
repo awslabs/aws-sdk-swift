@@ -5,6 +5,9 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 
+import protocol ClientRuntime.AuthScheme
+import protocol ClientRuntime.AuthSchemeResolver
+
 /// Contains config properties specific to one AWS service
 ///
 /// A custom service-specific configuration that conforms to this protocol will be code-generated
@@ -31,5 +34,19 @@ public protocol AWSServiceSpecificConfiguration {
     /// Creates a service-specific configuration for this service
     /// - Parameter endpointResolver: An endpoint resolver for the service, or `nil` to let
     /// the service resolve its own endpoint.
-    init(endpointResolver: AWSServiceEndpointResolver?) throws
+    init(
+        endpointResolver: AWSServiceEndpointResolver?,
+        authSchemeResolver: ClientRuntime.AuthSchemeResolver?,
+        authSchemes: Array<ClientRuntime.AuthScheme>?
+    ) throws
+    
+    /// List of configured auth schemes for the service.
+    ///
+    /// If none is provided at compile time, value will default to auth schemes supported by the service as defined in its model.
+    var authSchemes: Array<ClientRuntime.AuthScheme> { get }
+    
+    /// The auth scheme resolver to use for the service.
+    ///
+    /// If none is provided at compile time, value will default to default auth scheme resolver for the service generated based on its model.
+    var authSchemeResolver: ClientRuntime.AuthSchemeResolver { get }
 }
