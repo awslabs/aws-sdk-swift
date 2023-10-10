@@ -1,4 +1,4 @@
-// swift-tools-version:5.5.0
+// swift-tools-version:5.7
 
 /*
  * Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
@@ -7,7 +7,6 @@
  
 import PackageDescription
 import class Foundation.ProcessInfo
-import class Foundation.FileManager
 
 let baseDir = "./protocol-test-codegen/build/smithyprojections/protocol-test-codegen"
 let baseDirLocal = "./protocol-test-codegen-local/build/smithyprojections/protocol-test-codegen-local"
@@ -87,11 +86,7 @@ func appendLibTarget(name: String, path: String) {
 
 func appendTstTarget(name: String, path: String, dependency: String) {
     var dependencies: [Target.Dependency]  = [.product(name: "SmithyTestUtil", package: "smithy-swift")]
-#if swift(>=5.7)
     dependencies.append(.byNameItem(name: dependency, condition: nil))
-#else
-    dependencies.append(._byNameItem(name: dependency, condition: nil))
-#endif
     package.targets.append(.testTarget(name: name,
                                        dependencies:  dependencies,
                                        path: "\(path)/swift-codegen/\(name)")
