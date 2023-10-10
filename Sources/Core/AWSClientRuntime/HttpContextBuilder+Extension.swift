@@ -122,8 +122,6 @@ extension HttpContextBuilder {
 extension AttributeKeys {
     public static let credentialsProvider = AttributeKey<(any CredentialsProviding)>(name: "CredentialsProvider")
     public static let region = AttributeKey<String>(name: "Region")
-    public static let signingName = AttributeKey<String>(name: "SigningName")
-    public static let signingRegion = AttributeKey<String>(name: "SigningRegion")
     public static let signingAlgorithm = AttributeKey<AWSSigningAlgorithm>(name: "SigningAlgorithm")
     public static let requestSignature = AttributeKey<String>(name: "AWS_HTTP_SIGNATURE")
 
