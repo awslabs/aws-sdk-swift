@@ -1103,6 +1103,53 @@ extension FirehoseClientTypes {
     }
 }
 
+extension FirehoseClientTypes.AuthenticationConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case connectivity = "Connectivity"
+        case roleARN = "RoleARN"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let connectivity = self.connectivity {
+            try encodeContainer.encode(connectivity.rawValue, forKey: .connectivity)
+        }
+        if let roleARN = self.roleARN {
+            try encodeContainer.encode(roleARN, forKey: .roleARN)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let roleARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .roleARN)
+        roleARN = roleARNDecoded
+        let connectivityDecoded = try containerValues.decodeIfPresent(FirehoseClientTypes.Connectivity.self, forKey: .connectivity)
+        connectivity = connectivityDecoded
+    }
+}
+
+extension FirehoseClientTypes {
+    /// The authentication configuration of the Amazon MSK cluster.
+    public struct AuthenticationConfiguration: Swift.Equatable {
+        /// The type of connectivity used to access the Amazon MSK cluster.
+        /// This member is required.
+        public var connectivity: FirehoseClientTypes.Connectivity?
+        /// The ARN of the role used to access the Amazon MSK cluster.
+        /// This member is required.
+        public var roleARN: Swift.String?
+
+        public init(
+            connectivity: FirehoseClientTypes.Connectivity? = nil,
+            roleARN: Swift.String? = nil
+        )
+        {
+            self.connectivity = connectivity
+            self.roleARN = roleARN
+        }
+    }
+
+}
+
 extension FirehoseClientTypes.BufferingHints: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case intervalInSeconds = "IntervalInSeconds"
@@ -1301,6 +1348,38 @@ extension ConcurrentModificationExceptionBody: Swift.Decodable {
 }
 
 extension FirehoseClientTypes {
+    public enum Connectivity: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case `private`
+        case `public`
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [Connectivity] {
+            return [
+                .private,
+                .public,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .private: return "PRIVATE"
+            case .public: return "PUBLIC"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = Connectivity(rawValue: rawValue) ?? Connectivity.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension FirehoseClientTypes {
     public enum ContentEncoding: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case gzip
         case `none`
@@ -1399,6 +1478,7 @@ extension CreateDeliveryStreamInput: Swift.Encodable {
         case extendedS3DestinationConfiguration = "ExtendedS3DestinationConfiguration"
         case httpEndpointDestinationConfiguration = "HttpEndpointDestinationConfiguration"
         case kinesisStreamSourceConfiguration = "KinesisStreamSourceConfiguration"
+        case mskSourceConfiguration = "MSKSourceConfiguration"
         case redshiftDestinationConfiguration = "RedshiftDestinationConfiguration"
         case s3DestinationConfiguration = "S3DestinationConfiguration"
         case splunkDestinationConfiguration = "SplunkDestinationConfiguration"
@@ -1433,6 +1513,9 @@ extension CreateDeliveryStreamInput: Swift.Encodable {
         }
         if let kinesisStreamSourceConfiguration = self.kinesisStreamSourceConfiguration {
             try encodeContainer.encode(kinesisStreamSourceConfiguration, forKey: .kinesisStreamSourceConfiguration)
+        }
+        if let mskSourceConfiguration = self.mskSourceConfiguration {
+            try encodeContainer.encode(mskSourceConfiguration, forKey: .mskSourceConfiguration)
         }
         if let redshiftDestinationConfiguration = self.redshiftDestinationConfiguration {
             try encodeContainer.encode(redshiftDestinationConfiguration, forKey: .redshiftDestinationConfiguration)
@@ -1482,6 +1565,8 @@ public struct CreateDeliveryStreamInput: Swift.Equatable {
     public var httpEndpointDestinationConfiguration: FirehoseClientTypes.HttpEndpointDestinationConfiguration?
     /// When a Kinesis data stream is used as the source for the delivery stream, a [KinesisStreamSourceConfiguration] containing the Kinesis data stream Amazon Resource Name (ARN) and the role ARN for the source stream.
     public var kinesisStreamSourceConfiguration: FirehoseClientTypes.KinesisStreamSourceConfiguration?
+    /// The configuration for the Amazon MSK cluster to be used as the source for a delivery stream.
+    public var mskSourceConfiguration: FirehoseClientTypes.MSKSourceConfiguration?
     /// The destination in Amazon Redshift. You can specify only one destination.
     public var redshiftDestinationConfiguration: FirehoseClientTypes.RedshiftDestinationConfiguration?
     /// [Deprecated] The destination in Amazon S3. You can specify only one destination.
@@ -1502,6 +1587,7 @@ public struct CreateDeliveryStreamInput: Swift.Equatable {
         extendedS3DestinationConfiguration: FirehoseClientTypes.ExtendedS3DestinationConfiguration? = nil,
         httpEndpointDestinationConfiguration: FirehoseClientTypes.HttpEndpointDestinationConfiguration? = nil,
         kinesisStreamSourceConfiguration: FirehoseClientTypes.KinesisStreamSourceConfiguration? = nil,
+        mskSourceConfiguration: FirehoseClientTypes.MSKSourceConfiguration? = nil,
         redshiftDestinationConfiguration: FirehoseClientTypes.RedshiftDestinationConfiguration? = nil,
         s3DestinationConfiguration: FirehoseClientTypes.S3DestinationConfiguration? = nil,
         splunkDestinationConfiguration: FirehoseClientTypes.SplunkDestinationConfiguration? = nil,
@@ -1517,6 +1603,7 @@ public struct CreateDeliveryStreamInput: Swift.Equatable {
         self.extendedS3DestinationConfiguration = extendedS3DestinationConfiguration
         self.httpEndpointDestinationConfiguration = httpEndpointDestinationConfiguration
         self.kinesisStreamSourceConfiguration = kinesisStreamSourceConfiguration
+        self.mskSourceConfiguration = mskSourceConfiguration
         self.redshiftDestinationConfiguration = redshiftDestinationConfiguration
         self.s3DestinationConfiguration = s3DestinationConfiguration
         self.splunkDestinationConfiguration = splunkDestinationConfiguration
@@ -1538,6 +1625,7 @@ struct CreateDeliveryStreamInputBody: Swift.Equatable {
     let httpEndpointDestinationConfiguration: FirehoseClientTypes.HttpEndpointDestinationConfiguration?
     let tags: [FirehoseClientTypes.Tag]?
     let amazonOpenSearchServerlessDestinationConfiguration: FirehoseClientTypes.AmazonOpenSearchServerlessDestinationConfiguration?
+    let mskSourceConfiguration: FirehoseClientTypes.MSKSourceConfiguration?
 }
 
 extension CreateDeliveryStreamInputBody: Swift.Decodable {
@@ -1551,6 +1639,7 @@ extension CreateDeliveryStreamInputBody: Swift.Decodable {
         case extendedS3DestinationConfiguration = "ExtendedS3DestinationConfiguration"
         case httpEndpointDestinationConfiguration = "HttpEndpointDestinationConfiguration"
         case kinesisStreamSourceConfiguration = "KinesisStreamSourceConfiguration"
+        case mskSourceConfiguration = "MSKSourceConfiguration"
         case redshiftDestinationConfiguration = "RedshiftDestinationConfiguration"
         case s3DestinationConfiguration = "S3DestinationConfiguration"
         case splunkDestinationConfiguration = "SplunkDestinationConfiguration"
@@ -1594,11 +1683,13 @@ extension CreateDeliveryStreamInputBody: Swift.Decodable {
         tags = tagsDecoded0
         let amazonOpenSearchServerlessDestinationConfigurationDecoded = try containerValues.decodeIfPresent(FirehoseClientTypes.AmazonOpenSearchServerlessDestinationConfiguration.self, forKey: .amazonOpenSearchServerlessDestinationConfiguration)
         amazonOpenSearchServerlessDestinationConfiguration = amazonOpenSearchServerlessDestinationConfigurationDecoded
+        let mskSourceConfigurationDecoded = try containerValues.decodeIfPresent(FirehoseClientTypes.MSKSourceConfiguration.self, forKey: .mskSourceConfiguration)
+        mskSourceConfiguration = mskSourceConfigurationDecoded
     }
 }
 
-public enum CreateDeliveryStreamOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum CreateDeliveryStreamOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -1808,8 +1899,8 @@ extension DeleteDeliveryStreamInputBody: Swift.Decodable {
     }
 }
 
-public enum DeleteDeliveryStreamOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DeleteDeliveryStreamOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -2269,12 +2360,14 @@ extension FirehoseClientTypes {
     public enum DeliveryStreamType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case directput
         case kinesisstreamassource
+        case mskassource
         case sdkUnknown(Swift.String)
 
         public static var allCases: [DeliveryStreamType] {
             return [
                 .directput,
                 .kinesisstreamassource,
+                .mskassource,
                 .sdkUnknown("")
             ]
         }
@@ -2286,6 +2379,7 @@ extension FirehoseClientTypes {
             switch self {
             case .directput: return "DirectPut"
             case .kinesisstreamassource: return "KinesisStreamAsSource"
+            case .mskassource: return "MSKAsSource"
             case let .sdkUnknown(s): return s
             }
         }
@@ -2369,8 +2463,8 @@ extension DescribeDeliveryStreamInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeDeliveryStreamOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DescribeDeliveryStreamOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -5075,8 +5169,8 @@ extension ListDeliveryStreamsInputBody: Swift.Decodable {
     }
 }
 
-public enum ListDeliveryStreamsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum ListDeliveryStreamsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -5218,8 +5312,8 @@ extension ListTagsForDeliveryStreamInputBody: Swift.Decodable {
     }
 }
 
-public enum ListTagsForDeliveryStreamOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum ListTagsForDeliveryStreamOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -5290,6 +5384,129 @@ extension ListTagsForDeliveryStreamOutputResponseBody: Swift.Decodable {
         let hasMoreTagsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .hasMoreTags)
         hasMoreTags = hasMoreTagsDecoded
     }
+}
+
+extension FirehoseClientTypes.MSKSourceConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case authenticationConfiguration = "AuthenticationConfiguration"
+        case mskClusterARN = "MSKClusterARN"
+        case topicName = "TopicName"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let authenticationConfiguration = self.authenticationConfiguration {
+            try encodeContainer.encode(authenticationConfiguration, forKey: .authenticationConfiguration)
+        }
+        if let mskClusterARN = self.mskClusterARN {
+            try encodeContainer.encode(mskClusterARN, forKey: .mskClusterARN)
+        }
+        if let topicName = self.topicName {
+            try encodeContainer.encode(topicName, forKey: .topicName)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let mskClusterARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .mskClusterARN)
+        mskClusterARN = mskClusterARNDecoded
+        let topicNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .topicName)
+        topicName = topicNameDecoded
+        let authenticationConfigurationDecoded = try containerValues.decodeIfPresent(FirehoseClientTypes.AuthenticationConfiguration.self, forKey: .authenticationConfiguration)
+        authenticationConfiguration = authenticationConfigurationDecoded
+    }
+}
+
+extension FirehoseClientTypes {
+    /// The configuration for the Amazon MSK cluster to be used as the source for a delivery stream.
+    public struct MSKSourceConfiguration: Swift.Equatable {
+        /// The authentication configuration of the Amazon MSK cluster.
+        /// This member is required.
+        public var authenticationConfiguration: FirehoseClientTypes.AuthenticationConfiguration?
+        /// The ARN of the Amazon MSK cluster.
+        /// This member is required.
+        public var mskClusterARN: Swift.String?
+        /// The topic name within the Amazon MSK cluster.
+        /// This member is required.
+        public var topicName: Swift.String?
+
+        public init(
+            authenticationConfiguration: FirehoseClientTypes.AuthenticationConfiguration? = nil,
+            mskClusterARN: Swift.String? = nil,
+            topicName: Swift.String? = nil
+        )
+        {
+            self.authenticationConfiguration = authenticationConfiguration
+            self.mskClusterARN = mskClusterARN
+            self.topicName = topicName
+        }
+    }
+
+}
+
+extension FirehoseClientTypes.MSKSourceDescription: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case authenticationConfiguration = "AuthenticationConfiguration"
+        case deliveryStartTimestamp = "DeliveryStartTimestamp"
+        case mskClusterARN = "MSKClusterARN"
+        case topicName = "TopicName"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let authenticationConfiguration = self.authenticationConfiguration {
+            try encodeContainer.encode(authenticationConfiguration, forKey: .authenticationConfiguration)
+        }
+        if let deliveryStartTimestamp = self.deliveryStartTimestamp {
+            try encodeContainer.encodeTimestamp(deliveryStartTimestamp, format: .epochSeconds, forKey: .deliveryStartTimestamp)
+        }
+        if let mskClusterARN = self.mskClusterARN {
+            try encodeContainer.encode(mskClusterARN, forKey: .mskClusterARN)
+        }
+        if let topicName = self.topicName {
+            try encodeContainer.encode(topicName, forKey: .topicName)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let mskClusterARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .mskClusterARN)
+        mskClusterARN = mskClusterARNDecoded
+        let topicNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .topicName)
+        topicName = topicNameDecoded
+        let authenticationConfigurationDecoded = try containerValues.decodeIfPresent(FirehoseClientTypes.AuthenticationConfiguration.self, forKey: .authenticationConfiguration)
+        authenticationConfiguration = authenticationConfigurationDecoded
+        let deliveryStartTimestampDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .deliveryStartTimestamp)
+        deliveryStartTimestamp = deliveryStartTimestampDecoded
+    }
+}
+
+extension FirehoseClientTypes {
+    /// Details about the Amazon MSK cluster used as the source for a Kinesis Data Firehose delivery stream.
+    public struct MSKSourceDescription: Swift.Equatable {
+        /// The authentication configuration of the Amazon MSK cluster.
+        public var authenticationConfiguration: FirehoseClientTypes.AuthenticationConfiguration?
+        /// Kinesis Data Firehose starts retrieving records from the topic within the Amazon MSK cluster starting with this timestamp.
+        public var deliveryStartTimestamp: ClientRuntime.Date?
+        /// The ARN of the Amazon MSK cluster.
+        public var mskClusterARN: Swift.String?
+        /// The topic name within the Amazon MSK cluster.
+        public var topicName: Swift.String?
+
+        public init(
+            authenticationConfiguration: FirehoseClientTypes.AuthenticationConfiguration? = nil,
+            deliveryStartTimestamp: ClientRuntime.Date? = nil,
+            mskClusterARN: Swift.String? = nil,
+            topicName: Swift.String? = nil
+        )
+        {
+            self.authenticationConfiguration = authenticationConfiguration
+            self.deliveryStartTimestamp = deliveryStartTimestamp
+            self.mskClusterARN = mskClusterARN
+            self.topicName = topicName
+        }
+    }
+
 }
 
 extension FirehoseClientTypes {
@@ -5945,6 +6162,7 @@ extension FirehoseClientTypes {
     public enum ProcessorParameterName: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case bufferIntervalInSeconds
         case bufferSizeInMb
+        case compressionFormat
         case delimiter
         case jsonParsingEngine
         case lambdaArn
@@ -5958,6 +6176,7 @@ extension FirehoseClientTypes {
             return [
                 .bufferIntervalInSeconds,
                 .bufferSizeInMb,
+                .compressionFormat,
                 .delimiter,
                 .jsonParsingEngine,
                 .lambdaArn,
@@ -5976,6 +6195,7 @@ extension FirehoseClientTypes {
             switch self {
             case .bufferIntervalInSeconds: return "BufferIntervalInSeconds"
             case .bufferSizeInMb: return "BufferSizeInMBs"
+            case .compressionFormat: return "CompressionFormat"
             case .delimiter: return "Delimiter"
             case .jsonParsingEngine: return "JsonParsingEngine"
             case .lambdaArn: return "LambdaArn"
@@ -5997,6 +6217,7 @@ extension FirehoseClientTypes {
 extension FirehoseClientTypes {
     public enum ProcessorType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case appenddelimitertorecord
+        case decompression
         case lambda
         case metadataextraction
         case recorddeaggregation
@@ -6005,6 +6226,7 @@ extension FirehoseClientTypes {
         public static var allCases: [ProcessorType] {
             return [
                 .appenddelimitertorecord,
+                .decompression,
                 .lambda,
                 .metadataextraction,
                 .recorddeaggregation,
@@ -6018,6 +6240,7 @@ extension FirehoseClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .appenddelimitertorecord: return "AppendDelimiterToRecord"
+            case .decompression: return "Decompression"
             case .lambda: return "Lambda"
             case .metadataextraction: return "MetadataExtraction"
             case .recorddeaggregation: return "RecordDeAggregation"
@@ -6105,8 +6328,8 @@ extension PutRecordBatchInputBody: Swift.Decodable {
     }
 }
 
-public enum PutRecordBatchOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum PutRecordBatchOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -6306,8 +6529,8 @@ extension PutRecordInputBody: Swift.Decodable {
     }
 }
 
-public enum PutRecordOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum PutRecordOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -7585,6 +7808,7 @@ extension ServiceUnavailableExceptionBody: Swift.Decodable {
 extension FirehoseClientTypes.SourceDescription: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case kinesisStreamSourceDescription = "KinesisStreamSourceDescription"
+        case mskSourceDescription = "MSKSourceDescription"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -7592,12 +7816,17 @@ extension FirehoseClientTypes.SourceDescription: Swift.Codable {
         if let kinesisStreamSourceDescription = self.kinesisStreamSourceDescription {
             try encodeContainer.encode(kinesisStreamSourceDescription, forKey: .kinesisStreamSourceDescription)
         }
+        if let mskSourceDescription = self.mskSourceDescription {
+            try encodeContainer.encode(mskSourceDescription, forKey: .mskSourceDescription)
+        }
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let kinesisStreamSourceDescriptionDecoded = try containerValues.decodeIfPresent(FirehoseClientTypes.KinesisStreamSourceDescription.self, forKey: .kinesisStreamSourceDescription)
         kinesisStreamSourceDescription = kinesisStreamSourceDescriptionDecoded
+        let mskSourceDescriptionDecoded = try containerValues.decodeIfPresent(FirehoseClientTypes.MSKSourceDescription.self, forKey: .mskSourceDescription)
+        mskSourceDescription = mskSourceDescriptionDecoded
     }
 }
 
@@ -7606,12 +7835,16 @@ extension FirehoseClientTypes {
     public struct SourceDescription: Swift.Equatable {
         /// The [KinesisStreamSourceDescription] value for the source Kinesis data stream.
         public var kinesisStreamSourceDescription: FirehoseClientTypes.KinesisStreamSourceDescription?
+        /// The configuration description for the Amazon MSK cluster to be used as the source for a delivery stream.
+        public var mskSourceDescription: FirehoseClientTypes.MSKSourceDescription?
 
         public init(
-            kinesisStreamSourceDescription: FirehoseClientTypes.KinesisStreamSourceDescription? = nil
+            kinesisStreamSourceDescription: FirehoseClientTypes.KinesisStreamSourceDescription? = nil,
+            mskSourceDescription: FirehoseClientTypes.MSKSourceDescription? = nil
         )
         {
             self.kinesisStreamSourceDescription = kinesisStreamSourceDescription
+            self.mskSourceDescription = mskSourceDescription
         }
     }
 
@@ -8093,8 +8326,8 @@ extension StartDeliveryStreamEncryptionInputBody: Swift.Decodable {
     }
 }
 
-public enum StartDeliveryStreamEncryptionOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum StartDeliveryStreamEncryptionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -8166,8 +8399,8 @@ extension StopDeliveryStreamEncryptionInputBody: Swift.Decodable {
     }
 }
 
-public enum StopDeliveryStreamEncryptionOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum StopDeliveryStreamEncryptionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -8309,8 +8542,8 @@ extension TagDeliveryStreamInputBody: Swift.Decodable {
     }
 }
 
-public enum TagDeliveryStreamOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum TagDeliveryStreamOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -8406,8 +8639,8 @@ extension UntagDeliveryStreamInputBody: Swift.Decodable {
     }
 }
 
-public enum UntagDeliveryStreamOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum UntagDeliveryStreamOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -8601,8 +8834,8 @@ extension UpdateDestinationInputBody: Swift.Decodable {
     }
 }
 
-public enum UpdateDestinationOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum UpdateDestinationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {

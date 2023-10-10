@@ -75,7 +75,9 @@ class MessageUnmarshallableGenerator(val ctx: ProtocolGenerator.GenerationContex
                             streamShape.eventStreamErrors(ctx.model).forEach { member ->
                                 writer.write("case \"${member.memberName}\":")
                                 writer.indent {
-                                    writer.write("return try decoder.decode(responseBody: message.payload) as ${member.memberName}")
+                                    val targetShape = ctx.model.expectShape(member.target)
+                                    val symbol = ctx.symbolProvider.toSymbol(targetShape)
+                                    writer.write("return try decoder.decode(responseBody: message.payload) as \$N", symbol)
                                 }
                             }
                             writer.write("default:")

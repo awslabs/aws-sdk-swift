@@ -1374,8 +1374,8 @@ extension BatchExecuteStatementInputBody: Swift.Decodable {
     }
 }
 
-public enum BatchExecuteStatementOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum BatchExecuteStatementOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -1567,8 +1567,8 @@ extension BatchGetItemInputBody: Swift.Decodable {
     }
 }
 
-public enum BatchGetItemOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum BatchGetItemOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -2082,8 +2082,8 @@ extension BatchWriteItemInputBody: Swift.Decodable {
     }
 }
 
-public enum BatchWriteItemOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum BatchWriteItemOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -3256,8 +3256,8 @@ extension CreateBackupInputBody: Swift.Decodable {
     }
 }
 
-public enum CreateBackupOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum CreateBackupOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -3466,8 +3466,8 @@ extension CreateGlobalTableInputBody: Swift.Decodable {
     }
 }
 
-public enum CreateGlobalTableOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum CreateGlobalTableOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -3961,8 +3961,8 @@ extension CreateTableInputBody: Swift.Decodable {
     }
 }
 
-public enum CreateTableOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum CreateTableOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -4244,8 +4244,8 @@ extension DeleteBackupInputBody: Swift.Decodable {
     }
 }
 
-public enum DeleteBackupOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DeleteBackupOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -4599,8 +4599,8 @@ extension DeleteItemInputBody: Swift.Decodable {
     }
 }
 
-public enum DeleteItemOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DeleteItemOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -4860,8 +4860,8 @@ extension DeleteTableInputBody: Swift.Decodable {
     }
 }
 
-public enum DeleteTableOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DeleteTableOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -4964,8 +4964,8 @@ extension DescribeBackupInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeBackupOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DescribeBackupOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -5065,8 +5065,8 @@ extension DescribeContinuousBackupsInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeContinuousBackupsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DescribeContinuousBackupsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -5178,8 +5178,8 @@ extension DescribeContributorInsightsInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeContributorInsightsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DescribeContributorInsightsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -5325,8 +5325,8 @@ extension DescribeEndpointsInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeEndpointsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DescribeEndpointsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -5433,8 +5433,8 @@ extension DescribeExportInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeExportOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DescribeExportOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -5534,8 +5534,8 @@ extension DescribeGlobalTableInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeGlobalTableOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DescribeGlobalTableOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -5635,8 +5635,8 @@ extension DescribeGlobalTableSettingsInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeGlobalTableSettingsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DescribeGlobalTableSettingsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -5755,8 +5755,8 @@ extension DescribeImportInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeImportOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DescribeImportOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -5855,8 +5855,8 @@ extension DescribeKinesisStreamingDestinationInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeKinesisStreamingDestinationOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DescribeKinesisStreamingDestinationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -5956,8 +5956,8 @@ extension DescribeLimitsInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeLimitsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DescribeLimitsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -6088,8 +6088,8 @@ extension DescribeTableInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeTableOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DescribeTableOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -6190,8 +6190,8 @@ extension DescribeTableReplicaAutoScalingInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeTableReplicaAutoScalingOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DescribeTableReplicaAutoScalingOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -6290,8 +6290,8 @@ extension DescribeTimeToLiveInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeTimeToLiveOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DescribeTimeToLiveOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -6445,8 +6445,8 @@ extension DisableKinesisStreamingDestinationInputBody: Swift.Decodable {
     }
 }
 
-public enum DisableKinesisStreamingDestinationOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DisableKinesisStreamingDestinationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -6636,8 +6636,8 @@ extension EnableKinesisStreamingDestinationInputBody: Swift.Decodable {
     }
 }
 
-public enum EnableKinesisStreamingDestinationOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum EnableKinesisStreamingDestinationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -6896,8 +6896,8 @@ extension ExecuteStatementInputBody: Swift.Decodable {
     }
 }
 
-public enum ExecuteStatementOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum ExecuteStatementOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -7095,8 +7095,8 @@ extension ExecuteTransactionInputBody: Swift.Decodable {
     }
 }
 
-public enum ExecuteTransactionOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum ExecuteTransactionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -7366,8 +7366,10 @@ extension DynamoDBClientTypes.ExportDescription: Swift.Codable {
         case exportManifest = "ExportManifest"
         case exportStatus = "ExportStatus"
         case exportTime = "ExportTime"
+        case exportType = "ExportType"
         case failureCode = "FailureCode"
         case failureMessage = "FailureMessage"
+        case incrementalExportSpecification = "IncrementalExportSpecification"
         case itemCount = "ItemCount"
         case s3Bucket = "S3Bucket"
         case s3BucketOwner = "S3BucketOwner"
@@ -7405,11 +7407,17 @@ extension DynamoDBClientTypes.ExportDescription: Swift.Codable {
         if let exportTime = self.exportTime {
             try encodeContainer.encodeTimestamp(exportTime, format: .epochSeconds, forKey: .exportTime)
         }
+        if let exportType = self.exportType {
+            try encodeContainer.encode(exportType.rawValue, forKey: .exportType)
+        }
         if let failureCode = self.failureCode {
             try encodeContainer.encode(failureCode, forKey: .failureCode)
         }
         if let failureMessage = self.failureMessage {
             try encodeContainer.encode(failureMessage, forKey: .failureMessage)
+        }
+        if let incrementalExportSpecification = self.incrementalExportSpecification {
+            try encodeContainer.encode(incrementalExportSpecification, forKey: .incrementalExportSpecification)
         }
         if let itemCount = self.itemCount {
             try encodeContainer.encode(itemCount, forKey: .itemCount)
@@ -7480,6 +7488,10 @@ extension DynamoDBClientTypes.ExportDescription: Swift.Codable {
         billedSizeBytes = billedSizeBytesDecoded
         let itemCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .itemCount)
         itemCount = itemCountDecoded
+        let exportTypeDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.ExportType.self, forKey: .exportType)
+        exportType = exportTypeDecoded
+        let incrementalExportSpecificationDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.IncrementalExportSpecification.self, forKey: .incrementalExportSpecification)
+        incrementalExportSpecification = incrementalExportSpecificationDecoded
     }
 }
 
@@ -7502,10 +7514,14 @@ extension DynamoDBClientTypes {
         public var exportStatus: DynamoDBClientTypes.ExportStatus?
         /// Point in time from which table data was exported.
         public var exportTime: ClientRuntime.Date?
+        /// Choice of whether to execute as a full export or incremental export. Valid values are FULL_EXPORT or INCREMENTAL_EXPORT. If INCREMENTAL_EXPORT is provided, the IncrementalExportSpecification must also be used.
+        public var exportType: DynamoDBClientTypes.ExportType?
         /// Status code for the result of the failed export.
         public var failureCode: Swift.String?
         /// Export failure reason description.
         public var failureMessage: Swift.String?
+        /// Optional object containing the parameters specific to an incremental export.
+        public var incrementalExportSpecification: DynamoDBClientTypes.IncrementalExportSpecification?
         /// The number of items exported.
         public var itemCount: Swift.Int?
         /// The name of the Amazon S3 bucket containing the export.
@@ -7538,8 +7554,10 @@ extension DynamoDBClientTypes {
             exportManifest: Swift.String? = nil,
             exportStatus: DynamoDBClientTypes.ExportStatus? = nil,
             exportTime: ClientRuntime.Date? = nil,
+            exportType: DynamoDBClientTypes.ExportType? = nil,
             failureCode: Swift.String? = nil,
             failureMessage: Swift.String? = nil,
+            incrementalExportSpecification: DynamoDBClientTypes.IncrementalExportSpecification? = nil,
             itemCount: Swift.Int? = nil,
             s3Bucket: Swift.String? = nil,
             s3BucketOwner: Swift.String? = nil,
@@ -7559,8 +7577,10 @@ extension DynamoDBClientTypes {
             self.exportManifest = exportManifest
             self.exportStatus = exportStatus
             self.exportTime = exportTime
+            self.exportType = exportType
             self.failureCode = failureCode
             self.failureMessage = failureMessage
+            self.incrementalExportSpecification = incrementalExportSpecification
             self.itemCount = itemCount
             self.s3Bucket = s3Bucket
             self.s3BucketOwner = s3BucketOwner
@@ -7701,6 +7721,7 @@ extension DynamoDBClientTypes.ExportSummary: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case exportArn = "ExportArn"
         case exportStatus = "ExportStatus"
+        case exportType = "ExportType"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -7711,6 +7732,9 @@ extension DynamoDBClientTypes.ExportSummary: Swift.Codable {
         if let exportStatus = self.exportStatus {
             try encodeContainer.encode(exportStatus.rawValue, forKey: .exportStatus)
         }
+        if let exportType = self.exportType {
+            try encodeContainer.encode(exportType.rawValue, forKey: .exportType)
+        }
     }
 
     public init(from decoder: Swift.Decoder) throws {
@@ -7719,6 +7743,8 @@ extension DynamoDBClientTypes.ExportSummary: Swift.Codable {
         exportArn = exportArnDecoded
         let exportStatusDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.ExportStatus.self, forKey: .exportStatus)
         exportStatus = exportStatusDecoded
+        let exportTypeDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.ExportType.self, forKey: .exportType)
+        exportType = exportTypeDecoded
     }
 }
 
@@ -7729,14 +7755,18 @@ extension DynamoDBClientTypes {
         public var exportArn: Swift.String?
         /// Export can be in one of the following states: IN_PROGRESS, COMPLETED, or FAILED.
         public var exportStatus: DynamoDBClientTypes.ExportStatus?
+        /// Choice of whether to execute as a full export or incremental export. Valid values are FULL_EXPORT or INCREMENTAL_EXPORT. If INCREMENTAL_EXPORT is provided, the IncrementalExportSpecification must also be used.
+        public var exportType: DynamoDBClientTypes.ExportType?
 
         public init(
             exportArn: Swift.String? = nil,
-            exportStatus: DynamoDBClientTypes.ExportStatus? = nil
+            exportStatus: DynamoDBClientTypes.ExportStatus? = nil,
+            exportType: DynamoDBClientTypes.ExportType? = nil
         )
         {
             self.exportArn = exportArn
             self.exportStatus = exportStatus
+            self.exportType = exportType
         }
     }
 
@@ -7747,6 +7777,8 @@ extension ExportTableToPointInTimeInput: Swift.Encodable {
         case clientToken = "ClientToken"
         case exportFormat = "ExportFormat"
         case exportTime = "ExportTime"
+        case exportType = "ExportType"
+        case incrementalExportSpecification = "IncrementalExportSpecification"
         case s3Bucket = "S3Bucket"
         case s3BucketOwner = "S3BucketOwner"
         case s3Prefix = "S3Prefix"
@@ -7765,6 +7797,12 @@ extension ExportTableToPointInTimeInput: Swift.Encodable {
         }
         if let exportTime = self.exportTime {
             try encodeContainer.encodeTimestamp(exportTime, format: .epochSeconds, forKey: .exportTime)
+        }
+        if let exportType = self.exportType {
+            try encodeContainer.encode(exportType.rawValue, forKey: .exportType)
+        }
+        if let incrementalExportSpecification = self.incrementalExportSpecification {
+            try encodeContainer.encode(incrementalExportSpecification, forKey: .incrementalExportSpecification)
         }
         if let s3Bucket = self.s3Bucket {
             try encodeContainer.encode(s3Bucket, forKey: .s3Bucket)
@@ -7800,6 +7838,10 @@ public struct ExportTableToPointInTimeInput: Swift.Equatable {
     public var exportFormat: DynamoDBClientTypes.ExportFormat?
     /// Time in the past from which to export table data, counted in seconds from the start of the Unix epoch. The table export will be a snapshot of the table's state at this point in time.
     public var exportTime: ClientRuntime.Date?
+    /// Choice of whether to execute as a full export or incremental export. Valid values are FULL_EXPORT or INCREMENTAL_EXPORT. If INCREMENTAL_EXPORT is provided, the IncrementalExportSpecification must also be used.
+    public var exportType: DynamoDBClientTypes.ExportType?
+    /// Optional object containing the parameters specific to an incremental export.
+    public var incrementalExportSpecification: DynamoDBClientTypes.IncrementalExportSpecification?
     /// The name of the Amazon S3 bucket to export the snapshot to.
     /// This member is required.
     public var s3Bucket: Swift.String?
@@ -7823,6 +7865,8 @@ public struct ExportTableToPointInTimeInput: Swift.Equatable {
         clientToken: Swift.String? = nil,
         exportFormat: DynamoDBClientTypes.ExportFormat? = nil,
         exportTime: ClientRuntime.Date? = nil,
+        exportType: DynamoDBClientTypes.ExportType? = nil,
+        incrementalExportSpecification: DynamoDBClientTypes.IncrementalExportSpecification? = nil,
         s3Bucket: Swift.String? = nil,
         s3BucketOwner: Swift.String? = nil,
         s3Prefix: Swift.String? = nil,
@@ -7834,6 +7878,8 @@ public struct ExportTableToPointInTimeInput: Swift.Equatable {
         self.clientToken = clientToken
         self.exportFormat = exportFormat
         self.exportTime = exportTime
+        self.exportType = exportType
+        self.incrementalExportSpecification = incrementalExportSpecification
         self.s3Bucket = s3Bucket
         self.s3BucketOwner = s3BucketOwner
         self.s3Prefix = s3Prefix
@@ -7853,6 +7899,8 @@ struct ExportTableToPointInTimeInputBody: Swift.Equatable {
     let s3SseAlgorithm: DynamoDBClientTypes.S3SseAlgorithm?
     let s3SseKmsKeyId: Swift.String?
     let exportFormat: DynamoDBClientTypes.ExportFormat?
+    let exportType: DynamoDBClientTypes.ExportType?
+    let incrementalExportSpecification: DynamoDBClientTypes.IncrementalExportSpecification?
 }
 
 extension ExportTableToPointInTimeInputBody: Swift.Decodable {
@@ -7860,6 +7908,8 @@ extension ExportTableToPointInTimeInputBody: Swift.Decodable {
         case clientToken = "ClientToken"
         case exportFormat = "ExportFormat"
         case exportTime = "ExportTime"
+        case exportType = "ExportType"
+        case incrementalExportSpecification = "IncrementalExportSpecification"
         case s3Bucket = "S3Bucket"
         case s3BucketOwner = "S3BucketOwner"
         case s3Prefix = "S3Prefix"
@@ -7888,11 +7938,15 @@ extension ExportTableToPointInTimeInputBody: Swift.Decodable {
         s3SseKmsKeyId = s3SseKmsKeyIdDecoded
         let exportFormatDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.ExportFormat.self, forKey: .exportFormat)
         exportFormat = exportFormatDecoded
+        let exportTypeDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.ExportType.self, forKey: .exportType)
+        exportType = exportTypeDecoded
+        let incrementalExportSpecificationDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.IncrementalExportSpecification.self, forKey: .incrementalExportSpecification)
+        incrementalExportSpecification = incrementalExportSpecificationDecoded
     }
 }
 
-public enum ExportTableToPointInTimeOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum ExportTableToPointInTimeOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -7944,6 +7998,70 @@ extension ExportTableToPointInTimeOutputResponseBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let exportDescriptionDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.ExportDescription.self, forKey: .exportDescription)
         exportDescription = exportDescriptionDecoded
+    }
+}
+
+extension DynamoDBClientTypes {
+    public enum ExportType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case fullExport
+        case incrementalExport
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ExportType] {
+            return [
+                .fullExport,
+                .incrementalExport,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .fullExport: return "FULL_EXPORT"
+            case .incrementalExport: return "INCREMENTAL_EXPORT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = ExportType(rawValue: rawValue) ?? ExportType.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension DynamoDBClientTypes {
+    public enum ExportViewType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case newAndOldImages
+        case newImage
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ExportViewType] {
+            return [
+                .newAndOldImages,
+                .newImage,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .newAndOldImages: return "NEW_AND_OLD_IMAGES"
+            case .newImage: return "NEW_IMAGE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = ExportViewType(rawValue: rawValue) ?? ExportViewType.sdkUnknown(rawValue)
+        }
     }
 }
 
@@ -8271,8 +8389,8 @@ extension GetItemInputBody: Swift.Decodable {
     }
 }
 
-public enum GetItemOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum GetItemOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -9767,8 +9885,8 @@ extension ImportTableInputBody: Swift.Decodable {
     }
 }
 
-public enum ImportTableOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum ImportTableOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -9819,6 +9937,61 @@ extension ImportTableOutputResponseBody: Swift.Decodable {
         let importTableDescriptionDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.ImportTableDescription.self, forKey: .importTableDescription)
         importTableDescription = importTableDescriptionDecoded
     }
+}
+
+extension DynamoDBClientTypes.IncrementalExportSpecification: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case exportFromTime = "ExportFromTime"
+        case exportToTime = "ExportToTime"
+        case exportViewType = "ExportViewType"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let exportFromTime = self.exportFromTime {
+            try encodeContainer.encodeTimestamp(exportFromTime, format: .epochSeconds, forKey: .exportFromTime)
+        }
+        if let exportToTime = self.exportToTime {
+            try encodeContainer.encodeTimestamp(exportToTime, format: .epochSeconds, forKey: .exportToTime)
+        }
+        if let exportViewType = self.exportViewType {
+            try encodeContainer.encode(exportViewType.rawValue, forKey: .exportViewType)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let exportFromTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .exportFromTime)
+        exportFromTime = exportFromTimeDecoded
+        let exportToTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .exportToTime)
+        exportToTime = exportToTimeDecoded
+        let exportViewTypeDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.ExportViewType.self, forKey: .exportViewType)
+        exportViewType = exportViewTypeDecoded
+    }
+}
+
+extension DynamoDBClientTypes {
+    /// Optional object containing the parameters specific to an incremental export.
+    public struct IncrementalExportSpecification: Swift.Equatable {
+        /// Time in the past which provides the inclusive start range for the export table's data, counted in seconds from the start of the Unix epoch. The incremental export will reflect the table's state including and after this point in time.
+        public var exportFromTime: ClientRuntime.Date?
+        /// Time in the past which provides the exclusive end range for the export table's data, counted in seconds from the start of the Unix epoch. The incremental export will reflect the table's state just prior to this point in time. If this is not provided, the latest time with data available will be used.
+        public var exportToTime: ClientRuntime.Date?
+        /// Choice of whether to output the previous item image prior to the start time of the incremental export. Valid values are NEW_AND_OLD_IMAGES and NEW_IMAGES.
+        public var exportViewType: DynamoDBClientTypes.ExportViewType?
+
+        public init(
+            exportFromTime: ClientRuntime.Date? = nil,
+            exportToTime: ClientRuntime.Date? = nil,
+            exportViewType: DynamoDBClientTypes.ExportViewType? = nil
+        )
+        {
+            self.exportFromTime = exportFromTime
+            self.exportToTime = exportToTime
+            self.exportViewType = exportViewType
+        }
+    }
+
 }
 
 extension IndexNotFoundException {
@@ -10869,8 +11042,8 @@ extension ListBackupsInputBody: Swift.Decodable {
     }
 }
 
-public enum ListBackupsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum ListBackupsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -11011,8 +11184,8 @@ extension ListContributorInsightsInputBody: Swift.Decodable {
     }
 }
 
-public enum ListContributorInsightsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum ListContributorInsightsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -11153,8 +11326,8 @@ extension ListExportsInputBody: Swift.Decodable {
     }
 }
 
-public enum ListExportsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum ListExportsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -11295,8 +11468,8 @@ extension ListGlobalTablesInputBody: Swift.Decodable {
     }
 }
 
-public enum ListGlobalTablesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum ListGlobalTablesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -11437,8 +11610,8 @@ extension ListImportsInputBody: Swift.Decodable {
     }
 }
 
-public enum ListImportsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum ListImportsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -11567,8 +11740,8 @@ extension ListTablesInputBody: Swift.Decodable {
     }
 }
 
-public enum ListTablesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum ListTablesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -11699,8 +11872,8 @@ extension ListTagsOfResourceInputBody: Swift.Decodable {
     }
 }
 
-public enum ListTagsOfResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum ListTagsOfResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -12974,8 +13147,8 @@ extension PutItemInputBody: Swift.Decodable {
     }
 }
 
-public enum PutItemOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum PutItemOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -13510,8 +13683,8 @@ extension QueryInputBody: Swift.Decodable {
     }
 }
 
-public enum QueryOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum QueryOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -15204,8 +15377,8 @@ extension RestoreTableFromBackupInputBody: Swift.Decodable {
     }
 }
 
-public enum RestoreTableFromBackupOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum RestoreTableFromBackupOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -15441,8 +15614,8 @@ extension RestoreTableToPointInTimeInputBody: Swift.Decodable {
     }
 }
 
-public enum RestoreTableToPointInTimeOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum RestoreTableToPointInTimeOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -16307,8 +16480,8 @@ extension ScanInputBody: Swift.Decodable {
     }
 }
 
-public enum ScanOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum ScanOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -17841,8 +18014,8 @@ extension TagResourceInputBody: Swift.Decodable {
     }
 }
 
-public enum TagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum TagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -18104,8 +18277,8 @@ extension TransactGetItemsInputBody: Swift.Decodable {
     }
 }
 
-public enum TransactGetItemsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum TransactGetItemsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -18355,8 +18528,8 @@ extension TransactWriteItemsInputBody: Swift.Decodable {
     }
 }
 
-public enum TransactWriteItemsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum TransactWriteItemsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -18850,8 +19023,8 @@ extension UntagResourceInputBody: Swift.Decodable {
     }
 }
 
-public enum UntagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum UntagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -19070,8 +19243,8 @@ extension UpdateContinuousBackupsInputBody: Swift.Decodable {
     }
 }
 
-public enum UpdateContinuousBackupsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum UpdateContinuousBackupsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -19197,8 +19370,8 @@ extension UpdateContributorInsightsInputBody: Swift.Decodable {
     }
 }
 
-public enum UpdateContributorInsightsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum UpdateContributorInsightsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -19389,8 +19562,8 @@ extension UpdateGlobalTableInputBody: Swift.Decodable {
     }
 }
 
-public enum UpdateGlobalTableOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum UpdateGlobalTableOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -19581,8 +19754,8 @@ extension UpdateGlobalTableSettingsInputBody: Swift.Decodable {
     }
 }
 
-public enum UpdateGlobalTableSettingsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum UpdateGlobalTableSettingsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -19988,8 +20161,8 @@ extension UpdateItemInputBody: Swift.Decodable {
     }
 }
 
-public enum UpdateItemOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum UpdateItemOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -20374,8 +20547,8 @@ extension UpdateTableInputBody: Swift.Decodable {
     }
 }
 
-public enum UpdateTableOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum UpdateTableOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -20538,8 +20711,8 @@ extension UpdateTableReplicaAutoScalingInputBody: Swift.Decodable {
     }
 }
 
-public enum UpdateTableReplicaAutoScalingOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum UpdateTableReplicaAutoScalingOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -20654,8 +20827,8 @@ extension UpdateTimeToLiveInputBody: Swift.Decodable {
     }
 }
 
-public enum UpdateTimeToLiveOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum UpdateTimeToLiveOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {

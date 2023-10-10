@@ -279,8 +279,8 @@ extension BatchGetRecordInputBody: Swift.Decodable {
     }
 }
 
-public enum BatchGetRecordOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum BatchGetRecordOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -543,8 +543,8 @@ extension DeleteRecordInputBody: Swift.Decodable {
     }
 }
 
-public enum DeleteRecordOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DeleteRecordOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -635,6 +635,7 @@ extension SageMakerFeatureStoreRuntimeClientTypes.FeatureValue: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case featureName = "FeatureName"
         case valueAsString = "ValueAsString"
+        case valueAsStringList = "ValueAsStringList"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -645,6 +646,12 @@ extension SageMakerFeatureStoreRuntimeClientTypes.FeatureValue: Swift.Codable {
         if let valueAsString = self.valueAsString {
             try encodeContainer.encode(valueAsString, forKey: .valueAsString)
         }
+        if let valueAsStringList = valueAsStringList {
+            var valueAsStringListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .valueAsStringList)
+            for valueasstring0 in valueAsStringList {
+                try valueAsStringListContainer.encode(valueasstring0)
+            }
+        }
     }
 
     public init(from decoder: Swift.Decoder) throws {
@@ -653,6 +660,17 @@ extension SageMakerFeatureStoreRuntimeClientTypes.FeatureValue: Swift.Codable {
         featureName = featureNameDecoded
         let valueAsStringDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .valueAsString)
         valueAsString = valueAsStringDecoded
+        let valueAsStringListContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .valueAsStringList)
+        var valueAsStringListDecoded0:[Swift.String]? = nil
+        if let valueAsStringListContainer = valueAsStringListContainer {
+            valueAsStringListDecoded0 = [Swift.String]()
+            for string0 in valueAsStringListContainer {
+                if let string0 = string0 {
+                    valueAsStringListDecoded0?.append(string0)
+                }
+            }
+        }
+        valueAsStringList = valueAsStringListDecoded0
     }
 }
 
@@ -662,17 +680,20 @@ extension SageMakerFeatureStoreRuntimeClientTypes {
         /// The name of a feature that a feature value corresponds to.
         /// This member is required.
         public var featureName: Swift.String?
-        /// The value associated with a feature, in string format. Note that features types can be String, Integral, or Fractional. This value represents all three types as a string.
-        /// This member is required.
+        /// The value in string format associated with a feature. Used when your CollectionType is None. Note that features types can be String, Integral, or Fractional. This value represents all three types as a string.
         public var valueAsString: Swift.String?
+        /// The list of values in string format associated with a feature. Used when your CollectionType is a List, Set, or Vector. Note that features types can be String, Integral, or Fractional. These values represents all three types as a string.
+        public var valueAsStringList: [Swift.String]?
 
         public init(
             featureName: Swift.String? = nil,
-            valueAsString: Swift.String? = nil
+            valueAsString: Swift.String? = nil,
+            valueAsStringList: [Swift.String]? = nil
         )
         {
             self.featureName = featureName
             self.valueAsString = valueAsString
+            self.valueAsStringList = valueAsStringList
         }
     }
 
@@ -747,8 +768,8 @@ extension GetRecordInputBody: Swift.Decodable {
     }
 }
 
-public enum GetRecordOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum GetRecordOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -986,8 +1007,8 @@ extension PutRecordInputBody: Swift.Decodable {
     }
 }
 
-public enum PutRecordOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum PutRecordOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {

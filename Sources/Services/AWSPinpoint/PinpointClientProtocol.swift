@@ -1528,7 +1528,7 @@ public protocol PinpointClientProtocol {
     /// - `PayloadTooLargeException` : Provides information about an API request or response.
     /// - `TooManyRequestsException` : Provides information about an API request or response.
     func putEventStream(input: PutEventStreamInput) async throws -> PutEventStreamOutputResponse
-    /// Removes one or more attributes, of the same attribute type, from all the endpoints that are associated with an application.
+    /// Removes one or more custom attributes, of the same attribute type, from the application. Existing endpoints still have the attributes but Amazon Pinpoint will stop capturing new or changed values for these attributes.
     ///
     /// - Parameter RemoveAttributesInput : [no documentation found]
     ///
