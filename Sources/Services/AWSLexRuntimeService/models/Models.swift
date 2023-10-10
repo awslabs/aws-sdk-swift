@@ -440,8 +440,8 @@ extension DeleteSessionInputBody: Swift.Decodable {
     }
 }
 
-public enum DeleteSessionOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DeleteSessionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -992,8 +992,8 @@ extension GetSessionInputBody: Swift.Decodable {
     }
 }
 
-public enum GetSessionOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum GetSessionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -1812,8 +1812,8 @@ extension PostContentInputBody: Swift.Decodable {
     }
 }
 
-public enum PostContentOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum PostContentOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -2211,8 +2211,8 @@ extension PostTextInputBody: Swift.Decodable {
     }
 }
 
-public enum PostTextOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum PostTextOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -2721,8 +2721,8 @@ extension PutSessionInputBody: Swift.Decodable {
     }
 }
 
-public enum PutSessionOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum PutSessionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {

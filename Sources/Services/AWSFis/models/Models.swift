@@ -689,8 +689,8 @@ extension FisClientTypes {
 
 }
 
-public enum CreateExperimentTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum CreateExperimentTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -961,8 +961,8 @@ extension DeleteExperimentTemplateInputBody: Swift.Decodable {
     }
 }
 
-public enum DeleteExperimentTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DeleteExperimentTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -2904,8 +2904,8 @@ extension GetActionInputBody: Swift.Decodable {
     }
 }
 
-public enum GetActionOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum GetActionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -2987,8 +2987,8 @@ extension GetExperimentInputBody: Swift.Decodable {
     }
 }
 
-public enum GetExperimentOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum GetExperimentOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -3070,8 +3070,8 @@ extension GetExperimentTemplateInputBody: Swift.Decodable {
     }
 }
 
-public enum GetExperimentTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum GetExperimentTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -3153,8 +3153,8 @@ extension GetTargetResourceTypeInputBody: Swift.Decodable {
     }
 }
 
-public enum GetTargetResourceTypeOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum GetTargetResourceTypeOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -3253,8 +3253,8 @@ extension ListActionsInputBody: Swift.Decodable {
     }
 }
 
-public enum ListActionsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum ListActionsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -3371,8 +3371,8 @@ extension ListExperimentTemplatesInputBody: Swift.Decodable {
     }
 }
 
-public enum ListExperimentTemplatesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum ListExperimentTemplatesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -3489,8 +3489,8 @@ extension ListExperimentsInputBody: Swift.Decodable {
     }
 }
 
-public enum ListExperimentsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum ListExperimentsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -3590,8 +3590,8 @@ extension ListTagsForResourceInputBody: Swift.Decodable {
     }
 }
 
-public enum ListTagsForResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum ListTagsForResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -3697,8 +3697,8 @@ extension ListTargetResourceTypesInputBody: Swift.Decodable {
     }
 }
 
-public enum ListTargetResourceTypesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum ListTargetResourceTypesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -3962,8 +3962,8 @@ extension StartExperimentInputBody: Swift.Decodable {
     }
 }
 
-public enum StartExperimentOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum StartExperimentOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -4047,8 +4047,8 @@ extension StopExperimentInputBody: Swift.Decodable {
     }
 }
 
-public enum StopExperimentOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum StopExperimentOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -4167,8 +4167,8 @@ extension TagResourceInputBody: Swift.Decodable {
     }
 }
 
-public enum TagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum TagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -4394,8 +4394,8 @@ extension UntagResourceInputBody: Swift.Decodable {
     }
 }
 
-public enum UntagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum UntagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -4731,8 +4731,8 @@ extension FisClientTypes {
 
 }
 
-public enum UpdateExperimentTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum UpdateExperimentTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {

@@ -723,8 +723,8 @@ extension DecryptDataInputBody: Swift.Decodable {
     }
 }
 
-public enum DecryptDataOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DecryptDataOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -1368,8 +1368,8 @@ extension EncryptDataInputBody: Swift.Decodable {
     }
 }
 
-public enum EncryptDataOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum EncryptDataOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -1648,8 +1648,8 @@ extension GenerateCardValidationDataInputBody: Swift.Decodable {
     }
 }
 
-public enum GenerateCardValidationDataOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum GenerateCardValidationDataOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -1817,8 +1817,8 @@ extension GenerateMacInputBody: Swift.Decodable {
     }
 }
 
-public enum GenerateMacOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum GenerateMacOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -2012,8 +2012,8 @@ extension GeneratePinDataInputBody: Swift.Decodable {
     }
 }
 
-public enum GeneratePinDataOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum GeneratePinDataOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -3150,8 +3150,8 @@ extension ReEncryptDataInputBody: Swift.Decodable {
     }
 }
 
-public enum ReEncryptDataOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum ReEncryptDataOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -4050,8 +4050,8 @@ extension TranslatePinDataInputBody: Swift.Decodable {
     }
 }
 
-public enum TranslatePinDataOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum TranslatePinDataOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -4595,8 +4595,8 @@ extension VerifyAuthRequestCryptogramInputBody: Swift.Decodable {
     }
 }
 
-public enum VerifyAuthRequestCryptogramOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum VerifyAuthRequestCryptogramOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -4765,8 +4765,8 @@ extension VerifyCardValidationDataInputBody: Swift.Decodable {
     }
 }
 
-public enum VerifyCardValidationDataOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum VerifyCardValidationDataOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -4937,8 +4937,8 @@ extension VerifyMacInputBody: Swift.Decodable {
     }
 }
 
-public enum VerifyMacOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum VerifyMacOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
@@ -5147,8 +5147,8 @@ extension VerifyPinDataInputBody: Swift.Decodable {
     }
 }
 
-public enum VerifyPinDataOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum VerifyPinDataOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {

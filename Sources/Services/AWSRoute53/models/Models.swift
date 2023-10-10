@@ -181,8 +181,8 @@ extension ActivateKeySigningKeyInputBody: Swift.Decodable {
     }
 }
 
-public enum ActivateKeySigningKeyOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum ActivateKeySigningKeyOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "ConcurrentModification": return try await ConcurrentModification(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -585,8 +585,8 @@ extension AssociateVPCWithHostedZoneInputBody: Swift.Decodable {
     }
 }
 
-public enum AssociateVPCWithHostedZoneOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum AssociateVPCWithHostedZoneOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "ConflictingDomainExists": return try await ConflictingDomainExists(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -941,8 +941,8 @@ extension ChangeCidrCollectionInputBody: Swift.Decodable {
     }
 }
 
-public enum ChangeCidrCollectionOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum ChangeCidrCollectionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "CidrBlockInUseException": return try await CidrBlockInUseException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -1225,8 +1225,8 @@ extension InvalidChangeBatch {
     }
 }
 
-public enum ChangeResourceRecordSetsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum ChangeResourceRecordSetsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         if let customBatchError = try await CustomInvalidBatchError.makeFromHttpResponse(httpResponse) {
             return InvalidChangeBatch(
                 customError: customBatchError,
@@ -1456,8 +1456,8 @@ extension ChangeTagsForResourceInputBody: Swift.Decodable {
     }
 }
 
-public enum ChangeTagsForResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum ChangeTagsForResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "InvalidInput": return try await InvalidInput(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -2680,8 +2680,8 @@ extension CreateCidrCollectionInputBody: Swift.Decodable {
     }
 }
 
-public enum CreateCidrCollectionOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum CreateCidrCollectionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "CidrCollectionAlreadyExistsException": return try await CidrCollectionAlreadyExistsException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -2829,8 +2829,8 @@ extension CreateHealthCheckInputBody: Swift.Decodable {
     }
 }
 
-public enum CreateHealthCheckOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum CreateHealthCheckOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "HealthCheckAlreadyExists": return try await HealthCheckAlreadyExists(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -3015,8 +3015,8 @@ extension CreateHostedZoneInputBody: Swift.Decodable {
     }
 }
 
-public enum CreateHostedZoneOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum CreateHostedZoneOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "ConflictingDomainExists": return try await ConflictingDomainExists(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -3248,8 +3248,8 @@ extension CreateKeySigningKeyInputBody: Swift.Decodable {
     }
 }
 
-public enum CreateKeySigningKeyOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum CreateKeySigningKeyOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "ConcurrentModification": return try await ConcurrentModification(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -3407,8 +3407,8 @@ extension CreateQueryLoggingConfigInputBody: Swift.Decodable {
     }
 }
 
-public enum CreateQueryLoggingConfigOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum CreateQueryLoggingConfigOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "ConcurrentModification": return try await ConcurrentModification(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -3550,8 +3550,8 @@ extension CreateReusableDelegationSetInputBody: Swift.Decodable {
     }
 }
 
-public enum CreateReusableDelegationSetOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum CreateReusableDelegationSetOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "DelegationSetAlreadyCreated": return try await DelegationSetAlreadyCreated(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -3826,8 +3826,8 @@ extension CreateTrafficPolicyInstanceInputBody: Swift.Decodable {
     }
 }
 
-public enum CreateTrafficPolicyInstanceOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum CreateTrafficPolicyInstanceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "InvalidInput": return try await InvalidInput(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -3892,8 +3892,8 @@ extension CreateTrafficPolicyInstanceOutputResponseBody: Swift.Decodable {
     }
 }
 
-public enum CreateTrafficPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum CreateTrafficPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "InvalidInput": return try await InvalidInput(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -4043,8 +4043,8 @@ extension CreateTrafficPolicyVersionInputBody: Swift.Decodable {
     }
 }
 
-public enum CreateTrafficPolicyVersionOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum CreateTrafficPolicyVersionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "ConcurrentModification": return try await ConcurrentModification(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -4208,8 +4208,8 @@ extension CreateVPCAssociationAuthorizationInputBody: Swift.Decodable {
     }
 }
 
-public enum CreateVPCAssociationAuthorizationOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum CreateVPCAssociationAuthorizationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "ConcurrentModification": return try await ConcurrentModification(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -4455,8 +4455,8 @@ extension DeactivateKeySigningKeyInputBody: Swift.Decodable {
     }
 }
 
-public enum DeactivateKeySigningKeyOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DeactivateKeySigningKeyOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "ConcurrentModification": return try await ConcurrentModification(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -4911,8 +4911,8 @@ extension DeleteCidrCollectionInputBody: Swift.Decodable {
     }
 }
 
-public enum DeleteCidrCollectionOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DeleteCidrCollectionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "CidrCollectionInUseException": return try await CidrCollectionInUseException(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -4966,8 +4966,8 @@ extension DeleteHealthCheckInputBody: Swift.Decodable {
     }
 }
 
-public enum DeleteHealthCheckOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DeleteHealthCheckOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "HealthCheckInUse": return try await HealthCheckInUse(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -5021,8 +5021,8 @@ extension DeleteHostedZoneInputBody: Swift.Decodable {
     }
 }
 
-public enum DeleteHostedZoneOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DeleteHostedZoneOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "HostedZoneNotEmpty": return try await HostedZoneNotEmpty(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -5141,8 +5141,8 @@ extension DeleteKeySigningKeyInputBody: Swift.Decodable {
     }
 }
 
-public enum DeleteKeySigningKeyOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DeleteKeySigningKeyOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "ConcurrentModification": return try await ConcurrentModification(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -5228,8 +5228,8 @@ extension DeleteQueryLoggingConfigInputBody: Swift.Decodable {
     }
 }
 
-public enum DeleteQueryLoggingConfigOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DeleteQueryLoggingConfigOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "ConcurrentModification": return try await ConcurrentModification(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -5282,8 +5282,8 @@ extension DeleteReusableDelegationSetInputBody: Swift.Decodable {
     }
 }
 
-public enum DeleteReusableDelegationSetOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DeleteReusableDelegationSetOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "DelegationSetInUse": return try await DelegationSetInUse(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -5378,8 +5378,8 @@ extension DeleteTrafficPolicyInstanceInputBody: Swift.Decodable {
     }
 }
 
-public enum DeleteTrafficPolicyInstanceOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DeleteTrafficPolicyInstanceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "InvalidInput": return try await InvalidInput(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -5401,8 +5401,8 @@ public struct DeleteTrafficPolicyInstanceOutputResponse: Swift.Equatable {
     public init() { }
 }
 
-public enum DeleteTrafficPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DeleteTrafficPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "ConcurrentModification": return try await ConcurrentModification(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -5524,8 +5524,8 @@ extension DeleteVPCAssociationAuthorizationInputBody: Swift.Decodable {
     }
 }
 
-public enum DeleteVPCAssociationAuthorizationOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DeleteVPCAssociationAuthorizationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "ConcurrentModification": return try await ConcurrentModification(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -5669,8 +5669,8 @@ extension DisableHostedZoneDNSSECInputBody: Swift.Decodable {
     }
 }
 
-public enum DisableHostedZoneDNSSECOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DisableHostedZoneDNSSECOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "ConcurrentModification": return try await ConcurrentModification(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -5838,8 +5838,8 @@ extension DisassociateVPCFromHostedZoneInputBody: Swift.Decodable {
     }
 }
 
-public enum DisassociateVPCFromHostedZoneOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DisassociateVPCFromHostedZoneOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "InvalidInput": return try await InvalidInput(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -5950,8 +5950,8 @@ extension EnableHostedZoneDNSSECInputBody: Swift.Decodable {
     }
 }
 
-public enum EnableHostedZoneDNSSECOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum EnableHostedZoneDNSSECOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "ConcurrentModification": return try await ConcurrentModification(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -6242,8 +6242,8 @@ extension GetAccountLimitInputBody: Swift.Decodable {
     }
 }
 
-public enum GetAccountLimitOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum GetAccountLimitOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "InvalidInput": return try await InvalidInput(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -6337,8 +6337,8 @@ extension GetChangeInputBody: Swift.Decodable {
     }
 }
 
-public enum GetChangeOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum GetChangeOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "InvalidInput": return try await InvalidInput(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -6411,8 +6411,8 @@ extension GetCheckerIpRangesInputBody: Swift.Decodable {
     }
 }
 
-public enum GetCheckerIpRangesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum GetCheckerIpRangesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
@@ -6535,8 +6535,8 @@ extension GetDNSSECInputBody: Swift.Decodable {
     }
 }
 
-public enum GetDNSSECOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum GetDNSSECOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "InvalidArgument": return try await InvalidArgument(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -6687,8 +6687,8 @@ extension GetGeoLocationInputBody: Swift.Decodable {
     }
 }
 
-public enum GetGeoLocationOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum GetGeoLocationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "InvalidInput": return try await InvalidInput(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -6761,8 +6761,8 @@ extension GetHealthCheckCountInputBody: Swift.Decodable {
     }
 }
 
-public enum GetHealthCheckCountOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum GetHealthCheckCountOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
@@ -6876,8 +6876,8 @@ extension GetHealthCheckLastFailureReasonInputBody: Swift.Decodable {
     }
 }
 
-public enum GetHealthCheckLastFailureReasonOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum GetHealthCheckLastFailureReasonOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "InvalidInput": return try await InvalidInput(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -6946,8 +6946,8 @@ extension GetHealthCheckLastFailureReasonOutputResponseBody: Swift.Decodable {
     }
 }
 
-public enum GetHealthCheckOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum GetHealthCheckOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "IncompatibleVersion": return try await IncompatibleVersion(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -7032,8 +7032,8 @@ extension GetHealthCheckStatusInputBody: Swift.Decodable {
     }
 }
 
-public enum GetHealthCheckStatusOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum GetHealthCheckStatusOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "InvalidInput": return try await InvalidInput(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -7123,8 +7123,8 @@ extension GetHostedZoneCountInputBody: Swift.Decodable {
     }
 }
 
-public enum GetHostedZoneCountOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum GetHostedZoneCountOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "InvalidInput": return try await InvalidInput(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -7276,8 +7276,8 @@ extension GetHostedZoneLimitInputBody: Swift.Decodable {
     }
 }
 
-public enum GetHostedZoneLimitOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum GetHostedZoneLimitOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "HostedZoneNotPrivate": return try await HostedZoneNotPrivate(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -7341,8 +7341,8 @@ extension GetHostedZoneLimitOutputResponseBody: Swift.Decodable {
     }
 }
 
-public enum GetHostedZoneOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum GetHostedZoneOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "InvalidInput": return try await InvalidInput(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -7462,8 +7462,8 @@ extension GetQueryLoggingConfigInputBody: Swift.Decodable {
     }
 }
 
-public enum GetQueryLoggingConfigOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum GetQueryLoggingConfigOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "InvalidInput": return try await InvalidInput(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -7586,8 +7586,8 @@ extension GetReusableDelegationSetLimitInputBody: Swift.Decodable {
     }
 }
 
-public enum GetReusableDelegationSetLimitOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum GetReusableDelegationSetLimitOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "InvalidInput": return try await InvalidInput(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -7650,8 +7650,8 @@ extension GetReusableDelegationSetLimitOutputResponseBody: Swift.Decodable {
     }
 }
 
-public enum GetReusableDelegationSetOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum GetReusableDelegationSetOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "DelegationSetNotReusable": return try await DelegationSetNotReusable(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -7765,8 +7765,8 @@ extension GetTrafficPolicyInstanceCountInputBody: Swift.Decodable {
     }
 }
 
-public enum GetTrafficPolicyInstanceCountOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum GetTrafficPolicyInstanceCountOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
@@ -7848,8 +7848,8 @@ extension GetTrafficPolicyInstanceInputBody: Swift.Decodable {
     }
 }
 
-public enum GetTrafficPolicyInstanceOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum GetTrafficPolicyInstanceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "InvalidInput": return try await InvalidInput(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -7901,8 +7901,8 @@ extension GetTrafficPolicyInstanceOutputResponseBody: Swift.Decodable {
     }
 }
 
-public enum GetTrafficPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum GetTrafficPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "InvalidInput": return try await InvalidInput(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -10852,8 +10852,8 @@ extension ListCidrBlocksInputBody: Swift.Decodable {
     }
 }
 
-public enum ListCidrBlocksOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum ListCidrBlocksOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "InvalidInput": return try await InvalidInput(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -10979,8 +10979,8 @@ extension ListCidrCollectionsInputBody: Swift.Decodable {
     }
 }
 
-public enum ListCidrCollectionsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum ListCidrCollectionsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "InvalidInput": return try await InvalidInput(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -11112,8 +11112,8 @@ extension ListCidrLocationsInputBody: Swift.Decodable {
     }
 }
 
-public enum ListCidrLocationsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum ListCidrLocationsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "InvalidInput": return try await InvalidInput(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -11255,8 +11255,8 @@ extension ListGeoLocationsInputBody: Swift.Decodable {
     }
 }
 
-public enum ListGeoLocationsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum ListGeoLocationsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "InvalidInput": return try await InvalidInput(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -11425,8 +11425,8 @@ extension ListHealthChecksInputBody: Swift.Decodable {
     }
 }
 
-public enum ListHealthChecksOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum ListHealthChecksOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "IncompatibleVersion": return try await IncompatibleVersion(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -11595,8 +11595,8 @@ extension ListHostedZonesByNameInputBody: Swift.Decodable {
     }
 }
 
-public enum ListHostedZonesByNameOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum ListHostedZonesByNameOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "InvalidDomainName": return try await InvalidDomainName(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -11798,8 +11798,8 @@ extension ListHostedZonesByVPCInputBody: Swift.Decodable {
     }
 }
 
-public enum ListHostedZonesByVPCOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum ListHostedZonesByVPCOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "InvalidInput": return try await InvalidInput(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -11945,8 +11945,8 @@ extension ListHostedZonesInputBody: Swift.Decodable {
     }
 }
 
-public enum ListHostedZonesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum ListHostedZonesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "DelegationSetNotReusable": return try await DelegationSetNotReusable(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -12114,8 +12114,8 @@ extension ListQueryLoggingConfigsInputBody: Swift.Decodable {
     }
 }
 
-public enum ListQueryLoggingConfigsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum ListQueryLoggingConfigsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "InvalidInput": return try await InvalidInput(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -12309,8 +12309,8 @@ extension ListResourceRecordSetsInputBody: Swift.Decodable {
     }
 }
 
-public enum ListResourceRecordSetsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum ListResourceRecordSetsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "InvalidInput": return try await InvalidInput(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -12480,8 +12480,8 @@ extension ListReusableDelegationSetsInputBody: Swift.Decodable {
     }
 }
 
-public enum ListReusableDelegationSetsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum ListReusableDelegationSetsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "InvalidInput": return try await InvalidInput(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -12636,8 +12636,8 @@ extension ListTagsForResourceInputBody: Swift.Decodable {
     }
 }
 
-public enum ListTagsForResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum ListTagsForResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "InvalidInput": return try await InvalidInput(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -12790,8 +12790,8 @@ extension ListTagsForResourcesInputBody: Swift.Decodable {
     }
 }
 
-public enum ListTagsForResourcesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum ListTagsForResourcesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "InvalidInput": return try await InvalidInput(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -12912,8 +12912,8 @@ extension ListTrafficPoliciesInputBody: Swift.Decodable {
     }
 }
 
-public enum ListTrafficPoliciesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum ListTrafficPoliciesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "InvalidInput": return try await InvalidInput(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -13082,8 +13082,8 @@ extension ListTrafficPolicyInstancesByHostedZoneInputBody: Swift.Decodable {
     }
 }
 
-public enum ListTrafficPolicyInstancesByHostedZoneOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum ListTrafficPolicyInstancesByHostedZoneOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "InvalidInput": return try await InvalidInput(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -13282,8 +13282,8 @@ extension ListTrafficPolicyInstancesByPolicyInputBody: Swift.Decodable {
     }
 }
 
-public enum ListTrafficPolicyInstancesByPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum ListTrafficPolicyInstancesByPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "InvalidInput": return try await InvalidInput(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -13470,8 +13470,8 @@ extension ListTrafficPolicyInstancesInputBody: Swift.Decodable {
     }
 }
 
-public enum ListTrafficPolicyInstancesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum ListTrafficPolicyInstancesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "InvalidInput": return try await InvalidInput(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -13649,8 +13649,8 @@ extension ListTrafficPolicyVersionsInputBody: Swift.Decodable {
     }
 }
 
-public enum ListTrafficPolicyVersionsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum ListTrafficPolicyVersionsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "InvalidInput": return try await InvalidInput(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -13834,8 +13834,8 @@ extension ListVPCAssociationAuthorizationsInputBody: Swift.Decodable {
     }
 }
 
-public enum ListVPCAssociationAuthorizationsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum ListVPCAssociationAuthorizationsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "InvalidInput": return try await InvalidInput(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -16055,8 +16055,8 @@ extension TestDNSAnswerInputBody: Swift.Decodable {
     }
 }
 
-public enum TestDNSAnswerOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum TestDNSAnswerOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "InvalidInput": return try await InvalidInput(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -17500,8 +17500,8 @@ extension UpdateHealthCheckInputBody: Swift.Decodable {
     }
 }
 
-public enum UpdateHealthCheckOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum UpdateHealthCheckOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "HealthCheckVersionMismatch": return try await HealthCheckVersionMismatch(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -17627,8 +17627,8 @@ extension UpdateHostedZoneCommentInputBody: Swift.Decodable {
     }
 }
 
-public enum UpdateHostedZoneCommentOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum UpdateHostedZoneCommentOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "InvalidInput": return try await InvalidInput(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -17763,8 +17763,8 @@ extension UpdateTrafficPolicyCommentInputBody: Swift.Decodable {
     }
 }
 
-public enum UpdateTrafficPolicyCommentOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum UpdateTrafficPolicyCommentOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "ConcurrentModification": return try await ConcurrentModification(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -17917,8 +17917,8 @@ extension UpdateTrafficPolicyInstanceInputBody: Swift.Decodable {
     }
 }
 
-public enum UpdateTrafficPolicyInstanceOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum UpdateTrafficPolicyInstanceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "ConflictingTypes": return try await ConflictingTypes(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)

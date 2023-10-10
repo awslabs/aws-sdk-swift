@@ -109,6 +109,22 @@ public protocol LakeFormationClientProtocol {
     /// - `OperationTimeoutException` : The operation timed out.
     /// - `ResourceNumberLimitExceededException` : A resource numerical limit was exceeded.
     func createDataCellsFilter(input: CreateDataCellsFilterInput) async throws -> CreateDataCellsFilterOutputResponse
+    /// Enforce Lake Formation permissions for the given databases, tables, and principals.
+    ///
+    /// - Parameter CreateLakeFormationOptInInput : [no documentation found]
+    ///
+    /// - Returns: `CreateLakeFormationOptInOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to a resource was denied.
+    /// - `ConcurrentModificationException` : Two processes are trying to modify a resource simultaneously.
+    /// - `EntityNotFoundException` : A specified entity does not exist.
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
+    func createLakeFormationOptIn(input: CreateLakeFormationOptInInput) async throws -> CreateLakeFormationOptInOutputResponse
     /// Creates an LF-tag with the specified name and values.
     ///
     /// - Parameter CreateLFTagInput : [no documentation found]
@@ -140,6 +156,22 @@ public protocol LakeFormationClientProtocol {
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
     func deleteDataCellsFilter(input: DeleteDataCellsFilterInput) async throws -> DeleteDataCellsFilterOutputResponse
+    /// Remove the Lake Formation permissions enforcement of the given databases, tables, and principals.
+    ///
+    /// - Parameter DeleteLakeFormationOptInInput : [no documentation found]
+    ///
+    /// - Returns: `DeleteLakeFormationOptInOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to a resource was denied.
+    /// - `ConcurrentModificationException` : Two processes are trying to modify a resource simultaneously.
+    /// - `EntityNotFoundException` : A specified entity does not exist.
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
+    func deleteLakeFormationOptIn(input: DeleteLakeFormationOptInInput) async throws -> DeleteLakeFormationOptInOutputResponse
     /// Deletes the specified LF-tag given a key name. If the input parameter tag key was not found, then the operation will throw an exception. When you delete an LF-tag, the LFTagPolicy attached to the LF-tag becomes invalid. If the deleted LF-tag was still assigned to any resource, the tag policy attach to the deleted LF-tag will no longer be applied to the resource.
     ///
     /// - Parameter DeleteLFTagInput : [no documentation found]
@@ -440,6 +472,20 @@ public protocol LakeFormationClientProtocol {
     /// - `InvalidInputException` : The input provided was not valid.
     /// - `OperationTimeoutException` : The operation timed out.
     func listDataCellsFilter(input: ListDataCellsFilterInput) async throws -> ListDataCellsFilterOutputResponse
+    /// Retrieve the current list of resources and principals that are opt in to enforce Lake Formation permissions.
+    ///
+    /// - Parameter ListLakeFormationOptInsInput : [no documentation found]
+    ///
+    /// - Returns: `ListLakeFormationOptInsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : Access to a resource was denied.
+    /// - `InternalServiceException` : An internal service error occurred.
+    /// - `InvalidInputException` : The input provided was not valid.
+    /// - `OperationTimeoutException` : The operation timed out.
+    func listLakeFormationOptIns(input: ListLakeFormationOptInsInput) async throws -> ListLakeFormationOptInsOutputResponse
     /// Lists LF-tags that the requester has permission to view.
     ///
     /// - Parameter ListLFTagsInput : [no documentation found]

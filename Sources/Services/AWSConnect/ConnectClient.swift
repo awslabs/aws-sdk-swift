@@ -6091,6 +6091,52 @@ extension ConnectClient: ConnectClientProtocol {
         return result
     }
 
+    /// Returns a list of third party applications in a specific security profile.
+    ///
+    /// - Parameter ListSecurityProfileApplicationsInput : [no documentation found]
+    ///
+    /// - Returns: `ListSecurityProfileApplicationsOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServiceException` : Request processing failed because of an error or failure with the service.
+    /// - `InvalidParameterException` : One or more of the specified parameters are not valid.
+    /// - `InvalidRequestException` : The request is not valid.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ThrottlingException` : The throttling limit has been exceeded.
+    public func listSecurityProfileApplications(input: ListSecurityProfileApplicationsInput) async throws -> ListSecurityProfileApplicationsOutputResponse
+    {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .get)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listSecurityProfileApplications")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withCredentialsProvider(value: config.credentialsProvider)
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "connect")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<ListSecurityProfileApplicationsInput, ListSecurityProfileApplicationsOutputResponse, ListSecurityProfileApplicationsOutputError>(id: "listSecurityProfileApplications")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListSecurityProfileApplicationsInput, ListSecurityProfileApplicationsOutputResponse, ListSecurityProfileApplicationsOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListSecurityProfileApplicationsInput, ListSecurityProfileApplicationsOutputResponse>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListSecurityProfileApplicationsOutputResponse, ListSecurityProfileApplicationsOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListSecurityProfileApplicationsInput, ListSecurityProfileApplicationsOutputResponse>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListSecurityProfileApplicationsOutputResponse, ListSecurityProfileApplicationsOutputError>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListSecurityProfileApplicationsOutputResponse, ListSecurityProfileApplicationsOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListSecurityProfileApplicationsOutputResponse, ListSecurityProfileApplicationsOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListSecurityProfileApplicationsOutputResponse, ListSecurityProfileApplicationsOutputError>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
     /// This API is in preview release for Amazon Connect and is subject to change. Lists the permissions granted to a security profile.
     ///
     /// - Parameter ListSecurityProfilePermissionsInput : [no documentation found]

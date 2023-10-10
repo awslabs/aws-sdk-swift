@@ -6,7 +6,8 @@
 //
 
 import ClientRuntime
-import Foundation
+import struct Foundation.Date
+import struct Foundation.TimeInterval
 
 extension HttpContext {
     func getCredentialsProvider() -> (any CredentialsProviding)? {

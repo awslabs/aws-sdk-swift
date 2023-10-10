@@ -60,8 +60,8 @@ extension AcceptReservedNodeExchangeInputBody: Swift.Decodable {
     }
 }
 
-public enum AcceptReservedNodeExchangeOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum AcceptReservedNodeExchangeOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "DependentServiceUnavailableFault": return try await DependentServiceUnavailableFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -458,8 +458,8 @@ extension AddPartnerInputBody: Swift.Decodable {
     }
 }
 
-public enum AddPartnerOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum AddPartnerOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "ClusterNotFound": return try await ClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -715,8 +715,8 @@ extension AssociateDataShareConsumerInputBody: Swift.Decodable {
     }
 }
 
-public enum AssociateDataShareConsumerOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum AssociateDataShareConsumerOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "InvalidDataShareFault": return try await InvalidDataShareFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -1421,8 +1421,8 @@ extension AuthorizeClusterSecurityGroupIngressInputBody: Swift.Decodable {
     }
 }
 
-public enum AuthorizeClusterSecurityGroupIngressOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum AuthorizeClusterSecurityGroupIngressOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "AuthorizationAlreadyExists": return try await AuthorizationAlreadyExistsFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -1533,8 +1533,8 @@ extension AuthorizeDataShareInputBody: Swift.Decodable {
     }
 }
 
-public enum AuthorizeDataShareOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum AuthorizeDataShareOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "InvalidDataShareFault": return try await InvalidDataShareFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -1735,8 +1735,8 @@ extension AuthorizeEndpointAccessInputBody: Swift.Decodable {
     }
 }
 
-public enum AuthorizeEndpointAccessOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum AuthorizeEndpointAccessOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "ClusterNotFound": return try await ClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -1969,8 +1969,8 @@ extension AuthorizeSnapshotAccessInputBody: Swift.Decodable {
     }
 }
 
-public enum AuthorizeSnapshotAccessOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum AuthorizeSnapshotAccessOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "AuthorizationAlreadyExists": return try await AuthorizationAlreadyExistsFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -2169,8 +2169,8 @@ extension BatchDeleteClusterSnapshotsInputBody: Swift.Decodable {
     }
 }
 
-public enum BatchDeleteClusterSnapshotsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum BatchDeleteClusterSnapshotsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "BatchDeleteRequestSizeExceeded": return try await BatchDeleteRequestSizeExceededFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -2466,8 +2466,8 @@ extension BatchModifyClusterSnapshotsLimitExceededFaultBody: Swift.Decodable {
     }
 }
 
-public enum BatchModifyClusterSnapshotsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum BatchModifyClusterSnapshotsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "BatchModifyClusterSnapshotsLimitExceededFault": return try await BatchModifyClusterSnapshotsLimitExceededFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -2662,8 +2662,8 @@ extension CancelResizeInputBody: Swift.Decodable {
     }
 }
 
-public enum CancelResizeOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum CancelResizeOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "ClusterNotFound": return try await ClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -5755,8 +5755,8 @@ extension CopyClusterSnapshotInputBody: Swift.Decodable {
     }
 }
 
-public enum CopyClusterSnapshotOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum CopyClusterSnapshotOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "ClusterSnapshotAlreadyExists": return try await ClusterSnapshotAlreadyExistsFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -5922,8 +5922,8 @@ extension CreateAuthenticationProfileInputBody: Swift.Decodable {
     }
 }
 
-public enum CreateAuthenticationProfileOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum CreateAuthenticationProfileOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "AuthenticationProfileAlreadyExistsFault": return try await AuthenticationProfileAlreadyExistsFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -6554,8 +6554,8 @@ extension CreateClusterInputBody: Swift.Decodable {
     }
 }
 
-public enum CreateClusterOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum CreateClusterOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "ClusterAlreadyExists": return try await ClusterAlreadyExistsFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -6745,8 +6745,8 @@ extension CreateClusterParameterGroupInputBody: Swift.Decodable {
     }
 }
 
-public enum CreateClusterParameterGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum CreateClusterParameterGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "ClusterParameterGroupAlreadyExists": return try await ClusterParameterGroupAlreadyExistsFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -6904,8 +6904,8 @@ extension CreateClusterSecurityGroupInputBody: Swift.Decodable {
     }
 }
 
-public enum CreateClusterSecurityGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum CreateClusterSecurityGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "ClusterSecurityGroupAlreadyExists": return try await ClusterSecurityGroupAlreadyExistsFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -7076,8 +7076,8 @@ extension CreateClusterSnapshotInputBody: Swift.Decodable {
     }
 }
 
-public enum CreateClusterSnapshotOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum CreateClusterSnapshotOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "ClusterNotFound": return try await ClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -7276,8 +7276,8 @@ extension CreateClusterSubnetGroupInputBody: Swift.Decodable {
     }
 }
 
-public enum CreateClusterSubnetGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum CreateClusterSubnetGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "ClusterSubnetGroupAlreadyExists": return try await ClusterSubnetGroupAlreadyExistsFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -7404,8 +7404,8 @@ extension CreateCustomDomainAssociationInputBody: Swift.Decodable {
     }
 }
 
-public enum CreateCustomDomainAssociationOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum CreateCustomDomainAssociationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "ClusterNotFound": return try await ClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -7604,8 +7604,8 @@ extension CreateEndpointAccessInputBody: Swift.Decodable {
     }
 }
 
-public enum CreateEndpointAccessOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum CreateEndpointAccessOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "AccessToClusterDenied": return try await AccessToClusterDeniedFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -7983,8 +7983,8 @@ extension CreateEventSubscriptionInputBody: Swift.Decodable {
     }
 }
 
-public enum CreateEventSubscriptionOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum CreateEventSubscriptionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "EventSubscriptionQuotaExceeded": return try await EventSubscriptionQuotaExceededFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -8128,8 +8128,8 @@ extension CreateHsmClientCertificateInputBody: Swift.Decodable {
     }
 }
 
-public enum CreateHsmClientCertificateOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum CreateHsmClientCertificateOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "HsmClientCertificateAlreadyExistsFault": return try await HsmClientCertificateAlreadyExistsFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -8326,8 +8326,8 @@ extension CreateHsmConfigurationInputBody: Swift.Decodable {
     }
 }
 
-public enum CreateHsmConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum CreateHsmConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "HsmConfigurationAlreadyExistsFault": return try await HsmConfigurationAlreadyExistsFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -8506,8 +8506,8 @@ extension CreateScheduledActionInputBody: Swift.Decodable {
     }
 }
 
-public enum CreateScheduledActionOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum CreateScheduledActionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "InvalidScheduledAction": return try await InvalidScheduledActionFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -8765,8 +8765,8 @@ extension CreateSnapshotCopyGrantInputBody: Swift.Decodable {
     }
 }
 
-public enum CreateSnapshotCopyGrantOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum CreateSnapshotCopyGrantOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "DependentServiceRequestThrottlingFault": return try await DependentServiceRequestThrottlingFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -8973,8 +8973,8 @@ extension CreateSnapshotScheduleInputBody: Swift.Decodable {
     }
 }
 
-public enum CreateSnapshotScheduleOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum CreateSnapshotScheduleOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "InvalidSchedule": return try await InvalidScheduleFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -9243,8 +9243,8 @@ extension CreateTagsInputBody: Swift.Decodable {
     }
 }
 
-public enum CreateTagsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum CreateTagsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "InvalidClusterState": return try await InvalidClusterStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -9407,8 +9407,8 @@ extension CreateUsageLimitInputBody: Swift.Decodable {
     }
 }
 
-public enum CreateUsageLimitOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum CreateUsageLimitOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "ClusterNotFound": return try await ClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -10101,8 +10101,8 @@ extension DeauthorizeDataShareInputBody: Swift.Decodable {
     }
 }
 
-public enum DeauthorizeDataShareOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DeauthorizeDataShareOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "InvalidDataShareFault": return try await InvalidDataShareFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -10391,8 +10391,8 @@ extension DeleteAuthenticationProfileInputBody: Swift.Decodable {
     }
 }
 
-public enum DeleteAuthenticationProfileOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DeleteAuthenticationProfileOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "AuthenticationProfileNotFoundFault": return try await AuthenticationProfileNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -10537,8 +10537,8 @@ extension DeleteClusterInputBody: Swift.Decodable {
     }
 }
 
-public enum DeleteClusterOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DeleteClusterOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "ClusterNotFound": return try await ClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -10643,8 +10643,8 @@ extension DeleteClusterParameterGroupInputBody: Swift.Decodable {
     }
 }
 
-public enum DeleteClusterParameterGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DeleteClusterParameterGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "ClusterParameterGroupNotFound": return try await ClusterParameterGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -10711,8 +10711,8 @@ extension DeleteClusterSecurityGroupInputBody: Swift.Decodable {
     }
 }
 
-public enum DeleteClusterSecurityGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DeleteClusterSecurityGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "ClusterSecurityGroupNotFound": return try await ClusterSecurityGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -10836,8 +10836,8 @@ extension RedshiftClientTypes {
 
 }
 
-public enum DeleteClusterSnapshotOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DeleteClusterSnapshotOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "ClusterSnapshotNotFound": return try await ClusterSnapshotNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -10935,8 +10935,8 @@ extension DeleteClusterSubnetGroupInputBody: Swift.Decodable {
     }
 }
 
-public enum DeleteClusterSubnetGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DeleteClusterSubnetGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "ClusterSubnetGroupNotFoundFault": return try await ClusterSubnetGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -11003,8 +11003,8 @@ extension DeleteCustomDomainAssociationInputBody: Swift.Decodable {
     }
 }
 
-public enum DeleteCustomDomainAssociationOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DeleteCustomDomainAssociationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "ClusterNotFound": return try await ClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -11071,8 +11071,8 @@ extension DeleteEndpointAccessInputBody: Swift.Decodable {
     }
 }
 
-public enum DeleteEndpointAccessOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DeleteEndpointAccessOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "ClusterNotFound": return try await ClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -11281,8 +11281,8 @@ extension DeleteEventSubscriptionInputBody: Swift.Decodable {
     }
 }
 
-public enum DeleteEventSubscriptionOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DeleteEventSubscriptionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "InvalidSubscriptionStateFault": return try await InvalidSubscriptionStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -11349,8 +11349,8 @@ extension DeleteHsmClientCertificateInputBody: Swift.Decodable {
     }
 }
 
-public enum DeleteHsmClientCertificateOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DeleteHsmClientCertificateOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "HsmClientCertificateNotFoundFault": return try await HsmClientCertificateNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -11417,8 +11417,8 @@ extension DeleteHsmConfigurationInputBody: Swift.Decodable {
     }
 }
 
-public enum DeleteHsmConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DeleteHsmConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "HsmConfigurationNotFoundFault": return try await HsmConfigurationNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -11520,8 +11520,8 @@ extension DeletePartnerInputBody: Swift.Decodable {
     }
 }
 
-public enum DeletePartnerOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DeletePartnerOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "ClusterNotFound": return try await ClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -11629,8 +11629,8 @@ extension DeleteScheduledActionInputBody: Swift.Decodable {
     }
 }
 
-public enum DeleteScheduledActionOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DeleteScheduledActionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "ScheduledActionNotFound": return try await ScheduledActionNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -11697,8 +11697,8 @@ extension DeleteSnapshotCopyGrantInputBody: Swift.Decodable {
     }
 }
 
-public enum DeleteSnapshotCopyGrantOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DeleteSnapshotCopyGrantOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "InvalidSnapshotCopyGrantStateFault": return try await InvalidSnapshotCopyGrantStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -11764,8 +11764,8 @@ extension DeleteSnapshotScheduleInputBody: Swift.Decodable {
     }
 }
 
-public enum DeleteSnapshotScheduleOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DeleteSnapshotScheduleOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "InvalidClusterSnapshotScheduleState": return try await InvalidClusterSnapshotScheduleStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -11870,8 +11870,8 @@ extension DeleteTagsInputBody: Swift.Decodable {
     }
 }
 
-public enum DeleteTagsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DeleteTagsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "InvalidTagFault": return try await InvalidTagFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -11937,8 +11937,8 @@ extension DeleteUsageLimitInputBody: Swift.Decodable {
     }
 }
 
-public enum DeleteUsageLimitOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DeleteUsageLimitOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "UnsupportedOperation": return try await UnsupportedOperationFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -12137,8 +12137,8 @@ extension DescribeAccountAttributesInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeAccountAttributesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DescribeAccountAttributesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
@@ -12249,8 +12249,8 @@ extension DescribeAuthenticationProfilesInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeAuthenticationProfilesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DescribeAuthenticationProfilesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "AuthenticationProfileNotFoundFault": return try await AuthenticationProfileNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -12385,8 +12385,8 @@ extension DescribeClusterDbRevisionsInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeClusterDbRevisionsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DescribeClusterDbRevisionsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "ClusterNotFound": return try await ClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -12606,8 +12606,8 @@ extension DescribeClusterParameterGroupsInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeClusterParameterGroupsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DescribeClusterParameterGroupsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "ClusterParameterGroupNotFound": return try await ClusterParameterGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -12766,8 +12766,8 @@ extension DescribeClusterParametersInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeClusterParametersOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DescribeClusterParametersOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "ClusterParameterGroupNotFound": return try await ClusterParameterGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -12987,8 +12987,8 @@ extension DescribeClusterSecurityGroupsInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeClusterSecurityGroupsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DescribeClusterSecurityGroupsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "ClusterSecurityGroupNotFound": return try await ClusterSecurityGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -13331,8 +13331,8 @@ extension DescribeClusterSnapshotsInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeClusterSnapshotsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DescribeClusterSnapshotsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "ClusterNotFound": return try await ClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -13555,8 +13555,8 @@ extension DescribeClusterSubnetGroupsInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeClusterSubnetGroupsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DescribeClusterSubnetGroupsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "ClusterSubnetGroupNotFoundFault": return try await ClusterSubnetGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -13702,8 +13702,8 @@ extension DescribeClusterTracksInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeClusterTracksOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DescribeClusterTracksOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "InvalidClusterTrack": return try await InvalidClusterTrackFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -13866,8 +13866,8 @@ extension DescribeClusterVersionsInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeClusterVersionsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DescribeClusterVersionsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
@@ -14086,8 +14086,8 @@ extension DescribeClustersInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeClustersOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DescribeClustersOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "ClusterNotFound": return try await ClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -14244,8 +14244,8 @@ extension DescribeCustomDomainAssociationsInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeCustomDomainAssociationsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DescribeCustomDomainAssociationsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "CustomDomainAssociationNotFoundFault": return try await CustomDomainAssociationNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -14401,8 +14401,8 @@ extension DescribeDataSharesForConsumerInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeDataSharesForConsumerOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DescribeDataSharesForConsumerOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "InvalidNamespaceFault": return try await InvalidNamespaceFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -14557,8 +14557,8 @@ extension DescribeDataSharesForProducerInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeDataSharesForProducerOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DescribeDataSharesForProducerOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "InvalidNamespaceFault": return try await InvalidNamespaceFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -14702,8 +14702,8 @@ extension DescribeDataSharesInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeDataSharesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DescribeDataSharesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "InvalidDataShareFault": return try await InvalidDataShareFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -14849,8 +14849,8 @@ extension DescribeDefaultClusterParametersInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeDefaultClusterParametersOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DescribeDefaultClusterParametersOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
@@ -14999,8 +14999,8 @@ extension DescribeEndpointAccessInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeEndpointAccessOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DescribeEndpointAccessOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "ClusterNotFound": return try await ClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -15168,8 +15168,8 @@ extension DescribeEndpointAuthorizationInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeEndpointAuthorizationOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DescribeEndpointAuthorizationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "ClusterNotFound": return try await ClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -15293,8 +15293,8 @@ extension DescribeEventCategoriesInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeEventCategoriesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DescribeEventCategoriesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
@@ -15503,8 +15503,8 @@ extension DescribeEventSubscriptionsInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeEventSubscriptionsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DescribeEventSubscriptionsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "InvalidTagFault": return try await InvalidTagFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -15711,8 +15711,8 @@ extension DescribeEventsInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeEventsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DescribeEventsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
@@ -15931,8 +15931,8 @@ extension DescribeHsmClientCertificatesInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeHsmClientCertificatesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DescribeHsmClientCertificatesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "HsmClientCertificateNotFoundFault": return try await HsmClientCertificateNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -16153,8 +16153,8 @@ extension DescribeHsmConfigurationsInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeHsmConfigurationsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DescribeHsmConfigurationsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "HsmConfigurationNotFoundFault": return try await HsmConfigurationNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -16280,8 +16280,8 @@ extension DescribeLoggingStatusInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeLoggingStatusOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DescribeLoggingStatusOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "ClusterNotFound": return try await ClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -16568,8 +16568,8 @@ extension DescribeNodeConfigurationOptionsInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeNodeConfigurationOptionsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DescribeNodeConfigurationOptionsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "AccessToSnapshotDenied": return try await AccessToSnapshotDeniedFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -16729,8 +16729,8 @@ extension DescribeOrderableClusterOptionsInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeOrderableClusterOptionsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DescribeOrderableClusterOptionsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
@@ -16887,8 +16887,8 @@ extension DescribePartnersInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribePartnersOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DescribePartnersOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "ClusterNotFound": return try await ClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -17034,8 +17034,8 @@ extension DescribeReservedNodeExchangeStatusInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeReservedNodeExchangeStatusOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DescribeReservedNodeExchangeStatusOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "ReservedNodeExchangeNotFond": return try await ReservedNodeExchangeNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -17182,8 +17182,8 @@ extension DescribeReservedNodeOfferingsInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeReservedNodeOfferingsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DescribeReservedNodeOfferingsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "DependentServiceUnavailableFault": return try await DependentServiceUnavailableFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -17331,8 +17331,8 @@ extension DescribeReservedNodesInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeReservedNodesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DescribeReservedNodesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "DependentServiceUnavailableFault": return try await DependentServiceUnavailableFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -17458,8 +17458,8 @@ extension DescribeResizeInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeResizeOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DescribeResizeOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "ClusterNotFound": return try await ClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -17860,8 +17860,8 @@ extension DescribeScheduledActionsInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeScheduledActionsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DescribeScheduledActionsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "ScheduledActionNotFound": return try await ScheduledActionNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -18081,8 +18081,8 @@ extension DescribeSnapshotCopyGrantsInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeSnapshotCopyGrantsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DescribeSnapshotCopyGrantsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "InvalidTagFault": return try await InvalidTagFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -18313,8 +18313,8 @@ extension DescribeSnapshotSchedulesInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeSnapshotSchedulesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DescribeSnapshotSchedulesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
@@ -18409,8 +18409,8 @@ public struct DescribeStorageInput: Swift.Equatable {
     public init() { }
 }
 
-public enum DescribeStorageOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DescribeStorageOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestId, typeName: restXMLError.errorCode)
@@ -18548,8 +18548,8 @@ extension DescribeTableRestoreStatusInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeTableRestoreStatusOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DescribeTableRestoreStatusOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "ClusterNotFound": return try await ClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -18804,8 +18804,8 @@ extension DescribeTagsInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeTagsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DescribeTagsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "InvalidTagFault": return try await InvalidTagFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -19047,8 +19047,8 @@ extension DescribeUsageLimitsInputBody: Swift.Decodable {
     }
 }
 
-public enum DescribeUsageLimitsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DescribeUsageLimitsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "ClusterNotFound": return try await ClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -19173,8 +19173,8 @@ extension DisableLoggingInputBody: Swift.Decodable {
     }
 }
 
-public enum DisableLoggingOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DisableLoggingOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "ClusterNotFound": return try await ClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -19360,8 +19360,8 @@ extension DisableSnapshotCopyInputBody: Swift.Decodable {
     }
 }
 
-public enum DisableSnapshotCopyOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DisableSnapshotCopyOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "ClusterNotFound": return try await ClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -19493,8 +19493,8 @@ extension DisassociateDataShareConsumerInputBody: Swift.Decodable {
     }
 }
 
-public enum DisassociateDataShareConsumerOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum DisassociateDataShareConsumerOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "InvalidDataShareFault": return try await InvalidDataShareFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -19873,8 +19873,8 @@ extension EnableLoggingInputBody: Swift.Decodable {
     }
 }
 
-public enum EnableLoggingOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum EnableLoggingOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "BucketNotFoundFault": return try await BucketNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -20109,8 +20109,8 @@ extension EnableSnapshotCopyInputBody: Swift.Decodable {
     }
 }
 
-public enum EnableSnapshotCopyOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum EnableSnapshotCopyOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "ClusterNotFound": return try await ClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -21644,8 +21644,8 @@ extension GetClusterCredentialsInputBody: Swift.Decodable {
     }
 }
 
-public enum GetClusterCredentialsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum GetClusterCredentialsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "ClusterNotFound": return try await ClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -21800,8 +21800,8 @@ extension GetClusterCredentialsWithIAMInputBody: Swift.Decodable {
     }
 }
 
-public enum GetClusterCredentialsWithIAMOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum GetClusterCredentialsWithIAMOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "ClusterNotFound": return try await ClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -21977,8 +21977,8 @@ extension GetReservedNodeExchangeConfigurationOptionsInputBody: Swift.Decodable 
     }
 }
 
-public enum GetReservedNodeExchangeConfigurationOptionsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum GetReservedNodeExchangeConfigurationOptionsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "ClusterNotFound": return try await ClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -22131,8 +22131,8 @@ extension GetReservedNodeExchangeOfferingsInputBody: Swift.Decodable {
     }
 }
 
-public enum GetReservedNodeExchangeOfferingsOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum GetReservedNodeExchangeOfferingsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "DependentServiceUnavailableFault": return try await DependentServiceUnavailableFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -24948,8 +24948,8 @@ extension ModifyAquaConfigurationInputBody: Swift.Decodable {
     }
 }
 
-public enum ModifyAquaConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum ModifyAquaConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "ClusterNotFound": return try await ClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -25059,8 +25059,8 @@ extension ModifyAuthenticationProfileInputBody: Swift.Decodable {
     }
 }
 
-public enum ModifyAuthenticationProfileOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum ModifyAuthenticationProfileOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "AuthenticationProfileNotFoundFault": return try await AuthenticationProfileNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -25180,8 +25180,8 @@ extension ModifyClusterDbRevisionInputBody: Swift.Decodable {
     }
 }
 
-public enum ModifyClusterDbRevisionOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum ModifyClusterDbRevisionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "ClusterNotFound": return try await ClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -25365,8 +25365,8 @@ extension ModifyClusterIamRolesInputBody: Swift.Decodable {
     }
 }
 
-public enum ModifyClusterIamRolesOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum ModifyClusterIamRolesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "ClusterNotFound": return try await ClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -25910,8 +25910,8 @@ extension ModifyClusterMaintenanceInputBody: Swift.Decodable {
     }
 }
 
-public enum ModifyClusterMaintenanceOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum ModifyClusterMaintenanceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "ClusterNotFound": return try await ClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -25962,8 +25962,8 @@ extension ModifyClusterMaintenanceOutputResponseBody: Swift.Decodable {
     }
 }
 
-public enum ModifyClusterOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum ModifyClusterOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "ClusterAlreadyExists": return try await ClusterAlreadyExistsFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -26118,8 +26118,8 @@ extension ModifyClusterParameterGroupInputBody: Swift.Decodable {
     }
 }
 
-public enum ModifyClusterParameterGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum ModifyClusterParameterGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "ClusterParameterGroupNotFound": return try await ClusterParameterGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -26249,8 +26249,8 @@ extension ModifyClusterSnapshotInputBody: Swift.Decodable {
     }
 }
 
-public enum ModifyClusterSnapshotOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum ModifyClusterSnapshotOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "ClusterSnapshotNotFound": return try await ClusterSnapshotNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -26370,8 +26370,8 @@ extension ModifyClusterSnapshotScheduleInputBody: Swift.Decodable {
     }
 }
 
-public enum ModifyClusterSnapshotScheduleOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum ModifyClusterSnapshotScheduleOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "ClusterNotFound": return try await ClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -26488,8 +26488,8 @@ extension ModifyClusterSubnetGroupInputBody: Swift.Decodable {
     }
 }
 
-public enum ModifyClusterSubnetGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum ModifyClusterSubnetGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "ClusterSubnetGroupNotFoundFault": return try await ClusterSubnetGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -26612,8 +26612,8 @@ extension ModifyCustomDomainAssociationInputBody: Swift.Decodable {
     }
 }
 
-public enum ModifyCustomDomainAssociationOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum ModifyCustomDomainAssociationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "ClusterNotFound": return try await ClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -26778,8 +26778,8 @@ extension ModifyEndpointAccessInputBody: Swift.Decodable {
     }
 }
 
-public enum ModifyEndpointAccessOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum ModifyEndpointAccessOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "ClusterNotFound": return try await ClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -27107,8 +27107,8 @@ extension ModifyEventSubscriptionInputBody: Swift.Decodable {
     }
 }
 
-public enum ModifyEventSubscriptionOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum ModifyEventSubscriptionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "InvalidSubscriptionStateFault": return try await InvalidSubscriptionStateFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -27289,8 +27289,8 @@ extension ModifyScheduledActionInputBody: Swift.Decodable {
     }
 }
 
-public enum ModifyScheduledActionOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum ModifyScheduledActionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "InvalidScheduledAction": return try await InvalidScheduledActionFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -27512,8 +27512,8 @@ extension ModifySnapshotCopyRetentionPeriodInputBody: Swift.Decodable {
     }
 }
 
-public enum ModifySnapshotCopyRetentionPeriodOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum ModifySnapshotCopyRetentionPeriodOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "ClusterNotFound": return try await ClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -27651,8 +27651,8 @@ extension ModifySnapshotScheduleInputBody: Swift.Decodable {
     }
 }
 
-public enum ModifySnapshotScheduleOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum ModifySnapshotScheduleOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "InvalidSchedule": return try await InvalidScheduleFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -27901,8 +27901,8 @@ extension ModifyUsageLimitInputBody: Swift.Decodable {
     }
 }
 
-public enum ModifyUsageLimitOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum ModifyUsageLimitOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "InvalidUsageLimit": return try await InvalidUsageLimitFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -28950,8 +28950,8 @@ extension RedshiftClientTypes {
 
 }
 
-public enum PauseClusterOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum PauseClusterOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "ClusterNotFound": return try await ClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -29195,8 +29195,8 @@ extension PurchaseReservedNodeOfferingInputBody: Swift.Decodable {
     }
 }
 
-public enum PurchaseReservedNodeOfferingOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum PurchaseReservedNodeOfferingOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "ReservedNodeAlreadyExists": return try await ReservedNodeAlreadyExistsFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -29296,8 +29296,8 @@ extension RebootClusterInputBody: Swift.Decodable {
     }
 }
 
-public enum RebootClusterOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum RebootClusterOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "ClusterNotFound": return try await ClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -29439,8 +29439,8 @@ extension RejectDataShareInputBody: Swift.Decodable {
     }
 }
 
-public enum RejectDataShareOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum RejectDataShareOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "InvalidDataShareFault": return try await InvalidDataShareFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -30576,8 +30576,8 @@ extension ResetClusterParameterGroupInputBody: Swift.Decodable {
     }
 }
 
-public enum ResetClusterParameterGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum ResetClusterParameterGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "ClusterParameterGroupNotFound": return try await ClusterParameterGroupNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -30848,8 +30848,8 @@ extension RedshiftClientTypes {
 
 }
 
-public enum ResizeClusterOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum ResizeClusterOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "ClusterNotFound": return try await ClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -31559,8 +31559,8 @@ extension RestoreFromClusterSnapshotInputBody: Swift.Decodable {
     }
 }
 
-public enum RestoreFromClusterSnapshotOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum RestoreFromClusterSnapshotOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "AccessToSnapshotDenied": return try await AccessToSnapshotDeniedFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -31865,8 +31865,8 @@ extension RestoreTableFromClusterSnapshotInputBody: Swift.Decodable {
     }
 }
 
-public enum RestoreTableFromClusterSnapshotOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum RestoreTableFromClusterSnapshotOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "ClusterNotFound": return try await ClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -32005,8 +32005,8 @@ extension RedshiftClientTypes {
 
 }
 
-public enum ResumeClusterOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum ResumeClusterOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "ClusterNotFound": return try await ClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -32193,8 +32193,8 @@ extension RevokeClusterSecurityGroupIngressInputBody: Swift.Decodable {
     }
 }
 
-public enum RevokeClusterSecurityGroupIngressOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum RevokeClusterSecurityGroupIngressOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "AuthorizationNotFound": return try await AuthorizationNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -32350,8 +32350,8 @@ extension RevokeEndpointAccessInputBody: Swift.Decodable {
     }
 }
 
-public enum RevokeEndpointAccessOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum RevokeEndpointAccessOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "ClusterNotFound": return try await ClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -32585,8 +32585,8 @@ extension RevokeSnapshotAccessInputBody: Swift.Decodable {
     }
 }
 
-public enum RevokeSnapshotAccessOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum RevokeSnapshotAccessOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "AccessToSnapshotDenied": return try await AccessToSnapshotDeniedFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -32686,8 +32686,8 @@ extension RotateEncryptionKeyInputBody: Swift.Decodable {
     }
 }
 
-public enum RotateEncryptionKeyOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum RotateEncryptionKeyOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "ClusterNotFound": return try await ClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)
@@ -36429,8 +36429,8 @@ extension UpdatePartnerStatusInputBody: Swift.Decodable {
     }
 }
 
-public enum UpdatePartnerStatusOutputError: ClientRuntime.HttpResponseErrorBinding {
-    public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+enum UpdatePartnerStatusOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restXMLError = try await AWSClientRuntime.RestXMLError(httpResponse: httpResponse)
         switch restXMLError.errorCode {
             case "ClusterNotFound": return try await ClusterNotFoundFault(httpResponse: httpResponse, decoder: decoder, message: restXMLError.message, requestID: restXMLError.requestId)

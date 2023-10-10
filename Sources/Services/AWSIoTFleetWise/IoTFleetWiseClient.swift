@@ -969,6 +969,55 @@ extension IoTFleetWiseClient: IoTFleetWiseClientProtocol {
         return result
     }
 
+    /// Retrieves the encryption configuration for resources and data in Amazon Web Services IoT FleetWise.
+    ///
+    /// - Parameter GetEncryptionConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `GetEncryptionConfigurationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The request couldn't be completed because the server temporarily failed.
+    /// - `AccessDeniedException` : You don't have sufficient permission to perform this action.
+    /// - `ResourceNotFoundException` : The resource wasn't found.
+    /// - `ThrottlingException` : The request couldn't be completed due to throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
+    public func getEncryptionConfiguration(input: GetEncryptionConfigurationInput) async throws -> GetEncryptionConfigurationOutputResponse
+    {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getEncryptionConfiguration")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withCredentialsProvider(value: config.credentialsProvider)
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "iotfleetwise")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<GetEncryptionConfigurationInput, GetEncryptionConfigurationOutputResponse, GetEncryptionConfigurationOutputError>(id: "getEncryptionConfiguration")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetEncryptionConfigurationInput, GetEncryptionConfigurationOutputResponse, GetEncryptionConfigurationOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetEncryptionConfigurationInput, GetEncryptionConfigurationOutputResponse>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetEncryptionConfigurationOutputResponse, GetEncryptionConfigurationOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<GetEncryptionConfigurationInput, GetEncryptionConfigurationOutputResponse>(xAmzTarget: "IoTAutobahnControlPlane.GetEncryptionConfiguration"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<GetEncryptionConfigurationInput, GetEncryptionConfigurationOutputResponse>(xmlName: "GetEncryptionConfigurationRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetEncryptionConfigurationInput, GetEncryptionConfigurationOutputResponse>(contentType: "application/x-amz-json-1.0"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetEncryptionConfigurationOutputResponse, GetEncryptionConfigurationOutputError>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetEncryptionConfigurationOutputResponse, GetEncryptionConfigurationOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetEncryptionConfigurationOutputResponse, GetEncryptionConfigurationOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetEncryptionConfigurationOutputResponse, GetEncryptionConfigurationOutputError>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
     /// Retrieves information about a fleet.
     ///
     /// - Parameter GetFleetInput : [no documentation found]
@@ -2058,6 +2107,56 @@ extension IoTFleetWiseClient: IoTFleetWiseClientProtocol {
         operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<ListVehiclesInFleetOutputResponse, ListVehiclesInFleetOutputError>(config: sigv4Config))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListVehiclesInFleetOutputResponse, ListVehiclesInFleetOutputError>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListVehiclesInFleetOutputResponse, ListVehiclesInFleetOutputError>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
+    /// Creates or updates the encryption configuration. Amazon Web Services IoT FleetWise can encrypt your data and resources using an Amazon Web Services managed key. Or, you can use a KMS key that you own and manage. For more information, see [Data encryption](https://docs.aws.amazon.com/iot-fleetwise/latest/developerguide/data-encryption.html) in the Amazon Web Services IoT FleetWise Developer Guide.
+    ///
+    /// - Parameter PutEncryptionConfigurationInput : [no documentation found]
+    ///
+    /// - Returns: `PutEncryptionConfigurationOutputResponse` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : The request couldn't be completed because the server temporarily failed.
+    /// - `AccessDeniedException` : You don't have sufficient permission to perform this action.
+    /// - `ConflictException` : The request has conflicting operations. This can occur if you're trying to perform more than one operation on the same resource at the same time.
+    /// - `ResourceNotFoundException` : The resource wasn't found.
+    /// - `ThrottlingException` : The request couldn't be completed due to throttling.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by an Amazon Web Services service.
+    public func putEncryptionConfiguration(input: PutEncryptionConfigurationInput) async throws -> PutEncryptionConfigurationOutputResponse
+    {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "putEncryptionConfiguration")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withCredentialsProvider(value: config.credentialsProvider)
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "iotfleetwise")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<PutEncryptionConfigurationInput, PutEncryptionConfigurationOutputResponse, PutEncryptionConfigurationOutputError>(id: "putEncryptionConfiguration")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutEncryptionConfigurationInput, PutEncryptionConfigurationOutputResponse, PutEncryptionConfigurationOutputError>())
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutEncryptionConfigurationInput, PutEncryptionConfigurationOutputResponse>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutEncryptionConfigurationOutputResponse, PutEncryptionConfigurationOutputError>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .before, middleware: AWSClientRuntime.XAmzTargetMiddleware<PutEncryptionConfigurationInput, PutEncryptionConfigurationOutputResponse>(xAmzTarget: "IoTAutobahnControlPlane.PutEncryptionConfiguration"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.SerializableBodyMiddleware<PutEncryptionConfigurationInput, PutEncryptionConfigurationOutputResponse>(xmlName: "PutEncryptionConfigurationRequest"))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PutEncryptionConfigurationInput, PutEncryptionConfigurationOutputResponse>(contentType: "application/x-amz-json-1.0"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutEncryptionConfigurationOutputResponse, PutEncryptionConfigurationOutputError>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutEncryptionConfigurationOutputResponse, PutEncryptionConfigurationOutputError>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutEncryptionConfigurationOutputResponse, PutEncryptionConfigurationOutputError>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutEncryptionConfigurationOutputResponse, PutEncryptionConfigurationOutputError>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
