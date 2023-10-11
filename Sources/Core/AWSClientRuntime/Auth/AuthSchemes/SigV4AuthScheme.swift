@@ -8,13 +8,12 @@
 import ClientRuntime
 
 public struct SigV4AuthScheme: ClientRuntime.AuthScheme {
-    public let schemeId: String = "aws.auth#sigv4"
-
-    public init() {}
-    
+    public let schemeID: String = "aws.auth#sigv4"
     public let signer: ClientRuntime.Signer = AWSSigV4Signer()
     public let idKind: ClientRuntime.IdentityKind = .aws
-    
+
+    public init() {}
+
     public func customizeSigningProperties(signingProperties: Attributes, context: HttpContext) -> Attributes {
         var copy = signingProperties
         copy.set(key: AttributeKeys.bidirectionalStreaming, value: context.isBidirectionalStreamingEnabled())
