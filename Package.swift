@@ -1,4 +1,4 @@
-// swift-tools-version:5.5
+// swift-tools-version:5.7
 
 //
 // Copyright Amazon.com Inc. or its affiliates.
@@ -68,18 +68,18 @@ func addClientRuntimeDependency(_ version: Version) {
         ]
     case (false, true):
         package.dependencies += [
-            .package(url: smithySwiftURL, .branch("main"))
+            .package(url: smithySwiftURL, branch: "main")
         ]
     case (false, false):
         package.dependencies += [
-            .package(url: smithySwiftURL, .exact(version))
+            .package(url: smithySwiftURL, exact: version)
         ]
     }
 }
 
 func addCRTDependency(_ version: Version) {
     package.dependencies += [
-        .package(url: "https://github.com/awslabs/aws-crt-swift", .exact(version))
+        .package(url: "https://github.com/awslabs/aws-crt-swift", exact: version)
     ]
 }
 
@@ -555,4 +555,4 @@ let servicesWithIntegrationTests: [String] = [
 servicesWithIntegrationTests.forEach(addIntegrationTestTarget)
 
 // Uncomment this line to enable protocol tests
-// addProtocolTests()
+addProtocolTests()
