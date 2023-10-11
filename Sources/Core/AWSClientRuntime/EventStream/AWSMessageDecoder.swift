@@ -52,12 +52,14 @@ extension AWSEventStream {
                     ) {
                         self.initialMessage = message.payload
                         self.onInitialResponseReceived?(self.initialMessage)
+                        self.onInitialResponseReceived = nil // ensure reference counter is set to 0 and cleaned up
                         self.didProcessInitialMessage = true
                     } else {
                         self.messageBuffer.append(message)
 
                         if !self.didProcessInitialMessage {
-                            self.onInitialResponseReceived?(nil)  // Signal that initial-response will never come.
+                            self.onInitialResponseReceived?(nil) // Signal that initial-response will never come.
+                            self.onInitialResponseReceived = nil // ensure reference counter is set to 0 and cleaned up
                             self.didProcessInitialMessage = true
                         }
                     }
