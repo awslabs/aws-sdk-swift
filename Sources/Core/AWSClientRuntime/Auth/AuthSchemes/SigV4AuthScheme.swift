@@ -5,7 +5,6 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 
-import Foundation
 import ClientRuntime
 
 public struct SigV4AuthScheme: ClientRuntime.AuthScheme {
