@@ -10,6 +10,6 @@ import ClientRuntime
 
 public struct SigV4AuthScheme: ClientRuntime.AuthScheme {
     public let schemeId: String = "aws.auth#sigv4"
-    public let signer: any ClientRuntime.Signer = AWSSigV4Signer()
-    public let idType: ClientRuntime.IdentityType = .aws
+    public let signer: ClientRuntime.Signer = AWSSigV4Signer()
+    public let idType: ClientRuntime.IdentityKind = .aws
 }
