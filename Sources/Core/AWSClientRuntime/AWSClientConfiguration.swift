@@ -154,11 +154,19 @@ public class AWSClientConfiguration<ServiceSpecificConfiguration: AWSServiceSpec
 extension AWSClientConfiguration {
 
     public convenience init(region: String) throws {
-        try self.init(region: region, serviceSpecific: try ServiceSpecificConfiguration(endpointResolver: nil))
+        try self.init(region: region, serviceSpecific: try ServiceSpecificConfiguration(
+            endpointResolver: nil,
+            authSchemeResolver: nil,
+            authSchemes: nil
+        ))
     }
 
     public convenience init() async throws {
-        try await self.init(serviceSpecific: try ServiceSpecificConfiguration(endpointResolver: nil))
+        try await self.init(serviceSpecific: try ServiceSpecificConfiguration(
+            endpointResolver: nil,
+            authSchemeResolver: nil,
+            authSchemes: nil
+        ))
     }
 
     /// Creates a configuration asynchronously
